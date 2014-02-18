@@ -110,7 +110,7 @@ public class WebHook {
 	/**
 	 * Adds a WebHook event listener.
 	 *
-	 * @param  l  the SMTPStatusListener to add
+	 * @param listener the WebHookListener to add
 	 */
 	public static synchronized void addListener (WebHookListener listener) {
 
@@ -121,9 +121,9 @@ public class WebHook {
 
 
 	/**
-	 * Removes a SMTP event listener.
+	 * Removes a WebHook event listener.
 	 *
-	 * @param  l  the SMTPStatusListener to remove
+	 * @param listener the WebHookListener to remove
 	 */
 	public static synchronized void removeListener (WebHookListener listener) {
 	   	webhookListeners.remove(listener);
