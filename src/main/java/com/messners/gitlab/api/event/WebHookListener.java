@@ -14,7 +14,7 @@ public interface WebHookListener extends java.util.EventListener {
 	 *
 	 * @param event the EventObject instance containing info on the issue
 	 */
-	public void issue (EventObject event);
+	public void onIssue (EventObject event);
 
 
 	/**.
@@ -22,7 +22,7 @@ public interface WebHookListener extends java.util.EventListener {
 	 *
 	 * @param event the EventObject instance containing info on the merge request
 	 */
-	public void mergeRequest (EventObject event);
+	public void onMergeRequest (EventObject event);
 
 	
 	/**
@@ -30,9 +30,7 @@ public interface WebHookListener extends java.util.EventListener {
 	 *
 	 * @param pushEvent the PushEvent instance
 	 */
-	public void push (PushEvent pushEvent);
-	
-	
+	public void onPush (PushEvent pushEvent);	
 }
 
 
