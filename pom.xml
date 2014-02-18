@@ -31,6 +31,12 @@
 		<junit.version>4.9</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
+	<scm>
+		<url>https://github.com/gmessner/gitlab-api.git</url>
+  		<connection>scm:git:https://github.com/gmessner/gitlab-api.git</connection>
+  		<developerConnection>scm:git:https://github.com/gmessner/gitlab-api.git</developerConnection>
+	</scm>
 
 	<build>
 		<defaultGoal>package</defaultGoal>
@@ -50,6 +56,13 @@
 					</checkModificationExcludes>
 				</configuration>
 			</plugin>
+	        <plugin>
+    	        <artifactId>maven-scm-plugin</artifactId>
+        	    <version>1.8.1</version>
+            	<configuration>
+                	<tag>${project.artifactId}-${project.version}</tag>
+            	</configuration>
+        	</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
