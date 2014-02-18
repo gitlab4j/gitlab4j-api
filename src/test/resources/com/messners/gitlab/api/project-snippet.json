@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "title": "test",
+  "file_name": "add.rb",
+  "author": {
+    "id": 1,
+    "username": "john_smith",
+    "email": "john@example.com",
+    "name": "John Smith",
+    "state": "active",
+    "created_at": "2012-05-23T08:00:58Z"
+  },
+  "expires_at": null,
+  "updated_at": "2012-06-28T10:52:04Z",
+  "created_at": "2012-06-28T10:52:04Z"
+}
+

@@ -1,0 +1,11 @@
+{
+    "diff": "--- a/doc/update/5.4-to-6.0.html\n+++ b/doc/update/5.4-to-6.0.html\n@@ -71,6 +71,8 @@\n sudo -u git -H bundle exec rake migrate_keys RAILS_ENV=production\n sudo -u git -H bundle exec rake migrate_inline_notes RAILS_ENV=production\n \n+sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production\n+\n ```\n \n ### 6. Update config files",
+    "new_path": "doc/update/5.4-to-6.0.html",
+    "old_path": "doc/update/5.4-to-6.0.html",
+    "a_mode": null,
+    "b_mode": "100644",
+    "new_file": false,
+    "renamed_file": false,
+    "deleted_file": false
+}
+

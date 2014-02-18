@@ -1,0 +1,8 @@
+{
+  "event_name":"project_create",
+  "name":"Ruby",
+  "path":"ruby",
+  "project_id":1,
+  "owner_name":"Someone",
+  "owner_email":"example@gitlabhq.com"
+}
