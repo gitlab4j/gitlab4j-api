@@ -5,7 +5,7 @@
 	<groupId>com.messners</groupId>
 	<artifactId>gitlab-api</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>gitlab-api</name>
 
     <licenses>
@@ -32,9 +32,9 @@
 	</properties>
 	
 	<scm>
-		<url>https://github.com/gmessner/gitlab-api.git</url>
-  		<connection>scm:git:https://github.com/gmessner/gitlab-api.git</connection>
-  		<developerConnection>scm:git:https://github.com/gmessner/gitlab-api.git</developerConnection>
+		<url>ssh:git@github.com:gmessner/gitlab-api.git</url>
+  		<connection>scm:git:ssh:git@github.com:gmessner/gitlab-api.git</connection>
+  		<developerConnection>scm:git:ssh:git@github.com:gmessner/gitlab-api.git</developerConnection>
 	</scm>
 
 	<build>
