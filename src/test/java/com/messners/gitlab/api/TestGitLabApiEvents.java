@@ -11,8 +11,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.messners.gitlab.api.event.EventObject;
-import com.messners.gitlab.api.event.PushEvent;
+import com.messners.gitlab.api.webhook.EventObject;
+import com.messners.gitlab.api.webhook.PushEvent;
 
 public class TestGitLabApiEvents {
 	
