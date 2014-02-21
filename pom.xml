@@ -5,7 +5,7 @@
 	<groupId>com.messners</groupId>
 	<artifactId>gitlab-api</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>gitlab-api</name>
 	
 	<parent>
@@ -42,7 +42,6 @@
 		<url>git@github.com:gmessner/gitlab-api.git</url>
   		<connection>scm:git:git@github.com:gmessner/gitlab-api.git</connection>
   		<developerConnection>scm:git:git@github.com:gmessner/gitlab-api.git</developerConnection>
- 	  <tag>gitlab-api-1.0.0</tag>
   </scm>
 
 	<build>
