@@ -41,4 +41,9 @@ public class JacksonJsonConfig implements ContextResolver<ObjectMapper> {
     public ObjectMapper getContext (Class<?> objectType) {
         return (objectMapper);
     }
+    
+    
+    public ObjectMapper getObjectMapper () {
+    	return (objectMapper);
+    }
 }
