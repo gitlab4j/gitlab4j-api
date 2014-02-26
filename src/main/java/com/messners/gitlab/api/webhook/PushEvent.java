@@ -17,11 +17,11 @@ public class PushEvent {
 	private String after;
 	private String before;
 	private List<Commit> commits;
-	private Number projectId;
+	private Integer projectId;
 	private String ref;
 	private Repository repository;
-	private Number totalCommitsCount;
-	private Number userId;
+	private Integer totalCommitsCount;
+	private Integer userId;
 	private String userName;
 
 	public String getAfter () {
@@ -48,11 +48,11 @@ public class PushEvent {
 		this.commits = commits;
 	}
 
-	public Number getProjectId () {
+	public Integer getProjectId () {
 		return this.projectId;
 	}
 
-	public void setProjectId (Number projectId) {
+	public void setProjectId (Integer projectId) {
 		this.projectId = projectId;
 	}
 
@@ -72,19 +72,19 @@ public class PushEvent {
 		this.repository = repository;
 	}
 
-	public Number getTotalCommitsCount () {
+	public Integer getTotalCommitsCount () {
 		return this.totalCommitsCount;
 	}
 
-	public void setTotalCommitsCount (Number totalCommitsCount) {
+	public void setTotalCommitsCount (Integer totalCommitsCount) {
 		this.totalCommitsCount = totalCommitsCount;
 	}
 
-	public Number getUserId () {
+	public Integer getUserId () {
 		return this.userId;
 	}
 
-	public void setUserId (Number userId) {
+	public void setUserId (Integer userId) {
 		this.userId = userId;
 	}
 
