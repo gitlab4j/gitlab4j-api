@@ -10,9 +10,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 import org.codehaus.jackson.map.PropertyNamingStrategy;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -68,7 +70,7 @@ public class JacksonJson implements ContextResolver<ObjectMapper> {
      * @throws JsonMappingException
      * @throws IOException
      */
-	public <T> T unmarshall (Class<T> returnType, Reader reader) 
+	public <T> T unmarshal (Class<T> returnType, Reader reader) 
 			throws JsonParseException, JsonMappingException, IOException {		
 		ObjectMapper objectMapper = getContext(returnType);
 		return (objectMapper.readValue(reader,  returnType));	
@@ -83,9 +85,38 @@ public class JacksonJson implements ContextResolver<ObjectMapper> {
 	 * @throws JsonMappingException
 	 * @throws IOException
 	 */
-	public <T> T unmarshall (Class<T> returnType, String postData) 
+	public <T> T unmarshal (Class<T> returnType, String postData) 
 			throws JsonParseException, JsonMappingException, IOException {		
 		ObjectMapper objectMapper = getContext(returnType);
 		return (objectMapper.readValue(postData,  returnType));	
+	}
+	
+	
+	/**
+	 * Marshals the supplied object out as a formatted JSON string.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public <T> String marshal (final T object) {
+		
+		if (object == null) {
+			throw new IllegalArgumentException("object parameter is null");
+		}
+		
+		ObjectWriter writer = objectMapper.writer().withDefaultPrettyPrinter();
+		String results = null;
+		try {
+			results = writer.writeValueAsString(object);
+		} catch (JsonGenerationException e) {
+			System.err.println("JsonGenerationException, message=" + e.getMessage());
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			System.err.println("JsonMappingException, message=" + e.getMessage());
+		} catch (IOException e) {
+			System.err.println("IOException, message=" + e.getMessage());
+		}
+		
+		return (results);
 	}
 }
