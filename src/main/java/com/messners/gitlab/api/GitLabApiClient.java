@@ -50,7 +50,7 @@ public class GitLabApiClient {
 		this.privateToken = privateToken;
 		
 		clientConfig = new DefaultClientConfig();
-		clientConfig.getClasses().add(JacksonJsonConfig.class);
+		clientConfig.getClasses().add(JacksonJson.class);
 		clientConfig.getFeatures().put(ClientConfig.PROPERTY_FOLLOW_REDIRECTS, Boolean.TRUE);
 		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 	}

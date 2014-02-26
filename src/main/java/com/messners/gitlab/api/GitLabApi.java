@@ -177,5 +177,31 @@ public class GitLabApi {
 		}
 		
 		return (response.getEntity(MergeRequest.class));
+	}
+	
+	
+	/**
+	 * GET /projects/:id/repository/branches/:branch
+	 * 
+	 * @param projectId
+	 * @param branchName
+	 * @return
+	 * @throws IOException
+	 */
+	public Branch getBranch (Integer projectId, String branchName) throws IOException {
+		ClientResponse response = apiClient.get(null, "projects", projectId, "repository", "branches", branchName);
+		return (response.getEntity(Branch.class));
 	}	
+	
+	/**
+	 * GET /users/:id
+	 * 
+	 * @param userId
+	 * @return
+	 * @throws IOException
+	 */
+	public User getUser (int userId) throws IOException {
+		ClientResponse response = apiClient.get(null, "users", userId);
+		return (response.getEntity(User.class));
+	}
 }
