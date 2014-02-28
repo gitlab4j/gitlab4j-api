@@ -4,7 +4,6 @@ package com.messners.gitlab.api;
 import java.io.IOException;
 import java.io.Reader;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
@@ -12,6 +11,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
@@ -28,8 +28,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  */
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
-public class JacksonJson implements ContextResolver<ObjectMapper> {
+public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResolver<ObjectMapper> {
 		
 	private final ObjectMapper objectMapper;
 
