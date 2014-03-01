@@ -141,11 +141,12 @@ public class GitLabApi {
 	 * @param sourceBranch the source branch, required
 	 * @param targetBranch the target branch, required
 	 * @param title the title for the merge request, required
+	 * @param description the description of the merge request
 	 * @param assigneeId the Assignee user ID, optional
 	 * @return the created MergeRequest instance
 	 * @throws IOException 
 	 */
-	public MergeRequest createMergeRequest (Integer projectId, String sourceBranch, String targetBranch, String title, Integer assigneeId) 
+	public MergeRequest createMergeRequest (Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId) 
 			throws IOException {
 		
 		/*
@@ -161,16 +162,19 @@ public class GitLabApi {
 		}
 		
 		Form formData = new Form();
-		formData.add("id",  projectId);
 		formData.add("source_branch", sourceBranch);		
 		formData.add("target_branch", targetBranch);
 		formData.add("title", title);
+		
+		if (description != null) {
+			formData.add("description", description);
+		}
 		
 		if (assigneeId != null) {
 			formData.add("assignee_id", assigneeId);
 		}
 		
-		ClientResponse response = apiClient.post(formData, "projects", projectId, "merge-requests");
+		ClientResponse response = apiClient.post(formData, "projects", projectId, "merge_requests");
 		if (response.getStatus() != ClientResponse.Status.CREATED.getStatusCode()) {
 			ErrorMessage errorMessage = response.getEntity(ErrorMessage.class);
 			throw new RuntimeException(errorMessage.getMessage());
@@ -179,6 +183,28 @@ public class GitLabApi {
 		return (response.getEntity(MergeRequest.class));
 	}
 	
+	
+	/**
+	 * POST /projects/:id/merge_request/:merge_request_id/comments
+	 * 
+	 * @param projectId
+	 * @param mergeRequestId
+	 * @param comments
+	 * @throws IOException
+	 */
+	public MergeRequestComment addMergeRequestComment (Integer projectId, Integer mergeRequestId, String comments) throws IOException {
+		
+		Form formData = new Form();
+		formData.add("note", comments);		
+		ClientResponse response = apiClient.post(formData, "projects", projectId, "merge_request", mergeRequestId, "comments");
+		if (response.getStatus() != ClientResponse.Status.CREATED.getStatusCode()) {
+			ErrorMessage errorMessage = response.getEntity(ErrorMessage.class);
+			throw new RuntimeException(errorMessage.getMessage());
+		}
+		
+		return (response.getEntity(MergeRequestComment.class));
+	}
+
 	
 	/**
 	 * GET /projects/:id/repository/branches/:branch
@@ -191,7 +217,20 @@ public class GitLabApi {
 	public Branch getBranch (Integer projectId, String branchName) throws IOException {
 		ClientResponse response = apiClient.get(null, "projects", projectId, "repository", "branches", branchName);
 		return (response.getEntity(Branch.class));
-	}	
+	}
+	
+	
+	/**
+	 * GET /projects/:id/repository/commits/branch
+	 * 
+	 * @param branch
+	 * @return
+	 */
+	public List<Commit> getCommits (int projectId, String branch) throws IOException {		
+		ClientResponse response = apiClient.get(null, "projects", projectId, "repository", "commits", branch);
+		return (response.getEntity(new GenericType<List<Commit>>() {}));		
+	}
+	
 	
 	/**
 	 * GET /users/:id
