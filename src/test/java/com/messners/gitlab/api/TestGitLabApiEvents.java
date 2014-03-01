@@ -16,7 +16,7 @@ import com.messners.gitlab.api.webhook.PushEvent;
 
 public class TestGitLabApiEvents {
 	
-	private static JacksonJsonConfig jacksonJsonConfig;
+	private static JacksonJson jacksonJsonConfig;
 	
 	public TestGitLabApiEvents () {
 		super();
@@ -24,7 +24,7 @@ public class TestGitLabApiEvents {
 	
 	@BeforeClass
 	public static void setup () {
-		jacksonJsonConfig = new JacksonJsonConfig();
+		jacksonJsonConfig = new JacksonJson();
 	}
 	
 	@Test

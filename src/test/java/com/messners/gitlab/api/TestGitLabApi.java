@@ -46,24 +46,4 @@ public class TestGitLabApi {
 			System.err.println("Check TEST_HOST_URL and TEST_PRIVATE_TOKEN, they are probably not set.");		
 		}
 	}
-	
-	
-	@Test
-	public void testOwnedProjectsProject () {
-			
-		 try {
-			 
-			 List<Project> projects = gitLabApi.getOwnedProjects();
-			 assertTrue(projects != null);
-			 
-			 Project ownedProject = projects.get(0);
-			 assertTrue(ownedProject != null);
-			 Project project = gitLabApi.getProject(ownedProject.getId());
-			 assertTrue(project != null);
-			 assertTrue(ownedProject.getId().equals(project.getId()));
-			 
-		} catch (Exception e) {
-			System.err.println("Check TEST_HOST_URL and TEST_PRIVATE_TOKEN, they are probably not set.");
-		}
-	}
 }

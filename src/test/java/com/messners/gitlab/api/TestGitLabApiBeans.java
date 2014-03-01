@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class TestGitLabApiBeans {
 	
-	private static JacksonJsonConfig jacksonJsonConfig;
+	private static JacksonJson jacksonJsonConfig;
 	
 	public TestGitLabApiBeans () {
 		super();
@@ -23,7 +23,7 @@ public class TestGitLabApiBeans {
 	
 	@BeforeClass
 	public static void setup () {
-		jacksonJsonConfig = new JacksonJsonConfig();
+		jacksonJsonConfig = new JacksonJson();
 	}
 	
 	@Test
