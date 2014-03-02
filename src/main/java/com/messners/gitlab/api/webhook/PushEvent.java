@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.messners.gitlab.api.Commit;
-import com.messners.gitlab.api.Repository;
+import com.messners.gitlab.api.models.Commit;
+import com.messners.gitlab.api.models.Repository;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

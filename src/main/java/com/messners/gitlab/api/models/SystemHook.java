@@ -1,4 +1,4 @@
-package com.messners.gitlab.api;
+package com.messners.gitlab.api.models;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

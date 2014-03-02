@@ -12,6 +12,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.core.MediaType;
@@ -31,7 +32,7 @@ import com.sun.jersey.client.urlconnection.HTTPSProperties;
 /**
  * This class utilizes the Jersey client package to communicate with a GitLab API endpoint.
  * 
- * @author gmessner
+ * @author Greg Messner <greg@messners.com>
  */
 public class GitLabApiClient {
 	
@@ -42,7 +43,18 @@ public class GitLabApiClient {
 	private Client apiClient;
 	private String hostUrl;
 	private String privateToken;
+	private static boolean ignoreCertificateErrors;
+	private static SSLSocketFactory defaultSocketFactory;
+	private static HTTPSProperties defaultHttpsProperties;
 
+
+	/**
+	 * Construct an instance to communicate with a GitLab API server using the specified
+	 * server URL and private token.
+	 * 
+	 * @param hostUrl the URL to the GitLab API server
+	 * @param privateToken the private token to authenticate with
+	 */
 	public GitLabApiClient (String hostUrl, String privateToken) {	
 		
 		// Remove the trailing "/" from the hostUrl if present
@@ -56,7 +68,56 @@ public class GitLabApiClient {
 	}
 	
 	
-	protected boolean ignoreCertificateErrors () {
+	/**
+	 * Returns true if the API is setup to ignore SSL certificate errors, otherwise returns false.
+	 * 
+	 * @return true if the API is setup to ignore SSL certificate errors, otherwise returns false
+	 */
+	protected boolean getIgnoreCertificateErrors () {
+		return (GitLabApiClient.ignoreCertificateErrors);
+	}
+	
+	
+	/**
+	 * Sets up the Jersey system ignore SSL certificate errors or not.
+	 * 
+	 * <p><strong>WARNING: Setting this to true will affect ALL uses of HttpsURLConnection and Jersey.<strong><p>
+	 * 
+	 * @param ignoreCertificateErrors
+	 */
+	protected void setIgnoreCerificateErrors (boolean ignoreCertificateErrors) {
+		
+		if (GitLabApiClient.ignoreCertificateErrors == ignoreCertificateErrors) {
+			return;
+		}
+		
+		if (ignoreCertificateErrors == false) {	
+		
+			GitLabApiClient.ignoreCertificateErrors = false;
+			HttpsURLConnection.setDefaultSSLSocketFactory(GitLabApiClient.defaultSocketFactory);
+			clientConfig.getProperties().put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, GitLabApiClient.defaultHttpsProperties);
+			return;
+		}
+		
+		SSLSocketFactory defaultSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
+		HTTPSProperties defaultHttpsProperties = (HTTPSProperties)clientConfig.getProperties().get(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES);		
+		
+		if (ignoreCertificateErrors() == true) {
+			GitLabApiClient.ignoreCertificateErrors = true;
+			GitLabApiClient.defaultSocketFactory = defaultSocketFactory;
+			GitLabApiClient.defaultHttpsProperties = defaultHttpsProperties;
+		} else {
+			throw new RuntimeException("Unable to ignore certificate errors.");
+		}
+	}
+	
+	
+	/**
+	 * Sets up Jersey client to ignore certificate errors.  
+	 *
+	 * @return true if successful at setting up to ignore certificate errors, otherwise returns false.
+	 */
+	private boolean ignoreCertificateErrors () {
 
 		// Create a TrustManager that trusts all certificates
 		TrustManager[ ] certs = new TrustManager[ ] {
@@ -77,16 +138,19 @@ public class GitLabApiClient {
 		};
     
 		// Now set the default SSLSocketFactory to use the just created TrustManager
+		SSLSocketFactory defaultSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
 		SSLContext sslContext = null;
 		try {
 			sslContext = SSLContext.getInstance("TLS");
 			sslContext.init(null, certs, new SecureRandom());
 			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+			HttpsURLConnection.getDefaultSSLSocketFactory();
 		} catch (GeneralSecurityException ex) {
+			HttpsURLConnection.setDefaultSSLSocketFactory(defaultSocketFactory);
 			return (false);
 		}
     
-		// Set up a HostnameVerifier for Jersey to verify all hostnames
+		// Set up a HostnameVerifier for Jersey to verify all hostnames as valid
 		try {
 			
 			clientConfig.getProperties().put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(					
@@ -99,6 +163,7 @@ public class GitLabApiClient {
 			 ));
 			
 		} catch (NoSuchAlgorithmException e) {
+			HttpsURLConnection.setDefaultSSLSocketFactory(defaultSocketFactory);
 			return (false);
 		}
 		
@@ -106,7 +171,13 @@ public class GitLabApiClient {
 	}
     
 	
-	
+	/**
+	 * Construct a REST URL with the specified path arguments.
+	 * 
+	 * @param pathArgs
+	 * @return a REST URL with the specified path arguments
+	 * @throws IOException
+	 */
 	protected URL getApiUrl (Object ... pathArgs) throws IOException {
 		
 		StringBuilder url = new StringBuilder();
@@ -118,15 +189,36 @@ public class GitLabApiClient {
 		
 		return (new URL(url.toString()));
     }
+
 	
-	
+	/**
+	 * Perform an HTTP GET call with the specified query parameters and path objects, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 * 
+	 * @param queryParams
+	 * @param pathArgs
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 * @throws IOException
+	 */
 	protected  ClientResponse get (MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
 			throws UniformInterfaceException, ClientHandlerException, IOException {		
 		URL url = getApiUrl(pathArgs);
 		return (get(queryParams, url));	
 	}	
 	
-		
+	
+	/**
+	 * Perform an HTTP GET call with the specified query parameters and URL, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 * 
+	 * @param queryParams
+	 * @param url
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 */
 	protected ClientResponse get (MultivaluedMap<String, String> queryParams, URL url) 
 			throws UniformInterfaceException, ClientHandlerException {
 		
@@ -145,13 +237,34 @@ public class GitLabApiClient {
 	}		
 	
 	
+	/**
+	 * Perform an HTTP POST call with the specified form data and path objects, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 * 
+	 * @param formData
+	 * @param pathArgs
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 * @throws IOException
+	 */
 	protected ClientResponse post (Form formData, Object ... pathArgs) 
 			throws UniformInterfaceException, ClientHandlerException, IOException {		
 		URL url = getApiUrl(pathArgs);
 		return (post(formData, url));		
 	}
 	
-		
+	
+	/**
+	 * Perform an HTTP POST call with the specified form data and URL, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 * 
+	 * @param formData
+	 * @param url
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 */
 	protected ClientResponse post (Form formData, URL url) throws UniformInterfaceException, ClientHandlerException {
 		
 		if (apiClient == null) {
@@ -166,13 +279,34 @@ public class GitLabApiClient {
 	}
 	
 	
+	/**
+	 * Perform an HTTP DELETE call with the specified form data and path objects, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 * 
+	 * @param queryParams
+	 * @param pathArgs
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 * @throws IOException
+	 */
 	protected  ClientResponse delete (MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
 			throws UniformInterfaceException, ClientHandlerException, IOException {		
 		URL url = getApiUrl(pathArgs);
 		return (delete(queryParams, url));	
 	}	
 	
-		
+	
+	/**
+	 * Perform an HTTP DELETE call with the specified form data and URL, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 *  
+	 * @param queryParams
+	 * @param url
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 */
 	protected ClientResponse delete (MultivaluedMap<String, String> queryParams, URL url) 
 			throws UniformInterfaceException, ClientHandlerException {
 		

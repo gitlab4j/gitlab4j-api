@@ -1,6 +1,8 @@
-package com.messners.gitlab.api;
+
+package com.messners.gitlab.api.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,17 +10,36 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Milestone {
-
+public class Issue {
+	
+	private Assignee assignee;
+	private Author author;
 	private Date createdAt;
 	private String description;
-	private Date dueDate;
 	private Integer id;
 	private Integer iid;
-	private Integer projectId;
+	private List<String> labels;
+	private Milestone milestone;
+	private Integer project_id;
 	private String state;
 	private String title;
 	private Date updatedAt;
+
+	public Assignee getAssignee () {
+		return this.assignee;
+	}
+
+	public void setAssignee (Assignee assignee) {
+		this.assignee = assignee;
+	}
+
+	public Author getAuthor () {
+		return this.author;
+	}
+
+	public void setAuthor (Author author) {
+		this.author = author;
+	}
 
 	public Date getCreatedAt () {
 		return this.createdAt;
@@ -34,14 +55,6 @@ public class Milestone {
 
 	public void setDescription (String description) {
 		this.description = description;
-	}
-
-	public Date getDueDate () {
-		return this.dueDate;
-	}
-
-	public void setDueDate (Date dueDate) {
-		this.dueDate = dueDate;
 	}
 
 	public Integer getId () {
@@ -60,12 +73,28 @@ public class Milestone {
 		this.iid = iid;
 	}
 
-	public Integer getProjectId () {
-		return this.projectId;
+	public List<String> getLabels () {
+		return this.labels;
 	}
 
-	public void setProjectId (Integer projectId) {
-		this.projectId = projectId;
+	public void setLabels (List<String> labels) {
+		this.labels = labels;
+	}
+
+	public Milestone getMilestone () {
+		return this.milestone;
+	}
+
+	public void setMilestone (Milestone milestone) {
+		this.milestone = milestone;
+	}
+
+	public Integer getProject_id () {
+		return this.project_id;
+	}
+
+	public void setProject_id (Integer project_id) {
+		this.project_id = project_id;
 	}
 
 	public String getState () {

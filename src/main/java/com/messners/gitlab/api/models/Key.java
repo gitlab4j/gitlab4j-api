@@ -1,5 +1,5 @@
 
-package com.messners.gitlab.api;
+package com.messners.gitlab.api.models;
 
 import java.util.Date;
 

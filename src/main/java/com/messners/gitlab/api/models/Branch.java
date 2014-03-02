@@ -1,12 +1,13 @@
-package com.messners.gitlab.api;
+
+package com.messners.gitlab.api.models;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Tag {
+@XmlAccessorType (XmlAccessType.FIELD)
+public class Branch {
 
 	private Commit commit;
 	private String name;

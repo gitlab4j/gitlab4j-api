@@ -1,6 +1,5 @@
-package com.messners.gitlab.api;
 
-import java.util.Date;
+package com.messners.gitlab.api.models;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,19 +7,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Owner {
-
-	private Date createdAt;
+public class Group {
+	
 	private Integer id;
 	private String name;
-
-	public Date getCreatedAt () {
-		return this.createdAt;
-	}
-
-	public void setCreatedAt (Date createdAt) {
-		this.createdAt = createdAt;
-	}
+	private Integer ownerId;
+	private String path;
 
 	public Integer getId () {
 		return this.id;
@@ -36,5 +28,21 @@ public class Owner {
 
 	public void setName (String name) {
 		this.name = name;
+	}
+
+	public Integer getOwnerId () {
+		return this.ownerId;
+	}
+
+	public void setOwnerId (Integer ownerId) {
+		this.ownerId = ownerId;
+	}
+
+	public String getPath () {
+		return this.path;
+	}
+
+	public void setPath (String path) {
+		this.path = path;
 	}
 }

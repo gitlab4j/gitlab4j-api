@@ -1,4 +1,4 @@
-package com.messners.gitlab.api;
+package com.messners.gitlab.api.models;
 
 import java.util.Date;
 
@@ -8,9 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Note {
+public class ProjectSnippet {
 
-	private String attachment;
 	private Author author;
 	private Date createdAt;
 	private Date expiresAt;
@@ -18,14 +17,6 @@ public class Note {
 	private Integer id;
 	private String title;
 	private String updatedAt;
-
-	public String getAttachment () {
-		return this.attachment;
-	}
-
-	public void setAttachment (String attachment) {
-		this.attachment = attachment;
-	}
 
 	public Author getAuthor () {
 		return this.author;
