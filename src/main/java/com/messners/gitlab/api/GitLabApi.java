@@ -1,11 +1,5 @@
 package com.messners.gitlab.api;
 
-import java.io.IOException;
-import java.util.List;
-
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.representation.Form;
 
 /**
  * This class specifies methods to interact with a GitLab server utilizing the standard GitLab API.
@@ -14,7 +8,12 @@ import com.sun.jersey.api.representation.Form;
  */
 public class GitLabApi {
 	
-	private GitLabApiClient apiClient;
+	GitLabApiClient apiClient;
+	private CommitsApi commitsApi;
+	private MergeRequestApi mergeRequestApi;
+	private ProjectApi projectApi;
+	private RepositoryApi repositoryApi;
+	private UserApi userApi;
 	
 
 	/**
@@ -26,221 +25,76 @@ public class GitLabApi {
 	 */
 	public GitLabApi (String hostUrl, String privateToken) {	
 		apiClient = new GitLabApiClient(hostUrl, privateToken);
+		commitsApi = new CommitsApi(this);
+		mergeRequestApi = new MergeRequestApi(this);
+		projectApi = new ProjectApi(this);
+		repositoryApi = new RepositoryApi(this);
+		userApi = new UserApi(this);
 	}
 	
-	
-	public List<Project> getProjects () throws IOException {	
-		 ClientResponse response = apiClient.get(null, "projects");
-		 return (response.getEntity(new GenericType<List<Project>>() {}));
-	}
-	
-	public List<Project> getAllProjects () throws IOException {	
-		 ClientResponse response = apiClient.get(null, "projects", "all");
-		 return (response.getEntity(new GenericType<List<Project>>() {}));
-	}
-	
-	public List<Project> getOwnedProjects () throws IOException {	
-		 ClientResponse response = apiClient.get(null, "projects", "owned");
-		 return (response.getEntity(new GenericType<List<Project>>() {}));
-	}
-	
-	public Project getProject (Integer projectId) throws IOException {
-		ClientResponse response = apiClient.get(null, "projects", projectId);
-		return (response.getEntity(Project.class));
-	}
-	
-	public List<Event> getProjectEvents (Integer projectId) throws IOException {
-		ClientResponse response = apiClient.get(null, "project", projectId, "events");
-		return (response.getEntity(new GenericType<List<Event>>() {}));
-	}
-
 	
 	/**
-	 * Creates new project owned by the current user.  
+	 * Return the GitLabApiClient associated with this instance.  This is used by all the sub API classes
+	 * to communicate with the GitLab API.
 	 * 
-	 * @param project the Project instance with the configuration for the new project
-	 * @return a Project instance with the newly created project info
-	 * @throws IOException
-	 */	
-	public Project createProject (Project project) throws IOException {
-		return (createProject(project, null));
+	 * @return the GitLabApiClient associated with this instance
+	 */
+	GitLabApiClient getApiClient () {
+		return (apiClient);
 	}
+	
 	
 	/**
-	 * Creates new project owned by the current user.  The following properties on the Project instance
-	 * are utilized in the creation of the project:
+	 * Gets the CommitsApi instance owned by this GitLabApi instance.  The CommitsApi is used
+	 * to perform all commit related API calls.
 	 * 
-	 * 	name (required) - new project name
-	 * 	description (optional) - short project description
-	 * 	issuesEnabled (optional)
-	 * 	wallEnabled (optional)
-	 * 	mergeRequestsEnabled (optional)
-	 * 	wikiEnabled (optional)
-	 * 	snippetsEnabled (optional)
-	 * 	isPublic (optional) - if true same as setting visibility_level = 20
-	 * 	visibilityLevel (optional)
-	 * 
-	 * @param project the Project instance with the configuration for the new project
-	 * @param importUrl
-	 * @return a Project instance with the newly created project info
-	 * @throws IOException
-	 */	
-	public Project createProject (Project project, String importUrl) throws IOException {
-		
-		if (project == null) {
-			return (null);
-		}
-		
-		String name = project.getName();
-		if (name == null || name.trim().length() == 0) {
-			return (null);
-		}
-		
-		Form formData = new Form();
-		formData.add("name",  name);
-		
-		formData.add("description", project.getDescription());
-		formData.add("issues_enabled", project.getIssuesEnabled());		
-		formData.add("wall_enabled", project.getWallEnabled());
-		formData.add("merge_requests_enabled", project.getMergeRequestsEnabled());
-		formData.add("wiki_enabled", project.getWikiEnabled());
-		formData.add("snippets_enabled", project.getSnippetsEnabled());
-		formData.add("public", project.getPublic());
-		formData.add("visibility_level", project.getVisibilityLevel());
-		formData.add("import_url", importUrl);
-
-		ClientResponse response = apiClient.post(formData, "projects");
-		if (response.getStatus() != ClientResponse.Status.CREATED.getStatusCode()) {
-			ErrorMessage errorMessage = response.getEntity(ErrorMessage.class);
-			throw new RuntimeException(errorMessage.getMessage());
-		}
-		
-		return (response.getEntity(Project.class));
+	 * @return the CommitsApi instance owned by this GitLabApi instance
+	 */
+	public CommitsApi getCommitsApi () {
+		return (commitsApi);		
 	}
 	
-	
-	public boolean deleteProject (Project project)  throws IOException {
-		return (deleteProject(project.getId()));
+		
+	/**
+	 * Gets the MergeRequestApi instance owned by this GitLabApi instance.  The MergeRequestApi is used
+	 * to perform all merge request related API calls.
+	 * 
+	 * @return the MergeRequestApi instance owned by this GitLabApi instance
+	 */
+	public MergeRequestApi getMergeRequestApi () {
+		return (mergeRequestApi);		
 	}
 	
 
-	public boolean deleteProject (Integer projectId)  throws IOException {
-		
-		if (projectId == null) {
-			throw new RuntimeException("projectId cannot be null");
-		}
-		
-		ClientResponse response = apiClient.delete(null, "projects", projectId);
-		return (response.getStatus() == ClientResponse.Status.OK.getStatusCode());		
-	}
-	
 	/**
-	 * Creates a merge request and optionally assignes it.
+	 * Gets the ProjectApi instance owned by this GitLabApi instance.  The ProjectApi is used
+	 * to perform all project related API calls.
 	 * 
-	 * @param projectId the ID of a project, required
-	 * @param sourceBranch the source branch, required
-	 * @param targetBranch the target branch, required
-	 * @param title the title for the merge request, required
-	 * @param description the description of the merge request
-	 * @param assigneeId the Assignee user ID, optional
-	 * @return the created MergeRequest instance
-	 * @throws IOException 
+	 * @return the ProjectApi instance owned by this GitLabApi instance
 	 */
-	public MergeRequest createMergeRequest (Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId) 
-			throws IOException {
-		
-		/*
-		 * Parameters:
-		 *  id (required) - The ID of a project
-		 *	source_branch (required) - The source branch
-		 *	target_branch (required) - The target branch
-		 *	assignee_id (optional) - Assignee user ID
-		 *	title (required) - Title of MR	
-		 */
-		if (projectId == null) {
-			throw new RuntimeException("projectId cannot be null");
-		}
-		
-		Form formData = new Form();
-		formData.add("source_branch", sourceBranch);		
-		formData.add("target_branch", targetBranch);
-		formData.add("title", title);
-		
-		if (description != null) {
-			formData.add("description", description);
-		}
-		
-		if (assigneeId != null) {
-			formData.add("assignee_id", assigneeId);
-		}
-		
-		ClientResponse response = apiClient.post(formData, "projects", projectId, "merge_requests");
-		if (response.getStatus() != ClientResponse.Status.CREATED.getStatusCode()) {
-			ErrorMessage errorMessage = response.getEntity(ErrorMessage.class);
-			throw new RuntimeException(errorMessage.getMessage());
-		}
-		
-		return (response.getEntity(MergeRequest.class));
+	public ProjectApi getProjectApi () {
+		return (projectApi);		
 	}
 	
 	
 	/**
-	 * POST /projects/:id/merge_request/:merge_request_id/comments
+	 * Gets the RepositoryApi instance owned by this GitLabApi instance.  The RepositoryApi is used
+	 * to perform all user related API calls.
 	 * 
-	 * @param projectId
-	 * @param mergeRequestId
-	 * @param comments
-	 * @throws IOException
+	 * @return the RepositoryApi instance owned by this GitLabApi instance
 	 */
-	public MergeRequestComment addMergeRequestComment (Integer projectId, Integer mergeRequestId, String comments) throws IOException {
-		
-		Form formData = new Form();
-		formData.add("note", comments);		
-		ClientResponse response = apiClient.post(formData, "projects", projectId, "merge_request", mergeRequestId, "comments");
-		if (response.getStatus() != ClientResponse.Status.CREATED.getStatusCode()) {
-			ErrorMessage errorMessage = response.getEntity(ErrorMessage.class);
-			throw new RuntimeException(errorMessage.getMessage());
-		}
-		
-		return (response.getEntity(MergeRequestComment.class));
-	}
-
-	
-	/**
-	 * GET /projects/:id/repository/branches/:branch
-	 * 
-	 * @param projectId
-	 * @param branchName
-	 * @return
-	 * @throws IOException
-	 */
-	public Branch getBranch (Integer projectId, String branchName) throws IOException {
-		ClientResponse response = apiClient.get(null, "projects", projectId, "repository", "branches", branchName);
-		return (response.getEntity(Branch.class));
+	public RepositoryApi getRepositoryApi () {
+		return (repositoryApi);		
 	}
 	
 	
 	/**
-	 * GET /projects/:id/repository/commits/branch
+	 * Gets the UserApi instance owned by this GitLabApi instance.  The UserApi is used
+	 * to perform all user related API calls.
 	 * 
-	 * @param branch
-	 * @return
+	 * @return the ProjectApi instance owned by this GitLabApi instance
 	 */
-	public List<Commit> getCommits (int projectId, String branch) throws IOException {		
-		ClientResponse response = apiClient.get(null, "projects", projectId, "repository", "commits", branch);
-		return (response.getEntity(new GenericType<List<Commit>>() {}));		
-	}
-	
-	
-	/**
-	 * GET /users/:id
-	 * 
-	 * @param userId
-	 * @return
-	 * @throws IOException
-	 */
-	public User getUser (int userId) throws IOException {
-		ClientResponse response = apiClient.get(null, "users", userId);
-		return (response.getEntity(User.class));
+	public UserApi getUserApi () {
+		return (userApi);		
 	}
 }
