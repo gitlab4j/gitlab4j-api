@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.messners.gitlab.api.models.Project;
+
 public class TestGitLabApi {
 	
 	// The following needs to be set to your test repository
@@ -28,7 +30,7 @@ public class TestGitLabApi {
 	public void testProjects () {
 			
 		 try {
-			 List<Project> projects = gitLabApi.getProjects();
+			 List<Project> projects = gitLabApi.getProjectApi().getProjects();
 			 assertTrue(projects != null);
 		} catch (Exception e) {
 			System.err.println("Check TEST_HOST_URL and TEST_PRIVATE_TOKEN, they are probably not set.");
@@ -39,7 +41,7 @@ public class TestGitLabApi {
 	public void testOwnedProjects () {
 			
 		 try {
-			 List<Project> projects = gitLabApi.getOwnedProjects();
+			 List<Project> projects = gitLabApi.getProjectApi().getOwnedProjects();
 			 assertTrue(projects != null);
 			 
 		} catch (Exception e) {
