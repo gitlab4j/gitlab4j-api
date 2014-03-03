@@ -11,7 +11,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.json.JSONException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -257,7 +256,7 @@ public class TestGitLabApiBeans {
 		return (objectMapper.readValue(reader,  returnType));	
 	}
 	
-	private <T> boolean compareJson (T apiObject, String file) throws IOException, JSONException {
+	private <T> boolean compareJson (T apiObject, String file) throws IOException {
 		
 		InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(file + ".json"));
 		String objectJson = jacksonJson.marshal(apiObject);
