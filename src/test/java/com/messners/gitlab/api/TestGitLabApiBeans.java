@@ -6,16 +6,37 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.json.JSONException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.messners.gitlab.api.models.Branch;
+import com.messners.gitlab.api.models.Diff;
+import com.messners.gitlab.api.models.Event;
+import com.messners.gitlab.api.models.Group;
+import com.messners.gitlab.api.models.Issue;
+import com.messners.gitlab.api.models.Key;
+import com.messners.gitlab.api.models.Member;
+import com.messners.gitlab.api.models.MergeRequest;
+import com.messners.gitlab.api.models.MergeRequestComment;
+import com.messners.gitlab.api.models.Milestone;
+import com.messners.gitlab.api.models.Note;
+import com.messners.gitlab.api.models.Project;
+import com.messners.gitlab.api.models.ProjectSnippet;
+import com.messners.gitlab.api.models.Session;
+import com.messners.gitlab.api.models.SystemHook;
+import com.messners.gitlab.api.models.Tag;
+import com.messners.gitlab.api.models.TreeItem;
+import com.messners.gitlab.api.models.User;
+
 public class TestGitLabApiBeans {
 	
-	private static JacksonJson jacksonJsonConfig;
+	private static JacksonJson jacksonJson;
 	
 	public TestGitLabApiBeans () {
 		super();
@@ -23,7 +44,7 @@ public class TestGitLabApiBeans {
 	
 	@BeforeClass
 	public static void setup () {
-		jacksonJsonConfig = new JacksonJson();
+		jacksonJson = new JacksonJson();
 	}
 	
 	@Test
@@ -31,7 +52,7 @@ public class TestGitLabApiBeans {
 
 		 try {
 			 Branch branch = makeFakeApiCall(Branch.class, "branch");
-			 assertTrue(branch != null);			
+			 assertTrue(compareJson(branch, "branch"));			
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
@@ -42,7 +63,7 @@ public class TestGitLabApiBeans {
 		
 		try {			
 			 Diff diff = makeFakeApiCall(Diff.class, "diff");
-			 assertTrue(diff != null);			
+			 assertTrue(compareJson(diff, "diff"));			
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
@@ -53,7 +74,7 @@ public class TestGitLabApiBeans {
 		
 		try {			
 			 Event event = makeFakeApiCall(Event.class, "event");
-			 assertTrue(event != null);			
+			 assertTrue(compareJson(event, "event"));			
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
@@ -64,7 +85,7 @@ public class TestGitLabApiBeans {
 		
 		try {			
 			 Group group = makeFakeApiCall(Group.class, "group");
-			 assertTrue(group != null);			
+			 assertTrue(compareJson(group, "group"));			
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
@@ -75,7 +96,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 Issue issue = makeFakeApiCall(Issue.class, "issue");
-			 assertTrue(issue != null);
+			 assertTrue(compareJson(issue, "issue"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -86,7 +107,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 Key key = makeFakeApiCall(Key.class, "key");
-			 assertTrue(key != null);
+			 assertTrue(compareJson(key, "key"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -97,7 +118,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 Member member = makeFakeApiCall(Member.class, "member");
-			 assertTrue(member != null);
+			 assertTrue(compareJson(member, "member"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -108,7 +129,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 MergeRequestComment mergeRequestComment = makeFakeApiCall(MergeRequestComment.class, "merge-request-comment");
-			 assertTrue(mergeRequestComment != null);
+			 assertTrue(compareJson(mergeRequestComment, "merge-request-comment"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -119,7 +140,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 MergeRequest mergeRequest = makeFakeApiCall(MergeRequest.class, "merge-request");
-			 assertTrue(mergeRequest != null);
+			 assertTrue(compareJson(mergeRequest, "merge-request"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -130,7 +151,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 Milestone milestone = makeFakeApiCall(Milestone.class, "milestone");
-			 assertTrue(milestone != null);
+			 assertTrue(compareJson(milestone, "milestone"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -141,7 +162,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 Note note = makeFakeApiCall(Note.class, "note");
-			 assertTrue(note != null);
+			 assertTrue(compareJson(note, "note"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -152,7 +173,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 Project project = makeFakeApiCall(Project.class, "project");
-			 assertTrue(project != null);
+			 assertTrue(compareJson(project, "project"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -163,7 +184,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 ProjectSnippet projectSnippet = makeFakeApiCall(ProjectSnippet.class, "project-snippet");
-			 assertTrue(projectSnippet != null);
+			 assertTrue(compareJson(projectSnippet, "project-snippet"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -174,7 +195,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 Session session = makeFakeApiCall(Session.class, "session");
-			 assertTrue(session != null);
+			 assertTrue(compareJson(session, "session"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -184,8 +205,8 @@ public class TestGitLabApiBeans {
 	public void testSystemHook () {
 			
 		 try {
-			 SystemHook systemHook = makeFakeApiCall(SystemHook.class, "SystemHook");
-			 assertTrue(systemHook != null);
+			 SystemHook systemHook = makeFakeApiCall(SystemHook.class, "system-hook");
+			 assertTrue(compareJson(systemHook, "system-hook"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -196,7 +217,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 Tag tag = makeFakeApiCall(Tag.class, "tag");
-			 assertTrue(tag != null);
+			 assertTrue(compareJson(tag, "tag"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -208,9 +229,9 @@ public class TestGitLabApiBeans {
 		 try {		
 
 			InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream("tree.json"));
-			ObjectMapper objectMapper = jacksonJsonConfig.getContext(null);	 
+			ObjectMapper objectMapper = jacksonJson.getContext(null);	 
 			List<TreeItem> tree = objectMapper.readValue(reader, new TypeReference<List<TreeItem>>(){});
-			assertTrue(tree != null);
+			assertTrue(compareJson(tree, "tree"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();			
@@ -223,7 +244,7 @@ public class TestGitLabApiBeans {
 			
 		 try {
 			 User user = makeFakeApiCall(User.class, "user");
-			 assertTrue(user != null);
+			 assertTrue(compareJson(user, "user"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
@@ -232,7 +253,17 @@ public class TestGitLabApiBeans {
 	private <T> T makeFakeApiCall (Class<T> returnType, String file) throws JsonParseException, JsonMappingException, IOException {
 		
 		InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(file + ".json"));
-		ObjectMapper objectMapper = jacksonJsonConfig.getContext(returnType);
+		ObjectMapper objectMapper = jacksonJson.getContext(returnType);
 		return (objectMapper.readValue(reader,  returnType));	
+	}
+	
+	private <T> boolean compareJson (T apiObject, String file) throws IOException, JSONException {
+		
+		InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(file + ".json"));
+		String objectJson = jacksonJson.marshal(apiObject);
+		JsonNode tree1 = jacksonJson.getObjectMapper().readTree(objectJson.getBytes());
+		JsonNode tree2 = jacksonJson.getObjectMapper().readTree(reader);
+		boolean sameJson = tree1.equals(tree2);
+		return (sameJson);
 	}
 }
