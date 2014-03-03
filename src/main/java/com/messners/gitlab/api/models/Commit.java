@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -22,9 +20,7 @@ public class Commit {
 	private String id;
 	private String message;
 	
-    @XmlElement(name = "id", type = String.class)
-    @XmlElementWrapper(name = "parents")
-	private List<String> parentIds;
+	private List<Parent> parents;
     
 	private String shortId;
 	private Date timestamp;
@@ -85,12 +81,12 @@ public class Commit {
 		this.message = message;
 	}
 
-	public List<String> getParents () {
-		return this.parentIds;
+	public List<Parent> getParents () {
+		return this.parents;
 	}
 
-	public void setParents (List<String> parentIds) {
-		this.parentIds = parentIds;
+	public void setParents (List<Parent> parents) {
+		this.parents = parents;
 	}
 
 	public void setShort_id (String short_id) {

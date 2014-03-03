@@ -3,6 +3,7 @@ package com.messners.gitlab.api;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Date;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -10,15 +11,21 @@ import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.Version;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.codehaus.jackson.map.PropertyNamingStrategy;
 import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import org.codehaus.jackson.map.module.SimpleModule;
 
 /** 
  * Jackson JSON Configuration and utility class.
@@ -40,7 +47,11 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 		objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
 		objectMapper.configure(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING, Boolean.TRUE);
 		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		objectMapper.configure(DeserializationConfig.Feature.READ_ENUMS_USING_TO_STRING, Boolean.TRUE);		
+		objectMapper.configure(DeserializationConfig.Feature.READ_ENUMS_USING_TO_STRING, Boolean.TRUE);				
+		
+		SimpleModule module = new SimpleModule("GitLabApiJsonModule", new Version(1, 0, 0, null));
+		module.addSerializer(Date.class, new JsonDateSerializer());
+		objectMapper.registerModule(module);
 	}
 	   
     /**
@@ -118,4 +129,15 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 		
 		return (results);
 	}
+	
+	
+	public static class JsonDateSerializer extends JsonSerializer<Date> {
+
+		@Override
+		public void serialize(java.util.Date date, JsonGenerator gen, SerializerProvider provider)
+	            throws IOException, JsonProcessingException {
+			String iso8601String = ISO8601.toString(date);
+			gen.writeString(iso8601String);
+		}
+	}	
 }

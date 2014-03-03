@@ -15,6 +15,7 @@ public class AbstractUser {
 	private String name;
 	private String state;
 	private String username;
+	private Boolean blocked;
 
 	public Date getCreatedAt () {
 		return this.createdAt;
@@ -62,5 +63,13 @@ public class AbstractUser {
 
 	public void setUsername (String username) {
 		this.username = username;
+	}
+
+	public Boolean getBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(Boolean blocked) {
+		this.blocked = blocked;
 	}
 }

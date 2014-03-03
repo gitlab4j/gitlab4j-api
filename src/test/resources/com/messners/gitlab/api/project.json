@@ -1,6 +1,5 @@
 {
     "id": 6,
-    "description": null,
     "default_branch": "master",
     "public": false,
     "visibility_level": 0,

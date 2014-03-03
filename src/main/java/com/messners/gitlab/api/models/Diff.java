@@ -6,45 +6,51 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Diff {
 
+	@JsonSerialize(include=Inclusion.ALWAYS)
 	@JsonProperty("a_mode")
-	private String aMode;
+	private String a_mode;
 	
+	@JsonSerialize(include=Inclusion.ALWAYS)
 	@JsonProperty("b_mode")
-	private String bMode;	
+	private String b_mode;	
 	
-	private boolean deletedFile;
+	private Boolean deletedFile;
 	private String diff;
-	private boolean newFile;
+	private Boolean newFile;
 	private String newPath;
 	private String oldPath;
-	private boolean renamedFile;
+	private Boolean renamedFile;
 
+	@JsonProperty("a_mode")
 	public String getAMode () {
-		return this.aMode;
+		return this.a_mode;
 	}
 
 	public void setAMode (String aMode) {
-		this.aMode = aMode;
+		this.a_mode = aMode;
 	}
 
+	@JsonProperty("b_mode")
 	public String getBMode () {
-		return this.bMode;
+		return this.b_mode;
 	}
 
 	public void setBMode (String bMode) {
-		this.bMode = bMode;
+		this.b_mode = bMode;
 	}
 
-	public boolean getDeletedFile () {
+	public Boolean getDeletedFile () {
 		return this.deletedFile;
 	}
 
-	public void setDeletedFile (boolean deletedFile) {
+	public void setDeletedFile (Boolean deletedFile) {
 		this.deletedFile = deletedFile;
 	}
 
@@ -56,11 +62,11 @@ public class Diff {
 		this.diff = diff;
 	}
 
-	public boolean getNewFile () {
+	public Boolean getNewFile () {
 		return this.newFile;
 	}
 
-	public void setNewFile (boolean newFile) {
+	public void setNewFile (Boolean newFile) {
 		this.newFile = newFile;
 	}
 
@@ -80,11 +86,11 @@ public class Diff {
 		this.oldPath = oldPath;
 	}
 
-	public boolean getRenamedFile () {
+	public Boolean getRenamedFile () {
 		return this.renamedFile;
 	}
 
-	public void setRenamedFile (boolean renamedFile) {
+	public void setRenamedFile (Boolean renamedFile) {
 		this.renamedFile = renamedFile;
 	}
 }

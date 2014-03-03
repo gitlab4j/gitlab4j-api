@@ -15,9 +15,9 @@
         "name": "Jack Smith",
         "email": "jack@example.com"
       },
-      "authored_date": "2012-05-28T04:42:42-07:00",
-      "committed_date": "2012-05-28T04:42:42-07:00"
+      "authored_date": "2012-05-28T11:42:42Z",
+      "committed_date": "2012-05-28T11:42:42Z"
     },
-    "protected": null
+    "protected": false
 }
 
