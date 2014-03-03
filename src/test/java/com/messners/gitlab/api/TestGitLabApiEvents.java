@@ -5,9 +5,11 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -16,7 +18,7 @@ import com.messners.gitlab.api.webhook.PushEvent;
 
 public class TestGitLabApiEvents {
 	
-	private static JacksonJson jacksonJsonConfig;
+	private static JacksonJson jacksonJson;
 	
 	public TestGitLabApiEvents () {
 		super();
@@ -24,7 +26,7 @@ public class TestGitLabApiEvents {
 	
 	@BeforeClass
 	public static void setup () {
-		jacksonJsonConfig = new JacksonJson();
+		jacksonJson = new JacksonJson();
 	}
 	
 	@Test
@@ -32,7 +34,7 @@ public class TestGitLabApiEvents {
 
 		 try {
 			 EventObject issueEvent = makeFakeApiCall(EventObject.class, "issue-event");
-			 assertTrue(issueEvent != null);			
+			 assertTrue(compareJson(issueEvent, "issue-event"));
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
@@ -43,7 +45,7 @@ public class TestGitLabApiEvents {
 
 		 try {
 			 EventObject mergeRequestEvent = makeFakeApiCall(EventObject.class, "merge-request-event");
-			 assertTrue(mergeRequestEvent != null);			
+			 assertTrue(compareJson(mergeRequestEvent, "merge-request-event"));
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
@@ -54,7 +56,7 @@ public class TestGitLabApiEvents {
 
 		 try {
 			 PushEvent pushEvent = makeFakeApiCall(PushEvent.class, "push-event");
-			 assertTrue(pushEvent != null);			
+			 assertTrue(compareJson(pushEvent, "push-event"));	
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
@@ -63,7 +65,17 @@ public class TestGitLabApiEvents {
 	private <T> T makeFakeApiCall (Class<T> returnType, String file) throws JsonParseException, JsonMappingException, IOException {
 			
 		InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(file + ".json"));
-		ObjectMapper objectMapper = jacksonJsonConfig.getContext(returnType);
+		ObjectMapper objectMapper = jacksonJson.getContext(returnType);
 		return (objectMapper.readValue(reader,  returnType));	
+	}
+	
+	private <T> boolean compareJson (T apiObject, String file) throws IOException, JSONException {
+		
+		InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(file + ".json"));
+		String objectJson = jacksonJson.marshal(apiObject);
+		JsonNode tree1 = jacksonJson.getObjectMapper().readTree(objectJson.getBytes());
+		JsonNode tree2 = jacksonJson.getObjectMapper().readTree(reader);
+		boolean sameJson = tree1.equals(tree2);
+		return (sameJson);
 	}
 }

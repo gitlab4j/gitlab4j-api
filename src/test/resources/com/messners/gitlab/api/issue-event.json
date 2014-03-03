@@ -9,9 +9,7 @@
     "created_at":"2013-12-03T17:15:43Z",
     "updated_at":"2013-12-03T17:15:43Z",
     "position":0,
-    "branch_name":null,
     "description":"Create new API for manipulations with repository",
-    "milestone_id":null,
     "state":"opened",
     "iid":23
   }
