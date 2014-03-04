@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.messners</groupId>
@@ -7,28 +8,28 @@
 	<packaging>jar</packaging>
 	<version>1.0.4-SNAPSHOT</version>
 	<name>gitlab-api</name>
-	
+
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
 
-    <licenses>
-        <license>
-            <name>The MIT License (MIT)</name>
-            <url>http://opensource.org/licenses/MIT</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>	
-    
-    <developers>
-        <developer>
-            <id>gmessner</id>
-            <name>Greg Messner</name>
-            <email>greg@messners.com</email>
-        </developer>
-    </developers>
+	<licenses>
+		<license>
+			<name>The MIT License (MIT)</name>
+			<url>http://opensource.org/licenses/MIT</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>gmessner</id>
+			<name>Greg Messner</name>
+			<email>greg@messners.com</email>
+		</developer>
+	</developers>
 
 	<properties>
 		<jdk.version>1.6</jdk.version>
@@ -37,13 +38,13 @@
 		<junit.version>4.9</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<scm>
 		<url>git@github.com:gmessner/gitlab-api.git</url>
-  		<connection>scm:git:git@github.com:gmessner/gitlab-api.git</connection>
-  		<developerConnection>scm:git:git@github.com:gmessner/gitlab-api.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
+		<connection>scm:git:git@github.com:gmessner/gitlab-api.git</connection>
+		<developerConnection>scm:git:git@github.com:gmessner/gitlab-api.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 
 	<build>
 		<defaultGoal>package</defaultGoal>
@@ -63,14 +64,14 @@
 					</checkModificationExcludes>
 				</configuration>
 			</plugin>
-			
-	        <plugin>
-    	        <artifactId>maven-scm-plugin</artifactId>
-        	    <version>1.9</version>
-            	<configuration>
-                	<tag>${project.artifactId}-${project.version}</tag>
-            	</configuration>
-        	</plugin>
+
+			<plugin>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.9</version>
+				<configuration>
+					<tag>${project.artifactId}-${project.version}</tag>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -83,35 +84,35 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<profiles>
-	    <profile>
-	        <id>release-sign-artifacts</id>
-	        <activation>
-	            <property>
-	                <name>performRelease</name>
-	                <value>true</value>
-	            </property>
-	        </activation>
-	        <build>
-	            <plugins>
-	                <plugin>
-	                    <groupId>org.apache.maven.plugins</groupId>
-	                    <artifactId>maven-gpg-plugin</artifactId>
-	                    <version>1.4</version>
-	                    <executions>
-	                        <execution>
-	                            <id>sign-artifacts</id>
-	                            <phase>verify</phase>
-	                            <goals>
-	                                <goal>sign</goal>
-	                            </goals>
-	                        </execution>
-	                    </executions>
-	                </plugin>
-	            </plugins>
-	        </build>
-	    </profile>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<dependencies>
@@ -120,22 +121,22 @@
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-        <dependency>
-        	<groupId>com.sun.jersey</groupId>
-        	<artifactId>jersey-client</artifactId>
-        	<version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-        	<groupId>com.sun.jersey</groupId>
-        	<artifactId>jersey-json</artifactId>
-        	<version>${jersey.version}</version>
-        </dependency>
-       	<dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-   	</dependencies>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 </project>
