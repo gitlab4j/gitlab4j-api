@@ -10,6 +10,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Member {
+	
+	public static final int GUEST_LEVEL     = 10;
+	public static final int REPORTER_LEVEL  = 20;
+	public static final int	DEVELOPER_LEVEL = 30;
+	public static final int	MASTER_LEVEL    = 40;
+	public static final int	OWNER_LEVEL     = 50;
 
 	private Integer accessLevel;
 	private Date createdAt;

@@ -1,6 +1,8 @@
 
 package com.messners.gitlab.api.models;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -13,6 +15,7 @@ public class Group {
 	private String name;
 	private Integer ownerId;
 	private String path;
+	private List<Project> projects;
 
 	public Integer getId () {
 		return this.id;
@@ -44,5 +47,13 @@ public class Group {
 
 	public void setPath (String path) {
 		this.path = path;
+	}
+	
+	public List<Project> getProjects () {
+		return (projects);
+	}
+	
+	public void setProjects (List<Project> projects) {
+		this.projects = projects;
 	}
 }
