@@ -11,7 +11,7 @@ public class Branch {
 
 	private Commit commit;
 	private String name;
-	private boolean isProtected;
+	private Boolean isProtected;
 
 	public Commit getCommit () {
 		return this.commit;
@@ -29,11 +29,11 @@ public class Branch {
 		this.name = name;
 	}
 
-	public boolean getProtected () {
+	public Boolean getProtected () {
 		return this.isProtected;
 	}
 
-	public void setProtected (boolean isProtected) {
+	public void setProtected (Boolean isProtected) {
 		this.isProtected = isProtected;
 	}
 }

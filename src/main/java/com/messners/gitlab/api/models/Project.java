@@ -17,22 +17,22 @@ public class Project {
 	private String description;
 	private String httpUrlToRepo;
 	private Integer id;
-	private boolean issuesEnabled;
+	private Boolean issuesEnabled;
 	private Date lastActivityAt;
-	private boolean mergeRequestsEnabled;
+	private Boolean mergeRequestsEnabled;
 	private String name;
 	private String nameWithNamespace;
 	private Namespace namespace;
 	private Owner owner;
 	private String path;
 	private String pathWithNamespace;
-	private boolean isPublic;
-	private boolean snippetsEnabled;
+	private Boolean isPublic;
+	private Boolean snippetsEnabled;
 	private String sshUrlToRepo;
 	private Integer visibilityLevel;
-	private boolean wallEnabled;
+	private Boolean wallEnabled;
 	private String webUrl;
-	private boolean wikiEnabled;
+	private Boolean wikiEnabled;
 
 	public Date getCreatedAt () {
 		return this.createdAt;
@@ -74,11 +74,11 @@ public class Project {
 		this.id = id;
 	}
 
-	public boolean getIssuesEnabled () {
+	public Boolean getIssuesEnabled () {
 		return this.issuesEnabled;
 	}
 
-	public void setIssuesEnabled (boolean issuesEnabled) {
+	public void setIssuesEnabled (Boolean issuesEnabled) {
 		this.issuesEnabled = issuesEnabled;
 	}
 
@@ -90,11 +90,11 @@ public class Project {
 		this.lastActivityAt = lastActivityAt;
 	}
 
-	public boolean getMergeRequestsEnabled () {
+	public Boolean getMergeRequestsEnabled () {
 		return this.mergeRequestsEnabled;
 	}
 
-	public void setMergeRequestsEnabled (boolean mergeRequestsEnabled) {
+	public void setMergeRequestsEnabled (Boolean mergeRequestsEnabled) {
 		this.mergeRequestsEnabled = mergeRequestsEnabled;
 	}
 
@@ -146,19 +146,19 @@ public class Project {
 		this.pathWithNamespace = pathWithNamespace;
 	}
 
-	public boolean getPublic () {
+	public Boolean getPublic () {
 		return this.isPublic;
 	}
 
-	public void setPublic (boolean isPublic) {
+	public void setPublic (Boolean isPublic) {
 		this.isPublic = isPublic;
 	}
 
-	public boolean getSnippetsEnabled () {
+	public Boolean getSnippetsEnabled () {
 		return this.snippetsEnabled;
 	}
 
-	public void setSnippetsEnabled (boolean snippetsEnabled) {
+	public void setSnippetsEnabled (Boolean snippetsEnabled) {
 		this.snippetsEnabled = snippetsEnabled;
 	}
 
@@ -178,11 +178,11 @@ public class Project {
 		this.visibilityLevel = visibilityLevel;
 	}
 
-	public boolean getWallEnabled () {
+	public Boolean getWallEnabled () {
 		return this.wallEnabled;
 	}
 
-	public void setWallEnabled (boolean wallEnabled) {
+	public void setWallEnabled (Boolean wallEnabled) {
 		this.wallEnabled = wallEnabled;
 	}
 
@@ -194,11 +194,11 @@ public class Project {
 		this.webUrl = webUrl;
 	}
 
-	public boolean getWikiEnabled () {
+	public Boolean getWikiEnabled () {
 		return this.wikiEnabled;
 	}
 
-	public void setWikiEnabled (boolean wikiEnabled) {
+	public void setWikiEnabled (Boolean wikiEnabled) {
 		this.wikiEnabled = wikiEnabled;
 	}
 }

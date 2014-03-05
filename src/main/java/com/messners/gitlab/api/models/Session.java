@@ -11,15 +11,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Session {
 
 	private String bio;
-	private boolean blocked;
-	private boolean canCreateGroup;
-	private boolean canCreateProject;
-	private boolean canCreateTeam;
+	private Boolean blocked;
+	private Boolean canCreateGroup;
+	private Boolean canCreateProject;
+	private Boolean canCreateTeam;
 	private Date createdAt;
-	private boolean darkScheme;
+	private Boolean darkScheme;
 	private String email;
 	private Integer id;
-	private boolean isAdmin;
+	private Boolean isAdmin;
 	private String linkedin;
 	private String name;
 	private String privateToken;
@@ -37,35 +37,35 @@ public class Session {
 		this.bio = bio;
 	}
 
-	public boolean getBlocked () {
+	public Boolean getBlocked () {
 		return this.blocked;
 	}
 
-	public void setBlocked (boolean blocked) {
+	public void setBlocked (Boolean blocked) {
 		this.blocked = blocked;
 	}
 
-	public boolean getCanCreateGroup () {
+	public Boolean getCanCreateGroup () {
 		return this.canCreateGroup;
 	}
 
-	public void setCanCreateGroup (boolean canCreateGroup) {
+	public void setCanCreateGroup (Boolean canCreateGroup) {
 		this.canCreateGroup = canCreateGroup;
 	}
 
-	public boolean getCanCreateProject () {
+	public Boolean getCanCreateProject () {
 		return this.canCreateProject;
 	}
 
-	public void setCanCreateProject (boolean canCreateProject) {
+	public void setCanCreateProject (Boolean canCreateProject) {
 		this.canCreateProject = canCreateProject;
 	}
 
-	public boolean getCanCreateTeam () {
+	public Boolean getCanCreateTeam () {
 		return this.canCreateTeam;
 	}
 
-	public void setCanCreateTeam (boolean canCreateTeam) {
+	public void setCanCreateTeam (Boolean canCreateTeam) {
 		this.canCreateTeam = canCreateTeam;
 	}
 
@@ -77,11 +77,11 @@ public class Session {
 		this.createdAt = createdAt;
 	}
 
-	public boolean getDarkScheme () {
+	public Boolean getDarkScheme () {
 		return this.darkScheme;
 	}
 
-	public void setDarkScheme (boolean darkScheme) {
+	public void setDarkScheme (Boolean darkScheme) {
 		this.darkScheme = darkScheme;
 	}
 
@@ -101,11 +101,11 @@ public class Session {
 		this.id = id;
 	}
 
-	public boolean getIsAdmin () {
+	public Boolean getIsAdmin () {
 		return this.isAdmin;
 	}
 
-	public void setIsAdmin (boolean isAdmin) {
+	public void setIsAdmin (Boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 
