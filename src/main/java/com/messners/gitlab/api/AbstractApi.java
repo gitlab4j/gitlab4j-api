@@ -120,5 +120,32 @@ public abstract class AbstractApi {
 			throws UniformInterfaceException, ClientHandlerException {
 		
 		return (getApiClient().delete(queryParams, url));
-	}	
+	}
+	
+	
+	/**
+	 * 
+	 * @param formData
+	 * @param string
+	 * @param email
+	 * @param required
+	 */
+	protected void addFormParam(Form formData, String name, Object value, boolean required) throws IllegalArgumentException {
+		
+			if (value == null) {
+				
+				if (required) {
+					throw new IllegalArgumentException(name + " cannot be empty or null");
+				}
+				
+				return;
+			}
+			
+			String stringValue = value.toString().trim();
+			if (required && stringValue.length() == 0) {
+				throw new IllegalArgumentException(name + " cannot be empty or null");
+			}
+			
+			formData.add(name, stringValue);		
+	}
 }

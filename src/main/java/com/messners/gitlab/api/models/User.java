@@ -11,13 +11,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class User {
 
 	private String bio;
-	private boolean canCreateGroup;
+	private Boolean canCreateGroup;
 	private Integer colorSchemeId;
 	private Date createdAt;
 	private String email;
 	private String externUid;
 	private Integer id;
-	private boolean isAdmin;
+	private Boolean isAdmin;
 	private String linkedin;
 	private String name;
 	private String provider;
