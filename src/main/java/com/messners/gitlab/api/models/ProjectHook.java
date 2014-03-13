@@ -12,7 +12,7 @@ public class ProjectHook {
 	private String createdAt;
 	private Integer id;
 	private Boolean issuesEvents;
-	private Boolean mergeRequestEvents;
+	private Boolean mergeRequestsEvents;
 	private Integer projectId;
 	private Boolean pushEvents;
 	private String url;
@@ -41,12 +41,12 @@ public class ProjectHook {
 		this.issuesEvents = issuesEvents;
 	}
 
-	public Boolean getMergeRequestEvents() {
-		return this.mergeRequestEvents;
+	public Boolean getMergeRequestsEvents() {
+		return this.mergeRequestsEvents;
 	}
 
-	public void setMergeRequestEvents(Boolean mergeRequestEvents) {
-		this.mergeRequestEvents = mergeRequestEvents;
+	public void setMergeRequestsEvents(Boolean mergeRequestsEvents) {
+		this.mergeRequestsEvents = mergeRequestsEvents;
 	}
 
 	public Integer getProjectId() {
