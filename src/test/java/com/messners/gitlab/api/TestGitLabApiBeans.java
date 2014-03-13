@@ -26,6 +26,7 @@ import com.messners.gitlab.api.models.MergeRequestComment;
 import com.messners.gitlab.api.models.Milestone;
 import com.messners.gitlab.api.models.Note;
 import com.messners.gitlab.api.models.Project;
+import com.messners.gitlab.api.models.ProjectHook;
 import com.messners.gitlab.api.models.ProjectSnippet;
 import com.messners.gitlab.api.models.Session;
 import com.messners.gitlab.api.models.SystemHook;
@@ -96,6 +97,17 @@ public class TestGitLabApiBeans {
 		 try {
 			 Issue issue = makeFakeApiCall(Issue.class, "issue");
 			 assertTrue(compareJson(issue, "issue"));
+		} catch (Exception e) {
+			e.printStackTrace();			
+		}
+	}
+	
+	@Test
+	public void testProjectHook () {
+			
+		 try {
+			 ProjectHook hook = makeFakeApiCall(ProjectHook.class, "hook");
+			 assertTrue(compareJson(hook, "hook"));
 		} catch (Exception e) {
 			e.printStackTrace();			
 		}
