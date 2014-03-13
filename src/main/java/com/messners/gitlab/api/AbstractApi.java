@@ -89,6 +89,41 @@ public abstract class AbstractApi {
 	}
 	
 	
+	
+	/**
+	 * Perform an HTTP PUT call with the specified form data and path objects, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 * 
+	 * @param queryParams
+	 * @param pathArgs
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 * @throws IOException
+	 */
+	protected  ClientResponse put (MultivaluedMap<String, String> queryParams, Object ... pathArgs)
+			throws UniformInterfaceException, ClientHandlerException, IOException {
+		return (getApiClient().put(queryParams, pathArgs));	
+	}	
+	
+	
+	/**
+	 * Perform an HTTP PUT call with the specified form data and URL, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 *  
+	 * @param queryParams
+	 * @param url
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 */
+	protected ClientResponse put (MultivaluedMap<String, String> queryParams, URL url) 
+			throws UniformInterfaceException, ClientHandlerException {		
+		return (getApiClient().put(queryParams, url));
+	}
+	
+	
+	
 	/**
 	 * Perform an HTTP DELETE call with the specified form data and path objects, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
@@ -117,8 +152,7 @@ public abstract class AbstractApi {
 	 * @throws ClientHandlerException
 	 */
 	protected ClientResponse delete (MultivaluedMap<String, String> queryParams, URL url) 
-			throws UniformInterfaceException, ClientHandlerException {
-		
+			throws UniformInterfaceException, ClientHandlerException {		
 		return (getApiClient().delete(queryParams, url));
 	}
 	

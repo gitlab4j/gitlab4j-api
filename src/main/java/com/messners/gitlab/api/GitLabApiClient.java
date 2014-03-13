@@ -280,6 +280,52 @@ public class GitLabApiClient {
 	
 	
 	/**
+	 * Perform an HTTP PUT call with the specified form data and path objects, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 * 
+	 * @param queryParams
+	 * @param pathArgs
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 * @throws IOException
+	 */
+	protected  ClientResponse put (MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
+			throws UniformInterfaceException, ClientHandlerException, IOException {		
+		URL url = getApiUrl(pathArgs);
+		return (put(queryParams, url));	
+	}	
+	
+	
+	/**
+	 * Perform an HTTP PUT call with the specified form data and URL, returning 
+	 * a ClientResponse instance with the data returned from the endpoint.
+	 *  
+	 * @param queryParams
+	 * @param url
+	 * @return a ClientResponse instance with the data returned from the endpoint
+	 * @throws UniformInterfaceException
+	 * @throws ClientHandlerException
+	 */
+	protected ClientResponse put (MultivaluedMap<String, String> queryParams, URL url) 
+			throws UniformInterfaceException, ClientHandlerException {
+		
+		if (apiClient == null) {
+			apiClient = Client.create(clientConfig);
+		}
+		
+		WebResource resource = apiClient.resource(url.toString());
+		if (queryParams != null) {
+			resource.queryParams(queryParams);
+		}
+		
+		return (resource.header(PRIVATE_TOKEN_HEADER, privateToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.put(ClientResponse.class));
+	}	
+	
+	
+	/**
 	 * Perform an HTTP DELETE call with the specified form data and path objects, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
 	 * 
