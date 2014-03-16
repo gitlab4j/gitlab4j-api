@@ -52,7 +52,11 @@ public class TestGitLabApiBeans {
 
 		 try {
 			 Branch branch = makeFakeApiCall(Branch.class, "branch");
-			 assertTrue(compareJson(branch, "branch"));			
+			 assertTrue(compareJson(branch, "branch"));
+			 
+			 branch = makeFakeApiCall(Branch.class, "bad-branch");
+			 assertTrue(!Branch.isValid(branch));
+			 
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
