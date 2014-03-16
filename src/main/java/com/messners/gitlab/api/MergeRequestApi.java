@@ -1,11 +1,11 @@
 package com.messners.gitlab.api;
 
-import java.io.IOException;
+import java.util.List;
 
-import com.messners.gitlab.api.models.ErrorMessage;
 import com.messners.gitlab.api.models.MergeRequest;
 import com.messners.gitlab.api.models.MergeRequestComment;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.representation.Form;
 
 public class MergeRequestApi extends AbstractApi {
@@ -13,31 +13,43 @@ public class MergeRequestApi extends AbstractApi {
 	MergeRequestApi (GitLabApi gitLabApi) {
 		super(gitLabApi);
 	}
-
+	
 	
 	/**
-	 * POST /projects/:id/merge_request/:merge_request_id/comments
+	 * Get all merge requests for this project.
+	 *
+	 * GET /projects/:id/merge_requests
+	 * 
+	 * @param projectId
+	 * @return
+	 * @throws GitLabApiException 
+	 */
+	public List<MergeRequest> getMergeRequests (Integer projectId) throws GitLabApiException {		
+		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "merge_requests");
+		return (response.getEntity(new GenericType<List<MergeRequest>>() {}));
+	}
+	
+	
+	/**
+	 * Get information about a single merge request.
+	 * 
+	 * GET /projects/:id/merge_request/:merge_request_id
 	 * 
 	 * @param projectId
 	 * @param mergeRequestId
-	 * @param comments
-	 * @throws IOException
+	 * @return
+	 * @throws GitLabApiException 
 	 */
-	public MergeRequestComment addMergeRequestComment (Integer projectId, Integer mergeRequestId, String comments) throws IOException {
-		
-		Form formData = new Form();
-		formData.add("note", comments);		
-		ClientResponse response = post(formData, "projects", projectId, "merge_request", mergeRequestId, "comments");
-		if (response.getStatus() != ClientResponse.Status.CREATED.getStatusCode()) {
-			ErrorMessage errorMessage = response.getEntity(ErrorMessage.class);
-			throw new IOException(errorMessage.getMessage());
-		}
-		
-		return (response.getEntity(MergeRequestComment.class));
+	public MergeRequest getMergeRequest (Integer projectId, Integer mergeRequestId) throws GitLabApiException {		
+		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "merge_request", mergeRequestId);
+		return (response.getEntity(MergeRequest.class));
 	}
 
+
 	/**
-	 * Creates a merge request and optionally assignes it.
+	 * Creates a merge request and optionally assigns a reviewer to it.
+	 * 
+	 * POST /projects/:id/merge_requests
 	 * 
 	 * @param projectId the ID of a project, required
 	 * @param sourceBranch the source branch, required
@@ -46,43 +58,80 @@ public class MergeRequestApi extends AbstractApi {
 	 * @param description the description of the merge request
 	 * @param assigneeId the Assignee user ID, optional
 	 * @return the created MergeRequest instance
-	 * @throws IOException 
+	 * @throws GitLabApiException 
 	 */
 	public MergeRequest createMergeRequest (Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId) 
-			throws IOException {
+			throws GitLabApiException {
 		
-		/*
-		 * Parameters:
-		 *  id (required) - The ID of a project
-		 *	source_branch (required) - The source branch
-		 *	target_branch (required) - The target branch
-		 *	assignee_id (optional) - Assignee user ID
-		 *	title (required) - Title of MR	
-		 */
 		if (projectId == null) {
 			throw new RuntimeException("projectId cannot be null");
 		}
 		
 		Form formData = new Form();
-		formData.add("source_branch", sourceBranch);		
-		formData.add("target_branch", targetBranch);
-		formData.add("title", title);
+		addFormParam(formData, "source_branch", sourceBranch, true);		
+		addFormParam(formData, "target_branch", targetBranch, true);
+		addFormParam(formData, "title",         title,        true);
+		addFormParam(formData, "description",   description,  false);
+		addFormParam(formData, "assignee_id",   assigneeId,   false);
 		
-		if (description != null) {
-			formData.add("description", description);
-		}
-		
-		if (assigneeId != null) {
-			formData.add("assignee_id", assigneeId);
-		}
-		
-		ClientResponse response = post(formData, "projects", projectId, "merge_requests");
-		if (response.getStatus() != ClientResponse.Status.CREATED.getStatusCode()) {
-			ErrorMessage errorMessage = response.getEntity(ErrorMessage.class);
-			throw new IOException(errorMessage.getMessage());
-		}
-		
+		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "projects", projectId, "merge_requests");
 		return (response.getEntity(MergeRequest.class));
 	}
-
+	
+	
+	/**
+	 * Updates an existing merge request. You can change branches, title, or even close the MR.
+	 * 
+	 * PUT /projects/:id/merge_request/:merge_request_id
+	 * 
+	 * @param projectId
+	 * @param mergeRequestId
+	 * @param sourceBranch
+	 * @param targetBranch
+	 * @param title
+	 * @param description
+	 * @param assigneeId
+	 * @return
+	 * @throws GitLabApiException 
+	 */
+	public MergeRequest updateMergeRequest (Integer projectId, Integer mergeRequestId, 
+			String sourceBranch, String targetBranch, String title, String description, Integer assigneeId) throws GitLabApiException {
+		
+		if (projectId == null) {
+			throw new RuntimeException("mergeRequestId cannot be null");
+		}
+		
+		if (mergeRequestId == null) {
+			throw new RuntimeException("projectId cannot be null");
+		}
+		
+		Form formData = new Form();
+		addFormParam(formData, "source_branch", sourceBranch, false);		
+		addFormParam(formData, "target_branch", targetBranch, false);
+		addFormParam(formData, "title",         title,        false);
+		addFormParam(formData, "description",   description,  false);
+		addFormParam(formData, "assignee_id",   assigneeId,   false);
+		
+		ClientResponse response = put(ClientResponse.Status.OK, formData, "projects", projectId, "merge_request", mergeRequestId);
+		return (response.getEntity(MergeRequest.class));		
+	}
+	
+	
+	/**
+	 * Adds a comment to a merge request.
+	 * 
+	 * POST /projects/:id/merge_request/:merge_request_id/comments
+	 * 
+	 * @param projectId
+	 * @param mergeRequestId
+	 * @param comments
+	 * @throws GitLabApiException 
+	 */
+	public MergeRequestComment addMergeRequestComment (Integer projectId, Integer mergeRequestId, String comments) throws GitLabApiException {
+		
+		Form formData = new Form();
+		formData.add("note", comments);		
+		ClientResponse response = post(ClientResponse.Status.OK, formData, "projects", projectId, "merge_request", mergeRequestId, "comments");
+		return (response.getEntity(MergeRequestComment.class));
+	}
 }

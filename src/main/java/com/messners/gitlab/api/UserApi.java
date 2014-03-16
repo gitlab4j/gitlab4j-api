@@ -1,9 +1,7 @@
 package com.messners.gitlab.api;
 
-import java.io.IOException;
 import java.util.List;
 
-import com.messners.gitlab.api.models.ErrorMessage;
 import com.messners.gitlab.api.models.User;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
@@ -17,31 +15,37 @@ public class UserApi extends AbstractApi {
 	
 
 	/**
+	 * Get a list of users. 
+	 * 
 	 * GET /users
 	 * 
 	 * @return
-	 * @throws IOException
+	 * @throws GitLabApiException 
 	 */
-	public List<User> getProjects () throws IOException {	
-		 ClientResponse response = get(null, "users");
-		 return (response.getEntity(new GenericType<List<User>>() {}));
+	public List<User> getProjects () throws GitLabApiException {		
+		ClientResponse response = get(ClientResponse.Status.OK, null, "users");
+		return (response.getEntity(new GenericType<List<User>>() {}));
 	}
 	
 	
 	/**
+	 * Get a single user.
+	 * 
 	 * GET /users/:id
 	 * 
 	 * @param userId
 	 * @return
-	 * @throws IOException
+	 * @throws GitLabApiException 
 	 */
-	public User getUser (int userId) throws IOException {
-		ClientResponse response = get(null, "users", userId);
+	public User getUser (int userId) throws GitLabApiException {		
+		ClientResponse response = get(ClientResponse.Status.OK, null, "users", userId);
 		return (response.getEntity(User.class));
 	}
 	
 	
 	/**
+	 * Creates a new user. Note only administrators can create new users.
+	 * 
 	 * POST /users
 	 * 
 	 * email (required) - Email
@@ -61,9 +65,9 @@ public class UserApi extends AbstractApi {
 	 * 
 	 * @param user
 	 * @return
-	 * @throws IOException
+	 * @throws GitLabApiException 
 	 */
-	public User createUser (User user, String password, Integer projectsLimit) throws IOException {
+	public User createUser (User user, String password, Integer projectsLimit) throws GitLabApiException {
 		
 		Form formData = new Form();
 		addFormParam(formData, "email", user.getEmail(), true);
@@ -81,18 +85,15 @@ public class UserApi extends AbstractApi {
 		addFormParam(formData, "admin", user.getIsAdmin(), false);
 		addFormParam(formData, "can_create_group", user.getCanCreateGroup(), false);		
 	
-		ClientResponse response = post(formData, "users");
-		if (response.getStatus() != ClientResponse.Status.CREATED.getStatusCode()) {
-			ErrorMessage errorMessage = response.getEntity(ErrorMessage.class);
-			throw new RuntimeException(errorMessage.getMessage());
-		}
-		
+		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "users");
 		return (response.getEntity(User.class));
 	}
 	
 	
 	/**
-	 * POST /users
+	 * Modifies an existing user. Only administrators can change attributes of a user.
+	 * 
+	 * PUT /users/:id
 	 * 
 	 * email (required) - Email
 	 * password (required) - Password
@@ -111,9 +112,9 @@ public class UserApi extends AbstractApi {
 	 * 
 	 * @param user
 	 * @return
-	 * @throws IOException
+	 * @throws GitLabApiException 
 	 */
-	public User modifyUser (User user, String password, Integer projectsLimit) throws IOException {
+	public User modifyUser (User user, String password, Integer projectsLimit) throws GitLabApiException {
 		
 		Form formData = new Form();
 		addFormParam(formData, "email", user.getEmail(), false);
@@ -131,33 +132,38 @@ public class UserApi extends AbstractApi {
 		addFormParam(formData, "admin", user.getIsAdmin(), false);
 		addFormParam(formData, "can_create_group", user.getCanCreateGroup(), false);		
 	
-		ClientResponse response = put(formData, "users", user.getId());
+		ClientResponse response = put(ClientResponse.Status.OK, formData, "users", user.getId());
 		return (response.getEntity(User.class));
 	}	
 	
 	
 	/**
+	 * Deletes a user. Available only for administrators. 
+	 * 
 	 * DELETE /users/:id
 	 * 
 	 * @param userId
+	 * @throws GitLabApiException 
 	 */
-	public boolean deleteUser (Integer userId) throws IOException {
+	public void deleteUser (Integer userId) throws GitLabApiException {
 		
 		if (userId == null) {
 			throw new RuntimeException("userId cannot be null");
 		}
 		
-		ClientResponse response = delete(null, "users", userId);
-		return (response.getStatus() == ClientResponse.Status.OK.getStatusCode());		
+		delete(ClientResponse.Status.OK, null, "users", userId);	
 	}
 
 
 	/**
+	 * Deletes a user. Available only for administrators. 
+	 * 
 	 * DELETE /users/:id
 	 * 
 	 * @param user
+	 * @throws GitLabApiException 
 	 */
-	public boolean deleteUser (User user)  throws IOException {
-		return (deleteUser(user.getId()));
+	public void deleteUser (User user)  throws GitLabApiException {
+		deleteUser(user.getId());
 	}
 }

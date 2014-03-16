@@ -1,13 +1,10 @@
 package com.messners.gitlab.api;
 
-import java.io.IOException;
 import java.net.URL;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.representation.Form;
 
 public abstract class AbstractApi {
@@ -28,16 +25,27 @@ public abstract class AbstractApi {
 	 * Perform an HTTP GET call with the specified query parameters and path objects, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
 	 * 
+	 * @param expectedStatus the HTTP status that should be returned from the server
 	 * @param queryParams
 	 * @param pathArgs
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
-	 * @throws IOException
+	 * @throws GitLabApiException
 	 */
-	protected  ClientResponse get (MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
-			throws UniformInterfaceException, ClientHandlerException, IOException {		
-		return (getApiClient().get(queryParams, pathArgs));	
+	protected  ClientResponse get (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
+			throws GitLabApiException {	
+		
+		try {
+			
+			ClientResponse response = getApiClient().get(queryParams, pathArgs);
+			if (response.getStatus() != expectedStatus.getStatusCode()) {
+				throw (new GitLabApiException(response));			
+			}
+			
+			return (response);
+			
+		} catch (Exception e) {
+			throw (new GitLabApiException(e));
+		}
 	}	
 	
 	
@@ -45,15 +53,27 @@ public abstract class AbstractApi {
 	 * Perform an HTTP GET call with the specified query parameters and URL, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
 	 * 
+	 * @param expectedStatus the HTTP status that should be returned from the server
 	 * @param queryParams
 	 * @param url
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
+	 * @throws GitLabApiException
 	 */
-	protected ClientResponse get (MultivaluedMap<String, String> queryParams, URL url) 
-			throws UniformInterfaceException, ClientHandlerException {		
-		return (getApiClient().get(queryParams, url));	
+	protected ClientResponse get (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) 
+			throws GitLabApiException {		
+		
+		try {
+			
+			ClientResponse response = getApiClient().get(queryParams, url);	
+			if (response.getStatus() != expectedStatus.getStatusCode()) {
+				throw (new GitLabApiException(response));			
+			}
+			
+			return (response);
+			
+		} catch (Exception e) {
+			throw (new GitLabApiException(e));
+		}				
 	}		
 	
 	
@@ -61,16 +81,26 @@ public abstract class AbstractApi {
 	 * Perform an HTTP POST call with the specified form data and path objects, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
 	 * 
+	 * @param expectedStatus the HTTP status that should be returned from the server
 	 * @param formData
 	 * @param pathArgs
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
-	 * @throws IOException
+	 * @throws GitLabApiException
 	 */
-	protected ClientResponse post (Form formData, Object ... pathArgs) 
-			throws UniformInterfaceException, ClientHandlerException, IOException {		
-		return (getApiClient().post(formData, pathArgs));		
+	protected ClientResponse post (ClientResponse.Status expectedStatus, Form formData, Object ... pathArgs) throws GitLabApiException {
+		
+		try {
+			
+			ClientResponse response = getApiClient().post(formData, pathArgs);
+			if (response.getStatus() != expectedStatus.getStatusCode()) {
+				throw (new GitLabApiException(response));			
+			}
+			
+			return (response);
+			
+		} catch (Exception e) {
+			throw (new GitLabApiException(e));
+		}				
 	}
 	
 	
@@ -78,14 +108,26 @@ public abstract class AbstractApi {
 	 * Perform an HTTP POST call with the specified form data and URL, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
 	 * 
+	 * @param expectedStatus the HTTP status that should be returned from the server
 	 * @param formData
 	 * @param url
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
+	 * @throws GitLabApiException
 	 */
-	protected ClientResponse post (Form formData, URL url) throws UniformInterfaceException, ClientHandlerException {
-		return (getApiClient().post(formData, url));		
+	protected ClientResponse post (ClientResponse.Status expectedStatus, Form formData, URL url) throws GitLabApiException {
+		
+		try {
+			
+			ClientResponse response = getApiClient().post(formData, url);
+			if (response.getStatus() != expectedStatus.getStatusCode()) {
+				throw (new GitLabApiException(response));			
+			}
+			
+			return (response);
+			
+		} catch (Exception e) {
+			throw (new GitLabApiException(e));
+		}
 	}
 	
 	
@@ -94,16 +136,26 @@ public abstract class AbstractApi {
 	 * Perform an HTTP PUT call with the specified form data and path objects, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
 	 * 
+	 * @param expectedStatus the HTTP status that should be returned from the server
 	 * @param queryParams
 	 * @param pathArgs
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
-	 * @throws IOException
+	 * @throws GitLabApiException
 	 */
-	protected  ClientResponse put (MultivaluedMap<String, String> queryParams, Object ... pathArgs)
-			throws UniformInterfaceException, ClientHandlerException, IOException {
-		return (getApiClient().put(queryParams, pathArgs));	
+	protected  ClientResponse put (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs) throws GitLabApiException {
+		
+		try {
+			
+			ClientResponse response = getApiClient().put(queryParams, pathArgs);	
+			if (response.getStatus() != expectedStatus.getStatusCode()) {
+				throw (new GitLabApiException(response));			
+			}
+			
+			return (response);
+			
+		} catch (Exception e) {
+			throw (new GitLabApiException(e));
+		}		
 	}	
 	
 	
@@ -111,33 +163,54 @@ public abstract class AbstractApi {
 	 * Perform an HTTP PUT call with the specified form data and URL, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
 	 *  
+	 * @param expectedStatus the HTTP status that should be returned from the server
 	 * @param queryParams
 	 * @param url
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
+	 * @throws GitLabApiException
 	 */
-	protected ClientResponse put (MultivaluedMap<String, String> queryParams, URL url) 
-			throws UniformInterfaceException, ClientHandlerException {		
-		return (getApiClient().put(queryParams, url));
-	}
-	
+	protected ClientResponse put (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {	
+		
+		try {
+			
+			ClientResponse response = getApiClient().put(queryParams, url);
+			if (response.getStatus() != expectedStatus.getStatusCode()) {
+				throw (new GitLabApiException(response));			
+			}
+			
+			return (response);
+			
+		} catch (Exception e) {
+			throw (new GitLabApiException(e));
+		}		
+	}	
 	
 	
 	/**
 	 * Perform an HTTP DELETE call with the specified form data and path objects, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
-	 * 
+	 *
+	 * @param expectedStatus the HTTP status that should be returned from the server
 	 * @param queryParams
 	 * @param pathArgs
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
-	 * @throws IOException
+	 * @throws GitLabApiException
 	 */
-	protected  ClientResponse delete (MultivaluedMap<String, String> queryParams, Object ... pathArgs)
-			throws UniformInterfaceException, ClientHandlerException, IOException {
-		return (getApiClient().delete(queryParams, pathArgs));	
+	protected  ClientResponse delete (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs)
+			throws GitLabApiException {
+		
+		try {
+			
+			ClientResponse response = getApiClient().delete(queryParams, pathArgs);
+			if (response.getStatus() != expectedStatus.getStatusCode()) {
+				throw (new GitLabApiException(response));			
+			}
+			
+			return (response);
+			
+		} catch (Exception e) {
+			throw (new GitLabApiException(e));
+		}		
 	}	
 	
 	
@@ -145,15 +218,37 @@ public abstract class AbstractApi {
 	 * Perform an HTTP DELETE call with the specified form data and URL, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
 	 *  
+	 * @param expectedStatus the HTTP status that should be returned from the server
 	 * @param queryParams
 	 * @param url
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
+	 * @throws GitLabApiException
 	 */
-	protected ClientResponse delete (MultivaluedMap<String, String> queryParams, URL url) 
-			throws UniformInterfaceException, ClientHandlerException {		
-		return (getApiClient().delete(queryParams, url));
+	protected ClientResponse delete (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
+		
+		try {
+			
+			ClientResponse response = getApiClient().delete(queryParams, url);
+			if (response.getStatus() != expectedStatus.getStatusCode()) {
+				throw (new GitLabApiException(response));			
+			}
+			
+			return (response);
+			
+		} catch (Exception e) {
+			throw (new GitLabApiException(e));
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * @param formData
+	 * @param string
+	 * @param email
+	 */
+	protected void addFormParam(Form formData, String name, Object value) throws IllegalArgumentException {
+		addFormParam(formData, name, value, false);
 	}
 	
 	

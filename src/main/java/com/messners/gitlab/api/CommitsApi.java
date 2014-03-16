@@ -1,6 +1,5 @@
 package com.messners.gitlab.api;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.messners.gitlab.api.models.Commit;
@@ -19,9 +18,10 @@ public class CommitsApi extends AbstractApi {
 	 * 
 	 * @param branch
 	 * @return
+	 * @throws GitLabApiException 
 	 */
-	public List<Commit> getCommits (int projectId, String branch) throws IOException {		
-		ClientResponse response = get(null, "projects", projectId, "repository", "commits", branch);
+	public List<Commit> getCommits (int projectId, String branch) throws GitLabApiException {		
+		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "repository", "commits", branch);
 		return (response.getEntity(new GenericType<List<Commit>>() {}));		
 	}
 }
