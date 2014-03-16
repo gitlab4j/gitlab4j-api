@@ -107,4 +107,8 @@ public class MergeRequest {
 	public void setUpvotes (Integer upvotes) {
 		this.upvotes = upvotes;
 	}
+	
+	public static final boolean isValid (MergeRequest mergeRequest) {
+		return (mergeRequest != null && mergeRequest.getId() != null);
+	}
 }

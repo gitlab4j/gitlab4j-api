@@ -201,4 +201,8 @@ public class Project {
 	public void setWikiEnabled (Boolean wikiEnabled) {
 		this.wikiEnabled = wikiEnabled;
 	}
+	
+	public static final boolean isValid (Project project) {
+		return (project != null && project.getId() != null);
+	}
 }

@@ -163,4 +163,8 @@ public class User {
 	public void setWebsiteUrl (String websiteUrl) {
 		this.websiteUrl = websiteUrl;
 	}
+	
+	public static final boolean isValid (User user) {
+		return (user != null && user.getId() != null);
+	}
 }

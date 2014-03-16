@@ -36,4 +36,8 @@ public class Branch {
 	public void setProtected (Boolean isProtected) {
 		this.isProtected = isProtected;
 	}
+	
+	public static final boolean isValid (Branch branch) {
+		return (branch != null && branch.getName() != null);
+	}
 }
