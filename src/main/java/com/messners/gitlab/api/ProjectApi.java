@@ -1,5 +1,7 @@
 package com.messners.gitlab.api;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import com.messners.gitlab.api.models.Event;
@@ -72,6 +74,30 @@ public class ProjectApi extends AbstractApi {
 		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId);
 		return (response.getEntity(Project.class));
 	}
+
+
+	/**
+	 * Get a specific project, which is owned by the authentication user.
+	 *
+	 * GET /projects/:id
+	 * 
+	 * @param group
+	 * @param project
+	 * @return
+	 * @throws GitLabApiException 
+	 */
+	public Project getProject (String group, String project) throws GitLabApiException {
+		
+		String pid = null;
+		try {
+			pid = URLEncoder.encode(group + "/" + project, "UTF-8");
+		} catch (UnsupportedEncodingException uee) {
+			throw (new GitLabApiException(uee));
+		}
+		
+		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", pid);
+		return (response.getEntity(Project.class));
+	}	
 	
 	
 	/**
@@ -352,6 +378,33 @@ public class ProjectApi extends AbstractApi {
 
 		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "projects", projectId, "hooks");
 		return (response.getEntity(ProjectHook.class));	
+	}
+	
+	
+	/**
+	 * Deletes a hook from the project.
+	 * 
+	 * DELETE /projects/:id/hooks/:hook_id
+	 * 
+	 * @param projectId
+	 * @param hookId
+	 * @throws GitLabApiException 
+	 */
+	public void deleteHook (Integer projectId, Integer hookId) throws GitLabApiException {
+		delete(ClientResponse.Status.OK, null, "projects", projectId, "hooks", hookId);
+	}
+	
+	
+	/**
+	 * Deletes a hook from the project.
+	 * 
+	 * DELETE /projects/:id/hooks/:hook_id
+	 * 
+	 * @param hook
+	 * @throws GitLabApiException
+	 */
+	public void deleteHook (ProjectHook hook) throws GitLabApiException {
+		deleteHook(hook.getProjectId(), hook.getId());
 	}
 
 
