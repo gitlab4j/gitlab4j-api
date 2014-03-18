@@ -10,6 +10,7 @@ public class GitLabApi {
 	
 	GitLabApiClient apiClient;
 	private CommitsApi commitsApi;
+	private GroupApi groupApi;
 	private MergeRequestApi mergeRequestApi;
 	private ProjectApi projectApi;
 	private RepositoryApi repositoryApi;
@@ -26,6 +27,7 @@ public class GitLabApi {
 	public GitLabApi (String hostUrl, String privateToken) {	
 		apiClient = new GitLabApiClient(hostUrl, privateToken);
 		commitsApi = new CommitsApi(this);
+		groupApi = new GroupApi(this);
 		mergeRequestApi = new MergeRequestApi(this);
 		projectApi = new ProjectApi(this);
 		repositoryApi = new RepositoryApi(this);
@@ -63,6 +65,17 @@ public class GitLabApi {
 	 */
 	public MergeRequestApi getMergeRequestApi () {
 		return (mergeRequestApi);		
+	}
+	
+	
+	/**
+	 * Gets the GroupApi instance owned by this GitLabApi instance.  The GroupApi is used
+	 * to perform all group related API calls.
+	 * 
+	 * @return the GroupApi instance owned by this GitLabApi instance
+	 */
+	public GroupApi getGroupApi () {
+		return (groupApi);		
 	}
 	
 
