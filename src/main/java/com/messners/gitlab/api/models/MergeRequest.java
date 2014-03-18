@@ -18,6 +18,7 @@ public class MergeRequest {
 	private String state;
 	private String targetBranch;
 	private String title;
+	private String description;
 	private Integer upvotes;
 
 	public Assignee getAssignee () {
@@ -98,6 +99,14 @@ public class MergeRequest {
 
 	public void setTitle (String title) {
 		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Integer getUpvotes () {
