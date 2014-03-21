@@ -34,18 +34,18 @@ public abstract class AbstractApi {
 	protected  ClientResponse get (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
 			throws GitLabApiException {	
 		
-		try {
-			
-			ClientResponse response = getApiClient().get(queryParams, pathArgs);
-			if (response.getStatus() != expectedStatus.getStatusCode()) {
-				throw (new GitLabApiException(response));			
-			}
-			
-			return (response);
-			
+		ClientResponse response = null;
+		try {			
+			response = getApiClient().get(queryParams, pathArgs);			
 		} catch (Exception e) {
 			throw (new GitLabApiException(e));
 		}
+		
+		if (response.getStatus() != expectedStatus.getStatusCode()) {
+			throw (new GitLabApiException(response));			
+		}
+		
+		return (response);
 	}	
 	
 	
@@ -62,18 +62,18 @@ public abstract class AbstractApi {
 	protected ClientResponse get (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) 
 			throws GitLabApiException {		
 		
-		try {
-			
-			ClientResponse response = getApiClient().get(queryParams, url);	
-			if (response.getStatus() != expectedStatus.getStatusCode()) {
-				throw (new GitLabApiException(response));			
-			}
-			
-			return (response);
-			
+		ClientResponse response = null;
+		try {			
+			response = getApiClient().get(queryParams, url);			
 		} catch (Exception e) {
 			throw (new GitLabApiException(e));
-		}				
+		}	
+		
+		if (response.getStatus() != expectedStatus.getStatusCode()) {
+			throw (new GitLabApiException(response));			
+		}
+		
+		return (response);
 	}		
 	
 	
@@ -89,18 +89,18 @@ public abstract class AbstractApi {
 	 */
 	protected ClientResponse post (ClientResponse.Status expectedStatus, Form formData, Object ... pathArgs) throws GitLabApiException {
 		
-		try {
-			
-			ClientResponse response = getApiClient().post(formData, pathArgs);
-			if (response.getStatus() != expectedStatus.getStatusCode()) {
-				throw (new GitLabApiException(response));			
-			}
-			
-			return (response);
-			
+		ClientResponse response = null;
+		try {			
+			response = getApiClient().post(formData, pathArgs);			
 		} catch (Exception e) {
 			throw (new GitLabApiException(e));
-		}				
+		}	
+		
+		if (response.getStatus() != expectedStatus.getStatusCode()) {
+			throw (new GitLabApiException(response));			
+		}
+		
+		return (response);
 	}
 	
 	
@@ -116,18 +116,18 @@ public abstract class AbstractApi {
 	 */
 	protected ClientResponse post (ClientResponse.Status expectedStatus, Form formData, URL url) throws GitLabApiException {
 		
-		try {
-			
-			ClientResponse response = getApiClient().post(formData, url);
-			if (response.getStatus() != expectedStatus.getStatusCode()) {
-				throw (new GitLabApiException(response));			
-			}
-			
-			return (response);
-			
+		ClientResponse response = null;
+		try {			
+			response = getApiClient().post(formData, url);
 		} catch (Exception e) {
 			throw (new GitLabApiException(e));
 		}
+		
+		if (response.getStatus() != expectedStatus.getStatusCode()) {
+			throw (new GitLabApiException(response));			
+		}
+		
+		return (response);
 	}
 	
 	
@@ -144,18 +144,18 @@ public abstract class AbstractApi {
 	 */
 	protected  ClientResponse put (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs) throws GitLabApiException {
 		
-		try {
-			
-			ClientResponse response = getApiClient().put(queryParams, pathArgs);	
-			if (response.getStatus() != expectedStatus.getStatusCode()) {
-				throw (new GitLabApiException(response));			
-			}
-			
-			return (response);
-			
+		ClientResponse response = null;
+		try {			
+			response = getApiClient().put(queryParams, pathArgs);				
 		} catch (Exception e) {
 			throw (new GitLabApiException(e));
-		}		
+		}
+		
+		if (response.getStatus() != expectedStatus.getStatusCode()) {
+			throw (new GitLabApiException(response));			
+		}
+		
+		return (response);
 	}	
 	
 	
@@ -171,18 +171,18 @@ public abstract class AbstractApi {
 	 */
 	protected ClientResponse put (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {	
 		
-		try {
-			
-			ClientResponse response = getApiClient().put(queryParams, url);
-			if (response.getStatus() != expectedStatus.getStatusCode()) {
-				throw (new GitLabApiException(response));			
-			}
-			
-			return (response);
-			
+		ClientResponse response = null;
+		try {			
+			response = getApiClient().put(queryParams, url);			
 		} catch (Exception e) {
 			throw (new GitLabApiException(e));
-		}		
+		}	
+		
+		if (response.getStatus() != expectedStatus.getStatusCode()) {
+			throw (new GitLabApiException(response));			
+		}
+		
+		return (response);
 	}	
 	
 	
@@ -199,18 +199,18 @@ public abstract class AbstractApi {
 	protected  ClientResponse delete (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs)
 			throws GitLabApiException {
 		
-		try {
-			
-			ClientResponse response = getApiClient().delete(queryParams, pathArgs);
-			if (response.getStatus() != expectedStatus.getStatusCode()) {
-				throw (new GitLabApiException(response));			
-			}
-			
-			return (response);
-			
+		ClientResponse response = null;
+		try {			
+			response = getApiClient().delete(queryParams, pathArgs);			
 		} catch (Exception e) {
 			throw (new GitLabApiException(e));
-		}		
+		}	
+		
+		if (response.getStatus() != expectedStatus.getStatusCode()) {
+			throw (new GitLabApiException(response));			
+		}
+		
+		return (response);
 	}	
 	
 	
@@ -226,18 +226,18 @@ public abstract class AbstractApi {
 	 */
 	protected ClientResponse delete (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
 		
-		try {
-			
-			ClientResponse response = getApiClient().delete(queryParams, url);
-			if (response.getStatus() != expectedStatus.getStatusCode()) {
-				throw (new GitLabApiException(response));			
-			}
-			
-			return (response);
-			
+		ClientResponse response = null;
+		try {			
+			response = getApiClient().delete(queryParams, url);	
 		} catch (Exception e) {
 			throw (new GitLabApiException(e));
 		}
+		
+		if (response.getStatus() != expectedStatus.getStatusCode()) {
+			throw (new GitLabApiException(response));			
+		}
+		
+		return (response);
 	}
 	
 	
