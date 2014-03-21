@@ -9,6 +9,8 @@ public class GitLabApiException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	private StatusType statusInfo;
+	private int httpStatus;
+	
 	private String message;
 	
 	/**
@@ -20,6 +22,7 @@ public class GitLabApiException extends Exception {
 		
 		super();
 		statusInfo = response.getStatusInfo();
+		httpStatus = response.getStatus();
 
 		if (response.hasEntity()) {
 			try {
@@ -67,6 +70,6 @@ public class GitLabApiException extends Exception {
 	 * @return
 	 */
 	public final int getHttpStatus () {		
-		return (statusInfo != null ? statusInfo.getStatusCode() : 0);
+		return (httpStatus);
 	}
 }
