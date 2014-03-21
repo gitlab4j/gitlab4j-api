@@ -12,6 +12,7 @@ public class GitLabApiException extends Exception {
 	private String message;
 	
 	/**
+	 * Create a GitLabApiException based on the ClientResponse.
 	 * 
 	 * @param response
 	 */
@@ -38,28 +39,34 @@ public class GitLabApiException extends Exception {
 	
 	
 	/**
+	 * Get the message associated with the exception.
 	 * 
+	 * @return the message associated with the exception
 	 */
 	@Override
 	public final String getMessage () {		
-		return (message != null ? message : statusInfo.getReasonPhrase());
+		return (message != null ? message : getReason());
 	}	
 
 	
 	/**
+	 * Returns the HTTP status reason message, returns null if the
+	 * causing error was not an HTTP related exception.
 	 * 
 	 * @return
 	 */
 	public final String getReason () {		
-		return (statusInfo.getReasonPhrase());
+		return (statusInfo != null ? statusInfo.getReasonPhrase() : null);
 	}
 	
 	
 	/**
-	 * 
+	 * Returns the HTTP status code.  returns 0 if the
+	 * causing error was not an HTTP related exception.
+	 *  
 	 * @return
 	 */
 	public final int getHttpStatus () {		
-		return (statusInfo.getStatusCode());
+		return (statusInfo != null ? statusInfo.getStatusCode() : 0);
 	}
 }
