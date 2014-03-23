@@ -15,15 +15,35 @@ public class UserApi extends AbstractApi {
 	
 
 	/**
-	 * Get a list of users. 
+	 * Get a list of users. Only returns the first page
 	 * 
 	 * GET /users
 	 * 
 	 * @return
 	 * @throws GitLabApiException 
 	 */
-	public List<User> getProjects () throws GitLabApiException {		
+	public List<User> getUsers () throws GitLabApiException {		
 		ClientResponse response = get(ClientResponse.Status.OK, null, "users");
+		return (response.getEntity(new GenericType<List<User>>() {}));
+	}
+	
+
+	/**
+	 * Get a list of users using the specified page and per page settings.
+	 * 
+	 * GET /users
+	 * 
+	 * @param page
+	 * @param perPage
+	 * @return
+	 * @throws GitLabApiException 
+	 */
+	public List<User> getUsers (int page, int perPage) throws GitLabApiException {
+		
+		Form formData = new Form();
+		addFormParam(formData, "page", page, false);
+		addFormParam(formData, "per_page", perPage, false);		
+		ClientResponse response = get(ClientResponse.Status.OK, formData, "users");
 		return (response.getEntity(new GenericType<List<User>>() {}));
 	}
 	
