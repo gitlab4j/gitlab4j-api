@@ -6,7 +6,7 @@ This project provides a full featured Java API for working with GitLab repositor
 It is quite simple to use, all you need is the URL to your GitLab server and the Private Token from your GitLab Account Settings page.  Once you have that info it is as simple as:
 ```java
 // Create a GitLabApi instance to communicate with your GitLab server
-GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.serbver.com", "YOUR_PRIVATE_TOKEN");
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
 
 // Get the list of projects your account has access to
 List<Project> projects = gitLabApi.getProjectApi().getProjects();
