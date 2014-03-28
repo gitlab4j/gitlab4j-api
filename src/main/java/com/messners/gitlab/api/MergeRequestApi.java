@@ -8,6 +8,10 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.representation.Form;
 
+/**
+ * 
+ * @author Greg Messner <greg@messners.com>
+ */
 public class MergeRequestApi extends AbstractApi {
 
 	MergeRequestApi (GitLabApi gitLabApi) {
@@ -37,7 +41,7 @@ public class MergeRequestApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @param mergeRequestId
-	 * @return
+	 * @return the specified MergeRequest instance
 	 * @throws GitLabApiException 
 	 */
 	public MergeRequest getMergeRequest (Integer projectId, Integer mergeRequestId) throws GitLabApiException {		
@@ -125,6 +129,7 @@ public class MergeRequestApi extends AbstractApi {
 	 * @param projectId
 	 * @param mergeRequestId
 	 * @param comments
+	 * @return
 	 * @throws GitLabApiException 
 	 */
 	public MergeRequestComment addMergeRequestComment (Integer projectId, Integer mergeRequestId, String comments) throws GitLabApiException {

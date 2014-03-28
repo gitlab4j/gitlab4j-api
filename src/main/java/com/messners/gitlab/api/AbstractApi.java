@@ -239,9 +239,10 @@ public abstract class AbstractApi {
 		
 		return (response);
 	}
-	
+
 	
 	/**
+	 * Convenience method for adding query and form parameters to a get() or post() call.
 	 * 
 	 * @param formData
 	 * @param string
@@ -250,14 +251,17 @@ public abstract class AbstractApi {
 	protected void addFormParam(Form formData, String name, Object value) throws IllegalArgumentException {
 		addFormParam(formData, name, value, false);
 	}
-	
-	
+
+
 	/**
+	 * Convenience method for adding query and form parameters to a get() or post() call.  
+	 * If required is true and value is null, will throw an IllegalArgumentException.
 	 * 
 	 * @param formData
-	 * @param string
-	 * @param email
+	 * @param name
+	 * @param value
 	 * @param required
+	 * @throws IllegalArgumentException
 	 */
 	protected void addFormParam(Form formData, String name, Object value, boolean required) throws IllegalArgumentException {
 		

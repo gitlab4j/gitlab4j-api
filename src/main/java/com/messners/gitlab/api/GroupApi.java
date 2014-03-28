@@ -45,6 +45,23 @@ public class GroupApi extends AbstractApi {
 	
 	
 	/**
+	 * Creates a new project group. Available only for admin.
+	 * 
+	 * POST /groups
+	 * 
+	 * @param name
+	 * @param path
+	 */
+	public void addGroup (String name, String path) throws GitLabApiException {
+		
+		Form formData = new Form();
+		formData.add("name",  name);		
+		formData.add("path",  path);		
+		post(ClientResponse.Status.OK, formData, "groups");
+	}
+	
+	
+	/**
 	 * Removes group with all projects inside.
 	 * 
 	 * DELETE /groups/:id
@@ -52,7 +69,7 @@ public class GroupApi extends AbstractApi {
 	 * @param groupId
 	 * @throws GitLabApiException 
 	 */
-	public void deleteGroup (Integer groupId)  throws GitLabApiException {
+	public void deleteGroup (Integer groupId) throws GitLabApiException {
 		
 		if (groupId == null) {
 			throw new RuntimeException("groupId cannot be null");
