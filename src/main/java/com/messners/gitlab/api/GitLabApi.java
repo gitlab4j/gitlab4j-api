@@ -14,6 +14,7 @@ public class GitLabApi {
 	private MergeRequestApi mergeRequestApi;
 	private ProjectApi projectApi;
 	private RepositoryApi repositoryApi;
+	private SessionApi sessoinApi;
 	private UserApi userApi;
 	
 
@@ -31,6 +32,7 @@ public class GitLabApi {
 		mergeRequestApi = new MergeRequestApi(this);
 		projectApi = new ProjectApi(this);
 		repositoryApi = new RepositoryApi(this);
+		sessoinApi = new SessionApi(this);
 		userApi = new UserApi(this);
 	}
 	
@@ -98,6 +100,17 @@ public class GitLabApi {
 	 */
 	public RepositoryApi getRepositoryApi () {
 		return (repositoryApi);		
+	}	
+	
+	
+	/**
+	 * Gets the SessionApi instance owned by this GitLabApi instance.  The SessionApi is used
+	 * to perform a login to the GitLab API.
+	 * 
+	 * @return the SessionApi instance owned by this GitLabApi instance
+	 */
+	public SessionApi getSessionApi () {
+		return (sessoinApi);
 	}
 	
 	
@@ -105,7 +118,7 @@ public class GitLabApi {
 	 * Gets the UserApi instance owned by this GitLabApi instance.  The UserApi is used
 	 * to perform all user related API calls.
 	 * 
-	 * @return the ProjectApi instance owned by this GitLabApi instance
+	 * @return the UserApi instance owned by this GitLabApi instance
 	 */
 	public UserApi getUserApi () {
 		return (userApi);		
