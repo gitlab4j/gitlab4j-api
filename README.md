@@ -22,6 +22,7 @@ GroupApi
 MergeRequestApi
 ProjectApi
 RepositoryApi
+SessionApi
 UserApi
 ```
 
@@ -53,6 +54,12 @@ RepositoryApi:
 ```java
 // Get a list of repository branches from a project, sorted by name alphabetically
 List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
+```
+
+SessionApi:
+```java
+// Log in to the GitLab server and get the session info
+getLabApi.getSessionApi().login("your-username", "your-email", "your-password");
 ```
 
 UserApi:
