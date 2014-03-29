@@ -9,7 +9,8 @@ import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.representation.Form;
 
 /**
- * 
+ *  This class implements the client side API for the GitLab merge request calls.
+ *  
  * @author Greg Messner <greg@messners.com>
  */
 public class MergeRequestApi extends AbstractApi {
@@ -20,12 +21,12 @@ public class MergeRequestApi extends AbstractApi {
 	
 	
 	/**
-	 * Get all merge requests for this project.
+	 * Get all merge requests for the specified project.
 	 *
 	 * GET /projects/:id/merge_requests
 	 * 
-	 * @param projectId
-	 * @return
+	 * @param projectId the project ID to get the merge requests for
+	 * @return all merge requests for the specified project
 	 * @throws GitLabApiException 
 	 */
 	public List<MergeRequest> getMergeRequests (Integer projectId) throws GitLabApiException {		
@@ -95,7 +96,7 @@ public class MergeRequestApi extends AbstractApi {
 	 * @param title
 	 * @param description
 	 * @param assigneeId
-	 * @return
+	 * @return the updated merge request
 	 * @throws GitLabApiException 
 	 */
 	public MergeRequest updateMergeRequest (Integer projectId, Integer mergeRequestId, 
@@ -129,7 +130,7 @@ public class MergeRequestApi extends AbstractApi {
 	 * @param projectId
 	 * @param mergeRequestId
 	 * @param comments
-	 * @return
+	 * @return the added merge request comment
 	 * @throws GitLabApiException 
 	 */
 	public MergeRequestComment addMergeRequestComment (Integer projectId, Integer mergeRequestId, String comments) throws GitLabApiException {

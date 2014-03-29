@@ -26,7 +26,7 @@ public class SessionApi extends AbstractApi {
 	 * @param username
 	 * @param email
 	 * @param password
-	 * @return
+	 * @return a Session instance with info on the logged in user
 	 * @throws GitLabApiException
 	 */
 	public Session login (String username, String email, String password) throws GitLabApiException {

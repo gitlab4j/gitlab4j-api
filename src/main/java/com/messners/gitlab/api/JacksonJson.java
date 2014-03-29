@@ -64,18 +64,20 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     
     
     /**
+     * Gets the ObjectMapper contained by this instance.
      * 
-     * @return
+     * @return the ObjectMapper contained by this instance
      */
     public ObjectMapper getObjectMapper () {
     	return (objectMapper);
     }
     
     /**
+     * Unmarshal the JSON data on the specified Reader instance to an instance of the provided class.
      * 
-     * @param returnType
-     * @param reader
-     * @return
+     * @param returnType an instance of this type class will be returned
+     * @param reader the Reader instance that contains the JSON data
+     * @return an instance of the provided class containing the parsed data from the Reader
      * @throws JsonParseException
      * @throws JsonMappingException
      * @throws IOException
@@ -87,10 +89,11 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 	}
 		
 	/**
-	 * 
-	 * @param returnType
+	  * Unmarshal the JSON data contained by the string and populate an instance of the provided returnType class.
+     * 
+     * @param returnType an instance of this type class will be returned
 	 * @param postData
-	 * @return
+	 * @return an instance of the provided class containing the parsed data from the string
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 * @throws IOException
@@ -105,7 +108,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 	/**
 	 * Marshals the supplied object out as a formatted JSON string.
 	 * 
-	 * @param object
+	 * @param object the object to output as a JSON string
 	 * @return
 	 */
 	public <T> String marshal (final T object) {
@@ -131,6 +134,9 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 	}
 	
 	
+	/**
+	 * JsonSerializer for serializing ISO8601 formatted dates.
+	 */
 	public static class JsonDateSerializer extends JsonSerializer<Date> {
 
 		@Override

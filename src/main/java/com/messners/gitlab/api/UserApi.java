@@ -19,7 +19,7 @@ public class UserApi extends AbstractApi {
 	 * 
 	 * GET /users
 	 * 
-	 * @return
+	 * @return a list of Users, this list will only contain the first 20 users in the system.
 	 * @throws GitLabApiException 
 	 */
 	public List<User> getUsers () throws GitLabApiException {		
@@ -35,7 +35,7 @@ public class UserApi extends AbstractApi {
 	 * 
 	 * @param page
 	 * @param perPage
-	 * @return
+	 * @return the list of Users in the specified range
 	 * @throws GitLabApiException 
 	 */
 	public List<User> getUsers (int page, int perPage) throws GitLabApiException {
@@ -54,7 +54,7 @@ public class UserApi extends AbstractApi {
 	 * GET /users/:id
 	 * 
 	 * @param userId
-	 * @return
+	 * @return the User instance for the specified user ID
 	 * @throws GitLabApiException 
 	 */
 	public User getUser (int userId) throws GitLabApiException {		
@@ -84,7 +84,7 @@ public class UserApi extends AbstractApi {
 	 * can_create_group (optional) - User can create groups - true or false
 	 * 
 	 * @param user
-	 * @return
+	 * @return created User instance
 	 * @throws GitLabApiException 
 	 */
 	public User createUser (User user, String password, Integer projectsLimit) throws GitLabApiException {
@@ -131,7 +131,7 @@ public class UserApi extends AbstractApi {
 	 * can_create_group (optional) - User can create groups - true or false
 	 * 
 	 * @param user
-	 * @return
+	 * @return the modified User instance
 	 * @throws GitLabApiException 
 	 */
 	public User modifyUser (User user, String password, Integer projectsLimit) throws GitLabApiException {

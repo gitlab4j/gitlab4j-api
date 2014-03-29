@@ -2,7 +2,8 @@ package com.messners.gitlab.api;
 
 
 /**
- * This class specifies methods to interact with a GitLab server utilizing the standard GitLab API.
+ * This class is provides a simplified interface to a GitLab API server, and divides the API up into
+ * a separate API class for each concern.
  * 
  * @author Greg Messner <greg@messners.com>
  */
@@ -19,7 +20,7 @@ public class GitLabApi {
 	
 
 	/**
-	 * Contructs a GitLabApi instance set up to interact with the GitLab server
+	 * Constructs a GitLabApi instance set up to interact with the GitLab server
 	 * specified by hostUrl.
 	 * 
 	 * @param hostUrl
@@ -94,7 +95,7 @@ public class GitLabApi {
 	
 	/**
 	 * Gets the RepositoryApi instance owned by this GitLabApi instance.  The RepositoryApi is used
-	 * to perform all user related API calls.
+	 * to perform all repository related API calls.
 	 * 
 	 * @return the RepositoryApi instance owned by this GitLabApi instance
 	 */

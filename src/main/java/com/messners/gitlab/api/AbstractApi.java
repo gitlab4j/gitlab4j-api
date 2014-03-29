@@ -7,6 +7,13 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.representation.Form;
 
+/**
+ * This class is the base class for all the sub API classes.  It provides implementations of 
+ * delete(), get(), post() and put() that are re-used by all the sub-classes. 
+ * 
+ * @author Greg Messner <greg@messners.com>
+ *
+ */
 public abstract class AbstractApi {
 
 	private GitLabApi gitLabApi;
@@ -17,8 +24,7 @@ public abstract class AbstractApi {
 
 	protected GitLabApiClient getApiClient () {
 		return (gitLabApi.getApiClient());
-	}
-	
+	}	
 	
 	
 	/**
@@ -130,8 +136,7 @@ public abstract class AbstractApi {
 		return (response);
 	}
 	
-	
-	
+
 	/**
 	 * Perform an HTTP PUT call with the specified form data and path objects, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
@@ -261,7 +266,7 @@ public abstract class AbstractApi {
 	 * @param name
 	 * @param value
 	 * @param required
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException if a required parameter is null or empty
 	 */
 	protected void addFormParam(Form formData, String name, Object value, boolean required) throws IllegalArgumentException {
 		

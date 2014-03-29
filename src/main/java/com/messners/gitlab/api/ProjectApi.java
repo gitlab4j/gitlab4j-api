@@ -24,7 +24,7 @@ public class ProjectApi extends AbstractApi {
 	 *
 	 * GET /projects
 	 * 
-	 * @return
+	 * @return a list of projects accessible by the authenticated user
 	 * @throws GitLabApiException 
 	 */
 	public List<Project> getProjects () throws GitLabApiException {		
@@ -38,7 +38,7 @@ public class ProjectApi extends AbstractApi {
 	 *
 	 * GET /projects/all
 	 * 
-	 * @return
+	 * @return a list of all GitLab projects
 	 * @throws GitLabApiException 
 	 */
 	public List<Project> getAllProjects () throws GitLabApiException {		
@@ -52,7 +52,7 @@ public class ProjectApi extends AbstractApi {
 	 * 
 	 * GET /projects/owned
 	 * 
-	 * @return
+	 * @return a list of projects owned by the authenticated user
 	 * @throws GitLabApiException 
 	 */
 	public List<Project> getOwnedProjects () throws GitLabApiException {		
@@ -67,7 +67,7 @@ public class ProjectApi extends AbstractApi {
 	 * GET /projects/:id
 	 * 
 	 * @param projectId
-	 * @return
+	 * @return the specified project
 	 * @throws GitLabApiException 
 	 */
 	public Project getProject (Integer projectId) throws GitLabApiException {		
@@ -83,7 +83,7 @@ public class ProjectApi extends AbstractApi {
 	 * 
 	 * @param group
 	 * @param project
-	 * @return
+	 * @return the specified project
 	 * @throws GitLabApiException 
 	 */
 	public Project getProject (String group, String project) throws GitLabApiException {
@@ -105,7 +105,7 @@ public class ProjectApi extends AbstractApi {
 	 * 
 	 * @param groupId
 	 * @param projectName
-	 * @return
+	 * @return the created project
 	 * @throws GitLabApiException 
 	 */
 	public Project createProject (Integer groupId, String projectName)  throws GitLabApiException {
@@ -219,7 +219,7 @@ public class ProjectApi extends AbstractApi {
 	 * GET /projects/:id/members
 	 * 
 	 * @param projectId
-	 * @return
+	 * @return the members belonging to the specified project
 	 * @throws GitLabApiException 
 	 */
 	public List<Member> getMembers (Integer projectId) throws GitLabApiException {		
@@ -235,7 +235,7 @@ public class ProjectApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @param userId
-	 * @return
+	 * @return the member specified by the project ID/user ID pair
 	 * @throws GitLabApiException 
 	 */
 	public Member getMember (Integer projectId, Integer userId) throws GitLabApiException {		
@@ -254,7 +254,7 @@ public class ProjectApi extends AbstractApi {
 	 * @param projectId
 	 * @param userId
 	 * @param accessLevel
-	 * @return
+	 * @return the added member
 	 * @throws GitLabApiException 
 	 */
 	public Member addMember (Integer projectId, Integer userId, Integer accessLevel) throws GitLabApiException {
@@ -276,9 +276,8 @@ public class ProjectApi extends AbstractApi {
 	 * @param userId
 	 * @throws GitLabApiException 
 	 */
-	public boolean removeMember (Integer projectId, Integer userId) throws GitLabApiException {		
-		ClientResponse response = delete(ClientResponse.Status.OK, null, "projects", projectId, "members", userId);
-		return (response.getStatus() == ClientResponse.Status.OK.getStatusCode());
+	public void removeMember (Integer projectId, Integer userId) throws GitLabApiException {		
+		delete(ClientResponse.Status.OK, null, "projects", projectId, "members", userId);
 	}
 
 
@@ -288,7 +287,7 @@ public class ProjectApi extends AbstractApi {
 	 * GET /projects/:id/events
 	 * 
 	 * @param projectId
-	 * @return
+	 * @return the project events for the specified project
 	 * @throws GitLabApiException 
 	 */
 	public List<Event> getProjectEvents (Integer projectId) throws GitLabApiException {		
@@ -303,7 +302,7 @@ public class ProjectApi extends AbstractApi {
 	 * GET /projects/:id/hooks
 	 * 
 	 * @param projectId
-	 * @return
+	 * @return a list of project hooks for the specified project
 	 * @throws GitLabApiException 
 	 */
 	public List<ProjectHook> getHooks (Integer projectId) throws GitLabApiException {		
@@ -319,7 +318,7 @@ public class ProjectApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @param hookId
-	 * @return
+	 * @return the project hook for the specified project ID/hook ID pair
 	 * @throws GitLabApiException 
 	 */
 	public ProjectHook getHook (Integer projectId, Integer hookId) throws GitLabApiException {		
@@ -338,7 +337,7 @@ public class ProjectApi extends AbstractApi {
 	 * @param doPushEvents
 	 * @param doIssuesEvents
 	 * @param doMergeRequestsEvents
-	 * @return
+	 * @return the added project hook
 	 * @throws GitLabApiException 
 	 */
 	public ProjectHook addHook (Project project, String url, 
@@ -363,7 +362,7 @@ public class ProjectApi extends AbstractApi {
 	 * @param doPushEvents
 	 * @param doIssuesEvents
 	 * @param doMergeRequestsEvents
-	 * @return
+	 * @return the added project hook
 	 * @throws GitLabApiException 
 	 */
 	public ProjectHook addHook (Integer projectId, String url, 
@@ -418,11 +417,10 @@ public class ProjectApi extends AbstractApi {
 	 * @param doPushEvents
 	 * @param doIssuesEvents
 	 * @param doMergeRequestsEvents
-	 * @return
+	 * @return the modified project hook
 	 * @throws GitLabApiException 
 	 */
-	public ProjectHook modifyHook (ProjectHook hook)
-			throws GitLabApiException {
+	public ProjectHook modifyHook (ProjectHook hook) throws GitLabApiException {
 		
 		Form formData = new Form();
 		formData.add("url",  hook.getUrl());		

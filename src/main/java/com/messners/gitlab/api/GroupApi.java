@@ -8,6 +8,11 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.representation.Form;
 
+/**
+ * This class implements the client side API for the GitLab groups calls.
+ * 
+ * @author Greg Messner <greg@messners.com>
+ */
 public class GroupApi extends AbstractApi {
 
 	GroupApi (GitLabApi gitLabApi) {
@@ -20,7 +25,7 @@ public class GroupApi extends AbstractApi {
 	 * 
 	 * GET /groups
 	 * 
-	 * @return
+	 * @return the list of groups viewable by the authenticated user
 	 * @throws GitLabApiException 
 	 */
 	public List<Group> getGroups () throws GitLabApiException {	
@@ -35,7 +40,7 @@ public class GroupApi extends AbstractApi {
 	 * GET /groups/:id
 	 * 
 	 * @param groupId
-	 * @return
+	 * @return the Group instance for the specified group ID
 	 * @throws GitLabApiException 
 	 */
 	public Group getGroup (int groupId) throws GitLabApiException {		
@@ -97,7 +102,7 @@ public class GroupApi extends AbstractApi {
 	 * 
 	 * GET /groups/:id/members
 	 * 
-	 * @return
+	 * @return a list of group members viewable by the authenticated user
 	 * @throws GitLabApiException 
 	 */
 	public List<Member> getMembers (int groupId) throws GitLabApiException {		
@@ -113,7 +118,7 @@ public class GroupApi extends AbstractApi {
 	 * @param groupId
 	 * @param userId
 	 * @param accessLevel
-	 * @return
+	 * @return a Member instance for the added user
 	 * @throws GitLabApiException 
 	 */
 	public Member addMember (Integer groupId, Integer userId, Integer accessLevel) throws GitLabApiException {

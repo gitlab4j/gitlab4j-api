@@ -28,7 +28,7 @@ public class RepositoryApi extends AbstractApi {
 	 * GET /projects/:id/repository/branches
 	 * 
 	 * @param projectId
-	 * @return
+	 * @return the list of repository branches for mthe specified project ID
 	 * @throws GitLabApiException 
 	 */
 	public List<Branch> getBranches (Integer projectId) throws GitLabApiException {		
@@ -44,7 +44,7 @@ public class RepositoryApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @param branchName
-	 * @return
+	 * @return the branch info for the specified project ID/branch name pair
 	 * @throws GitLabApiException 
 	 */
 	public Branch getBranch (Integer projectId, String branchName) throws GitLabApiException {		
@@ -61,7 +61,7 @@ public class RepositoryApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @param branchName
-	 * @return
+	 * @return the branch info for the protected branch 
 	 * @throws GitLabApiException 
 	 */
 	public Branch protectBranch (Integer projectId, String branchName) throws GitLabApiException {		
@@ -78,7 +78,7 @@ public class RepositoryApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @param branchName
-	 * @return
+	 * @return the branch info for the unprotected branch 
 	 * @throws GitLabApiException 
 	 */
 	public Branch unprotectBranch (Integer projectId, String branchName) throws GitLabApiException {		
@@ -93,7 +93,7 @@ public class RepositoryApi extends AbstractApi {
 	 * GET /projects/:id/repository/tags
 	 * 
 	 * @param projectId
-	 * @return
+	 * @return the list of tags for the specified project ID
 	 * @throws GitLabApiException 
 	 */
 	public List<Tag> getTags (Integer projectId) throws GitLabApiException {		
@@ -108,12 +108,12 @@ public class RepositoryApi extends AbstractApi {
 	 * GET /projects/:id/repository/tree
 	 * 
 	 * @param projectId
-	 * @return
+	 * @return a tree with the diurectories and files of a project
 	 * @throws GitLabApiException 
 	 */
 	public List<TreeItem> getTree (Integer projectId) throws GitLabApiException {		
 		ClientResponse response = put(ClientResponse.Status.OK, null, "projects", projectId, "repository", "tree");
-		 return (response.getEntity(new GenericType<List<TreeItem>>() {}));
+		return (response.getEntity(new GenericType<List<TreeItem>>() {}));
 	}
 	
 	
@@ -124,7 +124,7 @@ public class RepositoryApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @param commitOrBranchName
-	 * @return
+	 * @return a string with the file content for the specified file
 	 * @throws GitLabApiException 
 	 */
 	public String getRawFileContent (Integer projectId, String commitOrBranchName, String filepath) throws GitLabApiException {

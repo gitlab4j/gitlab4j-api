@@ -5,6 +5,14 @@ import javax.ws.rs.core.Response.StatusType;
 import com.messners.gitlab.api.models.ErrorMessage;
 import com.sun.jersey.api.client.ClientResponse;
 
+
+/**
+ * This is the exception that will be thrown if any exception occurs while communicating
+ * with a GitLab API endpoint.
+ * 
+ * @author Greg Messner <greg@messners.com>
+ *
+ */
 public class GitLabApiException extends Exception {
 
 	private static final long serialVersionUID = 1L;
@@ -14,7 +22,7 @@ public class GitLabApiException extends Exception {
 	private String message;
 	
 	/**
-	 * Create a GitLabApiException based on the ClientResponse.
+	 * Create a GitLabApiException instance based on the ClientResponse.
 	 * 
 	 * @param response
 	 */
@@ -35,6 +43,10 @@ public class GitLabApiException extends Exception {
 	}
 
 	
+	/**
+	 * Create a GitLabApiException instance based on the exception.
+	 * @param e
+	 */
 	public GitLabApiException (Exception e) {
 		super(e);
 		message = e.getMessage();
@@ -56,7 +68,7 @@ public class GitLabApiException extends Exception {
 	 * Returns the HTTP status reason message, returns null if the
 	 * causing error was not an HTTP related exception.
 	 * 
-	 * @return
+	 * @return the HTTP status reason message
 	 */
 	public final String getReason () {		
 		return (statusInfo != null ? statusInfo.getReasonPhrase() : null);
@@ -64,10 +76,10 @@ public class GitLabApiException extends Exception {
 	
 	
 	/**
-	 * Returns the HTTP status code.  returns 0 if the
+	 * Returns the HTTP status code that was the cause of the exception.  returns 0 if the
 	 * causing error was not an HTTP related exception.
 	 *  
-	 * @return
+	 * @return the HTTP status code, returns 0 if the causing error was not an HTTP related exception
 	 */
 	public final int getHttpStatus () {		
 		return (httpStatus);
