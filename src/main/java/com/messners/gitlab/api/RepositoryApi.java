@@ -36,7 +36,7 @@ public class RepositoryApi extends AbstractApi {
 		return (response.getEntity(new GenericType<List<Branch>>() {}));
 	}
 
-	
+
 	/**
 	 * Get a single project repository branch.
 	 * 
@@ -47,10 +47,30 @@ public class RepositoryApi extends AbstractApi {
 	 * @return the branch info for the specified project ID/branch name pair
 	 * @throws GitLabApiException 
 	 */
-	public Branch getBranch (Integer projectId, String branchName) throws GitLabApiException {		
+	public Branch getBranch (Integer projectId, String branchName) throws GitLabApiException {
 		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "repository", "branches", branchName);
 		return (response.getEntity(Branch.class));
 	}
+
+
+	/**
+	 * Creates a branch for the project. Support as of version 6.8.x 
+	 * 
+	 * POST /projects/:id/repository/branches
+	 * 
+	 * @param projectId the project to create the branch for
+	 * @param branchName the name of the branch to create
+	 * @param ref Source to create the branch from, can be an existing branch, tag or commit SHA
+	 * @return  the branch info for the created branch
+	 * @throws GitLabApiException
+	 */
+    public Branch createBranch (Integer projectId, String branchName, String ref) throws GitLabApiException {
+        Form formData = new Form();
+        formData.add("branch_name ",  branchName);              
+        formData.add("ref ", ref);
+        ClientResponse response = post(ClientResponse.Status.OK, formData, "projects", projectId, "repository", "branches");
+        return (response.getEntity(Branch.class));
+    }
 	
 	
 	/**
