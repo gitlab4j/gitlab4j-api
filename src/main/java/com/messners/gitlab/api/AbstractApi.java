@@ -250,8 +250,8 @@ public abstract class AbstractApi {
 	 * Convenience method for adding query and form parameters to a get() or post() call.
 	 * 
 	 * @param formData
-	 * @param string
-	 * @param email
+	 * @param name
+	 * @param value
 	 */
 	protected void addFormParam(Form formData, String name, Object value) throws IllegalArgumentException {
 		addFormParam(formData, name, value, false);

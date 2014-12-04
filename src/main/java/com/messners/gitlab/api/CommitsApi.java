@@ -25,7 +25,7 @@ public class CommitsApi extends AbstractApi {
 	 * GET /projects/:id/repository/commits
 	 * 
 	 * @param projectId
-	 * @return
+	 * @return a List<Commit> containing the commits for the specified project ID
 	 * @throws GitLabApiException 
 	 */
 	public List<Commit> getCommits (int projectId) throws GitLabApiException {		
@@ -41,7 +41,7 @@ public class CommitsApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @param sha a commit hash or name of a branch or tag
-	 * @return
+	 * @return the Commit instance for the specified project ID/sha pair
 	 * @throws GitLabApiException 
 	 */
 	public Commit getCommits (int projectId, String sha) throws GitLabApiException {		
@@ -57,7 +57,7 @@ public class CommitsApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @param sha a commit hash or name of a branch or tag
-	 * @return
+	 * @return the Diff instance for the specified project ID/sha pair
 	 * @throws GitLabApiException 
 	 */
 	public Diff getDiff (int projectId, String sha) throws GitLabApiException {		

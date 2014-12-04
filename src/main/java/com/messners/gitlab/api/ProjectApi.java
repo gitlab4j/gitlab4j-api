@@ -412,11 +412,7 @@ public class ProjectApi extends AbstractApi {
 	 * 
 	 * PUT /projects/:id/hooks/:hook_id
 	 * 
-	 * @param projectId
-	 * @param url
-	 * @param doPushEvents
-	 * @param doIssuesEvents
-	 * @param doMergeRequestsEvents
+	 * @param hook
 	 * @return the modified project hook
 	 * @throws GitLabApiException 
 	 */

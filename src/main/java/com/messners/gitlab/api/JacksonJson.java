@@ -109,7 +109,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 	 * Marshals the supplied object out as a formatted JSON string.
 	 * 
 	 * @param object the object to output as a JSON string
-	 * @return
+	 * @return a String containing the JSON for the specified object
 	 */
 	public <T> String marshal (final T object) {
 		
