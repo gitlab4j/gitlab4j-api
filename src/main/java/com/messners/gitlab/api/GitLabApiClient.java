@@ -85,7 +85,7 @@ public class GitLabApiClient {
 	 * 
 	 * @param ignoreCertificateErrors
 	 */
-	protected void setIgnoreCerificateErrors (boolean ignoreCertificateErrors) {
+	public void setIgnoreCerificateErrors (boolean ignoreCertificateErrors) {
 		
 		if (GitLabApiClient.ignoreCertificateErrors == ignoreCertificateErrors) {
 			return;
