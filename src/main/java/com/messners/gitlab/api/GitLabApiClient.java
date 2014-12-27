@@ -73,7 +73,7 @@ public class GitLabApiClient {
 	 * 
 	 * @return true if the API is setup to ignore SSL certificate errors, otherwise returns false
 	 */
-	protected boolean getIgnoreCertificateErrors () {
+	public boolean getIgnoreCertificateErrors () {
 		return (GitLabApiClient.ignoreCertificateErrors);
 	}
 	
