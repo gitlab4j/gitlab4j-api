@@ -41,7 +41,7 @@ public class SessionApi extends AbstractApi {
 		addFormParam(formData, "password", password, true);
 		addFormParam(formData, "login", username, false);		
 	
-		ClientResponse response = post(ClientResponse.Status.OK, formData, "session");
+		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "session");
 		return (response.getEntity(Session.class));
 	}
 }
