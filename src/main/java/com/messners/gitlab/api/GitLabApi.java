@@ -17,7 +17,20 @@ public class GitLabApi {
 	private RepositoryApi repositoryApi;
 	private SessionApi sessoinApi;
 	private UserApi userApi;
-	
+
+	/**
+	 * Logs into GitLab using provided {@code username} and {@code password}, and creates a new
+	 * {@code GitLabApi} instance using returned private token
+	 * @param url GitLab URL
+	 * @param username user name for which private token should be obtained
+	 * @param password password for a given {@code username}
+	 * @return new {@code GitLabApi} instance configured for a user-specific token
+	 */
+	static public GitLabApi create(String url, String username, String password) throws GitLabApiException {
+		String token = new SessionApi(new GitLabApi(url, null)).login(username, null, password).getPrivateToken();
+		return new GitLabApi(url, token);
+	}
+
 
 	/**
 	 * Constructs a GitLabApi instance set up to interact with the GitLab server
