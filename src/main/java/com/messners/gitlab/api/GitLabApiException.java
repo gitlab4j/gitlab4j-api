@@ -1,9 +1,9 @@
 package com.messners.gitlab.api;
 
-import javax.ws.rs.core.Response.StatusType;
-
 import com.messners.gitlab.api.models.ErrorMessage;
-import com.sun.jersey.api.client.ClientResponse;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.StatusType;
 
 
 /**
@@ -26,7 +26,7 @@ public class GitLabApiException extends Exception {
 	 * 
 	 * @param response
 	 */
-	public GitLabApiException (ClientResponse response) {
+	public GitLabApiException (Response response) {
 		
 		super();
 		statusInfo = response.getStatusInfo();
@@ -35,7 +35,7 @@ public class GitLabApiException extends Exception {
 		if (response.hasEntity()) {
 			try {
 			
-				ErrorMessage errorMessage = response.getEntity(ErrorMessage.class);
+				ErrorMessage errorMessage = response.readEntity(ErrorMessage.class);
 				message = errorMessage.getMessage();
 				
 			} catch (Exception ignore) {}

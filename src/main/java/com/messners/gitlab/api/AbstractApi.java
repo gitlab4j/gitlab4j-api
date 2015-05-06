@@ -1,11 +1,9 @@
 package com.messners.gitlab.api;
 
-import java.net.URL;
-
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
-
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.representation.Form;
+import javax.ws.rs.core.Response;
+import java.net.URL;
 
 /**
  * This class is the base class for all the sub API classes.  It provides implementations of 
@@ -37,12 +35,12 @@ public abstract class AbstractApi {
 	 * @return a ClientResponse instance with the data returned from the endpoint
 	 * @throws GitLabApiException
 	 */
-	protected  ClientResponse get (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
+	protected Response get (Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs)
 			throws GitLabApiException {	
 		
-		ClientResponse response = null;
+		Response response = null;
 		try {			
-			response = getApiClient().get(queryParams, pathArgs);			
+			response = getApiClient().get(queryParams, pathArgs);
 		} catch (Exception e) {
 			throw (new GitLabApiException(e));
 		}
@@ -65,10 +63,10 @@ public abstract class AbstractApi {
 	 * @return a ClientResponse instance with the data returned from the endpoint
 	 * @throws GitLabApiException
 	 */
-	protected ClientResponse get (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) 
+	protected Response get (Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url)
 			throws GitLabApiException {		
 		
-		ClientResponse response = null;
+		Response response = null;
 		try {			
 			response = getApiClient().get(queryParams, url);			
 		} catch (Exception e) {
@@ -93,9 +91,9 @@ public abstract class AbstractApi {
 	 * @return a ClientResponse instance with the data returned from the endpoint
 	 * @throws GitLabApiException
 	 */
-	protected ClientResponse post (ClientResponse.Status expectedStatus, Form formData, Object ... pathArgs) throws GitLabApiException {
+	protected Response post (Response.Status expectedStatus, Form formData, Object ... pathArgs) throws GitLabApiException {
 		
-		ClientResponse response = null;
+		Response response = null;
 		try {			
 			response = getApiClient().post(formData, pathArgs);			
 		} catch (Exception e) {
@@ -120,9 +118,9 @@ public abstract class AbstractApi {
 	 * @return a ClientResponse instance with the data returned from the endpoint
 	 * @throws GitLabApiException
 	 */
-	protected ClientResponse post (ClientResponse.Status expectedStatus, Form formData, URL url) throws GitLabApiException {
+	protected Response post (Response.Status expectedStatus, Form formData, URL url) throws GitLabApiException {
 		
-		ClientResponse response = null;
+		Response response = null;
 		try {			
 			response = getApiClient().post(formData, url);
 		} catch (Exception e) {
@@ -147,9 +145,9 @@ public abstract class AbstractApi {
 	 * @return a ClientResponse instance with the data returned from the endpoint
 	 * @throws GitLabApiException
 	 */
-	protected  ClientResponse put (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs) throws GitLabApiException {
+	protected  Response put (Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs) throws GitLabApiException {
 		
-		ClientResponse response = null;
+		Response response = null;
 		try {			
 			response = getApiClient().put(queryParams, pathArgs);				
 		} catch (Exception e) {
@@ -174,9 +172,9 @@ public abstract class AbstractApi {
 	 * @return a ClientResponse instance with the data returned from the endpoint
 	 * @throws GitLabApiException
 	 */
-	protected ClientResponse put (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {	
+	protected Response put (Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
 		
-		ClientResponse response = null;
+		Response response = null;
 		try {			
 			response = getApiClient().put(queryParams, url);			
 		} catch (Exception e) {
@@ -201,10 +199,10 @@ public abstract class AbstractApi {
 	 * @return a ClientResponse instance with the data returned from the endpoint
 	 * @throws GitLabApiException
 	 */
-	protected  ClientResponse delete (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs)
+	protected  Response delete (Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object ... pathArgs)
 			throws GitLabApiException {
 		
-		ClientResponse response = null;
+		Response response = null;
 		try {			
 			response = getApiClient().delete(queryParams, pathArgs);			
 		} catch (Exception e) {
@@ -229,9 +227,9 @@ public abstract class AbstractApi {
 	 * @return a ClientResponse instance with the data returned from the endpoint
 	 * @throws GitLabApiException
 	 */
-	protected ClientResponse delete (ClientResponse.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
+	protected Response delete (Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
 		
-		ClientResponse response = null;
+		Response response = null;
 		try {			
 			response = getApiClient().delete(queryParams, url);	
 		} catch (Exception e) {
@@ -284,6 +282,6 @@ public abstract class AbstractApi {
 				throw new IllegalArgumentException(name + " cannot be empty or null");
 			}
 			
-			formData.add(name, stringValue);		
+			formData.param(name, stringValue);
 	}
 }

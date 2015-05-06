@@ -1,11 +1,11 @@
 package com.messners.gitlab.api;
 
-import java.util.List;
-
 import com.messners.gitlab.api.models.User;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.representation.Form;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 public class UserApi extends AbstractApi {
 
@@ -23,8 +23,8 @@ public class UserApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<User> getUsers () throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "users");
-		return (response.getEntity(new GenericType<List<User>>() {}));
+		Response response = get(Response.Status.OK, null, "users");
+		return (response.readEntity(new GenericType<List<User>>() {}));
 	}
 	
 
@@ -43,8 +43,8 @@ public class UserApi extends AbstractApi {
 		Form formData = new Form();
 		addFormParam(formData, "page", page, false);
 		addFormParam(formData, "per_page", perPage, false);		
-		ClientResponse response = get(ClientResponse.Status.OK, formData, "users");
-		return (response.getEntity(new GenericType<List<User>>() {}));
+		Response response = get(Response.Status.OK, formData.asMap(), "users");
+		return (response.readEntity(new GenericType<List<User>>() {}));
 	}
 	
 	
@@ -58,8 +58,8 @@ public class UserApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public User getUser (int userId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "users", userId);
-		return (response.getEntity(User.class));
+		Response response = get(Response.Status.OK, null, "users", userId);
+		return (response.readEntity(User.class));
 	}
 	
 	
@@ -105,8 +105,8 @@ public class UserApi extends AbstractApi {
 		addFormParam(formData, "admin", user.getIsAdmin(), false);
 		addFormParam(formData, "can_create_group", user.getCanCreateGroup(), false);		
 	
-		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "users");
-		return (response.getEntity(User.class));
+		Response response = post(Response.Status.CREATED, formData, "users");
+		return (response.readEntity(User.class));
 	}
 	
 	
@@ -152,8 +152,8 @@ public class UserApi extends AbstractApi {
 		addFormParam(formData, "admin", user.getIsAdmin(), false);
 		addFormParam(formData, "can_create_group", user.getCanCreateGroup(), false);		
 	
-		ClientResponse response = put(ClientResponse.Status.OK, formData, "users", user.getId());
-		return (response.getEntity(User.class));
+		Response response = put(Response.Status.OK, formData.asMap(), "users", user.getId());
+		return (response.readEntity(User.class));
 	}	
 	
 	
@@ -171,7 +171,7 @@ public class UserApi extends AbstractApi {
 			throw new RuntimeException("userId cannot be null");
 		}
 		
-		delete(ClientResponse.Status.OK, null, "users", userId);	
+		delete(Response.Status.OK, null, "users", userId);
 	}
 
 
