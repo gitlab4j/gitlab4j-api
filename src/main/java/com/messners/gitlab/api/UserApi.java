@@ -88,28 +88,12 @@ public class UserApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public User createUser (User user, String password, Integer projectsLimit) throws GitLabApiException {
-		
-		Form formData = new Form();
-		addFormParam(formData, "email", user.getEmail(), true);
-		addFormParam(formData, "password", password, true);
-		addFormParam(formData, "username", user.getUsername(), true);
-		addFormParam(formData, "name", user.getName(), true);
-		addFormParam(formData, "skype", user.getSkype(), false);
-		addFormParam(formData, "linkedin", user.getLinkedin(), false);
-		addFormParam(formData, "twitter", user.getTwitter(), false);
-		addFormParam(formData, "website_url", user.getWebsiteUrl(), false);
-		addFormParam(formData, "projects_limit", projectsLimit, false);
-		addFormParam(formData, "extern_uid", user.getExternUid(), false);
-		addFormParam(formData, "provider", user.getProvider(), false);
-		addFormParam(formData, "bio", user.getBio(), false);
-		addFormParam(formData, "admin", user.getIsAdmin(), false);
-		addFormParam(formData, "can_create_group", user.getCanCreateGroup(), false);		
-	
+		Form formData = user2form(user, projectsLimit, password, true);		
 		Response response = post(Response.Status.CREATED, formData, "users");
 		return (response.readEntity(User.class));
 	}
-	
-	
+
+
 	/**
 	 * Modifies an existing user. Only administrators can change attributes of a user.
 	 * 
@@ -135,24 +119,8 @@ public class UserApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public User modifyUser (User user, String password, Integer projectsLimit) throws GitLabApiException {
-		
-		Form formData = new Form();
-		addFormParam(formData, "email", user.getEmail(), false);
-		addFormParam(formData, "password", password, false);
-		addFormParam(formData, "username", user.getUsername(), false);
-		addFormParam(formData, "name", user.getName(), false);
-		addFormParam(formData, "skype", user.getSkype(), false);
-		addFormParam(formData, "linkedin", user.getLinkedin(), false);
-		addFormParam(formData, "twitter", user.getTwitter(), false);
-		addFormParam(formData, "website_url", user.getWebsiteUrl(), false);
-		addFormParam(formData, "projects_limit", projectsLimit, false);
-		addFormParam(formData, "extern_uid", user.getExternUid(), false);
-		addFormParam(formData, "provider", user.getProvider(), false);
-		addFormParam(formData, "bio", user.getBio(), false);
-		addFormParam(formData, "admin", user.getIsAdmin(), false);
-		addFormParam(formData, "can_create_group", user.getCanCreateGroup(), false);		
-	
-		Response response = put(Response.Status.OK, formData.asMap(), "users", user.getId());
+		Form form = user2form(user, projectsLimit, password, false);		
+		Response response = put(Response.Status.OK, form.asMap(), "users", user.getId());
 		return (response.readEntity(User.class));
 	}	
 	
@@ -185,5 +153,24 @@ public class UserApi extends AbstractApi {
 	 */
 	public void deleteUser (User user)  throws GitLabApiException {
 		deleteUser(user.getId());
+	}
+
+	private Form user2form(User user, Integer projectsLimit, String password, boolean isCreate) {
+		Form form = new Form();
+		addFormParam(form, "email", user.getEmail(), isCreate);
+		addFormParam(form, "password", password, isCreate);
+		addFormParam(form, "username", user.getUsername(), isCreate);
+		addFormParam(form, "name", user.getName(), isCreate);
+		addFormParam(form, "skype", user.getSkype(), false);
+		addFormParam(form, "linkedin", user.getLinkedin(), false);
+		addFormParam(form, "twitter", user.getTwitter(), false);
+		addFormParam(form, "website_url", user.getWebsiteUrl(), false);
+		addFormParam(form, "projects_limit", projectsLimit, false);
+		addFormParam(form, "extern_uid", user.getExternUid(), false);
+		addFormParam(form, "provider", user.getProvider(), false);
+		addFormParam(form, "bio", user.getBio(), false);
+		addFormParam(form, "admin", user.getIsAdmin(), false);
+		addFormParam(form, "can_create_group", user.getCanCreateGroup(), false);
+		return form;
 	}
 }
