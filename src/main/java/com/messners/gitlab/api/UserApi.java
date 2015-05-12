@@ -62,6 +62,24 @@ public class UserApi extends AbstractApi {
 		return (response.getEntity(User.class));
 	}
 	
+	// Search users by Email or username
+    // GET /users?search=:email_or_username
+	
+    /**
+     * Search users by Email or username
+     * 
+     * GET /users?search=:email_or_username
+     * 
+     * @param emailOrUsername
+	 * @return the User List with the email or username like emailOrUsername
+     * @throws GitLabApiException 
+     */
+	public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
+		Form formData = new Form();
+		addFormParam(formData, "search", emailOrUsername, true);
+		ClientResponse response = get(ClientResponse.Status.OK, formData, "users");
+		return (response.getEntity(new GenericType<List<User>>() {}));
+    }
 	
 	/**
 	 * Creates a new user. Note only administrators can create new users.
