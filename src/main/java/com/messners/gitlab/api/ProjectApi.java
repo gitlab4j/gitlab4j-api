@@ -181,6 +181,45 @@ public class ProjectApi extends AbstractApi {
 		return (response.getEntity(Project.class));
 	}
 
+	/**
+     * Creates a Project
+     *
+     * @param name                 The name of the project
+     * @param namespaceId          The Namespace for the new project, otherwise null indicates to use the GitLab default (user)
+     * @param description          A description for the project, null otherwise
+     * @param issuesEnabled        Whether Issues should be enabled, otherwise null indicates to use GitLab default
+     * @param wallEnabled          Whether The Wall should be enabled, otherwise null indicates to use GitLab default
+     * @param mergeRequestsEnabled Whether Merge Requests should be enabled, otherwise null indicates to use GitLab default
+     * @param wikiEnabled          Whether a Wiki should be enabled, otherwise null indicates to use GitLab default
+     * @param snippetsEnabled      Whether Snippets should be enabled, otherwise null indicates to use GitLab default
+     * @param publik               Whether the project is public or private, if true same as setting visibilityLevel = 20, otherwise null indicates to use GitLab default
+     * @param visibilityLevel      The visibility level of the project, otherwise null indicates to use GitLab default
+     * @param importUrl            The Import URL for the project, otherwise null
+     * @return the Gitlab Project
+	 * @throws GitLabApiException 
+     */
+    public Project createProject(String name, Integer namespaceId, String description, Boolean issuesEnabled, Boolean wallEnabled, Boolean mergeRequestsEnabled, Boolean wikiEnabled, Boolean snippetsEnabled, Boolean publik, Integer visibilityLevel, String importUrl) throws GitLabApiException{
+		
+		if (name == null || name.trim().length() == 0) {
+			return (null);
+		}
+		
+		Form formData = new Form();
+		addFormParam(formData, "name",  name, true);
+		addFormParam(formData, "namespace_id", namespaceId);
+		addFormParam(formData, "description", description);
+		addFormParam(formData, "issues_enabled", issuesEnabled);		
+		addFormParam(formData, "wall_enabled", wallEnabled);
+		addFormParam(formData, "merge_requests_enabled", mergeRequestsEnabled);
+		addFormParam(formData, "wiki_enabled", wikiEnabled);
+		addFormParam(formData, "snippets_enabled", snippetsEnabled);
+		addFormParam(formData, "public", publik);
+		addFormParam(formData, "visibility_level", visibilityLevel);
+		addFormParam(formData, "import_url", importUrl);
+		
+		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "projects");
+		return (response.getEntity(Project.class));
+    }
 	
 	/**
 	 * Removes project with all resources(issues, merge requests etc).
