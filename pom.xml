@@ -5,7 +5,7 @@
 	<groupId>com.messners</groupId>
 	<artifactId>gitlab-api</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.16-SNAPSHOT</version>
+	<version>2.0.1-SNAPSHOT</version>
 	<name>gitlab-api</name>
 	<description>GitLab API provides a full featured Java API for working with GitLab repositories via the GitLab REST API</description>
 	<url>http://www.messners.com/#gitlab-api/gitlab-api.html</url>
@@ -39,7 +39,7 @@
 
 	<properties>
 		<jdk.version>1.6</jdk.version>
-		<jersey.version>1.18</jersey.version>
+		<jersey.version>2.14</jersey.version>
 		<jackson.version>1.9.13</jackson.version>
 		<junit.version>4.9</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -134,13 +134,8 @@
 			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
+			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-json</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>

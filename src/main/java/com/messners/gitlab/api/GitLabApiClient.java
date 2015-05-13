@@ -1,12 +1,7 @@
 package com.messners.gitlab.api;
 
-import java.io.IOException;
-import java.net.URL;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -15,19 +10,24 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.api.representation.Form;
-import com.sun.jersey.client.urlconnection.HTTPSProperties;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.net.URL;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class utilizes the Jersey client package to communicate with a GitLab API endpoint.
@@ -45,7 +45,6 @@ public class GitLabApiClient {
 	private String privateToken;
 	private static boolean ignoreCertificateErrors;
 	private static SSLSocketFactory defaultSocketFactory;
-	private static HTTPSProperties defaultHttpsProperties;
 
 
 	/**
@@ -60,11 +59,9 @@ public class GitLabApiClient {
 		// Remove the trailing "/" from the hostUrl if present
 		this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl) + API_NAMESPACE;
 		this.privateToken = privateToken;
-		
-		clientConfig = new DefaultClientConfig();
-		clientConfig.getClasses().add(JacksonJson.class);
-		clientConfig.getFeatures().put(ClientConfig.PROPERTY_FOLLOW_REDIRECTS, Boolean.TRUE);
-		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+
+		clientConfig = new ClientConfig();
+		clientConfig.register(JacksonJson.class);
 	}
 	
 	
@@ -92,20 +89,16 @@ public class GitLabApiClient {
 		}
 		
 		if (ignoreCertificateErrors == false) {	
-		
 			GitLabApiClient.ignoreCertificateErrors = false;
 			HttpsURLConnection.setDefaultSSLSocketFactory(GitLabApiClient.defaultSocketFactory);
-			clientConfig.getProperties().put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, GitLabApiClient.defaultHttpsProperties);
 			return;
 		}
 		
 		SSLSocketFactory defaultSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
-		HTTPSProperties defaultHttpsProperties = (HTTPSProperties)clientConfig.getProperties().get(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES);		
-		
+
 		if (ignoreCertificateErrors() == true) {
 			GitLabApiClient.ignoreCertificateErrors = true;
 			GitLabApiClient.defaultSocketFactory = defaultSocketFactory;
-			GitLabApiClient.defaultHttpsProperties = defaultHttpsProperties;
 		} else {
 			throw new RuntimeException("Unable to ignore certificate errors.");
 		}
@@ -150,23 +143,6 @@ public class GitLabApiClient {
 			return (false);
 		}
     
-		// Set up a HostnameVerifier for Jersey to verify all hostnames as valid
-		try {
-			
-			clientConfig.getProperties().put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(					
-			     new HostnameVerifier() {
-			         @Override
-			         public boolean verify(String s, SSLSession sslSession) {
-			             return (true);
-			         }
-			     }
-			 ));
-			
-		} catch (NoSuchAlgorithmException e) {
-			HttpsURLConnection.setDefaultSSLSocketFactory(defaultSocketFactory);
-			return (false);
-		}
-		
 		return (true);
 	}
     
@@ -198,12 +174,10 @@ public class GitLabApiClient {
 	 * @param queryParams
 	 * @param pathArgs
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
 	 * @throws IOException
 	 */
-	protected  ClientResponse get (MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
-			throws UniformInterfaceException, ClientHandlerException, IOException {		
+	protected Response get (MultivaluedMap<String, String> queryParams, Object ... pathArgs)
+			throws IOException {
 		URL url = getApiUrl(pathArgs);
 		return (get(queryParams, url));	
 	}	
@@ -216,25 +190,10 @@ public class GitLabApiClient {
 	 * @param queryParams
 	 * @param url
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
 	 */
-	protected ClientResponse get (MultivaluedMap<String, String> queryParams, URL url) 
-			throws UniformInterfaceException, ClientHandlerException {
-		
-		if (apiClient == null) {
-			apiClient = Client.create(clientConfig);
-		}
-		
-		WebResource resource = apiClient.resource(url.toString());
-		if (queryParams != null) {
-			resource.queryParams(queryParams);
-		}
-		
-		return (resource.header(PRIVATE_TOKEN_HEADER, privateToken)
-			.accept(MediaType.APPLICATION_JSON)
-			.get(ClientResponse.class));
-	}		
+	protected Response get (MultivaluedMap<String, String> queryParams, URL url) {
+		return invocation(url, queryParams).get();
+	}
 	
 	
 	/**
@@ -244,17 +203,15 @@ public class GitLabApiClient {
 	 * @param formData
 	 * @param pathArgs
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
 	 * @throws IOException
 	 */
-	protected ClientResponse post (Form formData, Object ... pathArgs) 
-			throws UniformInterfaceException, ClientHandlerException, IOException {		
+	protected Response post (Form formData, Object ... pathArgs)
+			throws IOException {
 		URL url = getApiUrl(pathArgs);
-		return (post(formData, url));		
+		return post(formData, url);
 	}
 	
-	
+
 	/**
 	 * Perform an HTTP POST call with the specified form data and URL, returning 
 	 * a ClientResponse instance with the data returned from the endpoint.
@@ -262,20 +219,9 @@ public class GitLabApiClient {
 	 * @param formData
 	 * @param url
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
 	 */
-	protected ClientResponse post (Form formData, URL url) throws UniformInterfaceException, ClientHandlerException {
-		
-		if (apiClient == null) {
-			apiClient = Client.create(clientConfig);
-		}
-		
-		return (apiClient.resource(url.toString())
-			.header(PRIVATE_TOKEN_HEADER, privateToken)
-			.accept(MediaType.APPLICATION_JSON)
-			.type(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
-			.post(ClientResponse.class, formData));		
+	protected Response post (Form formData, URL url) {
+		return invocation(url, null).post(Entity.entity(formData, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
 	}
 	
 	
@@ -286,12 +232,10 @@ public class GitLabApiClient {
 	 * @param queryParams
 	 * @param pathArgs
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
 	 * @throws IOException
 	 */
-	protected  ClientResponse put (MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
-			throws UniformInterfaceException, ClientHandlerException, IOException {		
+	protected  Response put (MultivaluedMap<String, String> queryParams, Object ... pathArgs)
+			throws IOException {
 		URL url = getApiUrl(pathArgs);
 		return (put(queryParams, url));	
 	}	
@@ -304,69 +248,70 @@ public class GitLabApiClient {
 	 * @param queryParams
 	 * @param url
 	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
 	 */
-	protected ClientResponse put (MultivaluedMap<String, String> queryParams, URL url) 
-			throws UniformInterfaceException, ClientHandlerException {
-		
-		if (apiClient == null) {
-			apiClient = Client.create(clientConfig);
-		}
-		
-		WebResource resource = apiClient.resource(url.toString());
-		if (queryParams != null) {
-			resource.queryParams(queryParams);
-		}
-		
-		return (resource.header(PRIVATE_TOKEN_HEADER, privateToken)
-			.accept(MediaType.APPLICATION_JSON)
-			.put(ClientResponse.class));
-	}	
+	protected Response put (MultivaluedMap<String, String> queryParams, URL url) {
+		return invocation(url, queryParams).put(null);
+	}
 	
 	
 	/**
 	 * Perform an HTTP DELETE call with the specified form data and path objects, returning 
-	 * a ClientResponse instance with the data returned from the endpoint.
+	 * a Response instance with the data returned from the endpoint.
 	 * 
 	 * @param queryParams
 	 * @param pathArgs
-	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
+	 * @return a Response instance with the data returned from the endpoint
 	 * @throws IOException
 	 */
-	protected  ClientResponse delete (MultivaluedMap<String, String> queryParams, Object ... pathArgs) 
-			throws UniformInterfaceException, ClientHandlerException, IOException {		
-		URL url = getApiUrl(pathArgs);
-		return (delete(queryParams, url));	
+	protected Response delete (MultivaluedMap<String, String> queryParams, Object ... pathArgs) throws IOException {
+		return delete(queryParams, getApiUrl(pathArgs));
 	}	
 	
 	
 	/**
 	 * Perform an HTTP DELETE call with the specified form data and URL, returning 
-	 * a ClientResponse instance with the data returned from the endpoint.
+	 * a Response instance with the data returned from the endpoint.
 	 *  
 	 * @param queryParams
 	 * @param url
-	 * @return a ClientResponse instance with the data returned from the endpoint
-	 * @throws UniformInterfaceException
-	 * @throws ClientHandlerException
+	 * @return a Response instance with the data returned from the endpoint
 	 */
-	protected ClientResponse delete (MultivaluedMap<String, String> queryParams, URL url) 
-			throws UniformInterfaceException, ClientHandlerException {
-		
+	protected Response delete (MultivaluedMap<String, String> queryParams, URL url) {
+		return invocation(url, queryParams).delete();
+	}
+
+	protected class AcceptAllHostnameVerifier implements HostnameVerifier {
+		@Override
+		public boolean verify(String s, SSLSession sslSession) {
+			return true;
+		}
+	}
+
+	protected Invocation.Builder invocation(URL url, MultivaluedMap<String, String> queryParams) {
 		if (apiClient == null) {
-			apiClient = Client.create(clientConfig);
+			apiClient = ClientBuilder.newBuilder()
+					.withConfig(clientConfig)
+					.sslContext(getSslContext())
+					.hostnameVerifier(new AcceptAllHostnameVerifier())
+					.build();
 		}
-		
-		WebResource resource = apiClient.resource(url.toString());
+
+		WebTarget target = apiClient.target(url.toExternalForm()).property(ClientProperties.FOLLOW_REDIRECTS, true);
 		if (queryParams != null) {
-			resource.queryParams(queryParams);
+			for (Map.Entry<String, List<String>> param : queryParams.entrySet()) {
+				target = target.queryParam(param.getKey(), param.getValue().toArray());
+			}
 		}
-		
-		return (resource.header(PRIVATE_TOKEN_HEADER, privateToken)
-			.accept(MediaType.APPLICATION_JSON)
-			.delete(ClientResponse.class));
-	}	
+		return target.request().header(PRIVATE_TOKEN_HEADER, privateToken).accept(MediaType.APPLICATION_JSON);
+	}
+
+	private SSLContext getSslContext() {
+		try {
+			return SSLContext.getDefault();
+		} catch (NoSuchAlgorithmException e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+
 }

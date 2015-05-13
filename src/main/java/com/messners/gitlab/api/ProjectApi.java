@@ -1,19 +1,20 @@
 package com.messners.gitlab.api;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
-
 import com.messners.gitlab.api.models.Event;
 import com.messners.gitlab.api.models.Member;
 import com.messners.gitlab.api.models.Project;
 import com.messners.gitlab.api.models.ProjectHook;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.representation.Form;
+import org.glassfish.jersey.uri.UriComponent;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 
 public class ProjectApi extends AbstractApi {
-	
+
 	ProjectApi (GitLabApi gitLabApi) {
 		super(gitLabApi);
 	}
@@ -28,8 +29,8 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Project> getProjects () throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects");
-		return (response.getEntity(new GenericType<List<Project>>() {}));
+		Response response = get(Response.Status.OK, null, "projects");
+		return (response.readEntity(new GenericType<List<Project>>(){}));
 	}
 	
 
@@ -42,8 +43,8 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Project> getAllProjects () throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", "all");
-		return (response.getEntity(new GenericType<List<Project>>() {}));
+		Response response = get(Response.Status.OK, UriComponent.decodeQuery("per_page=9999", true), "projects", "all");
+		return (response.readEntity(new GenericType<List<Project>>(){}));
 	}
 
 	
@@ -56,8 +57,8 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Project> getOwnedProjects () throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", "owned");
-		return (response.getEntity(new GenericType<List<Project>>() {}));
+		Response response = get(Response.Status.OK, null, "projects", "owned");
+		return (response.readEntity(new GenericType<List<Project>>(){}));
 	}
 
 	
@@ -71,8 +72,8 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public Project getProject (Integer projectId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId);
-		return (response.getEntity(Project.class));
+		Response response = get(Response.Status.OK, null, "projects", projectId);
+		return (response.readEntity(Project.class));
 	}
 
 
@@ -95,9 +96,9 @@ public class ProjectApi extends AbstractApi {
 			throw (new GitLabApiException(uee));
 		}
 		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", pid);
-		return (response.getEntity(Project.class));
-	}	
+		Response response = get(Response.Status.OK, null, "projects", pid);
+		return (response.readEntity(Project.class));
+	}
 	
 	
 	/**
@@ -114,8 +115,8 @@ public class ProjectApi extends AbstractApi {
 		addFormParam(formData, "namespace_id", groupId);
 		addFormParam(formData, "name",  projectName, true);
 	
-		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "projects");
-		return (response.getEntity(Project.class));
+		Response response = post(Response.Status.CREATED, formData, "projects");
+		return (response.readEntity(Project.class));
 	}
 	
 	
@@ -124,8 +125,7 @@ public class ProjectApi extends AbstractApi {
 	 * 
 	 * @param project the Project instance with the configuration for the new project
 	 * @return a Project instance with the newly created project info
-	 * @throws IOException
-	 * @throws GitLabApiException 
+	 * @throws GitLabApiException
 	 */	
 	public Project createProject (Project project) throws GitLabApiException {
 		return (createProject(project, null));
@@ -177,8 +177,8 @@ public class ProjectApi extends AbstractApi {
 		addFormParam(formData, "visibility_level", project.getVisibilityLevel());
 		addFormParam(formData, "import_url", importUrl);
 	
-		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "projects");
-		return (response.getEntity(Project.class));
+		Response response = post(Response.Status.CREATED, formData, "projects");
+		return (response.readEntity(Project.class));
 	}
 
 	/**
@@ -217,8 +217,8 @@ public class ProjectApi extends AbstractApi {
 		addFormParam(formData, "visibility_level", visibilityLevel);
 		addFormParam(formData, "import_url", importUrl);
 		
-		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "projects");
-		return (response.getEntity(Project.class));
+		Response response = post(Response.Status.CREATED, formData, "projects");
+		return (response.readEntity(Project.class));
     }
 	
 	/**
@@ -235,7 +235,7 @@ public class ProjectApi extends AbstractApi {
 			throw new RuntimeException("projectId cannot be null");
 		}
 		
-		delete(ClientResponse.Status.OK, null, "projects", projectId);
+		delete(Response.Status.OK, null, "projects", projectId);
 	}
 
 	
@@ -262,8 +262,8 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Member> getMembers (Integer projectId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "members");
-		return (response.getEntity(new GenericType<List<Member>>() {}));
+		Response response = get(Response.Status.OK, null, "projects", projectId, "members");
+		return (response.readEntity(new GenericType<List<Member>>() {}));
 	}
 	
 	
@@ -278,8 +278,8 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public Member getMember (Integer projectId, Integer userId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "members", userId);
-		return (response.getEntity(Member.class));
+		Response response = get(Response.Status.OK, null, "projects", projectId, "members", userId);
+		return (response.readEntity(Member.class));
 	}
 	
 	
@@ -299,10 +299,10 @@ public class ProjectApi extends AbstractApi {
 	public Member addMember (Integer projectId, Integer userId, Integer accessLevel) throws GitLabApiException {
 		
 		Form formData = new Form();
-		formData.add("user_id",  userId);		
-		formData.add("access_level",  accessLevel);		
-		ClientResponse response = post(ClientResponse.Status.OK, formData, "projects", projectId, "members");
-		return (response.getEntity(Member.class));
+		formData.param("user_id", userId.toString());
+		formData.param("access_level", accessLevel.toString());
+		Response response = post(Response.Status.OK, formData, "projects", projectId, "members");
+		return (response.readEntity(Member.class));
 	}
 	
 	
@@ -316,7 +316,7 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public void removeMember (Integer projectId, Integer userId) throws GitLabApiException {		
-		delete(ClientResponse.Status.OK, null, "projects", projectId, "members", userId);
+		delete(Response.Status.OK, null, "projects", projectId, "members", userId);
 	}
 
 
@@ -330,8 +330,8 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Event> getProjectEvents (Integer projectId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "events");
-		return (response.getEntity(new GenericType<List<Event>>() {}));
+		Response response = get(Response.Status.OK, null, "projects", projectId, "events");
+		return (response.readEntity(new GenericType<List<Event>>() {}));
 	}
 
 	
@@ -345,8 +345,8 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<ProjectHook> getHooks (Integer projectId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "hooks");
-		return (response.getEntity(new GenericType<List<ProjectHook>>() {} ));
+		Response response = get(Response.Status.OK, null, "projects", projectId, "hooks");
+		return (response.readEntity(new GenericType<List<ProjectHook>>() {}));
 	}
 	
 	
@@ -361,8 +361,8 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public ProjectHook getHook (Integer projectId, Integer hookId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "hooks", hookId);
-		return (response.getEntity(ProjectHook.class));
+		Response response = get(Response.Status.OK, null, "projects", projectId, "hooks", hookId);
+		return (response.readEntity(ProjectHook.class));
 	}
 	
 	
@@ -409,13 +409,13 @@ public class ProjectApi extends AbstractApi {
 			throws GitLabApiException {
 		
 		Form formData = new Form();
-		formData.add("url",  url);		
-		formData.add("push_events", doPushEvents);
-		formData.add("issues_enabled", doIssuesEvents);	
-		formData.add("merge_requests_events", doMergeRequestsEvents);
+		formData.param("url", url);
+		formData.param("push_events", Boolean.toString(doPushEvents));
+		formData.param("issues_enabled", Boolean.toString(doIssuesEvents));
+		formData.param("merge_requests_events", Boolean.toString(doMergeRequestsEvents));
 
-		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "projects", projectId, "hooks");
-		return (response.getEntity(ProjectHook.class));	
+		Response response = post(Response.Status.CREATED, formData, "projects", projectId, "hooks");
+		return (response.readEntity(ProjectHook.class));
 	}
 	
 	
@@ -429,7 +429,7 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public void deleteHook (Integer projectId, Integer hookId) throws GitLabApiException {
-		delete(ClientResponse.Status.OK, null, "projects", projectId, "hooks", hookId);
+		delete(Response.Status.OK, null, "projects", projectId, "hooks", hookId);
 	}
 	
 	
@@ -458,12 +458,12 @@ public class ProjectApi extends AbstractApi {
 	public ProjectHook modifyHook (ProjectHook hook) throws GitLabApiException {
 		
 		Form formData = new Form();
-		formData.add("url",  hook.getUrl());		
-		formData.add("push_events", hook.getPushEvents());
-		formData.add("issues_enabled", hook.getIssuesEvents());	
-		formData.add("merge_requests_events", hook.getMergeRequestsEvents());
+		formData.param("url", hook.getUrl());
+		formData.param("push_events", hook.getPushEvents().toString());
+		formData.param("issues_enabled", hook.getIssuesEvents().toString());
+		formData.param("merge_requests_events", hook.getMergeRequestsEvents().toString());
 
-		ClientResponse response = put(ClientResponse.Status.OK, formData, "projects", hook.getProjectId(), "hooks", hook.getId());
-		return (response.getEntity(ProjectHook.class));	
+		Response response = put(Response.Status.OK, formData.asMap(), "projects", hook.getProjectId(), "hooks", hook.getId());
+		return (response.readEntity(ProjectHook.class));
 	}
 }

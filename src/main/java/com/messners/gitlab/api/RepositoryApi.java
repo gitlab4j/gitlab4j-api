@@ -1,13 +1,13 @@
 package com.messners.gitlab.api;
 
-import java.util.List;
-
 import com.messners.gitlab.api.models.Branch;
 import com.messners.gitlab.api.models.Tag;
 import com.messners.gitlab.api.models.TreeItem;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.representation.Form;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 
 /**
@@ -32,8 +32,8 @@ public class RepositoryApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Branch> getBranches (Integer projectId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "repository", "branches");
-		return (response.getEntity(new GenericType<List<Branch>>() {}));
+		Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "branches");
+		return (response.readEntity(new GenericType<List<Branch>>() {}));
 	}
 
 
@@ -48,8 +48,8 @@ public class RepositoryApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public Branch getBranch (Integer projectId, String branchName) throws GitLabApiException {
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "repository", "branches", branchName);
-		return (response.getEntity(Branch.class));
+		Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName);
+		return (response.readEntity(Branch.class));
 	}
 
 
@@ -66,10 +66,10 @@ public class RepositoryApi extends AbstractApi {
 	 */
     public Branch createBranch (Integer projectId, String branchName, String ref) throws GitLabApiException {
         Form formData = new Form();
-        formData.add("branch_name ",  branchName);              
-        formData.add("ref ", ref);
-        ClientResponse response = post(ClientResponse.Status.OK, formData, "projects", projectId, "repository", "branches");
-        return (response.getEntity(Branch.class));
+        formData.param("branch_name ", branchName);
+        formData.param("ref ", ref);
+        Response response = post(Response.Status.OK, formData, "projects", projectId, "repository", "branches");
+        return (response.readEntity(Branch.class));
     }
 	
 	
@@ -85,8 +85,8 @@ public class RepositoryApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public Branch protectBranch (Integer projectId, String branchName) throws GitLabApiException {		
-		ClientResponse response = put(ClientResponse.Status.OK, null, "projects", projectId, "repository", "branches", branchName, "protect");
-		return (response.getEntity(Branch.class));
+		Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName, "protect");
+		return (response.readEntity(Branch.class));
 	}
 	
 	
@@ -102,8 +102,8 @@ public class RepositoryApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public Branch unprotectBranch (Integer projectId, String branchName) throws GitLabApiException {		
-		ClientResponse response = put(ClientResponse.Status.OK, null, "projects", projectId, "repository", "branches", branchName, "unprotect");
-		return (response.getEntity(Branch.class));
+		Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName, "unprotect");
+		return (response.readEntity(Branch.class));
 	}
 	
 	
@@ -117,8 +117,8 @@ public class RepositoryApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Tag> getTags (Integer projectId) throws GitLabApiException {		
-		ClientResponse response = put(ClientResponse.Status.OK, null, "projects", projectId, "repository", "tags");
-		 return (response.getEntity(new GenericType<List<Tag>>() {}));
+		Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "tags");
+		 return (response.readEntity(new GenericType<List<Tag>>() {}));
 	}
 	
 	
@@ -132,8 +132,8 @@ public class RepositoryApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<TreeItem> getTree (Integer projectId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "repository", "tree");
-		return (response.getEntity(new GenericType<List<TreeItem>>() {}));
+		Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "tree");
+		return (response.readEntity(new GenericType<List<TreeItem>>() {}));
 	}
 	
 	
@@ -151,7 +151,7 @@ public class RepositoryApi extends AbstractApi {
 		
 		Form formData = new Form();
 		addFormParam(formData, "filepath", filepath, true);		
-		ClientResponse response = get(ClientResponse.Status.OK, formData, "projects", projectId, "repository", "blobs", commitOrBranchName);
-		return (response.getEntity(String.class));
+		Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "blobs", commitOrBranchName);
+		return (response.readEntity(String.class));
 	}
 }

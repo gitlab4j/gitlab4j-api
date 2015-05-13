@@ -1,12 +1,12 @@
 package com.messners.gitlab.api;
 
-import java.util.List;
-
 import com.messners.gitlab.api.models.Group;
 import com.messners.gitlab.api.models.Member;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.representation.Form;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * This class implements the client side API for the GitLab groups calls.
@@ -29,8 +29,8 @@ public class GroupApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Group> getGroups () throws GitLabApiException {	
-		ClientResponse response = get(ClientResponse.Status.OK, null, "groups");
-		return (response.getEntity(new GenericType<List<Group>>() {}));
+		Response response = get(Response.Status.OK, null, "groups");
+		return (response.readEntity(new GenericType<List<Group>>() {}));
 	}
 	
 	
@@ -44,8 +44,8 @@ public class GroupApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public Group getGroup (int groupId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "groups", groupId);
-		return (response.getEntity(Group.class));
+		Response response = get(Response.Status.OK, null, "groups", groupId);
+		return (response.readEntity(Group.class));
 	}
 	
 	
@@ -60,9 +60,9 @@ public class GroupApi extends AbstractApi {
 	public void addGroup (String name, String path) throws GitLabApiException {
 		
 		Form formData = new Form();
-		formData.add("name",  name);		
-		formData.add("path",  path);		
-		post(ClientResponse.Status.OK, formData, "groups");
+		formData.param("name", name);
+		formData.param("path", path);
+		post(Response.Status.OK, formData, "groups");
 	}
 	
 	
@@ -80,7 +80,7 @@ public class GroupApi extends AbstractApi {
 			throw new RuntimeException("groupId cannot be null");
 		}
 		
-		delete(ClientResponse.Status.OK, null, "groups", groupId);
+		delete(Response.Status.OK, null, "groups", groupId);
 	}
 
 	
@@ -106,8 +106,8 @@ public class GroupApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Member> getMembers (int groupId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "groups", groupId, "members");
-		return (response.getEntity(new GenericType<List<Member>>() {}));
+		Response response = get(Response.Status.OK, null, "groups", groupId, "members");
+		return (response.readEntity(new GenericType<List<Member>>() {}));
 	}
 	
 	/**
@@ -124,10 +124,10 @@ public class GroupApi extends AbstractApi {
 	public Member addMember (Integer groupId, Integer userId, Integer accessLevel) throws GitLabApiException {
 		
 		Form formData = new Form();
-		formData.add("user_id",  userId);		
-		formData.add("access_level",  accessLevel);		
-		ClientResponse response = post(ClientResponse.Status.OK, formData, "groups", groupId, "members");
-		return (response.getEntity(Member.class));
+		formData.param("user_id", userId.toString());
+		formData.param("access_level", accessLevel.toString());
+		Response response = post(Response.Status.OK, formData, "groups", groupId, "members");
+		return (response.readEntity(Member.class));
 	}
 	
 	
@@ -141,6 +141,6 @@ public class GroupApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public void removeMember (Integer projectId, Integer userId) throws GitLabApiException {		
-		delete(ClientResponse.Status.OK, null, "groups", projectId, "members", userId);
+		delete(Response.Status.OK, null, "groups", projectId, "members", userId);
 	}
 }

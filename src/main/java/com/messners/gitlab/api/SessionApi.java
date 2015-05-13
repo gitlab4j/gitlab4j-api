@@ -1,8 +1,9 @@
 package com.messners.gitlab.api;
 
 import com.messners.gitlab.api.models.Session;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.representation.Form;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 
 /**
@@ -41,7 +42,7 @@ public class SessionApi extends AbstractApi {
 		addFormParam(formData, "password", password, true);
 		addFormParam(formData, "login", username, false);		
 	
-		ClientResponse response = post(ClientResponse.Status.CREATED, formData, "session");
-		return (response.getEntity(Session.class));
+		Response response = post(Response.Status.CREATED, formData, "session");
+		return (response.readEntity(Session.class));
 	}
 }

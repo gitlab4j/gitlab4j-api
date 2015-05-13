@@ -1,11 +1,11 @@
 package com.messners.gitlab.api;
 
-import java.util.List;
-
 import com.messners.gitlab.api.models.Commit;
 import com.messners.gitlab.api.models.Diff;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
+
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * This class implements the client side API for the GitLab commits calls.
@@ -29,8 +29,8 @@ public class CommitsApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<Commit> getCommits (int projectId) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "repository", "commits");
-		return (response.getEntity(new GenericType<List<Commit>>() {}));		
+		Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits");
+		return (response.readEntity(new GenericType<List<Commit>>(){}));
 	}
 
 	
@@ -45,8 +45,8 @@ public class CommitsApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public Commit getCommits (int projectId, String sha) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "repository", "commits", sha);
-		return (response.getEntity(Commit.class));		
+		Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha);
+		return (response.readEntity(Commit.class));
 	}
 
 	
@@ -61,8 +61,8 @@ public class CommitsApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public Diff getDiff (int projectId, String sha) throws GitLabApiException {		
-		ClientResponse response = get(ClientResponse.Status.OK, null, 
+		Response response = get(Response.Status.OK, null,
 				"projects", projectId, "repository", "commits", sha, "diff");
-		return (response.getEntity(Diff.class));		
+		return (response.readEntity(Diff.class));
 	}
 }
