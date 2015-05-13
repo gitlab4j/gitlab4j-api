@@ -132,7 +132,7 @@ public class RepositoryApi extends AbstractApi {
 	 * @throws GitLabApiException 
 	 */
 	public List<TreeItem> getTree (Integer projectId) throws GitLabApiException {		
-		ClientResponse response = put(ClientResponse.Status.OK, null, "projects", projectId, "repository", "tree");
+		ClientResponse response = get(ClientResponse.Status.OK, null, "projects", projectId, "repository", "tree");
 		return (response.getEntity(new GenericType<List<TreeItem>>() {}));
 	}
 	
