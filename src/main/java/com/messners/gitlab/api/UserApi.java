@@ -10,7 +10,6 @@ import com.messners.gitlab.api.models.User;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class UserApi extends AbstractApi {
 
