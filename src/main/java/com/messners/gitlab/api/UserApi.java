@@ -1,15 +1,12 @@
 package com.messners.gitlab.api;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
-
-import com.messners.gitlab.api.models.User;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+
+import com.messners.gitlab.api.models.User;
 
 public class UserApi extends AbstractApi {
 
@@ -79,18 +76,10 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException 
      */
 	public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
-		URL url;
-		try {
-			url = new URL(getApiClient().getApiUrl("users").toString()+"?search="+emailOrUsername);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} 
-		Response response = get(Response.Status.OK, null, url);
-		return (response.readEntity(new GenericType<List<User>>() {}));
+		Form formData = new Form();
+        addFormParam(formData, "search", emailOrUsername, true);
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
     }
 	
 	/**
