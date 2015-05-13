@@ -128,7 +128,7 @@ public class RepositoryApi extends AbstractApi {
 	 * GET /projects/:id/repository/tree
 	 * 
 	 * @param projectId
-	 * @return a tree with the diurectories and files of a project
+	 * @return a tree with the directories and files of a project
 	 * @throws GitLabApiException 
 	 */
 	public List<TreeItem> getTree (Integer projectId) throws GitLabApiException {		
