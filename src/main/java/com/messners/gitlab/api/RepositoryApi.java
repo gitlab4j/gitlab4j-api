@@ -154,4 +154,20 @@ public class RepositoryApi extends AbstractApi {
 		Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "blobs", commitOrBranchName);
 		return (response.readEntity(String.class));
 	}
+	
+	/**
+	 * Get the raw file contents for a blob by blob SHA.
+	 * 
+	 * GET /projects/:id/repository/raw_blobs/:sha
+	 * 
+	 * @param projectId
+	 * @param sha
+	 * @return  the raw file contents for the blob
+	 * @throws GitLabApiException 
+	 */
+	public String getRawBlobCotent(Integer projectId, String sha) throws GitLabApiException{
+        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "raw_blobs", sha);
+        return (response.readEntity(String.class));
+	}
+	
 }
