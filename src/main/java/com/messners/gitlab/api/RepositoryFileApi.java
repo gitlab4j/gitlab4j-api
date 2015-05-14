@@ -24,9 +24,9 @@ public class RepositoryFileApi extends AbstractApi {
      * 
      * GET /projects/:id/repository/files
      * 
-     * @param filePath
+     * @param file_path (required) - Full path to new file. Ex. lib/class.rb
      * @param projectId
-     * @param ref
+     * @param ref (required) - The name of branch, tag or commit
      * @return
      * @throws GitLabApiException
      */
@@ -42,6 +42,12 @@ public class RepositoryFileApi extends AbstractApi {
 	 * Create new file in repository
 	 * 
 	 * POST /projects/:id/repository/files
+	 * 
+	 * file_path (required) - Full path to new file. Ex. lib/class.rb
+     * branch_name (required) - The name of branch
+     * encoding (optional) - 'text' or 'base64'. Text is default.
+     * content (required) - File content
+     * commit_message (required) - Commit message
 	 * 
 	 * @param file
 	 * @param projectId
@@ -61,6 +67,12 @@ public class RepositoryFileApi extends AbstractApi {
 	 * 
 	 * PUT /projects/:id/repository/files
 	 * 
+	 * file_path (required) - Full path to new file. Ex. lib/class.rb
+     * branch_name (required) - The name of branch
+     * encoding (optional) - 'text' or 'base64'. Text is default.
+     * content (required) - File content
+     * commit_message (required) - Commit message
+     * 
 	 * @param file
 	 * @param projectId
 	 * @param branchName
@@ -79,6 +91,10 @@ public class RepositoryFileApi extends AbstractApi {
 	 * 
 	 * DELETE /projects/:id/repository/files
 	 *
+	 * file_path (required) - Full path to file. Ex. lib/class.rb
+     * branch_name (required) - The name of branch
+     * commit_message (required) - Commit message
+     * 
 	 * @param filePath
 	 * @param projectId
 	 * @param branchName
