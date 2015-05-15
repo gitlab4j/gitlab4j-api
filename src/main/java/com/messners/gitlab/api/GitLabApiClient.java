@@ -250,7 +250,7 @@ public class GitLabApiClient {
 	 * @return a ClientResponse instance with the data returned from the endpoint
 	 */
 	protected Response put (MultivaluedMap<String, String> queryParams, URL url) {
-		return invocation(url, queryParams).put(null);
+	    return invocation(url, null).put(Entity.entity(queryParams, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
 	}
 	
 	

@@ -17,6 +17,7 @@ public class GitLabApi {
 	private RepositoryApi repositoryApi;
 	private SessionApi sessoinApi;
 	private UserApi userApi;
+	private RepositoryFileApi repositoryFileApi;
 
 	/**
 	 * Logs into GitLab using provided {@code username} and {@code password}, and creates a new
@@ -48,6 +49,7 @@ public class GitLabApi {
 		repositoryApi = new RepositoryApi(this);
 		sessoinApi = new SessionApi(this);
 		userApi = new UserApi(this);
+		repositoryFileApi = new RepositoryFileApi(this);
 	}
 	
 	
@@ -137,4 +139,26 @@ public class GitLabApi {
 	public UserApi getUserApi () {
 		return (userApi);		
 	}
+
+
+	/**
+     * Gets the RepositoryFileApi instance owned by this GitLabApi instance.  The RepositoryFileApi is used
+     * to perform all repository files related API calls.
+     * 
+     * @return the RepositoryFileApi instance owned by this GitLabApi instance
+     */
+    public RepositoryFileApi getRepositoryFileApi() {
+        return repositoryFileApi;
+    }
+
+    /**
+     * Gets the RepositoryFileApi instance owned by this GitLabApi instance.  The RepositoryFileApi is used
+     * to perform all repository files related API calls.
+     * 
+     * @return the RepositoryFileApi instance owned by this GitLabApi instance
+     */
+    public void setRepositoryFileApi(RepositoryFileApi repositoryFileApi) {
+        this.repositoryFileApi = repositoryFileApi;
+    }
+	
 }

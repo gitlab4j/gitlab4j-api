@@ -1,11 +1,12 @@
 package com.messners.gitlab.api;
 
-import com.messners.gitlab.api.models.User;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+
+import com.messners.gitlab.api.models.User;
 
 public class UserApi extends AbstractApi {
 
@@ -62,6 +63,24 @@ public class UserApi extends AbstractApi {
 		return (response.readEntity(User.class));
 	}
 	
+	// Search users by Email or username
+    // GET /users?search=:email_or_username
+	
+    /**
+     * Search users by Email or username
+     * 
+     * GET /users?search=:email_or_username
+     * 
+     * @param emailOrUsername
+	 * @return the User List with the email or username like emailOrUsername
+     * @throws GitLabApiException 
+     */
+	public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
+		Form formData = new Form();
+        addFormParam(formData, "search", emailOrUsername, true);
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
+    }
 	
 	/**
 	 * Creates a new user. Note only administrators can create new users.
