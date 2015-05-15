@@ -62,13 +62,11 @@ public class UserApi extends AbstractApi {
 		Response response = get(Response.Status.OK, null, "users", userId);
 		return (response.readEntity(User.class));
 	}
-	
-	// Search users by Email or username
-    // GET /users?search=:email_or_username
-	
+
+
     /**
      * Search users by Email or username
-     * 
+     *
      * GET /users?search=:email_or_username
      * 
      * @param emailOrUsername
@@ -81,12 +79,13 @@ public class UserApi extends AbstractApi {
         Response response = get(Response.Status.OK, formData.asMap(), "users");
         return (response.readEntity(new GenericType<List<User>>() {}));
     }
-	
+
+
 	/**
 	 * Creates a new user. Note only administrators can create new users.
-	 * 
+	 *
 	 * POST /users
-	 * 
+	 *
 	 * email (required) - Email
 	 * password (required) - Password
 	 * username (required) - Username

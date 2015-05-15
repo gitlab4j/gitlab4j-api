@@ -131,6 +131,7 @@ public class ProjectApi extends AbstractApi {
 		return (createProject(project, null));
 	}
 
+
 	/**
 	 * Creates new project owned by the current user.  The following properties on the Project instance
 	 * are utilized in the creation of the project:
@@ -181,6 +182,7 @@ public class ProjectApi extends AbstractApi {
 		return (response.readEntity(Project.class));
 	}
 
+	
 	/**
      * Creates a Project
      *
@@ -199,16 +201,16 @@ public class ProjectApi extends AbstractApi {
 	 * @throws GitLabApiException 
      */
     public Project createProject(String name, Integer namespaceId, String description, Boolean issuesEnabled, Boolean wallEnabled, Boolean mergeRequestsEnabled, Boolean wikiEnabled, Boolean snippetsEnabled, Boolean publik, Integer visibilityLevel, String importUrl) throws GitLabApiException{
-		
+
 		if (name == null || name.trim().length() == 0) {
 			return (null);
 		}
-		
+
 		Form formData = new Form();
 		addFormParam(formData, "name",  name, true);
 		addFormParam(formData, "namespace_id", namespaceId);
 		addFormParam(formData, "description", description);
-		addFormParam(formData, "issues_enabled", issuesEnabled);		
+		addFormParam(formData, "issues_enabled", issuesEnabled);
 		addFormParam(formData, "wall_enabled", wallEnabled);
 		addFormParam(formData, "merge_requests_enabled", mergeRequestsEnabled);
 		addFormParam(formData, "wiki_enabled", wikiEnabled);
@@ -216,11 +218,12 @@ public class ProjectApi extends AbstractApi {
 		addFormParam(formData, "public", publik);
 		addFormParam(formData, "visibility_level", visibilityLevel);
 		addFormParam(formData, "import_url", importUrl);
-		
+
 		Response response = post(Response.Status.CREATED, formData, "projects");
 		return (response.readEntity(Project.class));
     }
-	
+
+
 	/**
 	 * Removes project with all resources(issues, merge requests etc).
 	 * 

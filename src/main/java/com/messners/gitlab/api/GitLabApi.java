@@ -117,8 +117,19 @@ public class GitLabApi {
 	public RepositoryApi getRepositoryApi () {
 		return (repositoryApi);		
 	}	
-	
-	
+
+
+	/**
+     * Gets the RepositoryFileApi instance owned by this GitLabApi instance.  The RepositoryFileApi is used
+     * to perform all repository files related API calls.
+     * 
+     * @return the RepositoryFileApi instance owned by this GitLabApi instance
+     */
+    public RepositoryFileApi getRepositoryFileApi() {
+        return repositoryFileApi;
+    }
+
+
 	/**
 	 * Gets the SessionApi instance owned by this GitLabApi instance.  The SessionApi is used
 	 * to perform a login to the GitLab API.
@@ -139,26 +150,4 @@ public class GitLabApi {
 	public UserApi getUserApi () {
 		return (userApi);		
 	}
-
-
-	/**
-     * Gets the RepositoryFileApi instance owned by this GitLabApi instance.  The RepositoryFileApi is used
-     * to perform all repository files related API calls.
-     * 
-     * @return the RepositoryFileApi instance owned by this GitLabApi instance
-     */
-    public RepositoryFileApi getRepositoryFileApi() {
-        return repositoryFileApi;
-    }
-
-    /**
-     * Gets the RepositoryFileApi instance owned by this GitLabApi instance.  The RepositoryFileApi is used
-     * to perform all repository files related API calls.
-     * 
-     * @return the RepositoryFileApi instance owned by this GitLabApi instance
-     */
-    public void setRepositoryFileApi(RepositoryFileApi repositoryFileApi) {
-        this.repositoryFileApi = repositoryFileApi;
-    }
-	
 }

@@ -135,26 +135,26 @@ public class RepositoryApi extends AbstractApi {
 		Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "tree");
 		return (response.readEntity(new GenericType<List<TreeItem>>() {}));
 	}
-	
-	
+
+
 	/**
 	 * Get the raw file contents for a file by commit sha and path.
-	 * 
+	 *
 	 * GET /projects/:id/repository/blobs/:sha
-	 * 
+	 *
 	 * @param projectId
 	 * @param commitOrBranchName
 	 * @return a string with the file content for the specified file
 	 * @throws GitLabApiException 
 	 */
-	public String getRawFileContent (Integer projectId, String commitOrBranchName, String filepath) throws GitLabApiException {
-		
+	public String getRawFileContent (Integer projectId, String commitOrBranchName, String filepath) throws GitLabApiException {	
 		Form formData = new Form();
 		addFormParam(formData, "filepath", filepath, true);		
 		Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "blobs", commitOrBranchName);
 		return (response.readEntity(String.class));
 	}
-	
+
+
 	/**
 	 * Get the raw file contents for a blob by blob SHA.
 	 * 
@@ -169,5 +169,4 @@ public class RepositoryApi extends AbstractApi {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "raw_blobs", sha);
         return (response.readEntity(String.class));
 	}
-	
 }
