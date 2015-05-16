@@ -61,7 +61,7 @@ RepositoryFileApi:
 ```java
 // Get info (name, size, ...) and the content ifrom a file in repository
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
-	```
+```
 
 SessionApi:
 ```java
