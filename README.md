@@ -22,6 +22,7 @@ GroupApi
 MergeRequestApi
 ProjectApi
 RepositoryApi
+RepositoryFileApi
 SessionApi
 UserApi
 ```
@@ -55,6 +56,12 @@ RepositoryApi:
 // Get a list of repository branches from a project, sorted by name alphabetically
 List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
 ```
+
+RepositoryFileApi:
+```java
+// Get info (name, size, ...) and the content ifrom a file in repository
+RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
+	```
 
 SessionApi:
 ```java
