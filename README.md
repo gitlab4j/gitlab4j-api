@@ -59,7 +59,7 @@ List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
 
 RepositoryFileApi:
 ```java
-// Get info (name, size, ...) and the content ifrom a file in repository
+// Get info (name, size, ...) and the content from a file in repository
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
 ```
 
