@@ -129,10 +129,10 @@ public class RepositoryApi extends AbstractApi {
 	 * 
 	 * @param projectId
 	 * @return a tree with the directories and files of a project
-	 * @throws GitLabApiException 
+	 * @throws GitLabApiException
 	 */
 	public List<TreeItem> getTree (Integer projectId) throws GitLabApiException {		
-		Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "tree");
+		Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "tree");
 		return (response.readEntity(new GenericType<List<TreeItem>>() {}));
 	}
 
