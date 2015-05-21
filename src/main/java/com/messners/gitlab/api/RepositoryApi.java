@@ -26,7 +26,7 @@ public class RepositoryApi extends AbstractApi {
      * GET /projects/:id/repository/branches
      * 
      * @param projectId
-     * @return the list of repository branches for mthe specified project ID
+     * @return the list of repository branches for the specified project ID
      * @throws GitLabApiException
      */
     public List<Branch> getBranches(Integer projectId) throws GitLabApiException {
