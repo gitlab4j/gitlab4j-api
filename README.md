@@ -23,6 +23,7 @@ MergeRequestApi
 ProjectApi
 RepositoryApi
 RepositoryFileApi
+ServicesApi
 SessionApi
 UserApi
 ```
@@ -61,6 +62,12 @@ RepositoryFileApi:
 ```java
 // Get info (name, size, ...) and the content from a file in repository
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
+```
+
+ServicesApi:
+```java
+// Activates the gitlab-ci service.
+getLabApi.getServicesApi().setGitLabCI("project-name", "auth-token", "project-ci-url");
 ```
 
 SessionApi:
