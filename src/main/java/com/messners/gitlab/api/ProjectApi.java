@@ -304,7 +304,7 @@ public class ProjectApi extends AbstractApi {
 		Form formData = new Form();
 		formData.param("user_id", userId.toString());
 		formData.param("access_level", accessLevel.toString());
-		Response response = post(Response.Status.OK, formData, "projects", projectId, "members");
+		Response response = post(Response.Status.CREATED, formData, "projects", projectId, "members");
 		return (response.readEntity(Member.class));
 	}
 	
