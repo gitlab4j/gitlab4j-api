@@ -8,9 +8,6 @@ import java.net.URL;
 /**
  * This class is the base class for all the sub API classes. It provides implementations of
  * delete(), get(), post() and put() that are re-used by all the sub-classes.
- * 
- * @author Greg Messner <greg@messners.com>
- *
  */
 public abstract class AbstractApi {
 
@@ -29,10 +26,10 @@ public abstract class AbstractApi {
      * a ClientResponse instance with the data returned from the endpoint.
      * 
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param queryParams
-     * @param pathArgs
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     protected Response get(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object... pathArgs) throws GitLabApiException {
         try {
@@ -47,10 +44,10 @@ public abstract class AbstractApi {
      * a ClientResponse instance with the data returned from the endpoint.
      * 
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param queryParams
-     * @param url
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     protected Response get(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
         try {
@@ -65,10 +62,10 @@ public abstract class AbstractApi {
      * a ClientResponse instance with the data returned from the endpoint.
      * 
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param formData
-     * @param pathArgs
+     * @param formData the Form containing the name/value pairs for the POST data
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     protected Response post(Response.Status expectedStatus, Form formData, Object... pathArgs) throws GitLabApiException {
         try {
@@ -83,10 +80,10 @@ public abstract class AbstractApi {
      * a ClientResponse instance with the data returned from the endpoint.
      * 
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param queryParams
-     * @param pathArgs
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     protected Response post(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object... pathArgs) throws GitLabApiException {
         try {
@@ -101,10 +98,10 @@ public abstract class AbstractApi {
      * a ClientResponse instance with the data returned from the endpoint.
      * 
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param formData
-     * @param url
+     * @param formData the Form containing the name/value pairs for the POST data
+     * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     protected Response post(Response.Status expectedStatus, Form formData, URL url) throws GitLabApiException {
         try {
@@ -119,10 +116,10 @@ public abstract class AbstractApi {
      * a ClientResponse instance with the data returned from the endpoint.
      * 
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param queryParams
-     * @param pathArgs
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     protected Response put(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object... pathArgs) throws GitLabApiException {
         try {
@@ -137,10 +134,10 @@ public abstract class AbstractApi {
      * a ClientResponse instance with the data returned from the endpoint.
      * 
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param queryParams
-     * @param url
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     protected Response put(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
         try {
@@ -155,10 +152,10 @@ public abstract class AbstractApi {
      * a ClientResponse instance with the data returned from the endpoint.
      *
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param queryParams
-     * @param pathArgs
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     protected Response delete(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object... pathArgs) throws GitLabApiException {
         try {
@@ -173,10 +170,10 @@ public abstract class AbstractApi {
      * a ClientResponse instance with the data returned from the endpoint.
      * 
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param queryParams
-     * @param url
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     protected Response delete(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
         try {
@@ -189,9 +186,9 @@ public abstract class AbstractApi {
     /**
      * Convenience method for adding query and form parameters to a get() or post() call.
      * 
-     * @param formData
-     * @param name
-     * @param value
+     * @param formData the Form containing the name/value pairs
+     * @param name the name of the field/attribute to add
+     * @param value the value of the field/attribute to add
      */
     protected void addFormParam(Form formData, String name, Object value) throws IllegalArgumentException {
         addFormParam(formData, name, value, false);
@@ -201,10 +198,10 @@ public abstract class AbstractApi {
      * Convenience method for adding query and form parameters to a get() or post() call.
      * If required is true and value is null, will throw an IllegalArgumentException.
      * 
-     * @param formData
-     * @param name
-     * @param value
-     * @param required
+     * @param formData the Form containing the name/value pairs
+     * @param name the name of the field/attribute to add
+     * @param value the value of the field/attribute to add
+     * @param required the field is required flag
      * @throws IllegalArgumentException if a required parameter is null or empty
      */
     protected void addFormParam(Form formData, String name, Object value, boolean required) throws IllegalArgumentException {

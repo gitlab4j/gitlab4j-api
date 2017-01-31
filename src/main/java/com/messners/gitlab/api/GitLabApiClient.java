@@ -31,8 +31,6 @@ import java.util.Map;
 
 /**
  * This class utilizes the Jersey client package to communicate with a GitLab API endpoint.
- * 
- * @author Greg Messner <greg@messners.com>
  */
 public class GitLabApiClient {
 

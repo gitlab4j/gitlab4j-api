@@ -10,8 +10,6 @@ import java.util.List;
 
 /**
  * This class implements the client side API for the GitLab groups calls.
- * 
- * @author Greg Messner <greg@messners.com>
  */
 public class GroupApi extends AbstractApi {
 

@@ -9,8 +9,6 @@ import java.util.List;
 
 /**
  * This class implements the client side API for the GitLab commits calls.
- * 
- * @author Greg Messner <greg@messners.com>
  */
 public class CommitsApi extends AbstractApi {
 
@@ -23,7 +21,7 @@ public class CommitsApi extends AbstractApi {
      * 
      * GET /projects/:id/repository/commits
      * 
-     * @param projectId
+     * @param projectId the project ID to get the list of commits for
      * @return a List<Commit> containing the commits for the specified project ID
      * @throws GitLabApiException
      */
@@ -38,7 +36,7 @@ public class CommitsApi extends AbstractApi {
      * 
      * GET /projects/:id/repository/commits/:sha
      * 
-     * @param projectId
+     * @param projectId the project ID that the commit belongs to
      * @param sha a commit hash or name of a branch or tag
      * @return the Commit instance for the specified project ID/sha pair
      * @throws GitLabApiException
@@ -53,7 +51,7 @@ public class CommitsApi extends AbstractApi {
      * 
      * GET /projects/:id/repository/commits/:sha/diff
      * 
-     * @param projectId
+     * @param projectId the project ID that the commit belongs to
      * @param sha a commit hash or name of a branch or tag
      * @return the Diff instance for the specified project ID/sha pair
      * @throws GitLabApiException

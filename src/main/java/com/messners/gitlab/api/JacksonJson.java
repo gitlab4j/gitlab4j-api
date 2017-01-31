@@ -29,9 +29,6 @@ import org.codehaus.jackson.map.module.SimpleModule;
 
 /**
  * Jackson JSON Configuration and utility class.
- *
- * @author Greg Messner <greg@messners.com>
- *
  */
 @Provider
 @Produces(MediaType.APPLICATION_JSON)

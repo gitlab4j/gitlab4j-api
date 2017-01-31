@@ -3,8 +3,6 @@ package com.messners.gitlab.api;
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
  * a separate API class for each concern.
- * 
- * @author Greg Messner <greg@messners.com>
  */
 public class GitLabApi {
 

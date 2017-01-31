@@ -13,6 +13,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+/**
+ * This class provides an entry point to all the GitLab API project calls.
+ */
 public class ProjectApi extends AbstractApi {
 
     ProjectApi(GitLabApi gitLabApi) {

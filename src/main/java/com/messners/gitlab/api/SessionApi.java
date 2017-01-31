@@ -7,9 +7,6 @@ import javax.ws.rs.core.Response;
 
 /**
  * This class implements the client side API for the GitLab login call.
- * 
- * @author Greg Messner <greg@messners.com>
- *
  */
 public class SessionApi extends AbstractApi {
 

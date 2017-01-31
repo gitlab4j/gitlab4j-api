@@ -8,8 +8,6 @@ import java.util.TimeZone;
 
 /**
  * This class provides utility methods for parsing and formatting ISO8601 formatted dates.
- * 
- * @author Greg Messner <greg@messners.com>
  */
 public class ISO8601 {
     public static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ";

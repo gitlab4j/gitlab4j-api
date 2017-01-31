@@ -8,9 +8,6 @@ import javax.ws.rs.core.Response.StatusType;
 /**
  * This is the exception that will be thrown if any exception occurs while communicating
  * with a GitLab API endpoint.
- * 
- * @author Greg Messner <greg@messners.com>
- *
  */
 public class GitLabApiException extends Exception {
 

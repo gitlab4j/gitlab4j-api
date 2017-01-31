@@ -12,8 +12,6 @@ import com.messners.gitlab.api.models.TreeItem;
 
 /**
  * This class provides an entry point to all the GitLab API repository calls.
- * 
- * @author Greg Messner <greg@messners.com>
  */
 public class RepositoryApi extends AbstractApi {
 
@@ -78,7 +76,6 @@ public class RepositoryApi extends AbstractApi {
      * 
      * @param projectId
      * @param branchName
-     * @return the branch info for the protected branch
      * @throws GitLabApiException
      */
     public void deleteBranch(Integer projectId, String branchName) throws GitLabApiException {

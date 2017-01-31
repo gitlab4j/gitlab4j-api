@@ -7,8 +7,6 @@ import com.messners.gitlab.api.models.RepositoryFile;
 
 /**
  * This class provides an entry point to all the GitLab API repository files calls.
- *
- * @author lonfee88 <lonfee88@gmail.com>
  */
 public class RepositoryFileApi extends AbstractApi {
 
