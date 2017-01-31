@@ -73,11 +73,9 @@ public class GitLabApiClient {
     /**
      * Sets up the Jersey system ignore SSL certificate errors or not.
      * 
-     * <p>
-     * <strong>WARNING: Setting this to true will affect ALL uses of HttpsURLConnection and Jersey.<strong>
-     * <p>
+     * WARNING: Setting this to true will affect ALL uses of HttpsURLConnection and Jersey.
      * 
-     * @param ignoreCertificateErrors
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
      */
     public void setIgnoreCerificateErrors(boolean ignoreCertificateErrors) {
 
@@ -143,7 +141,7 @@ public class GitLabApiClient {
     /**
      * Construct a REST URL with the specified path arguments.
      * 
-     * @param pathArgs
+     * @param pathArgs ariable list of arguments used to build the URI
      * @return a REST URL with the specified path arguments
      * @throws IOException
      */
@@ -165,8 +163,8 @@ public class GitLabApiClient {
      * Perform an HTTP GET call with the specified query parameters and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      * 
-     * @param queryParams
-     * @param pathArgs
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException
      */
@@ -179,8 +177,8 @@ public class GitLabApiClient {
      * Perform an HTTP GET call with the specified query parameters and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
      * 
-     * @param queryParams
-     * @param url
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      */
     protected Response get(MultivaluedMap<String, String> queryParams, URL url) {
@@ -191,8 +189,8 @@ public class GitLabApiClient {
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      * 
-     * @param formData
-     * @param pathArgs
+     * @param formData the Form containing the name/value pairs
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException
      */
@@ -205,9 +203,9 @@ public class GitLabApiClient {
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      * 
-     * @param formData
-     * @param pathArgs
-     * @return a ClientResponse instance with the data returned from the endpoint
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a Response instance with the data returned from the endpoint
      * @throws IOException
      */
     protected Response post(MultivaluedMap<String, String> queryParams, Object... pathArgs) throws IOException {
@@ -219,8 +217,8 @@ public class GitLabApiClient {
      * Perform an HTTP POST call with the specified form data and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
      * 
-     * @param formData
-     * @param url
+     * @param formData the Form containing the name/value pairs
+     * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      */
     protected Response post(Form formData, URL url) {
@@ -230,9 +228,9 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP POST call with the specified form data and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
-     * @param formData
-     * @param url
+     *
+     * @param queryParams multivalue map of request parametersformData the Form containing the name/value pairs
+     * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      */
     protected Response post(MultivaluedMap<String, String> queryParams, URL url) {
@@ -243,8 +241,8 @@ public class GitLabApiClient {
      * Perform an HTTP PUT call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      * 
-     * @param queryParams
-     * @param pathArgs
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException
      */
@@ -256,9 +254,9 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP PUT call with the specified form data and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
-     * @param queryParams
-     * @param url
+     *
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      */
     protected Response put(MultivaluedMap<String, String> queryParams, URL url) {
@@ -269,8 +267,8 @@ public class GitLabApiClient {
      * Perform an HTTP DELETE call with the specified form data and path objects, returning
      * a Response instance with the data returned from the endpoint.
      * 
-     * @param queryParams
-     * @param pathArgs
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a Response instance with the data returned from the endpoint
      * @throws IOException
      */
@@ -282,8 +280,8 @@ public class GitLabApiClient {
      * Perform an HTTP DELETE call with the specified form data and URL, returning
      * a Response instance with the data returned from the endpoint.
      * 
-     * @param queryParams
-     * @param url
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
      * @return a Response instance with the data returned from the endpoint
      */
     protected Response delete(MultivaluedMap<String, String> queryParams, URL url) {

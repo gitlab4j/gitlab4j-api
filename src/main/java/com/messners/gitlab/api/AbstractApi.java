@@ -229,7 +229,7 @@ public abstract class AbstractApi {
      * @param response response
      * @param expected expected respone status
      * @return original response if the response status is expected
-     * @throws GitLabApiException in case of unexpected response status
+     * @throws GitLabApiException if HTTP status is not as expected
      */
     protected Response validate(Response response, Response.Status expected) throws GitLabApiException {
         if (response.getStatus() != expected.getStatusCode()) {
@@ -242,9 +242,8 @@ public abstract class AbstractApi {
     /**
      * Wraps exception if needed
      * 
-     * @param thrown exception
-     * @return never returns
-     * @throws GitLabApiException always
+     * @param thrown the exception that should be wrapped 
+     * @throws GitLabApiException containing the cause or GitLab API specific message
      */
     protected GitLabApiException handle(Exception thrown) throws GitLabApiException {
 

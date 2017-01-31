@@ -22,8 +22,8 @@ public class CommitsApi extends AbstractApi {
      * GET /projects/:id/repository/commits
      * 
      * @param projectId the project ID to get the list of commits for
-     * @return a List<Commit> containing the commits for the specified project ID
-     * @throws GitLabApiException
+     * @return a list containing the commits for the specified project ID
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public List<Commit> getCommits(int projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits");
@@ -39,7 +39,7 @@ public class CommitsApi extends AbstractApi {
      * @param projectId the project ID that the commit belongs to
      * @param sha a commit hash or name of a branch or tag
      * @return the Commit instance for the specified project ID/sha pair
-     * @throws GitLabApiException
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public Commit getCommits(int projectId, String sha) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha);
@@ -54,7 +54,7 @@ public class CommitsApi extends AbstractApi {
      * @param projectId the project ID that the commit belongs to
      * @param sha a commit hash or name of a branch or tag
      * @return the Diff instance for the specified project ID/sha pair
-     * @throws GitLabApiException
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public Diff getDiff(int projectId, String sha) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha, "diff");
