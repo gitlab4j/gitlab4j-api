@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.messners.gitlab.api.models.Commit;
 import com.messners.gitlab.api.models.Repository;
@@ -15,110 +15,110 @@ import com.messners.gitlab.api.models.Repository;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PushEvent {
-	
-	private String after;
-	private String before;
-	private List<Commit> commits;
-	private Integer projectId;
-	private String ref;
-	private Repository repository;
-	private Integer totalCommitsCount;
-	private Integer userId;
-	private String userName;
 
-	public String getAfter () {
-		return this.after;
-	}
+    private String after;
+    private String before;
+    private List<Commit> commits;
+    private Integer projectId;
+    private String ref;
+    private Repository repository;
+    private Integer totalCommitsCount;
+    private Integer userId;
+    private String userName;
 
-	public void setAfter (String after) {
-		this.after = after;
-	}
+    public String getAfter() {
+        return this.after;
+    }
 
-	public String getBefore () {
-		return this.before;
-	}
+    public void setAfter(String after) {
+        this.after = after;
+    }
 
-	public void setBefore (String before) {
-		this.before = before;
-	}
+    public String getBefore() {
+        return this.before;
+    }
 
-	public List<Commit> getCommits () {
-		return this.commits;
-	}
+    public void setBefore(String before) {
+        this.before = before;
+    }
 
-	public void setCommits (List<Commit> commits) {
-		this.commits = commits;
-	}
+    public List<Commit> getCommits() {
+        return this.commits;
+    }
 
-	public Integer getProjectId () {
-		return this.projectId;
-	}
+    public void setCommits(List<Commit> commits) {
+        this.commits = commits;
+    }
 
-	public void setProjectId (Integer projectId) {
-		this.projectId = projectId;
-	}
+    public Integer getProjectId() {
+        return this.projectId;
+    }
 
-	public String getRef () {
-		return this.ref;
-	}
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
 
-	public void setRef (String ref) {
-		this.ref = ref;
-	}
+    public String getRef() {
+        return this.ref;
+    }
 
-	public Repository getRepository () {
-		return this.repository;
-	}
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
 
-	public void setRepository (Repository repository) {
-		this.repository = repository;
-	}
+    public Repository getRepository() {
+        return this.repository;
+    }
 
-	public Integer getTotalCommitsCount () {
-		return this.totalCommitsCount;
-	}
+    public void setRepository(Repository repository) {
+        this.repository = repository;
+    }
 
-	public void setTotalCommitsCount (Integer totalCommitsCount) {
-		this.totalCommitsCount = totalCommitsCount;
-	}
+    public Integer getTotalCommitsCount() {
+        return this.totalCommitsCount;
+    }
 
-	public Integer getUserId () {
-		return this.userId;
-	}
+    public void setTotalCommitsCount(Integer totalCommitsCount) {
+        this.totalCommitsCount = totalCommitsCount;
+    }
 
-	public void setUserId (Integer userId) {
-		this.userId = userId;
-	}
+    public Integer getUserId() {
+        return this.userId;
+    }
 
-	public String getUserName () {
-		return this.userName;
-	}
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
-	public void setUserName (String userName) {
-		this.userName = userName;
-	}
-	
-	/**
-	 * Gets the branch name from the ref.  Will return null if the ref does not start with "refs/heads/". 
-	 * 
-	 * @return the branch name from the ref
-	 */
-	@JsonIgnore
-	public String getBranch () {
-		
-		String ref = getRef();
-		if (ref == null || ref.trim().length() == 0) {
-			return (null);
-		}
-		
-		ref = ref.trim();	
-		int refsHeadsIndex = ref.indexOf(REFS_HEADS);
-		if 	(refsHeadsIndex != 0) {
-			return (null);
-		}
-		
-		return (ref.substring(REFS_HEADS.length()));
-	}	
-	
-	private static final String REFS_HEADS = "refs/heads/";
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * Gets the branch name from the ref. Will return null if the ref does not start with "refs/heads/".
+     * 
+     * @return the branch name from the ref
+     */
+    @JsonIgnore
+    public String getBranch() {
+
+        String ref = getRef();
+        if (ref == null || ref.trim().length() == 0) {
+            return (null);
+        }
+
+        ref = ref.trim();
+        int refsHeadsIndex = ref.indexOf(REFS_HEADS);
+        if (refsHeadsIndex != 0) {
+            return (null);
+        }
+
+        return (ref.substring(REFS_HEADS.length()));
+    }
+
+    private static final String REFS_HEADS = "refs/heads/";
 }
