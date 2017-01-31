@@ -1,13 +1,14 @@
 package com.messners.gitlab.api;
 
-import com.messners.gitlab.api.models.Branch;
-import com.messners.gitlab.api.models.Tag;
-import com.messners.gitlab.api.models.TreeItem;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+
+import com.messners.gitlab.api.models.Branch;
+import com.messners.gitlab.api.models.Tag;
+import com.messners.gitlab.api.models.TreeItem;
 
 /**
  * This class provides an entry point to all the GitLab API repository calls.
@@ -31,8 +32,7 @@ public class RepositoryApi extends AbstractApi {
      */
     public List<Branch> getBranches(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "branches");
-        return (response.readEntity(new GenericType<List<Branch>>() {
-        }));
+        return (response.readEntity(new GenericType<List<Branch>>() {}));
     }
 
     /**
@@ -62,11 +62,27 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public Branch createBranch(Integer projectId, String branchName, String ref) throws GitLabApiException {
+
         Form formData = new Form();
-        formData.param("branch_name ", branchName);
-        formData.param("ref ", ref);
-        Response response = post(Response.Status.OK, formData, "projects", projectId, "repository", "branches");
+        addFormParam(formData, "branch_name", branchName, true);
+        addFormParam(formData, "ref", ref, true);
+        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "branches");
         return (response.readEntity(Branch.class));
+    }
+
+    /**
+     * Delete a single project repository branch. This is an idempotent function,
+     * protecting an already protected repository branch will not produce an error.
+     * 
+     * DELETE /projects/:id/repository/branches/:branch
+     * 
+     * @param projectId
+     * @param branchName
+     * @return the branch info for the protected branch
+     * @throws GitLabApiException
+     */
+    public void deleteBranch(Integer projectId, String branchName) throws GitLabApiException {
+        delete(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName);
     }
 
     /**
