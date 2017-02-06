@@ -5,7 +5,7 @@
 	<groupId>com.messners</groupId>
 	<artifactId>gitlab-api</artifactId>
 	<packaging>jar</packaging>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.0.0</version>
 	<name>GitLab API Java Client</name>
 	<description>GitLab API provides a full featured Java API for working with GitLab repositories via the GitLab REST API</description>
 	<url>http://www.messners.com/#gitlab-api/gitlab-api.html</url>
