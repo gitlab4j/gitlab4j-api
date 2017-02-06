@@ -1,12 +1,12 @@
 package com.messners.gitlab.api;
 
-import com.messners.gitlab.api.models.MergeRequest;
-import com.messners.gitlab.api.models.MergeRequestComment;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+
+import com.messners.gitlab.api.models.MergeRequest;
 
 /**
  * This class implements the client side API for the GitLab merge request calls.
@@ -127,6 +127,7 @@ public class MergeRequestApi extends AbstractApi {
      * @return the added merge request comment
      * @throws GitLabApiException
      */
+    /*
     public MergeRequestComment addMergeRequestComment(Integer projectId, Integer mergeRequestId, String comments) throws GitLabApiException {
 
         Form formData = new Form();
@@ -134,4 +135,5 @@ public class MergeRequestApi extends AbstractApi {
         Response response = post(Response.Status.OK, formData, "projects", projectId, "merge_request", mergeRequestId, "comments");
         return (response.readEntity(MergeRequestComment.class));
     }
+    */
 }

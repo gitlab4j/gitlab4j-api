@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import com.messners.gitlab.api.models.AccessLevel;
 
 /**
  * Jackson JSON Configuration and utility class.
@@ -49,6 +50,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 
         SimpleModule module = new SimpleModule("GitLabApiJsonModule");
         module.addSerializer(Date.class, new JsonDateSerializer());
+        module.addSerializer(AccessLevel.class, new JsonAccessLevelSerializer());
         objectMapper.registerModule(module);
     }
 
@@ -133,6 +135,18 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
         public void serialize(Date date, JsonGenerator gen, SerializerProvider provider) throws IOException, JsonProcessingException {
             String iso8601String = ISO8601.toString(date);
             gen.writeString(iso8601String);
+        }
+    }
+    
+
+    /**
+     * JsonSerializer for serializing AccessLevel values.
+     */
+    public static class JsonAccessLevelSerializer extends JsonSerializer<AccessLevel> {
+
+        @Override
+        public void serialize(AccessLevel accessLevel, JsonGenerator gen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            gen.writeNumber(accessLevel.value);
         }
     }
 }

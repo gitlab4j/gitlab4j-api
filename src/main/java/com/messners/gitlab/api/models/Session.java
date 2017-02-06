@@ -1,6 +1,7 @@
 package com.messners.gitlab.api.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,166 +11,211 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Session {
 
-	private String bio;
-	private Boolean blocked;
-	private Boolean canCreateGroup;
-	private Boolean canCreateProject;
-	private Boolean canCreateTeam;
-	private Date createdAt;
-	private Boolean darkScheme;
-	private String email;
-	private Integer id;
-	private Boolean isAdmin;
-	private String linkedin;
-	private String name;
-	private String privateToken;
-	private String skype;
-	private Integer themeId;
-	private String twitter;
-	private String username;
-	private String websiteUrl;
+    private String avatarUrl;
+    private String bio;
+    private Boolean blocked;
+    private Boolean canCreateGroup;
+    private Boolean canCreateProject;
+    private Integer colorSchemeId;
+    private Date createdAt;
+    private Date currentSignInAt;
+    private Boolean darkScheme;
+    private String email;
+    private Integer id;
+    private List<Identity> identities;
+    private Boolean isAdmin;
+    private String linkedin;
+    private String name;
+    private String privateToken;
+    private Integer projectLimit;
+    private String skype;
+    private Integer themeId;
+    private String twitter;
+    private Boolean twoFactorEnabled;
+    private String username;
+    private String websiteUrl;
 
-	public String getBio () {
-		return this.bio;
-	}
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
 
-	public void setBio (String bio) {
-		this.bio = bio;
-	}
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
-	public Boolean getBlocked () {
-		return this.blocked;
-	}
+    public String getBio() {
+        return bio;
+    }
 
-	public void setBlocked (Boolean blocked) {
-		this.blocked = blocked;
-	}
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
-	public Boolean getCanCreateGroup () {
-		return this.canCreateGroup;
-	}
+    public Boolean getBlocked() {
+        return blocked;
+    }
 
-	public void setCanCreateGroup (Boolean canCreateGroup) {
-		this.canCreateGroup = canCreateGroup;
-	}
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
+    }
 
-	public Boolean getCanCreateProject () {
-		return this.canCreateProject;
-	}
+    public Boolean getCanCreateGroup() {
+        return canCreateGroup;
+    }
 
-	public void setCanCreateProject (Boolean canCreateProject) {
-		this.canCreateProject = canCreateProject;
-	}
+    public void setCanCreateGroup(Boolean canCreateGroup) {
+        this.canCreateGroup = canCreateGroup;
+    }
 
-	public Boolean getCanCreateTeam () {
-		return this.canCreateTeam;
-	}
+    public Boolean getCanCreateProject() {
+        return canCreateProject;
+    }
 
-	public void setCanCreateTeam (Boolean canCreateTeam) {
-		this.canCreateTeam = canCreateTeam;
-	}
+    public void setCanCreateProject(Boolean canCreateProject) {
+        this.canCreateProject = canCreateProject;
+    }
 
-	public Date getCreatedAt () {
-		return this.createdAt;
-	}
+    public Integer getColorSchemeId() {
+        return colorSchemeId;
+    }
 
-	public void setCreatedAt (Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setColorSchemeId(Integer colorSchemeId) {
+        this.colorSchemeId = colorSchemeId;
+    }
 
-	public Boolean getDarkScheme () {
-		return this.darkScheme;
-	}
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setDarkScheme (Boolean darkScheme) {
-		this.darkScheme = darkScheme;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public String getEmail () {
-		return this.email;
-	}
+    public Date getCurrentSignInAt() {
+        return currentSignInAt;
+    }
 
-	public void setEmail (String email) {
-		this.email = email;
-	}
+    public void setCurrentSignInAt(Date currentSignInAt) {
+        this.currentSignInAt = currentSignInAt;
+    }
 
-	public Integer getId () {
-		return this.id;
-	}
+    public Boolean getDarkScheme() {
+        return darkScheme;
+    }
 
-	public void setId (Integer id) {
-		this.id = id;
-	}
+    public void setDarkScheme(Boolean darkScheme) {
+        this.darkScheme = darkScheme;
+    }
 
-	public Boolean getIsAdmin () {
-		return this.isAdmin;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setIsAdmin (Boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getLinkedin () {
-		return this.linkedin;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setLinkedin (String linkedin) {
-		this.linkedin = linkedin;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName () {
-		return this.name;
-	}
+    public List<Identity> getIdentities() {
+        return identities;
+    }
 
-	public void setName (String name) {
-		this.name = name;
-	}
+    public void setIdentities(List<Identity> identities) {
+        this.identities = identities;
+    }
 
-	public String getPrivateToken () {
-		return this.privateToken;
-	}
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
 
-	public void setPrivateToken (String privateToken) {
-		this.privateToken = privateToken;
-	}
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 
-	public String getSkype () {
-		return this.skype;
-	}
+    public String getLinkedin() {
+        return linkedin;
+    }
 
-	public void setSkype (String skype) {
-		this.skype = skype;
-	}
+    public void setLinkedin(String linkedin) {
+        this.linkedin = linkedin;
+    }
 
-	public Integer getThemeId () {
-		return this.themeId;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setThemeId (Integer themeId) {
-		this.themeId = themeId;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getTwitter () {
-		return this.twitter;
-	}
+    public String getPrivateToken() {
+        return privateToken;
+    }
 
-	public void setTwitter (String twitter) {
-		this.twitter = twitter;
-	}
+    public void setPrivateToken(String privateToken) {
+        this.privateToken = privateToken;
+    }
 
-	public String getUsername () {
-		return this.username;
-	}
+    public Integer getProjectLimit() {
+        return projectLimit;
+    }
 
-	public void setUsername (String username) {
-		this.username = username;
-	}
+    public void setProjectLimit(Integer projectLimit) {
+        this.projectLimit = projectLimit;
+    }
 
-	public String getWebsiteUrl () {
-		return this.websiteUrl;
-	}
+    public String getSkype() {
+        return skype;
+    }
 
-	public void setWebsiteUrl (String websiteUrl) {
-		this.websiteUrl = websiteUrl;
-	}
+    public void setSkype(String skype) {
+        this.skype = skype;
+    }
+
+    public Integer getThemeId() {
+        return themeId;
+    }
+
+    public void setThemeId(Integer themeId) {
+        this.themeId = themeId;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
+
+    public Boolean getTwoFactorEnabled() {
+        return twoFactorEnabled;
+    }
+
+    public void setTwoFactorEnabled(Boolean twoFactorEnabled) {
+        this.twoFactorEnabled = twoFactorEnabled;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getWebsiteUrl() {
+        return websiteUrl;
+    }
+
+    public void setWebsiteUrl(String websiteUrl) {
+        this.websiteUrl = websiteUrl;
+    }
 }

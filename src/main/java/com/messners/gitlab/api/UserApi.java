@@ -179,11 +179,13 @@ public class UserApi extends AbstractApi {
         addFormParam(form, "twitter", user.getTwitter(), false);
         addFormParam(form, "website_url", user.getWebsiteUrl(), false);
         addFormParam(form, "projects_limit", projectsLimit, false);
-        addFormParam(form, "extern_uid", user.getExternUid(), false);
+        addFormParam(form, "external", user.getExternal(), false);
         addFormParam(form, "provider", user.getProvider(), false);
         addFormParam(form, "bio", user.getBio(), false);
+        addFormParam(form, "location", user.getLocation(), false);
         addFormParam(form, "admin", user.getIsAdmin(), false);
         addFormParam(form, "can_create_group", user.getCanCreateGroup(), false);
+        addFormParam(form, "external", user.getExternal(), false);
         return form;
     }
 }

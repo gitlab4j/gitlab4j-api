@@ -1,39 +1,39 @@
 {
-    "id": 42,
-    "iid": 4,
-    "project_id": 8,
-    "title": "Add user settings",
-    "description": "",
-    "labels": [
-      "feature"
-    ],
-    "milestone": {
-      "id": 1,
-      "title": "v1.0",
-      "description": "",
-      "due_date": "2012-07-20T00:00:00Z",
-      "state": "reopenend",
-      "updated_at": "2012-07-04T13:42:48Z",
-      "created_at": "2012-07-04T13:42:48Z"
-    },
-    "assignee": {
-      "id": 2,
-      "username": "jack_smith",
-      "email": "jack@example.com",
-      "name": "Jack Smith",
-      "state": "active",
-      "created_at": "2012-05-23T08:01:01Z"
-    },
-    "author": {
-      "id": 1,
-      "username": "john_smith",
-      "email": "john@example.com",
-      "name": "John Smith",
-      "state": "active",
-      "created_at": "2012-05-23T08:00:58Z"
-    },
-    "state": "opened",
-    "updated_at": "2012-07-12T13:43:19Z",
-    "created_at": "2012-06-28T12:58:06Z"
+   "project_id" : 4,
+   "milestone" : {
+      "project_id" : 4,
+      "state" : "closed",
+      "description" : "Rerum est voluptatem provident consequuntur molestias similique ipsum dolor.",
+      "iid" : 3,
+      "id" : 11,
+      "title" : "v3.0",
+      "created_at" : "2016-01-04T15:31:39.788Z",
+      "updated_at" : "2016-01-04T15:31:39.788Z"
+   },
+   "author" : {
+      "state" : "active",
+      "web_url" : "https://gitlab.example.com/root",
+      "username" : "root",
+      "id" : 1,
+      "name" : "Administrator"
+   },
+   "description" : "Omnis vero earum sunt corporis dolor et placeat.",
+   "state" : "closed",
+   "iid" : 1,
+   "assignee" : {
+      "web_url" : "https://gitlab.example.com/lennie",
+      "state" : "active",
+      "username" : "lennie",
+      "id" : 9,
+      "name" : "Dr. Luella Kovacek"
+   },
+   "labels" : [],
+   "id" : 41,
+   "title" : "Ut commodi ullam eos dolores perferendis nihil sunt.",
+   "updated_at" : "2016-01-04T15:31:46.176Z",
+   "created_at" : "2016-01-04T15:31:46.176Z",
+   "subscribed": false,
+   "user_notes_count": 1,
+   "web_url": "http://example.com/example/example/issues/1",
+   "confidential": false
 }
-

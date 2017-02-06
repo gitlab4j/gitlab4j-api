@@ -12,116 +12,157 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Commit {
 
-	private Author author;
-	private Date authoredDate;
-	private Date committedDate;
+    private Author author;
+    private Date authoredDate;
+    private String authorEmail;
+    private String authorName;
+    private Date committedDate;
+    private String committerEmail;
+    private String committerName;
+    private Date createdAt;
+    private String id;
+    private String message;
+    private List<String> parentIds;
+    private String shortId;
+    private CommitStats stats;
+    private String status;
+    private Date timestamp;
+    private String title;
+    private String url;
 
-	private Committer committer;
-	private String id;
-	private String message;
-	
-	private List<Parent> parents;
-    
-	private String shortId;
-	private Date timestamp;
-	
-	private String title;
-	private String tree;
-	private String url;
+    public Author getAuthor() {
+        return author;
+    }
 
-	public Author getAuthor () {
-		return this.author;
-	}
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
 
-	public void setAuthor (Author author) {
-		this.author = author;
-	}
+    public Date getAuthoredDate() {
+        return authoredDate;
+    }
 
-	public Date getAuthored_date () {
-		return this.authoredDate;
-	}
+    public void setAuthoredDate(Date authoredDate) {
+        this.authoredDate = authoredDate;
+    }
 
-	public void setAuthored_date (Date authoredDate) {
-		this.authoredDate = authoredDate;
-	}
+    public String getAuthorEmail() {
+        return authorEmail;
+    }
 
-	public Date getCommitted_date () {
-		return this.committedDate;
-	}
+    public void setAuthorEmail(String authorEmail) {
+        this.authorEmail = authorEmail;
+    }
 
-	public void setCommitted_date (Date committedDate) {
-		this.committedDate = committedDate;
-	}
+    public String getAuthorName() {
+        return authorName;
+    }
 
-	public Committer getCommitter () {
-		return this.committer;
-	}
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
 
-	public void setCommitter (Committer committer) {
-		this.committer = committer;
-	}
+    public Date getCommittedDate() {
+        return committedDate;
+    }
 
-	public String getId () {
-		return this.id;
-	}
+    public void setCommittedDate(Date committedDate) {
+        this.committedDate = committedDate;
+    }
 
-	public void setId (String id) {
-		this.id = id;
-	}
+    public String getCommitterEmail() {
+        return committerEmail;
+    }
 
-	public String getShortId () {
-		return this.shortId;
-	}
+    public void setCommitterEmail(String committerEmail) {
+        this.committerEmail = committerEmail;
+    }
 
-	public String getMessage () {
-		return this.message;
-	}
+    public String getCommitterName() {
+        return committerName;
+    }
 
-	public void setMessage (String message) {
-		this.message = message;
-	}
+    public void setCommitterName(String committerName) {
+        this.committerName = committerName;
+    }
 
-	public List<Parent> getParents () {
-		return this.parents;
-	}
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setParents (List<Parent> parents) {
-		this.parents = parents;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setShort_id (String short_id) {
-		this.shortId = short_id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public Date getTimestamp () {
-		return this.timestamp;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setTimestamp (Date timestamp) {
-		this.timestamp = timestamp;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public String getTitle () {
-		return this.title;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public void setTitle (String title) {
-		this.title = title;
-	}
+    public List<String> getParentIds() {
+        return parentIds;
+    }
 
-	public String getTree () {
-		return this.tree;
-	}
+    public void setParentIds(List<String> parentIds) {
+        this.parentIds = parentIds;
+    }
 
-	public void setTree (String tree) {
-		this.tree = tree;
-	}
+    public String getShortId() {
+        return shortId;
+    }
 
-	public String getUrl () {
-		return this.url;
-	}
+    public void setShortId(String shortId) {
+        this.shortId = shortId;
+    }
 
-	public void setUrl (String url) {
-		this.url = url;
-	}
+    public CommitStats getStats() {
+        return stats;
+    }
+
+    public void setStats(CommitStats stats) {
+        this.stats = stats;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

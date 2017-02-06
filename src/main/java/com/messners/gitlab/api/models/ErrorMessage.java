@@ -1,7 +1,6 @@
 
 package com.messners.gitlab.api.models;
 
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -10,13 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ErrorMessage {
 
-	private String message;
+    private String message;
 
-	public String getMessage () {
-		return this.message;
-	}
+    public String getMessage() {
+        return this.message;
+    }
 
-	public void setMessage (String message) {
-		this.message = message;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

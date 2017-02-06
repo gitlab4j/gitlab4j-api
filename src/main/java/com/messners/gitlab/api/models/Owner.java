@@ -10,31 +10,31 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Owner {
 
-	private Date createdAt;
-	private Integer id;
-	private String name;
+    private Date createdAt;
+    private Integer id;
+    private String name;
 
-	public Date getCreatedAt () {
-		return this.createdAt;
-	}
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
 
-	public void setCreatedAt (Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public Integer getId () {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId (Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName () {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName (String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 }

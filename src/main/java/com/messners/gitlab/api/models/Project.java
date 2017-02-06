@@ -1,8 +1,8 @@
 
 package com.messners.gitlab.api.models;
 
-
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,198 +11,369 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Project {
-	
-	private Date createdAt;
-	private String defaultBranch;
-	private String description;
-	private String httpUrlToRepo;
-	private Integer id;
-	private Boolean issuesEnabled;
-	private Date lastActivityAt;
-	private Boolean mergeRequestsEnabled;
-	private String name;
-	private String nameWithNamespace;
-	private Namespace namespace;
-	private Owner owner;
-	private String path;
-	private String pathWithNamespace;
-	private Boolean isPublic;
-	private Boolean snippetsEnabled;
-	private String sshUrlToRepo;
-	private Integer visibilityLevel;
-	private Boolean wallEnabled;
-	private String webUrl;
-	private Boolean wikiEnabled;
 
-	public Date getCreatedAt () {
-		return this.createdAt;
-	}
+    private Boolean archived;
+    private String avatarUrl;
+    private Boolean buildsEnabled;
+    private Boolean containerRegistryEnabled;
+    private Date createdAt;
+    private Integer creatorId;
+    private String defaultBranch;
+    private String description;
+    private Integer forksCount;
+    private Project forkedFromProject;
+    private String httpUrlToRepo;
+    private Integer id;
+    private Boolean issuesEnabled;
+    private Date lastActivityAt;
+    private Boolean mergeRequestsEnabled;
+    private String name;
+    private Namespace namespace;
+    private String nameWithNamespace;
+    private Boolean onlyAllowMergeIfBuildSucceeds;
+    private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
+    private Integer openIssuesCount;
+    private Owner owner;
+    private String path;
+    private String pathWithNamespace;
+    private Permissions permissions;
+    private Boolean isPublic;
+    private Boolean publicBuilds;
+    private String repositoryStorage;
+    private Boolean request_access_enabled;
+    private String runnersToken;
+    private Boolean sharedRunnersEnabled;
+    private List<ProjectSharedGroup> sharedWithGroups;
+    private Boolean snippetsEnabled;
+    private String sshUrlToRepo;
+    private Integer starCount;
+    private List<String> tagList;
+    private Integer visibilityLevel;
+    private Boolean wallEnabled;
+    private String webUrl;
+    private Boolean wikiEnabled;
 
-	public void setCreatedAt (Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public Boolean getArchived() {
+        return archived;
+    }
 
-	public String getDefaultBranch () {
-		return this.defaultBranch;
-	}
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
+    }
 
-	public void setDefaultBranch (String defaultBranch) {
-		this.defaultBranch = defaultBranch;
-	}
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
 
-	public String getDescription () {
-		return this.description;
-	}
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
-	public void setDescription (String description) {
-		this.description = description;
-	}
+    public Boolean getBuildsEnabled() {
+        return buildsEnabled;
+    }
 
-	public String getHttpUrlToRepo () {
-		return this.httpUrlToRepo;
-	}
+    public void setBuildsEnabled(Boolean buildsEnabled) {
+        this.buildsEnabled = buildsEnabled;
+    }
 
-	public void setHttpUrlToRepo (String httpUrlToRepo) {
-		this.httpUrlToRepo = httpUrlToRepo;
-	}
+    public Boolean getContainerRegistryEnabled() {
+        return containerRegistryEnabled;
+    }
 
-	public Integer getId () {
-		return this.id;
-	}
+    public void setContainerRegistryEnabled(Boolean containerRegistryEnabled) {
+        this.containerRegistryEnabled = containerRegistryEnabled;
+    }
 
-	public void setId (Integer id) {
-		this.id = id;
-	}
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public Boolean getIssuesEnabled () {
-		return this.issuesEnabled;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setIssuesEnabled (Boolean issuesEnabled) {
-		this.issuesEnabled = issuesEnabled;
-	}
+    public Integer getCreatorId() {
+        return creatorId;
+    }
 
-	public Date getLastActivityAt () {
-		return this.lastActivityAt;
-	}
+    public void setCreatorId(Integer creatorId) {
+        this.creatorId = creatorId;
+    }
 
-	public void setLastActivityAt (Date lastActivityAt) {
-		this.lastActivityAt = lastActivityAt;
-	}
+    public String getDefaultBranch() {
+        return defaultBranch;
+    }
 
-	public Boolean getMergeRequestsEnabled () {
-		return this.mergeRequestsEnabled;
-	}
+    public void setDefaultBranch(String defaultBranch) {
+        this.defaultBranch = defaultBranch;
+    }
 
-	public void setMergeRequestsEnabled (Boolean mergeRequestsEnabled) {
-		this.mergeRequestsEnabled = mergeRequestsEnabled;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getName () {
-		return this.name;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setName (String name) {
-		this.name = name;
-	}
+    public Integer getForksCount() {
+        return forksCount;
+    }
 
-	public String getNameWithNamespace () {
-		return this.nameWithNamespace;
-	}
+    public void setForksCount(Integer forksCount) {
+        this.forksCount = forksCount;
+    }
 
-	public void setNameWithNamespace (String nameWithNamespace) {
-		this.nameWithNamespace = nameWithNamespace;
-	}
+    public Project getForkedFromProject() {
+        return forkedFromProject;
+    }
 
-	public Namespace getNamespace () {
-		return this.namespace;
-	}
+    public void setForkedFromProject(Project forkedFromProject) {
+        this.forkedFromProject = forkedFromProject;
+    }
 
-	public void setNamespace (Namespace namespace) {
-		this.namespace = namespace;
-	}
+    public String getHttpUrlToRepo() {
+        return httpUrlToRepo;
+    }
 
-	public Owner getOwner () {
-		return this.owner;
-	}
+    public void setHttpUrlToRepo(String httpUrlToRepo) {
+        this.httpUrlToRepo = httpUrlToRepo;
+    }
 
-	public void setOwner (Owner owner) {
-		this.owner = owner;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getPath () {
-		return this.path;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setPath (String path) {
-		this.path = path;
-	}
+    public Boolean getIssuesEnabled() {
+        return issuesEnabled;
+    }
 
-	public String getPathWithNamespace () {
-		return this.pathWithNamespace;
-	}
+    public void setIssuesEnabled(Boolean issuesEnabled) {
+        this.issuesEnabled = issuesEnabled;
+    }
 
-	public void setPathWithNamespace (String pathWithNamespace) {
-		this.pathWithNamespace = pathWithNamespace;
-	}
+    public Date getLastActivityAt() {
+        return lastActivityAt;
+    }
 
-	public Boolean getPublic () {
-		return this.isPublic;
-	}
+    public void setLastActivityAt(Date lastActivityAt) {
+        this.lastActivityAt = lastActivityAt;
+    }
 
-	public void setPublic (Boolean isPublic) {
-		this.isPublic = isPublic;
-	}
+    public Boolean getMergeRequestsEnabled() {
+        return mergeRequestsEnabled;
+    }
 
-	public Boolean getSnippetsEnabled () {
-		return this.snippetsEnabled;
-	}
+    public void setMergeRequestsEnabled(Boolean mergeRequestsEnabled) {
+        this.mergeRequestsEnabled = mergeRequestsEnabled;
+    }
 
-	public void setSnippetsEnabled (Boolean snippetsEnabled) {
-		this.snippetsEnabled = snippetsEnabled;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getSshUrlToRepo () {
-		return this.sshUrlToRepo;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setSshUrlToRepo (String sshUrlToRepo) {
-		this.sshUrlToRepo = sshUrlToRepo;
-	}
+    public Namespace getNamespace() {
+        return namespace;
+    }
 
-	public Integer getVisibilityLevel () {
-		return this.visibilityLevel;
-	}
+    public void setNamespace(Namespace namespace) {
+        this.namespace = namespace;
+    }
 
-	public void setVisibilityLevel (Integer visibilityLevel) {
-		this.visibilityLevel = visibilityLevel;
-	}
+    public String getNameWithNamespace() {
+        return nameWithNamespace;
+    }
 
-	public Boolean getWallEnabled () {
-		return this.wallEnabled;
-	}
+    public void setNameWithNamespace(String nameWithNamespace) {
+        this.nameWithNamespace = nameWithNamespace;
+    }
 
-	public void setWallEnabled (Boolean wallEnabled) {
-		this.wallEnabled = wallEnabled;
-	}
+    public Boolean getOnlyAllowMergeIfBuildSucceeds() {
+        return onlyAllowMergeIfBuildSucceeds;
+    }
 
-	public String getWebUrl () {
-		return this.webUrl;
-	}
+    public void setOnlyAllowMergeIfBuildSucceeds(Boolean onlyAllowMergeIfBuildSucceeds) {
+        this.onlyAllowMergeIfBuildSucceeds = onlyAllowMergeIfBuildSucceeds;
+    }
 
-	public void setWebUrl (String webUrl) {
-		this.webUrl = webUrl;
-	}
+    public Boolean getOnlyAllowMergeIfAllDiscussionsAreResolved() {
+        return onlyAllowMergeIfAllDiscussionsAreResolved;
+    }
 
-	public Boolean getWikiEnabled () {
-		return this.wikiEnabled;
-	}
+    public void setOnlyAllowMergeIfAllDiscussionsAreResolved(Boolean onlyAllowMergeIfAllDiscussionsAreResolved) {
+        this.onlyAllowMergeIfAllDiscussionsAreResolved = onlyAllowMergeIfAllDiscussionsAreResolved;
+    }
 
-	public void setWikiEnabled (Boolean wikiEnabled) {
-		this.wikiEnabled = wikiEnabled;
-	}
-	
-	public static final boolean isValid (Project project) {
-		return (project != null && project.getId() != null);
-	}
+    public Integer getOpenIssuesCount() {
+        return openIssuesCount;
+    }
+
+    public void setOpenIssuesCount(Integer openIssuesCount) {
+        this.openIssuesCount = openIssuesCount;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getPathWithNamespace() {
+        return pathWithNamespace;
+    }
+
+    public void setPathWithNamespace(String pathWithNamespace) {
+        this.pathWithNamespace = pathWithNamespace;
+    }
+
+    public Permissions getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Permissions permissions) {
+        this.permissions = permissions;
+    }
+
+    public Boolean getPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(Boolean isPublic) {
+        this.isPublic = isPublic;
+    }
+
+    public Boolean getPublicBuilds() {
+        return publicBuilds;
+    }
+
+    public void setPublicBuilds(Boolean publicBuilds) {
+        this.publicBuilds = publicBuilds;
+    }
+
+    public String getRepositoryStorage() {
+        return repositoryStorage;
+    }
+
+    public void setRepositoryStorage(String repositoryStorage) {
+        this.repositoryStorage = repositoryStorage;
+    }
+
+    public Boolean getRequest_access_enabled() {
+        return request_access_enabled;
+    }
+
+    public void setRequest_access_enabled(Boolean request_access_enabled) {
+        this.request_access_enabled = request_access_enabled;
+    }
+
+    public String getRunnersToken() {
+        return runnersToken;
+    }
+
+    public void setRunnersToken(String runnersToken) {
+        this.runnersToken = runnersToken;
+    }
+
+    public Boolean getSharedRunnersEnabled() {
+        return sharedRunnersEnabled;
+    }
+
+    public void setSharedRunnersEnabled(Boolean sharedRunnersEnabled) {
+        this.sharedRunnersEnabled = sharedRunnersEnabled;
+    }
+
+    public List<ProjectSharedGroup> getSharedWithGroups() {
+        return sharedWithGroups;
+    }
+
+    public void setSharedWithGroups(List<ProjectSharedGroup> sharedWithGroups) {
+        this.sharedWithGroups = sharedWithGroups;
+    }
+
+    public Boolean getSnippetsEnabled() {
+        return snippetsEnabled;
+    }
+
+    public void setSnippetsEnabled(Boolean snippetsEnabled) {
+        this.snippetsEnabled = snippetsEnabled;
+    }
+
+    public String getSshUrlToRepo() {
+        return sshUrlToRepo;
+    }
+
+    public void setSshUrlToRepo(String sshUrlToRepo) {
+        this.sshUrlToRepo = sshUrlToRepo;
+    }
+
+    public Integer getStarCount() {
+        return starCount;
+    }
+
+    public void setStarCount(Integer starCount) {
+        this.starCount = starCount;
+    }
+
+    public List<String> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<String> tagList) {
+        this.tagList = tagList;
+    }
+
+    public Integer getVisibilityLevel() {
+        return visibilityLevel;
+    }
+
+    public void setVisibilityLevel(Integer visibilityLevel) {
+        this.visibilityLevel = visibilityLevel;
+    }
+
+    public Boolean getWallEnabled() {
+        return wallEnabled;
+    }
+
+    public void setWallEnabled(Boolean wallEnabled) {
+        this.wallEnabled = wallEnabled;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+    }
+
+    public Boolean getWikiEnabled() {
+        return wikiEnabled;
+    }
+
+    public void setWikiEnabled(Boolean wikiEnabled) {
+        this.wikiEnabled = wikiEnabled;
+    }
+
+    public static final boolean isValid(Project project) {
+        return (project != null && project.getId() != null);
+    }
 }

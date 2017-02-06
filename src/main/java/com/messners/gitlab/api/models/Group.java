@@ -10,50 +10,50 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Group {
-	
-	private Integer id;
-	private String name;
-	private Integer ownerId;
-	private String path;
-	private List<Project> projects;
 
-	public Integer getId () {
-		return this.id;
-	}
+    private Integer id;
+    private String name;
+    private Integer ownerId;
+    private String path;
+    private List<Project> projects;
 
-	public void setId (Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public String getName () {
-		return this.name;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setName (String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public Integer getOwnerId () {
-		return this.ownerId;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setOwnerId (Integer ownerId) {
-		this.ownerId = ownerId;
-	}
+    public Integer getOwnerId() {
+        return this.ownerId;
+    }
 
-	public String getPath () {
-		return this.path;
-	}
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
+    }
 
-	public void setPath (String path) {
-		this.path = path;
-	}
-	
-	public List<Project> getProjects () {
-		return (projects);
-	}
-	
-	public void setProjects (List<Project> projects) {
-		this.projects = projects;
-	}
+    public String getPath() {
+        return this.path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public List<Project> getProjects() {
+        return (projects);
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
 }

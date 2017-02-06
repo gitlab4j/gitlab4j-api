@@ -14,8 +14,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.messners.gitlab.api.models.Branch;
+import com.messners.gitlab.api.models.Commit;
 import com.messners.gitlab.api.models.Diff;
 import com.messners.gitlab.api.models.Event;
 import com.messners.gitlab.api.models.Group;
@@ -23,7 +24,6 @@ import com.messners.gitlab.api.models.Issue;
 import com.messners.gitlab.api.models.Key;
 import com.messners.gitlab.api.models.Member;
 import com.messners.gitlab.api.models.MergeRequest;
-import com.messners.gitlab.api.models.MergeRequestComment;
 import com.messners.gitlab.api.models.Milestone;
 import com.messners.gitlab.api.models.Note;
 import com.messners.gitlab.api.models.Project;
@@ -46,6 +46,7 @@ public class TestGitLabApiBeans {
     @BeforeClass
     public static void setup() {
         jacksonJson = new JacksonJson();
+        jacksonJson.getObjectMapper().configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
     }
 
     @Test
@@ -57,7 +58,17 @@ public class TestGitLabApiBeans {
 
             branch = makeFakeApiCall(Branch.class, "bad-branch");
             assertTrue(!Branch.isValid(branch));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void testCommit() {
 
+        try {
+            Commit commit = makeFakeApiCall(Commit.class, "commit");
+            assertTrue(compareJson(commit, "commit"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -139,7 +150,7 @@ public class TestGitLabApiBeans {
             e.printStackTrace();
         }
     }
-
+/*
     @Test
     public void testMergeRequestComment() {
 
@@ -150,7 +161,7 @@ public class TestGitLabApiBeans {
             e.printStackTrace();
         }
     }
-
+*/
     @Test
     public void testMergeRequest() {
 

@@ -8,31 +8,40 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tag {
 
-	private Commit commit;
-	private String name;
-	private Boolean isProtected;
+    private Commit commit;
+    private String message;
+    private String name;
+    private Release release;
 
-	public Commit getCommit () {
-		return this.commit;
-	}
+    public Commit getCommit() {
+        return this.commit;
+    }
 
-	public void setCommit (Commit commit) {
-		this.commit = commit;
-	}
+    public void setCommit(Commit commit) {
+        this.commit = commit;
+    }
 
-	public String getName () {
-		return this.name;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setName (String name) {
-		this.name = name;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public Boolean getProtected () {
-		return this.isProtected;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setProtected (Boolean isProtected) {
-		this.isProtected = isProtected;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Release getRelease() {
+        return release;
+    }
+
+    public void setRelease(Release release) {
+        this.release = release;
+    }
 }

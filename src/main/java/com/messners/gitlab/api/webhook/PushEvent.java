@@ -5,26 +5,32 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import com.messners.gitlab.api.models.Commit;
+import com.messners.gitlab.api.models.Project;
 import com.messners.gitlab.api.models.Repository;
 
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PushEvent {
+public class PushEvent extends EventObject {
+    
+    public static final String OBJECT_KIND = "push";
 
     private String after;
     private String before;
-    private List<Commit> commits;
-    private Integer projectId;
     private String ref;
-    private Repository repository;
-    private Integer totalCommitsCount;
+    private String checkoutSha;
+
     private Integer userId;
     private String userName;
+    private String userEmail;
+    private String userAvatar;
+    
+    private Integer projectId;
+    private Project project;
+    private Repository repository;
+    private List<Commit> commits;
+    private Integer totalCommitsCount;
 
     public String getAfter() {
         return this.after;
@@ -41,23 +47,7 @@ public class PushEvent {
     public void setBefore(String before) {
         this.before = before;
     }
-
-    public List<Commit> getCommits() {
-        return this.commits;
-    }
-
-    public void setCommits(List<Commit> commits) {
-        this.commits = commits;
-    }
-
-    public Integer getProjectId() {
-        return this.projectId;
-    }
-
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
-
+    
     public String getRef() {
         return this.ref;
     }
@@ -66,20 +56,12 @@ public class PushEvent {
         this.ref = ref;
     }
 
-    public Repository getRepository() {
-        return this.repository;
+    public String getCheckoutSha() {
+        return checkoutSha;
     }
 
-    public void setRepository(Repository repository) {
-        this.repository = repository;
-    }
-
-    public Integer getTotalCommitsCount() {
-        return this.totalCommitsCount;
-    }
-
-    public void setTotalCommitsCount(Integer totalCommitsCount) {
-        this.totalCommitsCount = totalCommitsCount;
+    public void setCheckoutSha(String checkoutSha) {
+        this.checkoutSha = checkoutSha;
     }
 
     public Integer getUserId() {
@@ -98,6 +80,63 @@ public class PushEvent {
         this.userName = userName;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
+    public Integer getProjectId() {
+        return this.projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Repository getRepository() {
+        return this.repository;
+    }
+
+    public void setRepository(Repository repository) {
+        this.repository = repository;
+    }
+    
+    public List<Commit> getCommits() {
+        return this.commits;
+    }
+
+    public void setCommits(List<Commit> commits) {
+        this.commits = commits;
+    }
+
+    public Integer getTotalCommitsCount() {
+        return this.totalCommitsCount;
+    }
+
+    public void setTotalCommitsCount(Integer totalCommitsCount) {
+        this.totalCommitsCount = totalCommitsCount;
+    }
+
+ 
     /**
      * Gets the branch name from the ref. Will return null if the ref does not start with "refs/heads/".
      * 

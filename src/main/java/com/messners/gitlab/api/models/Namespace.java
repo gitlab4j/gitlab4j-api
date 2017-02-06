@@ -10,67 +10,67 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Namespace {
 
-	private Date createdAt;
-	private String description;
-	private Integer id;
-	private String name;
-	private Integer ownerId;
-	private String path;
-	private String updatedAt;
+    private Date createdAt;
+    private String description;
+    private Integer id;
+    private String name;
+    private Integer ownerId;
+    private String path;
+    private String updatedAt;
 
-	public Date getCreatedAt () {
-		return this.createdAt;
-	}
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
 
-	public void setCreatedAt (Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public String getDescription () {
-		return this.description;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	public void setDescription (String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Integer getId () {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId (Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName () {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName (String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Integer getOwnerId () {
-		return this.ownerId;
-	}
+    public Integer getOwnerId() {
+        return this.ownerId;
+    }
 
-	public void setOwnerId (Integer ownerId) {
-		this.ownerId = ownerId;
-	}
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
+    }
 
-	public String getPath () {
-		return this.path;
-	}
+    public String getPath() {
+        return this.path;
+    }
 
-	public void setPath (String path) {
-		this.path = path;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-	public String getUpdatedAt () {
-		return this.updatedAt;
-	}
+    public String getUpdatedAt() {
+        return this.updatedAt;
+    }
 
-	public void setUpdatedAt (String updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

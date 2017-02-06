@@ -10,76 +10,145 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Note {
 
-	private String attachment;
-	private Author author;
-	private Date createdAt;
-	private Date expiresAt;
-	private String fileName;
-	private Integer id;
-	private String title;
-	private String updatedAt;
+    public static enum NotableType {
+        ISSUE("Issue"), MERGE_REQUEST("MergeRequest"), SNIPPET("Snippet");
 
-	public String getAttachment () {
-		return this.attachment;
-	}
+        private String name;
 
-	public void setAttachment (String attachment) {
-		this.attachment = attachment;
-	}
+        NotableType(String name) {
+            this.name = name;
+        }
 
-	public Author getAuthor () {
-		return this.author;
-	}
+        @Override
+        public String toString() {
+            return (name);
+        }
+    }
 
-	public void setAuthor (Author author) {
-		this.author = author;
-	}
+    private String attachment;
+    private Author author;
+    private String body;
+    private Date createdAt;
+    private Boolean downvote;
+    private Date expiresAt;
+    private String fileName;
+    private Integer id;
+    private Integer noteableId;
+    private NotableType noteableType;
+    private Boolean system;
+    private String title;
+    private String updatedAt;
+    private Boolean upvote;
 
-	public Date getCreatedAt () {
-		return this.createdAt;
-	}
+    public String getAttachment() {
+        return attachment;
+    }
 
-	public void setCreatedAt (Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
 
-	public Date getExpiresAt () {
-		return this.expiresAt;
-	}
+    public Author getAuthor() {
+        return author;
+    }
 
-	public void setExpiresAt (Date expiresAt) {
-		this.expiresAt = expiresAt;
-	}
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
 
-	public String getFileName () {
-		return this.fileName;
-	}
+    public String getBody() {
+        return body;
+    }
 
-	public void setFileName (String fileName) {
-		this.fileName = fileName;
-	}
+    public void setBody(String body) {
+        this.body = body;
+    }
 
-	public Integer getId () {
-		return this.id;
-	}
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setId (Integer id) {
-		this.id = id;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public String getTitle () {
-		return this.title;
-	}
+    public Boolean getDownvote() {
+        return downvote;
+    }
 
-	public void setTitle (String title) {
-		this.title = title;
-	}
+    public void setDownvote(Boolean downvote) {
+        this.downvote = downvote;
+    }
 
-	public String getUpdatedAt () {
-		return this.updatedAt;
-	}
+    public Date getExpiresAt() {
+        return expiresAt;
+    }
 
-	public void setUpdatedAt (String updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public void setExpiresAt(Date expiresAt) {
+        this.expiresAt = expiresAt;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getNoteableId() {
+        return noteableId;
+    }
+
+    public void setNoteableId(Integer noteableId) {
+        this.noteableId = noteableId;
+    }
+
+    public NotableType getNoteableType() {
+        return noteableType;
+    }
+
+    public void setNoteableType(NotableType noteableType) {
+        this.noteableType = noteableType;
+    }
+
+    public Boolean getSystem() {
+        return system;
+    }
+
+    public void setSystem(Boolean system) {
+        this.system = system;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Boolean getUpvote() {
+        return upvote;
+    }
+
+    public void setUpvote(Boolean upvote) {
+        this.upvote = upvote;
+    }
 }
