@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME, 
     include = JsonTypeInfo.As.PROPERTY,
-    property = "objectKind",
+    property = "object_kind",
     visible = true
 )
 @JsonSubTypes({

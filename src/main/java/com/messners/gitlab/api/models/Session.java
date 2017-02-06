@@ -27,7 +27,8 @@ public class Session {
     private String linkedin;
     private String name;
     private String privateToken;
-    private Integer projectLimit;
+    private Integer projectsLimit;
+    private String state;
     private String skype;
     private Integer themeId;
     private String twitter;
@@ -163,12 +164,20 @@ public class Session {
         this.privateToken = privateToken;
     }
 
-    public Integer getProjectLimit() {
-        return projectLimit;
+    public Integer getProjectsLimit() {
+        return projectsLimit;
     }
 
-    public void setProjectLimit(Integer projectLimit) {
-        this.projectLimit = projectLimit;
+    public void setProjectsLimit(Integer projectsLimit) {
+        this.projectsLimit = projectsLimit;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getSkype() {

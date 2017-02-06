@@ -138,7 +138,6 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
         }
     }
     
-
     /**
      * JsonSerializer for serializing AccessLevel values.
      */

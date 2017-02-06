@@ -7,9 +7,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.messners.gitlab.api.models.Commit;
-import com.messners.gitlab.api.models.Project;
-import com.messners.gitlab.api.models.Repository;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PushEvent extends EventObject {
@@ -27,9 +24,9 @@ public class PushEvent extends EventObject {
     private String userAvatar;
     
     private Integer projectId;
-    private Project project;
-    private Repository repository;
-    private List<Commit> commits;
+    private EventProject project;
+    private EventRepository repository;
+    private List<EventCommit> commits;
     private Integer totalCommitsCount;
 
     public String getAfter() {
@@ -104,27 +101,27 @@ public class PushEvent extends EventObject {
         this.projectId = projectId;
     }
 
-    public Project getProject() {
+    public EventProject getProject() {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(EventProject project) {
         this.project = project;
     }
 
-    public Repository getRepository() {
+    public EventRepository getRepository() {
         return this.repository;
     }
 
-    public void setRepository(Repository repository) {
+    public void setRepository(EventRepository repository) {
         this.repository = repository;
     }
     
-    public List<Commit> getCommits() {
+    public List<EventCommit> getCommits() {
         return this.commits;
     }
 
-    public void setCommits(List<Commit> commits) {
+    public void setCommits(List<EventCommit> commits) {
         this.commits = commits;
     }
 
