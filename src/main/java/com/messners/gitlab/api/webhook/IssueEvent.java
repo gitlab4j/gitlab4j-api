@@ -11,6 +11,7 @@ import com.messners.gitlab.api.models.User;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class IssueEvent extends EventObject {
 
+    public static final String X_GITLAB_EVENT = "Issue Hook";
     public static final String OBJECT_KIND = "issue";
 
     private User user;

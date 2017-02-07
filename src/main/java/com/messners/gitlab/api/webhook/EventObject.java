@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME, 
@@ -19,9 +18,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @JsonSubTypes.Type(value = PushEvent.class, name = PushEvent.OBJECT_KIND),    
     @JsonSubTypes.Type(value = MergeRequestEvent.class, name = MergeRequestEvent.OBJECT_KIND)
 })
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EventObject {
+public abstract class EventObject {
     
     public static enum ObjectKind {
         ISSUE, MERGE_REQUEST, PUSH;
@@ -35,7 +33,7 @@ public class EventObject {
     private ObjectKind objectKind;
 
     public ObjectKind getObjectKind() {
-        return this.objectKind;
+        return (this.objectKind);
     }
 
     public void setObjectKind(ObjectKind objectKind) {

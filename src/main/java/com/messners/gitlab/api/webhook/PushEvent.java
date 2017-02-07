@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PushEvent extends EventObject {
     
+    public static final String X_GITLAB_EVENT = "Push Hook";
     public static final String OBJECT_KIND = "push";
 
     private String after;

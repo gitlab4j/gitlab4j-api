@@ -10,6 +10,7 @@ import com.messners.gitlab.api.models.Assignee;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MergeRequestEvent extends EventObject {
 
+    public static final String X_GITLAB_EVENT = "Merge Request Hook";
     public static final String OBJECT_KIND = "merge_request";
 
     private ObjectAttributes objectAttributes;
