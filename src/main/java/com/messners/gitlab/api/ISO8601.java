@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import javax.xml.bind.DatatypeConverter;
+
 /**
  * This class provides utility methods for parsing and formatting ISO8601 formatted dates.
  */
@@ -14,29 +16,29 @@ public class ISO8601 {
     public static final String PATTERN_MSEC = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     public static final String OUTPUT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String OUTPUT_MSEC_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    public static final String ALTERNATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String UTC_PATTERN = "yyyy-MM-dd HH:mm:ss 'UTC'";
 
     private static final SimpleDateFormat iso8601Format;
     private static final SimpleDateFormat iso8601MsecFormat;
     private static final SimpleDateFormat iso8601OutputFormat;
     private static final SimpleDateFormat iso8601OutputMsecFormat;
-    private static final SimpleDateFormat iso8601AlternateFormat;
+    private static final SimpleDateFormat iso8601UtcFormat;
     static {
         iso8601Format = new SimpleDateFormat(PATTERN);
         iso8601Format.setLenient(true);
-        iso8601Format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
         iso8601MsecFormat = new SimpleDateFormat(PATTERN_MSEC);
         iso8601MsecFormat.setLenient(true);
-        iso8601MsecFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        iso8601MsecFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         iso8601OutputFormat = new SimpleDateFormat(OUTPUT_PATTERN);
         iso8601OutputFormat.setLenient(true);
-        iso8601OutputFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        iso8601OutputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         iso8601OutputMsecFormat = new SimpleDateFormat(OUTPUT_MSEC_PATTERN);
         iso8601OutputMsecFormat.setLenient(true);
-        iso8601OutputMsecFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        iso8601AlternateFormat = new SimpleDateFormat(ALTERNATE_PATTERN);
-        iso8601AlternateFormat.setLenient(true);
-        iso8601AlternateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        iso8601OutputMsecFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        iso8601UtcFormat = new SimpleDateFormat(UTC_PATTERN);
+        iso8601UtcFormat.setLenient(true);
+        iso8601UtcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     /**
@@ -47,7 +49,7 @@ public class ISO8601 {
     public static String getTimestamp() {
         return (iso8601Format.format(new Date()));
     }
-    
+
     /**
      * Get a ISO8601formatted string for the current date and time.
      *
@@ -85,9 +87,7 @@ public class ISO8601 {
         }
 
         long time = date.getTime();
-        return (time % 1000 != 0 ? 
-                iso8601OutputMsecFormat.format(date) : 
-                iso8601OutputFormat.format(date));
+        return (time % 1000 != 0 ? iso8601OutputMsecFormat.format(date) : iso8601OutputFormat.format(date));
     }
 
     /**
@@ -104,22 +104,13 @@ public class ISO8601 {
         }
 
         dateTimeString = dateTimeString.trim();
-        SimpleDateFormat fmt;
-        if (dateTimeString.length() > 10) {
-            if (dateTimeString.charAt(10) == 'T') {
-                fmt = (dateTimeString.endsWith("Z") ? (dateTimeString.charAt(dateTimeString.length() - 4) == '.' ?
-                    iso8601OutputMsecFormat :
-                    iso8601OutputFormat) :
-                    iso8601Format);
-            } else {
-                fmt = iso8601AlternateFormat;
+        if (dateTimeString.endsWith("UTC")) {
+            synchronized (iso8601UtcFormat) {
+                return (iso8601UtcFormat.parse(dateTimeString));
             }
         } else {
-            fmt = iso8601Format;
-        }
-
-        synchronized (fmt) {
-            return (fmt.parse(dateTimeString));
+            Calendar cal = DatatypeConverter.parseDateTime(dateTimeString);
+            return (cal.getTime());
         }
     }
 

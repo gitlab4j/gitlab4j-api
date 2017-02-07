@@ -3,7 +3,10 @@ package com.messners.gitlab.api;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -14,8 +17,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +40,13 @@ import com.messners.gitlab.api.models.AccessLevel;
 @Produces(MediaType.APPLICATION_JSON)
 public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResolver<ObjectMapper> {
 
+    private static final SimpleDateFormat iso8601UtcFormat;
+    static {
+        iso8601UtcFormat = new SimpleDateFormat(ISO8601.UTC_PATTERN);
+        iso8601UtcFormat.setLenient(true);
+        iso8601UtcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
+
     private final ObjectMapper objectMapper;
 
     public JacksonJson() {
@@ -50,6 +63,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 
         SimpleModule module = new SimpleModule("GitLabApiJsonModule");
         module.addSerializer(Date.class, new JsonDateSerializer());
+        module.addDeserializer(Date.class, new JsonDateDeserializer());
         module.addSerializer(AccessLevel.class, new JsonAccessLevelSerializer());
         objectMapper.registerModule(module);
     }
@@ -137,7 +151,23 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
             gen.writeString(iso8601String);
         }
     }
-    
+
+    /**
+     * JsonDeserializer for deserializing ISO8601 formatted dates.
+     */
+    public static class JsonDateDeserializer extends JsonDeserializer<Date> {
+
+        @Override
+        public Date deserialize(JsonParser jsonparser, DeserializationContext context) throws IOException, JsonProcessingException {
+
+            try {
+                return (ISO8601.toDate(jsonparser.getText()));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     /**
      * JsonSerializer for serializing AccessLevel values.
      */
