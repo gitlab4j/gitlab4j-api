@@ -9,10 +9,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.messners.gitlab.api.webhook.EventObject;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.messners.gitlab.api.webhook.Event;
+import com.messners.gitlab.api.webhook.IssueEvent;
+import com.messners.gitlab.api.webhook.MergeRequestEvent;
 import com.messners.gitlab.api.webhook.PushEvent;
 
 public class TestGitLabApiEvents {
@@ -26,13 +30,14 @@ public class TestGitLabApiEvents {
     @BeforeClass
     public static void setup() {
         jacksonJson = new JacksonJson();
+        jacksonJson.getObjectMapper().configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
     }
 
     @Test
     public void testIssueEvent() {
 
         try {
-            EventObject issueEvent = makeFakeApiCall(EventObject.class, "issue-event");
+            Event issueEvent = makeFakeApiCall(IssueEvent.class, "issue-event");
             assertTrue(compareJson(issueEvent, "issue-event"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,7 +48,7 @@ public class TestGitLabApiEvents {
     public void testMergeRequestEvent() {
 
         try {
-            EventObject mergeRequestEvent = makeFakeApiCall(EventObject.class, "merge-request-event");
+            Event mergeRequestEvent = makeFakeApiCall(MergeRequestEvent.class, "merge-request-event");
             assertTrue(compareJson(mergeRequestEvent, "merge-request-event"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,7 +79,18 @@ public class TestGitLabApiEvents {
         String objectJson = jacksonJson.marshal(apiObject);
         JsonNode tree1 = jacksonJson.getObjectMapper().readTree(objectJson.getBytes());
         JsonNode tree2 = jacksonJson.getObjectMapper().readTree(reader);
+
         boolean sameJson = tree1.equals(tree2);
+        if (!sameJson) {
+            System.out.println("JSON did not match:");
+            sortedDump(tree1);
+            sortedDump(tree2);
+        }
         return (sameJson);
+    }
+  
+    private void sortedDump(final JsonNode node) throws JsonProcessingException {        
+        final Object obj = jacksonJson.getObjectMapper().treeToValue(node, Object.class);
+        System.out.println(jacksonJson.getObjectMapper().writeValueAsString(obj));
     }
 }

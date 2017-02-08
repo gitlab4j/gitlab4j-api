@@ -9,10 +9,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PushEvent extends EventObject {
+public class PushEvent implements Event {
     
     public static final String X_GITLAB_EVENT = "Push Hook";
     public static final String OBJECT_KIND = "push";
+    
+    private String eventName;
 
     private String after;
     private String before;
@@ -29,6 +31,23 @@ public class PushEvent extends EventObject {
     private EventRepository repository;
     private List<EventCommit> commits;
     private Integer totalCommitsCount;
+    
+    public String getObjectKind() {
+        return (OBJECT_KIND);
+    }
+
+    public void setObjectKind(String objectKind) {    
+        if (!OBJECT_KIND.equals(objectKind))
+            throw new RuntimeException("Invalid object_kind (" + objectKind + "), must be '" + OBJECT_KIND + "'");
+    }
+
+    public String getEventName() {
+        return (eventName);
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
 
     public String getAfter() {
         return this.after;

@@ -6,14 +6,33 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import com.messners.gitlab.api.models.Assignee;
+import com.messners.gitlab.api.models.User;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MergeRequestEvent extends EventObject {
+public class MergeRequestEvent implements Event {
 
     public static final String X_GITLAB_EVENT = "Merge Request Hook";
     public static final String OBJECT_KIND = "merge_request";
 
+    private User user;
     private ObjectAttributes objectAttributes;
+
+    public String getObjectKind() {
+        return (OBJECT_KIND);
+    }
+
+    public void setObjectKind(String objectKind) {
+        if (!OBJECT_KIND.equals(objectKind))
+            throw new RuntimeException("Invalid object_kind (" + objectKind + "), must be '" + OBJECT_KIND + "'");
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public ObjectAttributes getObjectAttributes() {
         return this.objectAttributes;
@@ -53,7 +72,7 @@ public class MergeRequestEvent extends EventObject {
         private Boolean workInProgress;
         private String url;
         private String action;
-        private Assignee assigneee;
+        private Assignee assignee;
 
         public Integer getAssigneeId() {
             return this.assigneeId;
@@ -263,12 +282,12 @@ public class MergeRequestEvent extends EventObject {
             this.action = action;
         }
 
-        public Assignee getAssigneee() {
-            return assigneee;
+        public Assignee getAssignee() {
+            return assignee;
         }
 
-        public void setAssigneee(Assignee assigneee) {
-            this.assigneee = assigneee;
+        public void setAssignee(Assignee assignee) {
+            this.assignee = assignee;
         }
     }
 }
