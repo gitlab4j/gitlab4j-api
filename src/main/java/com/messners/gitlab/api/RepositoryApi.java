@@ -158,10 +158,32 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public List<TreeItem> getTree(Integer projectId, String filePath, String refName) throws GitLabApiException {
+        return this.getTree(projectId, filePath, refName, false);
+    }
+
+    /**
+     * Get a list of repository files and directories in a project.
+     *
+     * GET /projects/:id/repository/tree
+     *
+     * id (required) - The ID of a project
+     * path (optional) - The path inside repository. Used to get contend of subdirectories
+     * ref_name (optional) - The name of a repository branch or tag or if not given the default branch
+     * recursive (optional) - Boolean value used to get a recursive tree (false by default)
+     *
+     * @param projectId
+     * @param filePath
+     * @param refName
+     * @param recursive
+     * @return a tree with the directories and files of a project
+     * @throws GitLabApiException
+     */
+    public List<TreeItem> getTree(Integer projectId, String filePath, String refName, Boolean recursive) throws GitLabApiException {
         Form formData = new Form();
         addFormParam(formData, "id", projectId, true);
         addFormParam(formData, "path", filePath, false);
         addFormParam(formData, "ref_name", refName, false);
+        addFormParam(formData, "recursive", recursive, false);
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "tree");
         return (response.readEntity(new GenericType<List<TreeItem>>() {
         }));
