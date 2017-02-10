@@ -31,7 +31,7 @@ public class ProjectApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public List<Project> getProjects() throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects");
+        Response response = get(Response.Status.OK, UriComponent.decodeQuery("per_page=9999", true), "projects");
         return (response.readEntity(new GenericType<List<Project>>() {
         }));
     }
