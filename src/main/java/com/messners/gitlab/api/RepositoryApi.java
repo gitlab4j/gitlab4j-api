@@ -1,5 +1,6 @@
 package com.messners.gitlab.api;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
@@ -219,5 +220,23 @@ public class RepositoryApi extends AbstractApi {
     public String getRawBlobCotent(Integer projectId, String sha) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "raw_blobs", sha);
         return (response.readEntity(String.class));
+    }
+
+    /**
+     * Get an archive of the complete repository by SHA (optional).
+     *
+     * GET /projects/:id/repository/archive
+     *
+     * @param projectId
+     * @param sha
+     * @return an input stream that can be used to save as a file
+     * or to read the content of the archive
+     * @throws GitLabApiException
+     */
+    public InputStream getRepositoryArchive(Integer projectId, String sha) throws GitLabApiException {
+        Form formData = new Form();
+        addFormParam(formData, "sha", sha, false);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "archive");
+        return (response.readEntity(InputStream.class));
     }
 }
