@@ -4,6 +4,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assume.assumeTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.junit.AfterClass;
@@ -22,11 +28,11 @@ import com.messners.gitlab.api.models.Project;
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  * 
- * If any of the above are NULL, all tests in this class will be skipped.  If running from mvn simply 
+ * If any of the above are NULL, all tests in this class will be skipped. If running from mvn simply
  * use a command line similar to:
  * 
  * mvn test -DTEST_PRIVATE_TOKEN=your_private_token -DTEST_HOST_URL=https://gitlab.com \
- *      -DTEST_NAMESPACE=your_namespace -DTEST_PROJECT_NAME=test-project
+ * -DTEST_NAMESPACE=your_namespace -DTEST_PROJECT_NAME=test-project
  *
  */
 public class TestGitLabApi {
@@ -80,8 +86,11 @@ public class TestGitLabApi {
     @AfterClass
     public static void teardown() throws GitLabApiException {
         if (gitLabApi != null) {
-            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-            gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
+            try {
+                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+                gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
+            } catch (GitLabApiException ignore) {
+            }
         }
     }
 
@@ -109,5 +118,35 @@ public class TestGitLabApi {
 
         Branch branch = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_BRANCH_NAME, "master");
         assertNotNull(branch);
+    }
+
+    @Test
+    public void testRepositoryArchiveViaInputStream() throws GitLabApiException, IOException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        InputStream in = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), "master");
+
+        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-", ".tar.gz");
+        Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+
+        assertTrue(target.toFile().length() > 0);
+        Files.delete(target);
+    }
+    
+    @Test
+    public void testRepositoryArchiveViaFile() throws GitLabApiException, IOException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        File file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), "master", null);
+        assertTrue(file.length() > 0);
+        file.delete();
+        
+        file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), "master", new File("."));
+        assertTrue(file.length() > 0);
+        file.delete();
     }
 }
