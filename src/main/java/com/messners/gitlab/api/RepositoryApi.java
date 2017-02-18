@@ -1,6 +1,10 @@
 package com.messners.gitlab.api;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
@@ -62,9 +66,9 @@ public class RepositoryApi extends AbstractApi {
      */
     public Branch createBranch(Integer projectId, String branchName, String ref) throws GitLabApiException {
 
-        Form formData = new Form();
-        addFormParam(formData, "branch_name", branchName, true);
-        addFormParam(formData, "ref", ref, true);
+        Form formData = new GitLabApiForm()
+            .withParam("branch_name", branchName, true)
+            .withParam("ref", ref, true);
         Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "branches");
         return (response.readEntity(Branch.class));
     }
@@ -180,11 +184,11 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public List<TreeItem> getTree(Integer projectId, String filePath, String refName, Boolean recursive) throws GitLabApiException {
-        Form formData = new Form();
-        addFormParam(formData, "id", projectId, true);
-        addFormParam(formData, "path", filePath, false);
-        addFormParam(formData, "ref_name", refName, false);
-        addFormParam(formData, "recursive", recursive, false);
+        Form formData = new GitLabApiForm()
+            .withParam("id", projectId, true)
+            .withParam("path", filePath, false)
+            .withParam("ref_name", refName, false)
+            .withParam("recursive", recursive, false);
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "tree");
         return (response.readEntity(new GenericType<List<TreeItem>>() {
         }));
@@ -201,8 +205,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public String getRawFileContent(Integer projectId, String commitOrBranchName, String filepath) throws GitLabApiException {
-        Form formData = new Form();
-        addFormParam(formData, "filepath", filepath, true);
+        Form formData = new GitLabApiForm().withParam("filepath", filepath, true);
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "blobs", commitOrBranchName);
         return (response.readEntity(String.class));
     }
@@ -234,9 +237,43 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public InputStream getRepositoryArchive(Integer projectId, String sha) throws GitLabApiException {
-        Form formData = new Form();
-        addFormParam(formData, "sha", sha, false);
+        Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "archive");
         return (response.readEntity(InputStream.class));
+    }
+    
+
+    /**
+     * Get an archive of the complete repository by SHA (optional) and saves to the specified directory.
+     * If the archive already exists in the directory it will be overwritten.
+     *
+     * GET /projects/:id/repository/archive
+     *
+     * @param projectId
+     * @param sha
+     * @param directory the File instance of the directory to save the archive to, if null will use "java.io.tmpdir"
+     * @return a File instance pointing to the downloaded instance
+     * @throws GitLabApiException
+     */
+    public File getRepositoryArchive(Integer projectId, String sha, File directory) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm().withParam("sha", sha);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "archive");
+
+        try {
+
+            if (directory == null)
+                directory = new File(System.getProperty("java.io.tmpdir"));
+
+            String filename = Utils.getFilenameFromContentDisposition(response);
+            File file = new File(directory, filename);
+
+            InputStream in = response.readEntity(InputStream.class);
+            Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return (file);
+
+        } catch (IOException ioe) {
+            throw new GitLabApiException(ioe);
+        }
     }
 }
