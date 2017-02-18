@@ -10,7 +10,6 @@ public class GitLabApiForm extends Form {
     /**
      * Fluent method for adding query and form parameters to a get() or post() call.
      * 
-     * @param formData the Form containing the name/value pairs
      * @param name the name of the field/attribute to add
      * @param value the value of the field/attribute to add
      * @return this GitLabAPiForm instance
@@ -23,7 +22,6 @@ public class GitLabApiForm extends Form {
      * Fluent method for adding query and form parameters to a get() or post() call.
      * If required is true and value is null, will throw an IllegalArgumentException.
      * 
-     * @param formData the Form containing the name/value pairs
      * @param name the name of the field/attribute to add
      * @param value the value of the field/attribute to add
      * @param required the field is required flag
