@@ -3,7 +3,7 @@ package com.messners.gitlab.api;
 import java.io.IOException;
 import java.io.Reader;
 
-public class Utils {
+public class TestUtils {
 
     /**
      * Reads the content of a Reader instance and returns it as a String.
