@@ -1,9 +1,9 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
-import com.messners.gitlab.api.models.Event;
-import com.messners.gitlab.api.models.Member;
-import com.messners.gitlab.api.models.Project;
-import com.messners.gitlab.api.models.ProjectHook;
+import org.gitlab4j.api.models.Event;
+import org.gitlab4j.api.models.Member;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectHook;
 import org.glassfish.jersey.uri.UriComponent;
 
 import javax.ws.rs.core.Form;

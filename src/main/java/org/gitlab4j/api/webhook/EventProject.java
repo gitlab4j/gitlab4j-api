@@ -1,9 +1,9 @@
-package com.messners.gitlab.api.webhook;
+package org.gitlab4j.api.webhook;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import com.messners.gitlab.api.models.AccessLevel;
+import org.gitlab4j.api.models.AccessLevel;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventProject {

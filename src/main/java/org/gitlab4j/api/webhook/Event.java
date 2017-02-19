@@ -1,4 +1,4 @@
-package com.messners.gitlab.api.webhook;
+package org.gitlab4j.api.webhook;
 
 public interface Event {     
     public String getObjectKind();

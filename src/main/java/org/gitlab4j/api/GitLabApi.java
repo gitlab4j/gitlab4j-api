@@ -1,4 +1,4 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into

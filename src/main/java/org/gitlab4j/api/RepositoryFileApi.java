@@ -1,9 +1,9 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
-import com.messners.gitlab.api.models.RepositoryFile;
+import org.gitlab4j.api.models.RepositoryFile;
 
 /**
  * This class provides an entry point to all the GitLab API repository files calls.

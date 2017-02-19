@@ -1,4 +1,4 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
@@ -12,13 +12,14 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import org.gitlab4j.api.GitLabApi;
+import org.gitlab4j.api.GitLabApiException;
+import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.Project;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.messners.gitlab.api.models.Branch;
-import com.messners.gitlab.api.models.Project;
 
 /**
  * In order for these tests to run you must set the following systems properties:

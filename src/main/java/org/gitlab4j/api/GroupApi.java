@@ -1,11 +1,12 @@
-package com.messners.gitlab.api;
-
-import com.messners.gitlab.api.models.Group;
-import com.messners.gitlab.api.models.Member;
+package org.gitlab4j.api;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Member;
+
 import java.util.List;
 
 /**

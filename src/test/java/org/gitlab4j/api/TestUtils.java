@@ -1,4 +1,4 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 import java.io.IOException;
 import java.io.Reader;

@@ -1,10 +1,16 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.gitlab4j.api.GitLabApi;
+import org.gitlab4j.api.JacksonJson;
+import org.gitlab4j.api.webhook.Event;
+import org.gitlab4j.api.webhook.IssueEvent;
+import org.gitlab4j.api.webhook.MergeRequestEvent;
+import org.gitlab4j.api.webhook.PushEvent;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,10 +20,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.messners.gitlab.api.webhook.Event;
-import com.messners.gitlab.api.webhook.IssueEvent;
-import com.messners.gitlab.api.webhook.MergeRequestEvent;
-import com.messners.gitlab.api.webhook.PushEvent;
 
 public class TestGitLabApiEvents {
 

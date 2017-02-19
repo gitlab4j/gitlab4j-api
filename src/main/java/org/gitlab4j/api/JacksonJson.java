@@ -1,5 +1,5 @@
 
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -12,6 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
+
+import org.gitlab4j.api.models.AccessLevel;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -31,7 +33,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.messners.gitlab.api.models.AccessLevel;
 
 /**
  * Jackson JSON Configuration and utility class.

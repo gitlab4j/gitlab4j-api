@@ -1,4 +1,4 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import org.gitlab4j.api.GitLabApi;
+import org.gitlab4j.api.JacksonJson;
+import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.Diff;
+import org.gitlab4j.api.models.Event;
+import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.Key;
+import org.gitlab4j.api.models.Member;
+import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.models.Milestone;
+import org.gitlab4j.api.models.Note;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectHook;
+import org.gitlab4j.api.models.ProjectSnippet;
+import org.gitlab4j.api.models.Session;
+import org.gitlab4j.api.models.SystemHook;
+import org.gitlab4j.api.models.Tag;
+import org.gitlab4j.api.models.TreeItem;
+import org.gitlab4j.api.models.User;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -15,25 +36,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.messners.gitlab.api.models.Branch;
-import com.messners.gitlab.api.models.Commit;
-import com.messners.gitlab.api.models.Diff;
-import com.messners.gitlab.api.models.Event;
-import com.messners.gitlab.api.models.Group;
-import com.messners.gitlab.api.models.Issue;
-import com.messners.gitlab.api.models.Key;
-import com.messners.gitlab.api.models.Member;
-import com.messners.gitlab.api.models.MergeRequest;
-import com.messners.gitlab.api.models.Milestone;
-import com.messners.gitlab.api.models.Note;
-import com.messners.gitlab.api.models.Project;
-import com.messners.gitlab.api.models.ProjectHook;
-import com.messners.gitlab.api.models.ProjectSnippet;
-import com.messners.gitlab.api.models.Session;
-import com.messners.gitlab.api.models.SystemHook;
-import com.messners.gitlab.api.models.Tag;
-import com.messners.gitlab.api.models.TreeItem;
-import com.messners.gitlab.api.models.User;
 
 public class TestGitLabApiBeans {
 

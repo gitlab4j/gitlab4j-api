@@ -1,9 +1,9 @@
-package com.messners.gitlab.api;
-
-import com.messners.gitlab.api.models.Session;
+package org.gitlab4j.api;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.models.Session;
 
 /**
  * This class implements the client side API for the GitLab login call.

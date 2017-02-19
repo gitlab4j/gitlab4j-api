@@ -1,9 +1,9 @@
-package com.messners.gitlab.api;
-
-import com.messners.gitlab.api.models.Project;
+package org.gitlab4j.api;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.models.Project;
 
 /**
  * Access for the services API.

@@ -1,12 +1,12 @@
-package com.messners.gitlab.api.webhook;
+package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import com.messners.gitlab.api.models.Assignee;
-import com.messners.gitlab.api.models.User;
+import org.gitlab4j.api.models.Assignee;
+import org.gitlab4j.api.models.User;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MergeRequestEvent implements Event {

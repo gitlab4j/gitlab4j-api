@@ -1,9 +1,9 @@
-package com.messners.gitlab.api;
-
-import com.messners.gitlab.api.models.ErrorMessage;
+package org.gitlab4j.api;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.StatusType;
+
+import org.gitlab4j.api.models.ErrorMessage;
 
 /**
  * This is the exception that will be thrown if any exception occurs while communicating

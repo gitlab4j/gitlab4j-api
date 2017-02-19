@@ -1,5 +1,5 @@
 
-package com.messners.gitlab.api.webhook;
+package org.gitlab4j.api.webhook;
 
 import java.util.List;
 

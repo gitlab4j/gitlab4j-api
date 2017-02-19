@@ -1,4 +1,4 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 import javax.ws.rs.core.Form;
 

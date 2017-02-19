@@ -1,4 +1,4 @@
-package com.messners.gitlab.api.models;
+package org.gitlab4j.api.models;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

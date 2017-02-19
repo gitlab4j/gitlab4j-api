@@ -1,4 +1,4 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +11,9 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
-import com.messners.gitlab.api.models.Branch;
-import com.messners.gitlab.api.models.Tag;
-import com.messners.gitlab.api.models.TreeItem;
+import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.Tag;
+import org.gitlab4j.api.models.TreeItem;
 
 /**
  * This class provides an entry point to all the GitLab API repository calls.

@@ -1,9 +1,9 @@
-package com.messners.gitlab.api.webhook;
+package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 import java.util.List;
 
-import com.messners.gitlab.api.models.Author;
+import org.gitlab4j.api.models.Author;
 
 public class EventCommit {
 

@@ -1,4 +1,4 @@
-package com.messners.gitlab.api;
+package org.gitlab4j.api;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
-import com.messners.gitlab.api.models.User;
+import org.gitlab4j.api.models.User;
 
 public class UserApi extends AbstractApi {
 

@@ -1,10 +1,11 @@
-package com.messners.gitlab.api;
-
-import com.messners.gitlab.api.models.Commit;
-import com.messners.gitlab.api.models.Diff;
+package org.gitlab4j.api;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.Diff;
+
 import java.util.List;
 
 /**
