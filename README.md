@@ -1,7 +1,7 @@
 GitlLab API for Java
 ====================
 
-This project provides a full featured Java API for working with GitLab repositories via the standard GitLab REST API.
+GitLab API for Java (gitlab4j-api) provides a full featured Java API for working with GitLab repositories via the GitLab REST API.
 
 It is quite simple to use, all you need is the URL to your GitLab server and the Private Token from your GitLab Account Settings page.  Once you have that info it is as simple as:
 ```java
