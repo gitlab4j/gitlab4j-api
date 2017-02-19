@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.messners</groupId>
-	<artifactId>gitlab-api</artifactId>
+	<groupId>org.gitlab4j</groupId>
+	<artifactId>gitlab4j-api</artifactId>
 	<packaging>jar</packaging>
 	<version>4.0.5-SNAPSHOT</version>
 	<name>GitLab API Java Client</name>
 	<description>GitLab4J provides a full featured Java API for working with GitLab repositories via the GitLab REST API</description>
-	<url>http://www.messners.com/#gitlab-api/gitlab-api.html</url>
+	<url>http://www.messners.com/#gitlab4j-api/gitlab4j-api.html</url>
 
 	<distributionManagement>
 		<snapshotRepository>
@@ -47,9 +47,9 @@
 	</properties>
 
 	<scm>
-		<url>git@github.com:gmessner/gitlab-api.git</url>
-		<connection>scm:git:git@github.com:gmessner/gitlab-api.git</connection>
-		<developerConnection>scm:git:git@github.com:gmessner/gitlab-api.git</developerConnection>
+		<url>git@github.com:gmessner/gitlab4j-api.git</url>
+		<connection>scm:git:git@github.com:gmessner/gitlab4j-api.git</connection>
+		<developerConnection>scm:git:git@github.com:gmessner/gitlab4j-api.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
