@@ -24,11 +24,9 @@ dependencies {
 </dependency>
 ```
 
-If you are not using Gradle or Maven you can download the latest gitlab4j-api JAR file here: <a href="https://oss.sonatype.org/service/local/repositories/releases/content/org/gitlab4j/gitlab4j-api/4.0.5/gitlab4j-api-4.0.5.jar">gitlab4j-api-4.0.5.jar</a>
+If you are not using Gradle or Maven you can download the latest gitlab4j-api JAR file here: [gitlab4j-api-4.0.5.jar](https://oss.sonatype.org/service/local/repositories/releases/content/org/gitlab4j/gitlab4j-api/4.0.5/gitlab4j-api-4.0.5.jar "Download JAR")
 
-You'll find the source for gitlab4j-api at GitHub: <a href="https://github.com/gmessner/gitlab4j-api" target="_github">gitlab4j-api @ github</a>
-
-Javadocs are available here: <a href="gitlab4j-api/javadocs/index.html?com/messners/gitlab/api/package-summary.html" target="_javadocs">Javadocs</a>
+Javadocs are available here: [Javadocs](http://www.messners.com/gitlab4j-api/javadocs/index.html?com/messners/gitlab/api/package-summary.html "Javadocs")
 
 ---
 
