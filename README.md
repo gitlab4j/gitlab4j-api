@@ -1,5 +1,5 @@
-GitlLab API for Java
-====================
+GitlLab API for Java (gitlab4j-api)
+===================================
 
 GitLab API for Java (gitlab4j-api) provides a full featured Java API for working with GitLab repositories via the GitLab REST API.
 
