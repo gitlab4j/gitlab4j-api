@@ -3,7 +3,36 @@ GitlLab API for Java
 
 GitLab API for Java (gitlab4j-api) provides a full featured Java API for working with GitLab repositories via the GitLab REST API.
 
-It is quite simple to use, all you need is the URL to your GitLab server and the Private Token from your GitLab Account Settings page.  Once you have that info it is as simple as:
+---
+
+To utilize the GitLab API for Java in your project, simply add the following dependency to your project's build file:
+
+**Gradle: build.gradle**
+```java
+dependencies {
+    ...
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.0.5'
+}
+```
+
+**Maven: pom.xml**
+```xml
+<dependency>
+    <groupId>org.gitlab4j</groupId>
+    <artifactId>gitlab4j-api</artifactId>
+    <version>4.0.5</version>
+</dependency>
+```
+
+If you are not using Gradle or Maven you can download the latest gitlab4j-api JAR file here: <a href="https://oss.sonatype.org/service/local/repositories/releases/content/org/gitlab4j/gitlab4j-api/4.0.5/gitlab4j-api-4.0.5.jar">gitlab4j-api-4.0.5.jar</a>
+
+You'll find the source for gitlab4j-api at GitHub: <a href="https://github.com/gmessner/gitlab4j-api" target="_github">gitlab4j-api @ github</a>
+
+Javadocs are available here: <a href="gitlab4j-api/javadocs/index.html?com/messners/gitlab/api/package-summary.html" target="_javadocs">Javadocs</a>
+
+---
+
+GitLab4J-API is quite simple to use, all you need is the URL to your GitLab server and the Private Token from your GitLab Account Settings page.  Once you have that info it is as simple as:
 ```java
 // Create a GitLabApi instance to communicate with your GitLab server
 GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
