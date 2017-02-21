@@ -35,27 +35,48 @@ import java.util.Map;
 public class GitLabApiClient {
 
     protected static final String PRIVATE_TOKEN_HEADER = "PRIVATE-TOKEN";
+    protected static final String X_GITLAB_TOKEN_HEADER = "X-Gitlab-Token";
     protected static final String API_NAMESPACE = "/api/v3";
 
     private ClientConfig clientConfig;
     private Client apiClient;
     private String hostUrl;
     private String privateToken;
+    private String secretToken;
     private static boolean ignoreCertificateErrors;
     private static SSLSocketFactory defaultSocketFactory;
 
     /**
      * Construct an instance to communicate with a GitLab API server using the specified
-     * server URL and private token.
+     * server URL, private token, and secret token.
      * 
      * @param hostUrl the URL to the GitLab API server
      * @param privateToken the private token to authenticate with
      */
     public GitLabApiClient(String hostUrl, String privateToken) {
+        this(hostUrl, privateToken, null);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using the specified
+     * server URL, private token, and secret token.
+     * 
+     * @param hostUrl the URL to the GitLab API server
+     * @param privateToken the private token to authenticate with
+     * @param secretToken use this token to validate received payloads
+     */
+    public GitLabApiClient(String hostUrl, String privateToken, String secretToken) {
 
         // Remove the trailing "/" from the hostUrl if present
         this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl) + API_NAMESPACE;
         this.privateToken = privateToken;
+
+        if (secretToken != null) {
+            secretToken = secretToken.trim();
+            secretToken = (secretToken.length() > 0 ? secretToken : null);
+        }
+
+        this.secretToken = secretToken;
 
         clientConfig = new ClientConfig();
         clientConfig.register(JacksonJson.class);
@@ -157,6 +178,25 @@ public class GitLabApiClient {
         }
 
         return (new URL(url.toString()));
+    }
+
+    /**
+     * Validates the secret token (X-GitLab-Token) header against the expected secret token, returns true if valid,
+     * otherwise returns false.
+     * 
+     * @param response the Response instance sent from the GitLab server
+     * @return true if the response's secret token is valid, otherwise returns false
+     */
+    protected boolean validateSecretToken(Response response) {
+
+        if (this.secretToken == null)
+            return (true);
+
+        String secretToken = response.getHeaderString(X_GITLAB_TOKEN_HEADER);
+        if (secretToken == null)
+            return (false);
+
+        return (this.secretToken.equals(secretToken));
     }
 
     /**
@@ -288,13 +328,6 @@ public class GitLabApiClient {
         return (invocation(url, queryParams).delete());
     }
 
-    protected class AcceptAllHostnameVerifier implements HostnameVerifier {
-        @Override
-        public boolean verify(String s, SSLSession sslSession) {
-            return (true);
-        }
-    }
-
     protected Invocation.Builder invocation(URL url, MultivaluedMap<String, String> queryParams) {
 
         if (apiClient == null) {
@@ -311,6 +344,13 @@ public class GitLabApiClient {
         return (target.request().header(PRIVATE_TOKEN_HEADER, privateToken).accept(MediaType.APPLICATION_JSON));
     }
 
+    protected class AcceptAllHostnameVerifier implements HostnameVerifier {
+        @Override
+        public boolean verify(String s, SSLSession sslSession) {
+            return (true);
+        }
+    }
+
     private SSLContext getSslContext() {
         try {
             return SSLContext.getDefault();
@@ -318,5 +358,4 @@ public class GitLabApiClient {
             throw new UnsupportedOperationException(e);
         }
     }
-
 }

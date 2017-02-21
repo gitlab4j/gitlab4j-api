@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -229,11 +230,15 @@ public abstract class AbstractApi {
      * @param response response
      * @param expected expected respone status
      * @return original response if the response status is expected
-     * @throws GitLabApiException if HTTP status is not as expected
+     * @throws GitLabApiException if HTTP status is not as expected, or the secret token doesn't match
      */
     protected Response validate(Response response, Response.Status expected) throws GitLabApiException {
         if (response.getStatus() != expected.getStatusCode()) {
             throw new GitLabApiException(response);
+        }
+
+        if (!getApiClient().validateSecretToken(response)) {
+            throw new GitLabApiException(new NotAuthorizedException("Invalid secret token in response."));
         }
 
         return (response);

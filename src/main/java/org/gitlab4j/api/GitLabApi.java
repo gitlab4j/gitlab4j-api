@@ -26,7 +26,7 @@ public class GitLabApi {
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    static public GitLabApi create(String url, String username, String password) throws GitLabApiException {
+    public static GitLabApi create(String url, String username, String password) throws GitLabApiException {
         String token = new SessionApi(new GitLabApi(url, null)).login(username, null, password).getPrivateToken();
         return new GitLabApi(url, token);
     }
@@ -39,7 +39,19 @@ public class GitLabApi {
      * @param privateToken to private token to use for access to the API
      */
     public GitLabApi(String hostUrl, String privateToken) {
-        apiClient = new GitLabApiClient(hostUrl, privateToken);
+        this(hostUrl, privateToken, null);
+    }
+
+    /**
+     * Constructs a GitLabApi instance set up to interact with the GitLab server
+     * specified by hostUrl.
+     * 
+     * @param hostUrl the URL of the GitLab server
+     * @param privateToken to private token to use for access to the API
+     * @param secretToken use this token to validate received payloads
+     */
+    public GitLabApi(String hostUrl, String privateToken, String secretToken) {
+        apiClient = new GitLabApiClient(hostUrl, privateToken, secretToken);
         commitsApi = new CommitsApi(this);
         groupApi = new GroupApi(this);
         mergeRequestApi = new MergeRequestApi(this);
