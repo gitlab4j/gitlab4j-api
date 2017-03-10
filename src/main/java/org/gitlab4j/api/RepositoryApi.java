@@ -74,6 +74,30 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
+     * Creates a tag for the project. Support as of version 6.8.x
+     *
+     * POST /projects/:id/repository/tags
+     *
+     * @param projectId the project to create the branch for
+     * @param tagName the name of the tag to create
+     * @param ref Source to create the tag from, can be an existing branch, tag or commit SHA
+     * @param message (optional) - Creates annotated tag.
+     * @param release_description (optional) - Add release notes to the git tag and store it in the GitLab database.
+     * @return the tag info for the created tag
+     * @throws GitLabApiException
+     */
+    public Tag createTag(Integer projectId, String tagName, String ref, String message, String release_description) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm()
+                .withParam("tag_name", tagName, true)
+                .withParam("ref", ref, true)
+                .withParam("message", message, false)
+                .withParam("release_description", release_description, false);
+        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "tags");
+        return (response.readEntity(Tag.class));
+    }
+
+    /**
      * Delete a single project repository branch. This is an idempotent function,
      * protecting an already protected repository branch will not produce an error.
      * 
