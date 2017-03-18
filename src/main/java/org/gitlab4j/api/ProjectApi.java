@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import org.gitlab4j.api.models.Event;
+import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
@@ -459,5 +460,20 @@ public class ProjectApi extends AbstractApi {
 
         Response response = put(Response.Status.OK, formData.asMap(), "projects", hook.getProjectId(), "hooks", hook.getId());
         return (response.readEntity(ProjectHook.class));
+    }
+
+    /**
+     * Get a list of project's issues.
+     *
+     * GET /projects/:id/issues
+     *
+     * @param projectId
+     * @return a list of project's issues
+     * @throws GitLabApiException
+     */
+    public List<Issue> getIssues(Integer projectId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", projectId, "issues");
+        return (response.readEntity(new GenericType<List<Issue>>() {
+        }));
     }
 }
