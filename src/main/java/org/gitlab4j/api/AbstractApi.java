@@ -225,7 +225,8 @@ public abstract class AbstractApi {
     }
 
     /**
-     * Validates response.
+     * Validates response the response from the server against the expected HTTP status and
+     * the returned secret token, if either is not correct will throw a GitLabApiException.
      * 
      * @param response response
      * @param expected expected respone status
@@ -233,6 +234,7 @@ public abstract class AbstractApi {
      * @throws GitLabApiException if HTTP status is not as expected, or the secret token doesn't match
      */
     protected Response validate(Response response, Response.Status expected) throws GitLabApiException {
+
         if (response.getStatus() != expected.getStatusCode()) {
             throw new GitLabApiException(response);
         }
@@ -245,17 +247,16 @@ public abstract class AbstractApi {
     }
 
     /**
-     * Wraps exception if needed
+     * Wraps an exception in a GitLabApiException if needed.
      * 
      * @param thrown the exception that should be wrapped 
-     * @throws GitLabApiException containing the cause or GitLab API specific message
      */
-    protected GitLabApiException handle(Exception thrown) throws GitLabApiException {
+    protected GitLabApiException handle(Exception thrown) {
 
         if (thrown instanceof GitLabApiException) {
-            throw (GitLabApiException) thrown;
+            return ((GitLabApiException) thrown);
         }
 
-        throw new GitLabApiException(thrown);
+        return (new GitLabApiException(thrown));
     }
 }
