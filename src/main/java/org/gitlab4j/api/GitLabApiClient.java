@@ -66,6 +66,19 @@ public class GitLabApiClient {
      * @param secretToken use this token to validate received payloads
      */
     public GitLabApiClient(String hostUrl, String privateToken, String secretToken) {
+        this(hostUrl, privateToken, secretToken, null);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using the specified
+     * server URL and private token.
+     * 
+     * @param hostUrl the URL to the GitLab API server
+     * @param privateToken the private token to authenticate with
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties the properties given to Jersey's clientconfig
+     */
+    public GitLabApiClient(String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
 
         // Remove the trailing "/" from the hostUrl if present
         this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl) + API_NAMESPACE;
@@ -79,6 +92,10 @@ public class GitLabApiClient {
         this.secretToken = secretToken;
 
         clientConfig = new ClientConfig();
+        if (clientConfigProperties != null) {
+            clientConfig.getProperties().putAll(clientConfigProperties);
+        }
+
         clientConfig.register(JacksonJson.class);
     }
 

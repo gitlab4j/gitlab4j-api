@@ -1,5 +1,7 @@
 package org.gitlab4j.api;
 
+import java.util.Map;
+
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
  * a separate API class for each concern.
@@ -51,7 +53,11 @@ public class GitLabApi {
      * @param secretToken use this token to validate received payloads
      */
     public GitLabApi(String hostUrl, String privateToken, String secretToken) {
-        apiClient = new GitLabApiClient(hostUrl, privateToken, secretToken);
+        this(hostUrl, privateToken, secretToken, null);
+    }
+
+    public GitLabApi(String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
+        apiClient = new GitLabApiClient(hostUrl, privateToken, secretToken, clientConfigProperties);
         commitsApi = new CommitsApi(this);
         groupApi = new GroupApi(this);
         mergeRequestApi = new MergeRequestApi(this);
