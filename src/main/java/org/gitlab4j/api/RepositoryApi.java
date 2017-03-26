@@ -153,7 +153,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public List<Tag> getTags(Integer projectId) throws GitLabApiException {
-        Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "tags");
+        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "tags");
         return (response.readEntity(new GenericType<List<Tag>>() {
         }));
     }
