@@ -249,7 +249,8 @@ public abstract class AbstractApi {
     /**
      * Wraps an exception in a GitLabApiException if needed.
      * 
-     * @param thrown the exception that should be wrapped 
+     * @param thrown the exception that should be wrapped
+     * @return either the untouched GitLabApiException or a new GitLabApiExceptin wrapping a non-GitLabApiException 
      */
     protected GitLabApiException handle(Exception thrown) {
 
