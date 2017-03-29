@@ -29,13 +29,14 @@ public class RepositoryApi extends AbstractApi {
      * 
      * GET /projects/:id/repository/branches
      * 
-     * @param projectId
+     * @param projectId the project to get the list of branches for
      * @return the list of repository branches for the specified project ID
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Branch> getBranches(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "branches");
-        return (response.readEntity(new GenericType<List<Branch>>() {}));
+        return (response.readEntity(new GenericType<List<Branch>>() {
+        }));
     }
 
     /**
@@ -43,10 +44,10 @@ public class RepositoryApi extends AbstractApi {
      * 
      * GET /projects/:id/repository/branches/:branch
      * 
-     * @param projectId
-     * @param branchName
+     * @param projectId the project to get the branch for
+     * @param branchName the name of the branch to get
      * @return the branch info for the specified project ID/branch name pair
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Branch getBranch(Integer projectId, String branchName) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName);
@@ -62,40 +63,17 @@ public class RepositoryApi extends AbstractApi {
      * @param branchName the name of the branch to create
      * @param ref Source to create the branch from, can be an existing branch, tag or commit SHA
      * @return the branch info for the created branch
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Branch createBranch(Integer projectId, String branchName, String ref) throws GitLabApiException {
 
         Form formData = new GitLabApiForm()
-            .withParam("branch_name", branchName, true)
-            .withParam("ref", ref, true);
+                .withParam("branch_name", branchName, true)
+                .withParam("ref", ref, true);
         Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "branches");
         return (response.readEntity(Branch.class));
     }
 
-    /**
-     * Creates a tag for the project. Support as of version 6.8.x
-     *
-     * POST /projects/:id/repository/tags
-     *
-     * @param projectId the project to create the branch for
-     * @param tagName the name of the tag to create
-     * @param ref Source to create the tag from, can be an existing branch, tag or commit SHA
-     * @param message (optional) - Creates annotated tag.
-     * @param release_description (optional) - Add release notes to the git tag and store it in the GitLab database.
-     * @return the tag info for the created tag
-     * @throws GitLabApiException
-     */
-    public Tag createTag(Integer projectId, String tagName, String ref, String message, String release_description) throws GitLabApiException {
-
-        Form formData = new GitLabApiForm()
-                .withParam("tag_name", tagName, true)
-                .withParam("ref", ref, true)
-                .withParam("message", message, false)
-                .withParam("release_description", release_description, false);
-        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "tags");
-        return (response.readEntity(Tag.class));
-    }
 
     /**
      * Delete a single project repository branch. This is an idempotent function,
@@ -103,9 +81,9 @@ public class RepositoryApi extends AbstractApi {
      * 
      * DELETE /projects/:id/repository/branches/:branch
      * 
-     * @param projectId
-     * @param branchName
-     * @throws GitLabApiException
+     * @param projectId the project that the branch belongs to
+     * @param branchName the name of the branch to delete
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteBranch(Integer projectId, String branchName) throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName);
@@ -120,7 +98,7 @@ public class RepositoryApi extends AbstractApi {
      * @param projectId
      * @param branchName
      * @return the branch info for the protected branch
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Branch protectBranch(Integer projectId, String branchName) throws GitLabApiException {
         Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName, "protect");
@@ -136,7 +114,7 @@ public class RepositoryApi extends AbstractApi {
      * @param projectId
      * @param branchName
      * @return the branch info for the unprotected branch
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Branch unprotectBranch(Integer projectId, String branchName) throws GitLabApiException {
         Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName, "unprotect");
@@ -150,12 +128,80 @@ public class RepositoryApi extends AbstractApi {
      * 
      * @param projectId
      * @return the list of tags for the specified project ID
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Tag> getTags(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "tags");
         return (response.readEntity(new GenericType<List<Tag>>() {
         }));
+    }
+ 
+    /**
+     * Creates a tag on a particular ref of the given project. A message and release notes are optional.
+     * 
+     * POST /projects/:id/repository/tags
+     * 
+     * @param projectId The ID of the project
+     * @param tagName The name of the tag Must be unique for the project
+     * @param ref The git ref to place the tag on
+     * @param message The message to included with the tag (optional)
+     * @param releaseNotes The release notes for the tag (optional)
+     * @return a Tag instance containing info on the newly created tag
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Tag createTag(Integer projectId, String tagName, String ref, String message, String releaseNotes) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm()
+                .withParam("tag_name", tagName, true)
+                .withParam("ref", ref, true)
+                .withParam("message", message, false)
+                .withParam("release_description", releaseNotes, false);
+        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "tags");
+        return (response.readEntity(Tag.class));
+    }
+
+    /**
+     * Creates a tag on a particular ref of a given project. A message and a File instance containing the
+     * release notes are optional.  This method is the same as {@link #createTag(Integer, String, String, String, String)},
+     * but instead allows the release notes to be supplied in a file.
+     * 
+     * POST /projects/:id/repository/tags
+     * 
+     * @param projectId the ID of the project
+     * @param tagName the name of the tag, must be unique for the project
+     * @param ref the git ref to place the tag on
+     * @param message the message to included with the tag (optional)
+     * @param releaseNotesFile a whose contents are the release notes (optional)
+     * @return a Tag instance containing info on the newly created tag
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Tag createTag(Integer projectId, String tagName, String ref, String message, File releaseNotesFile) throws GitLabApiException {
+        
+        String releaseNotes;
+        if (releaseNotesFile != null) {
+            try {
+                releaseNotes = Utils.readFileContents(releaseNotesFile);
+            } catch (IOException ioe) {
+                throw (new GitLabApiException(ioe));
+            }
+        } else {
+            releaseNotes = null;
+        }
+
+        return (createTag(projectId, tagName, ref, message, releaseNotes));
+    }
+
+    /**
+     * Deletes the tag from a project with the specified tag name.
+     * 
+     * DELETE /projects/:id/repository/tags/:tag_name
+     * 
+     * @param projectId the ID of the project
+     * @param tagName The name of the tag to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteTag(Integer projectId, String tagName) throws GitLabApiException {
+        delete(Response.Status.OK, null, "projects", projectId, "repository", "tags", tagName);
     }
 
     /**
@@ -165,7 +211,7 @@ public class RepositoryApi extends AbstractApi {
      * 
      * @param projectId
      * @return a tree with the root directories and files of a project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<TreeItem> getTree(Integer projectId) throws GitLabApiException {
         return this.getTree(projectId, "/", "master");
@@ -184,10 +230,10 @@ public class RepositoryApi extends AbstractApi {
      * @param filePath
      * @param refName
      * @return a tree with the directories and files of a project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<TreeItem> getTree(Integer projectId, String filePath, String refName) throws GitLabApiException {
-        return this.getTree(projectId, filePath, refName, false);
+        return (getTree(projectId, filePath, refName, false));
     }
 
     /**
@@ -205,14 +251,14 @@ public class RepositoryApi extends AbstractApi {
      * @param refName
      * @param recursive
      * @return a tree with the directories and files of a project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<TreeItem> getTree(Integer projectId, String filePath, String refName, Boolean recursive) throws GitLabApiException {
         Form formData = new GitLabApiForm()
-            .withParam("id", projectId, true)
-            .withParam("path", filePath, false)
-            .withParam("ref_name", refName, false)
-            .withParam("recursive", recursive, false);
+                .withParam("id", projectId, true)
+                .withParam("path", filePath, false)
+                .withParam("ref_name", refName, false)
+                .withParam("recursive", recursive, false);
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "tree");
         return (response.readEntity(new GenericType<List<TreeItem>>() {
         }));
@@ -226,7 +272,7 @@ public class RepositoryApi extends AbstractApi {
      * @param projectId
      * @param commitOrBranchName
      * @return a string with the file content for the specified file
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public String getRawFileContent(Integer projectId, String commitOrBranchName, String filepath) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("filepath", filepath, true);
@@ -242,7 +288,7 @@ public class RepositoryApi extends AbstractApi {
      * @param projectId
      * @param sha
      * @return the raw file contents for the blob
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public String getRawBlobCotent(Integer projectId, String sha) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "raw_blobs", sha);
@@ -258,14 +304,13 @@ public class RepositoryApi extends AbstractApi {
      * @param sha
      * @return an input stream that can be used to save as a file
      * or to read the content of the archive
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public InputStream getRepositoryArchive(Integer projectId, String sha) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "archive");
         return (response.readEntity(InputStream.class));
     }
-    
 
     /**
      * Get an archive of the complete repository by SHA (optional) and saves to the specified directory.
@@ -277,7 +322,7 @@ public class RepositoryApi extends AbstractApi {
      * @param sha
      * @param directory the File instance of the directory to save the archive to, if null will use "java.io.tmpdir"
      * @return a File instance pointing to the downloaded instance
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public File getRepositoryArchive(Integer projectId, String sha, File directory) throws GitLabApiException {
 

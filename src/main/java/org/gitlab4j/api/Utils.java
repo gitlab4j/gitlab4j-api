@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.ws.rs.core.Response;
 
@@ -55,5 +56,20 @@ public class Utils {
             return (null);
 
         return (disposition.replaceFirst("(?i)^.*filename=\"([^\"]+)\".*$", "$1"));
+    }
+ 
+    /**
+     * Reads the contents of a File to a String.
+     * 
+     * @param file the File instance to read the contents from
+     * @return the contents of file as a String
+     * @throws IOException if any errors occur while opening or reading the file
+     */
+    public static String readFileContents(File file) throws IOException {
+
+        try (Scanner in = new Scanner(file)) {
+            in.useDelimiter("\\Z");
+            return (in.next());
+        }       
     }
 }
