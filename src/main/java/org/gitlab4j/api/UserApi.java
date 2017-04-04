@@ -8,6 +8,9 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.User;
 
+/**
+ * This class provides an entry point to all the GitLab API users calls.
+ */
 public class UserApi extends AbstractApi {
 
     UserApi(GitLabApi gitLabApi) {
@@ -40,9 +43,9 @@ public class UserApi extends AbstractApi {
      */
     public List<User> getUsers(int page, int perPage) throws GitLabApiException {
 
-        Form formData = new Form();
-        addFormParam(formData, "page", page, false);
-        addFormParam(formData, "per_page", perPage, false);
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("page", page, false)
+                .withParam("per_page", perPage, false);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
         return (response.readEntity(new GenericType<List<User>>() {
         }));
@@ -72,8 +75,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
-        Form formData = new Form();
-        addFormParam(formData, "search", emailOrUsername, true);
+        GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
         return (response.readEntity(new GenericType<List<User>>() {
         }));
@@ -104,7 +106,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public User createUser(User user, String password, Integer projectsLimit) throws GitLabApiException {
-        Form formData = user2form(user, projectsLimit, password, true);
+        Form formData = userToForm(user, projectsLimit, password, true);
         Response response = post(Response.Status.CREATED, formData, "users");
         return (response.readEntity(User.class));
     }
@@ -134,7 +136,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException
      */
     public User modifyUser(User user, String password, Integer projectsLimit) throws GitLabApiException {
-        Form form = user2form(user, projectsLimit, password, false);
+        Form form = userToForm(user, projectsLimit, password, false);
         Response response = put(Response.Status.OK, form.asMap(), "users", user.getId());
         return (response.readEntity(User.class));
     }
@@ -168,24 +170,32 @@ public class UserApi extends AbstractApi {
         deleteUser(user.getId());
     }
 
-    private Form user2form(User user, Integer projectsLimit, String password, boolean isCreate) {
-        Form form = new Form();
-        addFormParam(form, "email", user.getEmail(), isCreate);
-        addFormParam(form, "password", password, isCreate);
-        addFormParam(form, "username", user.getUsername(), isCreate);
-        addFormParam(form, "name", user.getName(), isCreate);
-        addFormParam(form, "skype", user.getSkype(), false);
-        addFormParam(form, "linkedin", user.getLinkedin(), false);
-        addFormParam(form, "twitter", user.getTwitter(), false);
-        addFormParam(form, "website_url", user.getWebsiteUrl(), false);
-        addFormParam(form, "projects_limit", projectsLimit, false);
-        addFormParam(form, "external", user.getExternal(), false);
-        addFormParam(form, "provider", user.getProvider(), false);
-        addFormParam(form, "bio", user.getBio(), false);
-        addFormParam(form, "location", user.getLocation(), false);
-        addFormParam(form, "admin", user.getIsAdmin(), false);
-        addFormParam(form, "can_create_group", user.getCanCreateGroup(), false);
-        addFormParam(form, "external", user.getExternal(), false);
-        return form;
+    /**
+     * Populate the REST form with data from the User instance.
+     * 
+     * @param user the User iunstance to populate the Form instance with
+     * @param projectsLimit the maximum number of projects the user is allowed (optional)
+     * @param password the password, required when creating a new user
+     * @param create whether the form is being populated to create a new user
+     * @return the populated Form instance
+     */
+    Form userToForm(User user, Integer projectsLimit, String password, boolean create) {
+        return (new GitLabApiForm()
+                .withParam("email", user.getEmail(), create)
+                .withParam("password", password, create)
+                .withParam("username", user.getUsername(), create)
+                .withParam("name", user.getName(), create)
+                .withParam("skype", user.getSkype(), false)
+                .withParam("linkedin", user.getLinkedin(), false)
+                .withParam("twitter", user.getTwitter(), false)
+                .withParam("website_url", user.getWebsiteUrl(), false)
+                .withParam("projects_limit", projectsLimit, false)
+                .withParam("external", user.getExternal(), false)
+                .withParam("provider", user.getProvider(), false)
+                .withParam("bio", user.getBio(), false)
+                .withParam("location", user.getLocation(), false)
+                .withParam("admin", user.getIsAdmin(), false)
+                .withParam("can_create_group", user.getCanCreateGroup(), false)
+                .withParam("external", user.getExternal(), false));
     }
 }

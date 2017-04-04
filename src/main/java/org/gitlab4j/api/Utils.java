@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 import javax.ws.rs.core.Response;
 
+/**
+ * This class provides static utility methods used throughout GitLab4J.
+ */
 public class Utils {
 
     /**
@@ -13,10 +16,10 @@ public class Utils {
      * filename exists in the directory, "-#" will be appended to the filename until
      * a unique filename can be created.
      * 
-     * @param directory
-     * @param filename
+     * @param directory the directory to create the file in
+     * @param filename the base filename with extension
      * @return a File that is unique in the specified directory
-     * @throws IOException
+     * @throws IOException if any error occurs during file creation
      */
     public static File createUniqueFile(File directory, String filename) throws IOException {
 
