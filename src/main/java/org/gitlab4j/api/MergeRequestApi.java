@@ -24,7 +24,7 @@ public class MergeRequestApi extends AbstractApi {
      *
      * @param projectId the project ID to get the merge requests for
      * @return all merge requests for the specified project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<MergeRequest> getMergeRequests(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests");
@@ -37,10 +37,10 @@ public class MergeRequestApi extends AbstractApi {
      *
      * GET /projects/:id/merge_request/:merge_request_id
      *
-     * @param projectId
-     * @param mergeRequestId
+     * @param projectId the project ID of the merge request
+     * @param mergeRequestId the ID of the merge request
      * @return the specified MergeRequest instance
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public MergeRequest getMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "merge_request", mergeRequestId);
@@ -59,7 +59,7 @@ public class MergeRequestApi extends AbstractApi {
      * @param description the description of the merge request
      * @param assigneeId the Assignee user ID, optional
      * @return the created MergeRequest instance
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public MergeRequest createMergeRequest(Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId)
             throws GitLabApiException {
@@ -84,15 +84,15 @@ public class MergeRequestApi extends AbstractApi {
      *
      * PUT /projects/:id/merge_request/:merge_request_id
      *
-     * @param projectId
-     * @param mergeRequestId
-     * @param sourceBranch
-     * @param targetBranch
-     * @param title
-     * @param description
-     * @param assigneeId
+     * @param projectId the ID of a project
+     * @param mergeRequestId the ID of the merge request to update
+     * @param sourceBranch the source branch
+     * @param targetBranch the target branch
+     * @param title the title for the merge request
+     * @param description the description of the merge request
+     * @param assigneeId the Assignee user ID, optional
      * @return the updated merge request
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestId, String sourceBranch, String targetBranch, String title, String description,
             Integer assigneeId) throws GitLabApiException {
@@ -115,25 +115,4 @@ public class MergeRequestApi extends AbstractApi {
         Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_request", mergeRequestId);
         return (response.readEntity(MergeRequest.class));
     }
-
-    /**
-     * Adds a comment to a merge request.
-     *
-     * POST /projects/:id/merge_request/:merge_request_id/comments
-     *
-     * @param projectId
-     * @param mergeRequestId
-     * @param comments
-     * @return the added merge request comment
-     * @throws GitLabApiException
-     */
-    /*
-    public MergeRequestComment addMergeRequestComment(Integer projectId, Integer mergeRequestId, String comments) throws GitLabApiException {
-
-        Form formData = new Form();
-        formData.param("note", comments);
-        Response response = post(Response.Status.OK, formData, "projects", projectId, "merge_request", mergeRequestId, "comments");
-        return (response.readEntity(MergeRequestComment.class));
-    }
-    */
 }

@@ -23,7 +23,7 @@ public class UserApi extends AbstractApi {
      * GET /users
      * 
      * @return a list of Users, this list will only contain the first 20 users in the system.
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers() throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "users");
@@ -36,10 +36,10 @@ public class UserApi extends AbstractApi {
      * 
      * GET /users
      * 
-     * @param page
-     * @param perPage
+     * @param page the page to get
+     * @param perPage the number of users per page
      * @return the list of Users in the specified range
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers(int page, int perPage) throws GitLabApiException {
 
@@ -56,9 +56,9 @@ public class UserApi extends AbstractApi {
      * 
      * GET /users/:id
      * 
-     * @param userId
+     * @param userId the ID of the user to get
      * @return the User instance for the specified user ID
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public User getUser(int userId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "users", userId);
@@ -70,9 +70,9 @@ public class UserApi extends AbstractApi {
      *
      * GET /users?search=:email_or_username
      * 
-     * @param emailOrUsername
+     * @param emailOrUsername the email or username to search for
      * @return the User List with the email or username like emailOrUsername
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true);
@@ -101,9 +101,11 @@ public class UserApi extends AbstractApi {
      * admin (optional) - User is admin - true or false (default)
      * can_create_group (optional) - User can create groups - true or false
      * 
-     * @param user
+     * @param user the User instance with the user info to create
+     * @param password the password for the new user
+     * @param projectsLimit the maximum number of project 
      * @return created User instance
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public User createUser(User user, String password, Integer projectsLimit) throws GitLabApiException {
         Form formData = userToForm(user, projectsLimit, password, true);
@@ -131,9 +133,11 @@ public class UserApi extends AbstractApi {
      * admin (optional) - User is admin - true or false (default)
      * can_create_group (optional) - User can create groups - true or false
      * 
-     * @param user
+     * @param user the User instance with the user info to modify
+     * @param password the new password for the user
+     * @param projectsLimit the maximum number of project 
      * @return the modified User instance
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public User modifyUser(User user, String password, Integer projectsLimit) throws GitLabApiException {
         Form form = userToForm(user, projectsLimit, password, false);
@@ -146,8 +150,8 @@ public class UserApi extends AbstractApi {
      * 
      * DELETE /users/:id
      * 
-     * @param userId
-     * @throws GitLabApiException
+     * @param userId the user ID to delete
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteUser(Integer userId) throws GitLabApiException {
 
@@ -163,8 +167,8 @@ public class UserApi extends AbstractApi {
      * 
      * DELETE /users/:id
      * 
-     * @param user
-     * @throws GitLabApiException
+     * @param user the User instance to delete
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteUser(User user) throws GitLabApiException {
         deleteUser(user.getId());

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class GroupApi extends AbstractApi {
 
-    GroupApi(GitLabApi gitLabApi) {
+    public GroupApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -24,7 +24,7 @@ public class GroupApi extends AbstractApi {
      * GET /groups
      * 
      * @return the list of groups viewable by the authenticated user
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Group> getGroups() throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "groups");
@@ -37,9 +37,9 @@ public class GroupApi extends AbstractApi {
      * 
      * GET /groups/:id
      * 
-     * @param groupId
+     * @param groupId the group ID to get
      * @return the Group instance for the specified group ID
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Group getGroup(int groupId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "groups", groupId);
@@ -51,8 +51,9 @@ public class GroupApi extends AbstractApi {
      * 
      * POST /groups
      * 
-     * @param name
-     * @param path
+     * @param name the name of the group to add
+     * @param path the path for the group
+     * @throws GitLabApiException if any exception occurs
      */
     public void addGroup(String name, String path) throws GitLabApiException {
 
@@ -67,8 +68,8 @@ public class GroupApi extends AbstractApi {
      * 
      * DELETE /groups/:id
      * 
-     * @param groupId
-     * @throws GitLabApiException
+     * @param groupId the group ID to delete
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteGroup(Integer groupId) throws GitLabApiException {
 
@@ -84,8 +85,8 @@ public class GroupApi extends AbstractApi {
      * 
      * DELETE /groups/:id
      * 
-     * @param group
-     * @throws GitLabApiException
+     * @param group the Group instance to delete
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteGroup(Group group) throws GitLabApiException {
         deleteGroup(group.getId());
@@ -96,8 +97,9 @@ public class GroupApi extends AbstractApi {
      * 
      * GET /groups/:id/members
      * 
+     * @param groupId the group ID to list the members for
      * @return a list of group members viewable by the authenticated user
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Member> getMembers(int groupId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "groups", groupId, "members");
@@ -110,11 +112,11 @@ public class GroupApi extends AbstractApi {
      * 
      * POST /groups/:id/members
      * 
-     * @param groupId
-     * @param userId
-     * @param accessLevel
+     * @param groupId the project ID to add the member to
+     * @param userId the user ID of the member to add
+     * @param accessLevel the access level for the new member
      * @return a Member instance for the added user
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Member addMember(Integer groupId, Integer userId, Integer accessLevel) throws GitLabApiException {
 
@@ -130,9 +132,9 @@ public class GroupApi extends AbstractApi {
      * 
      * DELETE /groups/:id/members/:user_id
      * 
-     * @param projectId
-     * @param userId
-     * @throws GitLabApiException
+     * @param projectId the project ID to remove the member from
+     * @param userId the user ID of the member to remove
+     * @throws GitLabApiException if any exception occurs
      */
     public void removeMember(Integer projectId, Integer userId) throws GitLabApiException {
         delete(Response.Status.OK, null, "groups", projectId, "members", userId);

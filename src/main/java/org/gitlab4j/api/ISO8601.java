@@ -53,6 +53,7 @@ public class ISO8601 {
     /**
      * Get a ISO8601formatted string for the current date and time.
      *
+     * @param withMsec flag indicating whether to include milliseconds
      * @return a ISO8601 formatted string for the current date and time
      */
     public static String getTimestamp(boolean withMsec) {

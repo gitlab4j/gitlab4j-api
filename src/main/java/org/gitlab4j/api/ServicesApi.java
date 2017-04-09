@@ -24,6 +24,7 @@ public class ServicesApi extends AbstractApi {
      * @param projectId id of the project
      * @param token for authentication
      * @param projectCIUrl URL of the GitLab-CI project
+     * @throws GitLabApiException if any exception occurs
      */
     public void setGitLabCI(Integer projectId, String token, String projectCIUrl) throws GitLabApiException {
         final Form formData = new Form();
@@ -39,6 +40,7 @@ public class ServicesApi extends AbstractApi {
      * @param project the project
      * @param token for authentication
      * @param projectCIUrl URL of the GitLab-CI project
+     * @throws GitLabApiException if any exception occurs
      */
     public void setGitLabCI(Project project, String token, String projectCIUrl) throws GitLabApiException {
         setGitLabCI(project.getId(), token, projectCIUrl);
@@ -50,7 +52,7 @@ public class ServicesApi extends AbstractApi {
      * DELETE /projects/:id/services/gitlab-ci
      *
      * @param projectId id of the project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteGitLabCI(Integer projectId) throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", projectId, "services", "gitlab-ci");
@@ -59,7 +61,7 @@ public class ServicesApi extends AbstractApi {
     /**
      * DELETE /projects/:id/services/gitlab-ci
      * @param project to delete
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteGitLabCI(Project project) throws GitLabApiException {
         deleteGitLabCI(project.getId());
@@ -74,8 +76,7 @@ public class ServicesApi extends AbstractApi {
      * @param token for authentication
      * @param room HipChat Room
      * @param server HipChat Server URL
-     *
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public void setHipChat(Integer projectId, String token, String room, String server) throws GitLabApiException {
         final Form formData = new Form();
@@ -90,11 +91,11 @@ public class ServicesApi extends AbstractApi {
      *
      * PUT /projects/:id/services/hipchat
      *
-     * @param project
-     * @param token
-     * @param room
-     * @param server
-     * @throws GitLabApiException
+     * @param project the Project instance to activate Hipchat for
+     * @param token for authentication
+     * @param room HipChat Room
+     * @param server HipChat Server URL
+     * @throws GitLabApiException if any exception occurs
      */
     public void setHipChat(Project project, String token, String room, String server) throws GitLabApiException {
         setHipChat(project.getId(), token, room, server);
@@ -106,7 +107,7 @@ public class ServicesApi extends AbstractApi {
      * DELETE /projects/:id/services/hipchat
      *
      * @param projectId id of the project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteHipChat(Integer projectId) throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", projectId, "services", "hipchat");
@@ -118,7 +119,7 @@ public class ServicesApi extends AbstractApi {
      * DELETE /projects/:id/services/hipchat
      *
      * @param project the project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteHipChat(Project project) throws GitLabApiException {
         deleteHipChat(project.getId());

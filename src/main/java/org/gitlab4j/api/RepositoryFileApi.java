@@ -21,10 +21,10 @@ public class RepositoryFileApi extends AbstractApi {
      * GET /projects/:id/repository/files
      *
      * @param filePath (required) - Full path to new file. Ex. lib/class.rb
-     * @param projectId
+     * @param projectId (required) - the project ID
      * @param ref (required) - The name of branch, tag or commit
      * @return a RepositoryFile instance with the file info
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public RepositoryFile getFile(String filePath, Integer projectId, String ref) throws GitLabApiException {
         Form form = new Form();
@@ -45,12 +45,12 @@ public class RepositoryFileApi extends AbstractApi {
      * content (required) - File content
      * commit_message (required) - Commit message
      *
-     * @param file
-     * @param projectId
-     * @param branchName
-     * @param commitMessage
+     * @param file full path to new file. Ex. lib/class.rb
+     * @param projectId the project ID
+     * @param branchName the name of branch
+     * @param commitMessage the commit message
      * @return a RepositoryFile instance with the created file info
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public RepositoryFile createFile(RepositoryFile file, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
         Form formData = file2form(file, branchName, commitMessage);
@@ -69,12 +69,12 @@ public class RepositoryFileApi extends AbstractApi {
      * content (required) - File content
      * commit_message (required) - Commit message
      *
-     * @param file
-     * @param projectId
-     * @param branchName
-     * @param commitMessage
+     * @param file full path to new file. Ex. lib/class.rb
+     * @param projectId the project ID
+     * @param branchName the name of branch
+     * @param commitMessage the commit message
      * @return a RepositoryFile instance with the updated file info
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public RepositoryFile updateFile(RepositoryFile file, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
         Form form = file2form(file, branchName, commitMessage);
@@ -91,11 +91,11 @@ public class RepositoryFileApi extends AbstractApi {
      * branch_name (required) - The name of branch
      * commit_message (required) - Commit message
      *
-     * @param filePath
-     * @param projectId
-     * @param branchName
-     * @param commitMessage
-     * @throws GitLabApiException
+     * @param filePath full path to new file. Ex. lib/class.rb
+     * @param projectId the project ID
+     * @param branchName the name of branch
+     * @param commitMessage the commit message
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteFile(String filePath, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
 

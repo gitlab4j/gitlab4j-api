@@ -86,12 +86,13 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     /**
      * Unmarshal the JSON data on the specified Reader instance to an instance of the provided class.
      * 
+     * @param <T> the generics type for the return value
      * @param returnType an instance of this type class will be returned
      * @param reader the Reader instance that contains the JSON data
      * @return an instance of the provided class containing the parsed data from the Reader
      * @throws JsonParseException when an error occurs paresing the provided JSON
-     * @throws JsonMappingException
-     * @throws IOException
+     * @throws JsonMappingException if a JSON error occurs
+     * @throws IOException if an error occurs reading the JSON data
      */
     public <T> T unmarshal(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(returnType);
@@ -101,12 +102,13 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     /**
      * Unmarshal the JSON data contained by the string and populate an instance of the provided returnType class.
      * 
+     * @param <T> the generics type for the return value
      * @param returnType an instance of this type class will be returned
-     * @param postData
+     * @param postData a String holding the POST data
      * @return an instance of the provided class containing the parsed data from the string
      * @throws JsonParseException when an error occurs paresing the provided JSON
-     * @throws JsonMappingException
-     * @throws IOException
+     * @throws JsonMappingException if a JSON error occurs
+     * @throws IOException if an error occurs reading the JSON data
      */
     public <T> T unmarshal(Class<T> returnType, String postData) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(returnType);
@@ -116,6 +118,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     /**
      * Marshals the supplied object out as a formatted JSON string.
      * 
+     * @param <T> the generics type for the provided object
      * @param object the object to output as a JSON string
      * @return a String containing the JSON for the specified object
      */

@@ -299,7 +299,7 @@ public class ProjectApi extends AbstractApi {
      * 
      * @param projectId the project ID to add the team member to
      * @param userId the user ID of the member to add
-     * @param accessLevel
+     * @param accessLevel the access level for the new member
      * @return the added member
      * @throws GitLabApiException if any exception occurs
      */

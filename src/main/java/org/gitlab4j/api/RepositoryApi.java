@@ -95,8 +95,8 @@ public class RepositoryApi extends AbstractApi {
      * 
      * PUT /projects/:id/repository/branches/:branch/protect
      * 
-     * @param projectId
-     * @param branchName
+     * @param projectId the ID of the project to protect
+     * @param branchName the name of the branch to protect
      * @return the branch info for the protected branch
      * @throws GitLabApiException if any exception occurs
      */
@@ -111,8 +111,8 @@ public class RepositoryApi extends AbstractApi {
      * 
      * PUT /projects/:id/repository/branches/:branch/unprotect
      * 
-     * @param projectId
-     * @param branchName
+     * @param projectId the ID of the project to un-protect
+     * @param branchName the name of the branch to un-protect
      * @return the branch info for the unprotected branch
      * @throws GitLabApiException if any exception occurs
      */
@@ -126,7 +126,7 @@ public class RepositoryApi extends AbstractApi {
      * 
      * GET /projects/:id/repository/tags
      * 
-     * @param projectId
+     * @param projectId the ID of the project to get the tags for
      * @return the list of tags for the specified project ID
      * @throws GitLabApiException if any exception occurs
      */
@@ -141,11 +141,11 @@ public class RepositoryApi extends AbstractApi {
      * 
      * POST /projects/:id/repository/tags
      * 
-     * @param projectId The ID of the project
+     * @param projectId the ID of the project
      * @param tagName The name of the tag Must be unique for the project
-     * @param ref The git ref to place the tag on
-     * @param message The message to included with the tag (optional)
-     * @param releaseNotes The release notes for the tag (optional)
+     * @param ref the git ref to place the tag on
+     * @param message the message to included with the tag (optional)
+     * @param releaseNotes the release notes for the tag (optional)
      * @return a Tag instance containing info on the newly created tag
      * @throws GitLabApiException if any exception occurs
      */
@@ -209,7 +209,7 @@ public class RepositoryApi extends AbstractApi {
      * 
      * GET /projects/:id/repository/tree
      * 
-     * @param projectId
+     * @param projectId the ID of the project to get the files for
      * @return a tree with the root directories and files of a project
      * @throws GitLabApiException if any exception occurs
      */
@@ -223,12 +223,12 @@ public class RepositoryApi extends AbstractApi {
      * GET /projects/:id/repository/tree
      *
      * id (required) - The ID of a project
-     * path (optional) - The path inside repository. Used to get contend of subdirectories
+     * path (optional) - The path inside repository. Used to get content of subdirectories
      * ref_name (optional) - The name of a repository branch or tag or if not given the default branch
      * 
-     * @param projectId
-     * @param filePath
-     * @param refName
+     * @param projectId the ID of the project to get the files for
+     * @param filePath the path inside repository, used to get content of subdirectories
+     * @param refName the name of a repository branch or tag or if not given the default branch
      * @return a tree with the directories and files of a project
      * @throws GitLabApiException if any exception occurs
      */
@@ -246,10 +246,10 @@ public class RepositoryApi extends AbstractApi {
      * ref_name (optional) - The name of a repository branch or tag or if not given the default branch
      * recursive (optional) - Boolean value used to get a recursive tree (false by default)
      *
-     * @param projectId
-     * @param filePath
-     * @param refName
-     * @param recursive
+     * @param projectId the ID of the project to get the files for
+     * @param filePath the path inside repository, used to get content of subdirectories
+     * @param refName the name of a repository branch or tag or if not given the default branch
+     * @param recursive flag to get a recursive tree or not
      * @return a tree with the directories and files of a project
      * @throws GitLabApiException if any exception occurs
      */
@@ -269,8 +269,9 @@ public class RepositoryApi extends AbstractApi {
      *
      * GET /projects/:id/repository/blobs/:sha
      *
-     * @param projectId
-     * @param commitOrBranchName
+     * @param projectId the ID of the project
+     * @param commitOrBranchName the commit or branch name to get the file contents for
+     * @param filepath the path of the file to get
      * @return a string with the file content for the specified file
      * @throws GitLabApiException if any exception occurs
      */
@@ -285,8 +286,8 @@ public class RepositoryApi extends AbstractApi {
      * 
      * GET /projects/:id/repository/raw_blobs/:sha
      * 
-     * @param projectId
-     * @param sha
+     * @param projectId the ID of the project 
+     * @param sha the SHA of the file to get the contents for
      * @return the raw file contents for the blob
      * @throws GitLabApiException if any exception occurs
      */
@@ -300,8 +301,8 @@ public class RepositoryApi extends AbstractApi {
      *
      * GET /projects/:id/repository/archive
      *
-     * @param projectId
-     * @param sha
+     * @param projectId the ID of the project 
+     * @param sha the SHA of the archive to get
      * @return an input stream that can be used to save as a file
      * or to read the content of the archive
      * @throws GitLabApiException if any exception occurs
@@ -318,8 +319,8 @@ public class RepositoryApi extends AbstractApi {
      *
      * GET /projects/:id/repository/archive
      *
-     * @param projectId
-     * @param sha
+     * @param projectId the ID of the project 
+     * @param sha the SHA of the archive to get
      * @param directory the File instance of the directory to save the archive to, if null will use "java.io.tmpdir"
      * @return a File instance pointing to the downloaded instance
      * @throws GitLabApiException if any exception occurs

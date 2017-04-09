@@ -151,6 +151,7 @@ public class ProjectHook {
     }
 
     /**
+     * @return the do build events flag
      * @deprecated As of release 4.1.0, replaced by {@link #getBuildEvents()}
      */
     @Deprecated
@@ -160,6 +161,7 @@ public class ProjectHook {
     }
 
     /**
+     * @param buildEvents the do build events flag
      * @deprecated As of release 4.1.0, replaced by {@link #setBuildEvents(Boolean)}
      */
     @Deprecated
@@ -169,6 +171,7 @@ public class ProjectHook {
     }
 
     /**
+     * @return the enable SSL verification flag
      * @deprecated As of release 4.1.0, replaced by {@link #getEnableSslVerification()}
      */
     @Deprecated
@@ -178,6 +181,7 @@ public class ProjectHook {
     }
 
     /**
+     * @param enableSslVerification the enable SSL verification flag
      * @deprecated As of release 4.1.0, replaced by {@link #setEnableSslVerification(Boolean)}
      */
     @Deprecated
@@ -187,6 +191,7 @@ public class ProjectHook {
     }
 
     /**
+     * @return the do note events flag
      * @deprecated As of release 4.1.0, replaced by {@link #getNoteEvents()}
      */
     @Deprecated
@@ -196,6 +201,7 @@ public class ProjectHook {
     }
 
     /**
+     * @param noteEvents the do note events flag
      * @deprecated As of release 4.1.0, replaced by {@link #setNoteEvents(Boolean)}
      */
     @Deprecated
@@ -205,6 +211,7 @@ public class ProjectHook {
     }
 
     /**
+     * @return the do pipeline events flag
      * @deprecated As of release 4.1.0, replaced by {@link #getPipelineEvents()}
      */
     @Deprecated
@@ -214,6 +221,7 @@ public class ProjectHook {
     }
 
     /**
+     * @param pipelineEvents the do pipeline events flag
      * @deprecated As of release 4.1.0, replaced by {@link #setPipelineEvents(Boolean)}
      */
     @Deprecated
@@ -223,6 +231,7 @@ public class ProjectHook {
     }
 
     /**
+     * @return the do tag push events flag
      * @deprecated As of release 4.1.0, replaced by {@link #getTagPushEvents()}
      */
     @Deprecated
@@ -232,6 +241,7 @@ public class ProjectHook {
     }
 
     /**
+     * @param tagPushEvents the do tag push events flag
      * @deprecated As of release 4.1.0, replaced by {@link #setTagPushEvents(Boolean)}
      */
     @Deprecated
@@ -241,6 +251,7 @@ public class ProjectHook {
     }
 
     /**
+     * @return the do wiki page events flag
      * @deprecated As of release 4.1.0, replaced by {@link #getWikiPageEvents()}
      */
     @Deprecated
@@ -250,6 +261,7 @@ public class ProjectHook {
     }
 
     /**
+     * @param wikiPageEvents the do wiki page events flag
      * @deprecated As of release 4.1.0, replaced by {@link #setWikiPageEvents(Boolean)}
      */
     @Deprecated
