@@ -13,7 +13,7 @@ import org.gitlab4j.api.models.MergeRequest;
  */
 public class MergeRequestApi extends AbstractApi {
 
-    MergeRequestApi(GitLabApi gitLabApi) {
+    public MergeRequestApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 

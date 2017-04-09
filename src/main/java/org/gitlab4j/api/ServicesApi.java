@@ -12,6 +12,7 @@ import org.gitlab4j.api.models.Project;
  * It is quite restricted as you may not retrieve the API but only set or delete.
  */
 public class ServicesApi extends AbstractApi {
+
     public ServicesApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }

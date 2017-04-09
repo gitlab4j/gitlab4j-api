@@ -19,7 +19,7 @@ public class GitLabApiException extends Exception {
     /**
      * Create a GitLabApiException instance based on the ClientResponse.
      * 
-     * @param response
+     * @param response the JAX-RS response that caused the exception
      */
     public GitLabApiException(Response response) {
 
@@ -41,7 +41,7 @@ public class GitLabApiException extends Exception {
     /**
      * Create a GitLabApiException instance based on the exception.
      * 
-     * @param e
+     * @param e the Exception to wrap
      */
     public GitLabApiException(Exception e) {
         super(e);

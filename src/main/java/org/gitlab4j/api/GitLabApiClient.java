@@ -181,7 +181,7 @@ public class GitLabApiClient {
      * 
      * @param pathArgs ariable list of arguments used to build the URI
      * @return a REST URL with the specified path arguments
-     * @throws IOException
+     * @throws IOException if an error occurs while constructing the URL
      */
     protected URL getApiUrl(Object... pathArgs) throws IOException {
 
@@ -223,7 +223,7 @@ public class GitLabApiClient {
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws IOException
+     * @throws IOException if an error occurs while constructing the URL
      */
     protected Response get(MultivaluedMap<String, String> queryParams, Object... pathArgs) throws IOException {
         URL url = getApiUrl(pathArgs);
@@ -249,7 +249,7 @@ public class GitLabApiClient {
      * @param formData the Form containing the name/value pairs
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws IOException
+     * @throws IOException if an error occurs while constructing the URL
      */
     protected Response post(Form formData, Object... pathArgs) throws IOException {
         URL url = getApiUrl(pathArgs);
@@ -263,7 +263,7 @@ public class GitLabApiClient {
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a Response instance with the data returned from the endpoint
-     * @throws IOException
+     * @throws IOException if an error occurs while constructing the URL
      */
     protected Response post(MultivaluedMap<String, String> queryParams, Object... pathArgs) throws IOException {
         URL url = getApiUrl(pathArgs);
@@ -301,7 +301,7 @@ public class GitLabApiClient {
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
-     * @throws IOException
+     * @throws IOException if an error occurs while constructing the URL
      */
     protected Response put(MultivaluedMap<String, String> queryParams, Object... pathArgs) throws IOException {
         URL url = getApiUrl(pathArgs);
@@ -327,7 +327,7 @@ public class GitLabApiClient {
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a Response instance with the data returned from the endpoint
-     * @throws IOException
+     * @throws IOException if an error occurs while constructing the URL
      */
     protected Response delete(MultivaluedMap<String, String> queryParams, Object... pathArgs) throws IOException {
         return (delete(queryParams, getApiUrl(pathArgs)));
