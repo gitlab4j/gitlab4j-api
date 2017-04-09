@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ProjectApi extends AbstractApi {
 
-    ProjectApi(GitLabApi gitLabApi) {
+    public ProjectApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -29,7 +29,7 @@ public class ProjectApi extends AbstractApi {
      * GET /projects
      * 
      * @return a list of projects accessible by the authenticated user
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getProjects() throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects");
@@ -43,7 +43,7 @@ public class ProjectApi extends AbstractApi {
      * GET /projects/all
      * 
      * @return a list of all GitLab projects
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getAllProjects() throws GitLabApiException {
         Response response = get(Response.Status.OK, UriComponent.decodeQuery("per_page=9999", true), "projects", "all");
@@ -57,10 +57,11 @@ public class ProjectApi extends AbstractApi {
      * GET /projects/owned
      * 
      * @return a list of projects owned by the authenticated user
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getOwnedProjects() throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", "owned");
+        Form formData = new GitLabApiForm().withParam("owned", true);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects");
         return (response.readEntity(new GenericType<List<Project>>() {
         }));
     }
@@ -70,9 +71,9 @@ public class ProjectApi extends AbstractApi {
      *
      * GET /projects/:id
      * 
-     * @param projectId
+     * @param projectId the ID of the project to get
      * @return the specified project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Project getProject(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId);
@@ -85,9 +86,9 @@ public class ProjectApi extends AbstractApi {
      * GET /projects/:id
      * 
      * @param namespace the name of the project namespace or group
-     * @param project
+     * @param project the name of the project to get
      * @return the specified project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Project getProject(String namespace, String project) throws GitLabApiException {
 
@@ -113,16 +114,16 @@ public class ProjectApi extends AbstractApi {
     /**
      * Create a new project in the specified group.
      * 
-     * @param groupId
-     * @param projectName
+     * @param groupId the group ID to create the project under
+     * @param projectName the name of the project top create
      * @return the created project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Project createProject(Integer groupId, String projectName) throws GitLabApiException {
 
-        Form formData = new Form();
-        addFormParam(formData, "namespace_id", groupId);
-        addFormParam(formData, "name", projectName, true);
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("namespace_id", groupId)
+                .withParam("name", projectName, true);
 
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
@@ -133,7 +134,7 @@ public class ProjectApi extends AbstractApi {
      * 
      * @param project the Project instance with the configuration for the new project
      * @return a Project instance with the newly created project info
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Project createProject(Project project) throws GitLabApiException {
         return (createProject(project, null));
@@ -154,9 +155,9 @@ public class ProjectApi extends AbstractApi {
      * visibilityLevel (optional)
      * 
      * @param project the Project instance with the configuration for the new project
-     * @param importUrl
+     * @param importUrl the URL to import the repository from
      * @return a Project instance with the newly created project info
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Project createProject(Project project, String importUrl) throws GitLabApiException {
 
@@ -169,21 +170,21 @@ public class ProjectApi extends AbstractApi {
             return (null);
         }
 
-        Form formData = new Form();
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("name", name, true)
+            .withParam("description", project.getDescription())
+            .withParam("issues_enabled", project.getIssuesEnabled())
+            .withParam("wall_enabled", project.getWallEnabled())
+            .withParam("merge_requests_enabled", project.getMergeRequestsEnabled())
+            .withParam("wiki_enabled", project.getWikiEnabled())
+            .withParam("snippets_enabled", project.getSnippetsEnabled())
+            .withParam("public", project.getPublic())
+            .withParam("visibility_level", project.getVisibilityLevel())
+            .withParam("import_url", importUrl);
+        
         if (project.getNamespace() != null) {
-            addFormParam(formData, "namespace_id", project.getNamespace().getId());
+            formData.withParam("namespace_id", project.getNamespace().getId());
         }
-
-        addFormParam(formData, "name", name, true);
-        addFormParam(formData, "description", project.getDescription());
-        addFormParam(formData, "issues_enabled", project.getIssuesEnabled());
-        addFormParam(formData, "wall_enabled", project.getWallEnabled());
-        addFormParam(formData, "merge_requests_enabled", project.getMergeRequestsEnabled());
-        addFormParam(formData, "wiki_enabled", project.getWikiEnabled());
-        addFormParam(formData, "snippets_enabled", project.getSnippetsEnabled());
-        addFormParam(formData, "public", project.getPublic());
-        addFormParam(formData, "visibility_level", project.getVisibilityLevel());
-        addFormParam(formData, "import_url", importUrl);
 
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
@@ -200,31 +201,31 @@ public class ProjectApi extends AbstractApi {
      * @param mergeRequestsEnabled Whether Merge Requests should be enabled, otherwise null indicates to use GitLab default
      * @param wikiEnabled Whether a Wiki should be enabled, otherwise null indicates to use GitLab default
      * @param snippetsEnabled Whether Snippets should be enabled, otherwise null indicates to use GitLab default
-     * @param publik Whether the project is public or private, if true same as setting visibilityLevel = 20, otherwise null indicates to use GitLab default
+     * @param isPublic Whether the project is public or private, if true same as setting visibilityLevel = 20, otherwise null indicates to use GitLab default
      * @param visibilityLevel The visibility level of the project, otherwise null indicates to use GitLab default
      * @param importUrl The Import URL for the project, otherwise null
-     * @return the Gitlab Project
-     * @throws GitLabApiException
+     * @return the GitLab Project
+     * @throws GitLabApiException if any exception occurs
      */
     public Project createProject(String name, Integer namespaceId, String description, Boolean issuesEnabled, Boolean wallEnabled, Boolean mergeRequestsEnabled,
-            Boolean wikiEnabled, Boolean snippetsEnabled, Boolean publik, Integer visibilityLevel, String importUrl) throws GitLabApiException {
+            Boolean wikiEnabled, Boolean snippetsEnabled, Boolean isPublic, Integer visibilityLevel, String importUrl) throws GitLabApiException {
 
         if (name == null || name.trim().length() == 0) {
             return (null);
         }
 
-        Form formData = new Form();
-        addFormParam(formData, "name", name, true);
-        addFormParam(formData, "namespace_id", namespaceId);
-        addFormParam(formData, "description", description);
-        addFormParam(formData, "issues_enabled", issuesEnabled);
-        addFormParam(formData, "wall_enabled", wallEnabled);
-        addFormParam(formData, "merge_requests_enabled", mergeRequestsEnabled);
-        addFormParam(formData, "wiki_enabled", wikiEnabled);
-        addFormParam(formData, "snippets_enabled", snippetsEnabled);
-        addFormParam(formData, "public", publik);
-        addFormParam(formData, "visibility_level", visibilityLevel);
-        addFormParam(formData, "import_url", importUrl);
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("namespace_id", namespaceId)
+                .withParam("description", description)
+                .withParam("issues_enabled", issuesEnabled)
+                .withParam("wall_enabled", wallEnabled)
+                .withParam("merge_requests_enabled", mergeRequestsEnabled)
+                .withParam("wiki_enabled", wikiEnabled)
+                .withParam("snippets_enabled", snippetsEnabled)
+                .withParam("public", isPublic)
+                .withParam("visibility_level", visibilityLevel)
+                .withParam("import_url", importUrl);
 
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
@@ -235,8 +236,8 @@ public class ProjectApi extends AbstractApi {
      * 
      * DELETE /projects/:id
      * 
-     * @param projectId
-     * @throws GitLabApiException
+     * @param projectId the project ID to remove
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteProject(Integer projectId) throws GitLabApiException {
 
@@ -252,8 +253,8 @@ public class ProjectApi extends AbstractApi {
      * 
      * DELETE /projects/:id
      * 
-     * @param project
-     * @throws GitLabApiException
+     * @param project the Project instance to remove
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteProject(Project project) throws GitLabApiException {
         deleteProject(project.getId());
@@ -264,9 +265,9 @@ public class ProjectApi extends AbstractApi {
      * 
      * GET /projects/:id/members
      * 
-     * @param projectId
+     * @param projectId the project ID to get team members for
      * @return the members belonging to the specified project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Member> getMembers(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "members");
@@ -279,10 +280,10 @@ public class ProjectApi extends AbstractApi {
      * 
      * GET /projects/:id/members/:user_id
      * 
-     * @param projectId
-     * @param userId
+     * @param projectId the project ID to get team member for
+     * @param userId the user ID of the member
      * @return the member specified by the project ID/user ID pair
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Member getMember(Integer projectId, Integer userId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "members", userId);
@@ -296,17 +297,17 @@ public class ProjectApi extends AbstractApi {
      * 
      * POST /projects/:id/members
      * 
-     * @param projectId
-     * @param userId
+     * @param projectId the project ID to add the team member to
+     * @param userId the user ID of the member to add
      * @param accessLevel
      * @return the added member
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Member addMember(Integer projectId, Integer userId, Integer accessLevel) throws GitLabApiException {
 
-        Form formData = new Form();
-        formData.param("user_id", userId.toString());
-        formData.param("access_level", accessLevel.toString());
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("user_id", userId, true)
+                .withParam("access_level", accessLevel, true);
         Response response = post(Response.Status.CREATED, formData, "projects", projectId, "members");
         return (response.readEntity(Member.class));
     }
@@ -316,9 +317,9 @@ public class ProjectApi extends AbstractApi {
      * 
      * DELETE /projects/:id/members/:user_id
      * 
-     * @param projectId
-     * @param userId
-     * @throws GitLabApiException
+     * @param projectId the project ID to remove the team member from
+     * @param userId the user ID of the member to remove
+     * @throws GitLabApiException if any exception occurs
      */
     public void removeMember(Integer projectId, Integer userId) throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", projectId, "members", userId);
@@ -329,9 +330,9 @@ public class ProjectApi extends AbstractApi {
      * 
      * GET /projects/:id/events
      * 
-     * @param projectId
+     * @param projectId the project ID to get events for
      * @return the project events for the specified project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Event> getProjectEvents(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "events");
@@ -344,9 +345,9 @@ public class ProjectApi extends AbstractApi {
      * 
      * GET /projects/:id/hooks
      * 
-     * @param projectId
+     * @param projectId the project ID to get project hooks for
      * @return a list of project hooks for the specified project
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<ProjectHook> getHooks(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "hooks");
@@ -359,13 +360,48 @@ public class ProjectApi extends AbstractApi {
      * 
      * GET /projects/:id/hooks/:hook_id
      * 
-     * @param projectId
-     * @param hookId
+     * @param projectId the project ID to get the hook for
+     * @param hookId the ID of the hook to get
      * @return the project hook for the specified project ID/hook ID pair
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public ProjectHook getHook(Integer projectId, Integer hookId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "hooks", hookId);
+        return (response.readEntity(ProjectHook.class));
+    }
+    
+    /**
+     * Adds a hook to project.
+     * 
+     * POST /projects/:id/hooks
+     * 
+     * @param projectName the name of the project
+     * @param url the callback URL for the hook
+     * @param enabledHooks a ProjectHook instance specifying which hooks to enable
+     * @param enableSslVerification enable SSL verification
+     * @param secretToken the secret token to pass back to the hook
+     * @return the added ProjectHook instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectHook addHook(String projectName, String url, ProjectHook enabledHooks, boolean enableSslVerification, String secretToken) throws GitLabApiException {
+
+        if (projectName == null) {
+            return (null);
+        }
+        
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("url", url, true)
+                .withParam("push_events", enabledHooks.getPushEvents(), false)
+                .withParam("issues_events", enabledHooks.getIssuesEvents(), false)
+                .withParam("merge_requests_events", enabledHooks.getMergeRequestsEvents(), false)
+                .withParam("tag_push_events", enabledHooks.getTagPushEvents(), false)
+                .withParam("note_events", enabledHooks.getNoteEvents(), false)
+                .withParam("job_events", enabledHooks.getJobEvents(), false)
+                .withParam("pipeline_events", enabledHooks.getPipelineEvents(), false)
+                .withParam("wiki_events", enabledHooks.getWikiPageEvents(), false)
+                .withParam("enable_ssl_verification", enabledHooks.getEnableSslVerification())
+                .withParam("token", secretToken, false);
+        Response response = post(Response.Status.CREATED, formData, "projects", projectName, "hooks");
         return (response.readEntity(ProjectHook.class));
     }
 
@@ -374,13 +410,70 @@ public class ProjectApi extends AbstractApi {
      * 
      * POST /projects/:id/hooks
      * 
-     * @param project
-     * @param url
-     * @param doPushEvents
-     * @param doIssuesEvents
-     * @param doMergeRequestsEvents
-     * @return the added project hook
-     * @throws GitLabApiException
+     * @param projectId the project ID to add the project hook to
+     * @param url the callback URL for the hook
+     * @param enabledHooks a ProjectHook instance specifying which hooks to enable
+     * @param enableSslVerification enable SSL verification
+     * @param secretToken the secret token to pass back to the hook
+     * @return the added ProjectHook instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectHook addHook(Integer projectId, String url, ProjectHook enabledHooks, boolean enableSslVerification, String secretToken) throws GitLabApiException {
+
+        if (projectId == null) {
+            return (null);
+        }
+        
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("url", url, true)
+                .withParam("push_events", enabledHooks.getPushEvents(), false)
+                .withParam("issues_events", enabledHooks.getIssuesEvents(), false)
+                .withParam("merge_requests_events", enabledHooks.getMergeRequestsEvents(), false)
+                .withParam("tag_push_events", enabledHooks.getTagPushEvents(), false)
+                .withParam("note_events", enabledHooks.getNoteEvents(), false)
+                .withParam("job_events", enabledHooks.getJobEvents(), false)
+                .withParam("pipeline_events", enabledHooks.getPipelineEvents(), false)
+                .withParam("wiki_events", enabledHooks.getWikiPageEvents(), false)
+                .withParam("enable_ssl_verification", enabledHooks.getEnableSslVerification())
+                .withParam("token", secretToken, false);
+        Response response = post(Response.Status.CREATED, formData, "projects", projectId, "hooks");
+        return (response.readEntity(ProjectHook.class));
+    }
+
+    /**
+     * Adds a hook to project.
+     * 
+     * POST /projects/:id/hooks
+     * 
+     * @param project the Project instance to add the project hook to
+     * @param url the callback URL for the hook
+     * @param enabledHooks a ProjectHook instance specifying which hooks to enable
+     * @param enableSslVerification enable SSL verification
+     * @param secretToken the secret token to pass back to the hook
+     * @return the added ProjectHook instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectHook addHook(Project project, String url, ProjectHook enabledHooks, boolean enableSslVerification, String secretToken) throws GitLabApiException {
+
+        if (project == null) {
+            return (null);
+        }
+
+        return (addHook(project.getId(), url, enabledHooks, enableSslVerification, secretToken));
+    }
+
+    /**
+     * Adds a hook to project.
+     * 
+     * POST /projects/:id/hooks
+     * 
+     * @param project the Project instance to add the project hook to
+     * @param url the callback URL for the hook
+     * @param doPushEvents flag specifying whether to do push events
+     * @param doIssuesEvents flag specifying whether to do issues events
+     * @param doMergeRequestsEvents flag specifying whether to do merge requests events
+     * @return the added ProjectHook instance
+     * @throws GitLabApiException if any exception occurs
      */
     public ProjectHook addHook(Project project, String url, boolean doPushEvents, boolean doIssuesEvents, boolean doMergeRequestsEvents) throws GitLabApiException {
 
@@ -396,21 +489,21 @@ public class ProjectApi extends AbstractApi {
      * 
      * POST /projects/:id/hooks
      * 
-     * @param projectId
-     * @param url
-     * @param doPushEvents
-     * @param doIssuesEvents
-     * @param doMergeRequestsEvents
-     * @return the added project hook
-     * @throws GitLabApiException
+     * @param projectId the project ID to add the project hook to
+     * @param url the callback URL for the hook
+     * @param doPushEvents flag specifying whether to do push events
+     * @param doIssuesEvents flag specifying whether to do issues events
+     * @param doMergeRequestsEvents flag specifying whether to do merge requests events
+     * @return the added ProjectHook instance
+     * @throws GitLabApiException if any exception occurs
      */
     public ProjectHook addHook(Integer projectId, String url, boolean doPushEvents, boolean doIssuesEvents, boolean doMergeRequestsEvents) throws GitLabApiException {
 
-        Form formData = new Form();
-        formData.param("url", url);
-        formData.param("push_events", Boolean.toString(doPushEvents));
-        formData.param("issues_enabled", Boolean.toString(doIssuesEvents));
-        formData.param("merge_requests_events", Boolean.toString(doMergeRequestsEvents));
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("url", url)
+                .withParam("push_events", doPushEvents)
+                .withParam("issues_enabled", doIssuesEvents)
+                .withParam("merge_requests_events", doMergeRequestsEvents);
 
         Response response = post(Response.Status.CREATED, formData, "projects", projectId, "hooks");
         return (response.readEntity(ProjectHook.class));
@@ -421,9 +514,9 @@ public class ProjectApi extends AbstractApi {
      * 
      * DELETE /projects/:id/hooks/:hook_id
      * 
-     * @param projectId
-     * @param hookId
-     * @throws GitLabApiException
+     * @param projectId the project ID to delete the project hook from
+     * @param hookId the project hook ID to delete
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteHook(Integer projectId, Integer hookId) throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", projectId, "hooks", hookId);
@@ -434,8 +527,8 @@ public class ProjectApi extends AbstractApi {
      * 
      * DELETE /projects/:id/hooks/:hook_id
      * 
-     * @param hook
-     * @throws GitLabApiException
+     * @param hook the ProjectHook instance to remove
+     * @throws GitLabApiException if any exception occurs
      */
     public void deleteHook(ProjectHook hook) throws GitLabApiException {
         deleteHook(hook.getProjectId(), hook.getId());
@@ -446,17 +539,24 @@ public class ProjectApi extends AbstractApi {
      * 
      * PUT /projects/:id/hooks/:hook_id
      * 
-     * @param hook
+     * @param hook the ProjectHook instance that contains the project hook info to modify
      * @return the modified project hook
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public ProjectHook modifyHook(ProjectHook hook) throws GitLabApiException {
 
-        Form formData = new Form();
-        formData.param("url", hook.getUrl());
-        formData.param("push_events", hook.getPushEvents().toString());
-        formData.param("issues_enabled", hook.getIssuesEvents().toString());
-        formData.param("merge_requests_events", hook.getMergeRequestsEvents().toString());
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("url", hook.getUrl(), true)
+            .withParam("push_events", hook.getPushEvents(), false)
+            .withParam("issues_events", hook.getIssuesEvents(), false)
+            .withParam("merge_requests_events", hook.getMergeRequestsEvents(), false)
+            .withParam("tag_push_events", hook.getTagPushEvents(), false)
+            .withParam("note_events", hook.getNoteEvents(), false)
+            .withParam("job_events", hook.getJobEvents(), false)
+            .withParam("pipeline_events", hook.getPipelineEvents(), false)
+            .withParam("wiki_events", hook.getWikiPageEvents(), false)
+            .withParam("enable_ssl_verification", hook.getEnableSslVerification(), false)
+            .withParam("token", hook.getToken(), false);
 
         Response response = put(Response.Status.OK, formData.asMap(), "projects", hook.getProjectId(), "hooks", hook.getId());
         return (response.readEntity(ProjectHook.class));
@@ -467,9 +567,9 @@ public class ProjectApi extends AbstractApi {
      *
      * GET /projects/:id/issues
      *
-     * @param projectId
+     * @param projectId the project ID to get the issues for
      * @return a list of project's issues
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Issue> getIssues(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "issues");
