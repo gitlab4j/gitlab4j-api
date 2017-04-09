@@ -7,30 +7,35 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProjectHook {
 
-    private Boolean build_events;
+    private Boolean buildEvents;
     private Date createdAt;
-    private Boolean enable_ssl_verification;
+    private Boolean enableSslVerification;
     private Integer id;
     private Boolean issuesEvents;
     private Boolean mergeRequestsEvents;
-    private Boolean note_events;
-    private Boolean pipeline_events;
+    private Boolean noteEvents;
+    private Boolean jobEvents;
+    private Boolean pipelineEvents;
     private Integer projectId;
     private Boolean pushEvents;
-    private Boolean tag_push_events;
+    private Boolean tagPushEvents;
     private String url;
-    private Boolean wiki_page_events;
+    private Boolean wikiPageEvents;
+    private String token;
 
-    public Boolean getBuild_events() {
-        return build_events;
+    
+    public Boolean getBuildEvents() {
+        return buildEvents;
     }
 
-    public void setBuild_events(Boolean build_events) {
-        this.build_events = build_events;
+    public void setBuildEvents(Boolean buildEvents) {
+        this.buildEvents = buildEvents;
     }
 
     public Date getCreatedAt() {
@@ -41,12 +46,12 @@ public class ProjectHook {
         this.createdAt = createdAt;
     }
 
-    public Boolean getEnable_ssl_verification() {
-        return enable_ssl_verification;
+    public Boolean getEnableSslVerification() {
+        return enableSslVerification;
     }
 
-    public void setEnable_ssl_verification(Boolean enable_ssl_verification) {
-        this.enable_ssl_verification = enable_ssl_verification;
+    public void setEnableSslVerification(Boolean enableSslVerification) {
+        this.enableSslVerification = enableSslVerification;
     }
 
     public Integer getId() {
@@ -73,20 +78,28 @@ public class ProjectHook {
         this.mergeRequestsEvents = mergeRequestsEvents;
     }
 
-    public Boolean getNote_events() {
-        return note_events;
+    public Boolean getNoteEvents() {
+        return noteEvents;
     }
 
-    public void setNote_events(Boolean note_events) {
-        this.note_events = note_events;
+    public void setNoteEvents(Boolean noteEvents) {
+        this.noteEvents = noteEvents;
+    }
+    
+    public Boolean getJobEvents() {
+        return jobEvents;
     }
 
-    public Boolean getPipeline_events() {
-        return pipeline_events;
+    public void setJobEvents(Boolean jobEvents) {
+        this.jobEvents = jobEvents;
     }
 
-    public void setPipeline_events(Boolean pipeline_events) {
-        this.pipeline_events = pipeline_events;
+    public Boolean getPipelineEvents() {
+        return pipelineEvents;
+    }
+
+    public void setPipelineEvents(Boolean pipelineEvents) {
+        this.pipelineEvents = pipelineEvents;
     }
 
     public Integer getProjectId() {
@@ -105,12 +118,20 @@ public class ProjectHook {
         this.pushEvents = pushEvents;
     }
 
-    public Boolean getTag_push_events() {
-        return tag_push_events;
+    public Boolean getTagPushEvents() {
+        return tagPushEvents;
     }
 
-    public void setTag_push_events(Boolean tag_push_events) {
-        this.tag_push_events = tag_push_events;
+    public void setTagPushEvents(Boolean tagPushEvents) {
+        this.tagPushEvents = tagPushEvents;
+    }
+    
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getUrl() {
@@ -121,11 +142,119 @@ public class ProjectHook {
         this.url = url;
     }
 
-    public Boolean getWiki_page_events() {
-        return wiki_page_events;
+    public Boolean getWikiPageEvents() {
+        return wikiPageEvents;
     }
 
-    public void setWiki_page_events(Boolean wiki_page_events) {
-        this.wiki_page_events = wiki_page_events;
+    public void setWikiPageEvents(Boolean wikiPageEvents) {
+        this.wikiPageEvents = wikiPageEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #getBuildEvents()}
+     */
+    @Deprecated
+    @JsonIgnore
+    public Boolean getBuild_events() {
+        return buildEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #setBuildEvents(Boolean)}
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setBuild_events(Boolean buildEvents) {
+        this.buildEvents = buildEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #getEnableSslVerification()}
+     */
+    @Deprecated
+    @JsonIgnore
+    public Boolean getEnable_ssl_verification() {
+        return enableSslVerification;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #setEnableSslVerification(Boolean)}
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setEnable_ssl_verification(Boolean enableSslVerification) {
+        this.enableSslVerification = enableSslVerification;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #getNoteEvents()}
+     */
+    @Deprecated
+    @JsonIgnore
+    public Boolean getNote_events() {
+        return noteEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #setNoteEvents(Boolean)}
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setNote_events(Boolean noteEvents) {
+        this.noteEvents = noteEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #getPipelineEvents()}
+     */
+    @Deprecated
+    @JsonIgnore
+    public Boolean getPipeline_events() {
+        return pipelineEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #setPipelineEvents(Boolean)}
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setPipeline_events(Boolean pipelineEvents) {
+        this.pipelineEvents = pipelineEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #getTagPushEvents()}
+     */
+    @Deprecated
+    @JsonIgnore
+    public Boolean getTag_push_events() {
+        return tagPushEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #setTagPushEvents(Boolean)}
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setTag_push_events(Boolean tagPushEvents) {
+        this.tagPushEvents = tagPushEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #getWikiPageEvents()}
+     */
+    @Deprecated
+    @JsonIgnore
+    public Boolean getWiki_page_events() {
+        return wikiPageEvents;
+    }
+
+    /**
+     * @deprecated As of release 4.1.0, replaced by {@link #setWikiPageEvents(Boolean)}
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setWiki_page_events(Boolean wikiPageEvents) {
+        this.wikiPageEvents = wikiPageEvents;
     }
 }
