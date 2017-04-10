@@ -6,12 +6,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.gitlab4j.api.utils.JacksonJson;
+import org.gitlab4j.api.webhook.BuildEvent;
 import org.gitlab4j.api.webhook.Event;
 import org.gitlab4j.api.webhook.IssueEvent;
 import org.gitlab4j.api.webhook.MergeRequestEvent;
 import org.gitlab4j.api.webhook.NoteEvent;
+import org.gitlab4j.api.webhook.PipelineEvent;
 import org.gitlab4j.api.webhook.PushEvent;
 import org.gitlab4j.api.webhook.TagPushEvent;
+import org.gitlab4j.api.webhook.WikiPageEvent;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -48,6 +51,13 @@ public class TestGitLabApiEvents {
 
         Event mergeRequestEvent = makeFakeApiCall(MergeRequestEvent.class, "merge-request-event");
         assertTrue(compareJson(mergeRequestEvent, "merge-request-event"));
+    }
+
+    @Test
+    public void testPipelineEvent() throws Exception {
+
+        Event event = makeFakeApiCall(PipelineEvent.class, "pipeline-event");
+        assertTrue(compareJson(event, "pipeline-event"));
     }
 
     @Test
@@ -93,9 +103,26 @@ public class TestGitLabApiEvents {
     }
 
     @Test
+    public void testBuildEvent() throws Exception {
+
+        Event event = makeFakeApiCall(BuildEvent.class, "build-event");
+        assertTrue(compareJson(event, "build-event"));
+    }
+
+    @Test
+    public void testWikiPageEvent() throws Exception {
+
+        Event event = makeFakeApiCall(WikiPageEvent.class, "wiki-page-event");
+        assertTrue(compareJson(event, "wiki-page-event"));
+    }
+
+    @Test
     public void testPolymorphicEvent() throws Exception {
 
-        Event event = makeFakeApiCall(Event.class, "issue-event");
+        Event event = makeFakeApiCall(Event.class, "build-event");
+        assertTrue(compareJson(event, "build-event"));
+
+        event = makeFakeApiCall(Event.class, "issue-event");
         assertTrue(compareJson(event, "issue-event"));
 
         event = makeFakeApiCall(Event.class, "merge-request-event");
@@ -113,8 +140,17 @@ public class TestGitLabApiEvents {
         event = makeFakeApiCall(Event.class, "note-snippet-event");
         assertTrue(compareJson(event, "note-snippet-event"));
 
+        event = makeFakeApiCall(Event.class, "pipeline-event");
+        assertTrue(compareJson(event, "pipeline-event"));
+
+        event = makeFakeApiCall(Event.class, "push-event");
+        assertTrue(compareJson(event, "push-event"));
+
         event = makeFakeApiCall(Event.class, "tag-push-event");
         assertTrue(compareJson(event, "tag-push-event"));
+
+        event = makeFakeApiCall(Event.class, "wiki-page-event");
+        assertTrue(compareJson(event, "wiki-page-event"));
     }
 
     private <T> T makeFakeApiCall(Class<T> returnType, String file) throws JsonParseException, JsonMappingException, IOException {

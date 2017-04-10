@@ -105,11 +105,14 @@ public class WebHookManager {
         LOG.info("handleEvent: X-Gitlab-Event=" + eventName);
         switch (eventName) {
 
+        case BuildEvent.X_GITLAB_EVENT:
         case IssueEvent.X_GITLAB_EVENT:
         case MergeRequestEvent.X_GITLAB_EVENT:
         case NoteEvent.X_GITLAB_EVENT:
+        case PipelineEvent.X_GITLAB_EVENT:
         case PushEvent.X_GITLAB_EVENT:
         case TagPushEvent.X_GITLAB_EVENT:
+        case WikiPageEvent.X_GITLAB_EVENT:
             break;
 
         default:
@@ -164,11 +167,14 @@ public class WebHookManager {
         LOG.info("handleEvent: object_kind=" + event.getObjectKind());
 
         switch (event.getObjectKind()) {
+        case BuildEvent.OBJECT_KIND:
         case IssueEvent.OBJECT_KIND:
         case MergeRequestEvent.OBJECT_KIND:
         case NoteEvent.OBJECT_KIND:
+        case PipelineEvent.OBJECT_KIND:
         case PushEvent.OBJECT_KIND:
         case TagPushEvent.OBJECT_KIND:
+        case WikiPageEvent.OBJECT_KIND:
             break;
 
         default:
@@ -210,6 +216,10 @@ public class WebHookManager {
     public void fireEvent(Event event) throws GitLabApiException {
 
         switch (event.getObjectKind()) {
+        case BuildEvent.OBJECT_KIND:
+            fireBuildEvent((BuildEvent) event);
+            break;
+
         case IssueEvent.OBJECT_KIND:
             fireIssueEvent((IssueEvent) event);
             break;
@@ -222,6 +232,10 @@ public class WebHookManager {
             fireNoteEvent((NoteEvent) event);
             break;
 
+        case PipelineEvent.OBJECT_KIND:
+            firePipelineEvent((PipelineEvent) event);
+            break;
+
         case PushEvent.OBJECT_KIND:
             firePushEvent((PushEvent) event);
             break;
@@ -230,10 +244,21 @@ public class WebHookManager {
             fireTagPushEvent((TagPushEvent) event);
             break;
 
+        case WikiPageEvent.OBJECT_KIND:
+            fireWikiPageEvent((WikiPageEvent) event);
+            break;
+
         default:
             String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
             LOG.warning(message);
             throw new GitLabApiException(message);
+        }
+    }
+
+    protected void fireBuildEvent(BuildEvent buildEvent) {
+
+        for (WebHookListener listener : webhookListeners) {
+            listener.onBuildEvent(buildEvent);
         }
     }
 
@@ -258,6 +283,13 @@ public class WebHookManager {
         }
     }
 
+    protected void firePipelineEvent(PipelineEvent pipelineEvent) {
+
+        for (WebHookListener listener : webhookListeners) {
+            listener.onPipelineEvent(pipelineEvent);
+        }
+    }
+
     protected void firePushEvent(PushEvent pushEvent) {
 
         for (WebHookListener listener : webhookListeners) {
@@ -269,6 +301,13 @@ public class WebHookManager {
 
         for (WebHookListener listener : webhookListeners) {
             listener.onTagPushEvent(tagPushEvent);
+        }
+    }
+
+    protected void fireWikiPageEvent(WikiPageEvent wikiPageEvent) {
+
+        for (WebHookListener listener : webhookListeners) {
+            listener.onWikiPageEvent(wikiPageEvent);
         }
     }
 }

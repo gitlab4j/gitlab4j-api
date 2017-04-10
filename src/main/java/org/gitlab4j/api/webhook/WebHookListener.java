@@ -47,23 +47,23 @@ public interface WebHookListener extends java.util.EventListener {
     public void onNoteEvent(NoteEvent noteEvent);
 
     /**
-     * This method is called when a WebHook tag push event has been received.
+     * This method is called when a WebHook build event has been received.
      *
-     * @param pushEvent the PushEvent instance
+     * @param buildEvent the BuildEvent instance
      */
-    public void onJobEvent(PushEvent pushEvent);
+    public void onBuildEvent(BuildEvent buildEvent);
 
     /**
      * This method is called when a WebHook pipeline event has been received.
      *
-     * @param pushEvent the PushEvent instance
+     * @param pushEvent the PipelineEvent instance
      */
-    public void onPipelineEvent(PushEvent pushEvent);
+    public void onPipelineEvent(PipelineEvent pipelineEvent);
 
     /**
-     * This method is called when a WebHook wiki event has been received.
+     * This method is called when a WebHook wiki page event has been received.
      *
-     * @param pushEvent the PushEvent instance
+     * @param wikiEvent the WikiPageEvent instance
      */
-    public void onWikiEvent(PushEvent pushEvent);
+    public void onWikiPageEvent(WikiPageEvent wikiEvent);
 }
