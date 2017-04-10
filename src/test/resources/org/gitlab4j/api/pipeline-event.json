@@ -1,0 +1,132 @@
+{
+   "object_kind": "pipeline",
+   "object_attributes":{
+      "id": 31,
+      "ref": "master",
+      "tag": false,
+      "sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+      "before_sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+      "status": "success",
+      "stages":[
+         "build",
+         "test",
+         "deploy"
+      ],
+      "created_at": "2016-08-12T15:23:28Z",
+      "finished_at": "2016-08-12T15:26:29Z",
+      "duration": 63
+   },
+   "user":{
+      "name": "Administrator",
+      "username": "root",
+      "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
+   },
+   "project":{
+      "name": "Gitlab Test",
+      "description": "Atque in sunt eos similique dolores voluptatem.",
+      "web_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test",
+      "git_ssh_url": "git@192.168.64.1:gitlab-org/gitlab-test.git",
+      "git_http_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test.git",
+      "namespace": "Gitlab Org",
+      "visibility_level": 20,
+      "path_with_namespace": "gitlab-org/gitlab-test",
+      "default_branch": "master"
+   },
+   "commit":{
+      "id": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+      "message": "test\n",
+      "timestamp": "2016-08-12T17:23:21Z",
+      "url": "http://example.com/gitlab-org/gitlab-test/commit/bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+      "author":{
+         "name": "User",
+         "email": "user@gitlab.com"
+      }
+   },
+   "builds":[
+      {
+         "id": 380,
+         "stage": "deploy",
+         "name": "production",
+         "status": "skipped",
+         "created_at": "2016-08-12T15:23:28Z",
+         "when": "manual",
+         "manual": true,
+         "user":{
+            "name": "Administrator",
+            "username": "root",
+            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
+         },
+         "artifacts_file":{
+         }
+      },
+      {
+         "id": 377,
+         "stage": "test",
+         "name": "test-image",
+         "status": "success",
+         "created_at": "2016-08-12T15:23:28Z",
+         "started_at": "2016-08-12T15:26:12Z",
+         "when": "on_success",
+         "manual": false,
+         "user":{
+            "name": "Administrator",
+            "username": "root",
+            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
+         },
+         "artifacts_file":{
+         }
+      },
+      {
+         "id": 378,
+         "stage": "test",
+         "name": "test-build",
+         "status": "success",
+         "created_at": "2016-08-12T15:23:28Z",
+         "started_at": "2016-08-12T15:26:12Z",
+         "finished_at": "2016-08-12T15:26:29Z",
+         "when": "on_success",
+         "manual": false,
+         "user":{
+            "name": "Administrator",
+            "username": "root",
+            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
+         },
+         "artifacts_file":{
+         }
+      },
+      {
+         "id": 376,
+         "stage": "build",
+         "name": "build-image",
+         "status": "success",
+         "created_at": "2016-08-12T15:23:28Z",
+         "started_at": "2016-08-12T15:24:56Z",
+         "finished_at": "2016-08-12T15:25:26Z",
+         "when": "on_success",
+         "manual": false,
+         "user":{
+            "name": "Administrator",
+            "username": "root",
+            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
+         },
+         "artifacts_file":{
+         }
+      },
+      {
+         "id": 379,
+         "stage": "deploy",
+         "name": "staging",
+         "status": "created",
+         "created_at": "2016-08-12T15:23:28Z",
+         "when": "on_success",
+         "manual": false,
+         "user":{
+            "name": "Administrator",
+            "username": "root",
+            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
+         },
+         "artifacts_file":{
+         }
+      }
+   ]
+}
