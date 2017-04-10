@@ -1,4 +1,4 @@
-package org.gitlab4j.api;
+package org.gitlab4j.api.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 /**
  * This class provides static utility methods used throughout GitLab4J.
  */
-public class Utils {
+public class FileUtils {
 
     /**
      * Creates a File that is unique in the specified directory. If the specified

@@ -1,4 +1,4 @@
-package org.gitlab4j.api;
+package org.gitlab4j.api.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

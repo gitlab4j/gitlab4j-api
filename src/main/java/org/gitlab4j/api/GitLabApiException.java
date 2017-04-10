@@ -15,6 +15,16 @@ public class GitLabApiException extends Exception {
     private StatusType statusInfo;
     private int httpStatus;
     private String message;
+    
+    /**
+     * Create a GitLabApiException instance with the specified message.
+     *
+     * @param message the message for the exception
+     */
+    public GitLabApiException(String message) {
+        super(message);
+        this.message = message;
+    }
 
     /**
      * Create a GitLabApiException instance based on the ClientResponse.

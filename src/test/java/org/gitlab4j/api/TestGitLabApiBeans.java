@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.gitlab4j.api.GitLabApi;
-import org.gitlab4j.api.JacksonJson;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.Diff;
@@ -27,6 +26,7 @@ import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.utils.JacksonJson;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

@@ -3,8 +3,12 @@ package org.gitlab4j.api.webhook;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 import org.gitlab4j.api.models.Author;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EventCommit {
 
     private String id;

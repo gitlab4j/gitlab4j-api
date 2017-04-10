@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
+import org.gitlab4j.api.utils.FileUtils;
 
 /**
  * This class provides an entry point to all the GitLab API repository calls.
@@ -180,7 +181,7 @@ public class RepositoryApi extends AbstractApi {
         String releaseNotes;
         if (releaseNotesFile != null) {
             try {
-                releaseNotes = Utils.readFileContents(releaseNotesFile);
+                releaseNotes = FileUtils.readFileContents(releaseNotesFile);
             } catch (IOException ioe) {
                 throw (new GitLabApiException(ioe));
             }
@@ -335,7 +336,7 @@ public class RepositoryApi extends AbstractApi {
             if (directory == null)
                 directory = new File(System.getProperty("java.io.tmpdir"));
 
-            String filename = Utils.getFilenameFromContentDisposition(response);
+            String filename = FileUtils.getFilenameFromContentDisposition(response);
             File file = new File(directory, filename);
 
             InputStream in = response.readEntity(InputStream.class);

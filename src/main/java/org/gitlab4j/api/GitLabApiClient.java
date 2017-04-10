@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import org.gitlab4j.api.utils.JacksonJson;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 

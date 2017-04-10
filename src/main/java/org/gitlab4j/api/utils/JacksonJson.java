@@ -1,5 +1,5 @@
 
-package org.gitlab4j.api;
+package org.gitlab4j.api.utils;
 
 import java.io.IOException;
 import java.io.Reader;
