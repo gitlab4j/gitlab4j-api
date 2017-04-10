@@ -12,6 +12,13 @@ import org.gitlab4j.api.webhook.PushEvent;
 public interface WebHookListener extends java.util.EventListener {
 
     /**
+     * This method is called when a WebHook build event has been received.
+     *
+     * @param buildEvent the BuildEvent instance
+     */
+    public void onBuildEvent(BuildEvent buildEvent);
+
+    /**
      * This method is called when a WebHook issue event has been received.
      *
      * @param event the EventObject instance containing info on the issue
@@ -26,6 +33,20 @@ public interface WebHookListener extends java.util.EventListener {
     public void onMergeRequestEvent(MergeRequestEvent event);
 
     /**
+     * This method is called when a WebHook note event has been received.
+     *
+     * @param noteEvent theNoteEvent instance
+     */
+    public void onNoteEvent(NoteEvent noteEvent);
+
+    /**
+     * This method is called when a WebHook pipeline event has been received.
+     *
+     * @param pipelineEvent the PipelineEvent instance
+     */
+    public void onPipelineEvent(PipelineEvent pipelineEvent);
+
+    /**
      * This method is called when a WebHook push event has been received.
      *
      * @param pushEvent the PushEvent instance
@@ -38,27 +59,6 @@ public interface WebHookListener extends java.util.EventListener {
      * @param tagPushEvent the TagPushEvent instance
      */
     public void onTagPushEvent(TagPushEvent tagPushEvent);
-
-    /**
-     * This method is called when a WebHook note event has been received.
-     *
-     * @param noteEvent theNoteEvent instance
-     */
-    public void onNoteEvent(NoteEvent noteEvent);
-
-    /**
-     * This method is called when a WebHook build event has been received.
-     *
-     * @param buildEvent the BuildEvent instance
-     */
-    public void onBuildEvent(BuildEvent buildEvent);
-
-    /**
-     * This method is called when a WebHook pipeline event has been received.
-     *
-     * @param pushEvent the PipelineEvent instance
-     */
-    public void onPipelineEvent(PipelineEvent pipelineEvent);
 
     /**
      * This method is called when a WebHook wiki page event has been received.
