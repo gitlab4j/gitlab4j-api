@@ -59,7 +59,7 @@ UserApi
 CommitsApi:
 ```java
 // Get a list of commits associated with the specified branch
-List<Commit> commits = gitLabApi.getgetCommitsApi().getCommits(1234, "new-feature");
+List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature");
 ```
 
 GroupApi:
