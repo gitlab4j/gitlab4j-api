@@ -123,4 +123,24 @@ public class TestProjectApi {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         gitLabApi.getProjectApi().deleteProject(project);
     }
+
+    @Test
+    public void testParameterBasedCreate() throws GitLabApiException {
+
+        Project newProject = gitLabApi.getProjectApi().createProject(
+                TEST_PROJECT_NAME + "-2", null, "GitLab4J test project.", true, true, true, true, true, null, null);
+        assertNotNull(newProject);
+        assertEquals(TEST_PROJECT_NAME + "-2", newProject.getName());
+        assertEquals("GitLab4J test project.", newProject.getDescription());
+        assertEquals(true, newProject.getIssuesEnabled());
+        assertEquals(true, newProject.getMergeRequestsEnabled());
+        assertEquals(true, newProject.getWikiEnabled());
+        assertEquals(true, newProject.getSnippetsEnabled());
+        assertEquals(true, newProject.getPublic());
+
+        try {
+            gitLabApi.getProjectApi().deleteProject(newProject);
+        } catch (Exception ignore) {
+        }
+    }
 }

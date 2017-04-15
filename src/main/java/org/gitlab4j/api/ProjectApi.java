@@ -240,13 +240,14 @@ public class ProjectApi extends AbstractApi {
      * @param mergeRequestsEnabled Whether Merge Requests should be enabled, otherwise null indicates to use GitLab default
      * @param wikiEnabled Whether a Wiki should be enabled, otherwise null indicates to use GitLab default
      * @param snippetsEnabled Whether Snippets should be enabled, otherwise null indicates to use GitLab default
-     * @param isPublic Whether the project is public or private
+     * @param isPublic Whether the project is public or private, if true same as setting visibilityLevel = 20, otherwise null indicates to use GitLab default
+     * @param visibilityLevel The visibility level of the project, otherwise null indicates to use GitLab default
      * @param importUrl The Import URL for the project, otherwise null
      * @return the GitLab Project
      * @throws GitLabApiException if any exception occurs
      */
     public Project createProject(String name, Integer namespaceId, String description, Boolean issuesEnabled, Boolean mergeRequestsEnabled,
-            Boolean wikiEnabled, Boolean snippetsEnabled, Boolean isPublic, String importUrl) throws GitLabApiException {
+            Boolean wikiEnabled, Boolean snippetsEnabled, Boolean isPublic, Integer visibilityLevel, String importUrl) throws GitLabApiException {
 
         if (name == null || name.trim().length() == 0) {
             return (null);
@@ -254,14 +255,15 @@ public class ProjectApi extends AbstractApi {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
-                .withParam("namespace_id", namespaceId, false)
-                .withParam("description", description, false)
-                .withParam("issues_enabled", issuesEnabled, false)
-                .withParam("merge_requests_enabled", mergeRequestsEnabled, false)
-                .withParam("wiki_enabled", wikiEnabled, false)
-                .withParam("snippets_enabled", snippetsEnabled, false)
-                .withParam("visibility", (isPublic != null && isPublic ? "public" : "private"), false)
-                .withParam("import_url", importUrl, false);
+                .withParam("namespace_id", namespaceId)
+                .withParam("description", description)
+                .withParam("issues_enabled", issuesEnabled)
+                .withParam("merge_requests_enabled", mergeRequestsEnabled)
+                .withParam("wiki_enabled", wikiEnabled)
+                .withParam("snippets_enabled", snippetsEnabled)
+                .withParam("public", isPublic)
+                .withParam("visibility_level", visibilityLevel)
+                .withParam("import_url", importUrl);
 
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
