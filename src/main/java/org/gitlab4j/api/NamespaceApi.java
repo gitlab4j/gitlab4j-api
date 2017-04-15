@@ -1,9 +1,11 @@
 package org.gitlab4j.api;
 
-import javax.ws.rs.core.Form;
+import java.util.List;
+
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.models.Session;
+import org.gitlab4j.api.models.Namespace;
 
 /**
  * This class implements the client side API for the GitLab namespace calls.
@@ -15,28 +17,33 @@ public class NamespaceApi extends AbstractApi {
     }
 
     /**
-     * Login to get private token.
+     * Get a list of the namespaces of the authenticated user. If the user is an administrator,
+     * a list of all namespaces in the GitLab instance is shown.
      * 
-     * POST /session
+     * GET /namespaces
      * 
-     * @param username the username to login
-     * @param email the email address to login
-     * @param password the password of the user
-     * @return a Session instance with info on the logged in user
+     * @return a List of Namespace instances
      * @throws GitLabApiException if any exception occurs
      */
-    public Session login(String username, String email, String password) throws GitLabApiException {
+    public List<Namespace> getNamespaces() throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "namespaces");
+        return (response.readEntity(new GenericType<List<Namespace>>() {
+        }));
+    }
 
-        if ((username == null || username.trim().length() == 0) && (email == null || email.trim().length() == 0)) {
-            throw new IllegalArgumentException("both username and email cannot be empty or null");
-        }
-
-        Form formData = new Form();
-        addFormParam(formData, "email", email, false);
-        addFormParam(formData, "password", password, true);
-        addFormParam(formData, "login", username, false);
-
-        Response response = post(Response.Status.CREATED, formData, "session");
-        return (response.readEntity(Session.class));
+    /**
+     * Get all namespaces that match a string in their name or path.
+     *
+     * GET /namespaces?search=:query
+     * 
+     * @param query the search string
+     * @return the Namespace List with the matching namespaces
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Namespace> findNamespaces(String query) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("search", query, true);
+        Response response = get(Response.Status.OK, formData.asMap(), "namespaces");
+        return (response.readEntity(new GenericType<List<Namespace>>() {
+        }));
     }
 }
