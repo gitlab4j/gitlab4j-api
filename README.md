@@ -85,6 +85,19 @@ ProjectApi:
 // Get a list of accessible projects 
 public List<Project> projects = gitLabApi.getProjectApi().getProjects();
 ```
+```java
+// Create a new project
+Project projectSpec = new Project()
+    .withName("my-project)
+    .withDescription("My project for demonstration.")
+    .withIssuesEnabled(true)
+    .withMergeRequestsEnabled(true)
+    .withWikiEnabled(true)
+    .withSnippetsEnabled(true)
+    .withPublic(true);
+
+Project newProject = gitLabApi.getProjectApi().createProject(projectSpec);
+```
 
 RepositoryApi:
 ```java
