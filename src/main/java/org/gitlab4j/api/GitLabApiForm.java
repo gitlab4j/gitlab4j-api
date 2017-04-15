@@ -1,11 +1,20 @@
 package org.gitlab4j.api;
 
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MultivaluedHashMap;
 
 /**
  * This class extends the standard JAX-RS Form class to make it fluent.
  */
 public class GitLabApiForm extends Form {
+
+    public GitLabApiForm() {
+        super();
+    }
+
+    public GitLabApiForm(MultivaluedHashMap<String, String> map) {
+        super(map);
+    }
 
     /**
      * Fluent method for adding query and form parameters to a get() or post() call.

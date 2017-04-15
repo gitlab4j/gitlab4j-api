@@ -1,7 +1,7 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
@@ -12,14 +12,14 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-import org.gitlab4j.api.GitLabApi;
-import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Project;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 /**
  * In order for these tests to run you must set the following systems properties:
@@ -35,7 +35,9 @@ import org.junit.Test;
  * mvn test -DTEST_PRIVATE_TOKEN=your_private_token -DTEST_HOST_URL=https://gitlab.com \
  * -DTEST_NAMESPACE=your_namespace -DTEST_PROJECT_NAME=test-project
  *
+ * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that testCreate() is executed first.
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestGitLabApi {
 
     // The following needs to be set to your test repository
@@ -87,6 +89,7 @@ public class TestGitLabApi {
     @AfterClass
     public static void teardown() throws GitLabApiException {
         if (gitLabApi != null) {
+
             try {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
                 gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
@@ -122,6 +125,14 @@ public class TestGitLabApi {
     }
 
     @Test
+    public void testDeleteBranch() throws GitLabApiException {
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
+    }
+
+    @Test
     public void testRepositoryArchiveViaInputStream() throws GitLabApiException, IOException {
 
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
@@ -135,7 +146,7 @@ public class TestGitLabApi {
         assertTrue(target.toFile().length() > 0);
         Files.delete(target);
     }
-    
+
     @Test
     public void testRepositoryArchiveViaFile() throws GitLabApiException, IOException {
 
@@ -145,7 +156,7 @@ public class TestGitLabApi {
         File file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), "master", null);
         assertTrue(file.length() > 0);
         file.delete();
-        
+
         file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), "master", new File("."));
         assertTrue(file.length() > 0);
         file.delete();

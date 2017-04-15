@@ -22,7 +22,7 @@
   "issues_enabled": true,
   "open_issues_count": 1,
   "merge_requests_enabled": true,
-  "builds_enabled": true,
+  "jobs_enabled": true,
   "wiki_enabled": true,
   "snippets_enabled": false,
   "container_registry_enabled": false,
@@ -54,7 +54,7 @@
   "forks_count": 0,
   "star_count": 0,
   "runners_token": "b8bc4a7a29eb76ea83cf79e4908c2b",
-  "public_builds": true,
+  "public_jobs": true,
   "shared_with_groups": [
     {
       "group_id": 4,
@@ -68,7 +68,7 @@
     }
   ],
   "repository_storage": "default",
-  "only_allow_merge_if_build_succeeds": false,
+  "only_allow_merge_if_pipeline_succeeds": false,
   "only_allow_merge_if_all_discussions_are_resolved": false,
   "request_access_enabled": false
 }

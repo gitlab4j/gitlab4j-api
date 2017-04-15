@@ -13,8 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
-import org.gitlab4j.api.models.AccessLevel;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -65,7 +63,6 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
         SimpleModule module = new SimpleModule("GitLabApiJsonModule");
         module.addSerializer(Date.class, new JsonDateSerializer());
         module.addDeserializer(Date.class, new JsonDateDeserializer());
-        module.addSerializer(AccessLevel.class, new JsonAccessLevelSerializer());
         objectMapper.registerModule(module);
     }
 
@@ -169,17 +166,6 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-        }
-    }
-
-    /**
-     * JsonSerializer for serializing AccessLevel values.
-     */
-    public static class JsonAccessLevelSerializer extends JsonSerializer<AccessLevel> {
-
-        @Override
-        public void serialize(AccessLevel accessLevel, JsonGenerator gen, SerializerProvider provider) throws IOException, JsonProcessingException {
-            gen.writeNumber(accessLevel.value);
         }
     }
 }

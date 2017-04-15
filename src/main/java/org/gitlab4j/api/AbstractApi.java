@@ -229,7 +229,7 @@ public abstract class AbstractApi {
      * the returned secret token, if either is not correct will throw a GitLabApiException.
      * 
      * @param response response
-     * @param expected expected respone status
+     * @param expected expected response status
      * @return original response if the response status is expected
      * @throws GitLabApiException if HTTP status is not as expected, or the secret token doesn't match
      */

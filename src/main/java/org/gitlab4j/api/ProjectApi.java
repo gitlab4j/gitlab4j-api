@@ -100,14 +100,14 @@ public class ProjectApi extends AbstractApi {
             throw new RuntimeException("project cannot be null");
         }
 
-        String pid = null;
+        String projectPath = null;
         try {
-            pid = URLEncoder.encode(namespace + "/" + project, "UTF-8");
+            projectPath = URLEncoder.encode(namespace + "/" + project, "UTF-8");
         } catch (UnsupportedEncodingException uee) {
             throw (new GitLabApiException(uee));
         }
 
-        Response response = get(Response.Status.OK, null, "projects", pid);
+        Response response = get(Response.Status.OK, null, "projects", projectPath);
         return (response.readEntity(Project.class));
     }
 
@@ -130,6 +130,22 @@ public class ProjectApi extends AbstractApi {
     }
 
     /**
+     * Create a new project with the current user's namespace.
+     * 
+     * @param projectName the name of the project top create
+     * @return the created project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project createProject(String projectName) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", projectName, true);
+
+        Response response = post(Response.Status.CREATED, formData, "projects");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
      * Creates new project owned by the current user.
      * 
      * @param project the Project instance with the configuration for the new project
@@ -144,15 +160,26 @@ public class ProjectApi extends AbstractApi {
      * Creates new project owned by the current user. The following properties on the Project instance
      * are utilized in the creation of the project:
      * 
-     * name (required) - new project name
+     * name (name or path are required) - new project name
+     * path (name or path are required) - new project path
+     * defaultBranch (optional) - master by default
      * description (optional) - short project description
-     * issuesEnabled (optional)
-     * wallEnabled (optional)
-     * mergeRequestsEnabled (optional)
-     * wikiEnabled (optional)
-     * snippetsEnabled (optional)
-     * isPublic (optional) - if true same as setting visibility_level = 20
+     * public (optional) - if true same as setting visibility_level = 20
      * visibilityLevel (optional)
+     * issuesEnabled (optional) - Enable issues for this project
+     * mergeRequestsEnabled (optional) - Enable merge requests for this project
+     * wikiEnabled (optional) - Enable wiki for this project
+     * snippetsEnabled (optional) - Enable snippets for this project
+     * jobsEnabled (optional) - Enable jobs for this project
+     * containerRegistryEnabled (optional) - Enable container registry for this project
+     * sharedRunnersEnabled (optional) - Enable shared runners for this project
+     * publicJobs (optional) - If true, jobs can be viewed by non-project-members
+     * onlyAllowMergeIfPipelineSucceeds (optional) - Set whether merge requests can only be merged with successful jobs
+     * onlyAllowMergeIfAllDiscussionsAreResolved (optional) - Set whether merge requests can only be merged when all the discussions are resolved
+     * lLfsEnabled (optional) - Enable LFS
+     * requestAccessEnabled (optional) - Allow users to request member access
+     * repositoryStorage (optional) - Which storage shard the repository is on. Available only to admins
+     * approvalsBeforeMerge (optional) - How many approvers should approve merge request by default
      * 
      * @param project the Project instance with the configuration for the new project
      * @param importUrl the URL to import the repository from
@@ -166,20 +193,33 @@ public class ProjectApi extends AbstractApi {
         }
 
         String name = project.getName();
-        if (name == null || name.trim().length() == 0) {
+        String path = project.getPath();
+
+        if ((name == null || name.trim().length() == 0) && (path == null || path.trim().length() == 0)) {
             return (null);
         }
 
         GitLabApiForm formData = new GitLabApiForm()
-            .withParam("name", name, true)
+            .withParam("name", name)
+            .withParam("path", path)
+            .withParam("default_branch", project.getDefaultBranch())
             .withParam("description", project.getDescription())
             .withParam("issues_enabled", project.getIssuesEnabled())
-            .withParam("wall_enabled", project.getWallEnabled())
             .withParam("merge_requests_enabled", project.getMergeRequestsEnabled())
+            .withParam("jobs_enabled", project.getJobsEnabled())
             .withParam("wiki_enabled", project.getWikiEnabled())
+            .withParam("container_registry_enabled", project.getContainerRegistryEnabled())
             .withParam("snippets_enabled", project.getSnippetsEnabled())
+            .withParam("shared_runners_enabled", project.getSharedRunnersEnabled())
+            .withParam("public_jobs", project.getPublicJobs())
             .withParam("public", project.getPublic())
             .withParam("visibility_level", project.getVisibilityLevel())
+            .withParam("only_allow_merge_if_pipeline_succeeds", project.getOnlyAllowMergeIfPipelineSucceeds())
+            .withParam("only_allow_merge_if_all_discussions_are_resolved", project.getOnlyAllowMergeIfAllDiscussionsAreResolved())
+            .withParam("lfs_enabled", project.getLfsEnabled())
+            .withParam("request_access_enabled", project.getRequestAccessEnabled())
+            .withParam("repository_storage", project.getRepositoryStorage())
+            .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
             .withParam("import_url", importUrl);
         
         if (project.getNamespace() != null) {
@@ -197,18 +237,16 @@ public class ProjectApi extends AbstractApi {
      * @param namespaceId The Namespace for the new project, otherwise null indicates to use the GitLab default (user)
      * @param description A description for the project, null otherwise
      * @param issuesEnabled Whether Issues should be enabled, otherwise null indicates to use GitLab default
-     * @param wallEnabled Whether The Wall should be enabled, otherwise null indicates to use GitLab default
      * @param mergeRequestsEnabled Whether Merge Requests should be enabled, otherwise null indicates to use GitLab default
      * @param wikiEnabled Whether a Wiki should be enabled, otherwise null indicates to use GitLab default
      * @param snippetsEnabled Whether Snippets should be enabled, otherwise null indicates to use GitLab default
-     * @param isPublic Whether the project is public or private, if true same as setting visibilityLevel = 20, otherwise null indicates to use GitLab default
-     * @param visibilityLevel The visibility level of the project, otherwise null indicates to use GitLab default
+     * @param isPublic Whether the project is public or private
      * @param importUrl The Import URL for the project, otherwise null
      * @return the GitLab Project
      * @throws GitLabApiException if any exception occurs
      */
-    public Project createProject(String name, Integer namespaceId, String description, Boolean issuesEnabled, Boolean wallEnabled, Boolean mergeRequestsEnabled,
-            Boolean wikiEnabled, Boolean snippetsEnabled, Boolean isPublic, Integer visibilityLevel, String importUrl) throws GitLabApiException {
+    public Project createProject(String name, Integer namespaceId, String description, Boolean issuesEnabled, Boolean mergeRequestsEnabled,
+            Boolean wikiEnabled, Boolean snippetsEnabled, Boolean isPublic, String importUrl) throws GitLabApiException {
 
         if (name == null || name.trim().length() == 0) {
             return (null);
@@ -216,16 +254,14 @@ public class ProjectApi extends AbstractApi {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
-                .withParam("namespace_id", namespaceId)
-                .withParam("description", description)
-                .withParam("issues_enabled", issuesEnabled)
-                .withParam("wall_enabled", wallEnabled)
-                .withParam("merge_requests_enabled", mergeRequestsEnabled)
-                .withParam("wiki_enabled", wikiEnabled)
-                .withParam("snippets_enabled", snippetsEnabled)
-                .withParam("public", isPublic)
-                .withParam("visibility_level", visibilityLevel)
-                .withParam("import_url", importUrl);
+                .withParam("namespace_id", namespaceId, false)
+                .withParam("description", description, false)
+                .withParam("issues_enabled", issuesEnabled, false)
+                .withParam("merge_requests_enabled", mergeRequestsEnabled, false)
+                .withParam("wiki_enabled", wikiEnabled, false)
+                .withParam("snippets_enabled", snippetsEnabled, false)
+                .withParam("visibility", (isPublic != null && isPublic ? "public" : "private"), false)
+                .withParam("import_url", importUrl, false);
 
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));

@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Project {
 
+    private Integer approvalsBeforeMerge;
     private Boolean archived;
     private String avatarUrl;
-    private Boolean buildsEnabled;
     private Boolean containerRegistryEnabled;
     private Date createdAt;
     private Integer creatorId;
@@ -24,23 +24,25 @@ public class Project {
     private Project forkedFromProject;
     private String httpUrlToRepo;
     private Integer id;
+    private Boolean isPublic;
     private Boolean issuesEnabled;
+    private Boolean jobsEnabled;
     private Date lastActivityAt;
+    private Boolean lfsEnabled;
     private Boolean mergeRequestsEnabled;
     private String name;
     private Namespace namespace;
     private String nameWithNamespace;
-    private Boolean onlyAllowMergeIfBuildSucceeds;
+    private Boolean onlyAllowMergeIfPipelineSucceeds;
     private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
     private Integer openIssuesCount;
     private Owner owner;
     private String path;
     private String pathWithNamespace;
     private Permissions permissions;
-    private Boolean isPublic;
-    private Boolean publicBuilds;
+    private Boolean publicJobs;
     private String repositoryStorage;
-    private Boolean request_access_enabled;
+    private Boolean requestAccessEnabled;
     private String runnersToken;
     private Boolean sharedRunnersEnabled;
     private List<ProjectSharedGroup> sharedWithGroups;
@@ -49,9 +51,23 @@ public class Project {
     private Integer starCount;
     private List<String> tagList;
     private Integer visibilityLevel;
+    private Visibility visibility;
     private Boolean wallEnabled;
     private String webUrl;
     private Boolean wikiEnabled;
+
+    public Integer getApprovalsBeforeMerge() {
+        return approvalsBeforeMerge;
+    }
+
+    public void setApprovalsBeforeMerge(Integer approvalsBeforeMerge) {
+        this.approvalsBeforeMerge = approvalsBeforeMerge;
+    }
+
+    public Project withApprovalsBeforeMerge(Integer approvalsBeforeMerge) {
+        this.approvalsBeforeMerge = approvalsBeforeMerge;
+        return (this);
+    }
 
     public Boolean getArchived() {
         return archived;
@@ -69,20 +85,17 @@ public class Project {
         this.avatarUrl = avatarUrl;
     }
 
-    public Boolean getBuildsEnabled() {
-        return buildsEnabled;
-    }
-
-    public void setBuildsEnabled(Boolean buildsEnabled) {
-        this.buildsEnabled = buildsEnabled;
-    }
-
     public Boolean getContainerRegistryEnabled() {
         return containerRegistryEnabled;
     }
 
     public void setContainerRegistryEnabled(Boolean containerRegistryEnabled) {
         this.containerRegistryEnabled = containerRegistryEnabled;
+    }
+
+    public Project withContainerRegistryEnabled(boolean containerRegistryEnabled) {
+        this.containerRegistryEnabled = containerRegistryEnabled;
+        return (this);
     }
 
     public Date getCreatedAt() {
@@ -109,12 +122,22 @@ public class Project {
         this.defaultBranch = defaultBranch;
     }
 
+    public Project withDefaultBranch(String defaultBranch) {
+        this.defaultBranch = defaultBranch;
+        return (this);
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Project withDescription(String description) {
+        this.description = description;
+        return (this);
     }
 
     public Integer getForksCount() {
@@ -157,12 +180,43 @@ public class Project {
         this.issuesEnabled = issuesEnabled;
     }
 
+    public Project withIssuesEnabled(boolean issuesEnabled) {
+        this.issuesEnabled = issuesEnabled;
+        return (this);
+    }
+
+    public Boolean getJobsEnabled() {
+        return jobsEnabled;
+    }
+
+    public void setJobsEnabled(Boolean jobsEnabled) {
+        this.jobsEnabled = jobsEnabled;
+    }
+
+    public Project withJobsEnabled(boolean jobsEnabled) {
+        this.jobsEnabled = jobsEnabled;
+        return (this);
+    }
+
     public Date getLastActivityAt() {
         return lastActivityAt;
     }
 
     public void setLastActivityAt(Date lastActivityAt) {
         this.lastActivityAt = lastActivityAt;
+    }
+
+    public Boolean getLfsEnabled() {
+        return lfsEnabled;
+    }
+
+    public void setLfsEnabled(Boolean lfsEnabled) {
+        this.lfsEnabled = lfsEnabled;
+    }
+
+    public Project withLfsEnabled(Boolean lfsEnabled) {
+        this.lfsEnabled = lfsEnabled;
+        return (this);
     }
 
     public Boolean getMergeRequestsEnabled() {
@@ -173,12 +227,22 @@ public class Project {
         this.mergeRequestsEnabled = mergeRequestsEnabled;
     }
 
+    public Project withMergeRequestsEnabled(boolean mergeRequestsEnabled) {
+        this.mergeRequestsEnabled = mergeRequestsEnabled;
+        return (this);
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Project withName(String name) {
+        this.name = name;
+        return (this);
     }
 
     public Namespace getNamespace() {
@@ -189,6 +253,17 @@ public class Project {
         this.namespace = namespace;
     }
 
+    public Project withNamespace(Namespace namespace) {
+        this.namespace = namespace;
+        return (this);
+    }
+
+    public Project withNamespaceId(int namespaceId) {
+        this.namespace = new Namespace();
+        this.namespace.setId(namespaceId);
+        return (this);
+    }
+
     public String getNameWithNamespace() {
         return nameWithNamespace;
     }
@@ -197,12 +272,17 @@ public class Project {
         this.nameWithNamespace = nameWithNamespace;
     }
 
-    public Boolean getOnlyAllowMergeIfBuildSucceeds() {
-        return onlyAllowMergeIfBuildSucceeds;
+    public Boolean getOnlyAllowMergeIfPipelineSucceeds() {
+        return onlyAllowMergeIfPipelineSucceeds;
     }
 
-    public void setOnlyAllowMergeIfBuildSucceeds(Boolean onlyAllowMergeIfBuildSucceeds) {
-        this.onlyAllowMergeIfBuildSucceeds = onlyAllowMergeIfBuildSucceeds;
+    public void setOnlyAllowMergeIfPipelineSucceeds(Boolean onlyAllowMergeIfPipelineSucceeds) {
+        this.onlyAllowMergeIfPipelineSucceeds = onlyAllowMergeIfPipelineSucceeds;
+    }
+
+    public Project withOnlyAllowMergeIfPipelineSucceeds(Boolean onlyAllowMergeIfPipelineSucceeds) {
+        this.onlyAllowMergeIfPipelineSucceeds = onlyAllowMergeIfPipelineSucceeds;
+        return (this);
     }
 
     public Boolean getOnlyAllowMergeIfAllDiscussionsAreResolved() {
@@ -211,6 +291,11 @@ public class Project {
 
     public void setOnlyAllowMergeIfAllDiscussionsAreResolved(Boolean onlyAllowMergeIfAllDiscussionsAreResolved) {
         this.onlyAllowMergeIfAllDiscussionsAreResolved = onlyAllowMergeIfAllDiscussionsAreResolved;
+    }
+
+    public Project withOnlyAllowMergeIfAllDiscussionsAreResolved(Boolean onlyAllowMergeIfAllDiscussionsAreResolved) {
+        this.onlyAllowMergeIfAllDiscussionsAreResolved = onlyAllowMergeIfAllDiscussionsAreResolved;
+        return (this);
     }
 
     public Integer getOpenIssuesCount() {
@@ -237,6 +322,11 @@ public class Project {
         this.path = path;
     }
 
+    public Project withPath(String path) {
+        this.path = path;
+        return (this);
+    }
+
     public String getPathWithNamespace() {
         return pathWithNamespace;
     }
@@ -261,12 +351,22 @@ public class Project {
         this.isPublic = isPublic;
     }
 
-    public Boolean getPublicBuilds() {
-        return publicBuilds;
+    public Project withPublic(Boolean isPublic) {
+        this.isPublic = isPublic;
+        return (this);
     }
 
-    public void setPublicBuilds(Boolean publicBuilds) {
-        this.publicBuilds = publicBuilds;
+    public Boolean getPublicJobs() {
+        return publicJobs;
+    }
+
+    public void setPublicJobs(Boolean publicJobs) {
+        this.publicJobs = publicJobs;
+    }
+
+    public Project withPublicJobs(boolean publicJobs) {
+        this.publicJobs = publicJobs;
+        return (this);
     }
 
     public String getRepositoryStorage() {
@@ -277,12 +377,22 @@ public class Project {
         this.repositoryStorage = repositoryStorage;
     }
 
-    public Boolean getRequest_access_enabled() {
-        return request_access_enabled;
+    public Project withRepositoryStorage(String repositoryStorage) {
+        this.repositoryStorage = repositoryStorage;
+        return (this);
     }
 
-    public void setRequest_access_enabled(Boolean request_access_enabled) {
-        this.request_access_enabled = request_access_enabled;
+    public Boolean getRequestAccessEnabled() {
+        return requestAccessEnabled;
+    }
+
+    public void setRequestAccessEnabled(Boolean request_access_enabled) {
+        this.requestAccessEnabled = request_access_enabled;
+    }
+
+    public Project withRequestAccessEnabled(boolean requestAccessEnabled) {
+        this.requestAccessEnabled = requestAccessEnabled;
+        return (this);
     }
 
     public String getRunnersToken() {
@@ -309,12 +419,22 @@ public class Project {
         this.sharedWithGroups = sharedWithGroups;
     }
 
+    public Project withSharedRunnersEnabled(boolean sharedRunnersEnabled) {
+        this.sharedRunnersEnabled = sharedRunnersEnabled;
+        return (this);
+    }
+
     public Boolean getSnippetsEnabled() {
         return snippetsEnabled;
     }
 
     public void setSnippetsEnabled(Boolean snippetsEnabled) {
         this.snippetsEnabled = snippetsEnabled;
+    }
+
+    public Project withSnippetsEnabled(boolean snippetsEnabled) {
+        this.snippetsEnabled = snippetsEnabled;
+        return (this);
     }
 
     public String getSshUrlToRepo() {
@@ -341,12 +461,30 @@ public class Project {
         this.tagList = tagList;
     }
 
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
+    }
+
+    public Project withVisibility(Visibility visibility) {
+        this.visibility = visibility;
+        return (this);
+    }
+
     public Integer getVisibilityLevel() {
         return visibilityLevel;
     }
 
     public void setVisibilityLevel(Integer visibilityLevel) {
         this.visibilityLevel = visibilityLevel;
+    }
+
+    public Project withVisibilityLevel(Integer visibilityLevel) {
+        this.visibilityLevel = visibilityLevel;
+        return (this);
     }
 
     public Boolean getWallEnabled() {
@@ -371,6 +509,11 @@ public class Project {
 
     public void setWikiEnabled(Boolean wikiEnabled) {
         this.wikiEnabled = wikiEnabled;
+    }
+
+    public Project withWikiEnabled(boolean wikiEnabled) {
+        this.wikiEnabled = wikiEnabled;
+        return (this);
     }
 
     public static final boolean isValid(Project project) {

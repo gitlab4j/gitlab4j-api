@@ -31,6 +31,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -292,7 +293,18 @@ public class TestGitLabApiBeans {
         String objectJson = jacksonJson.marshal(apiObject);
         JsonNode tree1 = jacksonJson.getObjectMapper().readTree(objectJson.getBytes());
         JsonNode tree2 = jacksonJson.getObjectMapper().readTree(reader);
+
         boolean sameJson = tree1.equals(tree2);
+        if (!sameJson) {
+            System.out.println("JSON did not match:");
+            sortedDump(tree1);
+            sortedDump(tree2);
+        }
         return (sameJson);
+    }
+
+    private void sortedDump(final JsonNode node) throws JsonProcessingException {
+        final Object obj = jacksonJson.getObjectMapper().treeToValue(node, Object.class);
+        System.out.println(jacksonJson.getObjectMapper().writeValueAsString(obj));
     }
 }

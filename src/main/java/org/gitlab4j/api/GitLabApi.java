@@ -12,6 +12,7 @@ public class GitLabApi {
     private CommitsApi commitsApi;
     private GroupApi groupApi;
     private MergeRequestApi mergeRequestApi;
+    private NamespaceApi namespaceApi;
     private ProjectApi projectApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
@@ -61,6 +62,7 @@ public class GitLabApi {
         commitsApi = new CommitsApi(this);
         groupApi = new GroupApi(this);
         mergeRequestApi = new MergeRequestApi(this);
+        setNamespaceApi(new NamespaceApi(this));
         projectApi = new ProjectApi(this);
         repositoryApi = new RepositoryApi(this);
         servicesApi = new ServicesApi(this);
@@ -97,6 +99,20 @@ public class GitLabApi {
      */
     public MergeRequestApi getMergeRequestApi() {
         return (mergeRequestApi);
+    }
+
+    /**
+     * Gets the NamespaceApi instance owned by this GitLabApi instance. The NamespaceApi is used
+     * to perform all namespace related API calls.
+     * 
+     * @return the NamespaceApi instance owned by this GitLabApi instance
+     */
+    public NamespaceApi getNamespaceApi() {
+        return namespaceApi;
+    }
+
+    public void setNamespaceApi(NamespaceApi namespaceApi) {
+        this.namespaceApi = namespaceApi;
     }
 
     /**

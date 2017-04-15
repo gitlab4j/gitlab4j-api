@@ -280,7 +280,10 @@ public class GitLabApiClient {
      * @return a ClientResponse instance with the data returned from the endpoint
      */
     protected Response post(Form formData, URL url) {
-        return (invocation(url, null).post(Entity.entity(formData, MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+        if (formData instanceof GitLabApiForm)
+            return (invocation(url, null).post(Entity.entity(formData.asMap(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+        else
+            return (invocation(url, null).post(Entity.entity(formData, MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
     }
 
     /**
