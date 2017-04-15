@@ -88,7 +88,7 @@ public List<Project> projects = gitLabApi.getProjectApi().getProjects();
 ```java
 // Create a new project
 Project projectSpec = new Project()
-    .withName("my-project)
+    .withName("my-project")
     .withDescription("My project for demonstration.")
     .withIssuesEnabled(true)
     .withMergeRequestsEnabled(true)
