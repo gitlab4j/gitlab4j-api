@@ -2,6 +2,8 @@ package org.gitlab4j.api;
 
 import java.util.Map;
 
+import org.gitlab4j.api.models.Session;
+
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
  * a separate API class for each concern.
@@ -20,6 +22,8 @@ public class GitLabApi {
     private SessionApi sessoinApi;
     private UserApi userApi;
 
+    private Session session;
+
     /**
      * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance using returned private token
      * 
@@ -30,8 +34,19 @@ public class GitLabApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public static GitLabApi create(String url, String username, String password) throws GitLabApiException {
-        String token = new SessionApi(new GitLabApi(url, null)).login(username, null, password).getPrivateToken();
-        return new GitLabApi(url, token);
+        SessionApi sessionApi = new SessionApi(new GitLabApi(url, (String)null));
+        Session session = sessionApi.login(username, null, password);
+        return (new GitLabApi(url, session));
+    }
+
+    /**
+     * If this instance was created with {@link #create(String, String, String)} this method will
+     * return the Session instance returned by the GitLab API on login, otherwise returns null.
+     *
+     * @return the Session instance
+     */
+    public Session getSession() {
+        return session;
     }
 
     /**
@@ -43,6 +58,18 @@ public class GitLabApi {
      */
     public GitLabApi(String hostUrl, String privateToken) {
         this(hostUrl, privateToken, null);
+    }
+
+    /**
+     * Constructs a GitLabApi instance set up to interact with the GitLab server
+     * specified by hostUrl.
+     * 
+     * @param hostUrl the URL of the GitLab server
+     * @param session the Session instance obtained by logining into the GitLab server
+     */
+    public GitLabApi(String hostUrl, Session session) {
+        this(hostUrl, session.getPrivateToken(), null);
+        this.session = session;
     }
 
     /**

@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assume.assumeTrue;
 
@@ -13,11 +14,13 @@ import org.junit.Test;
  * TEST_HOST_URL
  * TEST_USERNAME
  * TEST_PASSWORD
+ * TEST_PRIVATE_TOKEN
  * 
  * If any of the above are NULL, all tests in this class will be skipped. If running from mvn simply
  * use a command line similar to:
  * 
- * mvn test -DTEST_HOST_URL=https://gitlab.com -DTTEST_USERNAME=your_username -DTEST_PASSWORD=your_strong_password
+ * mvn test -DTEST_HOST_URL=https://gitlab.com -DTTEST_USERNAME=your_username \
+ *  -DTEST_PASSWORD=your_strong_password -DTEST_PRIVATE_TOKEN=your_private_token
  */
 public class TestGitLabSession {
 
@@ -25,10 +28,12 @@ public class TestGitLabSession {
     private static final String TEST_USERNAME;
     private static final String TEST_PASSWORD;
     private static final String TEST_HOST_URL;
+    private static final String TEST_PRIVATE_TOKEN;
     static {
         TEST_USERNAME = System.getProperty("TEST_USERNAME");
         TEST_PASSWORD = System.getProperty("TEST_PASSWORD");
         TEST_HOST_URL = System.getProperty("TEST_HOST_URL");
+        TEST_PRIVATE_TOKEN = System.getProperty("TEST_PRIVATE_TOKEN");
     }
 
     private static String problems = "";
@@ -54,6 +59,10 @@ public class TestGitLabSession {
             problems += "TEST_HOST_URL cannot be empty\n";
         }
 
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
+            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
+        }
+
         if (!problems.isEmpty()) {
             System.err.print(problems);
         }
@@ -66,7 +75,10 @@ public class TestGitLabSession {
 
     @Test
     public void testSession() throws GitLabApiException {
-        GitLabApi gitlabApi = GitLabApi.create(TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD);
-        assertNotNull(gitlabApi);
+
+        GitLabApi gitLabApi = GitLabApi.create(TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD);
+        assertNotNull(gitLabApi);
+        assertNotNull(gitLabApi.getSession());
+        assertEquals(TEST_PRIVATE_TOKEN, gitLabApi.getSession().getPrivateToken());
     }
 }
