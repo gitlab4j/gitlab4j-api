@@ -122,19 +122,21 @@ public class GitLabApiClient {
             return;
         }
 
-        if (ignoreCertificateErrors == false) {
+        if (!ignoreCertificateErrors) {
+
             GitLabApiClient.ignoreCertificateErrors = false;
             HttpsURLConnection.setDefaultSSLSocketFactory(GitLabApiClient.defaultSocketFactory);
-            return;
-        }
-
-        SSLSocketFactory defaultSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
-
-        if (ignoreCertificateErrors() == true) {
-            GitLabApiClient.ignoreCertificateErrors = true;
-            GitLabApiClient.defaultSocketFactory = defaultSocketFactory;
+ 
         } else {
-            throw new RuntimeException("Unable to ignore certificate errors.");
+
+            SSLSocketFactory defaultSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
+
+            if (ignoreCertificateErrors()) {
+                GitLabApiClient.ignoreCertificateErrors = true;
+                GitLabApiClient.defaultSocketFactory = defaultSocketFactory;
+            } else {
+                throw new RuntimeException("Unable to ignore certificate errors.");
+            }
         }
     }
 
