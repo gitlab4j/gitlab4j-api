@@ -60,7 +60,7 @@ public class GroupApi extends AbstractApi {
         Form formData = new Form();
         formData.param("name", name);
         formData.param("path", path);
-        post(Response.Status.OK, formData, "groups");
+        post(Response.Status.CREATED, formData, "groups");
     }
 
     /**
