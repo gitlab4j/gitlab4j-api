@@ -10,7 +10,7 @@ public enum AccessLevel {
 
     NONE(0), GUEST(10), REPORTER(20), DEVELOPER(30), MASTER(40), OWNER(50);
 
-    public final int value;
+    public final Integer value;
 
     AccessLevel(int value) {
         this.value = value;
@@ -30,5 +30,10 @@ public enum AccessLevel {
     @JsonValue
     public Integer toValue() {
         return (value);
+    }
+
+    @Override
+    public String toString() {
+        return (value.toString());
     }
 }

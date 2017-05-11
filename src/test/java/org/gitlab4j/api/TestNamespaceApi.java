@@ -6,6 +6,7 @@ import static org.junit.Assume.assumeTrue;
 
 import java.util.List;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Namespace;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -61,7 +62,7 @@ public class TestNamespaceApi {
         }
 
         if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            gitLabApi = new GitLabApi(ApiVersion.V3, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
         } else {
             System.err.print(problems);
         }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assume.assumeTrue;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -76,7 +77,7 @@ public class TestGitLabSession {
     @Test
     public void testSession() throws GitLabApiException {
 
-        GitLabApi gitLabApi = GitLabApi.create(TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD);
+        GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V3, TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD);
         assertNotNull(gitLabApi);
         assertNotNull(gitLabApi.getSession());
         assertEquals(TEST_PRIVATE_TOKEN, gitLabApi.getSession().getPrivateToken());

@@ -2,9 +2,12 @@ package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.Visibility;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -42,6 +45,7 @@ public class TestProjectApi {
     }
 
     private static final String TEST_PROJECT_NAME = "test-gitlab4j-create-project";
+    private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
     private static GitLabApi gitLabApi;
 
     public TestProjectApi() {
@@ -65,14 +69,16 @@ public class TestProjectApi {
         }
 
         if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            gitLabApi = new GitLabApi(ApiVersion.V3, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
         } else {
             System.err.print(problems);
         }
-        
+
         if (gitLabApi != null) {
             try {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+                gitLabApi.getProjectApi().deleteProject(project);
+                project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
                 gitLabApi.getProjectApi().deleteProject(project);
             } catch (GitLabApiException ignore) {
             }
@@ -84,6 +90,8 @@ public class TestProjectApi {
         if (gitLabApi != null) {
             try {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+                gitLabApi.getProjectApi().deleteProject(project);
+                project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
                 gitLabApi.getProjectApi().deleteProject(project);
             } catch (GitLabApiException ignore) {
             }
@@ -105,7 +113,7 @@ public class TestProjectApi {
                 .withMergeRequestsEnabled(true)
                 .withWikiEnabled(true)
                 .withSnippetsEnabled(true)
-                .withPublic(true);
+                .withVisibility(Visibility.PUBLIC);
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
@@ -115,7 +123,7 @@ public class TestProjectApi {
         assertEquals(project.getMergeRequestsEnabled(), newProject.getMergeRequestsEnabled());
         assertEquals(project.getWikiEnabled(), newProject.getWikiEnabled());
         assertEquals(project.getSnippetsEnabled(), newProject.getSnippetsEnabled());
-        assertEquals(project.getPublic(), newProject.getPublic());
+        assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
     }
 
     @Test
@@ -128,15 +136,15 @@ public class TestProjectApi {
     public void testParameterBasedCreate() throws GitLabApiException {
 
         Project newProject = gitLabApi.getProjectApi().createProject(
-                TEST_PROJECT_NAME + "-2", null, "GitLab4J test project.", true, true, true, true, true, null, null);
+                TEST_PROJECT_NAME_2, null, "GitLab4J test project.", true, true, true, true, Visibility.PUBLIC, null, null);
         assertNotNull(newProject);
-        assertEquals(TEST_PROJECT_NAME + "-2", newProject.getName());
+        assertEquals(TEST_PROJECT_NAME_2, newProject.getName());
         assertEquals("GitLab4J test project.", newProject.getDescription());
         assertEquals(true, newProject.getIssuesEnabled());
         assertEquals(true, newProject.getMergeRequestsEnabled());
         assertEquals(true, newProject.getWikiEnabled());
         assertEquals(true, newProject.getSnippetsEnabled());
-        assertEquals(true, newProject.getPublic());
+        assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
 
         try {
             gitLabApi.getProjectApi().deleteProject(newProject);

@@ -10,7 +10,16 @@ import org.gitlab4j.api.models.Session;
  */
 public class GitLabApi {
 
+    public enum ApiVersion {
+        V3, V4;
+
+        public String getApiNamespace() {
+            return ("/api/" + name().toLowerCase());
+        }
+    }
+
     GitLabApiClient apiClient;
+    private ApiVersion apiVersion;
     private CommitsApi commitsApi;
     private GroupApi groupApi;
     private MergeRequestApi mergeRequestApi;
@@ -25,22 +34,54 @@ public class GitLabApi {
     private Session session;
 
     /**
-     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance using returned private token
-     * 
+     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance 
+     * using returned private token and the specified GitLab API version.
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
      * @param url GitLab URL
      * @param username user name for which private token should be obtained
      * @param password password for a given {@code username}
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public static GitLabApi create(String url, String username, String password) throws GitLabApiException {
-        SessionApi sessionApi = new SessionApi(new GitLabApi(url, (String)null));
+    public static GitLabApi login(ApiVersion apiVersion, String url, String username, String password) throws GitLabApiException {
+        SessionApi sessionApi = new SessionApi(new GitLabApi(apiVersion, url, (String)null));
         Session session = sessionApi.login(username, null, password);
         return (new GitLabApi(url, session));
     }
 
     /**
-     * If this instance was created with {@link #create(String, String, String)} this method will
+     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance 
+     * using returned private token using GitLab API version 4.
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password password for a given {@code username}
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi login(String url, String username, String password) throws GitLabApiException {
+        return (login(ApiVersion.V4, url, username, password));
+    }
+
+    /**
+     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance 
+     * using returned private token and specified GitLab API version.
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password password for a given {@code username}
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated  As of release 4.2.0, replaced by {@link #login(String, String, String)}
+     */
+    @Deprecated
+    public static GitLabApi create(String url, String username, String password) throws GitLabApiException {
+        return (login(url, username, password));
+    }
+
+    /**
+     * If this instance was created with {@link #login(String, String, String)} this method will
      * return the Session instance returned by the GitLab API on login, otherwise returns null.
      *
      * @return the Session instance
@@ -50,42 +91,83 @@ public class GitLabApi {
     }
 
     /**
-     * Constructs a GitLabApi instance set up to interact with the GitLab server
-     * specified by hostUrl.
+     * Constructs a GitLabApi instance set up to interact with the GitLab server using the specified GitLab API version.
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL of the GitLab server
+     * @param privateToken to private token to use for access to the API
+     */
+    public GitLabApi(ApiVersion apiVersion, String hostUrl, String privateToken) {
+        this(apiVersion, hostUrl, privateToken, null);
+    }
+
+    /**
+     * Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
      * 
      * @param hostUrl the URL of the GitLab server
      * @param privateToken to private token to use for access to the API
      */
     public GitLabApi(String hostUrl, String privateToken) {
-        this(hostUrl, privateToken, null);
+        this(ApiVersion.V4, hostUrl, privateToken, null);
     }
 
     /**
-     * Constructs a GitLabApi instance set up to interact with the GitLab server
-     * specified by hostUrl.
+     * Constructs a GitLabApi instance set up to interact with the GitLab server using the specified GitLab API version.
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL of the GitLab server
+     * @param session the Session instance obtained by logining into the GitLab server
+     */
+    public GitLabApi(ApiVersion apiVersion, String hostUrl, Session session) {
+        this(apiVersion, hostUrl, session.getPrivateToken(), null);
+        this.session = session;
+    }
+
+    /**
+     * Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
      * 
      * @param hostUrl the URL of the GitLab server
      * @param session the Session instance obtained by logining into the GitLab server
      */
     public GitLabApi(String hostUrl, Session session) {
-        this(hostUrl, session.getPrivateToken(), null);
-        this.session = session;
+        this(ApiVersion.V4, hostUrl, session);
     }
 
     /**
-     * Constructs a GitLabApi instance set up to interact with the GitLab server
-     * specified by hostUrl.
+     * Constructs a GitLabApi instance set up to interact with the GitLab server using the specified GitLab API version.
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL of the GitLab server
+     * @param privateToken to private token to use for access to the API
+     * @param secretToken use this token to validate received payloads
+     */
+    public GitLabApi(ApiVersion apiVersion, String hostUrl, String privateToken, String secretToken) {
+        this(apiVersion, hostUrl, privateToken, secretToken, null);
+    }
+
+    /**
+     * Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
      * 
      * @param hostUrl the URL of the GitLab server
      * @param privateToken to private token to use for access to the API
      * @param secretToken use this token to validate received payloads
      */
     public GitLabApi(String hostUrl, String privateToken, String secretToken) {
-        this(hostUrl, privateToken, secretToken, null);
+        this(ApiVersion.V4, hostUrl, privateToken, secretToken);
     }
 
-    public GitLabApi(String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
-        apiClient = new GitLabApiClient(hostUrl, privateToken, secretToken, clientConfigProperties);
+    /**
+     *  Constructs a GitLabApi instance set up to interact with the GitLab server specified by GitLab API version.
+     *  
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL of the GitLab server
+     * @param privateToken to private token to use for access to the API
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+     */
+    public GitLabApi(ApiVersion apiVersion, String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
+        this.apiVersion = apiVersion;
+        apiClient = new GitLabApiClient(apiVersion, hostUrl, privateToken, secretToken, clientConfigProperties);
         commitsApi = new CommitsApi(this);
         groupApi = new GroupApi(this);
         mergeRequestApi = new MergeRequestApi(this);
@@ -96,6 +178,27 @@ public class GitLabApi {
         sessoinApi = new SessionApi(this);
         userApi = new UserApi(this);
         repositoryFileApi = new RepositoryFileApi(this);
+    }
+
+    /**
+     *  Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
+     *
+     * @param hostUrl the URL of the GitLab server
+     * @param privateToken to private token to use for access to the API
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+     */
+    public GitLabApi(String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
+        this(ApiVersion.V4, hostUrl, privateToken, secretToken, clientConfigProperties);
+    }
+
+    /**
+     * Return the GitLab API version that this instance is using.
+     * 
+     * @return the GitLab API version that this instance is using
+     */
+    public ApiVersion getApiVersion() {
+        return (apiVersion);
     }
 
     /**

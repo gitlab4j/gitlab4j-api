@@ -4,7 +4,11 @@ import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * This class is the base class for all the sub API classes. It provides implementations of
@@ -18,8 +22,24 @@ public abstract class AbstractApi {
         this.gitLabApi = gitLabApi;
     }
 
+    protected ApiVersion getApiVersion() {
+        return (gitLabApi.getApiVersion());
+    }
+
+    protected boolean isApiVersion(ApiVersion apiVersion) {
+        return (gitLabApi.getApiVersion() == apiVersion);
+    }
+
     protected GitLabApiClient getApiClient() {
         return (gitLabApi.getApiClient());
+    }
+
+    protected String urlEncode(String s) throws GitLabApiException {
+        try {
+            return (URLEncoder.encode(s, "UTF-8"));
+        } catch (Exception e) {
+            throw new GitLabApiException(e);
+        }
     }
 
     /**

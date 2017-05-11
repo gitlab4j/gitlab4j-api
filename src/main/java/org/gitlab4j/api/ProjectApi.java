@@ -1,18 +1,21 @@
 package org.gitlab4j.api;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
+import org.gitlab4j.api.models.Visibility;
 import org.glassfish.jersey.uri.UriComponent;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
 
 /**
  * This class provides an entry point to all the GitLab API project calls.
@@ -33,6 +36,21 @@ public class ProjectApi extends AbstractApi {
      */
     public List<Project> getProjects() throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {
+        }));
+    }
+
+    /**
+     * Get a list of projects that the authenticated user is a member of.
+     *
+     * GET /projects
+     * 
+     * @return a list of projects that the authenticated user is a member of
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getMemberProjects() throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("membership", true);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects");
         return (response.readEntity(new GenericType<List<Project>>() {
         }));
     }
@@ -60,6 +78,7 @@ public class ProjectApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getOwnedProjects() throws GitLabApiException {
+
         Form formData = new GitLabApiForm().withParam("owned", true);
         Response response = get(Response.Status.OK, formData.asMap(), "projects");
         return (response.readEntity(new GenericType<List<Project>>() {
@@ -164,7 +183,7 @@ public class ProjectApi extends AbstractApi {
      * path (name or path are required) - new project path
      * defaultBranch (optional) - master by default
      * description (optional) - short project description
-     * public (optional) - if true same as setting visibility_level = 20
+     * visibility (optional) - Limit by visibility public, internal, or private
      * visibilityLevel (optional)
      * issuesEnabled (optional) - Enable issues for this project
      * mergeRequestsEnabled (optional) - Enable merge requests for this project
@@ -212,7 +231,6 @@ public class ProjectApi extends AbstractApi {
             .withParam("snippets_enabled", project.getSnippetsEnabled())
             .withParam("shared_runners_enabled", project.getSharedRunnersEnabled())
             .withParam("public_jobs", project.getPublicJobs())
-            .withParam("public", project.getPublic())
             .withParam("visibility_level", project.getVisibilityLevel())
             .withParam("only_allow_merge_if_pipeline_succeeds", project.getOnlyAllowMergeIfPipelineSucceeds())
             .withParam("only_allow_merge_if_all_discussions_are_resolved", project.getOnlyAllowMergeIfAllDiscussionsAreResolved())
@@ -221,10 +239,64 @@ public class ProjectApi extends AbstractApi {
             .withParam("repository_storage", project.getRepositoryStorage())
             .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
             .withParam("import_url", importUrl);
-        
+
+        if (isApiVersion(ApiVersion.V3)) {
+            boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
+            formData.withParam("public", isPublic);
+        } else {
+            Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
+                project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
+            formData.withParam("visibility", visibility);
+        }
+
         if (project.getNamespace() != null) {
             formData.withParam("namespace_id", project.getNamespace().getId());
         }
+
+        Response response = post(Response.Status.CREATED, formData, "projects");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Creates a Project
+     *
+     * @param name The name of the project
+     * @param namespaceId The Namespace for the new project, otherwise null indicates to use the GitLab default (user)
+     * @param description A description for the project, null otherwise
+     * @param issuesEnabled Whether Issues should be enabled, otherwise null indicates to use GitLab default
+     * @param mergeRequestsEnabled Whether Merge Requests should be enabled, otherwise null indicates to use GitLab default
+     * @param wikiEnabled Whether a Wiki should be enabled, otherwise null indicates to use GitLab default
+     * @param snippetsEnabled Whether Snippets should be enabled, otherwise null indicates to use GitLab default
+     * @param visibility The visibility of the project, otherwise null indicates to use GitLab default
+     * @param visibilityLevel The visibility level of the project, otherwise null indicates to use GitLab default
+     * @param importUrl The Import URL for the project, otherwise null
+     * @return the GitLab Project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project createProject(String name, Integer namespaceId, String description, Boolean issuesEnabled, Boolean mergeRequestsEnabled,
+            Boolean wikiEnabled, Boolean snippetsEnabled, Visibility visibility, Integer visibilityLevel, String importUrl) throws GitLabApiException {
+
+        if (isApiVersion(ApiVersion.V3)) {
+            Boolean isPublic = Visibility.PUBLIC == visibility;
+            return (createProject(name, namespaceId, description, issuesEnabled, mergeRequestsEnabled,
+                    wikiEnabled, snippetsEnabled, isPublic, visibilityLevel, importUrl));
+        }
+
+        if (name == null || name.trim().length() == 0) {
+            return (null);
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("namespace_id", namespaceId)
+                .withParam("description", description)
+                .withParam("issues_enabled", issuesEnabled)
+                .withParam("merge_requests_enabled", mergeRequestsEnabled)
+                .withParam("wiki_enabled", wikiEnabled)
+                .withParam("snippets_enabled", snippetsEnabled)
+                .withParam("visibility_level", visibilityLevel)
+                .withParam("visibility", visibility)
+                .withParam("import_url", importUrl);
 
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
@@ -245,7 +317,10 @@ public class ProjectApi extends AbstractApi {
      * @param importUrl The Import URL for the project, otherwise null
      * @return the GitLab Project
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  As of release 4.2.0, replaced by {@link #createProject(String, Integer, String, Boolean, Boolean,
+     *      Boolean, Boolean, Visibility, Integer, String)}
      */
+    @Deprecated
     public Project createProject(String name, Integer namespaceId, String description, Boolean issuesEnabled, Boolean mergeRequestsEnabled,
             Boolean wikiEnabled, Boolean snippetsEnabled, Boolean isPublic, Integer visibilityLevel, String importUrl) throws GitLabApiException {
 
@@ -261,9 +336,14 @@ public class ProjectApi extends AbstractApi {
                 .withParam("merge_requests_enabled", mergeRequestsEnabled)
                 .withParam("wiki_enabled", wikiEnabled)
                 .withParam("snippets_enabled", snippetsEnabled)
-                .withParam("public", isPublic)
                 .withParam("visibility_level", visibilityLevel)
                 .withParam("import_url", importUrl);
+
+        if (isApiVersion(ApiVersion.V3)) {
+            formData.withParam("public", isPublic);
+        } else if (isPublic) {
+            formData.withParam("visibility", Visibility.PUBLIC);
+        }
 
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
@@ -283,7 +363,8 @@ public class ProjectApi extends AbstractApi {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        delete(Response.Status.OK, null, "projects", projectId);
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.ACCEPTED);
+        delete(expectedStatus, null, "projects", projectId);
     }
 
     /**

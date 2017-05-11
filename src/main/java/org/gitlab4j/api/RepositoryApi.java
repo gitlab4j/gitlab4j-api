@@ -11,6 +11,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
@@ -69,7 +70,7 @@ public class RepositoryApi extends AbstractApi {
     public Branch createBranch(Integer projectId, String branchName, String ref) throws GitLabApiException {
 
         Form formData = new GitLabApiForm()
-                .withParam("branch_name", branchName, true)
+                .withParam(isApiVersion(ApiVersion.V3) ? "branch_name" : "branch", branchName, true)
                 .withParam("ref", ref, true);
         Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "branches");
         return (response.readEntity(Branch.class));
@@ -87,7 +88,8 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteBranch(Integer projectId, String branchName) throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName);
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "projects", projectId, "repository", "branches", urlEncode(branchName));
     }
 
     /**

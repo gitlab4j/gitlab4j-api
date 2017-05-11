@@ -3,6 +3,7 @@ package org.gitlab4j.api;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.RepositoryFile;
 
 /**
@@ -27,6 +28,31 @@ public class RepositoryFileApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public RepositoryFile getFile(String filePath, Integer projectId, String ref) throws GitLabApiException {
+
+        if (isApiVersion(ApiVersion.V3)) {
+            return (getFileV3(filePath, projectId, ref));
+        }
+
+        Form form = new Form();
+        addFormParam(form, "ref", ref, true);
+        Response response = get(Response.Status.OK, form.asMap(),
+                "projects", projectId, "repository", "files", urlEncode(filePath));
+        return (response.readEntity(RepositoryFile.class));
+    }
+
+    /**
+     * Get file from repository. Allows you to receive information about file in repository like name, size, content.
+     * Note that file content is Base64 encoded.
+     *
+     * GET /projects/:id/repository/files
+     *
+     * @param filePath (required) - Full path to new file. Ex. lib/class.rb
+     * @param projectId (required) - the project ID
+     * @param ref (required) - The name of branch, tag or commit
+     * @return a RepositoryFile instance with the file info
+     * @throws GitLabApiException if any exception occurs
+     */
+    protected RepositoryFile getFileV3(String filePath, Integer projectId, String ref) throws GitLabApiException {
         Form form = new Form();
         addFormParam(form, "file_path", filePath, true);
         addFormParam(form, "ref", ref, true);
@@ -105,7 +131,7 @@ public class RepositoryFileApi extends AbstractApi {
 
         Form form = new Form();
         addFormParam(form, "file_path", filePath, true);
-        addFormParam(form, "branch_name", branchName, true);
+        addFormParam(form, isApiVersion(ApiVersion.V3) ? "branch_name" : "branch", branchName, true);
         addFormParam(form, "commit_message", commitMessage, true);
         delete(Response.Status.OK, form.asMap(), "projects", projectId, "repository", "files");
     }
@@ -113,7 +139,7 @@ public class RepositoryFileApi extends AbstractApi {
     private Form file2form(RepositoryFile file, String branchName, String commitMessage) {
         Form form = new Form();
         addFormParam(form, "file_path", file.getFilePath(), true);
-        addFormParam(form, "branch_name", branchName, true);
+        addFormParam(form, isApiVersion(ApiVersion.V3) ? "branch_name" : "branch", branchName, true);
         addFormParam(form, "encoding", file.getEncoding(), false);
         addFormParam(form, "content", file.getContent(), true);
         addFormParam(form, "commit_message", commitMessage, true);
