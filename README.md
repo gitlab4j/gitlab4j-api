@@ -39,6 +39,12 @@ GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVA
 List<Project> projects = gitLabApi.getProjectApi().getProjects();
 ```
 
+As of GitLab4J-API 4.2.0 support been added for GitLab API V4. If your application requires GitLab API V3 you can still use GitLab4J-API by creating your GitLabApi instance as follows:
+```java
+// Create a GitLabApi instance to communicate with your GitLab server using GitLab API V3
+GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
+```
+
 The API has been broken up into sub APIs classes to make it easier to learn and to separate concerns.  Following is a list of the sub APIs along with a sample use of each API.  See the Javadocs for a complete list of available methods for each sub API.
 
 Available Sub APIs
