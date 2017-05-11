@@ -77,7 +77,7 @@ public class TestGitLabSession {
     @Test
     public void testSession() throws GitLabApiException {
 
-        GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V3, TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD);
+        GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V4, TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD);
         assertNotNull(gitLabApi);
         assertNotNull(gitLabApi.getSession());
         assertEquals(TEST_PRIVATE_TOKEN, gitLabApi.getSession().getPrivateToken());
