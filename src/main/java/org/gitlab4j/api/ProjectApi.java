@@ -682,7 +682,7 @@ public class ProjectApi extends AbstractApi {
     }
 
     /**
-     * Get a list of project's issues.
+     * Get a list of project's issues. Only returns the first page
      *
      * GET /projects/:id/issues
      *
@@ -692,6 +692,26 @@ public class ProjectApi extends AbstractApi {
      */
     public List<Issue> getIssues(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "issues");
+        return (response.readEntity(new GenericType<List<Issue>>() {
+        }));
+    }
+
+    /**
+     * Get a list of project's issues using the specified page and per page settings.
+     *
+     * GET /projects/:id/issues
+     *
+     * @param page the page to get
+     * @param perPage the number of issues per page
+     * @return the list of issues in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Issue> getIssues(Integer projectId, int page, int perPage) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("page", page, false)
+                .withParam("per_page", perPage, false);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "issues");
         return (response.readEntity(new GenericType<List<Issue>>() {
         }));
     }
