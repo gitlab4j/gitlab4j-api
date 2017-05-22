@@ -10,6 +10,8 @@ import org.gitlab4j.api.models.Session;
  */
 public class GitLabApi {
 
+    public static final int DEFAULT_PER_PAGE = 9999;
+
     public enum ApiVersion {
         V3, V4;
 
@@ -20,6 +22,7 @@ public class GitLabApi {
 
     GitLabApiClient apiClient;
     private ApiVersion apiVersion;
+    private int defaultPerPage = DEFAULT_PER_PAGE;
     private CommitsApi commitsApi;
     private GroupApi groupApi;
     private MergeRequestApi mergeRequestApi;
@@ -199,6 +202,24 @@ public class GitLabApi {
      */
     public ApiVersion getApiVersion() {
         return (apiVersion);
+    }
+
+    /**
+     * Get the default number per page for calls that return multiple items.
+     *
+     * @return the default number per page for calls that return multiple item
+     */
+    public int getDefaultPerPage() {
+        return (defaultPerPage);
+    }
+
+    /**
+     * Set the default number per page for calls that return multiple items.
+     *
+     * @param defaultPerPage the new default number per page for calls that return multiple item
+     */
+    public void setDefaultPerPage(int defaultPerPage) {
+        this.defaultPerPage = defaultPerPage;
     }
 
     /**

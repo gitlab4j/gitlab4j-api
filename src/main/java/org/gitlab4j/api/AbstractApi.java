@@ -30,6 +30,10 @@ public abstract class AbstractApi {
         return (gitLabApi.getApiVersion() == apiVersion);
     }
 
+    protected int getDefaultPerPage() {
+        return (gitLabApi.getDefaultPerPage());
+    }
+
     protected GitLabApiClient getApiClient() {
         return (gitLabApi.getApiClient());
     }

@@ -15,7 +15,6 @@ import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.Visibility;
-import org.glassfish.jersey.uri.UriComponent;
 
 /**
  * This class provides an entry point to all the GitLab API project calls.
@@ -24,7 +23,7 @@ public class ProjectApi extends AbstractApi {
 
     public ProjectApi(GitLabApi gitLabApi) {
         super(gitLabApi);
-    }
+    } 
 
     /**
      * Get a list of projects accessible by the authenticated user.
@@ -35,7 +34,66 @@ public class ProjectApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getProjects() throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects");
+        Form formData = new GitLabApiForm().withParam("per_page", getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {
+        }));
+    }
+
+    /**
+     * Get a list of projects accessible by the authenticated user and matching the supplied filter parameters.
+     * All filter parameters are optional.
+     *
+     * GET /projects
+     *
+     * @param archived limit by archived status
+     * @param visibility limit by visibility public, internal, or private
+     * @param orderBy return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields, default is created_at
+     * @param sort return projects sorted in asc or desc order. Default is desc
+     * @param search return list of projects matching the search criteria
+     * @param simple return only the ID, URL, name, and path of each project
+     * @param owned limit by projects owned by the current user
+     * @param membership limit by projects that the current user is a member of
+     * @param starred limit by projects starred by the current user
+     * @param statistics include project statistics
+     * @return a list of projects accessible by the authenticated user and matching the supplied parameters
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getProjects(Boolean archived, Visibility visibility, String orderBy,
+            String sort, String search, Boolean simple, Boolean owned, Boolean membership,
+            Boolean starred, Boolean statistics) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("archived", archived)
+                .withParam("visibility", visibility)
+                .withParam("order_by", orderBy)
+                .withParam("sort", sort)
+                .withParam("search", search)
+                .withParam("simple", simple)
+                .withParam("owned", owned)
+                .withParam("membership", membership)
+                .withParam("starred", starred)
+                .withParam("statistics", statistics)
+                .withParam("per_page", getDefaultPerPage());
+
+        Response response = get(Response.Status.OK, formData.asMap(), "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {
+        }));
+    }
+
+    /**
+     * Get a list of projects accessible by the authenticated user that match the provided search string.
+     *
+     * GET /projects?search=search
+     *
+     * @param search the project name search criteria
+     * @return a list of projects accessible by the authenticated user that match the provided search string
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getProjects(String search) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm().withParam("search", search).withParam("per_page", getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects");
         return (response.readEntity(new GenericType<List<Project>>() {
         }));
     }
@@ -49,7 +107,7 @@ public class ProjectApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getMemberProjects() throws GitLabApiException {
-        Form formData = new GitLabApiForm().withParam("membership", true);
+        Form formData = new GitLabApiForm().withParam("membership", true).withParam("per_page", getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "projects");
         return (response.readEntity(new GenericType<List<Project>>() {
         }));
@@ -62,24 +120,47 @@ public class ProjectApi extends AbstractApi {
      * 
      * @return a list of all GitLab projects
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed, no longer supported by the GitLab API
      */
     public List<Project> getAllProjects() throws GitLabApiException {
-        Response response = get(Response.Status.OK, UriComponent.decodeQuery("per_page=9999", true), "projects", "all");
+
+        if (!isApiVersion(ApiVersion.V3)) {
+            throw new GitLabApiException("Not supported by GitLab API version " + this.getApiVersion());
+        }
+
+        Form formData = new GitLabApiForm().withParam("per_page", getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", "all");
         return (response.readEntity(new GenericType<List<Project>>() {
         }));
     }
 
     /**
      * Get a list of projects owned by the authenticated user.
-     * 
-     * GET /projects/owned
-     * 
+     *
+     * GET /projects
+     *
      * @return a list of projects owned by the authenticated user
      * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getOwnedProjects() throws GitLabApiException {
 
-        Form formData = new GitLabApiForm().withParam("owned", true);
+        Form formData = new GitLabApiForm().withParam("owned", true).withParam("per_page", getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {
+        }));
+    }
+
+    /**
+     * Get a list of projects starred by the authenticated user.
+     * 
+     * GET /projects
+     * 
+     * @return a list of projects starred by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getStarredProjects() throws GitLabApiException {
+
+        Form formData = new GitLabApiForm().withParam("starred", true).withParam("per_page", getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "projects");
         return (response.readEntity(new GenericType<List<Project>>() {
         }));
@@ -691,7 +772,8 @@ public class ProjectApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Issue> getIssues(Integer projectId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", projectId, "issues");
+        Form formData = new GitLabApiForm().withParam("per_page", getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "issues");
         return (response.readEntity(new GenericType<List<Issue>>() {
         }));
     }

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
+import java.util.List;
+
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Visibility;
@@ -127,13 +129,37 @@ public class TestProjectApi {
     }
 
     @Test
-    public void testDelete() throws GitLabApiException {
+    public void testListProjects() throws GitLabApiException {
+
+        List<Project> projects = gitLabApi.getProjectApi().getProjects();
+        assertNotNull(projects);
+        assertTrue(projects.size() >= 2);
+
+        int matchCount = 0;
+        for (Project project : projects) {
+            if (TEST_PROJECT_NAME.equals(project.getName()))
+                matchCount++;
+            else if (TEST_PROJECT_NAME_2.equals(project.getName()))
+                matchCount++;
+        }
+
+        assertEquals(2, matchCount);
+
+        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME);
+        assertNotNull(projects);
+        assertEquals(2, projects.size());
+        assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
+        assertEquals(TEST_PROJECT_NAME, projects.get(1).getName());
+    }
+
+    @Test
+    public void testRemoveByDelete() throws GitLabApiException {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         gitLabApi.getProjectApi().deleteProject(project);
     }
 
     @Test
-    public void testParameterBasedCreate() throws GitLabApiException {
+    public void testCreateParameterBased() throws GitLabApiException {
 
         Project newProject = gitLabApi.getProjectApi().createProject(
                 TEST_PROJECT_NAME_2, null, "GitLab4J test project.", true, true, true, true, Visibility.PUBLIC, null, null);
@@ -145,10 +171,12 @@ public class TestProjectApi {
         assertEquals(true, newProject.getWikiEnabled());
         assertEquals(true, newProject.getSnippetsEnabled());
         assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
-
-        try {
-            gitLabApi.getProjectApi().deleteProject(newProject);
-        } catch (Exception ignore) {
-        }
     }
+
+    @Test
+    public void testRemoveByDeleteParameterBased() throws GitLabApiException {
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
+        gitLabApi.getProjectApi().deleteProject(project);
+    }
+
 }
