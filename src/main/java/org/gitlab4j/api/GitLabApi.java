@@ -27,7 +27,7 @@ public class GitLabApi {
     private GroupApi groupApi;
     private MergeRequestApi mergeRequestApi;
     private NamespaceApi namespaceApi;
-	private PipelineApi pipelineApi;
+    private PipelineApi pipelineApi;
     private ProjectApi projectApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
