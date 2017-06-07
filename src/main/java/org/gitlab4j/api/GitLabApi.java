@@ -27,6 +27,7 @@ public class GitLabApi {
     private GroupApi groupApi;
     private MergeRequestApi mergeRequestApi;
     private NamespaceApi namespaceApi;
+	private PipelineApi pipelineApi;
     private ProjectApi projectApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
@@ -175,6 +176,7 @@ public class GitLabApi {
         groupApi = new GroupApi(this);
         mergeRequestApi = new MergeRequestApi(this);
         setNamespaceApi(new NamespaceApi(this));
+        pipelineApi = new PipelineApi(this);
         projectApi = new ProjectApi(this);
         repositoryApi = new RepositoryApi(this);
         servicesApi = new ServicesApi(this);
@@ -277,13 +279,23 @@ public class GitLabApi {
     }
 
     /**
+     * Gets the PipelineApi instance owned by this GitLabApi instance. The PipelineApi is used
+     * to perform all pipeline related API calls.
+     * 
+     * @return the PipelineApi instance owned by this GitLabApi instance
+     */
+    public PipelineApi getPipelineApi() {
+        return (pipelineApi);
+    }
+    
+    /**
      * Gets the ProjectApi instance owned by this GitLabApi instance. The ProjectApi is used
      * to perform all project related API calls.
      * 
      * @return the ProjectApi instance owned by this GitLabApi instance
      */
     public ProjectApi getProjectApi() {
-        return (projectApi);
+    	return (projectApi);
     }
 
     /**
