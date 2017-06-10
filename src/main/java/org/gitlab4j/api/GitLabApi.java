@@ -175,7 +175,7 @@ public class GitLabApi {
         commitsApi = new CommitsApi(this);
         groupApi = new GroupApi(this);
         mergeRequestApi = new MergeRequestApi(this);
-        setNamespaceApi(new NamespaceApi(this));
+        namespaceApi = new NamespaceApi(this);
         pipelineApi = new PipelineApi(this);
         projectApi = new ProjectApi(this);
         repositoryApi = new RepositoryApi(this);
