@@ -15,6 +15,7 @@ public class Pipeline {
     private String ref;
     private String sha;
     private String beforeSha;
+    private Boolean tag;
     private String yamlErrors;
     private User user;
     private Date createdAt;
@@ -24,116 +25,124 @@ public class Pipeline {
     private Date committed_at;
     private String coverage;
     private Integer duration;
-    
-	public Integer getId() {
-		return id;
-	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public String getRef() {
-		return ref;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public void setRef(String ref) {
-		this.ref = ref;
-	}
+    public String getRef() {
+        return ref;
+    }
 
-	public String getSha() {
-		return sha;
-	}
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
 
-	public void setSha(String sha) {
-		this.sha = sha;
-	}
+    public String getSha() {
+        return sha;
+    }
 
-	public String getBeforeSha() {
-		return beforeSha;
-	}
+    public void setSha(String sha) {
+        this.sha = sha;
+    }
 
-	public void setBeforeSha(String beforeSha) {
-		this.beforeSha = beforeSha;
-	}
+    public String getBeforeSha() {
+        return beforeSha;
+    }
 
-	public String getYamlErrors() {
-		return yamlErrors;
-	}
+    public void setBeforeSha(String beforeSha) {
+        this.beforeSha = beforeSha;
+    }
 
-	public void setYamlErrors(String yamlErrors) {
-		this.yamlErrors = yamlErrors;
-	}
+    public Boolean getTag() {
+        return tag;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setTag(Boolean tag) {
+        this.tag = tag;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public String getYamlErrors() {
+        return yamlErrors;
+    }
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+    public void setYamlErrors(String yamlErrors) {
+        this.yamlErrors = yamlErrors;
+    }
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public Date getUpdated_at() {
-		return updated_at;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
-	}
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public Date getStarted_at() {
-		return started_at;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setStarted_at(Date started_at) {
-		this.started_at = started_at;
-	}
+    public Date getUpdated_at() {
+        return updated_at;
+    }
 
-	public Date getFinished_at() {
-		return finished_at;
-	}
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
+    }
 
-	public void setFinished_at(Date finished_at) {
-		this.finished_at = finished_at;
-	}
+    public Date getStarted_at() {
+        return started_at;
+    }
 
-	public Date getCommitted_at() {
-		return committed_at;
-	}
+    public void setStarted_at(Date started_at) {
+        this.started_at = started_at;
+    }
 
-	public void setCommitted_at(Date committed_at) {
-		this.committed_at = committed_at;
-	}
+    public Date getFinished_at() {
+        return finished_at;
+    }
 
-	public String getCoverage() {
-		return coverage;
-	}
+    public void setFinished_at(Date finished_at) {
+        this.finished_at = finished_at;
+    }
 
-	public void setCoverage(String coverage) {
-		this.coverage = coverage;
-	}
+    public Date getCommitted_at() {
+        return committed_at;
+    }
 
-	public Integer getDuration() {
-		return duration;
-	}
+    public void setCommitted_at(Date committed_at) {
+        this.committed_at = committed_at;
+    }
 
-	public void setDuration(Integer duration) {
-		this.duration = duration;
-	}
+    public String getCoverage() {
+        return coverage;
+    }
+
+    public void setCoverage(String coverage) {
+        this.coverage = coverage;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
 }
