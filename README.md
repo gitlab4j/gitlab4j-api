@@ -54,6 +54,7 @@ CommitsApi
 GroupApi
 MergeRequestApi
 NamespaceApi
+PipelineApi
 ProjectApi
 RepositoryApi
 RepositoryFileApi
@@ -77,13 +78,19 @@ List<Group> groups = gitLabApi.getGroupApi().getGroups();
 MergeRequestApi:
 ```java
 // Get a list of the merge requests for the specified project
- List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(1234);
+List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(1234);
 ```
  
 NamespaceApi:
 ```java
 // Get all namespaces that match "foobar" in their name or path
- List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces("foobar");
+List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces("foobar");
+```
+
+PipelineApi:
+```java
+// Get all pipelines for the specified project ID
+List<Pipeline> pipelines = gitLabApi.getPipelineApi().getPipelines(1234);
 ```
 
 ProjectApi:
