@@ -783,6 +783,7 @@ public class ProjectApi extends AbstractApi {
      *
      * GET /projects/:id/issues
      *
+     * @param projectId the project ID to get the issues for
      * @param page the page to get
      * @param perPage the number of issues per page
      * @return the list of issues in the specified range
