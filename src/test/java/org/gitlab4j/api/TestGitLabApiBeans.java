@@ -18,6 +18,7 @@ import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Note;
+import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectSnippet;
@@ -116,6 +117,17 @@ public class TestGitLabApiBeans {
         try {
             Issue issue = makeFakeApiCall(Issue.class, "issue");
             assertTrue(compareJson(issue, "issue"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testPipeline() {
+
+        try {
+            Pipeline pipeline = makeFakeApiCall(Pipeline.class, "pipeline");
+            assertTrue(compareJson(pipeline, "pipeline"));
         } catch (Exception e) {
             e.printStackTrace();
         }
