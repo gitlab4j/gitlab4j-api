@@ -1,76 +1,20 @@
 package org.gitlab4j.api;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.GitLabApiConstants.PipelineOrderBy;
+import org.gitlab4j.api.GitLabApiConstants.PipelineScope;
+import org.gitlab4j.api.GitLabApiConstants.SortOrder;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineStatus;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * This class provides an entry point to all the GitLab API pipeline calls.
  */
-public class PipelineApi extends AbstractApi {
-
-    /** Enum to use for specifying the scope when calling getPipelines(). */
-    public enum Scope {
-
-        RUNNING, PENDING, FINISHED, BRANCHES, TAGS;
-
-        private static Map<String, Scope> valuesMap = new HashMap<>(5);
-        static {
-            for (Scope scope : Scope.values())
-                valuesMap.put(scope.toValue(), scope);
-        }
-
-        @JsonCreator
-        public static Scope forValue(String value) {
-            return valuesMap.get(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (name().toLowerCase());
-        }
-
-        @Override
-        public String toString() {
-            return (name().toLowerCase());
-        }
-    }
-
-    /** Enum to use for ordering the results of getPipelines(). */
-    public enum OrderBy {
-
-        ID, STATUS, REF, USER_ID;
-
-        private static Map<String, OrderBy> valuesMap = new HashMap<>(4);
-        static {
-            for (OrderBy orderBy : OrderBy.values())
-                valuesMap.put(orderBy.toValue(), orderBy);
-        }
-
-        @JsonCreator
-        public static OrderBy forValue(String value) {
-            return valuesMap.get(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (name().toLowerCase());
-        }
-
-        @Override
-        public String toString() {
-            return (name().toLowerCase());
-        }
-    }
+public class PipelineApi extends AbstractApi implements GitLabApiConstants {
 
     public PipelineApi(GitLabApi gitLabApi) {
         super(gitLabApi);
@@ -104,12 +48,12 @@ public class PipelineApi extends AbstractApi {
      * @param name the name of the user who triggered pipelines
      * @param username the username of the user who triggered pipelines
      * @param orderBy order pipelines by ID, STATUS, REF, USER_ID (default: ID)
-     * @param sort sort pipelines in "ASC" or "DESC" order (default: "DESC")
+     * @param sort sort pipelines in ASC or DESC order (default: DESC)
      * @return a list containing the pipelines for the specified project ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Pipeline> getPipelines(int projectId, Scope scope, PipelineStatus status, String ref, boolean yamlErrors, 
-            String name, String username, OrderBy orderBy, String sort) throws GitLabApiException {
+    public List<Pipeline> getPipelines(int projectId, PipelineScope scope, PipelineStatus status, String ref, boolean yamlErrors, 
+            String name, String username, PipelineOrderBy orderBy, SortOrder sort) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("scope", scope)
                 .withParam("status", status)
@@ -118,7 +62,7 @@ public class PipelineApi extends AbstractApi {
                 .withParam("name", name)
                 .withParam("username", username)
                 .withParam("order_by", orderBy)
-                .withParam("sort", (sort != null ? sort.toLowerCase() : null));
+                .withParam("sort", sort);
 
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "pipelines");
         return (response.readEntity(new GenericType<List<Pipeline>>() {
