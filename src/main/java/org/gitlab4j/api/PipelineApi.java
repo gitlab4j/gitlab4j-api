@@ -5,16 +5,16 @@ import java.util.List;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApiConstants.PipelineOrderBy;
-import org.gitlab4j.api.GitLabApiConstants.PipelineScope;
-import org.gitlab4j.api.GitLabApiConstants.SortOrder;
+import org.gitlab4j.api.Constants.PipelineOrderBy;
+import org.gitlab4j.api.Constants.PipelineScope;
+import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineStatus;
 
 /**
  * This class provides an entry point to all the GitLab API pipeline calls.
  */
-public class PipelineApi extends AbstractApi implements GitLabApiConstants {
+public class PipelineApi extends AbstractApi implements Constants {
 
     public PipelineApi(GitLabApi gitLabApi) {
         super(gitLabApi);

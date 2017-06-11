@@ -8,8 +8,8 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApiConstants.ProjectOrderBy;
-import org.gitlab4j.api.GitLabApiConstants.SortOrder;
+import org.gitlab4j.api.Constants.ProjectOrderBy;
+import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Issue;
@@ -21,7 +21,7 @@ import org.gitlab4j.api.models.Visibility;
 /**
  * This class provides an entry point to all the GitLab API project calls.
  */
-public class ProjectApi extends AbstractApi {
+public class ProjectApi extends AbstractApi implements Constants {
 
     public ProjectApi(GitLabApi gitLabApi) {
         super(gitLabApi);
@@ -61,7 +61,7 @@ public class ProjectApi extends AbstractApi {
      * @return a list of projects accessible by the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      * @deprecated  Will be removed in version 5.0, replaced by {@link #getProjects(Boolean, Visibility, 
-     *      ProjectOrderBy, SortOrder, String, Boolean, Boolean, Boolean, Boolean, Boolean)}
+     *      Constants.ProjectOrderBy, Constants.SortOrder, String, Boolean, Boolean, Boolean, Boolean, Boolean)}
      */
     public List<Project> getProjects(Boolean archived, Visibility visibility, String orderBy,
             String sort, String search, Boolean simple, Boolean owned, Boolean membership,

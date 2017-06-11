@@ -5,7 +5,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public interface GitLabApiConstants {
+public interface Constants {
 
     /** Enum to use for ordering the results of various API calls. */
     public enum SortOrder {
