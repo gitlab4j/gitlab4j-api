@@ -1,12 +1,12 @@
 package org.gitlab4j.api;
 
+import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Member;
+import org.gitlab4j.api.models.Project;
+
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.models.Group;
-import org.gitlab4j.api.models.Member;
-
 import java.util.List;
 
 /**
@@ -138,5 +138,20 @@ public class GroupApi extends AbstractApi {
      */
     public void removeMember(Integer projectId, Integer userId) throws GitLabApiException {
         delete(Response.Status.OK, null, "groups", projectId, "members", userId);
+    }
+
+    /**
+     * Get a list of projects viewable by the authenticated user.
+     *
+     * GET /groups/:id/projects
+     *
+     * @param groupId the group ID to list the members for
+     * @return a list of projects viewable by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getProjects(int groupId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "groups", groupId, "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {
+        }));
     }
 }
