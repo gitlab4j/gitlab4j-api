@@ -4,7 +4,6 @@ package org.gitlab4j.api.models;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -14,7 +13,6 @@ public class Group {
     private String name;
     private Integer parentId;
     private String path;
-    private List<Project> projects;
     private String description;
     private String visibility;
     private String fullName;
@@ -52,14 +50,6 @@ public class Group {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public List<Project> getProjects() {
-        return (projects);
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
     }
 
     public String getDescription() {
