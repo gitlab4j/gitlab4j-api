@@ -2,6 +2,12 @@
     "id": 1,
     "name": "Foobar Group",
     "path": "foo-bar",
-    "owner_id": 18
+    "parent_id": 18,
+    "description": "desc",
+    "visibility": "vis",
+    "full_name": "full-name",
+    "full_path": "full-path",
+    "lfs_enabled": true,
+    "request_access_enabled": false
 }
 
