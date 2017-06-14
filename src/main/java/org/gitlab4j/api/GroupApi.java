@@ -130,6 +130,7 @@ public class GroupApi extends AbstractApi {
      * @param requestAccessEnabled (optional) - Allow users to request member access.
      * @param parentId (optional) - The parent group id for creating nested group.
      * @param sharedRunnersMinutesLimit (optional) - (admin-only) Pipeline minutes quota for this group
+     * @return the updated Group instance
      * @throws GitLabApiException if any exception occurs
      */
     public Group updateGroup(Integer groupId, String name, String path, String description, Boolean membershipLock,
