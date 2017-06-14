@@ -8,8 +8,6 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.Constants.ProjectOrderBy;
-import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Issue;
