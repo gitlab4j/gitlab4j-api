@@ -3,6 +3,7 @@ package org.gitlab4j.api;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
 
 /**
@@ -55,7 +56,8 @@ public class ServicesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteGitLabCI(Integer projectId) throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", projectId, "services", "gitlab-ci");
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "projects", projectId, "services", "gitlab-ci");
     }
 
     /**
@@ -110,7 +112,8 @@ public class ServicesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteHipChat(Integer projectId) throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", projectId, "services", "hipchat");
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "projects", projectId, "services", "hipchat");
     }
 
     /**

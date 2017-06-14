@@ -133,7 +133,8 @@ public class RepositoryFileApi extends AbstractApi {
         addFormParam(form, "file_path", filePath, true);
         addFormParam(form, isApiVersion(ApiVersion.V3) ? "branch_name" : "branch", branchName, true);
         addFormParam(form, "commit_message", commitMessage, true);
-        delete(Response.Status.OK, form.asMap(), "projects", projectId, "repository", "files");
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, form.asMap(), "projects", projectId, "repository", "files");
     }
 
     private Form file2form(RepositoryFile file, String branchName, String commitMessage) {

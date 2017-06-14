@@ -204,7 +204,8 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteTag(Integer projectId, String tagName) throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", projectId, "repository", "tags", tagName);
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "projects", projectId, "repository", "tags", tagName);
     }
 
     /**

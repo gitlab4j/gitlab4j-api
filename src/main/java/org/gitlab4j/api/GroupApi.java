@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
@@ -167,7 +168,8 @@ public class GroupApi extends AbstractApi {
             throw new RuntimeException("groupId cannot be null");
         }
 
-        delete(Response.Status.OK, null, "groups", groupId);
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "groups", groupId);
     }
 
     /**
@@ -213,7 +215,7 @@ public class GroupApi extends AbstractApi {
         Form formData = new Form();
         formData.param("user_id", userId.toString());
         formData.param("access_level", accessLevel.toString());
-        Response response = post(Response.Status.OK, formData, "groups", groupId, "members");
+        Response response = post(Response.Status.CREATED, formData, "groups", groupId, "members");
         return (response.readEntity(Member.class));
     }
 
@@ -227,6 +229,7 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void removeMember(Integer projectId, Integer userId) throws GitLabApiException {
-        delete(Response.Status.OK, null, "groups", projectId, "members", userId);
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "groups", projectId, "members", userId);
     }
 }
