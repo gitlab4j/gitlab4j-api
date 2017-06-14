@@ -30,13 +30,9 @@
   "last_activity_at": "2013-09-30T13:46:02Z",
   "creator_id": 3,
   "namespace": {
-    "created_at": "2013-09-30T13:46:02Z",
-    "description": "",
     "id": 3,
     "name": "Diaspora",
-    "owner_id": 1,
-    "path": "diaspora",
-    "updated_at": "2013-09-30T13:46:02Z"
+    "path": "diaspora"
   },
   "permissions": {
     "project_access": {

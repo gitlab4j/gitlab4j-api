@@ -10,29 +10,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Namespace {
 
-    private Date createdAt;
-    private String description;
     private Integer id;
     private String name;
-    private Integer ownerId;
     private String path;
-    private String updatedAt;
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    private String kind;
+    private String fullPath;
 
     public Integer getId() {
         return this.id;
@@ -50,14 +32,6 @@ public class Namespace {
         this.name = name;
     }
 
-    public Integer getOwnerId() {
-        return this.ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
-
     public String getPath() {
         return this.path;
     }
@@ -66,11 +40,19 @@ public class Namespace {
         this.path = path;
     }
 
-    public String getUpdatedAt() {
-        return this.updatedAt;
+    public String getKind() {
+        return kind;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    public String getFullPath() {
+        return fullPath;
+    }
+
+    public void setFullPath(String fullPath) {
+        this.fullPath = fullPath;
     }
 }

@@ -1,12 +1,13 @@
 package org.gitlab4j.api;
 
+import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Member;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.Visibility;
+
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.models.Group;
-import org.gitlab4j.api.models.Member;
-
 import java.util.List;
 
 /**
@@ -33,6 +34,21 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
+     * Get a list of projects belonging to the specified group ID.
+     *
+     * GET /groups/:id/projects
+     *
+     * @param groupId the group ID to list the projects for
+     * @return a list of projects belonging to the specified group ID
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getProjects(int groupId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "groups", groupId, "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {
+        }));
+    }
+
+    /**
      * Get all details of a group.
      * 
      * GET /groups/:id
@@ -47,7 +63,7 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
-     * Creates a new project group. Available only for admin.
+     * Creates a new project group. Available only for users who can create groups.
      * 
      * POST /groups
      * 
@@ -61,6 +77,79 @@ public class GroupApi extends AbstractApi {
         formData.param("name", name);
         formData.param("path", path);
         post(Response.Status.CREATED, formData, "groups");
+    }
+
+    /**
+     * Creates a new project group. Available only for users who can create groups.
+     * 
+     * POST /groups
+     * 
+     * @param name the name of the group to add
+     * @param path the path for the group
+     * @param description (optional) - The group's description
+     * @param membershipLock (optional, boolean) - Prevent adding new members to project membership within this group
+     * @param shareWithGroupLock (optional, boolean) - Prevent sharing a project with another group within this group
+     * @param visibility (optional) - The group's visibility. Can be private, internal, or public.
+     * @param lfsEnabled (optional) - Enable/disable Large File Storage (LFS) for the projects in this group
+     * @param requestAccessEnabled (optional) - Allow users to request member access.
+     * @param parentId (optional) - The parent group id for creating nested group.
+     * @param sharedRunnersMinutesLimit (optional) - (admin-only) Pipeline minutes quota for this group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void addGroup(String name, String path, String description, Boolean membershipLock,
+            Boolean shareWithGroupLock, Visibility visibility, Boolean lfsEnabled, Boolean requestAccessEnabled,
+            Integer parentId, Integer sharedRunnersMinutesLimit) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm()
+                .withParam("name", name)
+                .withParam("path", path)
+                .withParam("description", description)
+                .withParam("membership_lock", membershipLock)
+                .withParam("share_with_group_lock", shareWithGroupLock)
+                .withParam("visibility", visibility)
+                .withParam("lfs_enabled", lfsEnabled)
+                .withParam("request_access_enabled", requestAccessEnabled)
+                .withParam("parent_id", parentId)
+                .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit);
+        post(Response.Status.CREATED, formData, "groups");
+    }
+
+    /**
+     * Creates a new project group. Available only for users who can create groups.
+     * 
+     * PUT /groups
+     *
+     * @param groupId the ID of the group to update
+     * @param name the name of the group to add
+     * @param path the path for the group
+     * @param description (optional) - The group's description
+     * @param membershipLock (optional, boolean) - Prevent adding new members to project membership within this group
+     * @param shareWithGroupLock (optional, boolean) - Prevent sharing a project with another group within this group
+     * @param visibility (optional) - The group's visibility. Can be private, internal, or public.
+     * @param lfsEnabled (optional) - Enable/disable Large File Storage (LFS) for the projects in this group
+     * @param requestAccessEnabled (optional) - Allow users to request member access.
+     * @param parentId (optional) - The parent group id for creating nested group.
+     * @param sharedRunnersMinutesLimit (optional) - (admin-only) Pipeline minutes quota for this group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Group updateGroup(Integer groupId, String name, String path, String description, Boolean membershipLock,
+            Boolean shareWithGroupLock, Visibility visibility, Boolean lfsEnabled, Boolean requestAccessEnabled,
+            Integer parentId, Integer sharedRunnersMinutesLimit) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm()
+                .withParam("name", name)
+                .withParam("path", path)
+                .withParam("description", description)
+                .withParam("membership_lock", membershipLock)
+                .withParam("share_with_group_lock", shareWithGroupLock)
+                .withParam("visibility", visibility)
+                .withParam("lfs_enabled", lfsEnabled)
+                .withParam("request_access_enabled", requestAccessEnabled)
+                .withParam("parent_id", parentId)
+                .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit);
+
+        Response response = put(Response.Status.OK, formData.asMap(), "groups", groupId);
+        return (response.readEntity(Group.class));
     }
 
     /**
