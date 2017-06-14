@@ -35,6 +35,20 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
+     * Get all groups that match your string in their name or path.
+     * 
+     * @param search the group name or path search criteria
+     * @return a List containing matching Group instances
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Group> getGroups(String search) throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("search", search).withParam("per_page", getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "groups");
+        return (response.readEntity(new GenericType<List<Group>>() {
+        }));
+    }
+
+    /**
      * Get a list of projects belonging to the specified group ID.
      *
      * GET /groups/:id/projects
