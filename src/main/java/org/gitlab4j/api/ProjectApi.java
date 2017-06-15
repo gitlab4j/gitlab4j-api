@@ -41,6 +41,25 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a list of projects accessible by the authenticated user and in the specified page range.
+     *
+     * GET /projects
+     *
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @return a list of projects accessible by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getProjects(int page, int perPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("page", page, false)
+                .withParam("per_page", perPage, false);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {
+        }));
+    }
+ 
+    /**
      * Get a list of projects accessible by the authenticated user and matching the supplied filter parameters.
      * All filter parameters are optional.
      *
