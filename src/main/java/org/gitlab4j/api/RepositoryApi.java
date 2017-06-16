@@ -36,7 +36,8 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Branch> getBranches(Integer projectId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "branches");
+        Form formData = new GitLabApiForm().withParam("per_page", getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "branches");
         return (response.readEntity(new GenericType<List<Branch>>() {
         }));
     }
