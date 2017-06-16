@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
@@ -27,7 +28,8 @@ public class CommitsApi extends AbstractApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public List<Commit> getCommits(int projectId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits");
+        Form formData = new GitLabApiForm().withParam("per_page", getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "commits");
         return (response.readEntity(new GenericType<List<Commit>>() {
         }));
     }
@@ -43,7 +45,8 @@ public class CommitsApi extends AbstractApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public Commit getCommits(int projectId, String sha) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha);
+        Form formData = new GitLabApiForm().withParam("per_page", getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "commits", sha);
         return (response.readEntity(Commit.class));
     }
 
