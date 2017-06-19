@@ -38,7 +38,7 @@ public class GitLabApi {
     private Session session;
 
     /**
-     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance 
+     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and the specified GitLab API version.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
@@ -55,7 +55,7 @@ public class GitLabApi {
     }
 
     /**
-     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance 
+     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token using GitLab API version 4.
      *
      * @param url GitLab URL
@@ -69,7 +69,7 @@ public class GitLabApi {
     }
 
     /**
-     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance 
+     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and specified GitLab API version.
      *
      * @param url GitLab URL
@@ -107,7 +107,7 @@ public class GitLabApi {
 
     /**
      * Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
-     * 
+     *
      * @param hostUrl the URL of the GitLab server
      * @param privateToken to private token to use for access to the API
      */
@@ -129,7 +129,7 @@ public class GitLabApi {
 
     /**
      * Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
-     * 
+     *
      * @param hostUrl the URL of the GitLab server
      * @param session the Session instance obtained by logining into the GitLab server
      */
@@ -151,7 +151,7 @@ public class GitLabApi {
 
     /**
      * Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
-     * 
+     *
      * @param hostUrl the URL of the GitLab server
      * @param privateToken to private token to use for access to the API
      * @param secretToken use this token to validate received payloads
@@ -162,7 +162,7 @@ public class GitLabApi {
 
     /**
      *  Constructs a GitLabApi instance set up to interact with the GitLab server specified by GitLab API version.
-     *  
+     *
      * @param apiVersion the ApiVersion specifying which version of the API to use
      * @param hostUrl the URL of the GitLab server
      * @param privateToken to private token to use for access to the API
@@ -199,7 +199,7 @@ public class GitLabApi {
 
     /**
      * Return the GitLab API version that this instance is using.
-     * 
+     *
      * @return the GitLab API version that this instance is using
      */
     public ApiVersion getApiVersion() {
@@ -227,7 +227,7 @@ public class GitLabApi {
     /**
      * Return the GitLabApiClient associated with this instance. This is used by all the sub API classes
      * to communicate with the GitLab API.
-     * 
+     *
      * @return the GitLabApiClient associated with this instance
      */
     GitLabApiClient getApiClient() {
@@ -237,7 +237,7 @@ public class GitLabApi {
     /**
      * Gets the CommitsApi instance owned by this GitLabApi instance. The CommitsApi is used
      * to perform all commit related API calls.
-     * 
+     *
      * @return the CommitsApi instance owned by this GitLabApi instance
      */
     public CommitsApi getCommitsApi() {
@@ -247,7 +247,7 @@ public class GitLabApi {
     /**
      * Gets the MergeRequestApi instance owned by this GitLabApi instance. The MergeRequestApi is used
      * to perform all merge request related API calls.
-     * 
+     *
      * @return the MergeRequestApi instance owned by this GitLabApi instance
      */
     public MergeRequestApi getMergeRequestApi() {
@@ -257,7 +257,7 @@ public class GitLabApi {
     /**
      * Gets the NamespaceApi instance owned by this GitLabApi instance. The NamespaceApi is used
      * to perform all namespace related API calls.
-     * 
+     *
      * @return the NamespaceApi instance owned by this GitLabApi instance
      */
     public NamespaceApi getNamespaceApi() {
@@ -271,7 +271,7 @@ public class GitLabApi {
     /**
      * Gets the GroupApi instance owned by this GitLabApi instance. The GroupApi is used
      * to perform all group related API calls.
-     * 
+     *
      * @return the GroupApi instance owned by this GitLabApi instance
      */
     public GroupApi getGroupApi() {
@@ -281,17 +281,17 @@ public class GitLabApi {
     /**
      * Gets the PipelineApi instance owned by this GitLabApi instance. The PipelineApi is used
      * to perform all pipeline related API calls.
-     * 
+     *
      * @return the PipelineApi instance owned by this GitLabApi instance
      */
     public PipelineApi getPipelineApi() {
         return (pipelineApi);
     }
-    
+
     /**
      * Gets the ProjectApi instance owned by this GitLabApi instance. The ProjectApi is used
      * to perform all project related API calls.
-     * 
+     *
      * @return the ProjectApi instance owned by this GitLabApi instance
      */
     public ProjectApi getProjectApi() {
@@ -301,7 +301,7 @@ public class GitLabApi {
     /**
      * Gets the RepositoryApi instance owned by this GitLabApi instance. The RepositoryApi is used
      * to perform all repository related API calls.
-     * 
+     *
      * @return the RepositoryApi instance owned by this GitLabApi instance
      */
     public RepositoryApi getRepositoryApi() {
@@ -311,7 +311,7 @@ public class GitLabApi {
     /**
      * Gets the RepositoryFileApi instance owned by this GitLabApi instance. The RepositoryFileApi is used
      * to perform all repository files related API calls.
-     * 
+     *
      * @return the RepositoryFileApi instance owned by this GitLabApi instance
      */
     public RepositoryFileApi getRepositoryFileApi() {
@@ -321,7 +321,7 @@ public class GitLabApi {
     /**
      * Gets the ServicesApi instance owned by this GitLabApi instance. The ServicesApi is used
      * to perform all services related API calls.
-     * 
+     *
      * @return the ServicesApi instance owned by this GitLabApi instance
      */
     public ServicesApi getServicesApi() {
@@ -331,7 +331,7 @@ public class GitLabApi {
     /**
      * Gets the SessionApi instance owned by this GitLabApi instance. The SessionApi is used
      * to perform a login to the GitLab API.
-     * 
+     *
      * @return the SessionApi instance owned by this GitLabApi instance
      */
     public SessionApi getSessionApi() {
@@ -341,7 +341,7 @@ public class GitLabApi {
     /**
      * Gets the UserApi instance owned by this GitLabApi instance. The UserApi is used
      * to perform all user related API calls.
-     * 
+     *
      * @return the UserApi instance owned by this GitLabApi instance
      */
     public UserApi getUserApi() {

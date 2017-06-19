@@ -16,9 +16,9 @@ public class SessionApi extends AbstractApi {
 
     /**
      * Login to get private token.
-     * 
+     *
      * POST /session
-     * 
+     *
      * @param username the username to login
      * @param email the email address to login
      * @param password the password of the user

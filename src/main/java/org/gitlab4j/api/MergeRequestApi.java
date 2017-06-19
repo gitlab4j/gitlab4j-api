@@ -27,9 +27,38 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<MergeRequest> getMergeRequests(Integer projectId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests");
-        return (response.readEntity(new GenericType<List<MergeRequest>>() {
-        }));
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "merge_requests");
+        return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
+    }
+
+    /**
+     * Get all merge requests for the specified project.
+     *
+     * GET /projects/:id/merge_requests
+     *
+     * @param projectId the project ID to get the merge requests for
+     * @param page the page to get
+     * @param perPage the number of MergeRequest instances per page
+     * @return all merge requests for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<MergeRequest> getMergeRequests(Integer projectId, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "merge_requests");
+        return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
+    }
+
+    /**
+     * Get all merge requests for the specified project.
+     *
+     * GET /projects/:id/merge_requests
+     *
+     * @param projectId the project ID to get the merge requests for
+     * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
+     * @return all merge requests for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<MergeRequest> getMergeRequests(Integer projectId, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, null, "projects", projectId, "merge_requests"));
     }
 
     /**

@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.2.5'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.3.0'
 }
 ```
 
@@ -20,11 +20,11 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.2.5</version>
+    <version>4.3.0</version>
 </dependency>
 ```
 
-If you are not using Gradle or Maven you can download the latest gitlab4j-api JAR file here: [gitlab4j-api-4.2.5.jar](https://oss.sonatype.org/service/local/repositories/releases/content/org/gitlab4j/gitlab4j-api/4.2.5/gitlab4j-api-4.2.5.jar "Download JAR")
+If you are not using Gradle or Maven you can download the latest gitlab4j-api JAR file here: [gitlab4j-api-4.3.0.jar](https://oss.sonatype.org/service/local/repositories/releases/content/org/gitlab4j/gitlab4j-api/4.3.0/gitlab4j-api-4.3.0.jar "Download JAR")
 
 Javadocs are available here: <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a>
 
@@ -43,6 +43,21 @@ As of GitLab4J-API 4.2.0 support has been added for GitLab API V4. If your appli
 ```java
 // Create a GitLabApi instance to communicate with your GitLab server using GitLab API V3
 GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
+```
+
+GitLab4J-API provides an easy to use paging mechanism to page through lists of results from the GitLab API.  Here is an example on how to use the Pager:
+```java
+// Get a Pager instance that will page through the projects with 10 projects per page
+Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjectsPager(10);
+
+// Iterate through the pages and print out the name and description
+while (projectsPager.hasNext())) {
+
+    List<Project> projects = projectsPager.next();
+    for (Project project : projects) {
+        System.out.println(project.getName() + " -: " + project.getDescription());
+    }
+}
 ```
 
 The API has been broken up into sub APIs classes to make it easier to learn and to separate concerns.  Following is a list of the sub APIs along with a sample use of each API.  See the Javadocs for a complete list of available methods for each sub API.

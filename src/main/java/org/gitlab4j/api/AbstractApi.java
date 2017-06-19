@@ -1,5 +1,8 @@
 package org.gitlab4j.api;
 
+import java.net.URL;
+import java.net.URLEncoder;
+
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
@@ -7,14 +10,11 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 
-import java.net.URL;
-import java.net.URLEncoder;
-
 /**
  * This class is the base class for all the sub API classes. It provides implementations of
  * delete(), get(), post() and put() that are re-used by all the sub-classes.
  */
-public abstract class AbstractApi {
+public abstract class AbstractApi implements Constants {
 
     private GitLabApi gitLabApi;
 
@@ -49,7 +49,7 @@ public abstract class AbstractApi {
     /**
      * Perform an HTTP GET call with the specified query parameters and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
@@ -67,7 +67,7 @@ public abstract class AbstractApi {
     /**
      * Perform an HTTP GET call with the specified query parameters and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param queryParams multivalue map of request parameters
      * @param url the fully formed path to the GitLab API endpoint
@@ -85,7 +85,7 @@ public abstract class AbstractApi {
     /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param formData the Form containing the name/value pairs for the POST data
      * @param pathArgs variable list of arguments used to build the URI
@@ -103,7 +103,7 @@ public abstract class AbstractApi {
     /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
@@ -121,7 +121,7 @@ public abstract class AbstractApi {
     /**
      * Perform an HTTP POST call with the specified form data and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param formData the Form containing the name/value pairs for the POST data
      * @param url the fully formed path to the GitLab API endpoint
@@ -139,7 +139,7 @@ public abstract class AbstractApi {
     /**
      * Perform an HTTP PUT call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
@@ -157,7 +157,7 @@ public abstract class AbstractApi {
     /**
      * Perform an HTTP PUT call with the specified form data and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param queryParams multivalue map of request parameters
      * @param url the fully formed path to the GitLab API endpoint
@@ -193,7 +193,7 @@ public abstract class AbstractApi {
     /**
      * Perform an HTTP DELETE call with the specified form data and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param queryParams multivalue map of request parameters
      * @param url the fully formed path to the GitLab API endpoint
@@ -210,7 +210,7 @@ public abstract class AbstractApi {
 
     /**
      * Convenience method for adding query and form parameters to a get() or post() call.
-     * 
+     *
      * @param formData the Form containing the name/value pairs
      * @param name the name of the field/attribute to add
      * @param value the value of the field/attribute to add
@@ -222,7 +222,7 @@ public abstract class AbstractApi {
     /**
      * Convenience method for adding query and form parameters to a get() or post() call.
      * If required is true and value is null, will throw an IllegalArgumentException.
-     * 
+     *
      * @param formData the Form containing the name/value pairs
      * @param name the name of the field/attribute to add
      * @param value the value of the field/attribute to add
@@ -251,7 +251,7 @@ public abstract class AbstractApi {
     /**
      * Validates response the response from the server against the expected HTTP status and
      * the returned secret token, if either is not correct will throw a GitLabApiException.
-     * 
+     *
      * @param response response
      * @param expected expected response status
      * @return original response if the response status is expected
@@ -272,9 +272,9 @@ public abstract class AbstractApi {
 
     /**
      * Wraps an exception in a GitLabApiException if needed.
-     * 
+     *
      * @param thrown the exception that should be wrapped
-     * @return either the untouched GitLabApiException or a new GitLabApiExceptin wrapping a non-GitLabApiException 
+     * @return either the untouched GitLabApiException or a new GitLabApiExceptin wrapping a non-GitLabApiException
      */
     protected GitLabApiException handle(Exception thrown) {
 
@@ -283,5 +283,25 @@ public abstract class AbstractApi {
         }
 
         return (new GitLabApiException(thrown));
+    }
+
+    /**
+     * Creates a MultivaluedMap instance containing "page" and "per_page" params.
+     *
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @return a MultivaluedMap instance containing "page" and "per_page" params
+     */
+    protected MultivaluedMap<String, String> getPageQueryParams(int page, int perPage) {
+       return (new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage).asMap());
+    }
+
+    /**
+     * Creates a MultivaluedMap instance containing the "per_page" param with the default value.
+     *
+     * @return a MultivaluedMap instance containing the "per_page" param with the default value
+     */
+    protected MultivaluedMap<String, String> getDefaultPerPageParam() {
+       return (new GitLabApiForm().withParam(PER_PAGE_PARAM, getDefaultPerPage()).asMap());
     }
 }

@@ -1,15 +1,16 @@
 package org.gitlab4j.api;
 
+import java.util.List;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Visibility;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-import java.util.List;
 
 /**
  * This class implements the client side API for the GitLab groups calls.
@@ -22,30 +23,84 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Get a list of groups. (As user: my groups, as admin: all groups)
-     * 
+     *
      * GET /groups
-     * 
+     *
      * @return the list of groups viewable by the authenticated user
      * @throws GitLabApiException if any exception occurs
      */
     public List<Group> getGroups() throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "groups");
-        return (response.readEntity(new GenericType<List<Group>>() {
-        }));
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "groups");
+        return (response.readEntity(new GenericType<List<Group>>() {}));
+    }
+
+    /**
+     * Get a list of groups (As user: my groups, as admin: all groups) and in the specified page range.
+     *
+     * GET /groups
+     *
+     * @param page the page to get
+     * @param perPage the number of Group instances per page
+     * @return the list of groups viewable by the authenticated userin the specified page range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Group> getGroups(int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "groups");
+        return (response.readEntity(new GenericType<List<Group>>() {}));
+    }
+
+    /**
+     * Get a Pager of groups. (As user: my groups, as admin: all groups)
+     *
+     * GET /groups
+     *
+     * @param itemsPerPage the number of Group instances that will be fetched per page
+     * @return the list of groups viewable by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Group> getGroups(int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Group>(this, Group.class, itemsPerPage, null, "groups"));
     }
 
     /**
      * Get all groups that match your string in their name or path.
-     * 
+     *
      * @param search the group name or path search criteria
      * @return a List containing matching Group instances
      * @throws GitLabApiException if any exception occurs
      */
     public List<Group> getGroups(String search) throws GitLabApiException {
-        Form formData = new GitLabApiForm().withParam("search", search).withParam("per_page", getDefaultPerPage());
+        Form formData = new GitLabApiForm().withParam("search", search).withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "groups");
-        return (response.readEntity(new GenericType<List<Group>>() {
-        }));
+        return (response.readEntity(new GenericType<List<Group>>() {}));
+    }
+
+    /**
+     * Get all groups that match your string in their name or path.
+     *
+     * @param search the group name or path search criteria
+     * @param page the page to get
+     * @param perPage the number of Group instances per page
+     * @return a List containing matching Group instances
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Group> getGroups(String search, int page, int perPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("search", search).withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "groups");
+        return (response.readEntity(new GenericType<List<Group>>() {}));
+    }
+
+    /**
+     * Get all groups that match your string in their name or path.
+     *
+     * @param search the group name or path search criteria
+     * @param itemsPerPage the number of Group instances that will be fetched per page
+     * @return a List containing matching Group instances
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Group> getGroups(String search, int itemsPerPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("search", search);
+        return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups"));
     }
 
     /**
@@ -58,16 +113,45 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getProjects(int groupId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "groups", groupId, "projects");
-        return (response.readEntity(new GenericType<List<Project>>() {
-        }));
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "groups", groupId, "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {}));
+    }
+
+    /**
+     * Get a list of projects belonging to the specified group ID in the specified page range.
+     *
+     * GET /groups/:id/projects
+     *
+     * @param groupId the group ID to list the projects for
+     * @param page the page to get
+     * @param perPage the number of Project instances per page
+     * @return a list of projects belonging to the specified group ID in the specified page range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getProjects(int groupId, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "groups", groupId, "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {}));
+    }
+
+    /**
+     * Get a Pager of projects belonging to the specified group ID.
+     *
+     * GET /groups/:id/projects
+     *
+     * @param groupId the group ID to list the projects for
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager of projects belonging to the specified group ID
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Project> getProjects(int groupId, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Project>(this, Project.class, itemsPerPage, null, "groups", groupId, "projects"));
     }
 
     /**
      * Get all details of a group.
-     * 
+     *
      * GET /groups/:id
-     * 
+     *
      * @param groupId the group ID to get
      * @return the Group instance for the specified group ID
      * @throws GitLabApiException if any exception occurs
@@ -79,9 +163,9 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Creates a new project group. Available only for users who can create groups.
-     * 
+     *
      * POST /groups
-     * 
+     *
      * @param name the name of the group to add
      * @param path the path for the group
      * @throws GitLabApiException if any exception occurs
@@ -96,9 +180,9 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Creates a new project group. Available only for users who can create groups.
-     * 
+     *
      * POST /groups
-     * 
+     *
      * @param name the name of the group to add
      * @param path the path for the group
      * @param description (optional) - The group's description
@@ -131,7 +215,7 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Creates a new project group. Available only for users who can create groups.
-     * 
+     *
      * PUT /groups
      *
      * @param groupId the ID of the group to update
@@ -170,9 +254,9 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Removes group with all projects inside.
-     * 
+     *
      * DELETE /groups/:id
-     * 
+     *
      * @param groupId the group ID to delete
      * @throws GitLabApiException if any exception occurs
      */
@@ -188,9 +272,9 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Removes group with all projects inside.
-     * 
+     *
      * DELETE /groups/:id
-     * 
+     *
      * @param group the Group instance to delete
      * @throws GitLabApiException if any exception occurs
      */
@@ -200,24 +284,53 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Get a list of group members viewable by the authenticated user.
-     * 
+     *
      * GET /groups/:id/members
-     * 
+     *
      * @param groupId the group ID to list the members for
      * @return a list of group members viewable by the authenticated user
      * @throws GitLabApiException if any exception occurs
      */
     public List<Member> getMembers(int groupId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "groups", groupId, "members");
-        return (response.readEntity(new GenericType<List<Member>>() {
-        }));
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "groups", groupId, "members");
+        return (response.readEntity(new GenericType<List<Member>>() {}));
+    }
+
+    /**
+     * Get a list of group members viewable by the authenticated user in the specified page range.
+     *
+     * GET /groups/:id/members
+     *
+     * @param groupId the group ID to list the members for
+     * @param page the page to get
+     * @param perPage the number of Member instances per page
+     * @return a list of group members viewable by the authenticated user in the specified page range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Member> getMembers(int groupId, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK,  getPageQueryParams(page, perPage), "groups", groupId, "members");
+        return (response.readEntity(new GenericType<List<Member>>() {}));
+    }
+
+    /**
+     * Get a Pager of group members viewable by the authenticated user.
+     *
+     * GET /groups/:id/members
+     *
+     * @param groupId the group ID to list the members for
+     * @param itemsPerPage the number of Member instances that will be fetched per page
+     * @return a list of group members viewable by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Member> getMembers(int groupId, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Member>(this, Member.class, itemsPerPage, null, "groups", groupId, "members"));
     }
 
     /**
      * Adds a user to the list of group members.
-     * 
+     *
      * POST /groups/:id/members
-     * 
+     *
      * @param groupId the project ID to add the member to
      * @param userId the user ID of the member to add
      * @param accessLevel the access level for the new member
@@ -235,9 +348,9 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Removes member from the group team.
-     * 
+     *
      * DELETE /groups/:id/members/:user_id
-     * 
+     *
      * @param projectId the project ID to remove the member from
      * @param userId the user ID of the member to remove
      * @throws GitLabApiException if any exception occurs

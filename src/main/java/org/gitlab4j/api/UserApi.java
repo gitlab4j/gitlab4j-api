@@ -20,43 +20,50 @@ public class UserApi extends AbstractApi {
 
     /**
      * Get a list of users. Only returns the first page
-     * 
+     *
      * GET /users
-     * 
+     *
      * @return a list of Users, this list will only contain the first 20 users in the system.
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers() throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "users");
-        return (response.readEntity(new GenericType<List<User>>() {
-        }));
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
     /**
      * Get a list of users using the specified page and per page settings.
-     * 
+     *
      * GET /users
-     * 
+     *
      * @param page the page to get
      * @param perPage the number of users per page
      * @return the list of Users in the specified range
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers(int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
+    }
 
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("page", page, false)
-                .withParam("per_page", perPage, false);
-        Response response = get(Response.Status.OK, formData.asMap(), "users");
-        return (response.readEntity(new GenericType<List<User>>() {
-        }));
+    /**
+     * Get a Pager of users.
+     *
+     * GET /users
+     *
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager of User
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<User> getUsers(int itemsPerPage) throws GitLabApiException {
+        return (new Pager<User>(this, User.class, itemsPerPage, null, "users"));
     }
 
     /**
      * Get a single user.
-     * 
+     *
      * GET /users/:id
-     * 
+     *
      * @param userId the ID of the user to get
      * @return the User instance for the specified user ID
      * @throws GitLabApiException if any exception occurs
@@ -70,16 +77,47 @@ public class UserApi extends AbstractApi {
      * Search users by Email or username
      *
      * GET /users?search=:email_or_username
-     * 
+     *
      * @param emailOrUsername the email or username to search for
      * @return the User List with the email or username like emailOrUsername
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true);
+        GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true).withParam(PER_PAGE_PARAM,  getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "users");
-        return (response.readEntity(new GenericType<List<User>>() {
-        }));
+        return (response.readEntity(new GenericType<List<User>>() {}));
+    }
+
+    /**
+     * Search users by Email or username in the specified page range.
+     *
+     * GET /users?search=:email_or_username
+     *
+     * @param emailOrUsername the email or username to search for
+     * @param page the page to get
+     * @param perPage the number of users per page
+     * @return the User List with the email or username like emailOrUsername in the specified page range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<User> findUsers(String emailOrUsername, int page, int perPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true).withParam(PAGE_PARAM,  page).withParam(PER_PAGE_PARAM,  perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
+    }
+
+    /**
+     * Search users by Email or username and return a Pager
+     *
+     * GET /users?search=:email_or_username
+     *
+     * @param emailOrUsername the email or username to search for
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return the User Pager with the email or username like emailOrUsername
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<User> findUsers(String emailOrUsername, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true);
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
     /**
@@ -101,10 +139,10 @@ public class UserApi extends AbstractApi {
      * bio (optional) - User's bio
      * admin (optional) - User is admin - true or false (default)
      * can_create_group (optional) - User can create groups - true or false
-     * 
+     *
      * @param user the User instance with the user info to create
      * @param password the password for the new user
-     * @param projectsLimit the maximum number of project 
+     * @param projectsLimit the maximum number of project
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
      */
@@ -116,9 +154,9 @@ public class UserApi extends AbstractApi {
 
     /**
      * Modifies an existing user. Only administrators can change attributes of a user.
-     * 
+     *
      * PUT /users/:id
-     * 
+     *
      * email (required) - Email
      * password (required) - Password
      * username (required) - Username
@@ -133,10 +171,10 @@ public class UserApi extends AbstractApi {
      * bio (optional) - User's bio
      * admin (optional) - User is admin - true or false (default)
      * can_create_group (optional) - User can create groups - true or false
-     * 
+     *
      * @param user the User instance with the user info to modify
      * @param password the new password for the user
-     * @param projectsLimit the maximum number of project 
+     * @param projectsLimit the maximum number of project
      * @return the modified User instance
      * @throws GitLabApiException if any exception occurs
      */
@@ -148,9 +186,9 @@ public class UserApi extends AbstractApi {
 
     /**
      * Deletes a user. Available only for administrators.
-     * 
+     *
      * DELETE /users/:id
-     * 
+     *
      * @param userId the user ID to delete
      * @throws GitLabApiException if any exception occurs
      */
@@ -166,9 +204,9 @@ public class UserApi extends AbstractApi {
 
     /**
      * Deletes a user. Available only for administrators.
-     * 
+     *
      * DELETE /users/:id
-     * 
+     *
      * @param user the User instance to delete
      * @throws GitLabApiException if any exception occurs
      */
@@ -178,7 +216,7 @@ public class UserApi extends AbstractApi {
 
     /**
      * Populate the REST form with data from the User instance.
-     * 
+     *
      * @param user the User iunstance to populate the Form instance with
      * @param projectsLimit the maximum number of projects the user is allowed (optional)
      * @param password the password, required when creating a new user
