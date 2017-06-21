@@ -15,6 +15,7 @@ import java.util.List;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.Version;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -102,6 +103,15 @@ public class TestGitLabApi {
     @Before
     public void beforeMethod() {
         assumeTrue(gitLabApi != null);
+    }
+
+    @Test
+    public void testGetVersion() throws GitLabApiException {
+        Version version = gitLabApi.getVersion();
+        assertNotNull(version);
+        System.out.format("version=%s, revision=%s%n", version.getVersion(), version.getRevision());
+        assertNotNull(version.getVersion());
+        assertNotNull(version.getRevision());
     }
 
     @Test

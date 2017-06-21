@@ -2,7 +2,12 @@ package org.gitlab4j.api;
 
 import java.util.Map;
 
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Session;
+import org.gitlab4j.api.models.Version;
 
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
@@ -232,6 +237,24 @@ public class GitLabApi {
      */
     GitLabApiClient getApiClient() {
         return (apiClient);
+    }
+    
+    /**
+     * Get the version info for the GitLab server using the GitLab Version API.
+     * 
+     * @return the version info for the GitLab server
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Version getVersion() throws GitLabApiException {
+
+        class VersionApi extends AbstractApi {
+            VersionApi(GitLabApi gitlabApi) {
+                super(gitlabApi);
+            }
+        }
+
+        Response response = new VersionApi(this).get(Response.Status.OK, null, "version");
+        return (response.readEntity(Version.class));
     }
 
     /**
