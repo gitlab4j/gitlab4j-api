@@ -8,6 +8,8 @@
     "state":"merged",
     "upvotes":0,
     "downvotes":0,
+    "created_at": "2016-12-03T17:23:34Z",
+    "updated_at": "2016-12-03T17:23:34Z",
     "author":{
         "id":1,
         "username": "admin",

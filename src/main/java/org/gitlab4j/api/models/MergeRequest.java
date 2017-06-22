@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,6 +15,7 @@ public class MergeRequest {
     private Assignee assignee;
     private Author author;
     private Changes changes;
+    private Date createdAt;
     private String description;
     private Integer downvotes;
     private Boolean forceRemoveSourceBranch;
@@ -35,6 +37,7 @@ public class MergeRequest {
     private String targetBranch;
     private Integer targetProjectId;
     private String title;
+    private Date updatedAt;
     private Integer upvotes;
     private Integer userNotesCount;
     private String webUrl;
@@ -70,6 +73,14 @@ public class MergeRequest {
 
     public void setChanges(Changes changes) {
         this.changes = changes;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getDescription() {
@@ -238,6 +249,14 @@ public class MergeRequest {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Integer getUpvotes() {
