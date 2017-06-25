@@ -18,17 +18,13 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
- * In order for these tests to run you must set the following systems properties:
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  * 
  * TEST_NAMESPACE
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  * 
- * If any of the above are NULL, all tests in this class will be skipped. If running from mvn simply
- * use a command line similar to:
- * 
- * mvn test -DTEST_PRIVATE_TOKEN=your_private_token -DTEST_HOST_URL=https://gitlab.com \
- * -DTEST_NAMESPACE=your_namespace
+ * If any of the above are NULL, all tests in this class will be skipped.
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that the tests are in the correct order
  */
@@ -41,9 +37,9 @@ public class TestProjectApi {
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
     static {
-        TEST_NAMESPACE = System.getProperty("TEST_NAMESPACE");
-        TEST_HOST_URL = System.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = System.getProperty("TEST_PRIVATE_TOKEN");
+        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
+        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
+        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
 
     private static final String TEST_PROJECT_NAME = "test-gitlab4j-create-project";

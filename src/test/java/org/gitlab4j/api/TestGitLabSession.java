@@ -10,18 +10,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * In order for these tests to run you must set the following systems properties:
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  * 
  * TEST_HOST_URL
  * TEST_USERNAME
  * TEST_PASSWORD
  * TEST_PRIVATE_TOKEN
  * 
- * If any of the above are NULL, all tests in this class will be skipped. If running from mvn simply
- * use a command line similar to:
- * 
- * mvn test -DTEST_HOST_URL=https://gitlab.com -DTTEST_USERNAME=your_username \
- *  -DTEST_PASSWORD=your_strong_password -DTEST_PRIVATE_TOKEN=your_private_token
+ * If any of the above are NULL, all tests in this class will be skipped.
  */
 public class TestGitLabSession {
 
@@ -31,10 +27,10 @@ public class TestGitLabSession {
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
     static {
-        TEST_USERNAME = System.getProperty("TEST_USERNAME");
-        TEST_PASSWORD = System.getProperty("TEST_PASSWORD");
-        TEST_HOST_URL = System.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = System.getProperty("TEST_PRIVATE_TOKEN");
+        TEST_USERNAME = TestUtils.getProperty("TEST_USERNAME");
+        TEST_PASSWORD = TestUtils.getProperty("TEST_PASSWORD");
+        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
+        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
 
     private static String problems = "";

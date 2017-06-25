@@ -1,7 +1,10 @@
 package org.gitlab4j.api;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
+import java.util.Properties;
 
 public class TestUtils {
 
@@ -22,5 +25,25 @@ public class TestUtils {
         }
 
         return (out.toString());
+    }
+
+
+    private static Properties testProperties;
+    static {
+        testProperties = new Properties();
+        try (InputStream input = new FileInputStream("test-gitlab4j.properties")) {
+            testProperties.load(input);
+        } catch (IOException ioe) {
+        }
+    }
+
+    /**
+     * Get a named property from the test-gitlab4j.properties file.
+     *
+     * @param key the key of the property to get
+     * @return the named property from the test-gitlab4j.properties file
+     */
+    public static final String getProperty(String key) {
+        return (testProperties.getProperty(key));
     }
 }

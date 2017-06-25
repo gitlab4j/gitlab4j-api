@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
@@ -24,18 +25,14 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
- * In order for these tests to run you must set the following systems properties:
+* In order for these tests to run you must set the following properties in test-gitlab4j.properties
  * 
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  * 
- * If any of the above are NULL, all tests in this class will be skipped. If running from mvn simply
- * use a command line similar to:
- * 
- * mvn test -DTEST_PRIVATE_TOKEN=your_private_token -DTEST_HOST_URL=https://gitlab.com \
- * -DTEST_NAMESPACE=your_namespace -DTEST_PROJECT_NAME=test-project
+ * If any of the above are NULL, all tests in this class will be skipped.
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that testCreate() is executed first.
  */
@@ -48,10 +45,10 @@ public class TestGitLabApi {
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
     static {
-        TEST_NAMESPACE = System.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = System.getProperty("TEST_PROJECT_NAME");
-        TEST_HOST_URL = System.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = System.getProperty("TEST_PRIVATE_TOKEN");
+        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
+        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
+        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
+        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
 
     private static final String TEST_BRANCH_NAME = "feature/test_branch";
@@ -121,9 +118,36 @@ public class TestGitLabApi {
     }
 
     @Test
+    public void testProjectPerPage() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(1, 10);
+        assertNotNull(projects);
+        assertEquals(10, projects.size());
+    }
+
+    @Test
     public void testOwnedProjects() throws GitLabApiException {
         List<Project> projects = gitLabApi.getProjectApi().getOwnedProjects();
         assertTrue(projects != null);
+    }
+
+    @Test
+    public void testOwnedProjectsPerPage() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getOwnedProjects(1, 10);
+        assertTrue(projects != null);
+        assertTrue(projects.size() > 0);
+    }
+
+    @Test
+    public void testMemberProjects() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getMemberProjects();
+        assertTrue(projects != null);
+    }
+
+    @Test
+    public void testMemberProjectsPerPage() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getMemberProjects(1, 10);
+        assertTrue(projects != null);
+        assertTrue(projects.size() > 0);
     }
 
     @Test
@@ -133,6 +157,11 @@ public class TestGitLabApi {
 
         Branch branch = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_BRANCH_NAME, "master");
         assertNotNull(branch);
+
+        Branch fetchedBranch = gitLabApi.getRepositoryApi().getBranch(project.getId(), TEST_BRANCH_NAME);
+        assertNotNull(fetchedBranch);
+
+        assertEquals(branch.getName(), fetchedBranch.getName());
     }
 
     @Test
@@ -171,5 +200,35 @@ public class TestGitLabApi {
         file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), "master", new File("."));
         assertTrue(file.length() > 0);
         file.delete();
+    }
+
+    @Test
+    public void testRawFileViaFile() throws GitLabApiException, IOException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        File file = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README", null);
+        assertTrue(file.length() > 0);
+        file.delete();
+
+        file = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README", new File("."));
+        assertTrue(file.length() > 0);
+        file.delete();
+    }
+
+    @Test
+    public void testRepositoryFileViaInputStream() throws GitLabApiException, IOException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        InputStream in = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README");
+
+        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-README", "");
+        Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+
+        assertTrue(target.toFile().length() > 0);
+        Files.delete(target);
     }
 }
