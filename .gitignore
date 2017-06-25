@@ -41,3 +41,6 @@ local.properties
  
 ### Maven ###
 target/
+
+# Test properties file for gitlab4j
+test-gitlab4j.properties
