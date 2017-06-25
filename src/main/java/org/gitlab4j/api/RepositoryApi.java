@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -389,23 +390,6 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
-     * Get the raw file contents for a file by commit sha and path.
-     *
-     * GET /projects/:id/repository/blobs/:sha
-     *
-     * @param projectId the ID of the project
-     * @param commitOrBranchName the commit or branch name to get the file contents for
-     * @param filepath the path of the file to get
-     * @return a string with the file content for the specified file
-     * @throws GitLabApiException if any exception occurs
-     */
-    public InputStream getRawFileContent(Integer projectId, String commitOrBranchName, String filepath) throws GitLabApiException {
-        Form formData = new GitLabApiForm().withParam("filepath", filepath, true);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "blobs", commitOrBranchName);
-        return (response.readEntity(InputStream.class));
-    }
-
-    /**
      * Get the raw file contents for a blob by blob SHA.
      *
      * GET /projects/:id/repository/raw_blobs/:sha
@@ -416,7 +400,8 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public InputStream getRawBlobContent(Integer projectId, String sha) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "raw_blobs", sha);
+        Response response = getWithAccepts(Response.Status.OK, null, MediaType.MEDIA_TYPE_WILDCARD,
+                "projects", projectId, "repository", "blobs", sha, "raw");
         return (response.readEntity(InputStream.class));
     }
 
@@ -433,7 +418,8 @@ public class RepositoryApi extends AbstractApi {
      */
     public InputStream getRepositoryArchive(Integer projectId, String sha) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "archive");
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+                "projects", projectId, "repository", "archive");
         return (response.readEntity(InputStream.class));
     }
 
@@ -452,7 +438,8 @@ public class RepositoryApi extends AbstractApi {
     public File getRepositoryArchive(Integer projectId, String sha, File directory) throws GitLabApiException {
 
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "archive");
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+                "projects", projectId, "repository", "archive");
 
         try {
 

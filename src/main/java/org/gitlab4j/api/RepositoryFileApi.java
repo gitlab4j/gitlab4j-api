@@ -1,6 +1,13 @@
 package org.gitlab4j.api;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -135,6 +142,59 @@ public class RepositoryFileApi extends AbstractApi {
         addFormParam(form, "commit_message", commitMessage, true);
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, form.asMap(), "projects", projectId, "repository", "files");
+    }
+
+    /**
+     * Get the raw file for the file by commit sha and path. Thye file will be saved to the specified directory.
+     * If the file already exists in the directory it will be overwritten.
+     *
+     * GET /projects/:id/repository/archive
+     *
+     * @param projectId the ID of the project
+     * @param commitOrBranchName the commit or branch name to get the file for
+     * @param filepath the path of the file to get
+     * @return a File instance pointing to the download of the specified file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public File getRawFile(Integer projectId, String commitOrBranchName, String filepath, File directory) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm().withParam("ref", commitOrBranchName, true);
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+                "projects", projectId, "repository", "files", filepath, "raw");
+
+        try {
+
+            if (directory == null)
+                directory = new File(System.getProperty("java.io.tmpdir"));
+
+            String filename = new File(filepath).getName();
+            File file = new File(directory, filename);
+
+            InputStream in = response.readEntity(InputStream.class);
+            Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return (file);
+
+        } catch (IOException ioe) {
+            throw new GitLabApiException(ioe);
+        }
+    }
+
+    /**
+     * Get the raw file contents for a file by commit sha and path.
+     *
+     * GET /projects/:id/repository/blobs/:sha
+     *
+     * @param projectId the ID of the project
+     * @param commitOrBranchName the commit or branch name to get the file contents for
+     * @param filepath the path of the file to get
+     * @return a string with the file content for the specified file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public InputStream getRawFile(Integer projectId, String commitOrBranchName, String filepath) throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("ref", commitOrBranchName, true);
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(),  MediaType.MEDIA_TYPE_WILDCARD,
+                "projects", projectId, "repository", "files", filepath, "raw");
+        return (response.readEntity(InputStream.class));
     }
 
     private Form file2form(RepositoryFile file, String branchName, String commitMessage) {

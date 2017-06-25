@@ -286,6 +286,34 @@ public class GitLabApiClient {
     }
 
     /**
+     * Perform an HTTP GET call with the specified query parameters and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     * 
+     * @param queryParams multivalue map of request parameters
+     * @param accepts if non-empty will set the Accepts header to this value
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response getWithAccepts(MultivaluedMap<String, String> queryParams, String accepts, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (getWithAccepts(queryParams, url, accepts));
+    }
+
+    /**
+     * Perform an HTTP GET call with the specified query parameters and URL, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     * 
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
+     * @param accepts if non-empty will set the Accepts header to this value
+     * @return a ClientResponse instance with the data returned from the endpoint
+     */
+    protected Response getWithAccepts(MultivaluedMap<String, String> queryParams, URL url, String accepts) {
+        return (invocation(url, queryParams, accepts).get());
+    }
+
+    /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      * 
@@ -392,6 +420,10 @@ public class GitLabApiClient {
     }
 
     protected Invocation.Builder invocation(URL url, MultivaluedMap<String, String> queryParams) {
+        return (invocation(url, queryParams, MediaType.APPLICATION_JSON));
+    }
+
+    protected Invocation.Builder invocation(URL url, MultivaluedMap<String, String> queryParams, String accept) {
 
         if (apiClient == null) {
             apiClient = ClientBuilder.newBuilder().withConfig(clientConfig).sslContext(getSslContext()).hostnameVerifier(new AcceptAllHostnameVerifier()).build();
@@ -404,7 +436,10 @@ public class GitLabApiClient {
             }
         }
 
-        return (target.request().header(PRIVATE_TOKEN_HEADER, privateToken).accept(MediaType.APPLICATION_JSON));
+        if (accept == null || accept.trim().length() == 0)
+            return (target.request().header(PRIVATE_TOKEN_HEADER, privateToken));
+        else
+            return (target.request().header(PRIVATE_TOKEN_HEADER, privateToken).accept(accept));
     }
 
     protected class AcceptAllHostnameVerifier implements HostnameVerifier {

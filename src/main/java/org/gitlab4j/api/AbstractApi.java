@@ -65,6 +65,25 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
+     * Perform an HTTP GET call with the specified query parameters and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param queryParams multivalue map of request parameters
+     * @param accepts if non-empty will set the Accepts header to this value
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response getWithAccepts(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, String accepts, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().getWithAccepts(queryParams, accepts, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
      * Perform an HTTP GET call with the specified query parameters and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
      *
