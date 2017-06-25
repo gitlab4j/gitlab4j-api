@@ -34,15 +34,18 @@ public class TestProjectApi {
     // The following needs to be set to your test repository
     
     private static final String TEST_NAMESPACE;
+    private static final String TEST_PROJECT_NAME;
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
+
     static {
         TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
+        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
 
-    private static final String TEST_PROJECT_NAME = "test-gitlab4j-create-project";
+    private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
     private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
     private static GitLabApi gitLabApi;
 
@@ -74,7 +77,7 @@ public class TestProjectApi {
 
         if (gitLabApi != null) {
             try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_1);
                 gitLabApi.getProjectApi().deleteProject(project);
                 project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
                 gitLabApi.getProjectApi().deleteProject(project);
@@ -87,7 +90,7 @@ public class TestProjectApi {
     public static void teardown() throws GitLabApiException {
         if (gitLabApi != null) {
             try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_1);
                 gitLabApi.getProjectApi().deleteProject(project);
                 project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
                 gitLabApi.getProjectApi().deleteProject(project);
@@ -105,7 +108,7 @@ public class TestProjectApi {
     public void testCreate() throws GitLabApiException {
 
         Project project = new Project()
-                .withName(TEST_PROJECT_NAME)
+                .withName(TEST_PROJECT_NAME_1)
                 .withDescription("GitLab4J test project.")
                 .withIssuesEnabled(true)
                 .withMergeRequestsEnabled(true)
@@ -115,7 +118,7 @@ public class TestProjectApi {
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
-        assertEquals(TEST_PROJECT_NAME, newProject.getName());
+        assertEquals(TEST_PROJECT_NAME_1, newProject.getName());
         assertEquals(project.getDescription(), newProject.getDescription());
         assertEquals(project.getIssuesEnabled(), newProject.getIssuesEnabled());
         assertEquals(project.getMergeRequestsEnabled(), newProject.getMergeRequestsEnabled());
@@ -133,7 +136,7 @@ public class TestProjectApi {
 
         int matchCount = 0;
         for (Project project : projects) {
-            if (TEST_PROJECT_NAME.equals(project.getName()))
+            if (TEST_PROJECT_NAME_1.equals(project.getName()))
                 matchCount++;
             else if (TEST_PROJECT_NAME_2.equals(project.getName()))
                 matchCount++;
@@ -141,11 +144,11 @@ public class TestProjectApi {
 
         assertEquals(2, matchCount);
 
-        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME);
+        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME_1);
         assertNotNull(projects);
         assertEquals(2, projects.size());
         assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
-        assertEquals(TEST_PROJECT_NAME, projects.get(1).getName());
+        assertEquals(TEST_PROJECT_NAME_1, projects.get(1).getName());
     }
 
     @Test
@@ -158,7 +161,7 @@ public class TestProjectApi {
 
         int matchCount = 0;
         for (Project project : projects) {
-            if (TEST_PROJECT_NAME.equals(project.getName()))
+            if (TEST_PROJECT_NAME_1.equals(project.getName()))
                 matchCount++;
             else if (TEST_PROJECT_NAME_2.equals(project.getName()))
                 matchCount++;
@@ -166,11 +169,11 @@ public class TestProjectApi {
 
         assertEquals(2, matchCount);
 
-        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME);
+        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME_1);
         assertNotNull(projects);
         assertEquals(2, projects.size());
         assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
-        assertEquals(TEST_PROJECT_NAME, projects.get(1).getName());
+        assertEquals(TEST_PROJECT_NAME_1, projects.get(1).getName());
     }
 
     @Test
@@ -184,7 +187,7 @@ public class TestProjectApi {
         List<Project> projects = pager.next();
         int matchCount = 0;
         for (Project project : projects) {
-            if (TEST_PROJECT_NAME.equals(project.getName()))
+            if (TEST_PROJECT_NAME_1.equals(project.getName()))
                 matchCount++;
             else if (TEST_PROJECT_NAME_2.equals(project.getName()))
                 matchCount++;
@@ -192,11 +195,11 @@ public class TestProjectApi {
 
         assertEquals(2, matchCount);
 
-        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME);
+        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME_1);
         assertNotNull(projects);
         assertEquals(2, projects.size());
         assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
-        assertEquals(TEST_PROJECT_NAME, projects.get(1).getName());
+        assertEquals(TEST_PROJECT_NAME_1, projects.get(1).getName());
     }
 
     @Test
@@ -209,7 +212,7 @@ public class TestProjectApi {
 
         int matchCount = 0;
         for (Project project : projects) {
-            if (TEST_PROJECT_NAME.equals(project.getName()))
+            if (TEST_PROJECT_NAME_1.equals(project.getName()))
                 matchCount++;
             else if (TEST_PROJECT_NAME_2.equals(project.getName()))
                 matchCount++;
@@ -217,11 +220,11 @@ public class TestProjectApi {
 
         assertEquals(2, matchCount);
 
-        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME);
+        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME_1);
         assertNotNull(projects);
         assertEquals(2, projects.size());
         assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
-        assertEquals(TEST_PROJECT_NAME, projects.get(1).getName());
+        assertEquals(TEST_PROJECT_NAME_1, projects.get(1).getName());
     }
 
     @Test
@@ -229,21 +232,24 @@ public class TestProjectApi {
 
         List<Project> projects = gitLabApi.getProjectApi().getStarredProjects();
         assertNotNull(projects);
-        assertTrue(projects.isEmpty());
+        assertNotNull(projects);
+        assertEquals(1, projects.size());
+        assertEquals(TEST_PROJECT_NAME, projects.get(0).getName());
     }
 
     @Test
     public void testListStarredProjectsWithParams() throws GitLabApiException {
 
         List<Project> projects = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
-                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, true, true);
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, TEST_PROJECT_NAME, true, true, true, true, true);
         assertNotNull(projects);
-        assertTrue(projects.isEmpty());
+        assertEquals(1, projects.size());
+        assertEquals(TEST_PROJECT_NAME, projects.get(0).getName());
     }
 
     @Test
     public void testRemoveByDelete() throws GitLabApiException {
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_1);
         gitLabApi.getProjectApi().deleteProject(project);
     }
 
