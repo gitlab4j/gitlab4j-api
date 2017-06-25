@@ -153,6 +153,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @param projectId the ID of the project
      * @param commitOrBranchName the commit or branch name to get the file for
      * @param filepath the path of the file to get
+     * @param directory the File instance of the directory to save the file to, if null will use "java.io.tmpdir"
      * @return a File instance pointing to the download of the specified file
      * @throws GitLabApiException if any exception occurs
      */
