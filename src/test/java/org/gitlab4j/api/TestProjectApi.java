@@ -149,6 +149,99 @@ public class TestProjectApi {
     }
 
     @Test
+    public void testListProjectsWithParams() throws GitLabApiException {
+
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, false, true);
+        assertNotNull(projects);
+        assertTrue(projects.size() >= 2);
+
+        int matchCount = 0;
+        for (Project project : projects) {
+            if (TEST_PROJECT_NAME.equals(project.getName()))
+                matchCount++;
+            else if (TEST_PROJECT_NAME_2.equals(project.getName()))
+                matchCount++;
+        }
+
+        assertEquals(2, matchCount);
+
+        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME);
+        assertNotNull(projects);
+        assertEquals(2, projects.size());
+        assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
+        assertEquals(TEST_PROJECT_NAME, projects.get(1).getName());
+    }
+
+    @Test
+    public void testListProjectsWithParamsViaPager() throws GitLabApiException {
+
+        Pager<Project> pager = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, false, true, 10);
+        assertNotNull(pager);
+        assertTrue(pager.getTotalItems() >= 2);
+
+        List<Project> projects = pager.next();
+        int matchCount = 0;
+        for (Project project : projects) {
+            if (TEST_PROJECT_NAME.equals(project.getName()))
+                matchCount++;
+            else if (TEST_PROJECT_NAME_2.equals(project.getName()))
+                matchCount++;
+        }
+
+        assertEquals(2, matchCount);
+
+        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME);
+        assertNotNull(projects);
+        assertEquals(2, projects.size());
+        assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
+        assertEquals(TEST_PROJECT_NAME, projects.get(1).getName());
+    }
+
+    @Test
+    public void testListProjectsWithParamByPage() throws GitLabApiException {
+
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, false, true, 1, 10);
+        assertNotNull(projects);
+        assertTrue(projects.size() >= 2);
+
+        int matchCount = 0;
+        for (Project project : projects) {
+            if (TEST_PROJECT_NAME.equals(project.getName()))
+                matchCount++;
+            else if (TEST_PROJECT_NAME_2.equals(project.getName()))
+                matchCount++;
+        }
+
+        assertEquals(2, matchCount);
+
+        projects = gitLabApi.getProjectApi().getProjects(TEST_PROJECT_NAME);
+        assertNotNull(projects);
+        assertEquals(2, projects.size());
+        assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
+        assertEquals(TEST_PROJECT_NAME, projects.get(1).getName());
+    }
+
+    @Test
+    public void testListStarredProjects() throws GitLabApiException {
+
+        List<Project> projects = gitLabApi.getProjectApi().getStarredProjects();
+        assertNotNull(projects);
+        assertTrue(projects.isEmpty());
+    }
+
+    @Test
+    public void testListStarredProjectsWithParams() throws GitLabApiException {
+
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, true, true);
+        assertNotNull(projects);
+        assertTrue(projects.isEmpty());
+    }
+
+    @Test
     public void testRemoveByDelete() throws GitLabApiException {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         gitLabApi.getProjectApi().deleteProject(project);

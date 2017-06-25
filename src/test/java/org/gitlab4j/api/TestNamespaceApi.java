@@ -73,12 +73,41 @@ public class TestNamespaceApi {
     public void testGetNamespaces() throws GitLabApiException {
         List<Namespace> namespaces = gitLabApi.getNamespaceApi().getNamespaces();
         assertNotNull(namespaces);
+        assertEquals(TEST_NAMESPACE, namespaces.get(0).getName());
     }
-    
+
+    @Test
+    public void testGetNamespacesViaPager() throws GitLabApiException {
+        Pager<Namespace> pager = gitLabApi.getNamespaceApi().getNamespaces(10);
+        assertNotNull(pager);
+        assertEquals(TEST_NAMESPACE, pager.next().get(0).getName());
+    }
+
+    @Test
+    public void testGetNamespacesByPage() throws GitLabApiException {
+        List<Namespace> namespaces = gitLabApi.getNamespaceApi().getNamespaces(1, 10);
+        assertNotNull(namespaces);
+        assertEquals(TEST_NAMESPACE, namespaces.get(0).getName());
+    }
+
     @Test
     public void testFindNamespaces() throws GitLabApiException {
         List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces(TEST_NAMESPACE);
         assertNotNull(namespaces);
         assertEquals(TEST_NAMESPACE, namespaces.get(0).getName());
+    }
+
+    @Test
+    public void testFindNamespacesByPage() throws GitLabApiException {
+        List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces(TEST_NAMESPACE, 1, 10);
+        assertNotNull(namespaces);
+        assertEquals(TEST_NAMESPACE, namespaces.get(0).getName());
+    }
+
+    @Test
+    public void testFindNamespacesViaPager() throws GitLabApiException {
+        Pager<Namespace> pager = gitLabApi.getNamespaceApi().findNamespaces(TEST_NAMESPACE, 10);
+        assertNotNull(pager);
+        assertEquals(TEST_NAMESPACE, pager.next().get(0).getName());
     }
 }
