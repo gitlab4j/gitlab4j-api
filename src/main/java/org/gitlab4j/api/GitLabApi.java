@@ -2,10 +2,8 @@ package org.gitlab4j.api;
 
 import java.util.Map;
 
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.Version;
 
