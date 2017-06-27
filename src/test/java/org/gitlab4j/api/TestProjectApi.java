@@ -274,4 +274,42 @@ public class TestProjectApi {
         gitLabApi.getProjectApi().deleteProject(project);
     }
 
+    @Test
+    public void testProjects() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getProjects();
+        assertTrue(projects != null);
+    }
+
+    @Test
+    public void testProjectPerPage() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(1, 10);
+        assertNotNull(projects);
+        assertEquals(10, projects.size());
+    }
+
+    @Test
+    public void testOwnedProjects() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getOwnedProjects();
+        assertTrue(projects != null);
+    }
+
+    @Test
+    public void testOwnedProjectsPerPage() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getOwnedProjects(1, 10);
+        assertTrue(projects != null);
+        assertTrue(projects.size() > 0);
+    }
+
+    @Test
+    public void testMemberProjects() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getMemberProjects();
+        assertTrue(projects != null);
+    }
+
+    @Test
+    public void testMemberProjectsPerPage() throws GitLabApiException {
+        List<Project> projects = gitLabApi.getProjectApi().getMemberProjects(1, 10);
+        assertTrue(projects != null);
+        assertTrue(projects.size() > 0);
+    }
 }

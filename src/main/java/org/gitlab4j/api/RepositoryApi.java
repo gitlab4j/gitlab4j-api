@@ -3,6 +3,8 @@ package org.gitlab4j.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
@@ -14,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.utils.FileUtils;
@@ -456,5 +459,45 @@ public class RepositoryApi extends AbstractApi {
         } catch (IOException ioe) {
             throw new GitLabApiException(ioe);
         }
+    }
+
+    /**
+     * Compare branches, tags or commits. This can be accessed without authentication
+     * if the repository is publicly accessible.
+     * 
+     * @param projectId the ID of the project owned by the authenticated user
+     * @param from the commit SHA or branch name
+     * @param to the commit SHA or branch name
+     * @return a CompareResults containing the results of the comparison
+     * @throws GitLabApiException
+     */
+    public CompareResults compare(Integer projectId, String from, String to) throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("from", from, true).withParam("to", to, true);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "compare");
+        return (response.readEntity(CompareResults.class));
+    }
+
+    /**
+     * Compare branches, tags or commits. This can be accessed without authentication
+     * if the repository is publicly accessible.
+     * 
+     * @param projectPath the path of the project owned by the authenticated user
+     * @param from the commit SHA or branch name
+     * @param to the commit SHA or branch name
+     * @return a CompareResults containing the results of the comparison
+     * @throws GitLabApiException
+     */
+    public CompareResults compare(String projectPath, String from, String to) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm().withParam("from", from, true).withParam("to", to, true);
+
+        try {
+            projectPath = URLEncoder.encode(projectPath, "UTF-8");
+        } catch (UnsupportedEncodingException uee) {
+            throw (new GitLabApiException(uee));
+        }
+
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectPath, "repository", "compare");
+        return (response.readEntity(CompareResults.class));
     }
 }

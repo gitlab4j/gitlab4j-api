@@ -14,7 +14,7 @@ public class MergeRequest {
     private Integer approvalsBeforeMerge;
     private Assignee assignee;
     private Author author;
-    private Changes changes;
+    private Diff changes;
     private Date createdAt;
     private String description;
     private Integer downvotes;
@@ -67,11 +67,11 @@ public class MergeRequest {
         this.author = author;
     }
 
-    public Changes getChanges() {
+    public Diff getChanges() {
         return changes;
     }
 
-    public void setChanges(Changes changes) {
+    public void setChanges(Diff changes) {
         this.changes = changes;
     }
 

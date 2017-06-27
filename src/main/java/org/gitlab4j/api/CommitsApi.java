@@ -1,5 +1,7 @@
 package org.gitlab4j.api;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.ws.rs.core.GenericType;
@@ -77,17 +79,39 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
-     * Get the diff of a commit in a project.
+     * Get the list of diffs of a commit in a project.
      *
      * GET /projects/:id/repository/commits/:sha/diff
      *
      * @param projectId the project ID that the commit belongs to
      * @param sha a commit hash or name of a branch or tag
-     * @return the Diff instance for the specified project ID/sha pair
+     * @return a List of Diff instances for the specified project ID/sha pair
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public Diff getDiff(int projectId, String sha) throws GitLabApiException {
+    public List<Diff> getDiff(int projectId, String sha) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha, "diff");
-        return (response.readEntity(Diff.class));
+        return (response.readEntity(new GenericType<List<Diff>>() {}));
+    }
+
+    /**
+     * Get the list of diffs of a commit in a project.
+     *
+     * GET /projects/:id/repository/commits/:sha/diff
+     *
+     * @param projectPath the project path that the commit belongs to
+     * @param sha a commit hash or name of a branch or tag
+     * @return a List of Diff instances for the specified project ID/sha pair
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<Diff> getDiff(String projectPath, String sha) throws GitLabApiException {
+
+        try {
+            projectPath = URLEncoder.encode(projectPath, "UTF-8");
+        } catch (UnsupportedEncodingException uee) {
+            throw (new GitLabApiException(uee));
+        }
+
+        Response response = get(Response.Status.OK, null, "projects", projectPath, "repository", "commits", sha, "diff");
+        return (response.readEntity(new GenericType<List<Diff>>() {}));
     }
 }

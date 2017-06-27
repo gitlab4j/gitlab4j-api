@@ -9,6 +9,7 @@ import java.util.List;
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Group;
@@ -73,6 +74,17 @@ public class TestGitLabApiBeans {
         try {
             Commit commit = makeFakeApiCall(Commit.class, "commit");
             assertTrue(compareJson(commit, "commit"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testCompareResults() {
+
+        try {
+            CompareResults compareResults = makeFakeApiCall(CompareResults.class, "compare-results");
+            assertTrue(compareJson(compareResults, "compare-results"));
         } catch (Exception e) {
             e.printStackTrace();
         }

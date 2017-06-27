@@ -11,8 +11,8 @@ public class Changes {
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonProperty("b_mode")
-
     private String b_mode;
+
     private Boolean deletedFile;
     private String diff;
     private Boolean newFile;
