@@ -469,7 +469,7 @@ public class RepositoryApi extends AbstractApi {
      * @param from the commit SHA or branch name
      * @param to the commit SHA or branch name
      * @return a CompareResults containing the results of the comparison
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public CompareResults compare(Integer projectId, String from, String to) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("from", from, true).withParam("to", to, true);
@@ -485,7 +485,7 @@ public class RepositoryApi extends AbstractApi {
      * @param from the commit SHA or branch name
      * @param to the commit SHA or branch name
      * @return a CompareResults containing the results of the comparison
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public CompareResults compare(String projectPath, String from, String to) throws GitLabApiException {
 
