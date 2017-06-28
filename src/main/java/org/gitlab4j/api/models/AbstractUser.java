@@ -22,6 +22,7 @@ public class AbstractUser {
     private Integer id;
     private List<Identity> identities;
     private Boolean isAdmin;
+    private Date lastActivityOn;
     private Date lastSignInAt;
     private String linkedin;
     private String location;
@@ -29,6 +30,7 @@ public class AbstractUser {
     private String organization;
     private Integer projectsLimit;
     private String provider;
+    private Integer sharedRunnersMinutesLimit;
     private String skype;
     private String state;
     private Integer themeId;
@@ -142,6 +144,14 @@ public class AbstractUser {
         this.isAdmin = isAdmin;
     }
 
+    public Date getLastActivityOn() {
+        return lastActivityOn;
+    }
+
+    public void setLastActivityOn(Date lastActivityOn) {
+        this.lastActivityOn = lastActivityOn;
+    }
+
     public Date getLastSignInAt() {
         return lastSignInAt;
     }
@@ -196,6 +206,14 @@ public class AbstractUser {
 
     public void setProvider(String provider) {
         this.provider = provider;
+    }
+
+    public Integer getSharedRunnersMinutesLimit() {
+        return sharedRunnersMinutesLimit;
+    }
+
+    public void setSharedRunnersMinutesLimit(Integer sharedRunnersMinutesLimit) {
+        this.sharedRunnersMinutesLimit = sharedRunnersMinutesLimit;
     }
 
     public String getSkype() {
