@@ -24,6 +24,7 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectSnippet;
 import org.gitlab4j.api.models.Session;
+import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
@@ -272,6 +273,17 @@ public class TestGitLabApiBeans {
         try {
             Tag tag = makeFakeApiCall(Tag.class, "tag");
             assertTrue(compareJson(tag, "tag"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testSshKey() {
+
+        try {
+            SshKey sshKey = makeFakeApiCall(SshKey.class, "sshkey");
+            assertTrue(compareJson(sshKey, "sshkey"));
         } catch (Exception e) {
             e.printStackTrace();
         }

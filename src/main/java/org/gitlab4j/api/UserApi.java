@@ -7,6 +7,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 
 /**
@@ -215,9 +216,133 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Get a list of currently authenticated user's SSH keys.
+     *
+     * GET /user/keys
+     *
+     * @return a list of currently authenticated user's SSH keys
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<SshKey> getSshKeys() throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "user", "keys");
+        return (response.readEntity(new GenericType<List<SshKey>>() {}));
+    }
+
+    /**
+     * Get a list of a specified user's SSH keys. Available only for admin users.
+     *
+     * GET /users/:id/keys
+     *
+     * @param userId the ID of the user to get SSH keys for
+     * @return a list of a specified user's SSH keys
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<SshKey> getSshKeys(Integer userId) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "users", userId, "keys");
+        return (response.readEntity(new GenericType<List<SshKey>>() {}));
+    }
+
+    /**
+     * Get a single SSH Key.
+     *
+     * GET /user/keys/:key_id
+     *
+     * @param keyId the ID of the SSH key.
+     * @return an SshKey instance holding the info on the SSH key specified by keyId
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SshKey getSshKey(Integer keyId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "user", "keys", keyId);
+        return (response.readEntity(SshKey.class));
+    }
+
+    /**
+     * Creates a new key owned by the currently authenticated user.
+     *
+     * POST /user/keys
+     *
+     * @param title the new SSH Key's title
+     * @param key the new SSH key
+     * @return an SshKey instance with info on the added SSH key
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SshKey addSshKey(String title, String key) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
+        Response response = post(Response.Status.CREATED, formData, "user", "keys");
+        return (response.readEntity(SshKey.class));
+    }
+
+    /**
+     * Create new key owned by specified user. Available only for admin users.
+     *
+     * POST /users/:id/keys
+     *
+     * @param userId the ID of the user to add the SSH key for
+     * @param title the new SSH Key's title
+     * @param key the new SSH key
+     * @return an SshKey instance with info on the added SSH key
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SshKey addSshKey(Integer userId, String title, String key) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
+        Response response = post(Response.Status.CREATED, formData, "users", userId, "keys");
+        return (response.readEntity(SshKey.class));
+    }
+
+    /**
+     * Deletes key owned by currently authenticated user. This is an idempotent function and calling it 
+     * on a key that is already deleted or not available results in success.
+     *
+     * DELETE /user/keys/:key_id
+     *
+     * @param keyId the key ID to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteSshKey(Integer keyId) throws GitLabApiException {
+
+        if (keyId == null) {
+            throw new RuntimeException("keyId cannot be null");
+        }
+
+        delete(Response.Status.OK, null, "user", "keys", keyId);
+    }
+
+    /**
+     * Deletes key owned by a specified user. Available only for admin users.
+     *
+     * DELETE /users/:id/keys/:key_id
+     *
+     * @param userId the user ID of the user to delete the key for
+     * @param keyId the key ID to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteSshKey(Integer userId, Integer keyId) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        if (keyId == null) {
+            throw new RuntimeException("keyId cannot be null");
+        }
+
+        delete(Response.Status.OK, null, "users", userId, "keys", keyId);
+    }
+
+    /**
      * Populate the REST form with data from the User instance.
      *
-     * @param user the User iunstance to populate the Form instance with
+     * @param user the User instance to populate the Form instance with
      * @param projectsLimit the maximum number of projects the user is allowed (optional)
      * @param password the password, required when creating a new user
      * @param create whether the form is being populated to create a new user
