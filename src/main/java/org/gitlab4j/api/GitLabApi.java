@@ -38,6 +38,7 @@ public class GitLabApi {
     private SessionApi sessoinApi;
     private UserApi userApi;
     private JobApi jobApi;
+    private NotesApi notesApi;
 
     private Session session;
 
@@ -188,6 +189,7 @@ public class GitLabApi {
         userApi = new UserApi(this);
         repositoryFileApi = new RepositoryFileApi(this);
         jobApi = new JobApi(this);
+        notesApi = new NotesApi(this);
     }
 
     /**
@@ -371,5 +373,22 @@ public class GitLabApi {
         return (userApi);
     }
 
+    /**
+     * Gets the JobApi instance owned by this GitLabApi instance. The JobApi is used
+     * to perform all jobs related API calls.
+     *
+     * @return the JobsApi instance owned by this GitLabApi instance
+     */
     public JobApi getJobApi() { return (jobApi); }
+
+    /**
+     * Gets the NotesApi instance owned by this GitLabApi instance. The NotesApi is used
+     * to perform all notes related API calls.
+     *
+     * @return the NotesApi instance owned by this GitLabApi instance
+     */
+    public NotesApi getNotesApi() {
+        return (notesApi);
+    }
+
 }
