@@ -121,4 +121,21 @@ public interface Constants {
             return (name().toLowerCase());
         }
     }
+
+    /** Enum to use for specifying the scope when calling getJobs(). */
+    public enum JobScope {
+
+        CREATED, PENDING, RUNNING, FAILED, SUCCESS, CANCELED, SKIPPED, MANUAL;
+
+        private static JacksonJsonEnumHelper<JobScope> enumHelper = new JacksonJsonEnumHelper<>(JobScope.class);
+
+        @JsonCreator
+        public static JobScope forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() { return (name().toLowerCase()); }
+
+        @Override
+        public String toString() { return (name().toLowerCase()); }
+    }
 }

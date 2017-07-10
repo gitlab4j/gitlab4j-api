@@ -37,6 +37,7 @@ public class GitLabApi {
     private ServicesApi servicesApi;
     private SessionApi sessoinApi;
     private UserApi userApi;
+    private JobApi jobApi;
 
     private Session session;
 
@@ -186,6 +187,7 @@ public class GitLabApi {
         sessoinApi = new SessionApi(this);
         userApi = new UserApi(this);
         repositoryFileApi = new RepositoryFileApi(this);
+        jobApi = new JobApi(this);
     }
 
     /**
@@ -236,10 +238,10 @@ public class GitLabApi {
     GitLabApiClient getApiClient() {
         return (apiClient);
     }
-    
+
     /**
      * Get the version info for the GitLab server using the GitLab Version API.
-     * 
+     *
      * @return the version info for the GitLab server
      * @throws GitLabApiException if any exception occurs
      */
@@ -368,4 +370,6 @@ public class GitLabApi {
     public UserApi getUserApi() {
         return (userApi);
     }
+
+    public JobApi getJobApi() { return (jobApi); }
 }
