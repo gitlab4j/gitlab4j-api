@@ -37,6 +37,7 @@ public class GitLabApi {
     private ServicesApi servicesApi;
     private SessionApi sessoinApi;
     private UserApi userApi;
+    private JobApi jobApi;
     private NotesApi notesApi;
 
     private Session session;
@@ -187,6 +188,7 @@ public class GitLabApi {
         sessoinApi = new SessionApi(this);
         userApi = new UserApi(this);
         repositoryFileApi = new RepositoryFileApi(this);
+        jobApi = new JobApi(this);
         notesApi = new NotesApi(this);
     }
 
@@ -238,10 +240,10 @@ public class GitLabApi {
     GitLabApiClient getApiClient() {
         return (apiClient);
     }
-    
+
     /**
      * Get the version info for the GitLab server using the GitLab Version API.
-     * 
+     *
      * @return the version info for the GitLab server
      * @throws GitLabApiException if any exception occurs
      */
@@ -372,6 +374,14 @@ public class GitLabApi {
     }
 
     /**
+     * Gets the JobApi instance owned by this GitLabApi instance. The JobApi is used
+     * to perform all jobs related API calls.
+     *
+     * @return the JobsApi instance owned by this GitLabApi instance
+     */
+    public JobApi getJobApi() { return (jobApi); }
+
+    /**
      * Gets the NotesApi instance owned by this GitLabApi instance. The NotesApi is used
      * to perform all notes related API calls.
      *
@@ -380,4 +390,5 @@ public class GitLabApi {
     public NotesApi getNotesApi() {
         return (notesApi);
     }
+
 }
