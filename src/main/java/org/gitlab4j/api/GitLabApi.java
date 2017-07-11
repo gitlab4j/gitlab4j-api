@@ -13,8 +13,10 @@ import org.gitlab4j.api.models.Version;
  */
 public class GitLabApi {
 
-    public static final int DEFAULT_PER_PAGE = 9999;
+    /** GitLab4J default per page.  GitLab will ignore anything over 100. */
+    public static final int DEFAULT_PER_PAGE = 100;
 
+    /** Specifies the version of the GitLab API to communicate with. */
     public enum ApiVersion {
         V3, V4;
 

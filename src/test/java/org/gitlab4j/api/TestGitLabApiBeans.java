@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.gitlab4j.api.GitLabApi;
+import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CompareResults;
@@ -14,6 +15,7 @@ import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
@@ -141,6 +143,28 @@ public class TestGitLabApiBeans {
         try {
             Pipeline pipeline = makeFakeApiCall(Pipeline.class, "pipeline");
             assertTrue(compareJson(pipeline, "pipeline"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testJob() {
+
+        try {
+            Job job = makeFakeApiCall(Job.class, "job");
+            assertTrue(compareJson(job, "job"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testArtifactsFile() {
+
+        try {
+            ArtifactsFile artifactFile = makeFakeApiCall(ArtifactsFile.class, "artifacts-file");
+            assertTrue(compareJson(artifactFile, "artifacts-file"));
         } catch (Exception e) {
             e.printStackTrace();
         }

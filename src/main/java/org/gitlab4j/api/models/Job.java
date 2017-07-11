@@ -12,15 +12,15 @@ public class Job {
     private Integer id;
     private Commit commit;
     private String coverage;
-    private Date created_at;
-    private Date finished_at;
+    private Date createdAt;
+    private Date finishedAt;
     private String name;
     private Pipeline pipeline;
     private String ref;
     private Runner runner;
     private User user;
-    private Date started_at;
-    private ArtifactsFile artifacts_file;
+    private Date startedAt;
+    private ArtifactsFile artifactsFile;
     private Boolean tag;
     private String stage;
     private JobStatus status;
@@ -41,20 +41,20 @@ public class Job {
     this.commit = commit;
   }
 
-    public Date getCreated_at() {
-    return created_at;
+    public Date getCreatedAt() {
+    return createdAt;
   }
 
-    public void setCreated_at(Date created_at) {
-    this.created_at = created_at;
+    public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
   }
 
-    public Date getFinished_at() {
-    return finished_at;
+    public Date getFinishedAt() {
+    return finishedAt;
   }
 
-    public void setFinished_at(Date finished_at) {
-    this.finished_at = finished_at;
+    public void setFinishedAt(Date finishedAt) {
+    this.finishedAt = finishedAt;
   }
 
     public String getName() {
@@ -89,12 +89,12 @@ public class Job {
     this.user = user;
   }
 
-    public Date getStarted_at() {
-    return started_at;
+    public Date getStartedAt() {
+    return startedAt;
   }
 
-    public void setStarted_at(Date started_at) {
-    this.started_at = started_at;
+    public void setStartedAt(Date startedAt) {
+    this.startedAt = startedAt;
   }
 
     public Boolean getTag() {
@@ -129,12 +129,12 @@ public class Job {
     this.coverage = coverage;
   }
 
-    public ArtifactsFile getArtifacts_file() {
-        return artifacts_file;
+    public ArtifactsFile getArtifactsFile() {
+        return artifactsFile;
     }
 
-    public void setArtifacts_file(ArtifactsFile artifacts_file) {
-        this.artifacts_file = artifacts_file;
+    public void setArtifactsFile(ArtifactsFile artifactsFile) {
+        this.artifactsFile = artifactsFile;
     }
 
     public Runner getRunner() {

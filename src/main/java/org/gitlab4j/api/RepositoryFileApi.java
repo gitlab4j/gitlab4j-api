@@ -187,7 +187,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @param projectId the ID of the project
      * @param commitOrBranchName the commit or branch name to get the file contents for
      * @param filepath the path of the file to get
-     * @return a string with the file content for the specified file
+     * @return an InputStream to read the raw file from
      * @throws GitLabApiException if any exception occurs
      */
     public InputStream getRawFile(Integer projectId, String commitOrBranchName, String filepath) throws GitLabApiException {

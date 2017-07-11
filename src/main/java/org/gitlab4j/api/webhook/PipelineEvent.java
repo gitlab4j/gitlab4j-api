@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.User;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -170,29 +171,6 @@ public class PipelineEvent implements Event {
 
         public void setArtifactsFile(ArtifactsFile artifactsFile) {
             this.artifactsFile = artifactsFile;
-        }
-
-        @XmlAccessorType(XmlAccessType.FIELD)
-        public static class ArtifactsFile {
-
-            private String file;
-            private Long size;
-
-            public String getFile() {
-                return file;
-            }
-
-            public void setFile(String file) {
-                this.file = file;
-            }
-
-            public Long getSize() {
-                return size;
-            }
-
-            public void setSize(Long size) {
-                this.size = size;
-            }
         }
     }
 
