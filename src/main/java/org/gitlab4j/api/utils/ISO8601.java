@@ -79,16 +79,27 @@ public class ISO8601 {
      * Get a ISO8601 formatted string for the provided Date instance.
      * 
      * @param date the Date instance to get the ISO8601 formatted string for
+     * @param withMsec flag indicating whether to include milliseconds
      * @return a ISO8601 formatted string for the provided Date instance, or null if date is null
      */
-    public static synchronized String toString(Date date) {
+    public static synchronized String toString(Date date, boolean withMsec) {
 
         if (date == null) {
             return (null);
         }
 
         long time = date.getTime();
-        return (time % 1000 != 0 ? iso8601OutputMsecFormat.format(date) : iso8601OutputFormat.format(date));
+        return (withMsec && time % 1000 != 0 ? iso8601OutputMsecFormat.format(date) : iso8601OutputFormat.format(date));
+    }
+
+    /**
+     * Get a ISO8601 formatted string for the provided Date instance.
+     * 
+     * @param date the Date instance to get the ISO8601 formatted string for
+     * @return a ISO8601 formatted string for the provided Date instance, or null if date is null
+     */
+    public static synchronized String toString(Date date) {
+        return (toString(date, true));
     }
 
     /**

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
+import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -87,14 +88,41 @@ public class TestCommitsApi {
 
         List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId());
         assertNotNull(commits);
-        assertTrue(0 < commits.size());
+        assertTrue(commits.size() > 0);
         
         List<Diff> diffs = gitLabApi.getCommitsApi().getDiff(project.getId(), commits.get(0).getId());
         assertNotNull(diffs);
-        assertTrue(0 < diffs.size());
+        assertTrue(diffs.size() > 0);
  
         diffs = gitLabApi.getCommitsApi().getDiff(TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(0).getId());
         assertNotNull(diffs);
-        assertTrue(0 < diffs.size());
+        assertTrue(diffs.size() > 0);
+    }
+
+    @Test
+    public void testCommitsSince() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(), null);
+        assertNotNull(commits);
+        assertTrue(commits.isEmpty());
+
+        commits = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(0), new Date());
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+
+        commits = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(0), new Date(), 1, 10);
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+
+        Pager<Commit> pager = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(), null, 10);
+        assertNotNull(pager);
+        assertTrue(pager.getTotalItems() == 0);
+
+        pager = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(0), null, 10);
+        assertNotNull(pager);
+        assertTrue(pager.getTotalItems() > 0);
     }
 }

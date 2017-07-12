@@ -2,13 +2,16 @@ package org.gitlab4j.api;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.Diff;
+import org.gitlab4j.api.utils.ISO8601;
 
 /**
  * This class implements the client side API for the GitLab commits calls.
@@ -29,8 +32,7 @@ public class CommitsApi extends AbstractApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public List<Commit> getCommits(int projectId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "repository", "commits");
-        return (response.readEntity(new GenericType<List<Commit>>() {}));
+        return (getCommits(projectId, null, null, null));
     }
 
     /**
@@ -45,8 +47,7 @@ public class CommitsApi extends AbstractApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public List<Commit> getCommits(int projectId, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "repository", "commits");
-        return (response.readEntity(new GenericType<List<Commit>>() {}));
+        return (getCommits(projectId, null, null, null, page, perPage));
     }
 
     /**
@@ -60,7 +61,75 @@ public class CommitsApi extends AbstractApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public Pager<Commit> getCommits(int projectId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Commit>(this, Commit.class, itemsPerPage, null,  "projects", projectId, "repository", "commits"));
+        return (getCommits(projectId, null, null, null, itemsPerPage));
+    }
+
+    /**
+     * Get a list of repository commits in a project.
+     *
+     * GET /projects/:id/repository/commits
+     *
+     * @param projectId the project ID to get the list of commits for
+     * @param ref the name of a repository branch or tag or if not given the default branch
+     * @param since only commits after or on this date will be returned
+     * @param until only commits before or on this date will be returned
+     * @return a list containing the commits for the specified project ID
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<Commit> getCommits(int projectId, String ref, Date since, Date until) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("ref_name", ref)
+                .withParam("since", ISO8601.toString(since, false))
+                .withParam("until", ISO8601.toString(until, false))
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "commits");
+        return (response.readEntity(new GenericType<List<Commit>>() {}));
+    }
+
+    /**
+     * Get a list of repository commits in a project.
+     *
+     * GET /projects/:id/repository/commits
+     *
+     * @param projectId the project ID to get the list of commits for
+     * @param ref the name of a repository branch or tag or if not given the default branch
+     * @param since only commits after or on this date will be returned
+     * @param until only commits before or on this date will be returned
+     * @param page the page to get
+     * @param perPage the number of commits per page
+     * @return a list containing the commits for the specified project ID
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<Commit> getCommits(int projectId, String ref, Date since, Date until, int page, int perPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("ref_name", ref)
+                .withParam("since", ISO8601.toString(since, false))
+                .withParam("until", ISO8601.toString(until, false))
+                .withParam(PAGE_PARAM,  page)
+                .withParam(PER_PAGE_PARAM, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "commits");
+        return (response.readEntity(new GenericType<List<Commit>>() {}));
+    }
+
+    /**
+     * Get a Pager of repository commits in a project.
+     *
+     * GET /projects/:id/repository/commits
+     *
+     * @param projectId the project ID to get the list of commits for
+     * @param ref the name of a repository branch or tag or if not given the default branch
+     * @param since only commits after or on this date will be returned
+     * @param until only commits before or on this date will be returned
+     * @param itemsPerPage the number of Commit instances that will be fetched per page
+     * @return a Pager containing the commits for the specified project ID
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Pager<Commit> getCommits(int projectId, String ref, Date since, Date until, int itemsPerPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("ref_name", ref)
+                .withParam("since", ISO8601.toString(since, false))
+                .withParam("until", ISO8601.toString(until, false));
+        return (new Pager<Commit>(this, Commit.class, itemsPerPage, formData.asMap(),  "projects", projectId, "repository", "commits"));
     }
 
     /**
