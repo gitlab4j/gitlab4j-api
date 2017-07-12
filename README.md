@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.4.0'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.4.1'
 }
 ```
 
@@ -20,11 +20,11 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.4.0</version>
+    <version>4.4.1</version>
 </dependency>
 ```
 
-If you are not using Gradle or Maven you can download the latest gitlab4j-api JAR file here: [gitlab4j-api-4.4.0.jar](https://oss.sonatype.org/service/local/repositories/releases/content/org/gitlab4j/gitlab4j-api/4.4.0/gitlab4j-api-4.4.0.jar "Download JAR")
+If you are not using Gradle or Maven you can download the latest gitlab4j-api JAR file here: [gitlab4j-api-4.4.1.jar](https://oss.sonatype.org/service/local/repositories/releases/content/org/gitlab4j/gitlab4j-api/4.4.1/gitlab4j-api-4.4.1.jar "Download JAR")
 
 Javadocs are available here: <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a>
 
