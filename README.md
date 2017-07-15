@@ -49,14 +49,13 @@ GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.co
 
 ---
 
-GitLab4J-API provides an easy to use paging mechanism to page through lists of results from the GitLab API.  Here is an example on how to use the Pager:
+GitLab4J-API provides an easy to use paging mechanism to page through lists of results from the GitLab API.  Here are a couple of examples on how to use the Pager:
 ```java
 // Get a Pager instance that will page through the projects with 10 projects per page
-Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjectsPager(10);
+Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
 
 // Iterate through the pages and print out the name and description
 while (projectsPager.hasNext())) {
-
     List<Project> projects = projectsPager.next();
     for (Project project : projects) {
         System.out.println(project.getName() + " -: " + project.getDescription());
@@ -64,6 +63,15 @@ while (projectsPager.hasNext())) {
 }
 ```
 
+```java
+// Create a Pager instance that will used to build a list containing all the commits for project ID 1234
+Pager<Commit> commitPager = gitlabApi.getCommitsApi().getCommits(1234, 20);
+List<Commit> allCommits = new ArrayList<>(commitPager.getTotalItems());
+
+// Iterate through the pages and append each page of commits to the list
+while (commitPager.hasNext())
+    allCommits.addAll(commitPager.next());
+```
 ---
 
 The API has been broken up into sub APIs classes to make it easier to learn and to separate concerns.  Following is a list of the sub APIs along with a sample use of each API.  See the Javadocs for a complete list of available methods for each sub API.
