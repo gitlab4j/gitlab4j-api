@@ -64,7 +64,7 @@ while (projectsPager.hasNext())) {
 ```
 
 ```java
-// Create a Pager instance that will used to build a list containing all the commits for project ID 1234
+// Create a Pager instance that will be used to build a list containing all the commits for project ID 1234
 Pager<Commit> commitPager = gitlabApi.getCommitsApi().getCommits(1234, 20);
 List<Commit> allCommits = new ArrayList<>(commitPager.getTotalItems());
 
