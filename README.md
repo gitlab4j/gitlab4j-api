@@ -56,8 +56,7 @@ Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
 
 // Iterate through the pages and print out the name and description
 while (projectsPager.hasNext())) {
-    List<Project> projects = projectsPager.next();
-    for (Project project : projects) {
+    for (Project project : projectPager.next()) {
         System.out.println(project.getName() + " -: " + project.getDescription());
     }
 }
