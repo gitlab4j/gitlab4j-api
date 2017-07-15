@@ -93,6 +93,9 @@ SessionApi
 UserApi
 ```
 
+Sub API Examples
+----------------
+
 CommitsApi:
 ```java
 // Get a list of commits associated with the specified branch
