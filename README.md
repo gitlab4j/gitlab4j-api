@@ -98,8 +98,11 @@ Sub API Examples
 
 CommitsApi:
 ```java
-// Get a list of commits associated with the specified branch
-List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature");
+// Get a list of commits associated with the specified branch that fall within the specified time window
+// This uses the ISO8601 date utilities the in org.gitlab4j.api.utils.ISO8601 class
+Date since = ISO8601.toDate("2017-01-01T00:00:00Z");
+Date until = new Date(); // now
+List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature", since, until);
 ```
 
 GroupApi:
