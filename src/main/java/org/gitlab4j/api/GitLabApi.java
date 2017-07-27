@@ -58,7 +58,7 @@ public class GitLabApi {
     public static GitLabApi login(ApiVersion apiVersion, String url, String username, String password) throws GitLabApiException {
         SessionApi sessionApi = new SessionApi(new GitLabApi(apiVersion, url, (String)null));
         Session session = sessionApi.login(username, null, password);
-        return (new GitLabApi(url, session));
+        return (new GitLabApi(apiVersion, url, session));
     }
 
     /**
@@ -241,6 +241,26 @@ public class GitLabApi {
      */
     GitLabApiClient getApiClient() {
         return (apiClient);
+    }
+
+    /**
+     * Returns true if the API is setup to ignore SSL certificate errors, otherwise returns false.
+     *
+     * @return true if the API is setup to ignore SSL certificate errors, otherwise returns false
+     */
+    public boolean getIgnoreCertificateErrors() {
+        return (apiClient.getIgnoreCertificateErrors());
+    }
+
+    /**
+     * Sets up the Jersey system ignore SSL certificate errors or not.
+     *
+     * WARNING: Setting this to true will affect ALL uses of HttpsURLConnection and Jersey.
+     *
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     */
+    public void setIgnoreCerificateErrors(boolean ignoreCertificateErrors) {
+        apiClient.setIgnoreCerificateErrors(ignoreCertificateErrors);
     }
 
     /**
