@@ -138,4 +138,21 @@ public interface Constants {
         @Override
         public String toString() { return (name().toLowerCase()); }
     }
+
+    /** Enum to use for specifying the state of a merge request update. */
+    public enum StateEvent {
+
+        CLOSE, REOPEN;
+
+        private static JacksonJsonEnumHelper<StateEvent> enumHelper = new JacksonJsonEnumHelper<>(StateEvent.class);
+
+        @JsonCreator
+        public static StateEvent forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() { return (name().toLowerCase()); }
+
+        @Override
+        public String toString() { return (name().toLowerCase()); }
+    }
 }

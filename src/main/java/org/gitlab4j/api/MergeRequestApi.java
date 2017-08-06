@@ -6,6 +6,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.MergeRequest;
 
 /**
@@ -114,6 +115,48 @@ public class MergeRequestApi extends AbstractApi {
      * PUT /projects/:id/merge_request/:merge_request_id
      *
      * @param projectId the ID of a project
+     * @param mergeRequestId the internal ID of the merge request to update
+     * @param targetBranch the target branch, optional
+     * @param title the title for the merge request
+     * @param assigneeId the Assignee user ID, optional
+     * @param description the description of the merge request, optional
+     * @param stateEvent new state for the merge request, optional
+     * @param labels comma separated list of labels, optional
+     * @param milestoneId the ID of a milestone, optional
+     * @return the updated merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestId, String targetBranch,
+            String title, Integer assigneeId, String description, StateEvent stateEvent, String labels,
+            Integer milestoneId) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (mergeRequestId == null) {
+            throw new RuntimeException("mergeRequestId cannot be null");
+        }
+
+        Form formData = new GitLabApiForm()
+        .withParam("target_branch", targetBranch)
+        .withParam("title", title)
+        .withParam("assignee_id", assigneeId)
+        .withParam("description", description)
+        .withParam("state_event", stateEvent)
+        .withParam("labels", labels)
+        .withParam("milestone_id", milestoneId);
+
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_request", mergeRequestId);
+        return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Updates an existing merge request. You can change branches, title, or even close the MR.
+     *
+     * PUT /projects/:id/merge_request/:merge_request_id
+     *
+     * @param projectId the ID of a project
      * @param mergeRequestId the ID of the merge request to update
      * @param sourceBranch the source branch
      * @param targetBranch the target branch
@@ -122,16 +165,19 @@ public class MergeRequestApi extends AbstractApi {
      * @param assigneeId the Assignee user ID, optional
      * @return the updated merge request
      * @throws GitLabApiException if any exception occurs
+     * @deprecated as of release 4.4.3, replaced by {@link #updateMergeRequest(Integer, Integer, String,
+     *    String, Integer, String, StateEvent, String, Integer)}
      */
+    @Deprecated
     public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestId, String sourceBranch, String targetBranch, String title, String description,
             Integer assigneeId) throws GitLabApiException {
 
         if (projectId == null) {
-            throw new RuntimeException("mergeRequestId cannot be null");
+            throw new RuntimeException("projectId cannot be null");
         }
 
         if (mergeRequestId == null) {
-            throw new RuntimeException("projectId cannot be null");
+            throw new RuntimeException("mergeRequestId cannot be null");
         }
 
         Form formData = new Form();
@@ -142,6 +188,95 @@ public class MergeRequestApi extends AbstractApi {
         addFormParam(formData, "assignee_id", assigneeId, false);
 
         Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_request", mergeRequestId);
+        return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Only for admins and project owners. Soft deletes the specified merge.
+     *
+     * DELETE /projects/:id/merge_requests/:merge_request_iid
+     *
+     * @param projectId the ID of a project
+     * @param mergeRequestId the internal ID of the merge request\
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (mergeRequestId == null) {
+            throw new RuntimeException("mergeRequestId cannot be null");
+        }
+
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "projects", projectId, "merge_request", mergeRequestId);
+    }
+
+    /**
+     * Merge changes to the merge request. If the MR has any conflicts and can not be merged,
+     * you'll get a 405 and the error message 'Branch cannot be merged'. If merge request is
+     * already merged or closed, you'll get a 406 and the error message 'Method Not Allowed'.
+     * If the sha parameter is passed and does not match the HEAD of the source, you'll get
+     * a 409 and the error message 'SHA does not match HEAD of source branch'.  If you don't
+     * have permissions to accept this merge request, you'll get a 401.
+     *
+     * PUT /projects/:id/merge_requests/:merge_request_iid/merge
+     *
+     * @param projectId the ID of a project
+     * @param mergeRequestId the internal ID of the merge request
+     * @param mergeCommitMessage, custom merge commit message, optional
+     * @param shouldRemoveSourceBranch, if true removes the source branch, optional
+     * @param mergeWhenPipelineSucceeds, if true the MR is merged when the pipeline, optional
+     * @return the merged merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestId, 
+            String mergeCommitMessage, Boolean shouldRemoveSourceBranch, Boolean mergeWhenPipelineSucceeds)
+            throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (mergeRequestId == null) {
+            throw new RuntimeException("mergeRequestId cannot be null");
+        }
+
+        Form formData = new GitLabApiForm()
+                .withParam("merge_commit_message", mergeCommitMessage)
+                .withParam("should_remove_source_branch", shouldRemoveSourceBranch)
+                .withParam("merge_when_pipeline_succeeds", mergeWhenPipelineSucceeds);
+
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestId, "merge");
+        return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Cancel merge when pipeline succeeds. If you don't have permissions to accept this merge request,
+     * you'll get a 401. If the merge request is already merged or closed, you get 405 and
+     * error message 'Method Not Allowed'. In case the merge request is not set to be merged when the
+     * pipeline succeeds, you'll also get a 406 error.
+     *
+     * PUT /projects/:id/merge_requests/:merge_request_iid/cancel_merge_when_pipeline_succeeds
+     *
+     * @param projectId the ID of a project
+     * @param mergeRequestId the internal ID of the merge request
+     * @return the updated merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (mergeRequestId == null) {
+            throw new RuntimeException("mergeRequestId cannot be null");
+        }
+
+        Response response = put(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestId, "cancel_merge_when_pipeline_succeeds");
         return (response.readEntity(MergeRequest.class));
     }
 }
