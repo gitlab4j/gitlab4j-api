@@ -40,7 +40,11 @@ public abstract class AbstractApi implements Constants {
 
     protected String urlEncode(String s) throws GitLabApiException {
         try {
-            return (URLEncoder.encode(s, "UTF-8"));
+            String encoded = URLEncoder.encode(s, "UTF-8");
+            encoded = encoded.replace(".", "%2E");
+            encoded = encoded.replace("-", "%2D");
+            encoded = encoded.replace("_", "%5F");
+            return (encoded);
         } catch (Exception e) {
             throw new GitLabApiException(e);
         }
@@ -186,6 +190,24 @@ public abstract class AbstractApi implements Constants {
     protected Response put(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
         try {
             return validate(getApiClient().put(queryParams, url), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
+     * Perform an HTTP PUT call with the specified form data and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param formData the Form containing the name/value pairs for the POST data
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response putWithFormData(Response.Status expectedStatus, Form formData, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().put(formData, pathArgs), expectedStatus);
         } catch (Exception e) {
             throw handle(e);
         }

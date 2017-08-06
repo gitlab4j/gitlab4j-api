@@ -658,7 +658,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param importUrl The Import URL for the project, otherwise null
      * @return the GitLab Project
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  As of release 4.2.0, replaced by {@link #createProject(String, Integer, String, Boolean, Boolean,
+     * @deprecated As of release 4.2.0, replaced by {@link #createProject(String, Integer, String, Boolean, Boolean,
      *      Boolean, Boolean, Visibility, Integer, String)}
      */
     @Deprecated
@@ -687,6 +687,91 @@ public class ProjectApi extends AbstractApi implements Constants {
         }
 
         Response response = post(Response.Status.CREATED, formData, "projects");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Updates a project. The following properties on the Project instance
+     * are utilized in the edit of the project, null values are not updated:
+     *
+     * id (required) - existing project id
+     * name (required) - project name
+     * path (optional) - project path
+     * defaultBranch (optional) - master by default
+     * description (optional) - short project description
+     * visibility (optional) - Limit by visibility public, internal, or private
+     * issuesEnabled (optional) - Enable issues for this project
+     * mergeRequestsEnabled (optional) - Enable merge requests for this project
+     * wikiEnabled (optional) - Enable wiki for this project
+     * snippetsEnabled (optional) - Enable snippets for this project
+     * jobsEnabled (optional) - Enable jobs for this project
+     * containerRegistryEnabled (optional) - Enable container registry for this project
+     * sharedRunnersEnabled (optional) - Enable shared runners for this project
+     * publicJobs (optional) - If true, jobs can be viewed by non-project-members
+     * onlyAllowMergeIfPipelineSucceeds (optional) - Set whether merge requests can only be merged with successful jobs
+     * onlyAllowMergeIfAllDiscussionsAreResolved (optional) - Set whether merge requests can only be merged when all the discussions are resolved
+     * lLfsEnabled (optional) - Enable LFS
+     * requestAccessEnabled (optional) - Allow users to request member access
+     * repositoryStorage (optional) - Which storage shard the repository is on. Available only to admins
+     * approvalsBeforeMerge (optional) - How many approvers should approve merge request by default
+     *
+     * NOTE: The following parameters specified by the GitLab API edit project are not supported:
+     *     import_url
+     *     tag_list array
+     *     avatar
+     *     ci_config_path
+     *
+     * @param project the Project instance with the configuration for the new project
+     * @return a Project instance with the newly updated project info
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project updateProject(Project project) throws GitLabApiException {
+
+        if (project == null) {
+            throw new RuntimeException("Project instance cannot be null.");
+        }
+
+        Integer id = project.getId();
+        if (id == null) {
+            throw new RuntimeException("Project ID cannot be null.");
+        }
+
+        String name = project.getName();
+        if (name == null || name.trim().length() == 0) {
+            throw new RuntimeException("Project name cannot be null or empty.");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("name", name, true)
+            .withParam("path", project.getPath())
+            .withParam("default_branch", project.getDefaultBranch())
+            .withParam("description", project.getDescription())
+            .withParam("issues_enabled", project.getIssuesEnabled())
+            .withParam("merge_requests_enabled", project.getMergeRequestsEnabled())
+            .withParam("jobs_enabled", project.getJobsEnabled())
+            .withParam("wiki_enabled", project.getWikiEnabled())
+            .withParam("snippets_enabled", project.getSnippetsEnabled())
+            .withParam("container_registry_enabled", project.getContainerRegistryEnabled())
+            .withParam("shared_runners_enabled", project.getSharedRunnersEnabled())
+            .withParam("public_jobs", project.getPublicJobs())
+            .withParam("only_allow_merge_if_pipeline_succeeds", project.getOnlyAllowMergeIfPipelineSucceeds())
+            .withParam("only_allow_merge_if_all_discussions_are_resolved", project.getOnlyAllowMergeIfAllDiscussionsAreResolved())
+            .withParam("lfs_enabled", project.getLfsEnabled())
+            .withParam("request_access_enabled", project.getRequestAccessEnabled())
+            .withParam("repository_storage", project.getRepositoryStorage())
+            .withParam("approvals_before_merge", project.getApprovalsBeforeMerge());
+
+        if (isApiVersion(ApiVersion.V3)) {
+            formData.withParam("visibility_level", project.getVisibilityLevel());
+            boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
+            formData.withParam("public", isPublic);
+        } else {
+            Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
+                project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
+            formData.withParam("visibility", visibility);
+        }
+
+        Response response = putWithFormData(Response.Status.OK, formData, "projects", id);
         return (response.readEntity(Project.class));
     }
 

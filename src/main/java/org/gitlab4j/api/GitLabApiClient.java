@@ -395,6 +395,35 @@ public class GitLabApiClient {
     }
 
     /**
+     * Perform an HTTP PUT call with the specified form data and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param formData the Form containing the name/value pairs
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response put(Form formData, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return put(formData, url);
+    }
+
+    /**
+     * Perform an HTTP PUT call with the specified form data and URL, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param formData the Form containing the name/value pairs
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     */
+    protected Response put(Form formData, URL url) {
+        if (formData instanceof GitLabApiForm)
+            return (invocation(url, null).put(Entity.entity(formData.asMap(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+        else
+            return (invocation(url, null).put(Entity.entity(formData, MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+    }
+
+    /**
      * Perform an HTTP DELETE call with the specified form data and path objects, returning
      * a Response instance with the data returned from the endpoint.
      * 

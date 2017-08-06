@@ -172,6 +172,11 @@ public class Project {
         this.id = id;
     }
 
+    public Project withId(Integer id) {
+        this.id = id;
+        return (this);
+    }
+
     public Boolean getIssuesEnabled() {
         return issuesEnabled;
     }

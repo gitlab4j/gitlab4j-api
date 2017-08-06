@@ -47,6 +47,7 @@ public class TestProjectApi {
 
     private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
     private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
+    private static final String TEST_PROJECT_NAME_UPDATE = "test-gitlab4j-create-project-update";
     private static GitLabApi gitLabApi;
 
     public TestProjectApi() {
@@ -75,27 +76,30 @@ public class TestProjectApi {
             System.err.print(problems);
         }
 
-        if (gitLabApi != null) {
-            try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_1);
-                gitLabApi.getProjectApi().deleteProject(project);
-                project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
-                gitLabApi.getProjectApi().deleteProject(project);
-            } catch (GitLabApiException ignore) {
-            }
-        }
+        deleteAllTestProjects();
     }
 
     @AfterClass
     public static void teardown() throws GitLabApiException {
+        deleteAllTestProjects();
+    }
+
+    private static void deleteAllTestProjects() {
         if (gitLabApi != null) {
             try {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_1);
                 gitLabApi.getProjectApi().deleteProject(project);
-                project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
+            } catch (GitLabApiException ignore) {}
+
+            try {
+                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
                 gitLabApi.getProjectApi().deleteProject(project);
-            } catch (GitLabApiException ignore) {
-            }
+            } catch (GitLabApiException ignore) {}
+
+            try {
+                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE);
+                gitLabApi.getProjectApi().deleteProject(project);
+            } catch (GitLabApiException ignore) {}
         }
     }
 
@@ -125,6 +129,49 @@ public class TestProjectApi {
         assertEquals(project.getWikiEnabled(), newProject.getWikiEnabled());
         assertEquals(project.getSnippetsEnabled(), newProject.getSnippetsEnabled());
         assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
+    }
+
+    @Test
+    public void testUpdate() throws GitLabApiException {
+
+        Project project = new Project()
+                .withName(TEST_PROJECT_NAME_UPDATE)
+                .withDescription("GitLab4J test project.")
+                .withIssuesEnabled(true)
+                .withMergeRequestsEnabled(true)
+                .withWikiEnabled(true)
+                .withSnippetsEnabled(true)
+                .withVisibility(Visibility.PUBLIC);
+
+        Project newProject = gitLabApi.getProjectApi().createProject(project);
+        assertNotNull(newProject);
+        assertEquals(project.getName(), newProject.getName());
+        assertEquals(project.getDescription(), newProject.getDescription());
+        assertEquals(project.getIssuesEnabled(), newProject.getIssuesEnabled());
+        assertEquals(project.getMergeRequestsEnabled(), newProject.getMergeRequestsEnabled());
+        assertEquals(project.getWikiEnabled(), newProject.getWikiEnabled());
+        assertEquals(project.getSnippetsEnabled(), newProject.getSnippetsEnabled());
+        assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
+
+        project = new Project()
+            .withId(newProject.getId())
+            .withName(newProject.getName())
+            .withDescription("GitLab4J test updateProject()")
+            .withIssuesEnabled(false)
+            .withMergeRequestsEnabled(false)
+            .withWikiEnabled(false)
+            .withSnippetsEnabled(false)
+            .withVisibility(Visibility.PRIVATE);
+
+        Project updatedProject = gitLabApi.getProjectApi().updateProject(project);
+        assertNotNull(updatedProject);
+        assertEquals(project.getName(), newProject.getName());
+        assertEquals(project.getDescription(), updatedProject.getDescription());
+        assertEquals(project.getIssuesEnabled(), updatedProject.getIssuesEnabled());
+        assertEquals(project.getMergeRequestsEnabled(), updatedProject.getMergeRequestsEnabled());
+        assertEquals(project.getWikiEnabled(), updatedProject.getWikiEnabled());
+        assertEquals(project.getSnippetsEnabled(), updatedProject.getSnippetsEnabled());
+        assertTrue(Visibility.PRIVATE == updatedProject.getVisibility() || Boolean.FALSE == updatedProject.getPublic());
     }
 
     @Test
