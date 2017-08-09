@@ -215,6 +215,19 @@ public class UserApi extends AbstractApi {
         deleteUser(user.getId());
     }
 
+   /**
+    * Get currently authenticated user.
+    *
+    * GET /user
+    *
+    * @return the User instance for the currently authenticated user
+    * @throws GitLabApiException if any exception occurs
+    */
+   public User getCurrentUser() throws GitLabApiException {
+       Response response = get(Response.Status.OK, null, "user");
+       return (response.readEntity(User.class));
+   }
+
     /**
      * Get a list of currently authenticated user's SSH keys.
      *
