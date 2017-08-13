@@ -77,27 +77,26 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 
 Available Sub APIs
 ------------------
-```
-CommitsApi
-EventsApi
-GroupApi
-JobApi
-MergeRequestApi
-NamespaceApi
-NotesApi
-PipelineApi
-ProjectApi
-RepositoryApi
-RepositoryFileApi
-ServicesApi
-SessionApi
-UserApi
-```
+&nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
+&nbsp;&nbsp;[EventsApi](#eventsapi)<br/>
+&nbsp;&nbsp;[GroupApi](#groupapi)<br/>
+&nbsp;&nbsp;[JobApi](#jobapi)<br/>
+&nbsp;&nbsp;[MergeRequestApi](#mergerequestapi)<br/>
+&nbsp;&nbsp;[NamespaceApi](#namespaceapi)<br/>
+&nbsp;&nbsp;[NotesApi](#notesapi)<br/>
+&nbsp;&nbsp;[PipelineApi](#pipelineapi)<br/>
+&nbsp;&nbsp;[ProjectApi](#projectapi)<br/>
+&nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
+&nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
+&nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
+&nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
+&nbsp;&nbsp;[UserApi](#userapi)
+
 
 Sub API Examples
 ----------------
 
-CommitsApi:
+### CommitsApi
 ```java
 // Get a list of commits associated with the specified branch that fall within the specified time window
 // This uses the ISO8601 date utilities the in org.gitlab4j.api.utils.ISO8601 class
@@ -106,7 +105,7 @@ Date until = new Date(); // now
 List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature", since, until);
 ```
 
-EventsApi:
+### EventsApi
 ```java
 // Get a list of Events for the authenticated user
 Date after = new Date(0); // After Eposc
@@ -115,37 +114,43 @@ List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, n
 assertNotNull(events);
 ```
 
-GroupApi:
+### GroupApi
 ```java
 // Get a list of groups that you have access to
 List<Group> groups = gitLabApi.getGroupApi().getGroups();
 ```
 
-JobApi:
+### JobApi
 ```java
 // Get a list of jobs for the specified project ID
 List<Job> jobs = gitLabApi.getJobApi().getJobs(1234);
 ```
 
-MergeRequestApi:
+### MergeRequestApi
 ```java
 // Get a list of the merge requests for the specified project
 List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(1234);
 ```
  
-NamespaceApi:
+### NamespaceApi
 ```java
 // Get all namespaces that match "foobar" in their name or path
 List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces("foobar");
 ```
 
-PipelineApi:
+### NotesApi
+```java
+// Get a list of the issues's notes for project ID 1234, issue ID 1
+List<Note> notes = getNotes(Integer 1234, Integer 1);
+```
+
+### PipelineApi
 ```java
 // Get all pipelines for the specified project ID
 List<Pipeline> pipelines = gitLabApi.getPipelineApi().getPipelines(1234);
 ```
 
-ProjectApi:
+### ProjectApi
 ```java
 // Get a list of accessible projects 
 public List<Project> projects = gitLabApi.getProjectApi().getProjects();
@@ -164,31 +169,31 @@ Project projectSpec = new Project()
 Project newProject = gitLabApi.getProjectApi().createProject(projectSpec);
 ```
 
-RepositoryApi:
+### RepositoryApi
 ```java
 // Get a list of repository branches from a project, sorted by name alphabetically
 List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
 ```
 
-RepositoryFileApi:
+### RepositoryFileApi
 ```java
 // Get info (name, size, ...) and the content from a file in repository
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
 ```
 
-ServicesApi:
+### ServicesApi
 ```java
 // Activates the gitlab-ci service.
 getLabApi.getServicesApi().setGitLabCI("project-name", "auth-token", "project-ci-url");
 ```
 
-SessionApi:
+### SessionApi
 ```java
 // Log in to the GitLab server and get the session info
 getLabApi.getSessionApi().login("your-username", "your-email", "your-password");
 ```
 
-UserApi:
+### UserApi
 ```java
 // Get the User info for user_id 1
 User user = gitLabApi.getUserApi().getUser(1);
