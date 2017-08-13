@@ -1,8 +1,10 @@
 package org.gitlab4j.api;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assume.assumeTrue;
 
+import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -79,6 +81,19 @@ public class TestEventsApi {
     public void testGetAuthenticatedUserEvents() throws GitLabApiException {
         List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null);
         assertNotNull(events);
+    }
+
+    @Test
+    public void testGetAuthenticatedUserEventsWithDates() throws GitLabApiException {
+
+        Date after = new Date(0);
+        Date now = new Date();
+        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, now, after, null);
+        assertNotNull(events);
+
+        events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, after, null, null);
+        assertNotNull(events);
+        assertEquals(0, events.size());
     }
 
     @Test
