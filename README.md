@@ -79,6 +79,7 @@ Available Sub APIs
 ------------------
 ```
 CommitsApi
+EventsApi
 GroupApi
 JobApi
 MergeRequestApi
@@ -103,6 +104,15 @@ CommitsApi:
 Date since = ISO8601.toDate("2017-01-01T00:00:00Z");
 Date until = new Date(); // now
 List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature", since, until);
+```
+
+EventsApi:
+```java
+// Get a list of Events for the authenticated user
+Date after = new Date(0); // After Eposc
+Date before = new Date(); // Before now
+List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, before, after, DESC);
+assertNotNull(events);
 ```
 
 GroupApi:
