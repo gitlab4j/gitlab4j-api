@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.Constants.TargetType;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Event {
@@ -17,7 +19,7 @@ public class Event {
     private Integer projectId;
     private Integer targetId;
     private String targetTitle;
-    private String targetType;
+    private TargetType targetType;
     private String title;
 
     public String getActionName() {
@@ -84,11 +86,11 @@ public class Event {
         this.targetTitle = targetTitle;
     }
 
-    public String getTargetType() {
+    public TargetType getTargetType() {
         return targetType;
     }
 
-    public void setTargetType(String targetType) {
+    public void setTargetType(TargetType targetType) {
         this.targetType = targetType;
     }
 

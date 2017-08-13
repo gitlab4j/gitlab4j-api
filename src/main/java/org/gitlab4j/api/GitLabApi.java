@@ -41,6 +41,7 @@ public class GitLabApi {
     private UserApi userApi;
     private JobApi jobApi;
     private NotesApi notesApi;
+    private EventsApi eventsApi;
 
     private Session session;
 
@@ -192,6 +193,7 @@ public class GitLabApi {
         repositoryFileApi = new RepositoryFileApi(this);
         jobApi = new JobApi(this);
         notesApi = new NotesApi(this);
+        eventsApi = new EventsApi(this);
     }
 
     /**
@@ -401,7 +403,9 @@ public class GitLabApi {
      *
      * @return the JobsApi instance owned by this GitLabApi instance
      */
-    public JobApi getJobApi() { return (jobApi); }
+    public JobApi getJobApi() {
+        return (jobApi);
+    }
 
     /**
      * Gets the NotesApi instance owned by this GitLabApi instance. The NotesApi is used
@@ -413,4 +417,13 @@ public class GitLabApi {
         return (notesApi);
     }
 
+    /**
+     * Gets the EventsApi instance owned by this GitLabApi instance. The EventsApi is used
+     * to perform all events related API calls.
+     *
+     * @return the EventsApi instance owned by this GitLabApi instance
+     */
+    public EventsApi getEventsApi() {
+        return (eventsApi);
+    }
 }

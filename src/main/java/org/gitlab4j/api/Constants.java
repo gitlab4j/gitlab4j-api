@@ -45,12 +45,12 @@ public interface Constants {
 
         @JsonValue
         public String toValue() {
-            return (name().toLowerCase());
+            return (enumHelper.toString(this));
         }
 
         @Override
         public String toString() {
-            return (name().toLowerCase());
+            return (enumHelper.toString(this));
         }
     }
 
@@ -67,12 +67,12 @@ public interface Constants {
 
         @JsonValue
         public String toValue() {
-            return (name().toLowerCase());
+            return (enumHelper.toString(this));
         }
 
         @Override
         public String toString() {
-            return (name().toLowerCase());
+            return (enumHelper.toString(this));
         }
     }
 
@@ -90,12 +90,12 @@ public interface Constants {
 
         @JsonValue
         public String toValue() {
-            return (name().toLowerCase());
+            return (enumHelper.toString(this));
         }
 
         @Override
         public String toString() {
-            return (name().toLowerCase());
+            return (enumHelper.toString(this));
         }
     }
 
@@ -113,12 +113,12 @@ public interface Constants {
 
         @JsonValue
         public String toValue() {
-            return (name().toLowerCase());
+            return (enumHelper.toString(this));
         }
 
         @Override
         public String toString() {
-            return (name().toLowerCase());
+            return (enumHelper.toString(this));
         }
     }
 
@@ -133,10 +133,14 @@ public interface Constants {
         public static JobScope forValue(String value) { return enumHelper.forValue(value); }
 
         @JsonValue
-        public String toValue() { return (name().toLowerCase()); }
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
 
         @Override
-        public String toString() { return (name().toLowerCase()); }
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
     }
 
     /** Enum to use for specifying the state of a merge request update. */
@@ -149,10 +153,61 @@ public interface Constants {
         @JsonCreator
         public static StateEvent forValue(String value) { return enumHelper.forValue(value); }
 
+
         @JsonValue
-        public String toValue() { return (name().toLowerCase()); }
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
 
         @Override
-        public String toString() { return (name().toLowerCase()); }
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the event action_type. */
+    public enum ActionType {
+
+        CREATED, UPDATED, CLOSED, REOPENED, PUSHED, COMMENTED, MERGED, JOINED, LEFT, DESTROYED, EXPIRED;
+
+        private static JacksonJsonEnumHelper<ActionType> enumHelper = new JacksonJsonEnumHelper<>(ActionType.class);
+
+        @JsonCreator
+        public static ActionType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the event target_type. */
+    public enum TargetType {
+
+        ISSUE, MILESTONE, MERGE_REQUEST, NOTE, PROJECT, SNIPPET, USER;
+
+        private static JacksonJsonEnumHelper<TargetType> enumHelper = new JacksonJsonEnumHelper<>(TargetType.class, true);
+
+        @JsonCreator
+        public static TargetType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
     }
 }
