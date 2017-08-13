@@ -165,8 +165,7 @@ public class MergeRequestApi extends AbstractApi {
      * @param assigneeId the Assignee user ID, optional
      * @return the updated merge request
      * @throws GitLabApiException if any exception occurs
-     * @deprecated as of release 4.4.3, replaced by {@link #updateMergeRequest(Integer, Integer, String,
-     *    String, Integer, String, StateEvent, String, Integer)}
+     * @deprecated as of release 4.4.3
      */
     @Deprecated
     public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestId, String sourceBranch, String targetBranch, String title, String description,
