@@ -86,7 +86,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Branch getBranch(Integer projectId, String branchName) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName);
+        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "branches", urlEncode(branchName));
         return (response.readEntity(Branch.class));
     }
 
