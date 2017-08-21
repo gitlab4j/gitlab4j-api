@@ -1236,4 +1236,33 @@ public class ProjectApi extends AbstractApi implements Constants {
     public Pager<Issue> getIssues(Integer projectId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Issue>(this, Issue.class, itemsPerPage, null, "projects", projectId, "issues"));
     }
+
+    /**
+     * Get a single project issues.
+     *
+     * GET /projects/:id/issues/:issue_iid
+     *
+     * @param projectId the project ID to get the issue for
+     * @param issueId the internal ID of a project's issue
+     * @return the specified Issue instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Issue getIssue(Integer projectId, Integer issueId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "issues", issueId);
+        return (response.readEntity(Issue.class));
+    }
+
+    /**
+     * Delete a project issue.
+     *
+     * DELETE /projects/:id/issues/:issue_iid
+     *
+     * @param projectId the project ID to delete the issue from
+     * @param issueId the internal ID of a project's issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteIssue(Integer projectId, Integer issueId) throws GitLabApiException {
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, getDefaultPerPageParam(), "projects", projectId, "issues", issueId);
+    }
 }
