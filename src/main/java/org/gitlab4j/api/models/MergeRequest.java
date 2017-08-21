@@ -7,6 +7,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MergeRequest {
@@ -42,6 +47,14 @@ public class MergeRequest {
     private Integer userNotesCount;
     private String webUrl;
     private Boolean workInProgress;
+
+    // The approval fields will only be available when listing approvals, approving  or unapproving a merge reuest.
+    private Integer approvalsRequired;
+    private Integer approvalsMissing;
+
+    @JsonSerialize(using = JacksonJson.UserListSerializer.class)
+    @JsonDeserialize(using = JacksonJson.UserListDeserializer.class)
+    private List<User> approvedBy;
 
     public Integer getApprovalsBeforeMerge() {
         return approvalsBeforeMerge;
@@ -289,6 +302,72 @@ public class MergeRequest {
 
     public void setWorkInProgress(Boolean workInProgress) {
         this.workInProgress = workInProgress;
+    }
+
+    /**
+     * Get the number of approvals required for the merge request.
+     *
+     * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
+     *
+     * @return the number of approvals required for the merge request
+     */
+    public Integer getApprovalsRequired() {
+        return approvalsRequired;
+    }
+
+    /**
+     * Set the number of approvals required for the merge request.
+     *
+     * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
+     *
+     * @param approvalsRequired the number of approvals required for the merge request
+     */
+    public void setApprovalsRequired(Integer approvalsRequired) {
+        this.approvalsRequired = approvalsRequired;
+    }
+
+    /**
+     * Get the number of approvals missing for the merge request.
+     *
+     * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
+     *
+     * @return the number of approvals missing for the merge request
+     */
+    public Integer getApprovalsMissing() {
+        return approvalsMissing;
+    }
+
+    /**
+     * Set the number of approvals missing for the merge request.
+     *
+     * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
+     *
+     * @param approvalsMissing the number of approvals missing for the merge request
+     */
+    public void setApprovalsMissing(Integer approvalsMissing) {
+        this.approvalsMissing = approvalsMissing;
+    }
+
+    /**
+     * Get the list of users that have approved the merge request.
+     *
+     * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
+     *
+     * @return the list of users that have approved the merge request
+     */
+    public List<User> getApprovedBy() {
+        return approvedBy;
+    }
+
+    /**
+     * Set the list of users that have approved the merge request.
+     *
+     * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
+     *
+     * @param approvedBy the list of users that have approved the merge request
+     */
+    public void setApprovedBy(List<User> approvedBy) {
+        this.approvedBy = approvedBy;
     }
 
     public static final boolean isValid(MergeRequest mergeRequest) {

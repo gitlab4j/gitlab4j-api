@@ -5,13 +5,17 @@ import java.io.IOException;
 import java.io.Reader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
+
+import org.gitlab4j.api.models.User;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -23,6 +27,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -166,6 +171,51 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    /**
+     * Serializer for the odd User instances in the "approved_by" array in the merge_request JSON.
+     */
+    public static class UserListSerializer extends JsonSerializer<List<User>> {
+
+        @Override
+        public void serialize(List<User> value, JsonGenerator jgen,
+                SerializerProvider provider) throws IOException,
+                JsonProcessingException {
+
+            jgen.writeStartArray();
+            for (User user : value) {
+                jgen.writeStartObject();
+                jgen.writeObjectField("user", user);
+                jgen.writeEndObject();
+            }
+            jgen.writeEndArray();
+        }
+    }
+
+    /**
+     * Deserializer for the odd User instances in the "approved_by" array in the merge_request JSON.
+     */
+    public static class UserListDeserializer extends JsonDeserializer<List<User>> {
+
+        private static final ObjectMapper mapper = new JacksonJson().getObjectMapper();
+
+        @Override
+        public List<User> deserialize(JsonParser jsonParser, DeserializationContext context)
+                throws IOException, JsonProcessingException {
+
+            JsonNode tree = jsonParser.readValueAsTree();
+            int numUsers = tree.size();
+            List<User> users = new ArrayList<>(numUsers);
+            for (int i = 0; i < numUsers; i++) {
+                JsonNode node = tree.get(i);
+                JsonNode userNode = node.get("user");
+                User user = mapper.treeToValue(userNode,  User.class);
+                users.add(user);
+            }
+
+            return (users);
         }
     }
 }

@@ -265,7 +265,7 @@ public class MergeRequestApi extends AbstractApi {
      * @return the updated merge request
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
+    public MergeRequest cancelMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
@@ -276,6 +276,86 @@ public class MergeRequestApi extends AbstractApi {
         }
 
         Response response = put(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestId, "cancel_merge_when_pipeline_succeeds");
+        return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Get the merge request with approval information.
+     *
+     * Note: This API endpoint is only available on 8.9 EE and above.
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/approvals
+     *
+     * @param projectId the project ID of the merge request
+     * @param mergeRequestId the internal ID of the merge request
+     * @return a MergeRequest instance with approval information included
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest getMergeRequestApprovals(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (mergeRequestId == null) {
+            throw new RuntimeException("mergeRequestId cannot be null");
+        }
+
+        Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestId, "approvals");
+        return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Approve a merge request.
+     *
+     * Note: This API endpoint is only available on 8.9 EE and above.
+     *
+     * POST /projects/:id/merge_requests/:merge_request_iid/approve
+     *
+     * @param projectId the project ID of the merge request
+     * @param mergeRequestId the internal ID of the merge request
+     * @param sha the HEAD of the merge request, optional
+     * @return a MergeRequest instance with approval information included
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest approveMergeRequest(Integer projectId, Integer mergeRequestId, String sha) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (mergeRequestId == null) {
+            throw new RuntimeException("mergeRequestId cannot be null");
+        }
+
+        Form formData = new GitLabApiForm().withParam("sha", sha);
+        Response response = post(Response.Status.OK, formData, "projects", projectId, "merge_requests", mergeRequestId, "approve");
+        return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Unapprove a merge request.
+     *
+     * Note: This API endpoint is only available on 8.9 EE and above.
+     *
+     * POST /projects/:id/merge_requests/:merge_request_iid/unapprove
+     *
+     * @param projectId the project ID of the merge request
+     * @param mergeRequestId the internal ID of the merge request
+     * @return a MergeRequest instance with approval information included
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest unapproveMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (mergeRequestId == null) {
+            throw new RuntimeException("mergeRequestId cannot be null");
+        }
+
+        Response response = post(Response.Status.OK, (Form)null, "projects", projectId, "merge_requests", mergeRequestId, "unapprove");
         return (response.readEntity(MergeRequest.class));
     }
 }

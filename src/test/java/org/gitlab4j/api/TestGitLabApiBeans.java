@@ -202,18 +202,18 @@ public class TestGitLabApiBeans {
             e.printStackTrace();
         }
     }
-/*
+
     @Test
-    public void testMergeRequestComment() {
+    public void testMergeRequestApprovals() {
 
         try {
-            MergeRequestComment mergeRequestComment = makeFakeApiCall(MergeRequestComment.class, "merge-request-comment");
-            assertTrue(compareJson(mergeRequestComment, "merge-request-comment"));
+            MergeRequest mergeRequestApprovals = makeFakeApiCall(MergeRequest.class, "approvals");
+            assertTrue(compareJson(mergeRequestApprovals, "approvals"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-*/
+
     @Test
     public void testMergeRequest() {
 
