@@ -82,4 +82,11 @@ public class TestUserApi {
         assertNotNull(currentUser);
         assertEquals(TEST_USERNAME, currentUser.getUsername());
     }
+
+    @Test
+    public void testLookupUser() throws GitLabApiException {
+        User user = gitLabApi.getUserApi().getUser(TEST_USERNAME);
+        assertNotNull(user);
+        assertEquals(TEST_USERNAME, user.getUsername());
+    }
 }

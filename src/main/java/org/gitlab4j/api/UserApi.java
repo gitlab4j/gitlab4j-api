@@ -75,6 +75,24 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Lookup a user by username.
+     *
+     * NOTE: This is for admin users only.
+     *
+     * GET /users?username=:username
+     *
+     * @param username the username of the user to get
+     * @return the User instance for the specified username
+     * @throws GitLabApiException if any exception occurs
+     */
+    public User getUser(String username) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("username", username, true);
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        List<User> users = response.readEntity(new GenericType<List<User>>() {});
+        return (users.isEmpty() ? null : users.get(0));
+    }
+
+    /**
      * Search users by Email or username
      *
      * GET /users?search=:email_or_username
