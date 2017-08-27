@@ -224,4 +224,19 @@ public class CommitsApi extends AbstractApi {
         Response response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "commits", sha, "comments");
         return (response.readEntity(Comment.class));
     }
+
+    /**
+     * Add a comment to a commit.
+     *
+     * POST /projects/:id/repository/commits/:sha/comments
+     *
+     * @param projectId the project ID that the commit belongs to
+     * @param sha a commit hash or name of a branch or tag
+     * @param note the text of the comment, required
+     * @return a Comment instance for the posted comment
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Comment addComment(int projectId, String sha, String note) throws GitLabApiException {
+        return (addComment(projectId, sha, note, null, null, null));
+    }
 }
