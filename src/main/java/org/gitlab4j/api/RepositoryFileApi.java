@@ -78,7 +78,7 @@ public class RepositoryFileApi extends AbstractApi {
      * content (required) - File content
      * commit_message (required) - Commit message
      *
-     * @param file full path to new file. Ex. lib/class.rb
+     * @param file a ReposityoryFile instance with info for the file to create
      * @param projectId the project ID
      * @param branchName the name of branch
      * @param commitMessage the commit message
@@ -87,7 +87,9 @@ public class RepositoryFileApi extends AbstractApi {
      */
     public RepositoryFile createFile(RepositoryFile file, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
         Form formData = file2form(file, branchName, commitMessage);
-        Response response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
+        Response response = isApiVersion(ApiVersion.V3) ?
+            post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files") :
+            post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
         return (response.readEntity(RepositoryFile.class));
     }
 
@@ -102,7 +104,7 @@ public class RepositoryFileApi extends AbstractApi {
      * content (required) - File content
      * commit_message (required) - Commit message
      *
-     * @param file full path to new file. Ex. lib/class.rb
+     * @param file a ReposityoryFile instance with info for the file to update
      * @param projectId the project ID
      * @param branchName the name of branch
      * @param commitMessage the commit message
@@ -110,8 +112,10 @@ public class RepositoryFileApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public RepositoryFile updateFile(RepositoryFile file, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
-        Form form = file2form(file, branchName, commitMessage);
-        Response response = put(Response.Status.OK, form.asMap(), "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
+        Form formData = file2form(file, branchName, commitMessage);
+        Response response = isApiVersion(ApiVersion.V3) ?
+            put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "files") :
+            put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
         return (response.readEntity(RepositoryFile.class));
     }
 
@@ -140,7 +144,13 @@ public class RepositoryFileApi extends AbstractApi {
         addFormParam(form, isApiVersion(ApiVersion.V3) ? "branch_name" : "branch", branchName, true);
         addFormParam(form, "commit_message", commitMessage, true);
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, form.asMap(), "projects", projectId, "repository", "files", urlEncode(filePath));
+
+        if (isApiVersion(ApiVersion.V3)) {
+            addFormParam(form, "file_path", filePath, true);
+            delete(expectedStatus, form.asMap(), "projects", projectId, "repository", "files");
+        } else {
+            delete(expectedStatus, form.asMap(), "projects", projectId, "repository", "files", urlEncode(filePath));
+        }
     }
 
     /**
@@ -198,8 +208,15 @@ public class RepositoryFileApi extends AbstractApi {
     }
 
     private Form file2form(RepositoryFile file, String branchName, String commitMessage) {
+
         Form form = new Form();
-        addFormParam(form, isApiVersion(ApiVersion.V3) ? "branch_name" : "branch", branchName, true);
+        if (isApiVersion(ApiVersion.V3)) {
+            addFormParam(form, "file_path", file.getFilePath(), true);
+            addFormParam(form, "branch_name", branchName, true);
+        } else {
+            addFormParam(form, "branch", branchName, true);
+        }
+
         addFormParam(form, "encoding", file.getEncoding(), false);
         addFormParam(form, "content", file.getContent(), true);
         addFormParam(form, "commit_message", commitMessage, true);
