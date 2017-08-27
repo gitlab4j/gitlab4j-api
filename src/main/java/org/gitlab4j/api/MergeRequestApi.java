@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.MergeRequest;
-import org.gitlab4j.api.utils.ISO8601;
 
 /**
  * This class implements the client side API for the GitLab merge request calls.
