@@ -221,7 +221,7 @@ public class CommitsApi extends AbstractApi {
                 .withParam("path", path)
                 .withParam("line", line)
                 .withParam("line_type", lineType);
-        Response response = post(Response.Status.OK, formData, "projects", projectId, "repository", "commits", sha, "comments");
+        Response response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "commits", sha, "comments");
         return (response.readEntity(Comment.class));
     }
 }
