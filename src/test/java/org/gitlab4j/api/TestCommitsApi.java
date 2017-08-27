@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Project;
@@ -97,6 +99,26 @@ public class TestCommitsApi {
         diffs = gitLabApi.getCommitsApi().getDiff(TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(0).getId());
         assertNotNull(diffs);
         assertTrue(diffs.size() > 0);
+    }
+
+    @Test
+    public void testComments() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(0), new Date());
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+
+        String note = "This is a note.";
+        Comment addedComment = gitLabApi.getCommitsApi().addComment(project.getId(), commits.get(0).getId(), note);
+        assertNotNull(addedComment);
+        assertEquals(note, addedComment.getNote());
+
+        List<Comment> comments = gitLabApi.getCommitsApi().getComments(project.getId(), commits.get(0).getId());
+        assertNotNull(comments);
+        assertTrue(comments.size() > 0);
     }
 
     @Test
