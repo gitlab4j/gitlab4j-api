@@ -7,7 +7,9 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.utils.ISO8601;
 
 /**
  * This class implements the client side API for the GitLab merge request calls.
@@ -75,6 +77,54 @@ public class MergeRequestApi extends AbstractApi {
     public MergeRequest getMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "merge_request", mergeRequestId);
         return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Get a list of merge request commits.
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/commits
+     *
+     * @param projectId the project ID for the merge request
+     * @param mergeRequestId the ID of the merge request
+     * @return a list containing the commits for the specified merge request
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<Commit> getCommits(int projectId, int mergeRequestId) throws GitLabApiException {
+        return (getCommits(projectId, mergeRequestId, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get a list of merge request commits.
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/commits
+     *
+     * @param projectId the project ID for the merge request
+     * @param mergeRequestId the ID of the merge request
+     * @param page the page to get
+     * @param perPage the number of commits per page
+     * @return a list containing the commits for the specified merge request
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<Commit> getCommits(int projectId, int mergeRequestId, int page, int perPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("owned", true).withParam(PAGE_PARAM,  page).withParam(PER_PAGE_PARAM, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_request", mergeRequestId, "commits");
+        return (response.readEntity(new GenericType<List<Commit>>() {}));
+    }
+
+    /**
+     * Get a Pager of merge request commits.
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/commits
+     *
+     * @param projectId the project ID for the merge request
+     * @param mergeRequestId the ID of the merge request
+     * @param itemsPerPage the number of Commit instances that will be fetched per page
+     * @return a Pager containing the commits for the specified merge request
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Pager<Commit> getCommits(int projectId, int mergeRequestId, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Commit>(this, Commit.class, itemsPerPage, null,
+                "projects", projectId, "merge_request", mergeRequestId, "commits"));
     }
 
     /**
