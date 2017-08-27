@@ -9,6 +9,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.utils.ISO8601;
@@ -182,5 +183,45 @@ public class CommitsApi extends AbstractApi {
 
         Response response = get(Response.Status.OK, null, "projects", projectPath, "repository", "commits", sha, "diff");
         return (response.readEntity(new GenericType<List<Diff>>() {}));
+    }
+
+    /**
+     * Get the comments of a commit in a project.
+     *
+     * GET /projects/:id/repository/commits/:sha/comments
+     *
+     * @param projectId the project ID that the commit belongs to
+     * @param sha a commit hash or name of a branch or tag
+     * @return a List of Comment instances for the specified project ID/sha pair
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<Comment> getComments(int projectId, String sha) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha, "comments");
+        return (response.readEntity(new GenericType<List<Comment>>() {}));
+    }
+
+    /**
+     * Add a comment to a commit.  In order to post a comment in a particular line of a particular file,
+     * you must specify the full commit SHA, the path, the line and lineType should be NEW.
+     *
+     * POST /projects/:id/repository/commits/:sha/comments
+     *
+     * @param projectId the project ID that the commit belongs to
+     * @param sha a commit hash or name of a branch or tag
+     * @param note the text of the comment, required
+     * @param path the file path relative to the repository, optional
+     * @param line the line number where the comment should be placed, optional
+     * @param lineType the line type, optional
+     * @return a Comment instance for the posted comment
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Comment addComment(int projectId, String sha, String note, String path, Integer line, LineType lineType) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("note", note, true)
+                .withParam("path", path)
+                .withParam("line", line)
+                .withParam("line_type", lineType);
+        Response response = post(Response.Status.OK, formData, "projects", projectId, "repository", "commits", sha, "comments");
+        return (response.readEntity(Comment.class));
     }
 }

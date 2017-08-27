@@ -210,4 +210,27 @@ public interface Constants {
             return (enumHelper.toString(this));
         }
     }
+
+    /** Enum to use for specifying the line type for a commit comment. */
+    public enum LineType {
+
+        OLD, NEW;
+
+        private static JacksonJsonEnumHelper<LineType> enumHelper = new JacksonJsonEnumHelper<>(LineType.class);
+
+        @JsonCreator
+        public static LineType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Diff;
@@ -99,6 +100,17 @@ public class TestGitLabApiBeans {
         try {
             Diff diff = makeFakeApiCall(Diff.class, "diff");
             assertTrue(compareJson(diff, "diff"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testComment() {
+
+        try {
+            Comment comment = makeFakeApiCall(Comment.class, "comment");
+            assertTrue(compareJson(comment, "comment"));
         } catch (Exception e) {
             e.printStackTrace();
         }
