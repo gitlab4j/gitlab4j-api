@@ -173,7 +173,7 @@ public class TestProjectApiSnippets {
     public void testListSnippets() throws GitLabApiException {
 
         String title = TEST_SNIPPET_TITLE_PREFIX + "Test listSnippets()";
-        String filename = "test-update-snippet.js";
+        String filename = "test-list-snippets.js";
         String description = null;
         String code = "window.open();";
         Visibility visibility = Visibility.INTERNAL;
@@ -196,7 +196,7 @@ public class TestProjectApiSnippets {
     public void testDeleteSnippet() throws GitLabApiException {
 
         String title = TEST_SNIPPET_TITLE_PREFIX + "Test listSnippets()";
-        String filename = "test-update-snippet.js";
+        String filename = "test-delete-snippet.js";
         String description = null;
         String code = "window.open();";
         Visibility visibility = Visibility.INTERNAL;
@@ -213,5 +213,20 @@ public class TestProjectApiSnippets {
                 }
             }
         }        
+    }
+
+    @Test
+    public void testSnippetContent() throws GitLabApiException {
+
+        String title = TEST_SNIPPET_TITLE_PREFIX + "Test getRawSnippetContent()";
+        String filename = "test-raw-snippet.js";
+        String description = null;
+        String code = "window.open();";
+        Visibility visibility = Visibility.PUBLIC;
+        Snippet createdSnippet = createSnippet(title, filename, description, code, visibility);
+        assertNotNull(createdSnippet);
+
+        String rawContent = gitLabApi.getProjectApi().getRawSnippetContent(testProjectId, createdSnippet.getId());
+        assertEquals(code, rawContent);
     }
 }
