@@ -1353,9 +1353,9 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * POST /projects/:id/snippets
      *
-     * @param id the ID of the project owned by the authenticated user, required
+     * @param projectId the ID of the project owned by the authenticated user, required
      * @param title the title of a snippet, required
-     * @param fileName the name of a snippet file, required
+     * @param filename the name of a snippet file, required
      * @param description the description of a snippet, optional
      * @param code the content of a snippet, required
      * @param visibility the snippet's visibility, required
@@ -1381,10 +1381,10 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * PUT /projects/:id/snippets/:snippet_id
      *
-     * @param id the ID of the project owned by the authenticated user, required
+     * @param projectId the ID of the project owned by the authenticated user, required
      * @param snippetId the ID of a project's snippet, required
      * @param title the title of a snippet, optional
-     * @param fileName the name of a snippet file, optional
+     * @param filename the name of a snippet file, optional
      * @param description the description of a snippet, optioptionalonal
      * @param code the content of a snippet, optional
      * @param visibility the snippet's visibility, reqoptionaluired
