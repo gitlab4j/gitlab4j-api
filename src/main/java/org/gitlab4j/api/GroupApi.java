@@ -159,18 +159,18 @@ public class GroupApi extends AbstractApi {
     public Group getGroup(Integer groupId) throws GitLabApiException {
         return getGroup(groupId.toString());
     }
-    
+
     /**
      * Get all details of a group.
      *
      * GET /groups/:id
      *
-     * @param id "The ID or URL-encoded path of the group owned by the authenticated user."
-     * @return the Group instance for the specified group ID
+     * @param groupPath the path of the group to get details for
+     * @return the Group instance for the specified group path
      * @throws GitLabApiException if any exception occurs
      */
-    public Group getGroup(String id) throws GitLabApiException {
-      Response response = get(Response.Status.OK, null, "groups", id);
+    public Group getGroup(String groupPath) throws GitLabApiException {
+      Response response = get(Response.Status.OK, null, "groups", urlEncode(groupPath));
       return (response.readEntity(Group.class));
     }
 
