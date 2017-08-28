@@ -1,3 +1,26 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Greg Messner <greg@messners.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package org.gitlab4j.api;
 
 import java.io.UnsupportedEncodingException;
@@ -14,6 +37,7 @@ import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
+import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Visibility;
 
 /**
@@ -1264,5 +1288,148 @@ public class ProjectApi extends AbstractApi implements Constants {
     public void deleteIssue(Integer projectId, Integer issueId) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, getDefaultPerPageParam(), "projects", projectId, "issues", issueId);
+    }
+
+    /**
+     * Get a list of project snippets.  This only returns the first page of snippets.
+     *
+     * GET /projects/:id/snippets
+     *
+     * @param projectId the project ID to get the snippets for
+     * @return a list of project's snippets
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Snippet> getSnippets(Integer projectId) throws GitLabApiException {
+        return (getSnippets(projectId, 1, this.getDefaultPerPage()));
+    }
+
+    /**
+     * Get a list of project snippets.  This only returns the first page of snippets.
+     *
+     * GET /projects/:id/snippets
+     *
+     * @param projectId the project ID to get the snippets for
+     * @param page the page to get
+     * @param perPage the number of snippets per page
+     * @return a list of project's snippets for the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Snippet> getSnippets(Integer projectId, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "snippets");
+        return (response.readEntity(new GenericType<List<Snippet>>() {}));
+    }
+
+    /**
+     * Get a Pager of project's snippets.
+     *
+     * GET /projects/:id/snippets
+     *
+     * @param projectId the project ID to get the issues for
+     * @param itemsPerPage the number of snippets per page
+     * @return the Pager of snippets
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Snippet> getSnippets(Integer projectId, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Snippet>(this, Snippet.class, itemsPerPage, null, "projects", projectId, "snippets"));
+    }
+
+    /**
+     * Get a single of project snippet.
+     *
+     * GET /projects/:id/snippets/:snippet_id
+     *
+     * @param projectId the project ID to get the snippet for
+     * @param snippetId the ID of the project's snippet
+     * @return the specified project Snippet
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Snippet getSnippet(Integer projectId, Integer snippetId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", projectId, "snippets", snippetId);
+        return (response.readEntity(Snippet.class));
+    }
+
+    /**
+     * Creates a new project snippet. The user must have permission to create new snippets.
+     *
+     * POST /projects/:id/snippets
+     *
+     * @param id the ID of the project owned by the authenticated user, required
+     * @param title the title of a snippet, required
+     * @param fileName the name of a snippet file, required
+     * @param description the description of a snippet, optional
+     * @param code the content of a snippet, required
+     * @param visibility the snippet's visibility, required
+     * @return a Snippet instance with info on the created snippet
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Snippet createSnippet(Integer projectId, String title, String filename, String description,
+            String code, Visibility visibility) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("title", title, true)
+                .withParam("file_name", filename, true)
+                .withParam("description", description)
+                .withParam("code", code, true)
+                .withParam("visibility", visibility, true);
+
+        Response response = post(Response.Status.CREATED, formData, "projects", projectId, "snippets");
+        return (response.readEntity(Snippet.class));
+    }
+
+    /**
+     * Updates an existing project snippet. The user must have permission to change an existing snippet.
+     *
+     * PUT /projects/:id/snippets/:snippet_id
+     *
+     * @param id the ID of the project owned by the authenticated user, required
+     * @param snippetId the ID of a project's snippet, required
+     * @param title the title of a snippet, optional
+     * @param fileName the name of a snippet file, optional
+     * @param description the description of a snippet, optioptionalonal
+     * @param code the content of a snippet, optional
+     * @param visibility the snippet's visibility, reqoptionaluired
+     * @return a Snippet instance with info on the updated snippet
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Snippet updateSnippet(Integer projectId, Integer snippetId, String title, String filename, String description,
+            String code, Visibility visibility) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("title", title)
+                .withParam("file_name", filename)
+                .withParam("description", description)
+                .withParam("code", code)
+                .withParam("visibility", visibility);
+
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "snippets", snippetId);
+        return (response.readEntity(Snippet.class));
+    }
+
+    /*
+     * Deletes an existing project snippet. This is an idempotent function and deleting a
+     * non-existent snippet does not cause an error.
+     *
+     * DELETE /projects/:id/snippets/:snippet_id
+     *
+     * @param projectId the project ID of the snippet
+     * @param snippetId the ID of the project's snippet
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteSnippet(Integer projectId, Integer snippetId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "projects", projectId, "snippets", snippetId);
+    }
+
+    /*
+     * Get the raw project snippet as plain text.
+     *
+     * GET /projects/:id/snippets/:snippet_id/raw
+     *
+     * @param projectId the project ID of the snippet
+     * @param snippetId the ID of the project's snippet
+     * @throws GitLabApiException if any exception occurs
+     */
+    public String getRawSnippetContent(Integer projectId, Integer snippetId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", projectId, "snippets", snippetId, "raw");
+        return (response.readEntity(String.class));
     }
 }
