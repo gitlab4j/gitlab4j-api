@@ -147,4 +147,15 @@ public class TestCommitsApi {
         assertNotNull(pager);
         assertTrue(pager.getTotalItems() > 0);
     }
+
+    @Test
+    public void testCommitsByPath() throws GitLabApiException {
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+
+        CommitsApi commitsApi = gitLabApi.getCommitsApi();
+        List<Commit> commits = commitsApi.getCommits(project.getId(), "master",
+            "README");
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+    }
 }
