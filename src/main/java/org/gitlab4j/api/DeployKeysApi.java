@@ -120,10 +120,8 @@ public class DeployKeysApi extends AbstractApi {
      * GET /projects/:id/deploy_keys/:key_id
      *
      * @param projectId the ID of the project
-     * @param the ID of the deploy key to delete
-     * @param page the page to get
-     * @param perPage the number of deploy keys per page
-     * @return the list of DeployKey in the specified range
+     * @param keyId the ID of the deploy key to delete
+     * @return the DeployKey instance for the specified project ID and key ID
      * @throws GitLabApiException if any exception occurs
      */
     public DeployKey getDeployKey(Integer projectId, Integer keyId) throws GitLabApiException {
