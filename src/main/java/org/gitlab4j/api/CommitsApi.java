@@ -88,6 +88,30 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
+     * Get a list of repository commits in a project.
+     *
+     * GET /projects/:id/repository/commits
+     *
+     * @param projectId the project ID to get the list of commits for
+     * @param ref the name of a repository branch or tag or if not given the default branch
+     * @param since only commits after or on this date will be returned
+     * @param until only commits before or on this date will be returned
+     * @param path the path to file of a project
+     * @return a list containing the commits for the specified project ID
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<Commit> getCommits(int projectId, String ref, Date since, Date until, String path) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage())
+                .withParam("ref_name", ref)
+                .withParam("since", ISO8601.toString(since, false))
+                .withParam("until", ISO8601.toString(until, false))
+                .withParam("path", (path == null ? null : urlEncode(path)));
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "commits");
+        return (response.readEntity(new GenericType<List<Commit>>() {}));
+    }
+
+    /**
      * Get a list of file commits in a project
      *
      * GET /projects/:id/repository/commits?path=:file_path
@@ -100,10 +124,10 @@ public class CommitsApi extends AbstractApi {
      */
     public List<Commit> getCommits(int projectId, String ref, String path) throws GitLabApiException {
         Form formData = new GitLabApiForm()
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage())
                 .withParam("ref_name", ref)
-                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        String pathArg = (path == null || path.isEmpty()) ? "commits" : "commits" + "?path=" + path;
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", pathArg);
+                .withParam("path", (path == null ? null : urlEncode(path)));
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "commits");
         return (response.readEntity(new GenericType<List<Commit>>() {}));
     }
 
