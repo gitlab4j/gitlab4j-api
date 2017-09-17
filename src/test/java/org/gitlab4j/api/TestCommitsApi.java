@@ -2,11 +2,14 @@ package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Comment;
@@ -37,6 +40,7 @@ public class TestCommitsApi {
     private static final String TEST_NAMESPACE;
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
+    private static final String TEST_PROJECT_SUBDIRECTORY_PATH = "src/main/docs/test-project.txt";
     static {
         TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
         TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
@@ -149,13 +153,50 @@ public class TestCommitsApi {
     }
 
     @Test
+    public void testCommitsSinceWithPath() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(
+                project.getId(), null, new Date(0), new Date(), TEST_PROJECT_SUBDIRECTORY_PATH);
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+    }
+
+    @Test
     public void testCommitsByPath() throws GitLabApiException {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
 
         CommitsApi commitsApi = gitLabApi.getCommitsApi();
-        List<Commit> commits = commitsApi.getCommits(project.getId(), "master",
-            "README");
+        List<Commit> commits = commitsApi.getCommits(project.getId(), "master", null);
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
+
+        commits = commitsApi.getCommits(project.getId(), "master", "README");
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+
+        commitsApi = gitLabApi.getCommitsApi();
+        commits = commitsApi.getCommits(project.getId(), "master", "README.md");
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+
+        commits = commitsApi.getCommits(project.getId(), "master", TEST_PROJECT_SUBDIRECTORY_PATH);
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+    }
+
+    @Test
+    public void testCommitsByPathNotFound() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+
+        try {
+            List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId(), "master", "this-file-does-not-exist.an-extension");
+            assertTrue(commits == null || commits.isEmpty());
+        } catch (GitLabApiException gle) {
+            assertEquals(Response.Status.NOT_FOUND, gle.getHttpStatus());
+        }
     }
 }
