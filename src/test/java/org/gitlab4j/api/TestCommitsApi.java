@@ -48,6 +48,7 @@ public class TestCommitsApi {
     }
 
     private static GitLabApi gitLabApi;
+    private static Project testProject;
 
     public TestCommitsApi() {
         super();
@@ -75,6 +76,13 @@ public class TestCommitsApi {
 
         if (problems.isEmpty()) {
             gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+
+            try {
+                testProject = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+            } catch (GitLabApiException gle) {
+                System.err.print(gle.getMessage());
+            }
+
         } else {
             System.err.print(problems);
         }
@@ -88,14 +96,13 @@ public class TestCommitsApi {
     @Test
     public void testDiff() throws GitLabApiException {
         
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assertNotNull(testProject);
 
-        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId());
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId());
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
         
-        List<Diff> diffs = gitLabApi.getCommitsApi().getDiff(project.getId(), commits.get(0).getId());
+        List<Diff> diffs = gitLabApi.getCommitsApi().getDiff(testProject.getId(), commits.get(0).getId());
         assertNotNull(diffs);
         assertTrue(diffs.size() > 0);
  
@@ -107,19 +114,18 @@ public class TestCommitsApi {
     @Test
     public void testComments() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assertNotNull(testProject);
 
-        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(0), new Date());
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), new Date());
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
         String note = "This is a note.";
-        Comment addedComment = gitLabApi.getCommitsApi().addComment(project.getId(), commits.get(0).getId(), note);
+        Comment addedComment = gitLabApi.getCommitsApi().addComment(testProject.getId(), commits.get(0).getId(), note);
         assertNotNull(addedComment);
         assertEquals(note, addedComment.getNote());
 
-        List<Comment> comments = gitLabApi.getCommitsApi().getComments(project.getId(), commits.get(0).getId());
+        List<Comment> comments = gitLabApi.getCommitsApi().getComments(testProject.getId(), commits.get(0).getId());
         assertNotNull(comments);
         assertTrue(comments.size() > 0);
     }
@@ -127,26 +133,25 @@ public class TestCommitsApi {
     @Test
     public void testCommitsSince() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assertNotNull(testProject);
 
-        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(), null);
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(), null);
         assertNotNull(commits);
         assertTrue(commits.isEmpty());
 
-        commits = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(0), new Date());
+        commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), new Date());
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
-        commits = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(0), new Date(), 1, 10);
+        commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), new Date(), 1, 10);
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
-        Pager<Commit> pager = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(), null, 10);
+        Pager<Commit> pager = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(), null, 10);
         assertNotNull(pager);
         assertTrue(pager.getTotalItems() == 0);
 
-        pager = gitLabApi.getCommitsApi().getCommits(project.getId(), null, new Date(0), null, 10);
+        pager = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), null, 10);
         assertNotNull(pager);
         assertTrue(pager.getTotalItems() > 0);
     }
@@ -154,34 +159,34 @@ public class TestCommitsApi {
     @Test
     public void testCommitsSinceWithPath() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assertNotNull(testProject);
 
         List<Commit> commits = gitLabApi.getCommitsApi().getCommits(
-                project.getId(), null, new Date(0), new Date(), TEST_PROJECT_SUBDIRECTORY_PATH);
+                testProject.getId(), null, new Date(0), new Date(), TEST_PROJECT_SUBDIRECTORY_PATH);
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
     }
 
     @Test
     public void testCommitsByPath() throws GitLabApiException {
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+
+        assertNotNull(testProject);
 
         CommitsApi commitsApi = gitLabApi.getCommitsApi();
-        List<Commit> commits = commitsApi.getCommits(project.getId(), "master", null);
+        List<Commit> commits = commitsApi.getCommits(testProject.getId(), "master", null);
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
-        commits = commitsApi.getCommits(project.getId(), "master", "README");
+        commits = commitsApi.getCommits(testProject.getId(), "master", "README");
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
         commitsApi = gitLabApi.getCommitsApi();
-        commits = commitsApi.getCommits(project.getId(), "master", "README.md");
+        commits = commitsApi.getCommits(testProject.getId(), "master", "README.md");
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
-        commits = commitsApi.getCommits(project.getId(), "master", TEST_PROJECT_SUBDIRECTORY_PATH);
+        commits = commitsApi.getCommits(testProject.getId(), "master", TEST_PROJECT_SUBDIRECTORY_PATH);
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
     }
