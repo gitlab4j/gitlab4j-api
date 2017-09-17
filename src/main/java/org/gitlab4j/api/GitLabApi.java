@@ -29,6 +29,7 @@ public class GitLabApi {
     private ApiVersion apiVersion;
     private int defaultPerPage = DEFAULT_PER_PAGE;
     private CommitsApi commitsApi;
+    private DeployKeysApi deployKeysApi;
     private GroupApi groupApi;
     private MergeRequestApi mergeRequestApi;
     private NamespaceApi namespaceApi;
@@ -181,6 +182,7 @@ public class GitLabApi {
         this.apiVersion = apiVersion;
         apiClient = new GitLabApiClient(apiVersion, hostUrl, privateToken, secretToken, clientConfigProperties);
         commitsApi = new CommitsApi(this);
+        deployKeysApi = new DeployKeysApi(this);
         groupApi = new GroupApi(this);
         mergeRequestApi = new MergeRequestApi(this);
         namespaceApi = new NamespaceApi(this);
@@ -291,6 +293,16 @@ public class GitLabApi {
      */
     public CommitsApi getCommitsApi() {
         return (commitsApi);
+    }
+
+    /**
+     * Gets the DeployKeysApi instance owned by this GitLabApi instance. The DeployKeysApi is used
+     * to perform all deploy key related API calls.
+     *
+     * @return the CommitsApi instance owned by this GitLabApi instance
+     */
+    public DeployKeysApi getDeployKeysApi() {
+        return (deployKeysApi);
     }
 
     /**

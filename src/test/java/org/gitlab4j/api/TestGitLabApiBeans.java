@@ -35,6 +35,7 @@ import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CompareResults;
+import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Group;
@@ -189,6 +190,21 @@ public class TestGitLabApiBeans {
         try {
             Job job = makeFakeApiCall(Job.class, "job");
             assertTrue(compareJson(job, "job"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDeployKeys() {
+
+        try {
+
+            InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream("deploy-keys.json"));
+            ObjectMapper objectMapper = jacksonJson.getContext(null);
+            List<DeployKey> deployKeys = objectMapper.readValue(reader, new TypeReference<List<DeployKey>>() {});
+            assertTrue(compareJson(deployKeys, "deploy-keys"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -355,8 +371,7 @@ public class TestGitLabApiBeans {
 
             InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream("tree.json"));
             ObjectMapper objectMapper = jacksonJson.getContext(null);
-            List<TreeItem> tree = objectMapper.readValue(reader, new TypeReference<List<TreeItem>>() {
-            });
+            List<TreeItem> tree = objectMapper.readValue(reader, new TypeReference<List<TreeItem>>() {});
             assertTrue(compareJson(tree, "tree"));
 
         } catch (Exception e) {
