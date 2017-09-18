@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.4.8'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.5.0'
 }
 ```
 
@@ -20,11 +20,11 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.4.8</version>
+    <version>4.5.0</version>
 </dependency>
 ```
 
-If you are not using Gradle or Maven you can download the latest gitlab4j-api JAR file here: [gitlab4j-api-4.4.8.jar](https://oss.sonatype.org/service/local/repositories/releases/content/org/gitlab4j/gitlab4j-api/4.4.8/gitlab4j-api-4.4.8.jar "Download JAR")
+If you are not using Gradle or Maven you can download the latest gitlab4j-api JAR file here: [gitlab4j-api-4.5.0.jar](https://oss.sonatype.org/service/local/repositories/releases/content/org/gitlab4j/gitlab4j-api/4.5.0/gitlab4j-api-4.5.0.jar "Download JAR")
 
 Javadocs are available here: <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a>
 
@@ -78,8 +78,10 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 Available Sub APIs
 ------------------
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
+&nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
 &nbsp;&nbsp;[EventsApi](#eventsapi)<br/>
 &nbsp;&nbsp;[GroupApi](#groupapi)<br/>
+&nbsp;&nbsp;[IssuesApi](#issuesapi)<br/>
 &nbsp;&nbsp;[JobApi](#jobapi)<br/>
 &nbsp;&nbsp;[MergeRequestApi](#mergerequestapi)<br/>
 &nbsp;&nbsp;[NamespaceApi](#namespaceapi)<br/>
@@ -105,19 +107,30 @@ Date until = new Date(); // now
 List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature", since, until);
 ```
 
+### DeployKeysApi
+```java
+// Get a list of DeployKeys for the authenticated user
+List<DeployKey> deployKeys = gitLabApi.getDeployKeyssApi().getDeployKeys();
+```
+
 ### EventsApi
 ```java
 // Get a list of Events for the authenticated user
 Date after = new Date(0); // After Eposc
 Date before = new Date(); // Before now
 List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, before, after, DESC);
-assertNotNull(events);
 ```
 
 ### GroupApi
 ```java
 // Get a list of groups that you have access to
 List<Group> groups = gitLabApi.getGroupApi().getGroups();
+```
+
+### IssuesApi
+```java
+// Get a list of issues for the specified project ID
+List<Issue> issues = gitLabApi.getIssuesApi().getIssues(1234);
 ```
 
 ### JobApi
