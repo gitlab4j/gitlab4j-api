@@ -87,9 +87,13 @@ public class RepositoryFileApi extends AbstractApi {
      */
     public RepositoryFile createFile(RepositoryFile file, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
         Form formData = file2form(file, branchName, commitMessage);
-        Response response = isApiVersion(ApiVersion.V3) ?
-            post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files") :
-            post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
+        Response response;
+        if (isApiVersion(ApiVersion.V3)) {
+            response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files");
+        } else {
+            response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
+        }
+        
         return (response.readEntity(RepositoryFile.class));
     }
 
@@ -113,9 +117,13 @@ public class RepositoryFileApi extends AbstractApi {
      */
     public RepositoryFile updateFile(RepositoryFile file, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
         Form formData = file2form(file, branchName, commitMessage);
-        Response response = isApiVersion(ApiVersion.V3) ?
-            put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "files") :
-            put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
+        Response response;
+        if (isApiVersion(ApiVersion.V3)) {
+            response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "files");
+        } else {
+            response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
+        }
+   
         return (response.readEntity(RepositoryFile.class));
     }
 
