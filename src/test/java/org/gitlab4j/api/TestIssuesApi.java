@@ -1,0 +1,218 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Greg Messner <greg@messners.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+package org.gitlab4j.api;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
+
+import java.util.List;
+import java.util.Random;
+
+import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.Constants.IssueState;
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.Project;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+/**
+ * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
+ * 
+ * TEST_NAMESPACE
+ * TEST_PROJECT_NAME
+ * TEST_HOST_URL
+ * TEST_PRIVATE_TOKEN
+ * 
+ * If any of the above are NULL, all tests in this class will be skipped.
+ */
+public class TestIssuesApi {
+
+    // The following needs to be set to your test repository
+    private static final String TEST_NAMESPACE;
+    private static final String TEST_PROJECT_NAME;
+    private static final String TEST_HOST_URL;
+    private static final String TEST_PRIVATE_TOKEN;
+
+    static {
+        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
+        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
+        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
+        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
+    }
+
+    private static GitLabApi gitLabApi;
+    private static Project testProject;
+    
+    private static final String ISSUE_TITLE = "Test Issue Title";
+    private static final String ISSUE_DESCRIPTION = "This is a really nice description, not.";
+    private static Random randomNumberGenerator = new Random();
+
+
+    public TestIssuesApi() {
+        super();
+    }
+
+    @BeforeClass
+    public static void setup() {
+
+        String problems = "";
+        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().length() == 0) {
+            problems += "TEST_NAMESPACE cannot be empty\n";
+        }
+
+        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().length() == 0) {
+            problems += "TEST_HOST_URL cannot be empty\n";
+        }
+
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
+            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
+        }
+
+        if (problems.isEmpty()) {
+            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            
+            try {
+                testProject = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+            } catch (GitLabApiException gle) {
+            }
+            
+        } else {
+            System.err.print(problems);
+        }
+
+        deleteAllTestIssues();
+    }
+
+    @Before
+    public void beforeMethod() {
+        assumeTrue(gitLabApi != null);
+    }
+
+    @AfterClass
+    public static void teardown() throws GitLabApiException {
+        deleteAllTestIssues();
+    }
+
+    private static void deleteAllTestIssues() {
+
+        if (gitLabApi != null) {
+            try {
+                List<Issue> issues = gitLabApi.getIssuesApi().getIssues(testProject.getId());
+                if (issues != null) {
+                    
+                    for (Issue issue : issues) {
+                        if (issue.getTitle().startsWith(ISSUE_TITLE)) {
+                            gitLabApi.getIssuesApi().deleteIssue(testProject.getId(), issue.getIid());
+                        }
+                    }
+                }
+            } catch (GitLabApiException ignore) {}
+        }
+    }
+
+    private static String getUniqueTitle() {
+        return (ISSUE_TITLE + " - " + (randomNumberGenerator.nextInt() + 1));
+    }
+
+    @Test
+    public void testGetIssue() throws GitLabApiException {
+
+        assertNotNull(testProject);
+        Integer projectId = testProject.getId();
+        Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        Issue foundIssue = gitLabApi.getIssuesApi().getIssue(projectId, issue.getIid());
+        assertNotNull(foundIssue);
+        assertEquals(issue.getIid(), foundIssue.getIid());
+    }
+
+    @Test
+    public void testGetIssues() throws GitLabApiException {
+
+        assertNotNull(testProject);
+        Integer projectId = testProject.getId();
+        Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        List<Issue> issues = gitLabApi.getIssuesApi().getIssues(projectId);
+        assertNotNull(issues);
+
+        // Make sure the issue just created is returned
+        boolean found = false;
+        for (Issue item : issues) {
+            if (item.getId().equals(issue.getId())) {
+                found = true;
+                break;
+            }
+        }
+
+        assertTrue(found);
+    }
+
+    @Test
+    public void testCreateIssue() throws GitLabApiException {
+
+        assertNotNull(testProject);
+        Integer projectId = testProject.getId();
+        String title = getUniqueTitle();
+        Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, title, ISSUE_DESCRIPTION);
+        assertNotNull(issue);
+        assertEquals(title, issue.getTitle());
+        assertEquals(ISSUE_DESCRIPTION, issue.getDescription());
+        assertEquals(IssueState.OPENED, issue.getState());
+    }
+
+    @Test
+    public void testCloseIssueJustCreated() throws GitLabApiException {
+
+        assertNotNull(testProject);
+        Integer projectId = testProject.getId();
+        Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+
+        Issue closedIssue = gitLabApi.getIssuesApi().closeIssue(projectId, issue.getIid());
+        assertNotNull(closedIssue);
+        assertEquals(IssueState.CLOSED, closedIssue.getState());
+        assertEquals(issue.getId(), closedIssue.getId());
+    }
+
+    @Test
+    public void testDeleteIssue() throws GitLabApiException {
+
+        assertNotNull(testProject);
+        Integer projectId = testProject.getId();
+        Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        gitLabApi.getIssuesApi().deleteIssue(projectId, issue.getIid());
+
+        try {
+            issue = gitLabApi.getIssuesApi().getIssue(projectId, issue.getIid());
+            assertNull(issue);
+        } catch (GitLabApiException gle) {
+            assertEquals(Response.Status.NOT_FOUND.getStatusCode(), gle.getHttpStatus());
+        }
+    }
+}
