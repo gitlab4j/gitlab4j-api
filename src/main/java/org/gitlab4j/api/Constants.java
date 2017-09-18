@@ -143,7 +143,28 @@ public interface Constants {
         }
     }
 
-    /** Enum to use for specifying the state of a merge request update. */
+    /** Enum to use for specifying the scope when calling the various get issue methods. */
+    public enum IssueScope {
+
+        CREATED_BY_ME, ASSIGNED_TO_ME, ALL;
+
+        private static JacksonJsonEnumHelper<IssueScope> enumHelper = new JacksonJsonEnumHelper<>(IssueScope.class);
+
+        @JsonCreator
+        public static IssueScope forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the state of a merge request or issue update. */
     public enum StateEvent {
 
         CLOSE, REOPEN;
@@ -153,6 +174,29 @@ public interface Constants {
         @JsonCreator
         public static StateEvent forValue(String value) { return enumHelper.forValue(value); }
 
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to used to store the state of an issue. */
+    public enum IssueState {
+
+        OPENED, CLOSED, REOPENED;
+
+        private static JacksonJsonEnumHelper<IssueState> enumHelper = new JacksonJsonEnumHelper<>(IssueState.class);
+
+        @JsonCreator
+        public static IssueState forValue(String value) {
+            return enumHelper.forValue(value);
+        }
 
         @JsonValue
         public String toValue() {

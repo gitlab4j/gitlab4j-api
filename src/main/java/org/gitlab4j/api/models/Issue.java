@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.Constants.IssueState;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Issue {
@@ -22,13 +24,14 @@ public class Issue {
     private Integer iid;
     private List<String> labels;
     private Milestone milestone;
-    private Integer project_id;
-    private String state;
+    private Integer projectId;
+    private IssueState state;
     private Boolean subscribed;
     private String title;
     private Date updatedAt;
     private Integer userNotesCount;
     private String webUrl;
+    private TimeStats timeStats;
 
     public Assignee getAssignee() {
         return assignee;
@@ -110,19 +113,19 @@ public class Issue {
         this.milestone = milestone;
     }
 
-    public Integer getProject_id() {
-        return project_id;
+    public Integer getProjectId() {
+        return projectId;
     }
 
-    public void setProject_id(Integer project_id) {
-        this.project_id = project_id;
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
-    public String getState() {
+    public IssueState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(IssueState state) {
         this.state = state;
     }
 
@@ -164,5 +167,13 @@ public class Issue {
 
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
+    }
+
+    public TimeStats getTimeStats() {
+        return timeStats;
+    }
+
+    public void setTimeStats(TimeStats timeStats) {
+        this.timeStats = timeStats;
     }
 }

@@ -1225,6 +1225,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectId the project ID to get the issues for
      * @return a list of project's issues
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer)}
      */
     public List<Issue> getIssues(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "issues");
@@ -1241,6 +1242,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param perPage the number of issues per page
      * @return the list of issues in the specified range
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer, int, int)}
      */
     public List<Issue> getIssues(Integer projectId, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "issues");
@@ -1256,6 +1258,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param itemsPerPage the number of issues per page
      * @return the list of issues in the specified range
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer, int)}
      */
     public Pager<Issue> getIssues(Integer projectId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Issue>(this, Issue.class, itemsPerPage, null, "projects", projectId, "issues"));
@@ -1270,6 +1273,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param issueId the internal ID of a project's issue
      * @return the specified Issue instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#getIssue(Integer, Integer)}
      */
     public Issue getIssue(Integer projectId, Integer issueId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "issues", issueId);
@@ -1284,6 +1288,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectId the project ID to delete the issue from
      * @param issueId the internal ID of a project's issue
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#deleteIssue(Integer, Integer)}
      */
     public void deleteIssue(Integer projectId, Integer issueId) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);

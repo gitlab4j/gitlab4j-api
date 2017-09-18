@@ -31,6 +31,7 @@ public class GitLabApi {
     private CommitsApi commitsApi;
     private DeployKeysApi deployKeysApi;
     private GroupApi groupApi;
+    private IssuesApi issuesApi;
     private MergeRequestApi mergeRequestApi;
     private NamespaceApi namespaceApi;
     private PipelineApi pipelineApi;
@@ -183,19 +184,20 @@ public class GitLabApi {
         apiClient = new GitLabApiClient(apiVersion, hostUrl, privateToken, secretToken, clientConfigProperties);
         commitsApi = new CommitsApi(this);
         deployKeysApi = new DeployKeysApi(this);
+        eventsApi = new EventsApi(this);
         groupApi = new GroupApi(this);
+        issuesApi = new IssuesApi(this);
+        jobApi = new JobApi(this);
         mergeRequestApi = new MergeRequestApi(this);
         namespaceApi = new NamespaceApi(this);
+        notesApi = new NotesApi(this);
         pipelineApi = new PipelineApi(this);
         projectApi = new ProjectApi(this);
         repositoryApi = new RepositoryApi(this);
+        repositoryFileApi = new RepositoryFileApi(this);
         servicesApi = new ServicesApi(this);
         sessoinApi = new SessionApi(this);
         userApi = new UserApi(this);
-        repositoryFileApi = new RepositoryFileApi(this);
-        jobApi = new JobApi(this);
-        notesApi = new NotesApi(this);
-        eventsApi = new EventsApi(this);
     }
 
     /**
@@ -306,6 +308,46 @@ public class GitLabApi {
     }
 
     /**
+     * Gets the EventsApi instance owned by this GitLabApi instance. The EventsApi is used
+     * to perform all events related API calls.
+     *
+     * @return the EventsApi instance owned by this GitLabApi instance
+     */
+    public EventsApi getEventsApi() {
+        return (eventsApi);
+    }
+
+    /**
+     * Gets the GroupApi instance owned by this GitLabApi instance. The GroupApi is used
+     * to perform all group related API calls.
+     *
+     * @return the GroupApi instance owned by this GitLabApi instance
+     */
+    public GroupApi getGroupApi() {
+        return (groupApi);
+    }
+
+    /**
+     * Gets the IssuesApi instance owned by this GitLabApi instance. The IssuesApi is used
+     * to perform all iossue related API calls.
+     *
+     * @return the CommitsApi instance owned by this GitLabApi instance
+     */
+    public IssuesApi getIssuesApi() {
+        return (issuesApi);
+    }
+
+    /**
+     * Gets the JobApi instance owned by this GitLabApi instance. The JobApi is used
+     * to perform all jobs related API calls.
+     *
+     * @return the JobsApi instance owned by this GitLabApi instance
+     */
+    public JobApi getJobApi() {
+        return (jobApi);
+    }
+
+    /**
      * Gets the MergeRequestApi instance owned by this GitLabApi instance. The MergeRequestApi is used
      * to perform all merge request related API calls.
      *
@@ -330,13 +372,13 @@ public class GitLabApi {
     }
 
     /**
-     * Gets the GroupApi instance owned by this GitLabApi instance. The GroupApi is used
-     * to perform all group related API calls.
+     * Gets the NotesApi instance owned by this GitLabApi instance. The NotesApi is used
+     * to perform all notes related API calls.
      *
-     * @return the GroupApi instance owned by this GitLabApi instance
+     * @return the NotesApi instance owned by this GitLabApi instance
      */
-    public GroupApi getGroupApi() {
-        return (groupApi);
+    public NotesApi getNotesApi() {
+        return (notesApi);
     }
 
     /**
@@ -407,35 +449,5 @@ public class GitLabApi {
      */
     public UserApi getUserApi() {
         return (userApi);
-    }
-
-    /**
-     * Gets the JobApi instance owned by this GitLabApi instance. The JobApi is used
-     * to perform all jobs related API calls.
-     *
-     * @return the JobsApi instance owned by this GitLabApi instance
-     */
-    public JobApi getJobApi() {
-        return (jobApi);
-    }
-
-    /**
-     * Gets the NotesApi instance owned by this GitLabApi instance. The NotesApi is used
-     * to perform all notes related API calls.
-     *
-     * @return the NotesApi instance owned by this GitLabApi instance
-     */
-    public NotesApi getNotesApi() {
-        return (notesApi);
-    }
-
-    /**
-     * Gets the EventsApi instance owned by this GitLabApi instance. The EventsApi is used
-     * to perform all events related API calls.
-     *
-     * @return the EventsApi instance owned by this GitLabApi instance
-     */
-    public EventsApi getEventsApi() {
-        return (eventsApi);
     }
 }
