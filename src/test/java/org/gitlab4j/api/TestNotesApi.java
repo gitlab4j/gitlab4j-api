@@ -84,7 +84,7 @@ public class TestNotesApi {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        for (Issue issue : gitLabApi.getProjectApi().getIssues(project.getId())) {
+        for (Issue issue : gitLabApi.getIssuesApi().getIssues(project.getId())) {
             List<Note> notes = gitLabApi.getNotesApi().getNotes(project.getId(), issue.getIid());
             assertNotNull(notes);
             // This requires some issues in the project 

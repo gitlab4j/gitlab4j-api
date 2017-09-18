@@ -35,5 +35,11 @@
    "subscribed": false,
    "user_notes_count": 1,
    "web_url": "http://example.com/example/example/issues/1",
-   "confidential": false
+   "confidential": false,
+   "time_stats": {
+      "time_estimate": 12600,
+      "total_time_spent": 0,
+      "human_time_estimate": "3h30m",
+      "human_total_time_spent": "0m"
+   }
 }
