@@ -110,7 +110,7 @@ List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature",
 ### DeployKeysApi
 ```java
 // Get a list of DeployKeys for the authenticated user
-List<DeployKey> deployKeys = gitLabApi.getDeployKeyssApi().getDeployKeys();
+List<DeployKey> deployKeys = gitLabApi.getDeployKeysApi().getDeployKeys();
 ```
 
 ### EventsApi
