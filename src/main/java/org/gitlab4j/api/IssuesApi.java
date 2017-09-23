@@ -31,6 +31,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.TimeStats;
 
 /**
  * This class provides an entry point to all the GitLab API project calls.
@@ -292,5 +293,127 @@ public class IssuesApi extends AbstractApi implements Constants {
 
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, getDefaultPerPageParam(), "projects", projectId, "issues", issueIid);
+    }
+    
+    /**
+     * Sets an estimated time of work in this issue
+     * 
+     * POST /projects/:id/issues/:issue_iid/time_estimate
+     * 
+     * @param projectId the project ID to delete the issue from
+     * @param issueIid the internal ID of a project's issue
+     * @param duration Human readable format, e.g. 3h30m
+     * @throws GitLabApiException if any exception occurs
+     */
+    public TimeStats estimateTime(Integer projectId, Integer issueIid, String duration) throws GitLabApiException {
+        
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (issueIid == null) {
+            throw new RuntimeException("issue IID cannot be null");
+        }
+        
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("duration", duration, true);
+                
+        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "time_estimate");
+        return (response.readEntity(TimeStats.class));        
+    }
+    
+    /**
+     * Resets the estimated time for this issue to 0 seconds.
+     * 
+     * POST /projects/:id/issues/:issue_iid/reset_time_estimate
+     * 
+     * @param projectId the project ID to delete the issue from
+     * @param issueIid the internal ID of a project's issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public TimeStats resetEstimatedTime(Integer projectId, Integer issueIid) throws GitLabApiException {
+        
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (issueIid == null) {
+            throw new RuntimeException("issue IID cannot be null");
+        }
+        
+        Response response = post(Response.Status.OK, new GitLabApiForm().asMap(), "projects", projectId, "issues", issueIid, "reset_time_estimate");
+        return (response.readEntity(TimeStats.class));
+    }
+    
+    /**
+     * Adds spent time for this issue
+     * 
+     * POST /projects/:id/issues/:issue_iid/add_spent_time
+     * 
+     * @param projectId the project ID to delete the issue from
+     * @param issueIid the internal ID of a project's issue
+     * @param duration Human readable format, e.g. 3h30m
+     * @throws GitLabApiException if any exception occurs
+     */
+    public TimeStats addSpentTime(Integer projectId, Integer issueIid, String duration) throws GitLabApiException {
+        
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (issueIid == null) {
+            throw new RuntimeException("issue IID cannot be null");
+        }
+        
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("duration", duration, true);
+
+        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "add_spent_time");
+        return (response.readEntity(TimeStats.class));
+    }
+    
+    /**
+     * Resets the total spent time for this issue to 0 seconds.
+     * 
+     * POST /projects/:id/issues/:issue_iid/reset_spent_time
+     * 
+     * @param projectId
+     * @param issueIId
+     * @throws GitLabApiException
+     */
+    public TimeStats resetSpentTime(Integer projectId, Integer issueIid) throws GitLabApiException {
+        
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (issueIid == null) {
+            throw new RuntimeException("issue IID cannot be null");
+        }
+        
+        Response response = post(Response.Status.OK, new GitLabApiForm().asMap(), "projects", projectId, "issues", issueIid, "reset_spent_time");
+        return (response.readEntity(TimeStats.class));
+    }
+    
+    /**
+     * Get time tracking stats
+     * 
+     * GET /projects/:id/issues/:issue_iid/time_stats
+     * 
+     * @param projectId
+     * @param issueIId
+     * @throws GitLabApiException
+     */
+    public TimeStats getTimeTrackingStats(Integer projectId, Integer issueIid) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (issueIid == null) {
+            throw new RuntimeException("issue IID cannot be null");
+        }
+
+        Response response = get(Response.Status.OK, new GitLabApiForm().asMap(), "projects", projectId, "issues", issueIid, "time_stats");
+        return (response.readEntity(TimeStats.class));
     }
 }
