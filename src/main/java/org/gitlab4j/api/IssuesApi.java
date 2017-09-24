@@ -349,7 +349,7 @@ public class IssuesApi extends AbstractApi implements Constants {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("duration", duration, true);
 
-        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "time_estimate");
+        Response response = post(Response.Status.OK, formData.asMap(), "projects", projectId, "issues", issueIid, "time_estimate");
         return (response.readEntity(TimeStats.class));
     }
 

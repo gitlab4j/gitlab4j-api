@@ -36,6 +36,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.Constants.IssueState;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.TimeStats;
@@ -71,11 +72,10 @@ public class TestIssuesApi {
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
-    
+
     private static final String ISSUE_TITLE = "Test Issue Title";
     private static final String ISSUE_DESCRIPTION = "This is a really nice description, not.";
     private static Random randomNumberGenerator = new Random();
-
 
     public TestIssuesApi() {
         super();
@@ -99,12 +99,12 @@ public class TestIssuesApi {
 
         if (problems.isEmpty()) {
             gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-            
+
             try {
                 testProject = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
             } catch (GitLabApiException gle) {
             }
-            
+
         } else {
             System.err.print(problems);
         }
@@ -128,14 +128,15 @@ public class TestIssuesApi {
             try {
                 List<Issue> issues = gitLabApi.getIssuesApi().getIssues(testProject.getId());
                 if (issues != null) {
-                    
+
                     for (Issue issue : issues) {
                         if (issue.getTitle().startsWith(ISSUE_TITLE)) {
                             gitLabApi.getIssuesApi().deleteIssue(testProject.getId(), issue.getIid());
                         }
                     }
                 }
-            } catch (GitLabApiException ignore) {}
+            } catch (GitLabApiException ignore) {
+            }
         }
     }
 
@@ -216,9 +217,10 @@ public class TestIssuesApi {
             assertEquals(Response.Status.NOT_FOUND.getStatusCode(), gle.getHttpStatus());
         }
     }
-    
+
     /**
      * Simplify creation of issues
+     * 
      * @return
      * @throws GitLabApiException
      */
@@ -226,62 +228,72 @@ public class TestIssuesApi {
         Integer projectId = testProject.getId();
         String title = getUniqueTitle();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, title, ISSUE_DESCRIPTION);
-        
+
         return issue;
     }
-    
+
     @Test
     public void testGetTimeTrackingStats() throws GitLabApiException {
-    	Issue issue = ensureIssue();
-    	TimeStats timeStats = gitLabApi.getIssuesApi().getTimeTrackingStats(issue.getProjectId(), issue.getIid());
-    	
-    	assertEquals(new Integer(0), timeStats.getTimeEstimate());
-    	assertEquals(new Integer(0), timeStats.getTotalTimeSpent());
+        Issue issue = ensureIssue();
+        TimeStats timeStats = gitLabApi.getIssuesApi().getTimeTrackingStats(issue.getProjectId(), issue.getIid());
+
+        assertEquals(new Integer(0), timeStats.getTimeEstimate());
+        assertEquals(new Integer(0), timeStats.getTotalTimeSpent());
     }
 
-    
     /**
      * Expect the given {@link TimeStats} object to have the values
+     * 
      * @param timeStats
      * @param timeEstimate
      * @param totalTimeSpent
      */
     private void assertTimeStats(TimeStats timeStats, int timeEstimate, int totalTimeSpent) {
-    	assertEquals(new Integer(timeEstimate), timeStats.getTimeEstimate());
-    	assertEquals(new Integer(totalTimeSpent), timeStats.getTotalTimeSpent());
+        assertEquals(new Integer(timeEstimate), timeStats.getTimeEstimate());
+        assertEquals(new Integer(totalTimeSpent), timeStats.getTotalTimeSpent());
     }
 
     @Test
     public void testEstimateTime() throws GitLabApiException {
-    	Issue issue = ensureIssue();
-    	TimeStats timeStats = gitLabApi.getIssuesApi().estimateTime(issue.getProjectId(), issue.getIid(), "1h");
-    	
-    	assertTimeStats(timeStats, (60 /* seconds */ * 60 /* minutes */), 0);
+        Issue issue = ensureIssue();
+        TimeStats timeStats = gitLabApi.getIssuesApi().estimateTime(issue.getProjectId(), issue.getIid(), "1h");
+        assertTimeStats(timeStats, (60 /* seconds */ * 60 /* minutes */), 0);
+        
+        timeStats = gitLabApi.getIssuesApi().estimateTime(issue.getProjectId(), issue.getIid(), 60 * 60);
+        assertTimeStats(timeStats, (60 /* seconds */ * 60 /* minutes */), 0);
+        
+        timeStats = gitLabApi.getIssuesApi().estimateTime(issue.getProjectId(), issue.getIid(), new Duration(60 * 60));
+        assertTimeStats(timeStats, (60 /* seconds */ * 60 /* minutes */), 0);
     }
 
     @Test
     public void testResetEstimatedTime() throws GitLabApiException {
-    	Issue issue = ensureIssue();
-    	gitLabApi.getIssuesApi().estimateTime(issue.getProjectId(), issue.getIid(), "1h");
-    	TimeStats timeStats = gitLabApi.getIssuesApi().resetEstimatedTime(issue.getProjectId(), issue.getIid());
-    	
-    	assertTimeStats(timeStats, 0, 0);
+        Issue issue = ensureIssue();
+        gitLabApi.getIssuesApi().estimateTime(issue.getProjectId(), issue.getIid(), "1h");
+        TimeStats timeStats = gitLabApi.getIssuesApi().resetEstimatedTime(issue.getProjectId(), issue.getIid());
+
+        assertTimeStats(timeStats, 0, 0);
     }
-    
+
     @Test
     public void testAddSpentTime() throws GitLabApiException {
-    	Issue issue = ensureIssue();
-    	TimeStats timeStats = gitLabApi.getIssuesApi().addSpentTime(issue.getProjectId(), issue.getIid(), "1h");
-    	
-    	assertTimeStats(timeStats, 0, (60 /* seconds */ * 60 /* minutes */));
+        Issue issue = ensureIssue();
+        TimeStats timeStats = gitLabApi.getIssuesApi().addSpentTime(issue.getProjectId(), issue.getIid(), "1h");
+        assertTimeStats(timeStats, 0, (60 /* seconds */ * 60 /* minutes */));
+        
+        timeStats = gitLabApi.getIssuesApi().addSpentTime(issue.getProjectId(), issue.getIid(), 60 * 60);
+        assertTimeStats(timeStats, 0, 60 * 60 * 2);
+        
+        timeStats = gitLabApi.getIssuesApi().addSpentTime(issue.getProjectId(), issue.getIid(), new Duration(60 * 60));
+        assertTimeStats(timeStats, 0, 60 * 60 * 3);
     }
-    
+
     @Test
     public void testResetSpentTime() throws GitLabApiException {
-    	Issue issue = ensureIssue();
-    	gitLabApi.getIssuesApi().addSpentTime(issue.getProjectId(), issue.getIid(), "1h");
-    	TimeStats timeStats = gitLabApi.getIssuesApi().resetSpentTime(issue.getProjectId(), issue.getIid());
-    	
-    	assertTimeStats(timeStats, 0, 0);
+        Issue issue = ensureIssue();
+        gitLabApi.getIssuesApi().addSpentTime(issue.getProjectId(), issue.getIid(), "1h");
+        TimeStats timeStats = gitLabApi.getIssuesApi().resetSpentTime(issue.getProjectId(), issue.getIid());
+
+        assertTimeStats(timeStats, 0, 0);
     }
 }
