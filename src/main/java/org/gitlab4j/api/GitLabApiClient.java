@@ -1,9 +1,9 @@
 package org.gitlab4j.api;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -11,12 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.X509ExtendedTrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -27,6 +26,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.glassfish.jersey.client.ClientConfig;
@@ -37,16 +37,19 @@ import org.glassfish.jersey.client.ClientProperties;
  */
 public class GitLabApiClient {
 
-    protected static final String PRIVATE_TOKEN_HEADER = "PRIVATE-TOKEN";
+    protected static final String PRIVATE_TOKEN_HEADER  = "PRIVATE-TOKEN";
+    protected static final String AUTHORIZATION_HEADER  = "Authorization";
     protected static final String X_GITLAB_TOKEN_HEADER = "X-Gitlab-Token";
 
     private ClientConfig clientConfig;
     private Client apiClient;
     private String hostUrl;
-    private String privateToken;
+    private TokenType tokenType = TokenType.PRIVATE;
+    private String authToken;
     private String secretToken;
-    private static boolean ignoreCertificateErrors;
-    private static SSLSocketFactory defaultSocketFactory;
+    private boolean ignoreCertificateErrors;
+    private SSLContext openSslContext;
+    private HostnameVerifier openHostnameVerifier;
 
     /**
      * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
@@ -57,7 +60,20 @@ public class GitLabApiClient {
      * @param privateToken the private token to authenticate with
      */
     public GitLabApiClient(ApiVersion apiVersion, String hostUrl, String privateToken) {
-        this(apiVersion, hostUrl, privateToken, null);
+        this(apiVersion, hostUrl, TokenType.PRIVATE, privateToken, null);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
+     * server URL, auth token type, private or access token, and secret token.
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL to the GitLab API server
+     * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
+     * @param authToken the token to authenticate with
+     */
+    public GitLabApiClient(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken) {
+        this(apiVersion, hostUrl, tokenType, authToken, null);
     }
 
     /**
@@ -68,7 +84,19 @@ public class GitLabApiClient {
      * @param privateToken the private token to authenticate with
      */
     public GitLabApiClient(String hostUrl, String privateToken) {
-        this(ApiVersion.V4, hostUrl, privateToken, null);
+        this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, privateToken, null);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
+     * server URL, private token, and secret token.
+     * 
+     * @param hostUrl the URL to the GitLab API server
+     * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
+     * @param authToken the token to authenticate with
+     */
+    public GitLabApiClient(String hostUrl, TokenType tokenType, String authToken) {
+        this(ApiVersion.V4, hostUrl, tokenType, authToken, null);
     }
 
     /**
@@ -81,7 +109,21 @@ public class GitLabApiClient {
      * @param secretToken use this token to validate received payloads
      */
     public GitLabApiClient(ApiVersion apiVersion, String hostUrl, String privateToken, String secretToken) {
-        this(apiVersion, hostUrl, privateToken, secretToken, null);
+        this(apiVersion, hostUrl, TokenType.PRIVATE, privateToken, secretToken, null);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
+     * server URL, private token, and secret token.
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL to the GitLab API server
+     * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
+     * @param authToken the token to authenticate with
+     * @param secretToken use this token to validate received payloads
+     */
+    public GitLabApiClient(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken) {
+        this(apiVersion, hostUrl, tokenType, authToken, secretToken, null);
     }
 
     /**
@@ -93,7 +135,33 @@ public class GitLabApiClient {
      * @param secretToken use this token to validate received payloads
      */
     public GitLabApiClient(String hostUrl, String privateToken, String secretToken) {
-        this(ApiVersion.V4, hostUrl, privateToken, secretToken, null);
+        this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, privateToken, secretToken, null);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
+     * server URL, private token, and secret token.
+     * 
+     * @param hostUrl the URL to the GitLab API server
+     * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
+     * @param authToken the token to authenticate with
+     * @param secretToken use this token to validate received payloads
+     */
+    public GitLabApiClient(String hostUrl, TokenType tokenType, String authToken, String secretToken) {
+        this(ApiVersion.V4, hostUrl, tokenType, authToken, secretToken, null);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
+     * server URL and private token.
+     * 
+     * @param hostUrl the URL to the GitLab API server
+     * @param privateToken the private token to authenticate with
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties the properties given to Jersey's clientconfig
+     */
+    public GitLabApiClient(String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
+        this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, privateToken, secretToken, clientConfigProperties);
     }
 
     /**
@@ -107,10 +175,26 @@ public class GitLabApiClient {
      * @param clientConfigProperties the properties given to Jersey's clientconfig
      */
     public GitLabApiClient(ApiVersion apiVersion, String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
+        this(apiVersion, hostUrl, TokenType.PRIVATE, privateToken, secretToken, clientConfigProperties);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version, 
+     * server URL and private token.
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL to the GitLab API server
+     * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
+     * @param authToken the private token to authenticate with
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties the properties given to Jersey's clientconfig
+     */
+    public GitLabApiClient(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties) {
 
         // Remove the trailing "/" from the hostUrl if present
         this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl) + apiVersion.getApiNamespace();
-        this.privateToken = privateToken;
+        this.tokenType = tokenType;
+        this.authToken = authToken;
 
         if (secretToken != null) {
             secretToken = secretToken.trim();
@@ -128,101 +212,9 @@ public class GitLabApiClient {
     }
 
     /**
-     * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
-     * server URL and private token.
-     * 
-     * @param hostUrl the URL to the GitLab API server
-     * @param privateToken the private token to authenticate with
-     * @param secretToken use this token to validate received payloads
-     * @param clientConfigProperties the properties given to Jersey's clientconfig
-     */
-    public GitLabApiClient(String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
-        this(ApiVersion.V4, hostUrl, privateToken, secretToken, clientConfigProperties);
-    }
-
-    /**
-     * Returns true if the API is setup to ignore SSL certificate errors, otherwise returns false.
-     * 
-     * @return true if the API is setup to ignore SSL certificate errors, otherwise returns false
-     */
-    public boolean getIgnoreCertificateErrors() {
-        return (GitLabApiClient.ignoreCertificateErrors);
-    }
-
-    /**
-     * Sets up the Jersey system ignore SSL certificate errors or not.
-     * 
-     * WARNING: Setting this to true will affect ALL uses of HttpsURLConnection and Jersey.
-     * 
-     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
-     */
-    public void setIgnoreCerificateErrors(boolean ignoreCertificateErrors) {
-
-        if (GitLabApiClient.ignoreCertificateErrors == ignoreCertificateErrors) {
-            return;
-        }
-
-        if (!ignoreCertificateErrors) {
-
-            GitLabApiClient.ignoreCertificateErrors = false;
-            HttpsURLConnection.setDefaultSSLSocketFactory(GitLabApiClient.defaultSocketFactory);
- 
-        } else {
-
-            SSLSocketFactory defaultSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
-
-            if (ignoreCertificateErrors()) {
-                GitLabApiClient.ignoreCertificateErrors = true;
-                GitLabApiClient.defaultSocketFactory = defaultSocketFactory;
-            } else {
-                throw new RuntimeException("Unable to ignore certificate errors.");
-            }
-        }
-    }
-
-    /**
-     * Sets up Jersey client to ignore certificate errors.
-     *
-     * @return true if successful at setting up to ignore certificate errors, otherwise returns false.
-     */
-    private boolean ignoreCertificateErrors() {
-
-        // Create a TrustManager that trusts all certificates
-        TrustManager[] certs = new TrustManager[] { new X509TrustManager() {
-            @Override
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            @Override
-            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-            }
-
-            @Override
-            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-            }
-        } };
-
-        // Now set the default SSLSocketFactory to use the just created TrustManager
-        SSLSocketFactory defaultSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
-        SSLContext sslContext = null;
-        try {
-            sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, certs, new SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-            HttpsURLConnection.getDefaultSSLSocketFactory();
-        } catch (GeneralSecurityException ex) {
-            HttpsURLConnection.setDefaultSSLSocketFactory(defaultSocketFactory);
-            return (false);
-        }
-
-        return (true);
-    }
-
-    /**
      * Construct a REST URL with the specified path arguments.
      * 
-     * @param pathArgs ariable list of arguments used to build the URI
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a REST URL with the specified path arguments
      * @throws IOException if an error occurs while constructing the URL
      */
@@ -455,7 +447,15 @@ public class GitLabApiClient {
     protected Invocation.Builder invocation(URL url, MultivaluedMap<String, String> queryParams, String accept) {
 
         if (apiClient == null) {
-            apiClient = ClientBuilder.newBuilder().withConfig(clientConfig).sslContext(getSslContext()).hostnameVerifier(new AcceptAllHostnameVerifier()).build();
+            if (ignoreCertificateErrors) {
+                apiClient = ClientBuilder.newBuilder()
+                        .withConfig(clientConfig)
+                        .sslContext(openSslContext)
+                        .hostnameVerifier(openHostnameVerifier)
+                        .build();
+            } else {
+                apiClient = ClientBuilder.newBuilder().withConfig(clientConfig).build();
+            }
         }
 
         WebTarget target = apiClient.target(url.toExternalForm()).property(ClientProperties.FOLLOW_REDIRECTS, true);
@@ -465,24 +465,111 @@ public class GitLabApiClient {
             }
         }
 
+        String authHeader = (tokenType == TokenType.ACCESS ? AUTHORIZATION_HEADER : PRIVATE_TOKEN_HEADER);
+        String authValue = (tokenType == TokenType.ACCESS ? "Bearer " + authToken : authToken);
         if (accept == null || accept.trim().length() == 0)
-            return (target.request().header(PRIVATE_TOKEN_HEADER, privateToken));
+            return (target.request().header(authHeader, authValue));
         else
-            return (target.request().header(PRIVATE_TOKEN_HEADER, privateToken).accept(accept));
+            return (target.request().header(authHeader, authValue).accept(accept));
     }
 
-    protected class AcceptAllHostnameVerifier implements HostnameVerifier {
-        @Override
-        public boolean verify(String s, SSLSession sslSession) {
-            return (true);
+    /**
+     * Returns true if the API is setup to ignore SSL certificate errors, otherwise returns false.
+     *
+     * @return true if the API is setup to ignore SSL certificate errors, otherwise returns false
+     */
+    public boolean getIgnoreCertificateErrors() {
+        return (ignoreCertificateErrors);
+    }
+
+    /**
+     * Sets up the Jersey system ignore SSL certificate errors or not.
+     *
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     */
+    public void setIgnoreCertificateErrors(boolean ignoreCertificateErrors) {
+
+        if (this.ignoreCertificateErrors == ignoreCertificateErrors) {
+            return;
+        }
+
+        if (!ignoreCertificateErrors) {
+
+            this.ignoreCertificateErrors = false;
+            openSslContext = null;
+            openHostnameVerifier = null;
+            apiClient = null;
+
+        } else {
+
+            if (setupIgnoreCertificateErrors()) {
+                this.ignoreCertificateErrors = true;
+                apiClient = null;
+            } else {
+                this.ignoreCertificateErrors = false;
+                apiClient = null;
+                throw new RuntimeException("Unable to ignore certificate errors.");
+            }
         }
     }
 
-    private SSLContext getSslContext() {
+    /**
+     * Sets up Jersey client to ignore certificate errors.
+     *
+     * @return true if successful at setting up to ignore certificate errors, otherwise returns false.
+     */
+    private boolean setupIgnoreCertificateErrors() {
+
+        // Create a TrustManager that trusts all certificates
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509ExtendedTrustManager() {
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType, Socket socket) throws CertificateException {
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType, SSLEngine engine) throws CertificateException {
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType, Socket socket) throws CertificateException {
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType, SSLEngine engine) throws CertificateException {
+            }
+        }};
+
+        // Ignore differences between given hostname and certificate hostname
+        HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+
         try {
-            return SSLContext.getDefault();
-        } catch (NoSuchAlgorithmException e) {
-            throw new UnsupportedOperationException(e);
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, trustAllCerts, new SecureRandom());
+            openSslContext = sslContext;
+            openHostnameVerifier = hostnameVerifier;
+        } catch (GeneralSecurityException ex) {
+            openSslContext = null;
+            openHostnameVerifier = null;
+            return (false);
         }
+
+        return (true);
     }
 }
