@@ -10,8 +10,8 @@ public class TimeStats {
 
     private Integer timeEstimate;
     private Integer totalTimeSpent;
-    private String humanTimeEstimate;
-    private String humanTotalTimeSpent;
+    private Duration humanTimeEstimate;
+    private Duration humanTotalTimeSpent;
 
     public Integer getTimeEstimate() {
         return timeEstimate;
@@ -29,19 +29,19 @@ public class TimeStats {
         this.totalTimeSpent = totalTimeSpent;
     }
 
-    public String getHumanTimeEstimate() {
+    public Duration getHumanTimeEstimate() {
         return humanTimeEstimate;
     }
 
-    public void setHumanTimeEstimate(String humanTimeEstimate) {
+    public void setHumanTimeEstimate(Duration humanTimeEstimate) {
         this.humanTimeEstimate = humanTimeEstimate;
     }
 
-    public String getHumanTotalTimeSpent() {
+    public Duration getHumanTotalTimeSpent() {
         return humanTotalTimeSpent;
     }
 
-    public void setHumanTotalTimeSpent(String humanTotalTimeSpent) {
+    public void setHumanTotalTimeSpent(Duration humanTotalTimeSpent) {
         this.humanTotalTimeSpent = humanTotalTimeSpent;
     }
 }
