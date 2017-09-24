@@ -31,6 +31,11 @@ public interface Constants {
     /** Page param HTTP header key. */
     public static final String PAGE_PARAM = "page";
 
+    /** Used to specify the type of authentication token. */
+    public enum TokenType {
+        ACCESS, PRIVATE;
+    }
+
     /** Enum to use for ordering the results of various API calls. */
     public enum SortOrder {
 
