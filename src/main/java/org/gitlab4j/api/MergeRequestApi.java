@@ -66,7 +66,7 @@ public class MergeRequestApi extends AbstractApi {
     /**
      * Get information about a single merge request.
      *
-     * GET /projects/:id/merge_request/:merge_request_id
+     * GET /projects/:id/merge_requests/:merge_request_id
      *
      * @param projectId the project ID of the merge request
      * @param mergeRequestId the ID of the merge request
@@ -74,7 +74,7 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public MergeRequest getMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", projectId, "merge_request", mergeRequestId);
+        Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestId);
         return (response.readEntity(MergeRequest.class));
     }
 
@@ -106,7 +106,7 @@ public class MergeRequestApi extends AbstractApi {
      */
     public List<Commit> getCommits(int projectId, int mergeRequestId, int page, int perPage) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("owned", true).withParam(PAGE_PARAM,  page).withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_request", mergeRequestId, "commits");
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestId, "commits");
         return (response.readEntity(new GenericType<List<Commit>>() {}));
     }
 
@@ -123,7 +123,7 @@ public class MergeRequestApi extends AbstractApi {
      */
     public Pager<Commit> getCommits(int projectId, int mergeRequestId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Commit>(this, Commit.class, itemsPerPage, null,
-                "projects", projectId, "merge_request", mergeRequestId, "commits"));
+                "projects", projectId, "merge_requests", mergeRequestId, "commits"));
     }
 
     /**
@@ -161,7 +161,7 @@ public class MergeRequestApi extends AbstractApi {
     /**
      * Updates an existing merge request. You can change branches, title, or even close the MR.
      *
-     * PUT /projects/:id/merge_request/:merge_request_id
+     * PUT /projects/:id/merge_requests/:merge_request_id
      *
      * @param projectId the ID of a project
      * @param mergeRequestId the internal ID of the merge request to update
@@ -196,14 +196,14 @@ public class MergeRequestApi extends AbstractApi {
         .withParam("labels", labels)
         .withParam("milestone_id", milestoneId);
 
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_request", mergeRequestId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestId);
         return (response.readEntity(MergeRequest.class));
     }
 
     /**
      * Updates an existing merge request. You can change branches, title, or even close the MR.
      *
-     * PUT /projects/:id/merge_request/:merge_request_id
+     * PUT /projects/:id/merge_requests/:merge_request_id
      *
      * @param projectId the ID of a project
      * @param mergeRequestId the ID of the merge request to update
@@ -235,7 +235,7 @@ public class MergeRequestApi extends AbstractApi {
         addFormParam(formData, "description", description, false);
         addFormParam(formData, "assignee_id", assigneeId, false);
 
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_request", mergeRequestId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestId);
         return (response.readEntity(MergeRequest.class));
     }
 
@@ -259,7 +259,7 @@ public class MergeRequestApi extends AbstractApi {
         }
 
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", projectId, "merge_request", mergeRequestId);
+        delete(expectedStatus, null, "projects", projectId, "merge_requests", mergeRequestId);
     }
 
     /**
