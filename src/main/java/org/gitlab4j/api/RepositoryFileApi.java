@@ -89,7 +89,7 @@ public class RepositoryFileApi extends AbstractApi {
         Form formData = file2form(file, branchName, commitMessage);
         Response response;
         if (isApiVersion(ApiVersion.V3)) {
-            response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files");
+            response = post(Response.Status.OK, formData, "projects", projectId, "repository", "files");
         } else {
             response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
         }
@@ -119,7 +119,7 @@ public class RepositoryFileApi extends AbstractApi {
         Form formData = file2form(file, branchName, commitMessage);
         Response response;
         if (isApiVersion(ApiVersion.V3)) {
-            response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "files");
+            response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "files");
         } else {
             response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
         }
