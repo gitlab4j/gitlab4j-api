@@ -192,6 +192,21 @@ public class JobApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a trace of a specific job of a project
+     *
+     * GET /projects/:id/jobs/:id/trace
+     *
+     * @param projectId the project ID to get the specified job's trace for
+     * @param jobId the job ID to get the trace for
+     * @return a String containing the specified job's trace
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+     public String getTrace(int projectId, int jobId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "jobs", jobId, "trace");
+        return (response.readEntity(String.class));
+     }
+
+    /**
      * Cancel specified job in a project.
      *
      * POST /projects/:id/jobs/:job_id/cancel
