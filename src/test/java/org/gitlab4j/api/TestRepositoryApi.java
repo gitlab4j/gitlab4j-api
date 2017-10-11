@@ -18,6 +18,7 @@ import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.RepositoryFile;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -53,6 +54,7 @@ public class TestRepositoryApi {
     }
 
     private static final String TEST_BRANCH_NAME = "feature/test_branch";
+    private static final String TEST_FILEPATH = "test-file.txt";
     private static GitLabApi gitLabApi;
 
     public TestRepositoryApi() {
@@ -80,7 +82,7 @@ public class TestRepositoryApi {
         }
 
         if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            gitLabApi = new GitLabApi(ApiVersion.V3, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
         } else {
             System.err.print(problems);
         }
@@ -92,7 +94,15 @@ public class TestRepositoryApi {
 
             try {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+                
+                try {
+                    gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Cleanup test files.");
+                } catch (GitLabApiException ignore) {
+                }
+                
                 gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
+                
+                
             } catch (GitLabApiException ignore) {
             }
         }
@@ -201,5 +211,23 @@ public class TestRepositoryApi {
 
         compareResults = gitLabApi.getRepositoryApi().compare(TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(numCommits - 1).getId(), commits.get(numCommits - 2).getId());
         assertNotNull(compareResults);
+    }
+    
+    @Test
+    public void testCreateAndDeleteFile() throws GitLabApiException {
+        
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+        
+        Branch branch = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_BRANCH_NAME, "master");
+        assertNotNull(branch);
+
+        RepositoryFile file = new RepositoryFile();
+        file.setFilePath(TEST_FILEPATH);
+        file.setContent("This is a test file.");
+        RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(file, project.getId(), TEST_BRANCH_NAME, "Testing createFile().");
+        assertNotNull(createdFile);
+        
+        gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Testing deleteFile().");
     }
 }
