@@ -214,13 +214,10 @@ public class TestRepositoryApi {
     }
     
     @Test
-    public void testCreateAndDeleteFile() throws GitLabApiException {
+    public void testCreateFileAndDeleteFile() throws GitLabApiException {
         
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
-        
-        Branch branch = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_BRANCH_NAME, "master");
-        assertNotNull(branch);
 
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
