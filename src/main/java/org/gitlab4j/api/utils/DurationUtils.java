@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class DurationUtils {
 
-    private static char[] TIME_UNITS = { 'd', 'h', 'm', 's'};
-    private static int[] TIME_UNIT_MULTIPLIERS = { 60 * 60 * 24, 60 * 60, 60, 1 };
+    private static char[] TIME_UNITS = { 'w', 'd', 'h', 'm', 's'};
+    private static int[] TIME_UNIT_MULTIPLIERS = { 60 * 60 * 24 * 7, 60 * 60 * 24, 60 * 60, 60, 1 };
 
     private static Pattern durationPattern = Pattern.compile("(\\s*(\\d+)([a-z]))");
 
@@ -18,14 +18,26 @@ public class DurationUtils {
      */
     public static final String toString(int durationSeconds) {
 
-        int days = durationSeconds / TIME_UNIT_MULTIPLIERS[0];
-        int seconds = durationSeconds - (days * TIME_UNIT_MULTIPLIERS[0]);
+        int weeks = durationSeconds / TIME_UNIT_MULTIPLIERS[0];
+        int days = (durationSeconds - weeks * TIME_UNIT_MULTIPLIERS[0]) / TIME_UNIT_MULTIPLIERS[1];
+        int seconds = durationSeconds - (weeks * TIME_UNIT_MULTIPLIERS[0]) - (days * TIME_UNIT_MULTIPLIERS[1]);
         int hours = seconds / 3600;
         int minutes = (seconds % 3600) / 60;
         seconds = seconds % 60;
 
         StringBuilder buf = new StringBuilder();
-        if (days > 0) {
+        if (weeks > 0) {
+
+            buf.append(weeks).append('w');
+            if (seconds > 0) {
+                buf.append(days).append('d').append(hours).append('h').append(minutes).append('m').append(seconds).append('s');
+            } else if (minutes > 0) {
+                buf.append(days).append('d').append(hours).append('h').append(minutes).append('m');
+            } else if (hours > 0) {
+                buf.append(days).append('d').append(hours).append('h');
+            }
+
+        } else  if (days > 0) {
 
             buf.append(days).append('d');
             if (seconds > 0) {
