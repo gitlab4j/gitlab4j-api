@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class DurationUtils {
 
-    private static char[] TIME_UNITS = { 'd', 'h', 'm', 's'};
-    private static int[] TIME_UNIT_MULTIPLIERS = { 60 * 60 * 24, 60 * 60, 60, 1 };
+    private static char[] TIME_UNITS = { 'w', 'd', 'h', 'm', 's'};
+    private static int[] TIME_UNIT_MULTIPLIERS = { 60 * 60 * 24 * 7, 60 * 60 * 24, 60 * 60, 60, 1 };
 
     private static Pattern durationPattern = Pattern.compile("(\\s*(\\d+)([a-z]))");
 
