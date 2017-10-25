@@ -1,10 +1,9 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import java.util.Date;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AbstractUser {
@@ -21,7 +20,7 @@ public class AbstractUser {
     private Boolean external;
     private Integer id;
     private List<Identity> identities;
-    private Boolean isAdmin;
+    private Boolean isAdmin = false;
     private Date lastActivityOn;
     private Date lastSignInAt;
     private String linkedin;
