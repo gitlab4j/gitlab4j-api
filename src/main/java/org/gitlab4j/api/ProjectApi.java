@@ -24,7 +24,14 @@
 package org.gitlab4j.api;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.models.Event;
+import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.Member;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectHook;
+import org.gitlab4j.api.models.ProjectUser;
+import org.gitlab4j.api.models.Snippet;
+import org.gitlab4j.api.models.Visibility;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -105,8 +112,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      *      Constants.ProjectOrderBy, Constants.SortOrder, String, Boolean, Boolean, Boolean, Boolean, Boolean)}
      */
     public List<Project> getProjects(Boolean archived, Visibility visibility, String orderBy,
-            String sort, String search, Boolean simple, Boolean owned, Boolean membership,
-            Boolean starred, Boolean statistics) throws GitLabApiException {
+                                     String sort, String search, Boolean simple, Boolean owned, Boolean membership,
+                                     Boolean starred, Boolean statistics) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("archived", archived)
