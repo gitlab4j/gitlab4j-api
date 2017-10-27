@@ -23,22 +23,22 @@
 
 package org.gitlab4j.api;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
+import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Visibility;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * This class provides an entry point to all the GitLab API project calls.
@@ -112,8 +112,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      *      Constants.ProjectOrderBy, Constants.SortOrder, String, Boolean, Boolean, Boolean, Boolean, Boolean)}
      */
     public List<Project> getProjects(Boolean archived, Visibility visibility, String orderBy,
-            String sort, String search, Boolean simple, Boolean owned, Boolean membership,
-            Boolean starred, Boolean statistics) throws GitLabApiException {
+                                     String sort, String search, Boolean simple, Boolean owned, Boolean membership,
+                                     Boolean starred, Boolean statistics) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("archived", archived)
@@ -919,6 +919,17 @@ public class ProjectApi extends AbstractApi implements Constants {
     public void removeMember(Integer projectId, Integer userId) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", projectId, "members", userId);
+    }
+
+    /**
+     * Get a list of project users. This list includes all project members and all users assigned to project parent groups.
+     * @param projectId the project ID to get users for
+     * @return the users belonging to the specified project and its parent groups
+     * @throws GitLabApiException
+     */
+    public List<ProjectUser> getProjectUsers(Integer projectId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, this.getDefaultPerPageParam(), "projects", projectId, "users");
+        return (response.readEntity(new GenericType<List<ProjectUser>>() {}));
     }
 
     /**
