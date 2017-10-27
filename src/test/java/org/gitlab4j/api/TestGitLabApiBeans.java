@@ -49,6 +49,7 @@ import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
+import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.SshKey;
@@ -216,6 +217,20 @@ public class TestGitLabApiBeans {
         try {
             ArtifactsFile artifactFile = makeFakeApiCall(ArtifactsFile.class, "artifacts-file");
             assertTrue(compareJson(artifactFile, "artifacts-file"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testProjectUsers() {
+
+        try {
+            InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream("project-users.json"));
+            ObjectMapper objectMapper = jacksonJson.getContext(null);
+            List<ProjectUser> projectUsres = objectMapper.readValue(reader, new TypeReference<List<ProjectUser>>() {});
+            assertTrue(compareJson(projectUsres, "project-users"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
