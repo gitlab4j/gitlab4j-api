@@ -1,14 +1,13 @@
 package org.gitlab4j.api;
 
-import java.util.List;
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.SshKey;
+import org.gitlab4j.api.models.User;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.SshKey;
-import org.gitlab4j.api.models.User;
+import java.util.List;
 
 /**
  * This class provides an entry point to all the GitLab API users calls.
@@ -24,7 +23,7 @@ public class UserApi extends AbstractApi {
      *
      * GET /users
      *
-     * @return a list of Users, this list will only contain the first 20 users in the system.
+     * @return a list of Users, this list will only contain the first 100 users in the system.
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers() throws GitLabApiException {
@@ -52,12 +51,110 @@ public class UserApi extends AbstractApi {
      *
      * GET /users
      *
-     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @param itemsPerPage the number of User instances that will be fetched per page
      * @return a Pager of User
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> getUsers(int itemsPerPage) throws GitLabApiException {
         return (new Pager<User>(this, User.class, itemsPerPage, null, "users"));
+    }
+
+    /**
+     * Get a list of active users. Only returns the first page
+     *
+     * GET /users?active=true
+     *
+     * @return a list of active Users, this list will only contain the first 100 users in the system.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<User> getActiveUsers() throws GitLabApiException{
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("active", true)
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
+    }
+
+    /**
+     * Get a list of active users using the specified page and per page settings.
+     *
+     * GET /users?active=true
+     *
+     * @param page the page to get
+     * @param perPage the number of users per page
+     * @return the list of active Users in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<User> getActiveUsers(int page, int perPage) throws GitLabApiException{
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("active", true)
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
+    }
+
+    /**
+     * Get a Pager of active users.
+     *
+     * GET /users?active=true
+     *
+     * @param itemsPerPage the number of active User instances that will be fetched per page
+     * @return a Pager of active User
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<User> getActiveUsers(int itemsPerPage) throws GitLabApiException{
+        GitLabApiForm formData = new GitLabApiForm().withParam("active", true);
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
+    }
+
+    /**
+     * Get a list of blocked users. Only returns the first page
+     *
+     * GET /users?blocked=true
+     *
+     * @return a list of blocked Users, this list will only contain the first 100 users in the system.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<User> getBlockedUsers() throws GitLabApiException{
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("blocked", true)
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
+    }
+
+    /**
+     * Get a list of blocked users using the specified page and per page settings.
+     *
+     * GET /users?blocked=true
+     *
+     * @param page the page to get
+     * @param perPage the number of users per page
+     * @return the list of blocked Users in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<User> getblockedUsers(int page, int perPage) throws GitLabApiException{
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("blocked", true)
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
+    }
+
+    /**
+     * Get a Pager of blocked users.
+     *
+     * GET /users?blocked=true
+     *
+     * @param itemsPerPage the number of blocked User instances that will be fetched per page
+     * @return a Pager of blocked User
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<User> getBlockedUsers(int itemsPerPage) throws GitLabApiException{
+        GitLabApiForm formData = new GitLabApiForm().withParam("blocked", true);
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
     /**
