@@ -1,13 +1,14 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.SshKey;
-import org.gitlab4j.api.models.User;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.SshKey;
+import org.gitlab4j.api.models.User;
 
 /**
  * This class provides an entry point to all the GitLab API users calls.
