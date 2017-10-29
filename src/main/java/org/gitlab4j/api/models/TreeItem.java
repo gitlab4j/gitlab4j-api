@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class TreeItem {
 
     public enum Type {
-        TREE, BLOB;
+        TREE, BLOB, COMMIT;
 
         public String toString() {
             return (name().toLowerCase());
