@@ -289,6 +289,36 @@ public class GitLabApi {
     }
 
     /**
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
+     * server URL and prootPrivateToken username,method.  the method is SUDO
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL to the GitLab API server
+     * @param rootPrivateToken the private token of root
+     * @param username the normal user's username
+     * @param method the method you choose to get api ,such as SUDO
+     */
+    public GitLabApi(String hostUrl,ApiVersion apiVersion,String rootPrivateToken,String username,String method) {
+        this.apiVersion = apiVersion;
+        apiClient = new GitLabApiClient(hostUrl,apiVersion, rootPrivateToken, username, method);
+        commitsApi = new CommitsApi(this);
+        deployKeysApi = new DeployKeysApi(this);
+        eventsApi = new EventsApi(this);
+        groupApi = new GroupApi(this);
+        issuesApi = new IssuesApi(this);
+        jobApi = new JobApi(this);
+        mergeRequestApi = new MergeRequestApi(this);
+        namespaceApi = new NamespaceApi(this);
+        notesApi = new NotesApi(this);
+        pipelineApi = new PipelineApi(this);
+        projectApi = new ProjectApi(this);
+        repositoryApi = new RepositoryApi(this);
+        repositoryFileApi = new RepositoryFileApi(this);
+        servicesApi = new ServicesApi(this);
+        sessoinApi = new SessionApi(this);
+        userApi = new UserApi(this);
+    }
+    /**
      * Return the GitLab API version that this instance is using.
      *
      * @return the GitLab API version that this instance is using
