@@ -21,13 +21,11 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
@@ -40,6 +38,8 @@ public class GitLabApiClient {
     protected static final String PRIVATE_TOKEN_HEADER  = "PRIVATE-TOKEN";
     protected static final String AUTHORIZATION_HEADER  = "Authorization";
     protected static final String X_GITLAB_TOKEN_HEADER = "X-Gitlab-Token";
+    protected static final String SUDO = "SUDO";
+    protected static final String NOTSUDO = "NOTSUDO";
 
     private ClientConfig clientConfig;
     private Client apiClient;
@@ -50,7 +50,9 @@ public class GitLabApiClient {
     private boolean ignoreCertificateErrors;
     private SSLContext openSslContext;
     private HostnameVerifier openHostnameVerifier;
-
+    private String rootPrivateToken;
+    private String username;
+    private String method = NOTSUDO;
     /**
      * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
      * server URL, private token, and secret token.
@@ -208,6 +210,27 @@ public class GitLabApiClient {
             clientConfig.getProperties().putAll(clientConfigProperties);
         }
 
+        clientConfig.register(JacksonJson.class);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
+     * server URL and prootPrivateToken username,method  the method is SUDO
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL to the GitLab API server
+     * @param rootPrivateToken the private token of root
+     * @param username the normal user's username
+     * @param method the method you choose to get api ,such as SUDO
+     */
+    public GitLabApiClient(String hostUrl,ApiVersion apiVersion,String rootPrivateToken,String username,String method) {
+
+        // Remove the trailing "/" from the hostUrl if present
+        this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl) + apiVersion.getApiNamespace();
+        this.rootPrivateToken = rootPrivateToken;
+        this.username = username;
+        this.method = method;
+        clientConfig = new ClientConfig();
         clientConfig.register(JacksonJson.class);
     }
 
@@ -464,13 +487,24 @@ public class GitLabApiClient {
                 target = target.queryParam(param.getKey(), param.getValue().toArray());
             }
         }
-
-        String authHeader = (tokenType == TokenType.ACCESS ? AUTHORIZATION_HEADER : PRIVATE_TOKEN_HEADER);
-        String authValue = (tokenType == TokenType.ACCESS ? "Bearer " + authToken : authToken);
-        if (accept == null || accept.trim().length() == 0)
-            return (target.request().header(authHeader, authValue));
-        else
-            return (target.request().header(authHeader, authValue).accept(accept));
+        if(method.equals(SUDO))
+        {
+            MultivaluedMap maps = new MultivaluedHashMap();
+            maps.add(PRIVATE_TOKEN_HEADER,rootPrivateToken);
+            maps.add(method,username);
+            if (accept == null || accept.trim().length() == 0)
+                return (target.request().headers(maps));
+            else
+                return (target.request().headers(maps));
+        }
+        else {
+            String authHeader = (tokenType == TokenType.ACCESS ? AUTHORIZATION_HEADER : PRIVATE_TOKEN_HEADER);
+            String authValue = (tokenType == TokenType.ACCESS ? "Bearer " + authToken : authToken);
+            if (accept == null || accept.trim().length() == 0)
+                return (target.request().header(authHeader, authValue));
+            else
+                return (target.request().header(authHeader, authValue).accept(accept));
+        }
     }
 
     /**
