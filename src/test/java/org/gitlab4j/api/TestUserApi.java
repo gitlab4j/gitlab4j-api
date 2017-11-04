@@ -21,6 +21,10 @@ import org.junit.Test;
  * 
  * If any of the above are NULL, all tests in this class will be skipped.
  *
+ * TEST_SUDO_AS_USERNAME
+ *
+ * If this is null the sudo() tyests will be skipped.
+ *
  */
 public class TestUserApi {
 
