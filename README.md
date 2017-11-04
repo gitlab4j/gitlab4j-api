@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.6.5'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.6.6'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.6.5</version>
+    <version>4.6.6</version>
 </dependency>
 ```
 
@@ -37,9 +37,28 @@ GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVA
 List<Project> projects = gitLabApi.getProjectApi().getProjects();
 ```
 
+You can also login to your GitLab server with username, and password:
+```java
+// Log in to the GitLab server using a username and password
+GitLabApi gitLabApi = GitLabApi.login("http://your.gitlab.server.com", "your-username", "your-password");
+```
+
+As of GitLab4J-API 4.6.6, all API requests support performing the API call as if you were another user, provided you are authenticated as an administrator:
+```java
+// Create a GitLabApi instance to communicate with your GitLab server (must be an administrator)
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
+
+// sudo as as a different user, in this case the user named "johndoe", all future calls will be done as "johndoe"
+gitLabApi.sudo("johndoe")
+
+// To turn off sudo mode
+gitLabApi.unsudo();
+```
+
 ---
 
-As of GitLab4J-API 4.2.0 support has been added for GitLab API V4. If your application requires GitLab API V3 you can still use GitLab4J-API by creating your GitLabApi instance as follows:
+As of GitLab4J-API 4.2.0 support has been added for GitLab API V4. If your application requires GitLab API V3,
+you can still use GitLab4J-API by creating your GitLabApi instance as follows:
 ```java
 // Create a GitLabApi instance to communicate with your GitLab server using GitLab API V3
 GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
@@ -47,7 +66,8 @@ GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.co
 
 ---
 
-GitLab4J-API provides an easy to use paging mechanism to page through lists of results from the GitLab API.  Here are a couple of examples on how to use the Pager:
+GitLab4J-API provides an easy to use paging mechanism to page through lists of results from the GitLab API.
+Here are a couple of examples on how to use the Pager:
 ```java
 // Get a Pager instance that will page through the projects with 10 projects per page
 Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
