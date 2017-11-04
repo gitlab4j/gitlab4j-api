@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
 import java.util.List;
@@ -73,21 +74,40 @@ public class TestNamespaceApi {
     public void testGetNamespaces() throws GitLabApiException {
         List<Namespace> namespaces = gitLabApi.getNamespaceApi().getNamespaces();
         assertNotNull(namespaces);
-        assertEquals(TEST_NAMESPACE, namespaces.get(0).getName());
+        for (Namespace namespace : namespaces) {
+            if (TEST_NAMESPACE.equals(namespace.getName()))
+                 return;
+        }
+
+        fail(TEST_NAMESPACE + " not found!");
     }
 
     @Test
     public void testGetNamespacesViaPager() throws GitLabApiException {
         Pager<Namespace> pager = gitLabApi.getNamespaceApi().getNamespaces(10);
         assertNotNull(pager);
-        assertEquals(TEST_NAMESPACE, pager.next().get(0).getName());
+
+        while (pager.hasNext()) {
+            List<Namespace> namespaces = pager.next();
+            for (Namespace namespace : namespaces) {
+                if (TEST_NAMESPACE.equals(namespace.getName()))
+                    return;
+            }
+        }
+
+        fail(TEST_NAMESPACE + " not found!");
     }
 
     @Test
     public void testGetNamespacesByPage() throws GitLabApiException {
         List<Namespace> namespaces = gitLabApi.getNamespaceApi().getNamespaces(1, 10);
         assertNotNull(namespaces);
-        assertEquals(TEST_NAMESPACE, namespaces.get(0).getName());
+        for (Namespace namespace : namespaces) {
+            if (TEST_NAMESPACE.equals(namespace.getName()))
+                 return;
+        }
+
+        fail(TEST_NAMESPACE + " not found!");
     }
 
     @Test

@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assume.assumeTrue;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -27,10 +28,12 @@ public class TestUserApi {
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_USERNAME;
+    private static final String TEST_SUDO_AS_USERNAME;
     static {
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_USERNAME = TestUtils.getProperty("TEST_USERNAME");
+        TEST_SUDO_AS_USERNAME = TestUtils.getProperty("TEST_SUDO_AS_USERNAME");
     }
 
     private static GitLabApi gitLabApi;
@@ -88,5 +91,37 @@ public class TestUserApi {
         User user = gitLabApi.getUserApi().getUser(TEST_USERNAME);
         assertNotNull(user);
         assertEquals(TEST_USERNAME, user.getUsername());
+    }
+
+    @Test
+    public void testSudoAsUser() throws GitLabApiException {
+
+        assumeTrue(TEST_SUDO_AS_USERNAME != null);
+
+        try {
+
+            gitLabApi.sudo(TEST_SUDO_AS_USERNAME);
+            User user = gitLabApi.getUserApi().getCurrentUser();
+            assertNotNull(user);
+            assertEquals(TEST_SUDO_AS_USERNAME, user.getUsername());
+            Integer sudoAsId = user.getId();
+
+            gitLabApi.sudo(null);
+            user = gitLabApi.getUserApi().getCurrentUser();
+            assertNotNull(user);
+            assertEquals(TEST_USERNAME, user.getUsername());
+
+            gitLabApi.unsudo();
+            assertNull(gitLabApi.getSudoAsId());
+
+            gitLabApi.setSudoAsId(sudoAsId);
+            user = gitLabApi.getUserApi().getCurrentUser();
+            assertNotNull(user);
+            assertEquals(sudoAsId, user.getId());
+            assertEquals(TEST_SUDO_AS_USERNAME, user.getUsername());
+
+        } finally {
+            gitLabApi.unsudo();
+        }
     }
 }

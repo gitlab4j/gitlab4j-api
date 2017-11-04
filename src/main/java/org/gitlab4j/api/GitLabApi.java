@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.models.Session;
+import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
 
 /**
@@ -47,6 +48,7 @@ public class GitLabApi {
     private EventsApi eventsApi;
 
     private Session session;
+
 
     /**
      * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
@@ -286,6 +288,70 @@ public class GitLabApi {
         servicesApi = new ServicesApi(this);
         sessoinApi = new SessionApi(this);
         userApi = new UserApi(this);
+    }
+
+    /**
+     * Sets up all future calls to the GitLab API to be done as another user specified by sudoAsUsername.
+     * To revert back to normal non-sudo operation you must call unsudo(), or pass null as the username.
+     *
+     * @param sudoAsUsername the username to sudo as, null will turn off sudo
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void sudo(String sudoAsUsername) throws GitLabApiException {
+
+        if (sudoAsUsername == null || sudoAsUsername.trim().length() == 0) {
+            apiClient.setSudoAsId(null);
+            return;
+        }
+
+        // Get the User specified by username, if you are not an admin or the username is not found, this will fail
+        User user = getUserApi().getUser(sudoAsUsername);
+        if (user == null || user.getId() == null) {
+            throw new GitLabApiException("the specified username was not found");
+        }
+
+        Integer sudoAsId = user.getId();
+        apiClient.setSudoAsId(sudoAsId);
+    }
+
+
+    /**
+     * Turns off the currently configured sudo as ID.
+     */
+    public void unsudo() {
+        apiClient.setSudoAsId(null);
+    }
+
+    /**
+     * Sets up all future calls to the GitLab API to be done as another user specified by provided user ID.
+     * To revert back to normal non-sudo operation you must call unsudo(), or pass null as the sudoAsId.
+     *
+     * @param sudoAsId the ID of the user to sudo as, null will turn off sudo
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void setSudoAsId(Integer sudoAsId) throws GitLabApiException {
+
+        if (sudoAsId == null) {
+            apiClient.setSudoAsId(null);
+            return;
+        }
+
+        // Get the User specified by the sudoAsId, if you are not an admin or the username is not found, this will fail
+        User user = getUserApi().getUser(sudoAsId);
+        if (user == null || user.getId() != sudoAsId) {
+            throw new GitLabApiException("the specified user ID was not found");
+        }
+
+        apiClient.setSudoAsId(sudoAsId);
+    }
+
+    /**
+     * Get the current sudo as ID, will return null if not in sudo mode.
+     *
+     * @return the current sudo as ID, will return null if not in sudo mode
+     */
+    public Integer getSudoAsId() {
+        return (this.apiClient.getSudoAsId());
     }
 
     /**

@@ -38,6 +38,7 @@ import org.glassfish.jersey.client.ClientProperties;
 public class GitLabApiClient {
 
     protected static final String PRIVATE_TOKEN_HEADER  = "PRIVATE-TOKEN";
+    protected static final String SUDO_HEADER           = "Sudo";
     protected static final String AUTHORIZATION_HEADER  = "Authorization";
     protected static final String X_GITLAB_TOKEN_HEADER = "X-Gitlab-Token";
 
@@ -50,6 +51,7 @@ public class GitLabApiClient {
     private boolean ignoreCertificateErrors;
     private SSLContext openSslContext;
     private HostnameVerifier openHostnameVerifier;
+    private Integer sudoAsId;
 
     /**
      * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
@@ -209,6 +211,24 @@ public class GitLabApiClient {
         }
 
         clientConfig.register(JacksonJson.class);
+    }
+
+    /**
+     * Set the ID of the user to sudo as.
+     *
+     * @param sudoAsId the ID of the user to sudo as
+     */
+    Integer getSudoAsId() {
+        return (sudoAsId);
+    }
+
+    /**
+     * Set the ID of the user to sudo as.
+     *
+     * @param sudoAsId the ID of the user to sudo as
+     */
+    void setSudoAsId(Integer sudoAsId) {
+        this.sudoAsId = sudoAsId;
     }
 
     /**
@@ -467,10 +487,18 @@ public class GitLabApiClient {
 
         String authHeader = (tokenType == TokenType.ACCESS ? AUTHORIZATION_HEADER : PRIVATE_TOKEN_HEADER);
         String authValue = (tokenType == TokenType.ACCESS ? "Bearer " + authToken : authToken);
-        if (accept == null || accept.trim().length() == 0)
-            return (target.request().header(authHeader, authValue));
-        else
-            return (target.request().header(authHeader, authValue).accept(accept));
+        Invocation.Builder builder = target.request();
+        if (accept == null || accept.trim().length() == 0) {
+            builder = builder.header(authHeader, authValue);
+        } else {
+            builder = builder.header(authHeader, authValue).accept(accept);
+        }
+
+        // If sudo as ID is set add the Sudo header
+        if (sudoAsId != null && sudoAsId.intValue() > 0)
+            builder = builder.header(SUDO_HEADER,  sudoAsId);
+
+        return (builder);
     }
 
     /**
