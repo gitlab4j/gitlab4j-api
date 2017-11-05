@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -269,6 +270,29 @@ public interface Constants {
 
         @JsonCreator
         public static LineType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to specify the state of an ImpersonationToken. */
+    public enum ImpersonationState {
+
+        ALL, ACTIVE, INACTIVE;
+
+        private static JacksonJsonEnumHelper<ImpersonationState> enumHelper = new JacksonJsonEnumHelper<>(ImpersonationState.class);
+
+        @JsonCreator
+        public static ImpersonationState forValue(String value) {
             return enumHelper.forValue(value);
         }
 

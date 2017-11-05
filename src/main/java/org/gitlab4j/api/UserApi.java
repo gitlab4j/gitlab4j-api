@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
@@ -7,6 +8,8 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.ImpersonationToken;
+import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 
@@ -107,6 +110,44 @@ public class UserApi extends AbstractApi {
     public Pager<User> getActiveUsers(int itemsPerPage) throws GitLabApiException{
         GitLabApiForm formData = new GitLabApiForm().withParam("active", true);
         return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
+    }
+
+    /**
+     * Blocks the specified user. Available only for admin.
+     *
+     * POST /users/:id/block
+     *
+     * @param userId the ID of the user to block
+     * @return the User instance for the blocked user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public User blockUser(Integer userId) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        Response response = post(Response.Status.CREATED, (Form) null, "users", userId, "block");
+        return (response.readEntity(User.class));
+    }
+
+    /**
+     * Unblocks the specified user. Available only for admin.
+     *
+     * POST /users/:id/unblock
+     *
+     * @param userId the ID of the user to unblock
+     * @return the User instance for the unblocked user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public User unblockUser(Integer userId) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        Response response = post(Response.Status.CREATED, (Form) null, "users", userId, "unblock");
+        return (response.readEntity(User.class));
     }
 
     /**
@@ -443,7 +484,8 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("keyId cannot be null");
         }
 
-        delete(Response.Status.OK, null, "user", "keys", keyId);
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "user", "keys", keyId);
     }
 
     /**
@@ -465,7 +507,125 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("keyId cannot be null");
         }
 
-        delete(Response.Status.OK, null, "users", userId, "keys", keyId);
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "users", userId, "keys", keyId);
+    }
+
+    /**
+     * Get a list of a specified user's impersonation tokens.  Available only for admin users.
+     *
+     * GET /users/:id/impersonation_tokens
+     *
+     * @param userId the ID of the user to get impersonation tokens for
+     * @return a list of a specified user's impersonation tokens
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ImpersonationToken> getImpersonationTokens(Integer userId) throws GitLabApiException {
+        return (getImpersonationTokens(userId, null));
+    }
+
+    /**
+     * Get a list of a specified user's impersonation tokens.  Available only for admin users.
+     *
+     * GET /users/:id/impersonation_tokens
+     *
+     * @param userId the ID of the user to get impersonation tokens for
+     * @param state the state of impersonation tokens to list (ALL, ACTIVE, INACTIVE)
+     * @return a list of a specified user's impersonation tokens
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ImpersonationToken> getImpersonationTokens(Integer userId, ImpersonationState state) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("state", state)
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "users", userId, "impersonation_tokens");
+        return (response.readEntity(new GenericType<List<ImpersonationToken>>() {}));
+    }
+
+    /**
+     * Get an impersonation token of a user.  Available only for admin users.
+     *
+     * GET /users/:user_id/impersonation_tokens/:impersonation_token_id
+     *
+     * @param userId the ID of the user to get SSH keys for
+     * @param tokenId the impersonation token ID to get
+     * @return the specified impersonation token
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ImpersonationToken getImpersonationToken(Integer userId, Integer tokenId) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        if (tokenId == null) {
+            throw new RuntimeException("tokenId cannot be null");
+        }
+
+        Response response = get(Response.Status.OK, null, "users", userId, "impersonation_tokens", tokenId);
+        return (response.readEntity(ImpersonationToken.class));
+    }
+
+    /**
+     * Create an impersonation token.  Available only for admin users.
+     *
+     * POST /users/:user_id/impersonation_tokens
+     *
+     * @param userId the ID of the user to get SSH keys for
+     * @param name the name of the impersonation token, required
+     * @param expiresAt the expiration date of the impersonation token, optional
+     * @param scopes an array of scopes of the impersonation token
+     * @return the created ImpersonationToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ImpersonationToken createImpersonationToken(Integer userId, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        if (scopes == null || scopes.length == 0) {
+            throw new RuntimeException("scopes cannot be null or empty");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("expires_at", expiresAt);
+
+        for (Scope scope : scopes) {
+            formData.withParam("scopes[]", scope.toString());
+        }
+
+        Response response = post(Response.Status.CREATED, formData, "users", userId, "impersonation_tokens");
+        return (response.readEntity(ImpersonationToken.class));
+    }
+
+    /**
+     * Deletes an impersonation token. Available only for admin users.
+     *
+     * DELETE /users/:user_id/impersonation_tokens/:impersonation_token_id
+     *
+     * @param userId the user ID of the user to delete the impersonation token for
+     * @param tokenId the impersonation token ID to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteImpersonationToken(Integer userId, Integer tokenId) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        if (tokenId == null) {
+            throw new RuntimeException("tokenId cannot be null");
+        }
+
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "users", userId, "impersonation_tokens", tokenId);
     }
 
     /**
