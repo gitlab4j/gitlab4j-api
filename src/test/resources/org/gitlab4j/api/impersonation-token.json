@@ -1,0 +1,13 @@
+{
+  "active" : false,
+  "scopes" : [
+     "read_user", "api"
+  ],
+  "revoked" : true,
+  "token" : "ZcZRpLeEuQRprkRjYydY",
+  "name" : "mytoken2",
+  "created_at" : "2017-03-17T17:19:28.697Z",
+  "id" : 3,
+  "impersonation" : true,
+  "expires_at" : "2017-04-14T00:00:00Z"
+}
