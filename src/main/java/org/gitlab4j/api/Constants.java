@@ -1,6 +1,5 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
