@@ -39,6 +39,7 @@ import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
@@ -400,6 +401,17 @@ public class TestGitLabApiBeans {
         try {
             User user = makeFakeApiCall(User.class, "user");
             assertTrue(compareJson(user, "user"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testImpersonationToken() {
+
+        try {
+            ImpersonationToken token = makeFakeApiCall(ImpersonationToken.class, "impersonation-token");
+            assertTrue(compareJson(token, "impersonation-token"));
         } catch (Exception e) {
             e.printStackTrace();
         }
