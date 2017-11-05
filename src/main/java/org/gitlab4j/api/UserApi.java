@@ -606,15 +606,15 @@ public class UserApi extends AbstractApi {
     }
 
     /**
-     * Deletes an impersonation token. Available only for admin users.
+     * Revokes an impersonation token. Available only for admin users.
      *
      * DELETE /users/:user_id/impersonation_tokens/:impersonation_token_id
      *
-     * @param userId the user ID of the user to delete the impersonation token for
-     * @param tokenId the impersonation token ID to delete
+     * @param userId the user ID of the user to revoke the impersonation token for
+     * @param tokenId the impersonation token ID to revoke
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteImpersonationToken(Integer userId, Integer tokenId) throws GitLabApiException {
+    public void revokeImpersonationToken(Integer userId, Integer tokenId) throws GitLabApiException {
 
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");

@@ -152,7 +152,7 @@ public class TestUserApi {
         assertEquals(TEST_IMPERSONATION_TOKEN_NAME, token.getName());
         assertEquals(2, token.getScopes().size());
 
-        gitLabApi.getUserApi().deleteImpersonationToken(user.getId(), token.getId());
+        gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
     }
 
     @Test
@@ -174,7 +174,7 @@ public class TestUserApi {
         assertNotNull(tokens);
         assertTrue(tokens.size() > 0);
 
-        gitLabApi.getUserApi().deleteImpersonationToken(user.getId(), createdToken.getId());
+        gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), createdToken.getId());
     }
 
     @Test
@@ -191,7 +191,7 @@ public class TestUserApi {
         assertEquals(createdToken.getId(), token.getId());
         assertTrue(token.getActive());
 
-        gitLabApi.getUserApi().deleteImpersonationToken(user.getId(), createdToken.getId());
+        gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), createdToken.getId());
         token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
         assertFalse(token.getActive());
     }
