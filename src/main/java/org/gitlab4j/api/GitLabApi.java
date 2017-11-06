@@ -62,9 +62,7 @@ public class GitLabApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public static GitLabApi login(ApiVersion apiVersion, String url, String username, String password) throws GitLabApiException {
-        SessionApi sessionApi = new SessionApi(new GitLabApi(apiVersion, url, (String)null));
-        Session session = sessionApi.login(username, null, password);
-        return (new GitLabApi(apiVersion, url, session));
+        return (login(apiVersion, url, username, password, false));
     }
 
     /**
@@ -78,7 +76,52 @@ public class GitLabApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public static GitLabApi login(String url, String username, String password) throws GitLabApiException {
-        return (login(ApiVersion.V4, url, username, password));
+        return (login(ApiVersion.V4, url, username, password, false));
+    }
+
+    /**
+     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
+     * using returned private token and the specified GitLab API version.
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password password for a given {@code username}
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi login(ApiVersion apiVersion, String url, String username, String password, boolean ignoreCertificateErrors) throws GitLabApiException {
+
+        GitLabApi gitLabApi = new GitLabApi(apiVersion, url, (String)null);
+        if (ignoreCertificateErrors) {
+            gitLabApi.setIgnoreCertificateErrors(true);
+        }
+
+        SessionApi sessionApi = gitLabApi.getSessionApi();
+        Session session = sessionApi.login(username, null, password);
+        gitLabApi = new GitLabApi(apiVersion, url, session);
+
+        if (ignoreCertificateErrors) {
+            gitLabApi.setIgnoreCertificateErrors(true);
+        }
+
+        return (gitLabApi);
+    }
+
+    /**
+     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
+     * using returned private token using GitLab API version 4.
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password password for a given {@code username}
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi login(String url, String username, String password, boolean ignoreCertificateErrors) throws GitLabApiException {
+        return (login(ApiVersion.V4, url, username, password, ignoreCertificateErrors));
     }
 
     /**
