@@ -114,7 +114,7 @@ public class MileStonesApi extends AbstractApi {
             throw new RuntimeException("milestoneId cannot be null");
         }
         GitLabApiForm formData = new GitLabApiForm().withParam("state_event", MilestoneState.CLOSE);
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "milestones", milestoneId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -126,7 +126,7 @@ public class MileStonesApi extends AbstractApi {
             throw new RuntimeException("milestoneId cannot be null");
         }
         GitLabApiForm formData = new GitLabApiForm().withParam("state_event", MilestoneState.ACTIVATE);
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "milestones", milestoneId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -143,7 +143,7 @@ public class MileStonesApi extends AbstractApi {
                 .withParam("due_date", dueDate)
                 .withParam("start_date", startDate)
                 .withParam("state_event", milestoneState);
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "milestones", milestoneId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
     }
 }
