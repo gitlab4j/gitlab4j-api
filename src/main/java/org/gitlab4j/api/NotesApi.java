@@ -74,7 +74,7 @@ public class NotesApi extends AbstractApi {
             throw new RuntimeException("projectId cannot be null");
         }
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("body", body)
+                .withParam("body", body, true)
                 .withParam("created_at", createdAt);
         Response response = post(Response.Status.CREATED, formData, "projects", projectId, "issues", issueIid, "notes");
         return (response.readEntity(Note.class));
@@ -85,7 +85,7 @@ public class NotesApi extends AbstractApi {
             throw new RuntimeException("projectId cannot be null");
         }
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("body", body);
+                .withParam("body", body, true);
         Response response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "notes");
         return (response.readEntity(Note.class));
     }

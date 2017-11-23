@@ -138,7 +138,7 @@ public class MileStonesApi extends AbstractApi {
             throw new RuntimeException("milestoneId cannot be null");
         }
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("title", title)
+                .withParam("title", title, true)
                 .withParam("description", description)
                 .withParam("due_date", dueDate)
                 .withParam("start_date", startDate)
