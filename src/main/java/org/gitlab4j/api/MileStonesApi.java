@@ -19,27 +19,48 @@ public class MileStonesApi extends AbstractApi {
         super(gitLabApi);
     }
 
-    public List<Milestone> getMilestones(int projectId) throws GitLabApiException {
+    public List<Milestone> getMilestones(Integer projectId) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {
         }));
     }
 
-    public List<Milestone> getMilestones(int projectId, MilestoneState state) throws GitLabApiException {
+    public List<Milestone> getMilestones(Integer projectId, int page, int perPage) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "milestones");
+        return (response.readEntity(new GenericType<List<Milestone>>() {
+        }));
+    }
+
+    public List<Milestone> getMilestones(Integer projectId, MilestoneState state) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
         Form formData = new GitLabApiForm().withParam("state", state).withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {
         }));
     }
 
-    public List<Milestone> getMilestones(int projectId, String search) throws GitLabApiException {
+    public List<Milestone> getMilestones(Integer projectId, String search) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
         Form formData = new GitLabApiForm().withParam("search", search).withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {
         }));
     }
 
-    public List<Milestone> getMilestones(int projectId, MilestoneState state, String search) throws GitLabApiException {
+    public List<Milestone> getMilestones(Integer projectId, MilestoneState state, String search) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
         Form formData = new GitLabApiForm().withParam("state", state).withParam("search", search).withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {
@@ -55,12 +76,18 @@ public class MileStonesApi extends AbstractApi {
     }
 
     public List<Issue> getIssues(Integer projectId, Integer milestoneId) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "milestones", milestoneId, "issues");
         return (response.readEntity(new GenericType<List<Issue>>() {
         }));
     }
 
     public List<MergeRequest> getMergeRequest(Integer projectId, Integer milestoneId) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "milestones", milestoneId, "merge_requests");
         return (response.readEntity(new GenericType<List<MergeRequest>>() {
         }));
