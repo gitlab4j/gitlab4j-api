@@ -340,6 +340,21 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
+     * Get a group member viewable by the authenticated user.
+     *
+     * GET /groups/:id/members/:id
+     *
+     * @param groupId the group ID to get the member for
+     * @param userId the member ID of the member to get
+     * @return a member viewable by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member getMember(int groupId, int userId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "groups", groupId, "members", userId);
+        return (response.readEntity(new GenericType<Member>() {}));
+    }
+
+    /**
      * Adds a user to the list of group members.
      *
      * POST /groups/:id/members
