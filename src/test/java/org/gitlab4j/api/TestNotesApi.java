@@ -1,10 +1,5 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeTrue;
-
-import java.util.List;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Note;
@@ -14,6 +9,11 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeTrue;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -85,7 +85,7 @@ public class TestNotesApi {
         assertNotNull(project);
 
         for (Issue issue : gitLabApi.getIssuesApi().getIssues(project.getId())) {
-            List<Note> notes = gitLabApi.getNotesApi().getNotes(project.getId(), issue.getIid());
+            List<Note> notes = gitLabApi.getNotesApi().getIssueNotes(project.getId(), issue.getIid());
             assertNotNull(notes);
             // This requires some issues in the project 
 //            assertTrue(0 < notes.size());
