@@ -44,6 +44,7 @@ public class GitLabApi {
     private SessionApi sessoinApi;
     private UserApi userApi;
     private JobApi jobApi;
+    private LabelsApi labelsApi;
     private NotesApi notesApi;
     private EventsApi eventsApi;
 
@@ -321,6 +322,7 @@ public class GitLabApi {
         groupApi = new GroupApi(this);
         issuesApi = new IssuesApi(this);
         jobApi = new JobApi(this);
+        labelsApi = new LabelsApi(this);
         mergeRequestApi = new MergeRequestApi(this);
         mileStonesApi = new MileStonesApi(this);
         namespaceApi = new NamespaceApi(this);
@@ -529,6 +531,10 @@ public class GitLabApi {
      */
     public JobApi getJobApi() {
         return (jobApi);
+    }
+
+    public LabelsApi getLabelsApi() {
+        return labelsApi;
     }
 
     /**
