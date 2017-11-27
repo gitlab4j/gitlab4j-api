@@ -171,8 +171,8 @@ List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces("foobar"
 
 ### NotesApi
 ```java
-// Get a list of the issues's notes for project ID 1234, issue ID 1
-List<Note> notes = getNotes(Integer 1234, Integer 1);
+// Get a list of the issues's notes for project ID 1234, issue IID 1
+List<Note> notes = getNotes(1234, 1);
 ```
 
 ### PipelineApi
