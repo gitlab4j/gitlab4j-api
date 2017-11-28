@@ -39,6 +39,7 @@ public class AbstractUser {
     private String username;
     private String websiteUrl;
     private String webUrl;
+    private Boolean skipConfirmation;
 
     public String getAvatarUrl() {
         return avatarUrl;
@@ -278,5 +279,13 @@ public class AbstractUser {
 
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
+    }
+
+    public Boolean getSkipConfirmation() {
+        return skipConfirmation;
+    }
+
+    public void setSkipConfirmation(Boolean skipConfirmation) {
+        this.skipConfirmation = skipConfirmation;
     }
 }
