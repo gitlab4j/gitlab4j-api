@@ -403,7 +403,12 @@ public class GitLabApiClient {
      * @return a ClientResponse instance with the data returned from the endpoint
      */
     protected Response put(MultivaluedMap<String, String> queryParams, URL url) {
-        return (invocation(url, null).put(Entity.entity(queryParams, MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+        if (queryParams == null || queryParams.isEmpty()) {
+            Entity<?> empty = Entity.text("");
+            return (invocation(url, null).put(empty));
+        } else {
+            return (invocation(url, null).put(Entity.entity(queryParams, MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+        }
     }
 
     /**

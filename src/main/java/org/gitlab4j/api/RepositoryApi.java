@@ -112,8 +112,7 @@ public class RepositoryApi extends AbstractApi {
 
 
     /**
-     * Delete a single project repository branch. This is an idempotent function,
-     * protecting an already protected repository branch will not produce an error.
+     * Delete a single project repository branch. 
      *
      * DELETE /projects/:id/repository/branches/:branch
      *
@@ -138,7 +137,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Branch protectBranch(Integer projectId, String branchName) throws GitLabApiException {
-        Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName, "protect");
+        Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "branches", urlEncode(branchName), "protect");
         return (response.readEntity(Branch.class));
     }
 
@@ -154,7 +153,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Branch unprotectBranch(Integer projectId, String branchName) throws GitLabApiException {
-        Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "branches", branchName, "unprotect");
+        Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "branches", urlEncode(branchName), "unprotect");
         return (response.readEntity(Branch.class));
     }
 
