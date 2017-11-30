@@ -648,12 +648,13 @@ public class UserApi extends AbstractApi {
                 .withParam("twitter", user.getTwitter(), false)
                 .withParam("website_url", user.getWebsiteUrl(), false)
                 .withParam("projects_limit", projectsLimit, false)
-                .withParam("external", user.getExternal(), false)
+                .withParam("organization", user.getOrganization(), false)
                 .withParam("provider", user.getProvider(), false)
                 .withParam("bio", user.getBio(), false)
                 .withParam("location", user.getLocation(), false)
                 .withParam("admin", user.getIsAdmin(), false)
                 .withParam("can_create_group", user.getCanCreateGroup(), false)
-                .withParam("external", user.getExternal(), false));
+                .withParam("external", user.getExternal(), false))
+                .withParam("skip_confirmation",user.getSkipConfirmation(),false);
     }
 }
