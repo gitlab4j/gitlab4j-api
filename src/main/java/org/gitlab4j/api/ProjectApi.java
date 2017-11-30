@@ -831,6 +831,60 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Forks a project into the user namespace of the authenticated user or the one provided.
+     *
+     * POST /projects/:id/fork
+     *
+     * @param id the ID of the project to fork
+     * @param namespace path of the namespace that the project will be forked to
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void forkProject(Integer id, String namespace) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("namespace", namespace, true);
+        post(Response.Status.OK, formData, "projects", id, "fork");
+    }
+
+    /**
+     * Forks a project into the user namespace of the authenticated user or the one provided.
+     *
+     * POST /projects/:id/fork
+     *
+     * @param project the project to fork
+     * @param namespace path of the namespace that the project will be forked to
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void forkProject(Project project, String namespace) throws GitLabApiException {
+        forkProject(project.getId(), namespace);
+    }
+
+    /**
+     * Forks a project into the user namespace of the authenticated user or the one provided.
+     *
+     * POST /projects/:id/fork
+     *
+     * @param id the ID of the project to fork
+     * @param namespaceId ID of the namespace that the project will be forked to
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void forkProject(Integer id, Integer namespaceId) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("namespace", namespaceId, true);
+        post(Response.Status.OK, formData, "projects", id, "fork");
+    }
+
+    /**
+     * Forks a project into the user namespace of the authenticated user or the one provided.
+     *
+     * POST /projects/:id/fork
+     *
+     * @param project the project to fork
+     * @param namespaceId ID of the namespace that the project will be forked to
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void forkProject(Project project, Integer namespaceId) throws GitLabApiException {
+        forkProject(project.getId(), namespaceId);
+    }
+
+    /**
      * Get a list of project team members.
      *
      * GET /projects/:id/members
