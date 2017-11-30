@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
@@ -54,6 +55,7 @@ public class TestRepositoryApi {
     }
 
     private static final String TEST_BRANCH_NAME = "feature/test_branch";
+    private static final String TEST_PROTECT_BRANCH_NAME = "feature/protect_branch";
     private static final String TEST_FILEPATH = "test-file.txt";
     private static GitLabApi gitLabApi;
 
@@ -100,8 +102,12 @@ public class TestRepositoryApi {
                 } catch (GitLabApiException ignore) {
                 }
                 
-                gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
-                
+                try {
+                    gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
+                } catch (GitLabApiException ignore) {
+                }
+
+                gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
                 
             } catch (GitLabApiException ignore) {
             }
@@ -212,7 +218,7 @@ public class TestRepositoryApi {
         compareResults = gitLabApi.getRepositoryApi().compare(TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(numCommits - 1).getId(), commits.get(numCommits - 2).getId());
         assertNotNull(compareResults);
     }
-    
+
     @Test
     public void testCreateFileAndDeleteFile() throws GitLabApiException {
         
@@ -226,5 +232,23 @@ public class TestRepositoryApi {
         assertNotNull(createdFile);
         
         gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Testing deleteFile().");
+    }
+
+    @Test
+    public void testProtectBranch() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        Branch branch = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_PROTECT_BRANCH_NAME, "master");
+        assertNotNull(branch);
+
+        Branch protectedBranch = gitLabApi.getRepositoryApi().protectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
+        assertNotNull(protectedBranch);        
+        assertTrue(protectedBranch.getProtected());
+        
+        Branch unprotectedBranch = gitLabApi.getRepositoryApi().unprotectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
+        assertNotNull(unprotectedBranch);
+        assertFalse(unprotectedBranch.getProtected());
     }
 }
