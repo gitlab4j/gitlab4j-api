@@ -1,16 +1,65 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.Note;
+import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.Date;
-import java.util.List;
+
+import org.gitlab4j.api.models.Note;
 
 public class NotesApi extends AbstractApi {
 
     public NotesApi(GitLabApi gitLabApi) {
         super(gitLabApi);
+    }
+
+    /**
+     * Get a list of the issues's notes. Only returns the first page
+     *
+     * GET /projects/:id/issues/:issue_iid/notes
+     *
+     * @param projectId the project ID to get the issues for
+     * @param issueIid the issue ID to get the notes for
+     * @return a list of the issues's notes
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Integer, Integer)}
+     */
+    public List<Note> getNotes(Integer projectId, Integer issueIid) throws GitLabApiException {
+        return (getIssueNotes(projectId, issueIid));
+    }
+
+    /**
+     * Get a list of the issue's notes using the specified page and per page settings.
+     *
+     * GET /projects/:id/issues/:issue_iid/notes
+     *
+     * @param projectId the project ID to get the issues for
+     * @param issueIid the issue IID to get the notes for
+     * @param page the page to get
+     * @param perPage the number of notes per page
+     * @return the list of notes in the specified range
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Integer, Integer, int, int)}
+     */
+    public List<Note> getNotes(Integer projectId, Integer issueIid, int page, int perPage) throws GitLabApiException {
+        return (getIssueNotes(projectId, issueIid, page, perPage));
+    }
+
+    /**
+     * Get a Pager of issues's notes.
+     *
+     * GET /projects/:id/issues/:issue_iid/notes
+     *
+     * @param projectId the project ID to get the issues for
+     * @param issueIid the issue IID to get the notes for
+     * @param itemsPerPage the number of notes per page
+     * @return the list of notes in the specified range
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Integer, Integer, int)}
+     */
+    public Pager<Note> getNotes(Integer projectId, Integer issueIid, int itemsPerPage) throws GitLabApiException {
+        return (getIssueNotes(projectId, issueIid, itemsPerPage));
     }
 
     /**

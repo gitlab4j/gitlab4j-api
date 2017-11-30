@@ -1,10 +1,11 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.Label;
+import java.util.List;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+
+import org.gitlab4j.api.models.Label;
 
 public class LabelsApi extends AbstractApi {
     public LabelsApi(GitLabApi gitLabApi) {
@@ -12,19 +13,23 @@ public class LabelsApi extends AbstractApi {
     }
 
     public List<Label> getLabels(Integer projectId) throws GitLabApiException {
+
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
+
         Response response = get(javax.ws.rs.core.Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "labels");
         return (response.readEntity(new GenericType<List<Label>>() {
         }));
     }
 
     public List<Label> getLabels(Integer projectId, int page, int perPage) throws GitLabApiException {
+
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
-        Response response = get(javax.ws.rs.core.Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "labels");
+
+		Response response = get(javax.ws.rs.core.Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "labels");
         return (response.readEntity(new GenericType<List<Label>>() {
         }));
     }
@@ -42,10 +47,12 @@ public class LabelsApi extends AbstractApi {
     }
 
     public Label createLabel(Integer projectId, String name, String color, String description, Integer priority) throws GitLabApiException {
-        if (projectId == null) {
+
+	    if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
-        GitLabApiForm formData = new GitLabApiForm()
+
+	    GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
                 .withParam("color", color, true)
                 .withParam("description", description)
@@ -63,9 +70,11 @@ public class LabelsApi extends AbstractApi {
     }
 
     public Label updateLabel(Integer projectId, String name, String newName, String color, String description, Integer priority) throws GitLabApiException {
+
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
+
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
                 .withParam("new_name", newName)
@@ -77,9 +86,11 @@ public class LabelsApi extends AbstractApi {
     }
 
     public void deleteLabel(Integer projectId, String name) throws GitLabApiException {
+
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
+
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true);
         Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);

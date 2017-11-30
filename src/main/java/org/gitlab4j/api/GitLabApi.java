@@ -34,7 +34,7 @@ public class GitLabApi {
     private GroupApi groupApi;
     private IssuesApi issuesApi;
     private MergeRequestApi mergeRequestApi;
-    private MileStonesApi mileStonesApi;
+    private MilestonesApi milestonesApi;
     private NamespaceApi namespaceApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
@@ -324,7 +324,7 @@ public class GitLabApi {
         jobApi = new JobApi(this);
         labelsApi = new LabelsApi(this);
         mergeRequestApi = new MergeRequestApi(this);
-        mileStonesApi = new MileStonesApi(this);
+        milestonesApi = new MilestonesApi(this);
         namespaceApi = new NamespaceApi(this);
         notesApi = new NotesApi(this);
         pipelineApi = new PipelineApi(this);
@@ -547,8 +547,13 @@ public class GitLabApi {
         return (mergeRequestApi);
     }
 
-    public MileStonesApi getMileStonesApi() {
-        return mileStonesApi;
+    /**
+     * Gets the MilsestonesApi instance owned by this GitLabApi instance.
+     *
+     * @return the MilsestonesApi instance owned by this GitLabApi instance
+     */
+    public MilestonesApi getMilestonesApi() {
+        return milestonesApi;
     }
 
     /**
