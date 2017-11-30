@@ -7,22 +7,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Label {
+
     private Integer id;
-
     private String name;
-
     private String color;
-
     private String description;
-
     private Integer openIssuesCount;
-
     private Integer closedIssuesCount;
-
-    private Integer openMergeRequestCount;
-
+    private Integer openMergeRequestsCount;
     private boolean subscribed;
-
     private Integer priority;
 
     public Integer getId() {
@@ -73,12 +66,12 @@ public class Label {
         this.closedIssuesCount = closedIssuesCount;
     }
 
-    public Integer getOpenMergeRequestCount() {
-        return openMergeRequestCount;
+    public Integer getOpenMergeRequestsCount() {
+        return openMergeRequestsCount;
     }
 
-    public void setOpenMergeRequestCount(Integer openMergeRequestCount) {
-        this.openMergeRequestCount = openMergeRequestCount;
+    public void setOpenMergeRequestsCount(Integer openMergeRequestsCount) {
+        this.openMergeRequestsCount = openMergeRequestsCount;
     }
 
     public boolean isSubscribed() {

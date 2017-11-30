@@ -43,6 +43,7 @@ import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
+import org.gitlab4j.api.models.Label;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Milestone;
@@ -412,6 +413,21 @@ public class TestGitLabApiBeans {
         try {
             ImpersonationToken token = makeFakeApiCall(ImpersonationToken.class, "impersonation-token");
             assertTrue(compareJson(token, "impersonation-token"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testLabels() {
+
+        try {
+
+            InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream("labels.json"));
+            ObjectMapper objectMapper = jacksonJson.getContext(null);
+            List<Label> labels = objectMapper.readValue(reader, new TypeReference<List<Label>>() {});
+            assertTrue(compareJson(labels, "labels"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }

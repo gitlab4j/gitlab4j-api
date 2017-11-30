@@ -8,19 +8,13 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Label;
 
 public class LabelsApi extends AbstractApi {
+
     public LabelsApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
     public List<Label> getLabels(Integer projectId) throws GitLabApiException {
-
-        if (projectId == null) {
-            throw new RuntimeException("projectId cannot be null");
-        }
-
-        Response response = get(javax.ws.rs.core.Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "labels");
-        return (response.readEntity(new GenericType<List<Label>>() {
-        }));
+        return (getLabels(projectId, 1, getDefaultPerPage()));
     }
 
     public List<Label> getLabels(Integer projectId, int page, int perPage) throws GitLabApiException {
@@ -30,8 +24,7 @@ public class LabelsApi extends AbstractApi {
         }
 
 		Response response = get(javax.ws.rs.core.Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "labels");
-        return (response.readEntity(new GenericType<List<Label>>() {
-        }));
+        return (response.readEntity(new GenericType<List<Label>>() {}));
     }
 
     public Label createLabel(Integer projectId, String name, String color, String description) throws GitLabApiException {
