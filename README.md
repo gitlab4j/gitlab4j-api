@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.6.9'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.7.0'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.6.9</version>
+    <version>4.7.0</version>
 </dependency>
 ```
 
@@ -101,7 +101,9 @@ Available Sub APIs
 &nbsp;&nbsp;[GroupApi](#groupapi)<br/>
 &nbsp;&nbsp;[IssuesApi](#issuesapi)<br/>
 &nbsp;&nbsp;[JobApi](#jobapi)<br/>
+&nbsp;&nbsp;[LabelsApi](#labelsapi)<br/>
 &nbsp;&nbsp;[MergeRequestApi](#mergerequestapi)<br/>
+&nbsp;&nbsp;[MilestonesApi](#milestonesapi)<br/>
 &nbsp;&nbsp;[NamespaceApi](#namespaceapi)<br/>
 &nbsp;&nbsp;[NotesApi](#notesapi)<br/>
 &nbsp;&nbsp;[PipelineApi](#pipelineapi)<br/>
@@ -157,10 +159,22 @@ List<Issue> issues = gitLabApi.getIssuesApi().getIssues(1234);
 List<Job> jobs = gitLabApi.getJobApi().getJobs(1234);
 ```
 
+### LabelsApi
+```java
+// Get a list of labels for the specified project ID
+List<Label> labels = gitLabApi.getLabelsApi().getLabels(1234);
+```
+
 ### MergeRequestApi
 ```java
 // Get a list of the merge requests for the specified project
 List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(1234);
+```
+
+### MilestonesApi
+```java
+// Get a list of the milestones for the specified project
+List<Milestone> milestones = gitLabApi.getMilestonesApi().getMilestones(1234);
 ```
  
 ### NamespaceApi
