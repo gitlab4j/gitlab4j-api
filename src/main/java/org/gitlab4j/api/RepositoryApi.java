@@ -112,7 +112,7 @@ public class RepositoryApi extends AbstractApi {
 
 
     /**
-     * Delete a single project repository branch. 
+     * Delete a single project repository branch.
      *
      * DELETE /projects/:id/repository/branches/:branch
      *
