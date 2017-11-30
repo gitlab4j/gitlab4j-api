@@ -207,7 +207,9 @@ public class GitLabApiClient {
 
         clientConfig = new ClientConfig();
         if (clientConfigProperties != null) {
-            clientConfig.getProperties().putAll(clientConfigProperties);
+            for (Map.Entry<String, Object> propertyEntry : clientConfigProperties.entrySet()) {
+                clientConfig.property(propertyEntry.getKey(), propertyEntry.getValue());
+            }
         }
 
         clientConfig.register(JacksonJson.class);
