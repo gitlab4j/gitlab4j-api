@@ -1,13 +1,12 @@
 package org.gitlab4j.api;
 
-import java.util.Map;
-
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
+
+import javax.ws.rs.core.Response;
+import java.util.Map;
 
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
@@ -35,6 +34,7 @@ public class GitLabApi {
     private GroupApi groupApi;
     private IssuesApi issuesApi;
     private MergeRequestApi mergeRequestApi;
+    private MileStonesApi mileStonesApi;
     private NamespaceApi namespaceApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
@@ -44,6 +44,7 @@ public class GitLabApi {
     private SessionApi sessoinApi;
     private UserApi userApi;
     private JobApi jobApi;
+    private LabelsApi labelsApi;
     private NotesApi notesApi;
     private EventsApi eventsApi;
 
@@ -321,7 +322,9 @@ public class GitLabApi {
         groupApi = new GroupApi(this);
         issuesApi = new IssuesApi(this);
         jobApi = new JobApi(this);
+        labelsApi = new LabelsApi(this);
         mergeRequestApi = new MergeRequestApi(this);
+        mileStonesApi = new MileStonesApi(this);
         namespaceApi = new NamespaceApi(this);
         notesApi = new NotesApi(this);
         pipelineApi = new PipelineApi(this);
@@ -530,6 +533,10 @@ public class GitLabApi {
         return (jobApi);
     }
 
+    public LabelsApi getLabelsApi() {
+        return labelsApi;
+    }
+
     /**
      * Gets the MergeRequestApi instance owned by this GitLabApi instance. The MergeRequestApi is used
      * to perform all merge request related API calls.
@@ -538,6 +545,10 @@ public class GitLabApi {
      */
     public MergeRequestApi getMergeRequestApi() {
         return (mergeRequestApi);
+    }
+
+    public MileStonesApi getMileStonesApi() {
+        return mileStonesApi;
     }
 
     /**

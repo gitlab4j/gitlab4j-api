@@ -1,11 +1,11 @@
 package org.gitlab4j.api;
 
-import java.util.List;
+import org.gitlab4j.api.models.Note;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.models.Note;
+import java.util.Date;
+import java.util.List;
 
 public class NotesApi extends AbstractApi {
 
@@ -23,7 +23,7 @@ public class NotesApi extends AbstractApi {
      * @return a list of the issues's notes
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Note> getNotes(Integer projectId, Integer issueIid) throws GitLabApiException {
+    public List<Note> getIssueNotes(Integer projectId, Integer issueIid) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "issues", issueIid, "notes");
         return (response.readEntity(new GenericType<List<Note>>() {}));
     }
@@ -40,7 +40,7 @@ public class NotesApi extends AbstractApi {
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Note> getNotes(Integer projectId, Integer issueIid, int page, int perPage) throws GitLabApiException {
+    public List<Note> getIssueNotes(Integer projectId, Integer issueIid, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "issues", issueIid, "notes");
         return (response.readEntity(new GenericType<List<Note>>() {}));
     }
@@ -56,7 +56,51 @@ public class NotesApi extends AbstractApi {
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Note> getNotes(Integer projectId, Integer issueIid, int itemsPerPage) throws GitLabApiException {
+    public Pager<Note> getIssueNotes(Integer projectId, Integer issueIid, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Note>(this, Note.class, itemsPerPage, null, "projects", projectId, "issues", issueIid, "notes"));
+    }
+
+    public Note getIssueNote(Integer projectId, Integer issueIid, Integer noteId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "issues", issueIid, "notes", noteId);
+        return (response.readEntity(Note.class));
+    }
+
+    public Note createIssueNote(Integer projectId, Integer issueIid, String body) throws GitLabApiException {
+        return (createIssueNote(projectId, issueIid, body, null));
+    }
+
+    public Note createIssueNote(Integer projectId, Integer issueIid, String body, Date createdAt) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("body", body, true)
+                .withParam("created_at", createdAt);
+        Response response = post(Response.Status.CREATED, formData, "projects", projectId, "issues", issueIid, "notes");
+        return (response.readEntity(Note.class));
+    }
+
+    public Note updateIssueNote(Integer projectId, Integer issueIid, String body) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("body", body, true);
+        Response response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "notes");
+        return (response.readEntity(Note.class));
+    }
+
+    public void deleteIssueNote(Integer projectId, Integer issueIid, Integer noteId) throws GitLabApiException {
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+        if (issueIid == null) {
+            throw new RuntimeException("issueIid cannot be null");
+        }
+        if (noteId == null) {
+            throw new RuntimeException("noteId cannot be null");
+        }
+        Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, getDefaultPerPageParam(), "projects", projectId, "issues", issueIid, "notes", noteId);
     }
 }
