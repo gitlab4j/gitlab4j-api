@@ -1,12 +1,11 @@
 package org.gitlab4j.api;
 
-import java.util.Date;
-import java.util.List;
+import org.gitlab4j.api.models.Note;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.models.Note;
+import java.util.Date;
+import java.util.List;
 
 public class NotesApi extends AbstractApi {
 
@@ -109,15 +108,43 @@ public class NotesApi extends AbstractApi {
         return (new Pager<Note>(this, Note.class, itemsPerPage, null, "projects", projectId, "issues", issueIid, "notes"));
     }
 
+    /**
+     * Get the specified issues's note.
+     *
+     * @param projectId the project ID to get the issues for
+     * @param issueIid  the issue IID to get the notes for
+     * @param noteId    the ID of the Note to get
+     * @return a Note instance for the specified IDs
+     * @throws GitLabApiException if any exception occurs
+     */
     public Note getIssueNote(Integer projectId, Integer issueIid, Integer noteId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "issues", issueIid, "notes", noteId);
         return (response.readEntity(Note.class));
     }
 
+    /**
+     * Create a issues's note.
+     *
+     * @param projectId the project ID to create the issues for
+     * @param issueIid  the issue IID to create the notes for
+     * @param body      the content of note
+     * @return the created Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
     public Note createIssueNote(Integer projectId, Integer issueIid, String body) throws GitLabApiException {
         return (createIssueNote(projectId, issueIid, body, null));
     }
 
+    /**
+     * Create a issues's note.
+     *
+     * @param projectId the project ID to create the issues for
+     * @param issueIid  the issue IID to create the notes for
+     * @param body      the content of note
+     * @param createdAt the created time of note
+     * @return the created Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
     public Note createIssueNote(Integer projectId, Integer issueIid, String body, Date createdAt) throws GitLabApiException {
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
@@ -129,16 +156,34 @@ public class NotesApi extends AbstractApi {
         return (response.readEntity(Note.class));
     }
 
-    public Note updateIssueNote(Integer projectId, Integer issueIid, String body) throws GitLabApiException {
+    /**
+     * Update the specified issues's note.
+     *
+     * @param projectId the project ID to update the issues for
+     * @param issueIid  the issue IID to update the notes for
+     * @param nodeId    the ID of the node to update
+     * @param body      the update content for the Note
+     * @return the modified Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note updateIssueNote(Integer projectId, Integer issueIid, Integer nodeId, String body) throws GitLabApiException {
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true);
-        Response response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "notes");
+        Response response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "notes", nodeId);
         return (response.readEntity(Note.class));
     }
 
+    /**
+     * Delete the specified issues's note.
+     *
+     * @param projectId the project ID to delete the issues for
+     * @param issueIid the issue IID to delete the notes for
+     * @param noteId the ID of the node to delete
+     * @throws GitLabApiException if any exception occurs
+     */
     public void deleteIssueNote(Integer projectId, Integer issueIid, Integer noteId) throws GitLabApiException {
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
