@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assume.assumeTrue;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Version;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -58,6 +59,27 @@ public class TestGitLabSession {
 
         if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
+        }
+
+        if (problems.isEmpty()) {
+            String savedVersion = null;
+            try {
+                GitLabApi gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+                Version version = gitLabApi.getVersion();
+                savedVersion = version.getVersion();
+                String[] parts = version.getVersion().split(".", -1);
+                if (parts.length == 3) {
+                    if (Integer.parseInt(parts[0]) < 10 || 
+                            (Integer.parseInt(parts[0]) == 10 && Integer.parseInt(parts[1]) < 2)) {
+                        savedVersion = null;
+                    }
+                }
+            } catch (Exception e) {                
+            }
+            
+            if (savedVersion != null) {
+                problems += "GitLab version " + savedVersion + " does not support sessions\n";
+            }
         }
 
         if (!problems.isEmpty()) {
