@@ -832,6 +832,8 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Forks a project into the user namespace of the authenticated user or the one provided.
+     * The forking operation for a project is asynchronous and is completed in a background job. 
+     * The request will return immediately.
      *
      * POST /projects/:id/fork
      *
@@ -841,11 +843,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public void forkProject(Integer id, String namespace) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("namespace", namespace, true);
-        post(Response.Status.OK, formData, "projects", id, "fork");
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        post(expectedStatus, formData, "projects", id, "fork");
     }
 
     /**
      * Forks a project into the user namespace of the authenticated user or the one provided.
+     * The forking operation for a project is asynchronous and is completed in a background job. 
+     * The request will return immediately.
      *
      * POST /projects/:id/fork
      *
@@ -859,6 +864,8 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Forks a project into the user namespace of the authenticated user or the one provided.
+     * The forking operation for a project is asynchronous and is completed in a background job. 
+     * The request will return immediately.
      *
      * POST /projects/:id/fork
      *
@@ -868,11 +875,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public void forkProject(Integer id, Integer namespaceId) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("namespace", namespaceId, true);
-        post(Response.Status.OK, formData, "projects", id, "fork");
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        post(expectedStatus, formData, "projects", id, "fork");
     }
 
     /**
      * Forks a project into the user namespace of the authenticated user or the one provided.
+     * The forking operation for a project is asynchronous and is completed in a background job. 
+     * The request will return immediately.
      *
      * POST /projects/:id/fork
      *
