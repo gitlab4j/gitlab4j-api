@@ -1,10 +1,11 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.Label;
+import java.util.List;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+
+import org.gitlab4j.api.models.Label;
 
 public class LabelsApi extends AbstractApi {
 

@@ -1,11 +1,12 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.Note;
+import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.Date;
-import java.util.List;
+
+import org.gitlab4j.api.models.Note;
 
 public class NotesApi extends AbstractApi {
 
