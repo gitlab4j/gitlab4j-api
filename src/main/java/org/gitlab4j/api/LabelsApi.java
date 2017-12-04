@@ -105,7 +105,7 @@ public class LabelsApi extends AbstractApi {
                 .withParam("color", color, true)
                 .withParam("description", description)
                 .withParam("priority", priority);
-        Response response = post(Response.Status.OK, formData, "projects", projectId, "labels");
+        Response response = post(Response.Status.CREATED, formData, "projects", projectId, "labels");
         return (response.readEntity(Label.class));
     }
 

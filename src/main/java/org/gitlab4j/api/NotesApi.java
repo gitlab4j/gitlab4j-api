@@ -166,13 +166,13 @@ public class NotesApi extends AbstractApi {
      * @return the modified Note instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Note updateIssueNote(Integer projectId, Integer issueIid, String body) throws GitLabApiException {
+    public Note updateIssueNote(Integer projectId, Integer issueIid, Integer nodeId, String body) throws GitLabApiException {
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true);
-        Response response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "notes");
+        Response response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "notes", nodeId);
         return (response.readEntity(Note.class));
     }
 
