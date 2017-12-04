@@ -15,7 +15,7 @@ public class SessionApi extends AbstractApi {
     }
 
     /**
-     * Login to get private token.
+     * Login to get private token. This functionality is not available on GitLab servers 10.2 and above.
      *
      * POST /session
      *

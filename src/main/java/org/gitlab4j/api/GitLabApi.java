@@ -52,8 +52,10 @@ public class GitLabApi {
 
 
     /**
-     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
-     * using returned private token and the specified GitLab API version.
+     * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
+     * using returned private token and the specified GitLab API version.</p>
+     * 
+     * NOTE: This functionality is not available on GitLab servers 10.2 and above.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
      * @param url GitLab URL
@@ -67,8 +69,10 @@ public class GitLabApi {
     }
 
     /**
-     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
-     * using returned private token using GitLab API version 4.
+     * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
+     * using returned private token using GitLab API version 4.</p>
+     * 
+     * NOTE: This functionality is not available on GitLab servers 10.2 and above.
      *
      * @param url GitLab URL
      * @param username user name for which private token should be obtained
@@ -81,8 +85,10 @@ public class GitLabApi {
     }
 
     /**
-     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
-     * using returned private token and the specified GitLab API version.
+     * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
+     * using returned private token and the specified GitLab API version.</p>
+     * 
+     * NOTE: This functionality is not available on GitLab servers 10.2 and above.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
      * @param url GitLab URL
@@ -111,8 +117,10 @@ public class GitLabApi {
     }
 
     /**
-     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
-     * using returned private token using GitLab API version 4.
+     * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
+     * using returned private token using GitLab API version 4.</p>
+     * 
+     * NOTE: This functionality is not available on GitLab servers 10.2 and above.
      *
      * @param url GitLab URL
      * @param username user name for which private token should be obtained
@@ -126,8 +134,10 @@ public class GitLabApi {
     }
 
     /**
-     * Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
-     * using returned private token and specified GitLab API version.
+     * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
+     * using returned private token and specified GitLab API version.</p>
+     * 
+     * NOTE: This functionality is not available on GitLab servers 10.2 and above.
      *
      * @param url GitLab URL
      * @param username user name for which private token should be obtained
