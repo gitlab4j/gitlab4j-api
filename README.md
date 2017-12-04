@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.7.1'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.7.2'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.7.1</version>
+    <version>4.7.2</version>
 </dependency>
 ```
 
@@ -42,6 +42,9 @@ You can also login to your GitLab server with username, and password:
 // Log in to the GitLab server using a username and password
 GitLabApi gitLabApi = GitLabApi.login("http://your.gitlab.server.com", "your-username", "your-password");
 ```
+
+NOTE: Logging in with username and password is not available on GitLab servers 10.2 and above.
+
 
 As of GitLab4J-API 4.6.6, all API requests support performing the API call as if you were another user, provided you are authenticated as an administrator:
 ```java
