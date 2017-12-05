@@ -5,10 +5,9 @@ import java.util.regex.Pattern;
 
 public class DurationUtils {
 
-    private static char[] TIME_UNITS = { 'w', 'd', 'h', 'm', 's'};
-    private static int[] TIME_UNIT_MULTIPLIERS = { 60 * 60 * 24 * 7, 60 * 60 * 24, 60 * 60, 60, 1 };
-
-    private static Pattern durationPattern = Pattern.compile("(\\s*(\\d+)([a-z]))");
+    private static final String[] TIME_UNITS = { "mo", "w", "d", "h", "m", "s" };
+    private static final int[] TIME_UNIT_MULTIPLIERS = { 60 * 60 * 24 * 30, 60 * 60 * 24 * 7, 60 * 60 * 24, 60 * 60, 60, 1 };
+    private static Pattern durationPattern = Pattern.compile("(\\s*(\\d+)(mo|[wdhms]))");
 
     /**
      * Create a human readable duration string from seconds.
@@ -18,15 +17,33 @@ public class DurationUtils {
      */
     public static final String toString(int durationSeconds) {
 
-        int weeks = durationSeconds / TIME_UNIT_MULTIPLIERS[0];
-        int days = (durationSeconds - weeks * TIME_UNIT_MULTIPLIERS[0]) / TIME_UNIT_MULTIPLIERS[1];
-        int seconds = durationSeconds - (weeks * TIME_UNIT_MULTIPLIERS[0]) - (days * TIME_UNIT_MULTIPLIERS[1]);
+        int months = durationSeconds / TIME_UNIT_MULTIPLIERS[0];
+        int weeks = (durationSeconds - months * TIME_UNIT_MULTIPLIERS[0]) / TIME_UNIT_MULTIPLIERS[1];
+        int days = (durationSeconds - months * TIME_UNIT_MULTIPLIERS[0] - weeks * TIME_UNIT_MULTIPLIERS[1]) / TIME_UNIT_MULTIPLIERS[2];
+        int seconds = durationSeconds - (months * TIME_UNIT_MULTIPLIERS[0]) - (weeks * TIME_UNIT_MULTIPLIERS[1]) - (days * TIME_UNIT_MULTIPLIERS[2]);
         int hours = seconds / 3600;
         int minutes = (seconds % 3600) / 60;
         seconds = seconds % 60;
 
         StringBuilder buf = new StringBuilder();
-        if (weeks > 0) {
+        if (months > 0) {
+
+            buf.append(months).append("mo");
+            if (weeks > 0) {
+                buf.append(weeks).append('w');
+            }
+
+            if (seconds > 0) {
+                buf.append(days).append('d').append(hours).append('h').append(minutes).append('m').append(seconds).append('s');
+            } else if (minutes > 0) {
+                buf.append(days).append('d').append(hours).append('h').append(minutes).append('m');
+            } else if (hours > 0) {
+                buf.append(days).append('d').append(hours).append('h');
+            } else if (days > 0) {
+                buf.append(days).append('d');
+            }
+
+        } else if (weeks > 0) {
 
             buf.append(weeks).append('w');
             if (seconds > 0) {
@@ -93,7 +110,7 @@ public class DurationUtils {
             int numGroups = matcher.groupCount();
             if (numGroups == 3) {
 
-                char unit = matcher.group(3).charAt(0);
+                String unit = matcher.group(3);
                 int nextUnitIndex = getUnitIndex(unit);
                 if (nextUnitIndex > currentUnitIndex) {
 
@@ -119,10 +136,10 @@ public class DurationUtils {
         return (seconds);
     }
 
-    private static final int getUnitIndex(char unit) {
+    private static final int getUnitIndex(String unit) {
 
         for (int i = 0; i < TIME_UNITS.length; i++) {
-            if (unit == TIME_UNITS[i])
+            if (unit.equals(TIME_UNITS[i]))
                 return (i);
         }
 

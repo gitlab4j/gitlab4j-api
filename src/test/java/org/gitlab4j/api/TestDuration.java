@@ -11,7 +11,10 @@ public class TestDuration {
     @Test
     public void testParse() {
 
-        int seconds = DurationUtils.parse("1w1d1h1m1s");
+        int seconds = DurationUtils.parse("7mo1w1d1h1m1s");
+        assertEquals(60 * 60 * 24 * 30 * 7 + 60 * 60 * 24 * 7 + 60 * 60 * 24 + 60 * 60 + 60 + 1, seconds);
+
+        seconds = DurationUtils.parse("1w1d1h1m1s");
         assertEquals(60 * 60 * 24 * 7 + 60 * 60 * 24 + 60 * 60 + 60 + 1, seconds);
 
         seconds = DurationUtils.parse("1d1h1m1s");
@@ -19,7 +22,7 @@ public class TestDuration {
 
         seconds = DurationUtils.parse("60m");
         assertEquals(60 * 60, seconds);
- 
+
         seconds = DurationUtils.parse("1h");
         assertEquals(60 * 60, seconds);
     }
@@ -77,5 +80,8 @@ public class TestDuration {
 
         duration = DurationUtils.toString(60 * 60 * 24 * 7 + 60 * 60 * 24 * 2 + 60 * 60 * 3 + 60 * 4 + 5);
         assertEquals("1w2d3h4m5s", duration);
+
+        duration = DurationUtils.toString(60 * 60 * 24 * 30 * 3 + 60 * 60 * 24 * 2 + 60 * 60 * 3 + 60 * 6 + 8);
+        assertEquals("3mo2d3h6m8s", duration);
     }
 }
