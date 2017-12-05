@@ -841,10 +841,11 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param namespace path of the namespace that the project will be forked to
      * @throws GitLabApiException if any exception occurs
      */
-    public void forkProject(Integer id, String namespace) throws GitLabApiException {
+    public Project forkProject(Integer id, String namespace) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("namespace", namespace, true);
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        post(expectedStatus, formData, "projects", id, "fork");
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
+        Response response = post(expectedStatus, formData, "projects", id, "fork");
+        return (response.readEntity(Project.class));
     }
 
     /**
@@ -858,8 +859,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param namespace path of the namespace that the project will be forked to
      * @throws GitLabApiException if any exception occurs
      */
-    public void forkProject(Project project, String namespace) throws GitLabApiException {
-        forkProject(project.getId(), namespace);
+    public Project forkProject(Project project, String namespace) throws GitLabApiException {
+        return (forkProject(project.getId(), namespace));
     }
 
     /**
@@ -873,10 +874,11 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param namespaceId ID of the namespace that the project will be forked to
      * @throws GitLabApiException if any exception occurs
      */
-    public void forkProject(Integer id, Integer namespaceId) throws GitLabApiException {
+    public Project forkProject(Integer id, Integer namespaceId) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("namespace", namespaceId, true);
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        post(expectedStatus, formData, "projects", id, "fork");
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
+        Response response = post(expectedStatus, formData, "projects", id, "fork");
+        return (response.readEntity(Project.class));
     }
 
     /**
@@ -890,8 +892,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param namespaceId ID of the namespace that the project will be forked to
      * @throws GitLabApiException if any exception occurs
      */
-    public void forkProject(Project project, Integer namespaceId) throws GitLabApiException {
-        forkProject(project.getId(), namespaceId);
+    public Project forkProject(Project project, Integer namespaceId) throws GitLabApiException {
+        return (forkProject(project.getId(), namespaceId));
     }
 
     /**

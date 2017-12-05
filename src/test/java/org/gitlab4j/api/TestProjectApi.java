@@ -47,6 +47,7 @@ import org.junit.runners.MethodSorters;
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
+ * TEST_GROUP_PROJECT
  * 
  * If any of the above are NULL, all tests in this class will be skipped.
  *
@@ -60,12 +61,16 @@ public class TestProjectApi {
     private static final String TEST_PROJECT_NAME;
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
+    private static final String TEST_GROUP;
+    private static final String TEST_GROUP_PROJECT;
 
     static {
         TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
         TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
+        TEST_GROUP = TestUtils.getProperty("TEST_GROUP");
+        TEST_GROUP_PROJECT = TestUtils.getProperty("TEST_GROUP_PROJECT");
     }
 
     private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
@@ -123,6 +128,14 @@ public class TestProjectApi {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE);
                 gitLabApi.getProjectApi().deleteProject(project);
             } catch (GitLabApiException ignore) {}
+
+            if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
+                try {
+                    Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_GROUP_PROJECT);
+                    gitLabApi.getProjectApi().deleteProject(project);
+                } catch (GitLabApiException ignore) {
+                }
+            }
         }
     }
 
@@ -381,5 +394,17 @@ public class TestProjectApi {
         List<Project> projects = gitLabApi.getProjectApi().getMemberProjects(1, 10);
         assertTrue(projects != null);
         assertTrue(projects.size() > 0);
+    }
+
+    @Test
+    public void testForkProject() throws GitLabApiException {
+
+        assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
+        assumeTrue(TEST_GROUP.trim().length() > 0 && TEST_GROUP_PROJECT.trim().length() > 0);
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_GROUP, TEST_GROUP_PROJECT);
+        assertNotNull(project);
+        Project forkedProject = gitLabApi.getProjectApi().forkProject(project.getId(), TEST_NAMESPACE);
+        assertNotNull(forkedProject);
     }
 }
