@@ -839,6 +839,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param id the ID of the project to fork
      * @param namespace path of the namespace that the project will be forked to
+     * @return the newly forked Project instance
      * @throws GitLabApiException if any exception occurs
      */
     public Project forkProject(Integer id, String namespace) throws GitLabApiException {
@@ -857,6 +858,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param project the project to fork
      * @param namespace path of the namespace that the project will be forked to
+     * @return the newly forked Project instance
      * @throws GitLabApiException if any exception occurs
      */
     public Project forkProject(Project project, String namespace) throws GitLabApiException {
@@ -872,6 +874,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param id the ID of the project to fork
      * @param namespaceId ID of the namespace that the project will be forked to
+     * @return the newly forked Project instance
      * @throws GitLabApiException if any exception occurs
      */
     public Project forkProject(Integer id, Integer namespaceId) throws GitLabApiException {
@@ -890,6 +893,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param project the project to fork
      * @param namespaceId ID of the namespace that the project will be forked to
+     * @return the newly forked Project instance
      * @throws GitLabApiException if any exception occurs
      */
     public Project forkProject(Project project, Integer namespaceId) throws GitLabApiException {
