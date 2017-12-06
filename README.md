@@ -42,8 +42,7 @@ You can also login to your GitLab server with username, and password:
 // Log in to the GitLab server using a username and password
 GitLabApi gitLabApi = GitLabApi.login("http://your.gitlab.server.com", "your-username", "your-password");
 ```
-
-NOTE: Logging in with username and password is not available on GitLab servers 10.2 and above.
+**NOTE: Logging in with username and password is not available on GitLab servers 10.2 and above.**
 
 
 As of GitLab4J-API 4.6.6, all API requests support performing the API call as if you were another user, provided you are authenticated as an administrator:
