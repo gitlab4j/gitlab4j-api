@@ -357,7 +357,7 @@ public class RepositoryApi extends AbstractApi {
         Form formData = new GitLabApiForm()
                 .withParam("id", projectId, true)
                 .withParam("path", filePath, false)
-                .withParam("ref_name", refName, false)
+                .withParam(isApiVersion(ApiVersion.V3) ? "ref_name" : "ref", refName, false)
                 .withParam("recursive", recursive, false)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "tree");
@@ -386,7 +386,7 @@ public class RepositoryApi extends AbstractApi {
         Form formData = new GitLabApiForm()
                 .withParam("id", projectId, true)
                 .withParam("path", filePath, false)
-                .withParam("ref_name", refName, false)
+                .withParam(isApiVersion(ApiVersion.V3) ? "ref_name" : "ref", refName, false)
                 .withParam("recursive", recursive, false);
         return (new Pager<TreeItem>(this, TreeItem.class, itemsPerPage, formData.asMap(), "projects", projectId, "repository", "tree"));
     }
