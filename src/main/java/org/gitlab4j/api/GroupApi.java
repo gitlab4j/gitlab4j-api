@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
@@ -7,6 +8,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
@@ -359,32 +361,146 @@ public class GroupApi extends AbstractApi {
      *
      * POST /groups/:id/members
      *
-     * @param groupId the project ID to add the member to
-     * @param userId the user ID of the member to add
-     * @param accessLevel the access level for the new member
+     * @param groupId the project ID to add the member to, required
+     * @param userId the user ID of the member to add, required
+     * @param accessLevel the access level for the new member, required
      * @return a Member instance for the added user
      * @throws GitLabApiException if any exception occurs
      */
     public Member addMember(Integer groupId, Integer userId, Integer accessLevel) throws GitLabApiException {
+        return (addMember(groupId, userId, accessLevel, null));
+    }
 
-        Form formData = new Form();
-        formData.param("user_id", userId.toString());
-        formData.param("access_level", accessLevel.toString());
+    /**
+     * Adds a user to the list of group members.
+     *
+     * POST /groups/:id/members
+     *
+     * @param groupId the project ID to add the member to, required
+     * @param userId the user ID of the member to add, required
+     * @param accessLevel the access level for the new member, required
+     * @return a Member instance for the added user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member addMember(Integer groupId, Integer userId, AccessLevel accessLevel) throws GitLabApiException {
+        return (addMember(groupId, userId, accessLevel.toValue(), null));
+    }
+
+    /**
+     * Adds a user to the list of group members.
+     *
+     * POST /groups/:id/members
+     *
+     * @param groupId the project ID to add the member to, required
+     * @param userId the user ID of the member to add, required
+     * @param accessLevel the access level for the new member, required
+     * @param expiresAt the date the membership in the group will expire, optional
+     * @return a Member instance for the added user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member addMember(Integer groupId, Integer userId, AccessLevel accessLevel, Date expiresAt) throws GitLabApiException {
+        return (addMember(groupId, userId, accessLevel.toValue(), expiresAt));
+    }
+
+    /**
+     * Adds a user to the list of group members.
+     *
+     * POST /groups/:id/members
+     *
+     * @param groupId the project ID to add the member to, required
+     * @param userId the user ID of the member to add, required
+     * @param accessLevel the access level for the new member, required
+     * @param expiresAt the date the membership in the group will expire, optional
+     * @return a Member instance for the added user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member addMember(Integer groupId, Integer userId, Integer accessLevel, Date expiresAt) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("user_id", userId, true)
+                .withParam("access_level", accessLevel, true)
+                .withParam("expires_at",  expiresAt, false);
         Response response = post(Response.Status.CREATED, formData, "groups", groupId, "members");
         return (response.readEntity(Member.class));
     }
 
     /**
-     * Removes member from the group team.
+     * Updates a member of a group.
+     *
+     * PUT /groups/:groupId/members/:userId
+     *
+     * @param groupId the group ID the member belongs to, required
+     * @param userId the user ID of the member to update, required
+     * @param accessLevel the new access level for the member, required
+     * @return the updated member
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member updateMember(Integer groupId, Integer userId, Integer accessLevel) throws GitLabApiException {
+        return (updateMember(groupId, userId, accessLevel, null));
+    }
+
+    /**
+     * Updates a member of a group.
+     *
+     * PUT /groups/:groupId/members/:userId
+     *
+     * @param groupId the group ID the member belongs to, required
+     * @param userId the user ID of the member to update, required
+     * @param accessLevel the new access level for the member, required
+     * @return the updated member
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member updateMember(Integer groupId, Integer userId, AccessLevel accessLevel) throws GitLabApiException {
+        return (updateMember(groupId, userId, accessLevel.toValue(), null));
+    }
+
+    /**
+     * Updates a member of a group.
+     *
+     * PUT /groups/:groupId/members/:userId
+     *
+     * @param groupId the group ID the member belongs to, required
+     * @param userId the user ID of the member to update, required
+     * @param accessLevel the new access level for the member, required
+     * @param expiresAt the date the membership in the group will expire, optional
+     * @return the updated member
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member updateMember(Integer groupId, Integer userId, AccessLevel accessLevel, Date expiresAt) throws GitLabApiException {
+        return (updateMember(groupId, userId, accessLevel.toValue(), expiresAt));
+    }
+
+    /**
+     * Updates a member of a group.
+     *
+     * PUT /groups/:groupId/members/:userId
+     *
+     * @param groupId the group ID the member belongs to, required
+     * @param userId the user ID of the member to update, required
+     * @param accessLevel the new access level for the member, required
+     * @param expiresAt the date the membership in the group will expire, optional
+     * @return the updated member
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member updateMember(Integer groupId, Integer userId, Integer accessLevel, Date expiresAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("access_level", accessLevel, true)
+                .withParam("expires_at",  expiresAt, false);
+        Response response = put(Response.Status.OK, formData.asMap(), "groups", groupId, "members", userId);
+        return (response.readEntity(Member.class));
+    }
+
+    /**
+     * Removes member from the group.
      *
      * DELETE /groups/:id/members/:user_id
      *
-     * @param projectId the project ID to remove the member from
+     * @param groupId the group ID to remove the member from
      * @param userId the user ID of the member to remove
      * @throws GitLabApiException if any exception occurs
      */
-    public void removeMember(Integer projectId, Integer userId) throws GitLabApiException {
+    public void removeMember(Integer groupId, Integer userId) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "groups", projectId, "members", userId);
+        delete(expectedStatus, null, "groups", groupId, "members", userId);
     }
 }
