@@ -183,14 +183,77 @@ public class GroupApi extends AbstractApi {
      *
      * @param name the name of the group to add
      * @param path the path for the group
+     * @return the created Group instance
      * @throws GitLabApiException if any exception occurs
      */
-    public void addGroup(String name, String path) throws GitLabApiException {
+    public Group addGroup(String name, String path) throws GitLabApiException {
 
         Form formData = new Form();
         formData.param("name", name);
         formData.param("path", path);
-        post(Response.Status.CREATED, formData, "groups");
+        Response response = post(Response.Status.CREATED, formData, "groups");
+        return (response.readEntity(Group.class));
+    }
+
+    /**
+     * Creates a new project group. Available only for users who can create groups.
+     *
+     * POST /groups
+     *
+     * @param name the name of the group to add
+     * @param path the path for the group
+     * @param description (optional) - The group's description
+     * @param visibility (optional) - The group's visibility. Can be private, internal, or public.
+     * @param lfsEnabled (optional) - Enable/disable Large File Storage (LFS) for the projects in this group
+     * @param requestAccessEnabled (optional) - Allow users to request member access
+     * @param parentId (optional) - The parent group id for creating nested group
+     * @return the created Group instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Group addGroup(String name, String path, String description, Visibility visibility,
+            Boolean lfsEnabled, Boolean requestAccessEnabled, Integer parentId) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm()
+                .withParam("name", name)
+                .withParam("path", path)
+                .withParam("description", description)
+                .withParam("visibility", visibility)
+                .withParam("lfs_enabled", lfsEnabled)
+                .withParam("request_access_enabled", requestAccessEnabled)
+                .withParam("parent_id", isApiVersion(ApiVersion.V3) ? null : parentId);
+        Response response = post(Response.Status.CREATED, formData, "groups");
+        return (response.readEntity(Group.class));
+    }
+
+    /**
+     * Updates a  project group. Available only for users who can create groups.
+     *
+     * PUT /groups
+     *
+     * @param groupId the ID of the group to update
+     * @param name the name of the group to add
+     * @param path the path for the group
+     * @param description (optional) - The group's description
+     * @param visibility (optional) - The group's visibility. Can be private, internal, or public.
+     * @param lfsEnabled (optional) - Enable/disable Large File Storage (LFS) for the projects in this group
+     * @param requestAccessEnabled (optional) - Allow users to request member access
+     * @param parentId (optional) - The parent group id for creating nested group
+     * @return the updated Group instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Group updateGroup(Integer groupId, String name, String path, String description, Visibility visibility,
+            Boolean lfsEnabled, Boolean requestAccessEnabled, Integer parentId) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm()
+                .withParam("name", name)
+                .withParam("path", path)
+                .withParam("description", description)
+                .withParam("visibility", visibility)
+                .withParam("lfs_enabled", lfsEnabled)
+                .withParam("request_access_enabled", requestAccessEnabled)
+                .withParam("parent_id", isApiVersion(ApiVersion.V3) ? null : parentId);
+        Response response = put(Response.Status.OK, formData.asMap(), "groups", groupId);
+        return (response.readEntity(Group.class));
     }
 
     /**
@@ -208,9 +271,12 @@ public class GroupApi extends AbstractApi {
      * @param requestAccessEnabled (optional) - Allow users to request member access.
      * @param parentId (optional) - The parent group id for creating nested group.
      * @param sharedRunnersMinutesLimit (optional) - (admin-only) Pipeline minutes quota for this group
+     * @return the created Group instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed in version 5.0, replaced by {@link #addGroup(String, String, String, Visibility,
+     *      Boolean, Boolean, Integer)}
      */
-    public void addGroup(String name, String path, String description, Boolean membershipLock,
+    public Group addGroup(String name, String path, String description, Boolean membershipLock,
             Boolean shareWithGroupLock, Visibility visibility, Boolean lfsEnabled, Boolean requestAccessEnabled,
             Integer parentId, Integer sharedRunnersMinutesLimit) throws GitLabApiException {
 
@@ -225,11 +291,12 @@ public class GroupApi extends AbstractApi {
                 .withParam("request_access_enabled", requestAccessEnabled)
                 .withParam("parent_id", parentId)
                 .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit);
-        post(Response.Status.CREATED, formData, "groups");
+        Response response = post(Response.Status.CREATED, formData, "groups");
+        return (response.readEntity(Group.class));
     }
 
     /**
-     * Creates a new project group. Available only for users who can create groups.
+     * Updates a project group. Available only for users who can create groups.
      *
      * PUT /groups
      *
@@ -241,11 +308,13 @@ public class GroupApi extends AbstractApi {
      * @param shareWithGroupLock (optional, boolean) - Prevent sharing a project with another group within this group
      * @param visibility (optional) - The group's visibility. Can be private, internal, or public.
      * @param lfsEnabled (optional) - Enable/disable Large File Storage (LFS) for the projects in this group
-     * @param requestAccessEnabled (optional) - Allow users to request member access.
-     * @param parentId (optional) - The parent group id for creating nested group.
+     * @param requestAccessEnabled (optional) - Allow users to request member access
+     * @param parentId (optional) - The parent group id for creating nested group
      * @param sharedRunnersMinutesLimit (optional) - (admin-only) Pipeline minutes quota for this group
      * @return the updated Group instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed in version 5.0, replaced by {@link #updateGroup(Integer, String, String, String,
+     *      Visibility, Boolean, Boolean, Integer)}
      */
     public Group updateGroup(Integer groupId, String name, String path, String description, Boolean membershipLock,
             Boolean shareWithGroupLock, Visibility visibility, Boolean lfsEnabled, Boolean requestAccessEnabled,
@@ -262,7 +331,6 @@ public class GroupApi extends AbstractApi {
                 .withParam("request_access_enabled", requestAccessEnabled)
                 .withParam("parent_id", parentId)
                 .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit);
-
         Response response = put(Response.Status.OK, formData.asMap(), "groups", groupId);
         return (response.readEntity(Group.class));
     }
