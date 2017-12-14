@@ -79,6 +79,24 @@ public class MergeRequestApi extends AbstractApi {
     }
 
     /**
+     * Get all merge requests with a specific state for the specified project.
+     *
+     * GET /projects/:id/merge_requests?state=:state
+     *
+     * @param projectId the project ID to get the merge requests for
+     * @param state the state parameter can be used to get only merge requests with a given state (opened, closed, or merged) or all of them (all). The pagination parameters page and per_page can be used to restrict the list of merge requests.
+     * @return all merge requests for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<MergeRequest> getMergeRequests(Integer projectId, MergeRequestState state) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("state", state)
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests");
+        return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
+    }
+
+    /**
      * Get a list of merge request commits.
      *
      * GET /projects/:id/merge_requests/:merge_request_iid/commits
