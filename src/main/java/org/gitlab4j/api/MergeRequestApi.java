@@ -29,8 +29,7 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<MergeRequest> getMergeRequests(Integer projectId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "merge_requests");
-        return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
+        return (getMergeRequests(projectId, 1, getDefaultPerPage()));
     }
 
     /**
@@ -64,45 +63,6 @@ public class MergeRequestApi extends AbstractApi {
     }
 
     /**
-     * Get all merge requests for the specified project.
-     *
-     * GET /projects/:id/merge_requests
-     *
-     * @param projectId the project ID to get the merge requests for
-     * @param page the page to get
-     * @param perPage the number of MergeRequest instances per page
-     * @param state the state parameter can be used to get only merge requests with a given state (opened, closed, or merged) or all of them (all).
-     * @return all merge requests for the specified project
-     * @throws GitLabApiException if any exception occurs
-     */
-    public List<MergeRequest> getMergeRequests(Integer projectId, int page, int perPage, MergeRequestState state) throws GitLabApiException {
-        Form formData = new GitLabApiForm()
-                .withParam("state", state)
-                .withParam(PAGE_PARAM, page)
-                .withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests");
-        return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
-    }
-
-
-    /**
-     * Get all merge requests for the specified project.
-     *
-     * GET /projects/:id/merge_requests
-     *
-     * @param projectId the project ID to get the merge requests for
-     * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
-     * @param state the state parameter can be used to get only merge requests with a given state (opened, closed, or merged) or all of them (all).
-     * @return all merge requests for the specified project
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Pager<MergeRequest> getMergeRequests(Integer projectId, int itemsPerPage, MergeRequestState state) throws GitLabApiException {
-        Form formData = new GitLabApiForm()
-                .withParam("state", state);
-        return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, formData.asMap(), "projects", projectId, "merge_requests"));
-    }
-
-    /**
      * Get all merge requests with a specific state for the specified project.
      *
      * GET /projects/:id/merge_requests?state=:state
@@ -113,11 +73,45 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<MergeRequest> getMergeRequests(Integer projectId, MergeRequestState state) throws GitLabApiException {
+        return (getMergeRequests(projectId, state, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get all merge requests for the specified project.
+     *
+     * GET /projects/:id/merge_requests
+     *
+     * @param projectId the project ID to get the merge requests for
+     * @param state the state parameter can be used to get only merge requests with a given state (opened, closed, or merged) or all of them (all).
+     * @param page the page to get
+     * @param perPage the number of MergeRequest instances per page
+     * @return all merge requests for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<MergeRequest> getMergeRequests(Integer projectId, MergeRequestState state, int page, int perPage) throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("state", state)
-                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage);
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests");
         return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
+    }
+
+    /**
+     * Get all merge requests for the specified project.
+     *
+     * GET /projects/:id/merge_requests
+     *
+     * @param projectId the project ID to get the merge requests for
+     * @param state the state parameter can be used to get only merge requests with a given state (opened, closed, or merged) or all of them (all).
+     * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
+     * @return all merge requests for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<MergeRequest> getMergeRequests(Integer projectId, MergeRequestState state, int itemsPerPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("state", state);
+        return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, formData.asMap(), "projects", projectId, "merge_requests"));
     }
 
     /**
