@@ -194,7 +194,11 @@ public class GitLabApiClient {
     public GitLabApiClient(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties) {
 
         // Remove the trailing "/" from the hostUrl if present
-        this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl) + apiVersion.getApiNamespace();
+        this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl);
+        if (ApiVersion.OAUTH2_CLIENT != apiVersion) {
+            this.hostUrl += apiVersion.getApiNamespace();
+        }
+
         this.tokenType = tokenType;
         this.authToken = authToken;
 

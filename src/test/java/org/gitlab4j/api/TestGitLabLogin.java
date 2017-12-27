@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -20,7 +21,7 @@ import org.junit.Test;
  * 
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-public class TestGitLabSession {
+public class TestGitLabLogin {
 
     // The following needs to be set to your test repository
     private static final String TEST_USERNAME;
@@ -35,8 +36,9 @@ public class TestGitLabSession {
     }
 
     private static String problems = "";
+    private static boolean hasSession;
 
-    public TestGitLabSession() {
+    public TestGitLabLogin() {
         super();
     }
 
@@ -62,23 +64,17 @@ public class TestGitLabSession {
         }
 
         if (problems.isEmpty()) {
-            String savedVersion = null;
             try {
                 GitLabApi gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
                 Version version = gitLabApi.getVersion();
-                savedVersion = version.getVersion();
                 String[] parts = version.getVersion().split(".", -1);
                 if (parts.length == 3) {
                     if (Integer.parseInt(parts[0]) < 10 || 
                             (Integer.parseInt(parts[0]) == 10 && Integer.parseInt(parts[1]) < 2)) {
-                        savedVersion = null;
+                        hasSession = true;
                     }
                 }
             } catch (Exception e) {                
-            }
-            
-            if (savedVersion != null) {
-                problems += "GitLab version " + savedVersion + " does not support sessions\n";
             }
         }
 
@@ -95,6 +91,7 @@ public class TestGitLabSession {
     @Test
     public void testSession() throws GitLabApiException {
 
+        assumeTrue(hasSession);
         GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V4, TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD);
         assertNotNull(gitLabApi);
         assertNotNull(gitLabApi.getSession());
@@ -104,9 +101,29 @@ public class TestGitLabSession {
     @Test
     public void testSessionV3() throws GitLabApiException {
 
+        assumeTrue(hasSession);
         GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V3, TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD);
         assertNotNull(gitLabApi);
         assertNotNull(gitLabApi.getSession());
         assertEquals(TEST_PRIVATE_TOKEN, gitLabApi.getSession().getPrivateToken());
+    }
+
+    @Test
+    public void testSessionFallover() throws GitLabApiException {
+
+        assumeFalse(hasSession);
+        GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V4, TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD);
+        assertNotNull(gitLabApi);
+        Version version = gitLabApi.getVersion();
+        assertNotNull(version);
+    }
+
+    @Test
+    public void testOauth2Login() throws GitLabApiException {
+
+        GitLabApi gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, TEST_USERNAME, TEST_PASSWORD, null, null, true);
+        assertNotNull(gitLabApi);
+        Version version = gitLabApi.getVersion();
+        assertNotNull(version);
     }
 }
