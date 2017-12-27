@@ -31,6 +31,8 @@ import static org.junit.Assume.assumeTrue;
 import java.util.List;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.AccessLevel;
+import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Visibility;
 import org.junit.AfterClass;
@@ -128,6 +130,15 @@ public class TestProjectApi {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE);
                 gitLabApi.getProjectApi().deleteProject(project);
             } catch (GitLabApiException ignore) {}
+
+            if (TEST_GROUP != null && TEST_PROJECT_NAME != null) {
+                try {
+                    Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+                    List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
+                    gitLabApi.getProjectApi().unshareProject(project.getId(), groups.get(0).getId());
+                } catch (GitLabApiException ignore) {
+                }
+            }
 
             if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
                 try {
@@ -406,5 +417,22 @@ public class TestProjectApi {
         assertNotNull(project);
         Project forkedProject = gitLabApi.getProjectApi().forkProject(project.getId(), TEST_NAMESPACE);
         assertNotNull(forkedProject);
+    }
+
+    @Test
+    public void testShareProject() throws GitLabApiException {
+
+        assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
+        assumeTrue(TEST_GROUP.trim().length() > 0 && TEST_GROUP_PROJECT.trim().length() > 0);
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
+        assertNotNull(groups);
+
+        Group shareGroup = groups.get(0);
+        gitLabApi.getProjectApi().shareProject(project.getId(), shareGroup.getId(), AccessLevel.DEVELOPER, null);
+        gitLabApi.getProjectApi().unshareProject(project.getId(), shareGroup.getId());
     }
 }
