@@ -48,6 +48,7 @@ import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Note;
+import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
@@ -413,6 +414,17 @@ public class TestGitLabApiBeans {
         try {
             ImpersonationToken token = makeFakeApiCall(ImpersonationToken.class, "impersonation-token");
             assertTrue(compareJson(token, "impersonation-token"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testOauthToken() {
+
+        try {
+            OauthTokenResponse token = makeFakeApiCall(OauthTokenResponse.class, "oauth-token");
+            assertTrue(compareJson(token, "oauth-token"));
         } catch (Exception e) {
             e.printStackTrace();
         }
