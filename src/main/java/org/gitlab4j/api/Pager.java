@@ -16,9 +16,9 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * This class defines an Iterator implementation that is used as a paging iterator for all API methods that 
+ * <p>This class defines an Iterator implementation that is used as a paging iterator for all API methods that 
  * return a List of objects.  It hides the details of interacting with the GitLab API when paging is involved
- * simplifying accessing large lists of objects.
+ * simplifying accessing large lists of objects.</p>
  * 
  * <p>Example usage:</p>
  *  
@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *   while (projectsPager.hasNext())) {
  *       List&lt;Project&gt; projects = projectsPager.next();
  *       for (Project project : projects) {
- *           System.out.println(project.getName() + " -: " + project.getDescription());
+ *           System.out.println(project.getName() + " : " + project.getDescription());
  *       }
  *   }
  * </pre> 
@@ -185,6 +185,16 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
     @Override
     public List<T> next() {
         return (page(currentPage + 1));
+    }
+
+    /**
+     * This method is not implemented and will throw an UnsupportedOperationException if called.
+     * 
+     * @throws UnsupportedOperationException when invoked
+     */
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException();
     }
 
     /**
