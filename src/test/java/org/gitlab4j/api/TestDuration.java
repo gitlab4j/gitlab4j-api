@@ -12,19 +12,38 @@ public class TestDuration {
     public void testParse() {
 
         int seconds = DurationUtils.parse("7mo1w1d1h1m1s");
-        assertEquals(60 * 60 * 24 * 30 * 7 + 60 * 60 * 24 * 7 + 60 * 60 * 24 + 60 * 60 + 60 + 1, seconds);
+        assertEquals(60 * 60 * 8 * 5 * 4 * 7 + 60 * 60 * 8 * 5 + 60 * 60 * 8 + 60 * 60 + 60 + 1, seconds);
 
         seconds = DurationUtils.parse("1w1d1h1m1s");
-        assertEquals(60 * 60 * 24 * 7 + 60 * 60 * 24 + 60 * 60 + 60 + 1, seconds);
+        assertEquals(60 * 60 * 8 * 5 + 60 * 60 * 8 + 60 * 60 + 60 + 1, seconds);
 
         seconds = DurationUtils.parse("1d1h1m1s");
-        assertEquals(60 * 60 * 24 + 60 * 60 + 60 + 1, seconds);
+        assertEquals(60 * 60 * 8 + 60 * 60 + 60 + 1, seconds);
 
         seconds = DurationUtils.parse("60m");
         assertEquals(60 * 60, seconds);
 
         seconds = DurationUtils.parse("1h");
         assertEquals(60 * 60, seconds);
+    }
+
+    @Test
+    public void testParseWithSpaces() {
+
+        int seconds = DurationUtils.parse("5w 1d 1h 1m 1s");
+        assertEquals(60 * 60 * 8 * 5 * 5 + 60 * 60 * 8 + 60 * 60 + 60 + 1, seconds);
+
+        seconds = DurationUtils.parse("1w 1d 1h 1m 1s");
+        assertEquals(60 * 60 * 8 * 5 + 60 * 60 * 8 + 60 * 60 + 60 + 1, seconds);
+
+        seconds = DurationUtils.parse("1d 1h 1m 1s");
+        assertEquals(60 * 60 * 8 + 60 * 60 + 60 + 1, seconds);
+
+        seconds = DurationUtils.parse("60m");
+        assertEquals(60 * 60, seconds);
+
+        seconds = DurationUtils.parse("2h");
+        assertEquals(60 * 60 * 2, seconds);
     }
 
     @Test
@@ -75,13 +94,13 @@ public class TestDuration {
         duration = DurationUtils.toString(60 * 60 + 60 + 1);
         assertEquals("1h1m1s", duration);
 
-        duration = DurationUtils.toString(60 * 60 * 24 + 60 * 60 * 2 + 60 * 3 + 4);
+        duration = DurationUtils.toString(60 * 60 * 8 + 60 * 60 * 2 + 60 * 3 + 4);
         assertEquals("1d2h3m4s", duration);
 
-        duration = DurationUtils.toString(60 * 60 * 24 * 7 + 60 * 60 * 24 * 2 + 60 * 60 * 3 + 60 * 4 + 5);
+        duration = DurationUtils.toString(60 * 60 * 8 * 5 + 60 * 60 * 8 * 2 + 60 * 60 * 3 + 60 * 4 + 5);
         assertEquals("1w2d3h4m5s", duration);
 
-        duration = DurationUtils.toString(60 * 60 * 24 * 30 * 3 + 60 * 60 * 24 * 2 + 60 * 60 * 3 + 60 * 6 + 8);
+        duration = DurationUtils.toString(60 * 60 * 8 * 5 * 4 * 3 + 60 * 60 * 8 * 2 + 60 * 60 * 3 + 60 * 6 + 8);
         assertEquals("3mo2d3h6m8s", duration);
     }
 }

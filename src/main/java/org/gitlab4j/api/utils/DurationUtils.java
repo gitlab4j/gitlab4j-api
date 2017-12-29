@@ -6,7 +6,14 @@ import java.util.regex.Pattern;
 public class DurationUtils {
 
     private static final String[] TIME_UNITS = { "mo", "w", "d", "h", "m", "s" };
-    private static final int[] TIME_UNIT_MULTIPLIERS = { 60 * 60 * 24 * 30, 60 * 60 * 24 * 7, 60 * 60 * 24, 60 * 60, 60, 1 };
+    private static final int[] TIME_UNIT_MULTIPLIERS = { 
+            60 * 60 * 8 * 5 * 4, // 4 weeks = 1 month
+            60 * 60 * 8 * 5,     // 5 days = 1 week
+            60 * 60 * 8,         // 8 hours = 1 day
+            60 * 60,             // 60 minutes = 1 hours
+            60,                  // 60 seconds = 1 minute
+            1
+    };
     private static Pattern durationPattern = Pattern.compile("(\\s*(\\d+)(mo|[wdhms]))");
 
     /**

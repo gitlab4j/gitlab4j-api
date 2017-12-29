@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.7.7'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.7.8'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.7.7</version>
+    <version>4.7.8</version>
 </dependency>
 ```
 
@@ -89,6 +89,18 @@ List<Commit> allCommits = new ArrayList<>(commitPager.getTotalItems());
 while (commitPager.hasNext())
     allCommits.addAll(commitPager.next());
 ```
+---
+## Issue Time Estimates
+GitLab issues allow for time tracking. The following time units are currently available:
+
+months (mo)
+weeks (w)
+days (d)
+hours (h)
+minutes (m)
+
+Conversion rates are 1mo = 4w, 1w = 5d and 1d = 8h. 
+
 ---
 ## Making API Calls
 The API has been broken up into sub APIs classes to make it easier to learn and to separate concerns.  Following is a list of the sub APIs along with a sample use of each API.  See the <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a> for a complete list of available methods for each sub API.
