@@ -24,9 +24,18 @@ dependencies {
 </dependency>
 ```
 
+### Ivy and SBT
+There have been reports of problems resolving some dependencies when using Ivy or SBT, for help resolving those issues see:<br/>
+<a href="https://github.com/jax-rs/api/issues/571">JAX-RS API Issue #571</a><br/>
+<a href="https://github.com/jax-rs/api/issues/572">JAX-RS API Issue #572</a>
+
+---
+
+## Javadocs
 Javadocs are available here: <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?overview-summary.html"  target="_top">Javadocs</a>
 
 ---
+
 ## Using GitLab4J
 
 GitLab4J-API is quite simple to use, all you need is the URL to your GitLab server and the Private Token from your GitLab Account Settings page.  Once you have that info it is as simple as:
