@@ -27,6 +27,7 @@ dependencies {
 Javadocs are available here: <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?overview-summary.html"  target="_top">Javadocs</a>
 
 ---
+## Using GitLab4J
 
 GitLab4J-API is quite simple to use, all you need is the URL to your GitLab server and the Private Token from your GitLab Account Settings page.  Once you have that info it is as simple as:
 ```java
@@ -58,7 +59,7 @@ gitLabApi.unsudo();
 ```
 
 ---
-
+## GitLab API V3 and V4 Support
 As of GitLab4J-API 4.2.0 support has been added for GitLab API V4. If your application requires GitLab API V3,
 you can still use GitLab4J-API by creating your GitLabApi instance as follows:
 ```java
@@ -67,7 +68,7 @@ GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.co
 ```
 
 ---
-
+## Results Paging
 GitLab4J-API provides an easy to use paging mechanism to page through lists of results from the GitLab API.
 Here are a couple of examples on how to use the Pager:
 ```java
@@ -92,10 +93,10 @@ while (commitPager.hasNext())
     allCommits.addAll(commitPager.next());
 ```
 ---
-
+## Making API Calls
 The API has been broken up into sub APIs classes to make it easier to learn and to separate concerns.  Following is a list of the sub APIs along with a sample use of each API.  See the <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a> for a complete list of available methods for each sub API.
 
-Available Sub APIs
+### Available Sub APIs
 ------------------
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
 &nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
@@ -117,10 +118,10 @@ Available Sub APIs
 &nbsp;&nbsp;[UserApi](#userapi)
 
 
-Sub API Examples
+### Sub API Examples
 ----------------
 
-### CommitsApi
+#### CommitsApi
 ```java
 // Get a list of commits associated with the specified branch that fall within the specified time window
 // This uses the ISO8601 date utilities the in org.gitlab4j.api.utils.ISO8601 class
@@ -129,13 +130,13 @@ Date until = new Date(); // now
 List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature", since, until);
 ```
 
-### DeployKeysApi
+#### DeployKeysApi
 ```java
 // Get a list of DeployKeys for the authenticated user
 List<DeployKey> deployKeys = gitLabApi.getDeployKeysApi().getDeployKeys();
 ```
 
-### EventsApi
+#### EventsApi
 ```java
 // Get a list of Events for the authenticated user
 Date after = new Date(0); // After Eposc
@@ -143,25 +144,25 @@ Date before = new Date(); // Before now
 List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, before, after, DESC);
 ```
 
-### GroupApi
+#### GroupApi
 ```java
 // Get a list of groups that you have access to
 List<Group> groups = gitLabApi.getGroupApi().getGroups();
 ```
 
-### IssuesApi
+#### IssuesApi
 ```java
 // Get a list of issues for the specified project ID
 List<Issue> issues = gitLabApi.getIssuesApi().getIssues(1234);
 ```
 
-### JobApi
+#### JobApi
 ```java
 // Get a list of jobs for the specified project ID
 List<Job> jobs = gitLabApi.getJobApi().getJobs(1234);
 ```
 
-### LabelsApi
+#### LabelsApi
 ```java
 // Get a list of labels for the specified project ID
 List<Label> labels = gitLabApi.getLabelsApi().getLabels(1234);
@@ -173,31 +174,31 @@ List<Label> labels = gitLabApi.getLabelsApi().getLabels(1234);
 List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(1234);
 ```
 
-### MilestonesApi
+#### MilestonesApi
 ```java
 // Get a list of the milestones for the specified project
 List<Milestone> milestones = gitLabApi.getMilestonesApi().getMilestones(1234);
 ```
  
-### NamespaceApi
+#### NamespaceApi
 ```java
 // Get all namespaces that match "foobar" in their name or path
 List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces("foobar");
 ```
 
-### NotesApi
+#### NotesApi
 ```java
 // Get a list of the issues's notes for project ID 1234, issue IID 1
 List<Note> notes = getNotes(1234, 1);
 ```
 
-### PipelineApi
+#### PipelineApi
 ```java
 // Get all pipelines for the specified project ID
 List<Pipeline> pipelines = gitLabApi.getPipelineApi().getPipelines(1234);
 ```
 
-### ProjectApi
+#### ProjectApi
 ```java
 // Get a list of accessible projects 
 public List<Project> projects = gitLabApi.getProjectApi().getProjects();
@@ -216,31 +217,31 @@ Project projectSpec = new Project()
 Project newProject = gitLabApi.getProjectApi().createProject(projectSpec);
 ```
 
-### RepositoryApi
+#### RepositoryApi
 ```java
 // Get a list of repository branches from a project, sorted by name alphabetically
 List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
 ```
 
-### RepositoryFileApi
+#### RepositoryFileApi
 ```java
 // Get info (name, size, ...) and the content from a file in repository
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
 ```
 
-### ServicesApi
+#### ServicesApi
 ```java
 // Activates the gitlab-ci service.
 getLabApi.getServicesApi().setGitLabCI("project-name", "auth-token", "project-ci-url");
 ```
 
-### SessionApi
+#### SessionApi
 ```java
 // Log in to the GitLab server and get the session info
 getLabApi.getSessionApi().login("your-username", "your-email", "your-password");
 ```
 
-### UserApi
+#### UserApi
 ```java
 // Get the User info for user_id 1
 User user = gitLabApi.getUserApi().getUser(1);
