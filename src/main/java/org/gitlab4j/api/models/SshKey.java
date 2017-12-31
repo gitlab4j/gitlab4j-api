@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SshKey {
     
@@ -12,6 +14,8 @@ public class SshKey {
     private String title;
     private String key;
     private Date createdAt;
+
+    private Integer userId;
 
     public Integer getId() {
         return id;
@@ -43,5 +47,14 @@ public class SshKey {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @JsonIgnore
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

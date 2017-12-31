@@ -14,6 +14,7 @@ import java.util.List;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
 import org.gitlab4j.api.utils.ISO8601;
@@ -32,7 +33,11 @@ import org.junit.Test;
  *
  * TEST_SUDO_AS_USERNAME
  *
- * If this is null the sudo() tyests will be skipped.
+ * If this is null the sudo() tests will be skipped.
+ *
+ * TEST_SSH_KEY
+ *
+ * If this is null the SSH key tests will be skipped.
  *
  */
 public class TestUserApi {
@@ -42,11 +47,13 @@ public class TestUserApi {
     private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_USERNAME;
     private static final String TEST_SUDO_AS_USERNAME;
+    private static final String TEST_SSH_KEY;
     static {
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_USERNAME = TestUtils.getProperty("TEST_USERNAME");
         TEST_SUDO_AS_USERNAME = TestUtils.getProperty("TEST_SUDO_AS_USERNAME");
+        TEST_SSH_KEY = TestUtils.getProperty("TEST_SSH_KEY");
     }
 
     private static final String TEST_IMPERSONATION_TOKEN_NAME = "token1";
@@ -75,6 +82,20 @@ public class TestUserApi {
 
         if (problems.isEmpty()) {
             gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+
+            if (TEST_SSH_KEY != null) {
+                try {
+                    List<SshKey> sshKeys = gitLabApi.getUserApi().getSshKeys();
+                    if (sshKeys != null) {
+                        for (SshKey key : sshKeys) {
+                            if (TEST_SSH_KEY.equals(key.getKey())) {
+                                gitLabApi.getUserApi().deleteSshKey(key.getId());
+                            }
+                        }
+                    }
+                } catch (Exception ignore) {}
+            }
+
         } else {
             System.err.print(problems);
         }
@@ -183,16 +204,32 @@ public class TestUserApi {
         User user = gitLabApi.getUserApi().getCurrentUser();
         Scope[] scopes = {Scope.API, Scope.READ_USER};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
-        ImpersonationToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
+        ImpersonationToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME + "a", expiresAt, scopes);
         assertNotNull(createdToken);
 
         ImpersonationToken token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
         assertNotNull(token);
         assertEquals(createdToken.getId(), token.getId());
-        assertTrue(token.getActive());
 
         gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), createdToken.getId());
         token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
         assertFalse(token.getActive());
+    }
+
+    @Test
+    public void testGetSshKeys() throws GitLabApiException {
+
+        assumeTrue(TEST_SSH_KEY != null);
+        SshKey sshKey = gitLabApi.getUserApi().addSshKey("Test-Key", TEST_SSH_KEY);
+        assertNotNull(sshKey);
+        assertEquals(TEST_SSH_KEY, sshKey.getKey());
+        gitLabApi.getUserApi().deleteSshKey(sshKey.getId());
+
+        User user = gitLabApi.getUserApi().getCurrentUser();
+        sshKey = gitLabApi.getUserApi().addSshKey(user.getId(), "Test-Key1", TEST_SSH_KEY);
+        assertNotNull(sshKey);
+        assertEquals(TEST_SSH_KEY, sshKey.getKey());
+        assertEquals(user.getId(), sshKey.getUserId());
+        gitLabApi.getUserApi().deleteSshKey(sshKey.getId());
     }
 }

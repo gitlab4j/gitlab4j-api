@@ -414,7 +414,16 @@ public class UserApi extends AbstractApi {
         }
 
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "users", userId, "keys");
-        return (response.readEntity(new GenericType<List<SshKey>>() {}));
+        List<SshKey> keys = response.readEntity(new GenericType<List<SshKey>>() {});
+        if (keys == null) {
+            return (keys);
+        }
+
+        for (SshKey key : keys) {
+            key.setUserId(userId);
+        }
+
+        return (keys);
     }
 
     /**
@@ -466,7 +475,12 @@ public class UserApi extends AbstractApi {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
         Response response = post(Response.Status.CREATED, formData, "users", userId, "keys");
-        return (response.readEntity(SshKey.class));
+        SshKey sshKey = response.readEntity(SshKey.class);
+        if (sshKey != null) {
+            sshKey.setUserId(userId);
+        }
+
+        return (sshKey);
     }
 
     /**
