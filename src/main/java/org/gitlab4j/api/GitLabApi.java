@@ -30,7 +30,11 @@ public class GitLabApi {
 
     GitLabApiClient apiClient;
     private ApiVersion apiVersion;
+    private String gitLabServerUrl;
+    private Map<String, Object> clientConfigProperties;
     private int defaultPerPage = DEFAULT_PER_PAGE;
+    private Session session;
+
     private CommitsApi commitsApi;
     private DeployKeysApi deployKeysApi;
     private GroupApi groupApi;
@@ -43,15 +47,35 @@ public class GitLabApi {
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
     private ServicesApi servicesApi;
-    private SessionApi sessoinApi;
+    private SessionApi sessionApi;
     private UserApi userApi;
     private JobApi jobApi;
     private LabelsApi labelsApi;
     private NotesApi notesApi;
     private EventsApi eventsApi;
 
-    private Session session;
 
+    /**
+     * Create a new GitLabApi instance that is logically a duplicate of this instance, with the exception off sudo state.
+     *
+     * @return a new GitLabApi instance that is logically a duplicate of this instance, with the exception off sudo state.
+     */
+    public final GitLabApi duplicate() {
+
+        Integer sudoUserId = this.getSudoAsId();
+        GitLabApi gitLabApi = new GitLabApi(apiVersion, gitLabServerUrl,
+                getTokenType(), getAuthToken(), getSecretToken(), clientConfigProperties);
+        if (sudoUserId != null) {
+            gitLabApi.apiClient.setSudoAsId(sudoUserId);
+        }
+
+        if (getIgnoreCertificateErrors()) {
+            gitLabApi.setIgnoreCertificateErrors(true);
+        }
+
+        gitLabApi.defaultPerPage = this.defaultPerPage;
+        return (gitLabApi);
+    }
 
     /**
      * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
@@ -433,25 +457,9 @@ public class GitLabApi {
      */
     public GitLabApi(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties) {
         this.apiVersion = apiVersion;
+        this.gitLabServerUrl = hostUrl;
+        this.clientConfigProperties = clientConfigProperties;
         apiClient = new GitLabApiClient(apiVersion, hostUrl, tokenType, authToken, secretToken, clientConfigProperties);
-        commitsApi = new CommitsApi(this);
-        deployKeysApi = new DeployKeysApi(this);
-        eventsApi = new EventsApi(this);
-        groupApi = new GroupApi(this);
-        issuesApi = new IssuesApi(this);
-        jobApi = new JobApi(this);
-        labelsApi = new LabelsApi(this);
-        mergeRequestApi = new MergeRequestApi(this);
-        milestonesApi = new MilestonesApi(this);
-        namespaceApi = new NamespaceApi(this);
-        notesApi = new NotesApi(this);
-        pipelineApi = new PipelineApi(this);
-        projectApi = new ProjectApi(this);
-        repositoryApi = new RepositoryApi(this);
-        repositoryFileApi = new RepositoryFileApi(this);
-        servicesApi = new ServicesApi(this);
-        sessoinApi = new SessionApi(this);
-        userApi = new UserApi(this);
     }
 
     /**
@@ -477,7 +485,6 @@ public class GitLabApi {
         Integer sudoAsId = user.getId();
         apiClient.setSudoAsId(sudoAsId);
     }
-
 
     /**
      * Turns off the currently configured sudo as ID.
@@ -555,6 +562,15 @@ public class GitLabApi {
     }
 
     /**
+     * Get the URL to the GitLab server.
+     *
+     * @return the URL to the GitLab server
+     */
+    public String getGitLabServerUrl() {
+        return (gitLabServerUrl);
+    }
+
+    /**
      * Get the default number per page for calls that return multiple items.
      *
      * @return the default number per page for calls that return multiple item
@@ -625,6 +641,15 @@ public class GitLabApi {
      * @return the CommitsApi instance owned by this GitLabApi instance
      */
     public CommitsApi getCommitsApi() {
+
+        if (commitsApi == null) {
+            synchronized (this) {
+                if (commitsApi == null) {
+                    commitsApi = new CommitsApi(this);
+                }
+            }
+        }
+
         return (commitsApi);
     }
 
@@ -635,6 +660,15 @@ public class GitLabApi {
      * @return the CommitsApi instance owned by this GitLabApi instance
      */
     public DeployKeysApi getDeployKeysApi() {
+
+        if (deployKeysApi == null) {
+            synchronized (this) {
+                if (deployKeysApi == null) {
+                    deployKeysApi = new DeployKeysApi(this);
+                }
+            }
+        }
+
         return (deployKeysApi);
     }
 
@@ -645,6 +679,15 @@ public class GitLabApi {
      * @return the EventsApi instance owned by this GitLabApi instance
      */
     public EventsApi getEventsApi() {
+
+        if (eventsApi == null) {
+            synchronized (this) {
+                if (eventsApi == null) {
+                    eventsApi = new EventsApi(this);
+                }
+            }
+        }
+
         return (eventsApi);
     }
 
@@ -655,6 +698,15 @@ public class GitLabApi {
      * @return the GroupApi instance owned by this GitLabApi instance
      */
     public GroupApi getGroupApi() {
+
+        if (groupApi == null) {
+            synchronized (this) {
+                if (groupApi == null) {
+                    groupApi = new GroupApi(this);
+                }
+            }
+        }
+
         return (groupApi);
     }
 
@@ -665,6 +717,15 @@ public class GitLabApi {
      * @return the CommitsApi instance owned by this GitLabApi instance
      */
     public IssuesApi getIssuesApi() {
+
+        if (issuesApi == null) {
+            synchronized (this) {
+                if (issuesApi == null) {
+                    issuesApi = new IssuesApi(this);
+                }
+            }
+        }
+
         return (issuesApi);
     }
 
@@ -675,11 +736,29 @@ public class GitLabApi {
      * @return the JobsApi instance owned by this GitLabApi instance
      */
     public JobApi getJobApi() {
+
+        if (jobApi == null) {
+            synchronized (this) {
+                if (jobApi == null) {
+                    jobApi = new JobApi(this);
+                }
+            }
+        }
+
         return (jobApi);
     }
 
     public LabelsApi getLabelsApi() {
-        return labelsApi;
+
+        if (labelsApi == null) {
+            synchronized (this) {
+                if (labelsApi == null) {
+                    labelsApi = new LabelsApi(this);
+                }
+            }
+        }
+
+        return (labelsApi);
     }
 
     /**
@@ -689,6 +768,15 @@ public class GitLabApi {
      * @return the MergeRequestApi instance owned by this GitLabApi instance
      */
     public MergeRequestApi getMergeRequestApi() {
+
+        if (mergeRequestApi == null) {
+            synchronized (this) {
+                if (mergeRequestApi == null) {
+                    mergeRequestApi = new MergeRequestApi(this);
+                }
+            }
+        }
+
         return (mergeRequestApi);
     }
 
@@ -698,7 +786,16 @@ public class GitLabApi {
      * @return the MilsestonesApi instance owned by this GitLabApi instance
      */
     public MilestonesApi getMilestonesApi() {
-        return milestonesApi;
+
+        if (milestonesApi == null) {
+            synchronized (this) {
+                if (milestonesApi == null) {
+                    milestonesApi = new MilestonesApi(this);
+                }
+            }
+        }
+
+        return (milestonesApi);
     }
 
     /**
@@ -708,11 +805,16 @@ public class GitLabApi {
      * @return the NamespaceApi instance owned by this GitLabApi instance
      */
     public NamespaceApi getNamespaceApi() {
-        return namespaceApi;
-    }
 
-    public void setNamespaceApi(NamespaceApi namespaceApi) {
-        this.namespaceApi = namespaceApi;
+        if (namespaceApi == null) {
+            synchronized (this) {
+                if (namespaceApi == null) {
+                    namespaceApi = new NamespaceApi(this);
+                }
+            }
+        }
+
+        return (namespaceApi);
     }
 
     /**
@@ -722,6 +824,15 @@ public class GitLabApi {
      * @return the NotesApi instance owned by this GitLabApi instance
      */
     public NotesApi getNotesApi() {
+
+        if (notesApi == null) {
+            synchronized (this) {
+                if (notesApi == null) {
+                    notesApi = new NotesApi(this);
+                }
+            }
+        }
+
         return (notesApi);
     }
 
@@ -732,6 +843,15 @@ public class GitLabApi {
      * @return the PipelineApi instance owned by this GitLabApi instance
      */
     public PipelineApi getPipelineApi() {
+
+        if (pipelineApi == null) {
+            synchronized (this) {
+                if (pipelineApi == null) {
+                    pipelineApi = new PipelineApi(this);
+                }
+            }
+        }
+
         return (pipelineApi);
     }
 
@@ -742,7 +862,16 @@ public class GitLabApi {
      * @return the ProjectApi instance owned by this GitLabApi instance
      */
     public ProjectApi getProjectApi() {
-    	return (projectApi);
+
+        if (projectApi == null) {
+            synchronized (this) {
+                if (projectApi == null) {
+                    projectApi = new ProjectApi(this);
+                }
+            }
+        }
+
+        return (projectApi);
     }
 
     /**
@@ -752,6 +881,15 @@ public class GitLabApi {
      * @return the RepositoryApi instance owned by this GitLabApi instance
      */
     public RepositoryApi getRepositoryApi() {
+
+        if (repositoryApi == null) {
+            synchronized (this) {
+                if (repositoryApi == null) {
+                    repositoryApi = new RepositoryApi(this);
+                }
+            }
+        }
+
         return (repositoryApi);
     }
 
@@ -762,7 +900,16 @@ public class GitLabApi {
      * @return the RepositoryFileApi instance owned by this GitLabApi instance
      */
     public RepositoryFileApi getRepositoryFileApi() {
-        return repositoryFileApi;
+
+        if (repositoryFileApi == null) {
+            synchronized (this) {
+                if (repositoryFileApi == null) {
+                    repositoryFileApi = new RepositoryFileApi(this);
+                }
+            }
+        }
+
+        return (repositoryFileApi);
     }
 
     /**
@@ -772,6 +919,15 @@ public class GitLabApi {
      * @return the ServicesApi instance owned by this GitLabApi instance
      */
     public ServicesApi getServicesApi() {
+
+        if (servicesApi == null) {
+            synchronized (this) {
+                if (servicesApi == null) {
+                    servicesApi = new ServicesApi(this);
+                }
+            }
+        }
+
         return (servicesApi);
     }
 
@@ -782,7 +938,16 @@ public class GitLabApi {
      * @return the SessionApi instance owned by this GitLabApi instance
      */
     public SessionApi getSessionApi() {
-        return (sessoinApi);
+
+        if (sessionApi == null) {
+            synchronized (this) {
+                if (sessionApi == null) {
+                    sessionApi = new SessionApi(this);
+                }
+            }
+        }
+
+        return (sessionApi);
     }
 
     /**
@@ -792,6 +957,15 @@ public class GitLabApi {
      * @return the UserApi instance owned by this GitLabApi instance
      */
     public UserApi getUserApi() {
+
+        if (userApi == null) {
+            synchronized (this) {
+                if (userApi == null) {
+                    userApi = new UserApi(this);
+                }
+            }
+        }
+
         return (userApi);
     }
 }
