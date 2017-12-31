@@ -515,7 +515,34 @@ public class GitLabApi {
      * @return the current sudo as ID, will return null if not in sudo mode
      */
     public Integer getSudoAsId() {
-        return (this.apiClient.getSudoAsId());
+        return (apiClient.getSudoAsId());
+    }
+
+    /**
+     * Get the auth token being used by this client.
+     *
+     * @return the auth token being used by this client
+     */
+    public String getAuthToken() {
+        return (apiClient.getAuthToken());
+    }
+
+    /**
+     * Get the secret token.
+     *
+     * @return the secret token
+     */
+    public String getSecretToken() {
+        return (apiClient.getSecretToken());
+    }
+
+    /**
+     * Get the TokenType this client is using.
+     *
+     * @return the TokenType this client is using
+     */
+    public TokenType getTokenType() {
+        return (apiClient.getTokenType());
     }
 
     /**

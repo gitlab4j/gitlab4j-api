@@ -220,6 +220,33 @@ public class GitLabApiClient {
     }
 
     /**
+     * Get the auth token being used by this client.
+     *
+     * @return the auth token being used by this client
+     */
+    String getAuthToken() {
+        return (authToken);
+    }
+
+    /**
+     * Get the secret token.
+     *
+     * @return the secret token
+     */
+    String getSecretToken() {
+        return (secretToken);
+    }
+
+    /**
+     * Get the TokenType this client is using.
+     *
+     * @return the TokenType this client is using
+     */
+    TokenType getTokenType() {
+        return (tokenType);
+    }
+
+    /**
      * Set the ID of the user to sudo as.
      *
      * @param sudoAsId the ID of the user to sudo as
