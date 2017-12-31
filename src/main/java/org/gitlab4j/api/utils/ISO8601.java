@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -12,33 +14,37 @@ import javax.xml.bind.DatatypeConverter;
  * This class provides utility methods for parsing and formatting ISO8601 formatted dates.
  */
 public class ISO8601 {
+
     public static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ";
     public static final String PATTERN_MSEC = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     public static final String OUTPUT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String OUTPUT_MSEC_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String UTC_PATTERN = "yyyy-MM-dd HH:mm:ss 'UTC'";
 
-    private static final SimpleDateFormat iso8601Format;
-    private static final SimpleDateFormat iso8601MsecFormat;
-    private static final SimpleDateFormat iso8601OutputFormat;
-    private static final SimpleDateFormat iso8601OutputMsecFormat;
-    private static final SimpleDateFormat iso8601UtcFormat;
-    static {
-        iso8601Format = new SimpleDateFormat(PATTERN);
-        iso8601Format.setLenient(true);
-        iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
-        iso8601MsecFormat = new SimpleDateFormat(PATTERN_MSEC);
-        iso8601MsecFormat.setLenient(true);
-        iso8601MsecFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        iso8601OutputFormat = new SimpleDateFormat(OUTPUT_PATTERN);
-        iso8601OutputFormat.setLenient(true);
-        iso8601OutputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        iso8601OutputMsecFormat = new SimpleDateFormat(OUTPUT_MSEC_PATTERN);
-        iso8601OutputMsecFormat.setLenient(true);
-        iso8601OutputMsecFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        iso8601UtcFormat = new SimpleDateFormat(UTC_PATTERN);
-        iso8601UtcFormat.setLenient(true);
-        iso8601UtcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    // Set up ThreadLocal storage to save a thread local SimpleDateFormat keyed with the format stringf
+    private static final class SafeDateFormatter {
+
+        private static final ThreadLocal<Map<String, SimpleDateFormat>> safeFormats = new ThreadLocal<Map<String, SimpleDateFormat>>() {
+
+            @Override
+            public Map<String, SimpleDateFormat> initialValue() {
+                return (new ConcurrentHashMap<>());
+            }
+        };
+
+        private static SimpleDateFormat getDateFormat(String formatSpec) {
+
+            Map<String, SimpleDateFormat> formatMap = safeFormats.get();
+            SimpleDateFormat format = formatMap.get(formatSpec);
+            if (format == null) {
+                format = new SimpleDateFormat(formatSpec);
+                format.setLenient(true);
+                format.setTimeZone(TimeZone.getTimeZone("UTC"));
+                formatMap.put(formatSpec, format);
+            }
+
+            return (format);
+        }
     }
 
     /**
@@ -47,7 +53,7 @@ public class ISO8601 {
      * @return a ISO8601 formatted string for the current date and time
      */
     public static String getTimestamp() {
-        return (iso8601Format.format(new Date()));
+        return (SafeDateFormatter.getDateFormat(PATTERN).format(new Date()));
     }
 
     /**
@@ -57,7 +63,8 @@ public class ISO8601 {
      * @return a ISO8601 formatted string for the current date and time
      */
     public static String getTimestamp(boolean withMsec) {
-        return (withMsec ? iso8601MsecFormat.format(new Date()) : iso8601Format.format(new Date()));
+        return (withMsec ? SafeDateFormatter.getDateFormat(PATTERN_MSEC).format(new Date()) :
+            SafeDateFormatter.getDateFormat(PATTERN).format(new Date()));
     }
 
     /**
@@ -89,7 +96,9 @@ public class ISO8601 {
         }
 
         long time = date.getTime();
-        return (withMsec && time % 1000 != 0 ? iso8601OutputMsecFormat.format(date) : iso8601OutputFormat.format(date));
+        return (withMsec && time % 1000 != 0 ?
+                SafeDateFormatter.getDateFormat(OUTPUT_MSEC_PATTERN).format(date) :
+                SafeDateFormatter.getDateFormat(OUTPUT_PATTERN).format(date));
     }
 
     /**
@@ -117,9 +126,7 @@ public class ISO8601 {
 
         dateTimeString = dateTimeString.trim();
         if (dateTimeString.endsWith("UTC")) {
-            synchronized (iso8601UtcFormat) {
-                return (iso8601UtcFormat.parse(dateTimeString));
-            }
+            return (SafeDateFormatter.getDateFormat(UTC_PATTERN).parse(dateTimeString));
         } else {
             Calendar cal = DatatypeConverter.parseDateTime(dateTimeString);
             return (cal.getTime());
