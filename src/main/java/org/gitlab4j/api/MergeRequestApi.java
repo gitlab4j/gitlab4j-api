@@ -120,12 +120,12 @@ public class MergeRequestApi extends AbstractApi {
      * GET /projects/:id/merge_requests/:merge_request_id
      *
      * @param projectId the project ID of the merge request
-     * @param mergeRequestId the ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
      * @return the specified MergeRequest instance
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest getMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestId);
+    public MergeRequest getMergeRequest(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestIid);
         return (response.readEntity(MergeRequest.class));
     }
 
@@ -135,12 +135,12 @@ public class MergeRequestApi extends AbstractApi {
      * GET /projects/:id/merge_requests/:merge_request_iid/commits
      *
      * @param projectId the project ID for the merge request
-     * @param mergeRequestId the ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
      * @return a list containing the commits for the specified merge request
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public List<Commit> getCommits(int projectId, int mergeRequestId) throws GitLabApiException {
-        return (getCommits(projectId, mergeRequestId, 1, getDefaultPerPage()));
+    public List<Commit> getCommits(int projectId, int mergeRequestIid) throws GitLabApiException {
+        return (getCommits(projectId, mergeRequestIid, 1, getDefaultPerPage()));
     }
 
     /**
@@ -149,15 +149,15 @@ public class MergeRequestApi extends AbstractApi {
      * GET /projects/:id/merge_requests/:merge_request_iid/commits
      *
      * @param projectId the project ID for the merge request
-     * @param mergeRequestId the ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
      * @param page the page to get
      * @param perPage the number of commits per page
      * @return a list containing the commits for the specified merge request
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public List<Commit> getCommits(int projectId, int mergeRequestId, int page, int perPage) throws GitLabApiException {
+    public List<Commit> getCommits(int projectId, int mergeRequestIid, int page, int perPage) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("owned", true).withParam(PAGE_PARAM,  page).withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestId, "commits");
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestIid, "commits");
         return (response.readEntity(new GenericType<List<Commit>>() {}));
     }
 
@@ -167,14 +167,14 @@ public class MergeRequestApi extends AbstractApi {
      * GET /projects/:id/merge_requests/:merge_request_iid/commits
      *
      * @param projectId the project ID for the merge request
-     * @param mergeRequestId the ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
      * @param itemsPerPage the number of Commit instances that will be fetched per page
      * @return a Pager containing the commits for the specified merge request
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public Pager<Commit> getCommits(int projectId, int mergeRequestId, int itemsPerPage) throws GitLabApiException {
+    public Pager<Commit> getCommits(int projectId, int mergeRequestIid, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Commit>(this, Commit.class, itemsPerPage, null,
-                "projects", projectId, "merge_requests", mergeRequestId, "commits"));
+                "projects", projectId, "merge_requests", mergeRequestIid, "commits"));
     }
 
     /**
@@ -212,10 +212,10 @@ public class MergeRequestApi extends AbstractApi {
     /**
      * Updates an existing merge request. You can change branches, title, or even close the MR.
      *
-     * PUT /projects/:id/merge_requests/:merge_request_id
+     * PUT /projects/:id/merge_requests/:merge_request_iid
      *
      * @param projectId the ID of a project
-     * @param mergeRequestId the internal ID of the merge request to update
+     * @param mergeRequestIid the internal ID of the merge request to update
      * @param targetBranch the target branch, optional
      * @param title the title for the merge request
      * @param assigneeId the Assignee user ID, optional
@@ -226,7 +226,7 @@ public class MergeRequestApi extends AbstractApi {
      * @return the updated merge request
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestId, String targetBranch,
+    public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestIid, String targetBranch,
             String title, Integer assigneeId, String description, StateEvent stateEvent, String labels,
             Integer milestoneId) throws GitLabApiException {
 
@@ -234,8 +234,8 @@ public class MergeRequestApi extends AbstractApi {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        if (mergeRequestId == null) {
-            throw new RuntimeException("mergeRequestId cannot be null");
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
         }
 
         Form formData = new GitLabApiForm()
@@ -247,17 +247,17 @@ public class MergeRequestApi extends AbstractApi {
         .withParam("labels", labels)
         .withParam("milestone_id", milestoneId);
 
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestIid);
         return (response.readEntity(MergeRequest.class));
     }
 
     /**
      * Updates an existing merge request. You can change branches, title, or even close the MR.
      *
-     * PUT /projects/:id/merge_requests/:merge_request_id
+     * PUT /projects/:id/merge_requests/:merge_request_iid
      *
      * @param projectId the ID of a project
-     * @param mergeRequestId the ID of the merge request to update
+     * @param mergeRequestIid the internal ID of the merge request to update
      * @param sourceBranch the source branch
      * @param targetBranch the target branch
      * @param title the title for the merge request
@@ -268,14 +268,14 @@ public class MergeRequestApi extends AbstractApi {
      * @deprecated as of release 4.4.3
      */
     @Deprecated
-    public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestId, String sourceBranch, String targetBranch, String title, String description,
+    public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestIid, String sourceBranch, String targetBranch, String title, String description,
             Integer assigneeId) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        if (mergeRequestId == null) {
+        if (mergeRequestIid == null) {
             throw new RuntimeException("mergeRequestId cannot be null");
         }
 
@@ -286,7 +286,7 @@ public class MergeRequestApi extends AbstractApi {
         addFormParam(formData, "description", description, false);
         addFormParam(formData, "assignee_id", assigneeId, false);
 
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestIid);
         return (response.readEntity(MergeRequest.class));
     }
 
@@ -296,21 +296,21 @@ public class MergeRequestApi extends AbstractApi {
      * DELETE /projects/:id/merge_requests/:merge_request_iid
      *
      * @param projectId the ID of a project
-     * @param mergeRequestId the internal ID of the merge request\
+     * @param mergeRequestIid the internal ID of the merge request
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
+    public void deleteMergeRequest(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        if (mergeRequestId == null) {
-            throw new RuntimeException("mergeRequestId cannot be null");
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
         }
 
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", projectId, "merge_requests", mergeRequestId);
+        delete(expectedStatus, null, "projects", projectId, "merge_requests", mergeRequestIid);
     }
 
     /**
@@ -324,31 +324,77 @@ public class MergeRequestApi extends AbstractApi {
      * PUT /projects/:id/merge_requests/:merge_request_iid/merge
      *
      * @param projectId the ID of a project
-     * @param mergeRequestId the internal ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return the merged merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
+        return (acceptMergeRequest(projectId, mergeRequestIid, null, null, null, null));
+    }
+
+    /**
+     * Merge changes to the merge request. If the MR has any conflicts and can not be merged,
+     * you'll get a 405 and the error message 'Branch cannot be merged'. If merge request is
+     * already merged or closed, you'll get a 406 and the error message 'Method Not Allowed'.
+     * If the sha parameter is passed and does not match the HEAD of the source, you'll get
+     * a 409 and the error message 'SHA does not match HEAD of source branch'.  If you don't
+     * have permissions to accept this merge request, you'll get a 401.
+     *
+     * PUT /projects/:id/merge_requests/:merge_request_iid/merge
+     *
+     * @param projectId the ID of a project
+     * @param mergeRequestIid the internal ID of the merge request
      * @param mergeCommitMessage, custom merge commit message, optional
      * @param shouldRemoveSourceBranch, if true removes the source branch, optional
      * @param mergeWhenPipelineSucceeds, if true the MR is merged when the pipeline, optional
      * @return the merged merge request
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestId, 
+    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestIid, 
             String mergeCommitMessage, Boolean shouldRemoveSourceBranch, Boolean mergeWhenPipelineSucceeds)
+            throws GitLabApiException {
+        return (acceptMergeRequest(projectId, mergeRequestIid, mergeCommitMessage,
+                shouldRemoveSourceBranch, mergeWhenPipelineSucceeds, null));
+    }
+
+    /**
+     * Merge changes to the merge request. If the MR has any conflicts and can not be merged,
+     * you'll get a 405 and the error message 'Branch cannot be merged'. If merge request is
+     * already merged or closed, you'll get a 406 and the error message 'Method Not Allowed'.
+     * If the sha parameter is passed and does not match the HEAD of the source, you'll get
+     * a 409 and the error message 'SHA does not match HEAD of source branch'.  If you don't
+     * have permissions to accept this merge request, you'll get a 401.
+     *
+     * PUT /projects/:id/merge_requests/:merge_request_iid/merge
+     *
+     * @param projectId the ID of a project
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param mergeCommitMessage, custom merge commit message, optional
+     * @param shouldRemoveSourceBranch, if true removes the source branch, optional
+     * @param mergeWhenPipelineSucceeds, if true the MR is merged when the pipeline, optional
+     * @param sha if present, then this SHA must match the HEAD of the source branch, otherwise the merge will fail, optional
+     * @return the merged merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestIid, 
+            String mergeCommitMessage, Boolean shouldRemoveSourceBranch, Boolean mergeWhenPipelineSucceeds, String sha)
             throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        if (mergeRequestId == null) {
-            throw new RuntimeException("mergeRequestId cannot be null");
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
         }
 
         Form formData = new GitLabApiForm()
                 .withParam("merge_commit_message", mergeCommitMessage)
                 .withParam("should_remove_source_branch", shouldRemoveSourceBranch)
-                .withParam("merge_when_pipeline_succeeds", mergeWhenPipelineSucceeds);
+                .withParam("merge_when_pipeline_succeeds", mergeWhenPipelineSucceeds)
+                .withParam("sha", sha);
 
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestId, "merge");
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestIid, "merge");
         return (response.readEntity(MergeRequest.class));
     }
 
@@ -361,21 +407,21 @@ public class MergeRequestApi extends AbstractApi {
      * PUT /projects/:id/merge_requests/:merge_request_iid/cancel_merge_when_pipeline_succeeds
      *
      * @param projectId the ID of a project
-     * @param mergeRequestId the internal ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
      * @return the updated merge request
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest cancelMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
+    public MergeRequest cancelMergeRequest(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        if (mergeRequestId == null) {
-            throw new RuntimeException("mergeRequestId cannot be null");
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
         }
 
-        Response response = put(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestId, "cancel_merge_when_pipeline_succeeds");
+        Response response = put(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestIid, "cancel_merge_when_pipeline_succeeds");
         return (response.readEntity(MergeRequest.class));
     }
 
@@ -387,21 +433,21 @@ public class MergeRequestApi extends AbstractApi {
      * GET /projects/:id/merge_requests/:merge_request_iid/approvals
      *
      * @param projectId the project ID of the merge request
-     * @param mergeRequestId the internal ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
      * @return a MergeRequest instance with approval information included
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest getMergeRequestApprovals(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
+    public MergeRequest getMergeRequestApprovals(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        if (mergeRequestId == null) {
-            throw new RuntimeException("mergeRequestId cannot be null");
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
         }
 
-        Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestId, "approvals");
+        Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestIid, "approvals");
         return (response.readEntity(MergeRequest.class));
     }
 
@@ -413,23 +459,23 @@ public class MergeRequestApi extends AbstractApi {
      * POST /projects/:id/merge_requests/:merge_request_iid/approve
      *
      * @param projectId the project ID of the merge request
-     * @param mergeRequestId the internal ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
      * @param sha the HEAD of the merge request, optional
      * @return a MergeRequest instance with approval information included
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest approveMergeRequest(Integer projectId, Integer mergeRequestId, String sha) throws GitLabApiException {
+    public MergeRequest approveMergeRequest(Integer projectId, Integer mergeRequestIid, String sha) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        if (mergeRequestId == null) {
-            throw new RuntimeException("mergeRequestId cannot be null");
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
         }
 
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = post(Response.Status.OK, formData, "projects", projectId, "merge_requests", mergeRequestId, "approve");
+        Response response = post(Response.Status.OK, formData, "projects", projectId, "merge_requests", mergeRequestIid, "approve");
         return (response.readEntity(MergeRequest.class));
     }
 
@@ -441,21 +487,21 @@ public class MergeRequestApi extends AbstractApi {
      * POST /projects/:id/merge_requests/:merge_request_iid/unapprove
      *
      * @param projectId the project ID of the merge request
-     * @param mergeRequestId the internal ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
      * @return a MergeRequest instance with approval information included
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest unapproveMergeRequest(Integer projectId, Integer mergeRequestId) throws GitLabApiException {
+    public MergeRequest unapproveMergeRequest(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        if (mergeRequestId == null) {
-            throw new RuntimeException("mergeRequestId cannot be null");
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
         }
 
-        Response response = post(Response.Status.OK, (Form)null, "projects", projectId, "merge_requests", mergeRequestId, "unapprove");
+        Response response = post(Response.Status.OK, (Form)null, "projects", projectId, "merge_requests", mergeRequestIid, "unapprove");
         return (response.readEntity(MergeRequest.class));
     }
 }
