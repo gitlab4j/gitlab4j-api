@@ -418,8 +418,9 @@ public class GitLabApiClient {
      * a ClientResponse instance with the data returned from the endpoint.
      *
      * @param payload the object instance that will be serialized to JSON and used as the POST data
-     * @param url the fully formed path to the GitLab API endpoint
+     * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
      */
     protected Response post(Object payload, Object... pathArgs) throws IOException {
         URL url = getApiUrl(pathArgs);

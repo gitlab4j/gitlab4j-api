@@ -299,7 +299,7 @@ public class CommitsApi extends AbstractApi {
      * @param authorName the commit author's name
      * @param actions the array of CommitAction to commit as a batch
      * @return the create Commit instance
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     public Commit createCommit(int projectId, String branch, String commitMessage, String startBranch,
             String authorEmail, String authorName, List<CommitAction> actions) throws GitLabApiException {
@@ -329,7 +329,7 @@ public class CommitsApi extends AbstractApi {
      * @param authorName the commit author's name
      * @param actions the array of CommitAction to commit as a batch
      * @return the create Commit instance
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs during execution
      */
     public Commit createCommit(String project, String branch, String commitMessage, String startBranch,
             String authorEmail, String authorName, List<CommitAction> actions) throws GitLabApiException {
