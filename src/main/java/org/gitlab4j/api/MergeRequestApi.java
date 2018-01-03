@@ -117,6 +117,8 @@ public class MergeRequestApi extends AbstractApi {
     /**
      * Get information about a single merge request.
      *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
      * GET /projects/:id/merge_requests/:merge_request_id
      *
      * @param projectId the project ID of the merge request
@@ -132,6 +134,8 @@ public class MergeRequestApi extends AbstractApi {
     /**
      * Get a list of merge request commits.
      *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
      * GET /projects/:id/merge_requests/:merge_request_iid/commits
      *
      * @param projectId the project ID for the merge request
@@ -145,6 +149,8 @@ public class MergeRequestApi extends AbstractApi {
 
     /**
      * Get a list of merge request commits.
+     *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
      *
      * GET /projects/:id/merge_requests/:merge_request_iid/commits
      *
@@ -163,6 +169,8 @@ public class MergeRequestApi extends AbstractApi {
 
     /**
      * Get a Pager of merge request commits.
+     *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
      *
      * GET /projects/:id/merge_requests/:merge_request_iid/commits
      *
@@ -212,6 +220,8 @@ public class MergeRequestApi extends AbstractApi {
     /**
      * Updates an existing merge request. You can change branches, title, or even close the MR.
      *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
      * PUT /projects/:id/merge_requests/:merge_request_iid
      *
      * @param projectId the ID of a project
@@ -254,6 +264,8 @@ public class MergeRequestApi extends AbstractApi {
     /**
      * Updates an existing merge request. You can change branches, title, or even close the MR.
      *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
      * PUT /projects/:id/merge_requests/:merge_request_iid
      *
      * @param projectId the ID of a project
@@ -293,6 +305,8 @@ public class MergeRequestApi extends AbstractApi {
     /**
      * Only for admins and project owners. Soft deletes the specified merge.
      *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
      * DELETE /projects/:id/merge_requests/:merge_request_iid
      *
      * @param projectId the ID of a project
@@ -321,6 +335,8 @@ public class MergeRequestApi extends AbstractApi {
      * a 409 and the error message 'SHA does not match HEAD of source branch'.  If you don't
      * have permissions to accept this merge request, you'll get a 401.
      *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
      * PUT /projects/:id/merge_requests/:merge_request_iid/merge
      *
      * @param projectId the ID of a project
@@ -339,6 +355,9 @@ public class MergeRequestApi extends AbstractApi {
      * If the sha parameter is passed and does not match the HEAD of the source, you'll get
      * a 409 and the error message 'SHA does not match HEAD of source branch'.  If you don't
      * have permissions to accept this merge request, you'll get a 401.
+     *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.  Additionally,
+     * mergeWhenPipelineSucceeds sets the merge_when_build_succeeds flag for GitLab API V3.</p>
      *
      * PUT /projects/:id/merge_requests/:merge_request_iid/merge
      *
@@ -364,6 +383,9 @@ public class MergeRequestApi extends AbstractApi {
      * If the sha parameter is passed and does not match the HEAD of the source, you'll get
      * a 409 and the error message 'SHA does not match HEAD of source branch'.  If you don't
      * have permissions to accept this merge request, you'll get a 401.
+     *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.  Additionally,
+     * mergeWhenPipelineSucceeds sets the merge_when_build_succeeds flag for GitLab API V3.</p>
      *
      * PUT /projects/:id/merge_requests/:merge_request_iid/merge
      *
@@ -391,7 +413,9 @@ public class MergeRequestApi extends AbstractApi {
         Form formData = new GitLabApiForm()
                 .withParam("merge_commit_message", mergeCommitMessage)
                 .withParam("should_remove_source_branch", shouldRemoveSourceBranch)
-                .withParam("merge_when_pipeline_succeeds", mergeWhenPipelineSucceeds)
+                .withParam((isApiVersion(ApiVersion.V3) ?
+                        "merge_when_build_succeeds" : "merge_when_pipeline_succeeds"),
+                        mergeWhenPipelineSucceeds)
                 .withParam("sha", sha);
 
         Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestIid, "merge");
@@ -403,6 +427,8 @@ public class MergeRequestApi extends AbstractApi {
      * you'll get a 401. If the merge request is already merged or closed, you get 405 and
      * error message 'Method Not Allowed'. In case the merge request is not set to be merged when the
      * pipeline succeeds, you'll also get a 406 error.
+     *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
      *
      * PUT /projects/:id/merge_requests/:merge_request_iid/cancel_merge_when_pipeline_succeeds
      *
