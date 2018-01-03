@@ -34,6 +34,7 @@ import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.Diff;
@@ -106,6 +107,17 @@ public class TestGitLabApiBeans {
         try {
             Commit commit = makeFakeApiCall(Commit.class, "commit");
             assertTrue(compareJson(commit, "commit"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testCommitPayload() {
+
+        try {
+            CommitPayload commitPayload = makeFakeApiCall(CommitPayload.class, "commit-payload");
+            assertTrue(compareJson(commitPayload, "commit-payload"));
         } catch (Exception e) {
             e.printStackTrace();
         }

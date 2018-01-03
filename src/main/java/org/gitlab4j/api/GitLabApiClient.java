@@ -414,6 +414,20 @@ public class GitLabApiClient {
     }
 
     /**
+     * Perform an HTTP POST call with the specified payload object and URL, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param payload the object instance that will be serialized to JSON and used as the POST data
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     */
+    protected Response post(Object payload, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        Entity<?> entity = Entity.entity(payload, MediaType.APPLICATION_JSON);
+        return (invocation(url, null).post(entity));
+    }
+
+    /**
      * Perform an HTTP PUT call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      * 

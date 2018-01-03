@@ -11,6 +11,8 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.CommitAction;
+import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.utils.ISO8601;
 
@@ -282,5 +284,65 @@ public class CommitsApi extends AbstractApi {
      */
     public Comment addComment(int projectId, String sha, String note) throws GitLabApiException {
         return (addComment(projectId, sha, note, null, null, null));
+    }
+
+    /**
+     * Create a commit with multiple files and actions.
+     *
+     * POST /projects/:id/repository/commits
+     *
+     * @param projectId the ID of the project
+     * @param branch tame of the branch to commit into. To create a new branch, also provide startBranch
+     * @param commitMessage the commit message
+     * @param startBranch the name of the branch to start the new commit from
+     * @param authorEmail the commit author's email address
+     * @param authorName the commit author's name
+     * @param actions the array of CommitAction to commit as a batch
+     * @return the create Commit instance
+     * @throws GitLabApiException
+     */
+    public Commit createCommit(int projectId, String branch, String commitMessage, String startBranch,
+            String authorEmail, String authorName, List<CommitAction> actions) throws GitLabApiException {
+
+        CommitPayload payload = new CommitPayload();
+        payload.setBranch(branch);
+        payload.setCommitMessage(commitMessage);
+        payload.setStartBranch(startBranch);
+        payload.setAuthorEmail(authorEmail);
+        payload.setAuthorName(authorName);
+        payload.setActions(actions);
+
+        Response response = post(Response.Status.CREATED, payload, "projects", projectId, "repository", "commits");
+        return (response.readEntity(Commit.class));
+    }
+
+    /**
+     * Create a commit with multiple files and actions.
+     *
+     * POST /projects/:id/repository/commits
+     *
+     * @param project the path of the project
+     * @param branch tame of the branch to commit into. To create a new branch, also provide startBranch
+     * @param commitMessage the commit message
+     * @param startBranch the name of the branch to start the new commit from
+     * @param authorEmail the commit author's email address
+     * @param authorName the commit author's name
+     * @param actions the array of CommitAction to commit as a batch
+     * @return the create Commit instance
+     * @throws GitLabApiException
+     */
+    public Commit createCommit(String project, String branch, String commitMessage, String startBranch,
+            String authorEmail, String authorName, List<CommitAction> actions) throws GitLabApiException {
+
+        CommitPayload payload = new CommitPayload();
+        payload.setBranch(branch);
+        payload.setCommitMessage(commitMessage);
+        payload.setStartBranch(startBranch);
+        payload.setAuthorEmail(authorEmail);
+        payload.setAuthorName(authorName);
+        payload.setActions(actions);
+
+        Response response = post(Response.Status.CREATED, payload, "projects", urlEncode(project), "repository", "commits");
+        return (response.readEntity(Commit.class));
     }
 }
