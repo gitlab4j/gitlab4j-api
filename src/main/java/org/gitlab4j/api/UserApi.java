@@ -351,13 +351,28 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteUser(Integer userId) throws GitLabApiException {
+        deleteUser(userId, null);
+    }
+
+    /**
+     * Deletes a user. Available only for administrators.
+     *
+     * DELETE /users/:id
+     *
+     * @param userId the user ID to delete
+     * @param hardDelete If true, contributions that would usually be moved to the
+     * ghost user will be deleted instead, as well as groups owned solely by this user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteUser(Integer userId, Boolean hardDelete) throws GitLabApiException {
 
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
         }
 
+        GitLabApiForm formData = new GitLabApiForm().withParam("hard_delete ", hardDelete);
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "users", userId);
+        delete(expectedStatus, formData.asMap(), "users", userId);
     }
 
     /**
@@ -369,7 +384,21 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteUser(User user) throws GitLabApiException {
-        deleteUser(user.getId());
+        deleteUser(user.getId(), null);
+    }
+
+    /**
+     * Deletes a user. Available only for administrators.
+     *
+     * DELETE /users/:id
+     *
+     * @param user the User instance to delete
+     * @param hardDelete If true, contributions that would usually be moved to the
+     * ghost user will be deleted instead, as well as groups owned solely by this user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteUser(User user, Boolean hardDelete) throws GitLabApiException {
+        deleteUser(user.getId(), hardDelete);
     }
 
    /**
