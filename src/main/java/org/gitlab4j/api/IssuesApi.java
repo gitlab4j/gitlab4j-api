@@ -33,6 +33,7 @@ import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.TimeStats;
+import org.gitlab4j.api.utils.DurationUtils;
 
 /**
  * This class provides an entry point to all the GitLab API Issue calls.
@@ -347,7 +348,8 @@ public class IssuesApi extends AbstractApi implements Constants {
             throw new RuntimeException("issue IID cannot be null");
         }
 
-        GitLabApiForm formData = new GitLabApiForm().withParam("duration", duration, true);
+        String durationString = (duration != null ? DurationUtils.toString(duration.getSeconds(), false) : null);
+        GitLabApiForm formData = new GitLabApiForm().withParam("duration", durationString, true);
 
         Response response = post(Response.Status.OK, formData.asMap(), "projects", projectId, "issues", issueIid, "time_estimate");
         return (response.readEntity(TimeStats.class));
@@ -428,7 +430,8 @@ public class IssuesApi extends AbstractApi implements Constants {
             throw new RuntimeException("issue IID cannot be null");
         }
 
-        GitLabApiForm formData = new GitLabApiForm().withParam("duration", duration, true);
+        String durationString = (duration != null ? DurationUtils.toString(duration.getSeconds(), false) : null);
+        GitLabApiForm formData = new GitLabApiForm().withParam("duration", durationString, true);
 
         Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "add_spent_time");
         return (response.readEntity(TimeStats.class));

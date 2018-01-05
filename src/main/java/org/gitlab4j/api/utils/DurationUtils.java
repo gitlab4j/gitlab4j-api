@@ -23,14 +23,28 @@ public class DurationUtils {
      * @return a human readable string representing the duration
      */
     public static final String toString(int durationSeconds) {
+        return DurationUtils.toString(durationSeconds, true);
+    }
 
-        int months = durationSeconds / TIME_UNIT_MULTIPLIERS[0];
-        int weeks = (durationSeconds - months * TIME_UNIT_MULTIPLIERS[0]) / TIME_UNIT_MULTIPLIERS[1];
-        int days = (durationSeconds - months * TIME_UNIT_MULTIPLIERS[0] - weeks * TIME_UNIT_MULTIPLIERS[1]) / TIME_UNIT_MULTIPLIERS[2];
-        int seconds = durationSeconds - (months * TIME_UNIT_MULTIPLIERS[0]) - (weeks * TIME_UNIT_MULTIPLIERS[1]) - (days * TIME_UNIT_MULTIPLIERS[2]);
+    /**
+     * Create a human readable duration string from seconds.
+     *
+     * @param durationSeconds the total number of seconds in the duration
+     * @return a human readable string representing the duration
+     */
+    public static final String toString(int durationSeconds, boolean includeMonths) {
+
+        int seconds = durationSeconds;
+        int months = (includeMonths ? seconds / TIME_UNIT_MULTIPLIERS[0] : 0);
+        seconds -= months * TIME_UNIT_MULTIPLIERS[0];
+        int weeks = seconds / TIME_UNIT_MULTIPLIERS[1];
+        seconds -= weeks * TIME_UNIT_MULTIPLIERS[1];
+        int days = seconds / TIME_UNIT_MULTIPLIERS[2];
+        seconds -= days * TIME_UNIT_MULTIPLIERS[2];
         int hours = seconds / 3600;
-        int minutes = (seconds % 3600) / 60;
-        seconds = seconds % 60;
+        seconds -= hours * 3600;
+        int minutes = seconds / 60;
+        seconds -= minutes * 60;
 
         StringBuilder buf = new StringBuilder();
         if (months > 0) {

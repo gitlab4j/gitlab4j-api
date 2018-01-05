@@ -102,5 +102,11 @@ public class TestDuration {
 
         duration = DurationUtils.toString(60 * 60 * 8 * 5 * 4 * 3 + 60 * 60 * 8 * 2 + 60 * 60 * 3 + 60 * 6 + 8);
         assertEquals("3mo2d3h6m8s", duration);
+
+        duration = DurationUtils.toString(60 * 60 * 8 * 5 * 5 + 60 * 60 * 8 * 2 + 60 * 60 * 3 + 60 * 4 + 5, false);
+        assertEquals("5w2d3h4m5s", duration);
+
+        duration = DurationUtils.toString(60 * 60 * 8 * 5 * 4 * 3 + 60 * 60 * 8 * 2 + 60 * 60 * 3 + 60 * 6 + 8, false);
+        assertEquals("12w2d3h6m8s", duration);
     }
 }
