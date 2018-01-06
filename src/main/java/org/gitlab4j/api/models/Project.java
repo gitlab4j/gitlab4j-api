@@ -55,6 +55,7 @@ public class Project {
     private Boolean wallEnabled;
     private String webUrl;
     private Boolean wikiEnabled;
+    private Boolean printingMergeRequestLinkEnabled;
 
     public Integer getApprovalsBeforeMerge() {
         return approvalsBeforeMerge;
@@ -466,6 +467,11 @@ public class Project {
         this.tagList = tagList;
     }
 
+    public Project withTagList(List<String> tagList) {
+        this.tagList = tagList;
+        return (this);
+    }
+
     public Visibility getVisibility() {
         return visibility;
     }
@@ -500,12 +506,22 @@ public class Project {
         this.wallEnabled = wallEnabled;
     }
 
+    public Project withWallEnabled(Boolean wallEnabled) {
+        this.wallEnabled = wallEnabled;
+        return (this);
+    }
+
     public String getWebUrl() {
         return webUrl;
     }
 
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
+    }
+
+    public Project withWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+        return (this);
     }
 
     public Boolean getWikiEnabled() {
@@ -518,6 +534,19 @@ public class Project {
 
     public Project withWikiEnabled(boolean wikiEnabled) {
         this.wikiEnabled = wikiEnabled;
+        return (this);
+    }
+
+    public Boolean getPrintingMergeRequestLinkEnabled() {
+        return printingMergeRequestLinkEnabled;
+    }
+
+    public void setPrintingMergeRequestLinkEnabled(Boolean printingMergeRequestLinkEnabled) {
+        this.printingMergeRequestLinkEnabled = printingMergeRequestLinkEnabled;
+    }
+
+    public Project withPrintingMergeRequestLinkEnabled(Boolean printingMergeRequestLinkEnabled) {
+        this.printingMergeRequestLinkEnabled = printingMergeRequestLinkEnabled;
         return (this);
     }
 

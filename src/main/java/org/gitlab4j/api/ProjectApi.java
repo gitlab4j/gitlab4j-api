@@ -567,6 +567,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * requestAccessEnabled (optional) - Allow users to request member access
      * repositoryStorage (optional) - Which storage shard the repository is on. Available only to admins
      * approvalsBeforeMerge (optional) - How many approvers should approve merge request by default
+     * printingMergeRequestLinkEnabled (optional) - Show link to create/view merge request when pushing from the command line
      *
      * @param project the Project instance with the configuration for the new project
      * @param importUrl the URL to import the repository from
@@ -606,7 +607,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("request_access_enabled", project.getRequestAccessEnabled())
             .withParam("repository_storage", project.getRepositoryStorage())
             .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
-            .withParam("import_url", importUrl);
+            .withParam("import_url", importUrl)
+            .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled());
 
         if (isApiVersion(ApiVersion.V3)) {
             boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
@@ -664,6 +666,54 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("snippets_enabled", snippetsEnabled)
                 .withParam("visibility_level", visibilityLevel)
                 .withParam("visibility", visibility)
+                .withParam("import_url", importUrl);
+
+        Response response = post(Response.Status.CREATED, formData, "projects");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Creates a Project
+     *
+     * @param name The name of the project
+     * @param namespaceId The Namespace for the new project, otherwise null indicates to use the GitLab default (user)
+     * @param description A description for the project, null otherwise
+     * @param issuesEnabled Whether Issues should be enabled, otherwise null indicates to use GitLab default
+     * @param mergeRequestsEnabled Whether Merge Requests should be enabled, otherwise null indicates to use GitLab default
+     * @param wikiEnabled Whether a Wiki should be enabled, otherwise null indicates to use GitLab default
+     * @param snippetsEnabled Whether Snippets should be enabled, otherwise null indicates to use GitLab default
+     * @param visibility The visibility of the project, otherwise null indicates to use GitLab default
+     * @param visibilityLevel The visibility level of the project, otherwise null indicates to use GitLab default
+     * @param printingMergeRequestLinkEnabled Show link to create/view merge request when pushing from the command line
+     * @param importUrl The Import URL for the project, otherwise null
+     * @return the GitLab Project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project createProject(String name, Integer namespaceId, String description, Boolean issuesEnabled, Boolean mergeRequestsEnabled,
+            Boolean wikiEnabled, Boolean snippetsEnabled, Visibility visibility, Integer visibilityLevel,
+            Boolean printingMergeRequestLinkEnabled, String importUrl) throws GitLabApiException {
+
+        if (isApiVersion(ApiVersion.V3)) {
+            Boolean isPublic = Visibility.PUBLIC == visibility;
+            return (createProject(name, namespaceId, description, issuesEnabled, mergeRequestsEnabled,
+                    wikiEnabled, snippetsEnabled, isPublic, visibilityLevel, importUrl));
+        }
+
+        if (name == null || name.trim().length() == 0) {
+            return (null);
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("namespace_id", namespaceId)
+                .withParam("description", description)
+                .withParam("issues_enabled", issuesEnabled)
+                .withParam("merge_requests_enabled", mergeRequestsEnabled)
+                .withParam("wiki_enabled", wikiEnabled)
+                .withParam("snippets_enabled", snippetsEnabled)
+                .withParam("visibility_level", visibilityLevel)
+                .withParam("visibility", visibility)
+                .withParam("printing_merge_request_link_enabled", printingMergeRequestLinkEnabled)
                 .withParam("import_url", importUrl);
 
         Response response = post(Response.Status.CREATED, formData, "projects");
@@ -741,6 +791,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * requestAccessEnabled (optional) - Allow users to request member access
      * repositoryStorage (optional) - Which storage shard the repository is on. Available only to admins
      * approvalsBeforeMerge (optional) - How many approvers should approve merge request by default
+     * printingMergeRequestLinkEnabled (optional) - Show link to create/view merge request when pushing from the command line
      *
      * NOTE: The following parameters specified by the GitLab API edit project are not supported:
      *     import_url
@@ -786,7 +837,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("lfs_enabled", project.getLfsEnabled())
             .withParam("request_access_enabled", project.getRequestAccessEnabled())
             .withParam("repository_storage", project.getRepositoryStorage())
-            .withParam("approvals_before_merge", project.getApprovalsBeforeMerge());
+            .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
+            .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());
