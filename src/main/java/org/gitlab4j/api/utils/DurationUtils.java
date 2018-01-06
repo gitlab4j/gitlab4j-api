@@ -30,6 +30,8 @@ public class DurationUtils {
      * Create a human readable duration string from seconds.
      *
      * @param durationSeconds the total number of seconds in the duration
+     * @param includeMonths when true will include months "mo", in the string otherwise
+     *        uses "4w" for each month
      * @return a human readable string representing the duration
      */
     public static final String toString(int durationSeconds, boolean includeMonths) {
