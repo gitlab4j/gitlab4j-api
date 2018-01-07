@@ -7,8 +7,8 @@
 	<packaging>jar</packaging>
 	<version>4.7.12-SNAPSHOT</version>
 	<name>GitLab API Java Client</name>
-	<description>GitLab API for Java (gitlab4j-api) provides a full featured Java API for working with GitLab repositories via the GitLab REST API</description>
-	<url>http://www.messners.com/#gitlab4j-api/gitlab4j-api.html</url>
+	<description>GitLab API for Java (gitlab4j-api) provides a full featured Java API for working with GitLab repositories via the GitLab REST API.</description>
+	<url>https://github.com/gmessner/gitlab4j-api</url>
 
 	<distributionManagement>
 		<snapshotRepository>

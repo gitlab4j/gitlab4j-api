@@ -48,6 +48,7 @@ public class GitLabApi {
     private RepositoryFileApi repositoryFileApi;
     private ServicesApi servicesApi;
     private SessionApi sessionApi;
+    private SystemHooksApi systemHooksApi;
     private UserApi userApi;
     private JobApi jobApi;
     private LabelsApi labelsApi;
@@ -948,6 +949,25 @@ public class GitLabApi {
         }
 
         return (sessionApi);
+    }
+
+    /**
+     * Gets the SystemHooksApi instance owned by this GitLabApi instance. All methods 
+     * require administrator authorization.
+     *
+     * @return the SystemHooksApi instance owned by this GitLabApi instance
+     */
+    public SystemHooksApi getSystemHooksApi() {
+
+        if (systemHooksApi == null) {
+            synchronized (this) {
+                if (systemHooksApi == null) {
+                    systemHooksApi = new SystemHooksApi(this);
+                }
+            }
+        }
+
+        return (systemHooksApi);
     }
 
     /**

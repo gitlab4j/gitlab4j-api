@@ -61,6 +61,8 @@ import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.systemhooks.ProjectSystemHookEvent;
+import org.gitlab4j.api.systemhooks.TeamMemberSystemHookEvent;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -437,6 +439,28 @@ public class TestGitLabApiBeans {
         try {
             OauthTokenResponse token = makeFakeApiCall(OauthTokenResponse.class, "oauth-token");
             assertTrue(compareJson(token, "oauth-token"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testProjectSystemHookEvent() {
+
+        try {
+            ProjectSystemHookEvent event = makeFakeApiCall(ProjectSystemHookEvent.class, "project-system-hook-event");
+            assertTrue(compareJson(event, "project-system-hook-event"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testTeamMemberSystemHookEvent() {
+
+        try {
+            TeamMemberSystemHookEvent event = makeFakeApiCall(TeamMemberSystemHookEvent.class, "team-member-system-hook-event");
+            assertTrue(compareJson(event, "team-member-system-hook-event"));
         } catch (Exception e) {
             e.printStackTrace();
         }

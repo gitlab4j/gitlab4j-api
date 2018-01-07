@@ -1,5 +1,7 @@
 package org.gitlab4j.api.models;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,58 +10,58 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SystemHook {
 
-    private String eventName;
-    private String name;
-    private String ownerEmail;
-    private String ownerName;
-    private String path;
-    private Integer projectId;
+    private Integer id;
+    private String url;
+    private Date createdAt;
+    private Boolean pushEvents;
+    private Boolean tagPushEvents;
+    private Boolean enableSslVerification;
 
-    public String getEventName() {
-        return this.eventName;
+    public Integer getId() {
+        return id;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getUrl() {
+        return url;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getOwnerEmail() {
-        return this.ownerEmail;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setOwnerEmail(String ownerEmail) {
-        this.ownerEmail = ownerEmail;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getOwnerName() {
-        return this.ownerName;
+    public Boolean getPushEvents() {
+        return pushEvents;
     }
 
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+    public void setPushEvents(Boolean pushEvents) {
+        this.pushEvents = pushEvents;
     }
 
-    public String getPath() {
-        return this.path;
+    public Boolean getTagPushEvents() {
+        return tagPushEvents;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setTagPushEvents(Boolean tagPushEvents) {
+        this.tagPushEvents = tagPushEvents;
     }
 
-    public Integer getProjectId() {
-        return this.projectId;
+    public Boolean getEnableSslVerification() {
+        return enableSslVerification;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void setEnableSslVerification(Boolean enableSslVerification) {
+        this.enableSslVerification = enableSslVerification;
     }
 }

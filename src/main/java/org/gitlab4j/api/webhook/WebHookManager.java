@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import org.gitlab4j.api.GitLabApiException;
+import org.gitlab4j.api.HookManager;
 import org.gitlab4j.api.utils.HttpRequestUtils;
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -20,70 +21,29 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 /**
  * This class provides a handler for processing GitLab WebHook callouts.
  */
-public class WebHookManager {
+public class WebHookManager extends HookManager {
 
     private final static Logger LOG = Logger.getLogger(WebHookManager.class.getName());
     private final JacksonJson jacksonJson = new JacksonJson();
-
-    private String secretToken;
 
     // Collection of objects listening for WebHook events.
     private final List<WebHookListener> webhookListeners = new CopyOnWriteArrayList<WebHookListener>();
 
     /**
-     * Create a WebHookManager to handle GitLab webhook events.
+     * Create a HookManager to handle GitLab webhook events.
      */
     public WebHookManager() {
-        this.secretToken = null;
+        super();
     }
 
     /**
-     * Create a WebHookManager to handle GitLab webhook events which will be verified
+     * Create a HookManager to handle GitLab webhook events which will be verified
      * against the specified secretToken.
      * 
      * @param secretToken the secret token to verify against
      */
     public WebHookManager(String secretToken) {
-        this.secretToken = secretToken;
-    }
-
-    /**
-     * Set the secret token that received webhook events should be validated against.
-     *
-     * @param secretToken the secret token to verify against
-     */
-    public void setSecretToken(String secretToken) {
-        this.secretToken = secretToken;
-    }
-
-    /**
-     * Validate the provided secret token against the reference secret token. Returns true if
-     * the secret token is valid or there is no reference secret token to validate against,
-     * otherwise returns false.
-     * 
-     * @param secretToken the token to validate
-     * @return true if the secret token is valid or there is no reference secret token to validate against
-     */
-    public boolean isValidSecretToken(String secretToken) {
-        return (this.secretToken == null || this.secretToken.equals(secretToken) ? true : false);
-    }
-
-    /**
-     * Validate the provided secret token found in the HTTP header against the reference secret token.
-     * Returns true if the secret token is valid or there is no reference secret token to validate
-     * against, otherwise returns false.
-     * 
-     * @param request the HTTP request to verify the secret token
-     * @return true if the secret token is valid or there is no reference secret token to validate against
-     */
-    public boolean isValidSecretToken(HttpServletRequest request) {
-
-        if (this.secretToken != null) {
-            String secretToken = request.getHeader("X-Gitlab-Token");
-            return (isValidSecretToken(secretToken));
-        }
-
-        return (true);
+        super(secretToken);
     }
 
     /**
@@ -189,7 +149,7 @@ public class WebHookManager {
     /**
      * Adds a WebHook event listener.
      *
-     * @param listener the WebHookListener to add
+     * @param listener the SystemHookListener to add
      */
     public void addListener(WebHookListener listener) {
 
@@ -201,7 +161,7 @@ public class WebHookManager {
     /**
      * Removes a WebHook event listener.
      *
-     * @param listener the WebHookListener to remove
+     * @param listener the SystemHookListener to remove
      */
     public void removeListener(WebHookListener listener) {
         webhookListeners.remove(listener);
