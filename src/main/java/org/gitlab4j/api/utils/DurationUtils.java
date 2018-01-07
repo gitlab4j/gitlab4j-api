@@ -75,6 +75,8 @@ public class DurationUtils {
                 buf.append(days).append('d').append(hours).append('h').append(minutes).append('m');
             } else if (hours > 0) {
                 buf.append(days).append('d').append(hours).append('h');
+            }  else if (days > 0) {
+                buf.append(days).append('d');
             }
 
         } else  if (days > 0) {
