@@ -21,7 +21,7 @@ public class ISO8601 {
     public static final String OUTPUT_MSEC_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String UTC_PATTERN = "yyyy-MM-dd HH:mm:ss 'UTC'";
 
-    // Set up ThreadLocal storage to save a thread local SimpleDateFormat keyed with the format stringf
+    // Set up ThreadLocal storage to save a thread local SimpleDateFormat keyed with the format string
     private static final class SafeDateFormatter {
 
         private static final ThreadLocal<Map<String, SimpleDateFormat>> safeFormats = new ThreadLocal<Map<String, SimpleDateFormat>>() {
@@ -89,7 +89,7 @@ public class ISO8601 {
      * @param withMsec flag indicating whether to include milliseconds
      * @return a ISO8601 formatted string for the provided Date instance, or null if date is null
      */
-    public static synchronized String toString(Date date, boolean withMsec) {
+    public static String toString(Date date, boolean withMsec) {
 
         if (date == null) {
             return (null);
@@ -107,7 +107,7 @@ public class ISO8601 {
      * @param date the Date instance to get the ISO8601 formatted string for
      * @return a ISO8601 formatted string for the provided Date instance, or null if date is null
      */
-    public static synchronized String toString(Date date) {
+    public static String toString(Date date) {
         return (toString(date, true));
     }
 
