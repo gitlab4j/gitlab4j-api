@@ -113,9 +113,12 @@ public class SystemHookManager extends HookManager {
      * @throws GitLabApiException if the event is not supported
      */
     public void handleEvent(SystemHookEvent event) throws GitLabApiException {
-
-        LOG.info("handleEvent: object_kind=" + event.getEventName());
-        fireEvent(event);
+        if (event != null) {
+            LOG.info("handleEvent:" + event.getClass().getSimpleName() + ", eventName=" + event.getEventName());
+            fireEvent(event);
+        } else {
+            LOG.warning("handleEvent: provided event cannot be null!");
+        }
     }
 
     /**
@@ -151,6 +154,20 @@ public class SystemHookManager extends HookManager {
             fireProjectEvent((ProjectSystemHookEvent) event);
         } else if (event instanceof TeamMemberSystemHookEvent) {
             fireTeamMemberEvent((TeamMemberSystemHookEvent) event);
+        } else if (event instanceof UserSystemHookEvent) {
+            fireUserEvent((UserSystemHookEvent) event);
+        } else if (event instanceof KeySystemHookEvent) {
+            fireKeyEvent((KeySystemHookEvent) event);
+        } else if (event instanceof GroupSystemHookEvent) {
+            fireGroupEvent((GroupSystemHookEvent) event);
+        } else if (event instanceof GroupMemberSystemHookEvent) {
+            fireGroupMemberEvent((GroupMemberSystemHookEvent) event);
+        } else if (event instanceof PushSystemHookEvent) {
+            firePushEvent((PushSystemHookEvent) event);
+        } else if (event instanceof TagPushSystemHookEvent) {
+            fireTagPushEvent((TagPushSystemHookEvent) event);
+        } else if (event instanceof RepositorySystemHookEvent) {
+            fireRepositoryEvent((RepositorySystemHookEvent) event);
         } else {
             String message = "Unsupported event, event_named=" + event.getEventName();
             LOG.warning(message);
@@ -159,16 +176,56 @@ public class SystemHookManager extends HookManager {
     }
 
     protected void fireProjectEvent(ProjectSystemHookEvent event) {
-
         for (SystemHookListener listener : systemHookListeners) {
             listener.onProjectEvent(event);
         }
     }
 
     protected void fireTeamMemberEvent(TeamMemberSystemHookEvent event) {
-
         for (SystemHookListener listener : systemHookListeners) {
             listener.onTeamMemberEvent(event);
+        }
+    }
+
+    protected void fireUserEvent(UserSystemHookEvent event) {
+        for (SystemHookListener listener : systemHookListeners) {
+            listener.onUserEvent(event);
+        }
+    }
+
+    protected void fireKeyEvent(KeySystemHookEvent event) {
+        for (SystemHookListener listener : systemHookListeners) {
+            listener.onKeyEvent(event);
+        }
+    }
+
+    protected void fireGroupEvent(GroupSystemHookEvent event) {
+        for (SystemHookListener listener : systemHookListeners) {
+            listener.onGroupEvent(event);
+        }
+    }
+
+    protected void fireGroupMemberEvent(GroupMemberSystemHookEvent event) {
+        for (SystemHookListener listener : systemHookListeners) {
+            listener.onGroupMemberEvent(event);
+        }
+    }
+
+    protected void firePushEvent(PushSystemHookEvent event) {
+        for (SystemHookListener listener : systemHookListeners) {
+            listener.onPushEvent(event);
+        }
+    }
+
+    protected void fireTagPushEvent(TagPushSystemHookEvent event) {
+        for (SystemHookListener listener : systemHookListeners) {
+            listener.onTagPushEvent(event);
+        }
+    }
+
+    protected void fireRepositoryEvent(RepositorySystemHookEvent event) {
+        for (SystemHookListener listener : systemHookListeners) {
+            listener.onRepositoryEvent(event);
         }
     }
 }

@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class AbstractPushEvent implements Event {
+public abstract class AbstractPushEvent {
 
     private String eventName;
 
@@ -27,10 +27,6 @@ public abstract class AbstractPushEvent implements Event {
     private EventRepository repository;
     private List<EventCommit> commits;
     private Integer totalCommitsCount;
-
-    public abstract String getObjectKind();
-
-    public abstract void setObjectKind(String objectKind);
 
     public String getEventName() {
         return (eventName);

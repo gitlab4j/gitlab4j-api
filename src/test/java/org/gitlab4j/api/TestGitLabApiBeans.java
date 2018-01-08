@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Comment;
@@ -62,6 +61,8 @@ import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.systemhooks.ProjectSystemHookEvent;
+import org.gitlab4j.api.systemhooks.PushSystemHookEvent;
+import org.gitlab4j.api.systemhooks.SystemHookEvent;
 import org.gitlab4j.api.systemhooks.TeamMemberSystemHookEvent;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.junit.BeforeClass;
@@ -461,6 +462,72 @@ public class TestGitLabApiBeans {
         try {
             TeamMemberSystemHookEvent event = makeFakeApiCall(TeamMemberSystemHookEvent.class, "team-member-system-hook-event");
             assertTrue(compareJson(event, "team-member-system-hook-event"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testPushSystemHookEvent() {
+
+        try {
+            PushSystemHookEvent event = makeFakeApiCall(PushSystemHookEvent.class, "push-system-hook-event");
+            assertTrue(compareJson(event, "push-system-hook-event"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testUserSystemHookEvent() {
+
+        try {
+            SystemHookEvent event = makeFakeApiCall(SystemHookEvent.class, "user-system-hook-event");
+            assertTrue(compareJson(event, "user-system-hook-event"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGroupSystemHookEvent() {
+
+        try {
+            SystemHookEvent event = makeFakeApiCall(SystemHookEvent.class, "group-system-hook-event");
+            assertTrue(compareJson(event, "group-system-hook-event"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGroupMemberSystemHookEvent() {
+
+        try {
+            SystemHookEvent event = makeFakeApiCall(SystemHookEvent.class, "group-member-system-hook-event");
+            assertTrue(compareJson(event, "group-member-system-hook-event"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testTagPushSystemHookEvent() {
+
+        try {
+            SystemHookEvent event = makeFakeApiCall(SystemHookEvent.class, "tag-push-system-hook-event");
+            assertTrue(compareJson(event, "tag-push-system-hook-event"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testRepositorySystemHookEvent() {
+
+        try {
+            SystemHookEvent event = makeFakeApiCall(SystemHookEvent.class, "repository-system-hook-event");
+            assertTrue(compareJson(event, "repository-system-hook-event"));
         } catch (Exception e) {
             e.printStackTrace();
         }

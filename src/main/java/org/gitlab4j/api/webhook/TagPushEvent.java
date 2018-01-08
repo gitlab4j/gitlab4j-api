@@ -5,11 +5,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TagPushEvent extends AbstractPushEvent {
+public class TagPushEvent extends AbstractPushEvent implements Event {
 
     public static final String X_GITLAB_EVENT = "Tag Push Hook";
     public static final String OBJECT_KIND = "tag_push";
 
+    @Override
     public String getObjectKind() {
         return (OBJECT_KIND);
     }
