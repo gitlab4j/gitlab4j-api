@@ -81,7 +81,6 @@ public class WebHookManager extends HookManager {
             throw new GitLabApiException(message);
         }
 
-        String errorMessage = null;
         try {
 
             Event event;
@@ -98,22 +97,13 @@ public class WebHookManager extends HookManager {
 
             fireEvent(event);
 
-        } catch (JsonParseException jpe) {
-            errorMessage = jpe.getMessage();
-            LOG.warning("Error parsing JSON data, error=" + errorMessage);
-        } catch (JsonMappingException jme) {
-            errorMessage = jme.getMessage();
-            LOG.warning("Error mapping JSON data, error=" + errorMessage);
-        } catch (IOException ioe) {
-            errorMessage = ioe.getMessage();
-            LOG.warning("Error reading JSON data, error=" + errorMessage);
+        } catch (IOException e) {
+            LOG.warning("Error parsing JSON data, error=" + e.getMessage());
+            throw new GitLabApiException(e);
         } catch (Exception e) {
-            errorMessage = e.getMessage();
-            LOG.warning("Unexpected error reading JSON data, error=" + errorMessage);
+            LOG.warning("Unexpected error reading JSON data, error=" + e.getMessage());
+            throw new GitLabApiException(e);
         }
-
-        if (errorMessage != null)
-            throw new GitLabApiException(errorMessage);
     }
 
     /**
