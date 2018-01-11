@@ -1,7 +1,6 @@
 
 package org.gitlab4j.api.systemhooks;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,9 +13,6 @@ import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.HookManager;
 import org.gitlab4j.api.utils.HttpRequestUtils;
 import org.gitlab4j.api.utils.JacksonJson;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  * This class provides a handler for processing GitLab System Hook callouts.
@@ -71,7 +67,6 @@ public class SystemHookManager extends HookManager {
             throw new GitLabApiException(message);
         }
 
-        String errorMessage = null;
         try {
 
             SystemHookEvent event;
@@ -88,22 +83,11 @@ public class SystemHookManager extends HookManager {
 
             fireEvent(event);
 
-        } catch (JsonParseException jpe) {
-            errorMessage = jpe.getMessage();
-            LOG.warning("Error parsing JSON data, error=" + errorMessage);
-        } catch (JsonMappingException jme) {
-            errorMessage = jme.getMessage();
-            LOG.warning("Error mapping JSON data, error=" + errorMessage);
-        } catch (IOException ioe) {
-            errorMessage = ioe.getMessage();
-            LOG.warning("Error reading JSON data, error=" + errorMessage);
         } catch (Exception e) {
-            errorMessage = e.getMessage();
-            LOG.warning("Unexpected error reading JSON data, error=" + errorMessage);
+            LOG.warning("Error processing JSON data, exception=" +
+                    e.getClass().getSimpleName() + ", error=" + e.getMessage());
+            throw new GitLabApiException(e);
         }
-
-        if (errorMessage != null)
-            throw new GitLabApiException(errorMessage);
     }
 
     /**
