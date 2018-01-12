@@ -1,7 +1,6 @@
 
 package org.gitlab4j.api.webhook;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,9 +13,6 @@ import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.HookManager;
 import org.gitlab4j.api.utils.HttpRequestUtils;
 import org.gitlab4j.api.utils.JacksonJson;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  * This class provides a handler for processing GitLab WebHook callouts.
