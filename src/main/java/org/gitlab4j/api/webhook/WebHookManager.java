@@ -97,11 +97,8 @@ public class WebHookManager extends HookManager {
 
             fireEvent(event);
 
-        } catch (IOException e) {
-            LOG.warning("Error parsing JSON data, error=" + e.getMessage());
-            throw new GitLabApiException(e);
         } catch (Exception e) {
-            LOG.warning("Unexpected error reading JSON data, error=" + e.getMessage());
+            LOG.warning("Error parsing JSON data, exception=" + e.getClass().getSimpleName() + ", error=" + e.getMessage());
             throw new GitLabApiException(e);
         }
     }
