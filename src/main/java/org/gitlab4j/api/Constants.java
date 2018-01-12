@@ -104,6 +104,28 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for ordering the results of getGroups() and getSubGroups(). */
+    public enum GroupOrderBy {
+
+        NAME, PATH;
+        private static JacksonJsonEnumHelper<GroupOrderBy> enumHelper = new JacksonJsonEnumHelper<>(GroupOrderBy.class);
+
+        @JsonCreator
+        public static GroupOrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for specifying the scope when calling getPipelines(). */
     public enum PipelineScope {
 

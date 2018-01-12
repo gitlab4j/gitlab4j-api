@@ -12,6 +12,7 @@ import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Visibility;
 
 /**
@@ -97,12 +98,130 @@ public class GroupApi extends AbstractApi {
      *
      * @param search the group name or path search criteria
      * @param itemsPerPage the number of Group instances that will be fetched per page
-     * @return a List containing matching Group instances
+     * @return a Pager containing matching Group instances
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Group> getGroups(String search, int itemsPerPage) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("search", search);
         return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups"));
+    }
+
+    /**
+     * Get a list of visible direct subgroups in this group.
+     *
+     * <p><code>GET /groups/:id/subgroups</code></p>
+     *
+     * @param groupId the group ID to get the sub groups for
+     * @return a List&lt;Group&gt; containing the group's sub-groups
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 10.3.0
+     */
+    public List<Group> getSubGroups(Integer groupId) throws GitLabApiException {
+        return (getSubGroups(groupId, null, null, null, null, null, null, null, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get a list of visible direct subgroups in this group.
+     *
+     * <p><code>GET /groups/:id/subgroups</code></p>
+     *
+     * @param groupId the group ID to get the sub groups for
+     * @param skipGroups skip the group IDs passed
+     * @param allAvailable show all the groups you have access to (defaults to false for authenticated users)
+     * @param search return the list of authorized groups matching the search criteria
+     * @param orderBy order groups by NAME or PATH. Default is NAME
+     * @param sortOrder order groups in ASC or DESC order. Default is ASC
+     * @param statistics include group statistics (admins only)
+     * @param owned limit to groups owned by the current user
+     * @return a List&lt;Group&gt; of the matching subgroups
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 10.3.0
+     */
+    public List<Group> getSubGroups(Integer groupId, List<Integer> skipGroups, Boolean allAvailable, String search,
+            GroupOrderBy orderBy, SortOrder sortOrder, Boolean statistics, Boolean owned) throws GitLabApiException {
+        return (getSubGroups(groupId, skipGroups, allAvailable, search, orderBy, sortOrder, statistics, owned, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get a list of visible direct subgroups in this group.
+     *
+     * <p><code>GET /groups/:id/subgroups</code></p>
+     *
+     * @param groupId the group ID to get the sub groups for
+     * @param skipGroups skip the group IDs passed
+     * @param allAvailable show all the groups you have access to (defaults to false for authenticated users)
+     * @param search return the list of authorized groups matching the search criteria
+     * @param orderBy order groups by NAME or PATH. Default is NAME
+     * @param sortOrder order groups in ASC or DESC order. Default is ASC
+     * @param statistics include group statistics (admins only)
+     * @param owned limit to groups owned by the current user
+     * @param page the page to get
+     * @param perPage the number of Group instances per page
+     * @return a List&lt;Group&gt; of the matching subgroups
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 10.3.0
+     */
+    public List<Group> getSubGroups(Integer groupId, List<Integer> skipGroups, Boolean allAvailable, String search,
+            GroupOrderBy orderBy, SortOrder sortOrder, Boolean statistics, Boolean owned,  int page, int perPage)
+            throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("skip_groups", skipGroups)
+                .withParam("all_available", allAvailable)
+                .withParam("search", search)
+                .withParam("order_by", orderBy)
+                .withParam("sort_order", sortOrder)
+                .withParam("statistics", statistics)
+                .withParam("owned", owned)
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "groups", groupId, "subgroups");
+        return (response.readEntity(new GenericType<List<Group>>() {}));
+    }
+
+    /**
+     * Get a Pager of visible direct subgroups in this group.
+     *
+     * <p><code>GET /groups/:id/subgroups</code></p>
+     *
+     * @param groupId the group ID to get the sub groups for
+     * @param itemsPerPage the number of Group instances that will be fetched per page
+     * @return a Pager containing matching Group instances
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 10.3.0
+     */
+    public Pager<Group> getSubGroups(Integer groupId, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Group>(this, Group.class, itemsPerPage, null, "groups", groupId, "subgroups"));
+    }
+
+    /**
+     * Get a Pager of visible direct subgroups in this group.
+     *
+     * <p><code>GET /groups/:id/subgroups</code></p>
+     *
+     * @param groupId the group ID to get the sub groups for
+     * @param skipGroups skip the group IDs passed
+     * @param allAvailable show all the groups you have access to (defaults to false for authenticated users)
+     * @param search return the list of authorized groups matching the search criteria
+     * @param orderBy order groups by NAME or PATH. Default is NAME
+     * @param sortOrder order groups in ASC or DESC order. Default is ASC
+     * @param statistics include group statistics (admins only)
+     * @param owned limit to groups owned by the current user
+     * @param itemsPerPage the number of Group instances that will be fetched per page
+     * @return a Pager containing matching Group instances
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 10.3.0
+     */
+    public Pager<Group> getSubGroups(Integer groupId, List<Integer> skipGroups, Boolean allAvailable, String search,
+            GroupOrderBy orderBy, SortOrder sortOrder, Boolean statistics, Boolean owned, int itemsPerPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("skip_groups", skipGroups)
+                .withParam("all_available", allAvailable)
+                .withParam("search", search)
+                .withParam("order_by", orderBy)
+                .withParam("sort_order", sortOrder)
+                .withParam("statistics", statistics)
+                .withParam("owned", owned);
+        return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups", groupId, "subgroups"));
     }
 
     /**

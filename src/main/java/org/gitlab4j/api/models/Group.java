@@ -11,11 +11,52 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Group {
 
+    public class Statistics {
+        private Integer storageSize;
+        private Integer repositorySize;
+        private Integer lfsObjectsSize;
+        private Integer jobArtifactsSize;
+
+        public Integer getStorageSize() {
+            return storageSize;
+        }
+
+        public void setStorageSize(Integer storageSize) {
+            this.storageSize = storageSize;
+        }
+
+        public Integer getRepositorySize() {
+            return repositorySize;
+        }
+
+        public void setRepositorySize(Integer repositorySize) {
+            this.repositorySize = repositorySize;
+        }
+
+        public Integer getLfsObjectsSize() {
+            return lfsObjectsSize;
+        }
+
+        public void setLfsObjectsSize(Integer lfsObjectsSize) {
+            this.lfsObjectsSize = lfsObjectsSize;
+        }
+
+        public Integer getJobArtifactsSize() {
+            return jobArtifactsSize;
+        }
+
+        public void setJobArtifactsSize(Integer jobArtifactsSize) {
+            this.jobArtifactsSize = jobArtifactsSize;
+        }
+    }
+
+
     private Integer id;
     private String name;
     private String path;
     private String description;
     private Visibility visibility;
+    private Boolean lfsEnabled;
     private String avatarUrl;
     private String webUrl;
     private Boolean requestAccessEnabled;
@@ -23,6 +64,7 @@ public class Group {
     private String fullPath;
     private Integer parentId;
     private Integer sharedRunnersMinutesLimit;
+    private Statistics statistics;
     private List<Project> projects;
     private List<Project> sharedProjects;
 
@@ -64,6 +106,14 @@ public class Group {
 
     public void setVisibility(Visibility visibility) {
         this.visibility = visibility;
+    }
+
+    public Boolean getLfsEnabled() {
+        return lfsEnabled;
+    }
+
+    public void setLfsEnabled(Boolean lfsEnabled) {
+        this.lfsEnabled = lfsEnabled;
     }
 
     public String getAvatarUrl() {
@@ -120,6 +170,14 @@ public class Group {
 
     public void setSharedRunnersMinutesLimit(Integer sharedRunnersMinutesLimit) {
         this.sharedRunnersMinutesLimit = sharedRunnersMinutesLimit;
+    }
+
+    public Statistics getStatistics() {
+        return statistics;
+    }
+
+    public void setStatistics(Statistics statistics) {
+        this.statistics = statistics;
     }
 
     public List<Project> getProjects() {
