@@ -199,56 +199,48 @@ public class WebHookManager extends HookManager {
     }
 
     protected void fireBuildEvent(BuildEvent buildEvent) {
-
         for (WebHookListener listener : webhookListeners) {
             listener.onBuildEvent(buildEvent);
         }
     }
 
     protected void fireIssueEvent(IssueEvent issueEvent) {
-
         for (WebHookListener listener : webhookListeners) {
             listener.onIssueEvent(issueEvent);
         }
     }
 
     protected void fireMergeRequestEvent(MergeRequestEvent mergeRequestEvent) {
-
         for (WebHookListener listener : webhookListeners) {
             listener.onMergeRequestEvent(mergeRequestEvent);
         }
     }
 
     protected void fireNoteEvent(NoteEvent noteEvent) {
-
         for (WebHookListener listener : webhookListeners) {
             listener.onNoteEvent(noteEvent);
         }
     }
 
     protected void firePipelineEvent(PipelineEvent pipelineEvent) {
-
         for (WebHookListener listener : webhookListeners) {
             listener.onPipelineEvent(pipelineEvent);
         }
     }
 
     protected void firePushEvent(PushEvent pushEvent) {
-
         for (WebHookListener listener : webhookListeners) {
             listener.onPushEvent(pushEvent);
         }
     }
 
     protected void fireTagPushEvent(TagPushEvent tagPushEvent) {
-
         for (WebHookListener listener : webhookListeners) {
             listener.onTagPushEvent(tagPushEvent);
         }
     }
 
     protected void fireWikiPageEvent(WikiPageEvent wikiPageEvent) {
-
         for (WebHookListener listener : webhookListeners) {
             listener.onWikiPageEvent(wikiPageEvent);
         }
