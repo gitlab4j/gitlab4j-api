@@ -178,7 +178,7 @@ public class GitLabApi {
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and the specified GitLab API version.</p>
      * 
-     * <strong>NOTE</strong: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
+     * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
@@ -196,7 +196,7 @@ public class GitLabApi {
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token using GitLab API version 4.</p>
      * 
-     * <strong>NOTE</strong: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
+     * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
      * @param url GitLab URL
@@ -213,7 +213,7 @@ public class GitLabApi {
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and the specified GitLab API version.</p>
      * 
-     * <strong>NOTE</strong: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
+     * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
@@ -256,7 +256,7 @@ public class GitLabApi {
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token using GitLab API version 4.</p>
      * 
-     * <strong>NOTE</strong: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
+     * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
      * @param url GitLab URL
@@ -290,7 +290,7 @@ public class GitLabApi {
      * <p>If this instance was created with {@link #login(String, String, String)} this method will
      * return the Session instance returned by the GitLab API on login, otherwise returns null.</p>
      *
-     * <strong>NOTE</strong: For GitLab servers 10.2 and above this method will always return null.
+     * <strong>NOTE</strong>: For GitLab servers 10.2 and above this method will always return null.
      *
      * @return the Session instance
      * @deprecated  This method will be removed in Release 5.0.0
