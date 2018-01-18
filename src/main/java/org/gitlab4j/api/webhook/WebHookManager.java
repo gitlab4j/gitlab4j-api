@@ -62,6 +62,7 @@ public class WebHookManager extends HookManager {
         switch (eventName) {
 
         case BuildEvent.X_GITLAB_EVENT:
+        case BuildEvent.X_GITLAB_EVENT_2:
         case IssueEvent.X_GITLAB_EVENT:
         case MergeRequestEvent.X_GITLAB_EVENT:
         case NoteEvent.X_GITLAB_EVENT:

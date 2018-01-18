@@ -11,6 +11,7 @@ import org.gitlab4j.api.models.User;
 public class BuildEvent implements Event {
 
     public static final String X_GITLAB_EVENT = "Build Hook";
+    public static final String X_GITLAB_EVENT_2 = "Job Hook";
     public static final String OBJECT_KIND = "build";
 
     private String ref;
