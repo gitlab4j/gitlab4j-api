@@ -61,7 +61,8 @@ public class WebHookManager extends HookManager {
         LOG.info("handleEvent: X-Gitlab-Event=" + eventName);
         switch (eventName) {
 
-        case BuildEvent.X_GITLAB_EVENT:
+        case BuildEvent.BUILD_HOOK_X_GITLAB_EVENT:
+        case BuildEvent.JOB_HOOK_X_GITLAB_EVENT:
         case IssueEvent.X_GITLAB_EVENT:
         case MergeRequestEvent.X_GITLAB_EVENT:
         case NoteEvent.X_GITLAB_EVENT:

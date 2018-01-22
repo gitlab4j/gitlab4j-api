@@ -10,7 +10,10 @@ import org.gitlab4j.api.models.User;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BuildEvent implements Event {
 
-    public static final String X_GITLAB_EVENT = "Build Hook";
+    /** X-Gitlab-Event header value pre GitLab v9.3.0 */
+    public static final String BUILD_HOOK_X_GITLAB_EVENT = "Build Hook";
+    /** X-Gitlab-Event header value post GitLab v9.3.0 */
+    public static final String JOB_HOOK_X_GITLAB_EVENT = "Job Hook";
     public static final String OBJECT_KIND = "build";
 
     private String ref;
