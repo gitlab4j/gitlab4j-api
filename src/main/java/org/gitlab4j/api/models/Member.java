@@ -13,7 +13,6 @@ public class Member {
 
     private AccessLevel accessLevel;
     private Date createdAt;
-    private String email;
     private Integer id;
     private String name;
     private String state;
@@ -33,14 +32,6 @@ public class Member {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Integer getId() {
