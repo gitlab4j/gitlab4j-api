@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -214,6 +215,22 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Get a single user as an Optional instance.
+     *
+     * GET /users/:id
+     *
+     * @param userId the ID of the user to get
+     * @return the User for the specified user ID as an Optional instance
+     */
+    public Optional<User> getOptionalUser(int userId) {
+        try {
+            return (Optional.ofNullable(getUser(userId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
      * Lookup a user by username.
      *
      * NOTE: This is for admin users only.
@@ -229,6 +246,24 @@ public class UserApi extends AbstractApi {
         Response response = get(Response.Status.OK, formData.asMap(), "users");
         List<User> users = response.readEntity(new GenericType<List<User>>() {});
         return (users.isEmpty() ? null : users.get(0));
+    }
+
+    /**
+     * Lookup a user by username and return an Optional instance.
+     *
+     * NOTE: This is for admin users only.
+     *
+     * GET /users?username=:username
+     *
+     * @param username the username of the user to get
+     * @return the User for the specified username as an Optional instance
+     */
+    public Optional<User> getOptionalUser(String username) {
+        try {
+            return (Optional.ofNullable(getUser(username)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**
@@ -470,6 +505,22 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Get a single SSH Key as an Optional instance.
+     *
+     * GET /user/keys/:key_id
+     *
+     * @param keyId the ID of the SSH key
+     * @return an SshKey as an Optional instance holding the info on the SSH key specified by keyId
+     */
+    public Optional<SshKey> getOptionalSshKey(Integer keyId) {
+        try {
+            return (Optional.ofNullable(getSshKey(keyId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
      * Creates a new key owned by the currently authenticated user.
      *
      * POST /user/keys
@@ -612,6 +663,23 @@ public class UserApi extends AbstractApi {
 
         Response response = get(Response.Status.OK, null, "users", userId, "impersonation_tokens", tokenId);
         return (response.readEntity(ImpersonationToken.class));
+    }
+
+    /**
+     * Get an impersonation token of a user as an Optional instance. Available only for admin users.
+     *
+     * GET /users/:user_id/impersonation_tokens/:impersonation_token_id
+     *
+     * @param userId the ID of the user to get SSH keys for
+     * @param tokenId the impersonation token ID to get
+     * @return the specified impersonation token as an Optional instance
+     */
+    public Optional<ImpersonationToken> getOptionalImpersonationToken(Integer userId, Integer tokenId) {
+        try {
+            return (Optional.ofNullable(getImpersonationToken(userId, tokenId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**

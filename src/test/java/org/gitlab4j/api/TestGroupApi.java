@@ -1,10 +1,15 @@
 package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
@@ -126,5 +131,23 @@ public class TestGroupApi {
         assertEquals(testUser.getId(), member.getId());
 
         gitLabApi.getGroupApi().removeMember(testGroup.getId(), testUser.getId());
+    }
+
+    @Test
+    public void getGroup() throws GitLabApiException {
+        Group group = gitLabApi.getGroupApi().getGroup(TEST_GROUP);
+        assertNotNull(group);
+    }
+
+    @Test
+    public void getOptionalGroup() {
+        Optional<Group> optional = gitLabApi.getGroupApi().getOptionalGroup(TEST_GROUP);
+        assertTrue(optional.isPresent());
+        assertEquals(testGroup.getId(), optional.get().getId());
+
+        optional = gitLabApi.getGroupApi().getOptionalGroup(12345);
+        assertNotNull(optional);
+        assertFalse(optional.isPresent());
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
     }
 }

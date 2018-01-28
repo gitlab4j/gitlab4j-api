@@ -24,16 +24,21 @@
 package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Visibility;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -434,5 +439,30 @@ public class TestProjectApi {
         Group shareGroup = groups.get(0);
         gitLabApi.getProjectApi().shareProject(project.getId(), shareGroup.getId(), AccessLevel.DEVELOPER, null);
         gitLabApi.getProjectApi().unshareProject(project.getId(), shareGroup.getId());
+    }
+
+    @Test
+    public void testGetOptionalProject() throws GitLabApiException {
+
+        Optional<Project> optional = gitLabApi.getProjectApi().getOptionalProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(optional);
+        assertTrue(optional.isPresent());
+        assertEquals(TEST_PROJECT_NAME, optional.get().getName());
+
+        Integer projectId = optional.get().getId();
+        optional = gitLabApi.getProjectApi().getOptionalProject(projectId);
+        assertNotNull(optional);
+        assertTrue(optional.isPresent());
+        assertEquals(projectId, optional.get().getId());
+
+        optional = gitLabApi.getProjectApi().getOptionalProject(TEST_NAMESPACE, "this-project-does-not-exist");
+        assertNotNull(optional);
+        assertFalse(optional.isPresent());
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
+
+        optional = gitLabApi.getProjectApi().getOptionalProject(1234567);
+        assertNotNull(optional);
+        assertFalse(optional.isPresent());
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
     }
 }

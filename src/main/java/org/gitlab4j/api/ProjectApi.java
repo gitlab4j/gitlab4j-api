@@ -27,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -474,6 +475,22 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get an Optional instance with the value for the specific project, which is owned by the authentication user.
+     *
+     * GET /projects/:id
+     *
+     * @param projectId the ID of the project to get
+     * @return an Optional instance with the specified project as a value
+     */
+    public Optional<Project> getOptionalProject(Integer projectId) {
+        try {
+            return (Optional.ofNullable(getProject(projectId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
      * Get a specific project, which is owned by the authentication user.
      *
      * GET /projects/:id
@@ -505,6 +522,23 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get an Optional instance with the value for the specific project, which is owned by the authentication user.
+     *
+     * GET /projects/:id
+     *
+     * @param namespace the name of the project namespace or group
+     * @param project the name of the project
+     * @return an Optional instance with the specified project as a value
+     */
+    public Optional<Project> getOptionalProject(String namespace, String project) {
+        try {
+            return (Optional.ofNullable(getProject(namespace, project)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
      * Create a new project in the specified group.
      *
      * @param groupId the group ID to create the project under
@@ -513,7 +547,6 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project createProject(Integer groupId, String projectName) throws GitLabApiException {
-
         GitLabApiForm formData = new GitLabApiForm().withParam("namespace_id", groupId).withParam("name", projectName, true);
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
@@ -1014,6 +1047,24 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Gets a project team member.
+     *
+     * GET /projects/:id/members/:user_id
+     *
+     * @param projectId the project ID to get team member for
+     * @param userId the user ID of the member
+     * @return the member specified by the project ID/user ID pair
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Optional<Member> getOptionalMember(Integer projectId, Integer userId) throws GitLabApiException {
+        try {
+            return (Optional.ofNullable(getMember(projectId, userId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
      * Adds a user to a project team. This is an idempotent method and can be called multiple times
      * with the same parameters. Adding team membership to a user that is already a member does not
      * affect the existing membership.
@@ -1301,6 +1352,23 @@ public class ProjectApi extends AbstractApi implements Constants {
     public ProjectHook getHook(Integer projectId, Integer hookId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "hooks", hookId);
         return (response.readEntity(ProjectHook.class));
+    }
+
+    /**
+     * Get a specific hook for project as an Optional instance.
+     *
+     * GET /projects/:id/hooks/:hook_id
+     *
+     * @param projectId the project ID to get the hook for
+     * @param hookId the ID of the hook to get
+     * @return the project hook for the specified project ID/hook ID pair as an Optional instance
+     */
+    public Optional<ProjectHook> getOptionalHook(Integer projectId, Integer hookId) {
+        try {
+            return (Optional.ofNullable(getHook(projectId, hookId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**
@@ -1633,6 +1701,23 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a single of project snippet as an Optional instance.
+     *
+     * GET /projects/:id/snippets/:snippet_id
+     *
+     * @param projectId the project ID to get the snippet for
+     * @param snippetId the ID of the project's snippet
+     * @return the specified project Snippet as an Optional instance
+     */
+    public Optional<Snippet> getOptionalSnippet(Integer projectId, Integer snippetId) {
+        try {
+            return (Optional.ofNullable(getSnippet(projectId, snippetId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
      * Creates a new project snippet. The user must have permission to create new snippets.
      *
      * POST /projects/:id/snippets
@@ -1710,11 +1795,29 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param projectId the project ID of the snippet
      * @param snippetId the ID of the project's snippet
+     * @return the raw project snippet plain text as an Optional instance
      * @throws GitLabApiException if any exception occurs
      */
     public String getRawSnippetContent(Integer projectId, Integer snippetId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "snippets", snippetId, "raw");
         return (response.readEntity(String.class));
+    }
+
+    /*
+     * Get the raw project snippet plain text as an Optional instance.
+     *
+     * GET /projects/:id/snippets/:snippet_id/raw
+     *
+     * @param projectId the project ID of the snippet
+     * @param snippetId the ID of the project's snippet
+     * @return the raw project snippet plain text as an Optional instance
+     */
+    public Optional<String> getOptionalRawSnippetContent(Integer projectId, Integer snippetId) {
+        try {
+            return (Optional.ofNullable(getRawSnippetContent(projectId, snippetId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**

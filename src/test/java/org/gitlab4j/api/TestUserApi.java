@@ -10,8 +10,12 @@ import static org.junit.Assume.assumeTrue;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
+import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
@@ -130,6 +134,20 @@ public class TestUserApi {
     }
 
     @Test
+    public void testGetOptionalUser() throws GitLabApiException {
+
+        Optional<User> optional = gitLabApi.getUserApi().getOptionalUser(TEST_USERNAME);
+        assertNotNull(optional);
+        assertTrue(optional.isPresent());
+        assertEquals(TEST_USERNAME, optional.get().getUsername());
+
+        optional = gitLabApi.getUserApi().getOptionalUser("this-username-does-not-exist");
+        assertNotNull(optional);
+        assertFalse(optional.isPresent());
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
+    }
+
+    @Test
     public void testSudoAsUser() throws GitLabApiException {
 
         assumeTrue(TEST_SUDO_AS_USERNAME != null);
@@ -174,6 +192,25 @@ public class TestUserApi {
         assertEquals(2, token.getScopes().size());
 
         gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
+    }
+
+    @Test
+    public void testGetOptionalImpersonationToken() throws GitLabApiException, ParseException {
+
+        User user = gitLabApi.getUserApi().getCurrentUser();
+        Scope[] scopes = {Scope.API, Scope.READ_USER};
+        Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
+        ImpersonationToken token = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
+        assertNotNull(token);
+
+        Optional<ImpersonationToken> optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), token.getId());
+        assertTrue(optional.isPresent());
+        assertEquals(token.getId(), optional.get().getId());
+        gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
+
+        optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), 123456);
+        assertNotNull(optional);
+        assertFalse(optional.isPresent());
     }
 
     @Test
@@ -231,5 +268,24 @@ public class TestUserApi {
         assertEquals(TEST_SSH_KEY, sshKey.getKey());
         assertEquals(user.getId(), sshKey.getUserId());
         gitLabApi.getUserApi().deleteSshKey(sshKey.getId());
+    }
+
+    @Test
+    public void testGetOptionalSshKey() throws GitLabApiException {
+
+        assumeTrue(TEST_SSH_KEY != null);
+        User user = gitLabApi.getUserApi().getCurrentUser();
+        SshKey sshKey = gitLabApi.getUserApi().addSshKey(user.getId(), "Test-Key1", TEST_SSH_KEY);
+        assertNotNull(sshKey);
+
+        Optional<SshKey> optional = gitLabApi.getUserApi().getOptionalSshKey(sshKey.getId());
+        assertNotNull(optional.isPresent());
+        assertEquals(sshKey.getId(), optional.get().getId());
+        gitLabApi.getUserApi().deleteSshKey(sshKey.getId());
+
+        optional = gitLabApi.getUserApi().getOptionalSshKey(12345);
+        assertNotNull(optional);
+        assertFalse(optional.isPresent());
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
     }
 }

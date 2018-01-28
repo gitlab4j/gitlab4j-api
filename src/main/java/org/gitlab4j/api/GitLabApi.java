@@ -1,6 +1,9 @@
 package org.gitlab4j.api;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
+import java.util.WeakHashMap;
 
 import javax.ws.rs.core.Response;
 
@@ -28,6 +31,10 @@ public class GitLabApi {
         }
     }
 
+    // Used to keep track of GitLabApiExceptions on calls that return Optionsl<?>
+    private static final Map<Optional<?>, GitLabApiException> optionalExceptionMap =
+            Collections.synchronizedMap(new WeakHashMap<Optional<?>, GitLabApiException>());
+
     GitLabApiClient apiClient;
     private ApiVersion apiVersion;
     private String gitLabServerUrl;
@@ -54,7 +61,6 @@ public class GitLabApi {
     private LabelsApi labelsApi;
     private NotesApi notesApi;
     private EventsApi eventsApi;
-
 
     /**
      * Create a new GitLabApi instance that is logically a duplicate of this instance, with the exception off sudo state.
@@ -992,5 +998,47 @@ public class GitLabApi {
         }
 
         return (userApi);
+    }
+
+    /**
+     * Create and return an Optional instance associated with a GitLabApiException.
+     *
+     * @param optional the Optional instance to use as the key for the exception
+     * @param glae the GitLabApiException that was the result of a call to the GitLab API 
+     */
+    protected static final <T> Optional<T> createOptionalFromException(GitLabApiException glae) {
+        Optional<T> optional = Optional.empty();
+        optionalExceptionMap.put(optional,  glae);
+        return (optional);
+    }
+
+    /**
+     * Get the exception associated with the provided Optional instance, or null if no exception is
+     * associated with the Optional instance.
+     *
+     * @param optional the Optional instance to get the exception for
+     * @return the exception associated with the provided Optional instance, or null if no exception is
+     * associated with the Optional instance
+     */
+    public static final GitLabApiException getOptionalException(Optional<?> optional) {
+        return (optionalExceptionMap.get(optional));
+    }
+
+    /**
+     * Return the Optional instances contained value, if present, otherwise throw the exception that is
+     * associated with the Optional instance.
+     *
+     * @param optional the Optional instance to get the value for
+     * @return the value of the Optional instance if no exception is associated with it
+     * @throws GitLabApiException if there was an exception associated with the Optional instance
+     */
+    public static final <T> T orElseThrow(Optional<T> optional) throws GitLabApiException {
+
+        GitLabApiException glea = getOptionalException(optional);
+        if (glea != null) {
+            throw (glea);
+        }
+
+        return (optional.get());
     }
 }

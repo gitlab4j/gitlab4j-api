@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -12,7 +13,6 @@ import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Visibility;
 
 /**
@@ -282,6 +282,18 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
+     * Get all details of a group as an Optional instance.
+     *
+     * GET /groups/:id
+     *
+     * @param groupId the group ID to get
+     * @return the Group for the specified group ID as an Optional instance
+     */
+    public Optional<Group> getOptionalGroup(Integer groupId) {
+        return (getOptionalGroup(groupId.toString()));
+    }
+
+    /**
      * Get all details of a group.
      *
      * GET /groups/:id
@@ -293,6 +305,22 @@ public class GroupApi extends AbstractApi {
     public Group getGroup(String groupPath) throws GitLabApiException {
       Response response = get(Response.Status.OK, null, "groups", urlEncode(groupPath));
       return (response.readEntity(Group.class));
+    }
+
+    /**
+     * Get all details of a group as an Optional instance.
+     *
+     * GET /groups/:id
+     *
+     * @param groupPath the path of the group to get details for
+     * @return the Group for the specified group path as an Optional instance
+     */
+    public Optional<Group> getOptionalGroup(String groupPath) {
+        try {
+            return (Optional.ofNullable(getGroup(groupPath)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**
@@ -541,6 +569,23 @@ public class GroupApi extends AbstractApi {
     public Member getMember(int groupId, int userId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "groups", groupId, "members", userId);
         return (response.readEntity(new GenericType<Member>() {}));
+    }
+
+    /**
+     * Get a group member viewable by the authenticated user as an Optional instance.
+     *
+     * GET /groups/:id/members/:id
+     *
+     * @param groupId the group ID to get the member for
+     * @param userId the member ID of the member to get
+     * @return a member viewable by the authenticated user as an Optional instance
+     */
+    public Optional<Member> getOptionalMember(int groupId, int userId) throws GitLabApiException {
+        try {
+            return (Optional.ofNullable(getMember(groupId, userId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**

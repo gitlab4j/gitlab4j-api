@@ -88,6 +88,7 @@ public class TestGitLabLogin {
         assumeTrue(problems != null && problems.isEmpty());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testSession() throws GitLabApiException {
 
@@ -98,6 +99,7 @@ public class TestGitLabLogin {
         assertEquals(TEST_PRIVATE_TOKEN, gitLabApi.getSession().getPrivateToken());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testSessionV3() throws GitLabApiException {
 
