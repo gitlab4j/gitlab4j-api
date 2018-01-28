@@ -580,7 +580,7 @@ public class GroupApi extends AbstractApi {
      * @param userId the member ID of the member to get
      * @return a member viewable by the authenticated user as an Optional instance
      */
-    public Optional<Member> getOptionalMember(int groupId, int userId) throws GitLabApiException {
+    public Optional<Member> getOptionalMember(int groupId, int userId) {
         try {
             return (Optional.ofNullable(getMember(groupId, userId)));
         } catch (GitLabApiException glae) {

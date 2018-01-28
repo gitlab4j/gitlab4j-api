@@ -1003,8 +1003,9 @@ public class GitLabApi {
     /**
      * Create and return an Optional instance associated with a GitLabApiException.
      *
-     * @param optional the Optional instance to use as the key for the exception
-     * @param glae the GitLabApiException that was the result of a call to the GitLab API 
+     * @param <T> the type for the Optional parameter
+     * @param glae the GitLabApiException that was the result of a call to the GitLab API
+     * @return the created Optional instance
      */
     protected static final <T> Optional<T> createOptionalFromException(GitLabApiException glae) {
         Optional<T> optional = Optional.empty();
@@ -1028,6 +1029,7 @@ public class GitLabApi {
      * Return the Optional instances contained value, if present, otherwise throw the exception that is
      * associated with the Optional instance.
      *
+     * @param <T> the type for the Optional parameter
      * @param optional the Optional instance to get the value for
      * @return the value of the Optional instance if no exception is associated with it
      * @throws GitLabApiException if there was an exception associated with the Optional instance
