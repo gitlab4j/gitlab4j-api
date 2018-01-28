@@ -95,7 +95,7 @@ while (projectsPager.hasNext())) {
 ```
 ---
 ## Java 8 Optional&lt;T&gt; Support
-GitLab4J-API supports Java 8 Optional&lt;T&gt; for API calls that result in the return of a single item. Here are a couple of examples on how to use the Java 8 Optional&lt;T&gt; API calls:
+GitLab4J-API supports Java 8 Optional&lt;T&gt; for API calls that result in the return of a single item. Here is an example on how to use the Java 8 Optional&lt;T&gt; API calls:
 ```java
 Optional<Group> optionalGroup =  gitlabApi.getGroupApi().getGroup("my-group-path");
 if (optionalGroup.isPresent())
