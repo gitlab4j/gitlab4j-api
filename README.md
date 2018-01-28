@@ -5,11 +5,6 @@ GitLab API for Java (gitlab4j-api) provides a full featured and easy to consume 
 
 ---
 
-## Java 8 Requirement
-As of GitLab4J-API 4.8.0 Java 8+ is now required to use GitLab4J-API.
-
----
-
 To utilize the GitLab API for Java in your project, simply add the following dependency to your project's build file:
 
 **Gradle: build.gradle**
@@ -38,6 +33,11 @@ There have been reports of problems resolving some dependencies when using Ivy o
 
 ## Javadocs
 Javadocs are available here: <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?overview-summary.html"  target="_top">Javadocs</a>
+
+---
+
+## Java 8 Requirement
+As of GitLab4J-API 4.8.0, Java 8+ is now required to use GitLab4J-API.
 
 ---
 
@@ -93,15 +93,15 @@ while (projectsPager.hasNext())) {
     }
 }
 ```
-
+---
+## Java 8 Optional&lt;T&gt; Support
+GitLab4J-API supports Java 8 Optional&lt;T&gt; for API calls that result in the return of a single item. Here are a couple of examples on how to use the Java 8 Optional&lt;T&gt; API calls:
 ```java
-// Create a Pager instance that will be used to build a list containing all the commits for project ID 1234
-Pager<Commit> commitPager = gitlabApi.getCommitsApi().getCommits(1234, 20);
-List<Commit> allCommits = new ArrayList<>(commitPager.getTotalItems());
+Optional<Group> optionalGroup =  gitlabApi.getGroupApi().getGroup("my-group-path");
+if (optionalGroup.isPresent())
+    return optionalGroup.get();
 
-// Iterate through the pages and append each page of commits to the list
-while (commitPager.hasNext())
-    allCommits.addAll(commitPager.next());
+return gitlabApi.getGroupApi().addGroup("my-group-name", "my-group-path");
 ```
 ---
 ## Issue Time Estimates
