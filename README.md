@@ -1,7 +1,12 @@
 GitlLab API for Java (gitlab4j-api)
 ===================================
 
-GitLab API for Java (gitlab4j-api) provides a full featured and easy to consume Java API for working with GitLab repositories via the GitLab REST API.  Additionally, full support for working with GitLab WebHooks is also provided.
+GitLab API for Java (gitlab4j-api) provides a full featured and easy to consume Java API for working with GitLab repositories via the GitLab REST API.  Additionally, full support for working with GitLab webhooks and system hooks is also provided.
+
+---
+
+## Java 8 Requirement
+As of GitLab4J-API 4.8.0 Java 8+ is now required to use GitLab4J-API.
 
 ---
 
@@ -11,7 +16,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.7.17'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.0'
 }
 ```
 
@@ -20,7 +25,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.7.17</version>
+    <version>4.8.07</version>
 </dependency>
 ```
 
