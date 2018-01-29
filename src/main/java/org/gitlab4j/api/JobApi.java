@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -132,6 +133,23 @@ public class JobApi extends AbstractApi implements Constants {
     public Job getJob(int projectId, int jobId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "jobs", jobId);
         return (response.readEntity(Job.class));
+    }
+
+    /**
+     * Get single job in a project as an Optional instance.
+     *
+     * GET /projects/:id/jobs/:job_id
+     *
+     * @param projectId the project ID to get the specified job for
+     * @param jobId the job ID to get
+     * @return a single job for the specified project ID as an Optional intance
+     */
+    public Optional<Job> getOptionalJob(int projectId, int jobId) {
+        try {
+            return (Optional.ofNullable(getJob(projectId, jobId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**

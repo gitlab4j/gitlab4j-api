@@ -25,6 +25,7 @@ package org.gitlab4j.api;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -145,6 +146,23 @@ public class IssuesApi extends AbstractApi implements Constants {
 
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "issues", issueId);
         return (response.readEntity(Issue.class));
+    }
+
+    /**
+     * Get a single project issue as an Optional instance.
+     *
+     * GET /projects/:id/issues/:issue_iid
+     *
+     * @param projectId the project ID to get the issue for
+     * @param issueId the internal ID of a project's issue
+     * @return the specified Issue as an Optional instance
+     */
+    public Optional<Issue> getOptionalIssue(Integer projectId, Integer issueId) {
+        try {
+            return (Optional.ofNullable(getIssue(projectId, issueId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**
@@ -462,13 +480,13 @@ public class IssuesApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Get time tracking stats
+     * Get time tracking stats.
      * 
      * GET /projects/:id/issues/:issue_iid/time_stats
      * 
      * @param projectId the project ID that owns the issue
      * @param issueIid the internal ID of a project's issue
-     * @return a TimeSTats instance
+     * @return a TimeStats instance
      * @throws GitLabApiException if any exception occurs
      */
     public TimeStats getTimeTrackingStats(Integer projectId, Integer issueIid) throws GitLabApiException {
@@ -483,5 +501,22 @@ public class IssuesApi extends AbstractApi implements Constants {
 
         Response response = get(Response.Status.OK, new GitLabApiForm().asMap(), "projects", projectId, "issues", issueIid, "time_stats");
         return (response.readEntity(TimeStats.class));
+    }
+
+    /**
+     * Get time tracking stats as an Optional instance
+     *
+     * GET /projects/:id/issues/:issue_iid/time_stats
+     *
+     * @param projectId the project ID that owns the issue
+     * @param issueIid the internal ID of a project's issue
+     * @return a TimeStats as an Optional instance
+     */
+    public Optional<TimeStats> getOptionalTimeTrackingStats(Integer projectId, Integer issueIid) {
+        try {
+            return (Optional.ofNullable(getTimeTrackingStats(projectId, issueIid)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 }
