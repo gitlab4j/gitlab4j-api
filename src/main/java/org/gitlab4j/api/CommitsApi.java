@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -192,6 +193,23 @@ public class CommitsApi extends AbstractApi {
     public Commit getCommit(int projectId, String sha) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "repository", "commits", sha);
         return (response.readEntity(Commit.class));
+    }
+
+    /**
+     * Get a specific commit identified by the commit hash or name of a branch or tag as an Optional instance
+     *
+     * GET /projects/:id/repository/commits/:sha
+     *
+     * @param projectId the project ID that the commit belongs to
+     * @param sha a commit hash or name of a branch or tag
+     * @return the Commit for the specified project ID/sha pair as an Optional instance
+     */
+    public Optional<Commit> getOptionalCommit(int projectId, String sha) {
+        try {
+            return (Optional.ofNullable(getCommit(projectId, sha)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**

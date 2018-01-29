@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -136,6 +137,23 @@ public class DeployKeysApi extends AbstractApi {
 
         Response response = get(Response.Status.OK, null, "projects", projectId, "deploy_keys", keyId);
         return (response.readEntity(DeployKey.class));
+    }
+
+    /**
+     * Get a single deploy key for the specified project as an Optional instance.
+     *
+     * GET /projects/:id/deploy_keys/:key_id
+     *
+     * @param projectId the ID of the project
+     * @param keyId the ID of the deploy key to delete
+     * @return the DeployKey for the specified project ID and key ID as an Optional instance
+     */
+    public Optional<DeployKey> getOptionalDeployKey(Integer projectId, Integer keyId) {
+        try {
+            return (Optional.ofNullable(getDeployKey(projectId, keyId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**
