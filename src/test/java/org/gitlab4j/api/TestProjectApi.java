@@ -38,7 +38,6 @@ import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Visibility;
 import org.junit.AfterClass;
 import org.junit.Before;

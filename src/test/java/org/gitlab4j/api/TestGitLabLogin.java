@@ -88,7 +88,7 @@ public class TestGitLabLogin {
         assumeTrue(problems != null && problems.isEmpty());
     }
 
-    @SuppressWarnings({ "deprecation" })
+    @SuppressWarnings("deprecation")
     @Test
     public void testSession() throws GitLabApiException {
 
