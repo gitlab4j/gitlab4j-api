@@ -86,7 +86,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public RepositoryFile createFile(RepositoryFile file, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
-        Form formData = file2form(file, branchName, commitMessage);
+        Form formData = createForm(file, branchName, commitMessage);
         Response response;
         if (isApiVersion(ApiVersion.V3)) {
             response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files");
@@ -116,7 +116,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public RepositoryFile updateFile(RepositoryFile file, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
-        Form formData = file2form(file, branchName, commitMessage);
+        Form formData = createForm(file, branchName, commitMessage);
         Response response;
         if (isApiVersion(ApiVersion.V3)) {
             response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "files");
@@ -215,7 +215,7 @@ public class RepositoryFileApi extends AbstractApi {
         return (response.readEntity(InputStream.class));
     }
 
-    private Form file2form(RepositoryFile file, String branchName, String commitMessage) {
+    private Form createForm(RepositoryFile file, String branchName, String commitMessage) {
 
         Form form = new Form();
         if (isApiVersion(ApiVersion.V3)) {
@@ -228,6 +228,6 @@ public class RepositoryFileApi extends AbstractApi {
         addFormParam(form, "encoding", file.getEncoding(), false);
         addFormParam(form, "content", file.getContent(), true);
         addFormParam(form, "commit_message", commitMessage, true);
-        return form;
+        return (form);
     }
 }

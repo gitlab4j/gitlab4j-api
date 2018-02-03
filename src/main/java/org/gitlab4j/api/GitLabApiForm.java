@@ -48,8 +48,8 @@ public class GitLabApiForm extends Form {
             return (this);
         }
 
-        String stringValue = value.toString().trim();
-        if (required && stringValue.length() == 0) {
+        String stringValue = value.toString();
+        if (required && stringValue.trim().length() == 0) {
             throw new IllegalArgumentException(name + " cannot be empty or null");
         }
 
