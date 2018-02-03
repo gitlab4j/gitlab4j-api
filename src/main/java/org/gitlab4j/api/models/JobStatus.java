@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum JobStatus {
 
-    RUNNING, PENDING, SUCCESS, FAILED, CANCELED, SKIPPED;
+    RUNNING, PENDING, SUCCESS, FAILED, CANCELED, SKIPPED, MANUAL;
 
     private static JacksonJsonEnumHelper<JobStatus> enumHelper = new JacksonJsonEnumHelper<>(JobStatus.class);
 
