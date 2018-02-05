@@ -521,7 +521,7 @@ public class GitLabApi {
 
         // Get the User specified by the sudoAsId, if you are not an admin or the username is not found, this will fail
         User user = getUserApi().getUser(sudoAsId);
-        if (user == null || user.getId() != sudoAsId) {
+        if (user == null || !user.getId().equals(sudoAsId)) {
             throw new GitLabApiException("the specified user ID was not found");
         }
 
