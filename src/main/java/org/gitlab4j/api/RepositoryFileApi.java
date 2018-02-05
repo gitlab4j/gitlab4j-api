@@ -121,7 +121,7 @@ public class RepositoryFileApi extends AbstractApi {
         if (isApiVersion(ApiVersion.V3)) {
             response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "files");
         } else {
-            response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
+            response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
         }
    
         return (response.readEntity(RepositoryFile.class));
