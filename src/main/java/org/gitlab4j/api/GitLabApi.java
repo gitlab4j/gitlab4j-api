@@ -42,25 +42,25 @@ public class GitLabApi {
     private int defaultPerPage = DEFAULT_PER_PAGE;
     private Session session;
 
-    private CommitsApi commitsApi;
-    private DeployKeysApi deployKeysApi;
-    private GroupApi groupApi;
-    private IssuesApi issuesApi;
-    private MergeRequestApi mergeRequestApi;
-    private MilestonesApi milestonesApi;
-    private NamespaceApi namespaceApi;
-    private PipelineApi pipelineApi;
-    private ProjectApi projectApi;
-    private RepositoryApi repositoryApi;
-    private RepositoryFileApi repositoryFileApi;
-    private ServicesApi servicesApi;
-    private SessionApi sessionApi;
-    private SystemHooksApi systemHooksApi;
-    private UserApi userApi;
-    private JobApi jobApi;
-    private LabelsApi labelsApi;
-    private NotesApi notesApi;
-    private EventsApi eventsApi;
+    private volatile CommitsApi commitsApi;
+    private volatile DeployKeysApi deployKeysApi;
+    private volatile GroupApi groupApi;
+    private volatile IssuesApi issuesApi;
+    private volatile MergeRequestApi mergeRequestApi;
+    private volatile MilestonesApi milestonesApi;
+    private volatile NamespaceApi namespaceApi;
+    private volatile PipelineApi pipelineApi;
+    private volatile ProjectApi projectApi;
+    private volatile RepositoryApi repositoryApi;
+    private volatile RepositoryFileApi repositoryFileApi;
+    private volatile ServicesApi servicesApi;
+    private volatile SessionApi sessionApi;
+    private volatile SystemHooksApi systemHooksApi;
+    private volatile UserApi userApi;
+    private volatile JobApi jobApi;
+    private volatile LabelsApi labelsApi;
+    private volatile NotesApi notesApi;
+    private volatile EventsApi eventsApi;
 
     /**
      * Create a new GitLabApi instance that is logically a duplicate of this instance, with the exception off sudo state.
