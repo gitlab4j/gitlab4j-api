@@ -16,7 +16,7 @@ import org.gitlab4j.api.GitLabApi.ApiVersion;
  */
 public abstract class AbstractApi implements Constants {
 
-    private GitLabApi gitLabApi;
+    private final GitLabApi gitLabApi;
 
     public AbstractApi(GitLabApi gitLabApi) {
         this.gitLabApi = gitLabApi;
