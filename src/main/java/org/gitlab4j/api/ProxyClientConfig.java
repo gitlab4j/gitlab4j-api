@@ -1,0 +1,48 @@
+package org.gitlab4j.api;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.glassfish.jersey.client.ClientProperties;
+
+/**
+ * This class provides convenience methods to create ClientConfig properties so GitLabApi can use a proxy server.
+ */
+public class ProxyClientConfig {
+
+    /**
+     * Create a Map instance with properties set up to use a proxy server that can be passed to the 
+     * GitLabAPi constructors and login methods to configure the GitLabApi instance to use a proxy server.
+     *
+     * @param proxyUri the URI of the proxy server
+     * @return a Map set up to allow GitLabApi to use a proxy server
+     */
+    public static Map<String, Object> createProxyClientConfig(String proxyUri) {
+        return (createProxyClientConfig(proxyUri, null, null));
+    }
+
+    /**
+     * Create a Map instance set up to use a proxy server that can be passed to the GitLabAPi constructors 
+     * and login methods to configure the GitLabApi instance to use a proxy server.
+     *
+     * @param proxyUri the URI of the proxy server
+     * @param username the username for basic auth with the proxy server
+     * @param password the password for basic auth with the proxy server
+     * @return a Map set up to allow GitLabApi to use a proxy server
+     */
+    public static Map<String, Object> createProxyClientConfig(String proxyUri, String username, String password) {
+
+        Map<String, Object> clientConfig = new HashMap<>();
+        clientConfig.put(ClientProperties.PROXY_URI, proxyUri);
+
+        if (username != null && username.trim().length() > 0) {
+            clientConfig.put(ClientProperties.PROXY_USERNAME, username);
+        }
+
+        if (password != null && password.trim().length() > 0) {
+            clientConfig.put(ClientProperties.PROXY_PASSWORD, password);
+        }
+
+        return (clientConfig);
+    }
+}
