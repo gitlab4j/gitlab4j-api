@@ -73,15 +73,16 @@ gitLabApi.unsudo();
 As of GitLab4J-API 4.8.2 support has been added for connecting to the GitLab server using an HTTP proxy server:
 ```java
 // Log in to the GitLab server using a proxy server (with basic auth on proxy)
-Map<String, Object> proxyConfiguration = ProxyClientConfig.createProxyClientConfig("http://your-proxy-server", "proxy-username", "proxy-password");
-GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN", null, proxyConfiguration);
-```
-```java
+Map<String, Object> proxyConfig = ProxyClientConfig.createProxyClientConfig(
+        "http://your-proxy-server", "proxy-username", "proxy-password");
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_PRIVATE_TOKEN", null, proxyConfig);
+
 // Log in to the GitLab server using a proxy server (no auth on proxy)
-Map<String, Object> proxyConfiguration = ProxyClientConfig.createProxyClientConfig("http://your-proxy-server");
-GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN", null, proxyConfiguration);
+Map<String, Object> proxyConfig = ProxyClientConfig.createProxyClientConfig("http://your-proxy-server");
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_PRIVATE_TOKEN", null, proxyConfig);
 ```
-*NOTE: See the Javadoc on the GitLabApi class for a complete list of methods accepting the proxy configuration (clientConfiguration parameter)*
+See the Javadoc on the GitLabApi class for a complete list of methods accepting the proxy configuration (clientConfiguration parameter)
+
 ---
 ## GitLab API V3 and V4 Support
 As of GitLab4J-API 4.2.0 support has been added for GitLab API V4. If your application requires GitLab API V3,
