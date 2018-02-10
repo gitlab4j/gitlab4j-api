@@ -3,7 +3,8 @@ package org.gitlab4j.api;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assume.assumeTrue;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
+import java.util.Map;
+
 import org.gitlab4j.api.models.Version;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -23,9 +24,15 @@ public class TestGitLabApi {
     // The following needs to be set to your test repository
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
+    private static final String TEST_PROXY_URI;
+    private static final String TEST_PROXY_USERNAME;
+    private static final String TEST_PROXY_PASSWORD;
     static {
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
+        TEST_PROXY_URI = TestUtils.getProperty("TEST_PROXY_URI");
+        TEST_PROXY_USERNAME = TestUtils.getProperty("TEST_PROXY_USERNAME");
+        TEST_PROXY_PASSWORD = TestUtils.getProperty("TEST_PROXY_PASSWORD");
     }
 
     private static GitLabApi gitLabApi;
@@ -47,7 +54,7 @@ public class TestGitLabApi {
         }
 
         if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
         } else {
             System.err.print(problems);
         }
@@ -60,6 +67,21 @@ public class TestGitLabApi {
 
     @Test
     public void testGetVersion() throws GitLabApiException {
+        Version version = gitLabApi.getVersion();
+        assertNotNull(version);
+        System.out.format("version=%s, revision=%s%n", version.getVersion(), version.getRevision());
+        assertNotNull(version.getVersion());
+        assertNotNull(version.getRevision());
+    }
+
+    @Test
+    public void testProxyConnection() throws GitLabApiException {
+        assumeTrue(TEST_PROXY_URI != null && TEST_PROXY_USERNAME != null && TEST_PROXY_PASSWORD != null);
+
+        // Setup a GitLabApi instance to use a proxy
+        Map<String, Object> clientConfig = ProxyClientConfig.createProxyClientConfig(TEST_PROXY_URI, TEST_PROXY_USERNAME, TEST_PROXY_PASSWORD);
+        GitLabApi gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN, null, clientConfig);
+
         Version version = gitLabApi.getVersion();
         assertNotNull(version);
         System.out.format("version=%s, revision=%s%n", version.getVersion(), version.getRevision());

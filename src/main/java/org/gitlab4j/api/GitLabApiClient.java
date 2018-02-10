@@ -29,6 +29,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.utils.JacksonJson;
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 
@@ -211,6 +212,11 @@ public class GitLabApiClient {
 
         clientConfig = new ClientConfig();
         if (clientConfigProperties != null) {
+
+            if (clientConfigProperties.containsKey(ClientProperties.PROXY_URI)) {
+                clientConfig.connectorProvider(new ApacheConnectorProvider());
+            }
+
             for (Map.Entry<String, Object> propertyEntry : clientConfigProperties.entrySet()) {
                 clientConfig.property(propertyEntry.getKey(), propertyEntry.getValue());
             }
