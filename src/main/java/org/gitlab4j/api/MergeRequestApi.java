@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -129,6 +130,25 @@ public class MergeRequestApi extends AbstractApi {
     public MergeRequest getMergeRequest(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestIid);
         return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Get information about a single merge request as an Optional instance.
+     *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
+     * GET /projects/:id/merge_requests/:merge_request_id
+     *
+     * @param projectId the project ID of the merge request
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return the specified MergeRequest as an Optional instance instance
+     */
+    public Optional<MergeRequest> getOptionalMergeRequest(Integer projectId, Integer mergeRequestIid) {
+        try {
+            return (Optional.ofNullable(getMergeRequest(projectId, mergeRequestIid)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**
