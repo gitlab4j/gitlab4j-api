@@ -1,7 +1,9 @@
 package org.gitlab4j.api;
 
+import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.Project;
 import org.junit.Before;
@@ -79,7 +81,7 @@ public class TestNotesApi {
     }
 
     @Test
-    public void testNotes() throws GitLabApiException {
+    public void testIssueNotes() throws GitLabApiException {
 
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
@@ -87,8 +89,42 @@ public class TestNotesApi {
         for (Issue issue : gitLabApi.getIssuesApi().getIssues(project.getId())) {
             List<Note> notes = gitLabApi.getNotesApi().getIssueNotes(project.getId(), issue.getIid());
             assertNotNull(notes);
-            // This requires some issues in the project 
-//            assertTrue(0 < notes.size());
+        }
+    }
+
+    @Test
+    public void testIssueNotesPager() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        for (Issue issue : gitLabApi.getIssuesApi().getIssues(project.getId())) {
+            Pager<Note> pager = gitLabApi.getNotesApi().getIssueNotes(project.getId(), issue.getIid(), 10);
+            assertNotNull(pager);
+        }
+    }
+
+    @Test
+    public void testMergeRequestNotes() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        for (MergeRequest mr : gitLabApi.getMergeRequestApi().getMergeRequests(project.getId())) {
+            List<Note> notes = gitLabApi.getNotesApi().getMergeRequestNotes(project.getId(), mr.getIid());
+            assertNotNull(notes);
+        }
+    }
+
+    @Test
+    public void testMergeRequestNotesPager() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        for (MergeRequest mr : gitLabApi.getMergeRequestApi().getMergeRequests(project.getId())) {
+            Pager<Note> pager = gitLabApi.getNotesApi().getMergeRequestNotes(project.getId(), mr.getIid(), SortOrder.DESC, Note.OrderBy.CREATED_AT, 10);
+            assertNotNull(pager);
         }
     }
 }
