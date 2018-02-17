@@ -6,9 +6,36 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Note {
+
+    /** Enum to use for ordering the results. */
+    public static enum OrderBy {
+
+        CREATED_AT, UPDATED_AT;
+        private static JacksonJsonEnumHelper<OrderBy> enumHelper = new JacksonJsonEnumHelper<>(OrderBy.class);
+
+        @JsonCreator
+        public static OrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 
     public static enum NotableType {
         ISSUE("Issue"), MERGE_REQUEST("MergeRequest"), SNIPPET("Snippet");

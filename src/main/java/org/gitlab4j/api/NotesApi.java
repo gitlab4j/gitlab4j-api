@@ -113,8 +113,8 @@ public class NotesApi extends AbstractApi {
      * Get the specified issues's note.
      *
      * @param projectId the project ID to get the issues for
-     * @param issueIid  the issue IID to get the notes for
-     * @param noteId    the ID of the Note to get
+     * @param issueIid the issue IID to get the notes for
+     * @param noteId the ID of the Note to get
      * @return a Note instance for the specified IDs
      * @throws GitLabApiException if any exception occurs
      */
@@ -127,8 +127,8 @@ public class NotesApi extends AbstractApi {
      * Create a issues's note.
      *
      * @param projectId the project ID to create the issues for
-     * @param issueIid  the issue IID to create the notes for
-     * @param body      the content of note
+     * @param issueIid the issue IID to create the notes for
+     * @param body the content of note
      * @return the created Note instance
      * @throws GitLabApiException if any exception occurs
      */
@@ -140,16 +140,18 @@ public class NotesApi extends AbstractApi {
      * Create a issues's note.
      *
      * @param projectId the project ID to create the issues for
-     * @param issueIid  the issue IID to create the notes for
-     * @param body      the content of note
+     * @param issueIid the issue IID to create the notes for
+     * @param body the content of note
      * @param createdAt the created time of note
      * @return the created Note instance
      * @throws GitLabApiException if any exception occurs
      */
     public Note createIssueNote(Integer projectId, Integer issueIid, String body, Date createdAt) throws GitLabApiException {
+
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
+
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true)
                 .withParam("created_at", createdAt);
@@ -161,19 +163,20 @@ public class NotesApi extends AbstractApi {
      * Update the specified issues's note.
      *
      * @param projectId the project ID to update the issues for
-     * @param issueIid  the issue IID to update the notes for
-     * @param nodeId    the ID of the node to update
-     * @param body      the update content for the Note
+     * @param issueIid the issue IID to update the notes for
+     * @param noteId the ID of the node to update
+     * @param body the update content for the Note
      * @return the modified Note instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Note updateIssueNote(Integer projectId, Integer issueIid, Integer nodeId, String body) throws GitLabApiException {
+    public Note updateIssueNote(Integer projectId, Integer issueIid, Integer noteId, String body) throws GitLabApiException {
+
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("body", body, true);
-        Response response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "notes", nodeId);
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
+        Response response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "issues", issueIid, "notes", noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -186,16 +189,216 @@ public class NotesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteIssueNote(Integer projectId, Integer issueIid, Integer noteId) throws GitLabApiException {
+
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
+
         if (issueIid == null) {
             throw new RuntimeException("issueIid cannot be null");
         }
+
         if (noteId == null) {
             throw new RuntimeException("noteId cannot be null");
         }
+
         Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, getDefaultPerPageParam(), "projects", projectId, "issues", issueIid, "notes", noteId);
+    }
+
+    /**
+     * Gets a list of all notes for a single merge request. Only returns the first page
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/notes
+     *
+     * @param projectId the project ID to get the issues for
+     * @param mergeRequestIid the issue ID to get the notes for
+     * @return a list of the merge request's notes
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Note> getMergeRequestNotes(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
+        return (getMergeRequestNotes(projectId, mergeRequestIid, null, null, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Gets a list of all notes for a single merge request. Only returns the first page
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/notes
+     *
+     * @param projectId the project ID to get the issues for
+     * @param mergeRequestIid the issue ID to get the notes for
+     * @param sortOrder return merge request notes sorted in the specified sort order, default is DESC
+     * @param orderBy return merge request notes ordered by CREATED_AT or UPDATED_AT, default is CREATED_AT
+     * @return a list of the merge request's notes
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Note> getMergeRequestNotes(Integer projectId, Integer mergeRequestIid, SortOrder sortOrder, Note.OrderBy orderBy) throws GitLabApiException {
+        return (getMergeRequestNotes(projectId, mergeRequestIid, sortOrder, orderBy, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Gets a list of all notes for a single merge request using the specified page and per page settings.
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/notes
+     *
+     * @param projectId the project ID to get the issues for
+     * @param mergeRequestIid the merge request IID to get the notes for
+     * @param page the page to get
+     * @param perPage the number of notes per page
+     * @return the list of notes in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Note> getMergeRequestNotes(Integer projectId, Integer mergeRequestIid, int page, int perPage) throws GitLabApiException {
+        return (getMergeRequestNotes(projectId, mergeRequestIid, null, null, page, perPage));
+    }
+
+    /**
+     * Gets a list of all notes for a single merge request using the specified page and per page settings.
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/notes
+     *
+     * @param projectId the project ID to get the issues for
+     * @param mergeRequestIid the merge request IID to get the notes for
+     * @param sortOrder return merge request notes sorted in the specified sort order, default is DESC
+     * @param orderBy return merge request notes ordered by CREATED_AT or UPDATED_AT, default is CREATED_AT
+     * @param page the page to get
+     * @param perPage the number of notes per page
+     * @return the list of notes in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Note> getMergeRequestNotes(Integer projectId, Integer mergeRequestIid,
+            SortOrder sortOrder, Note.OrderBy orderBy, int page, int perPage) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("sort", sortOrder)
+                .withParam("order_by", orderBy)
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestIid, "notes");
+        return (response.readEntity(new GenericType<List<Note>>() {}));
+    }
+
+    /**
+     * Get a Pager of all notes for a single merge request
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/notes
+     *
+     * @param projectId the project ID to get the issues for
+     * @param mergeRequestIid the merge request IID to get the notes for
+     * @param itemsPerPage the number of notes per page
+     * @return the list of notes in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Note> getMergeRequestNotes(Integer projectId, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+        return (getMergeRequestNotes(projectId, mergeRequestIid, null, null, itemsPerPage));
+    }
+
+    /**
+     * Get a Pager of all notes for a single merge request
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/notes
+     *
+     * @param projectId the project ID to get the issues for
+     * @param mergeRequestIid the merge request IID to get the notes for
+     * @param sortOrder return merge request notes sorted in the specified sort order, default is DESC
+     * @param orderBy return merge request notes ordered by CREATED_AT or UPDATED_AT, default is CREATED_AT
+     * @param itemsPerPage the number of notes per page
+     * @return the list of notes in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Note> getMergeRequestNotes(Integer projectId, Integer mergeRequestIid,
+            SortOrder sortOrder, Note.OrderBy orderBy, int itemsPerPage) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("sort", sortOrder)
+                .withParam("order_by", orderBy)
+                .withParam(PAGE_PARAM, 1)
+                .withParam(PER_PAGE_PARAM, itemsPerPage);
+        return (new Pager<Note>(this, Note.class, itemsPerPage, formData.asMap(),
+                "projects", projectId, "merge_requests", mergeRequestIid, "notes"));
+    }
+
+    /**
+     * Get the specified merge request's note.
+     *
+     * @param projectId the project ID to get the issues for
+     * @param mergeRequestIid  the merge request IID to get the notes for
+     * @param noteId the ID of the Note to get
+     * @return a Note instance for the specified IDs
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note getMergeRequestNote(Integer projectId, Integer mergeRequestIid, Integer noteId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
+                "projects", projectId, "merge_requests", mergeRequestIid, "notes", noteId);
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Create a merge request's note.
+     *
+     * @param projectId the project ID to create the issues for
+     * @param mergeRequestIid  the merge request IID to create the notes for
+     * @param body the content of note
+     * @return the created Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note createMergeRequestNote(Integer projectId, Integer mergeRequestIid, String body) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", projectId, "merge_requests", mergeRequestIid, "notes");
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Update the specified merge request's note.
+     *
+     * @param projectId the project ID to update the issues for
+     * @param mergeRequestIid  the merge request IID to update the notes for
+     * @param noteId the ID of the node to update
+     * @param body the update content for the Note
+     * @return the modified Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note updateMergeRequestNote(Integer projectId, Integer mergeRequestIid, Integer noteId, String body) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
+        Response response = put(Response.Status.CREATED, formData.asMap(),
+                "projects", projectId, "merge_requests", mergeRequestIid, "notes", noteId);
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Delete the specified merge request's note.
+     *
+     * @param projectId the project ID to delete the issues for
+     * @param mergeRequestIid the merge request IID to delete the notes for
+     * @param noteId the ID of the node to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteMergeRequestNote(Integer projectId, Integer mergeRequestIid, Integer noteId) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
+        }
+
+        if (noteId == null) {
+            throw new RuntimeException("noteId cannot be null");
+        }
+
+        Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, getDefaultPerPageParam(), "projects", projectId, "merge_requests", mergeRequestIid, "notes", noteId);
     }
 }
