@@ -48,6 +48,7 @@ import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Note;
+import org.gitlab4j.api.models.NotificationSettings;
 import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.Project;
@@ -326,6 +327,17 @@ public class TestGitLabApiBeans {
         try {
             Note note = makeFakeApiCall(Note.class, "note");
             assertTrue(compareJson(note, "note"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testNotificationSettings() {
+
+        try {
+            NotificationSettings settings = makeFakeApiCall(NotificationSettings.class, "notification-settings");
+            assertTrue(compareJson(settings, "notification-settings"));
         } catch (Exception e) {
             e.printStackTrace();
         }

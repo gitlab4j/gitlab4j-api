@@ -49,6 +49,7 @@ public class GitLabApi {
     private MergeRequestApi mergeRequestApi;
     private MilestonesApi milestonesApi;
     private NamespaceApi namespaceApi;
+    private NotificationSettingsApi notificationSettingsApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
     private RepositoryApi repositoryApi;
@@ -846,6 +847,25 @@ public class GitLabApi {
         }
 
         return (notesApi);
+    }
+
+    /**
+     * Gets the NotesApi instance owned by this GitLabApi instance. The NotesApi is used
+     * to perform all notes related API calls.
+     *
+     * @return the NotesApi instance owned by this GitLabApi instance
+     */
+    public NotificationSettingsApi getNotificationSettingsApi() {
+
+        if (notificationSettingsApi == null) {
+            synchronized (this) {
+                if (notificationSettingsApi == null) {
+                    notificationSettingsApi = new NotificationSettingsApi(this);
+                }
+            }
+        }
+
+        return (notificationSettingsApi);
     }
 
     /**
