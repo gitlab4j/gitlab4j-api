@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.3'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.4'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.8.3</version>
+    <version>4.8.4</version>
 </dependency>
 ```
 
@@ -146,6 +146,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[MilestonesApi](#milestonesapi)<br/>
 &nbsp;&nbsp;[NamespaceApi](#namespaceapi)<br/>
 &nbsp;&nbsp;[NotesApi](#notesapi)<br/>
+&nbsp;&nbsp;[NotificationSettingsApi](#notificationsettingsapi)<br/>
 &nbsp;&nbsp;[PipelineApi](#pipelineapi)<br/>
 &nbsp;&nbsp;[ProjectApi](#projectapi)<br/>
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
@@ -227,7 +228,12 @@ List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces("foobar"
 #### NotesApi
 ```java
 // Get a list of the issues's notes for project ID 1234, issue IID 1
-List<Note> notes = getNotes(1234, 1);
+List<Note> notes = gitLabApi.getNotesApi().getNotes(1234, 1);
+```
+#### NotificationSettingsApi
+```java
+// Get the current global notification settings
+NotificationSettings settings = gitLabApi.getNotificationSettingsApi().getGlobalNotificationSettings();
 ```
 
 #### PipelineApi
