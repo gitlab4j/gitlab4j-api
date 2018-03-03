@@ -216,12 +216,16 @@ public class MergeRequestApi extends AbstractApi {
      * @param title the title for the merge request, required
      * @param description the description of the merge request
      * @param assigneeId the Assignee user ID, optional
+     * @param targetProjectId the ID of a target project, optional
+     * @param labels labels for MR, optional
+     * @param milestoneId the ID of a milestone, optional
+     * @param removeSourceBranch Flag indicating if a merge request should remove the source branch when merging, optional
      * @return the created MergeRequest instance
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest createMergeRequest(Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId)
+    public MergeRequest createMergeRequest(Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId,
+                                           Integer targetProjectId, String[] labels, Integer milestoneId, Boolean removeSourceBranch)
             throws GitLabApiException {
-
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
@@ -232,9 +236,32 @@ public class MergeRequestApi extends AbstractApi {
         addFormParam(formData, "title", title, true);
         addFormParam(formData, "description", description, false);
         addFormParam(formData, "assignee_id", assigneeId, false);
+        addFormParam(formData, "target_project_id", targetProjectId, false);
+        addFormParam(formData, "labels", labels == null ? null : String.join(",", labels), false);
+        addFormParam(formData, "milestone_id", milestoneId, false);
+        addFormParam(formData, "remove_source_branch", removeSourceBranch, false);
 
         Response response = post(Response.Status.CREATED, formData, "projects", projectId, "merge_requests");
         return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Creates a merge request and optionally assigns a reviewer to it.
+     *
+     * POST /projects/:id/merge_requests
+     *
+     * @param projectId the ID of a project, required
+     * @param sourceBranch the source branch, required
+     * @param targetBranch the target branch, required
+     * @param title the title for the merge request, required
+     * @param description the description of the merge request
+     * @param assigneeId the Assignee user ID, optional
+     * @return the created MergeRequest instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest createMergeRequest(Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId)
+            throws GitLabApiException {
+        return createMergeRequest(projectId, sourceBranch, targetBranch, title, description, assigneeId, null, null, null, null);
     }
 
     /**
