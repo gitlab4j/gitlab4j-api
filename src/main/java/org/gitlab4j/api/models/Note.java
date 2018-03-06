@@ -37,18 +37,24 @@ public class Note {
         }
     }
 
-    public static enum NotableType {
-        ISSUE("Issue"), MERGE_REQUEST("MergeRequest"), SNIPPET("Snippet");
+    public static enum NoteableType {
 
-        private String name;
+        ISSUE, MERGE_REQUEST, SNIPPET;
+        private static JacksonJsonEnumHelper<NoteableType> enumHelper = new JacksonJsonEnumHelper<>(NoteableType.class, true, true);
 
-        NotableType(String name) {
-            this.name = name;
+        @JsonCreator
+        public static NoteableType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
         }
 
         @Override
         public String toString() {
-            return (name);
+            return (enumHelper.toString(this));
         }
     }
 
@@ -61,7 +67,8 @@ public class Note {
     private String fileName;
     private Integer id;
     private Integer noteableId;
-    private NotableType noteableType;
+    private NoteableType noteableType;
+    private Integer noteableIid;
     private Boolean system;
     private String title;
     private String updatedAt;
@@ -139,12 +146,20 @@ public class Note {
         this.noteableId = noteableId;
     }
 
-    public NotableType getNoteableType() {
+    public NoteableType getNoteableType() {
         return noteableType;
     }
 
-    public void setNoteableType(NotableType noteableType) {
+    public void setNoteableType(NoteableType noteableType) {
         this.noteableType = noteableType;
+    }
+
+    public Integer getNoteableIid() {
+        return noteableIid;
+    }
+
+    public void setNoteableIid(Integer noteableIid) {
+        this.noteableIid = noteableIid;
     }
 
     public Boolean getSystem() {
