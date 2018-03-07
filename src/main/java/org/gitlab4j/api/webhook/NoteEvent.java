@@ -7,6 +7,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NoteEvent implements Event {
@@ -96,7 +100,7 @@ public class NoteEvent implements Event {
     public void setMergeRequest(EventMergeRequest mergeRequest) {
         this.mergeRequest = mergeRequest;
     }
-    
+
     public EventSnippet getSnippet() {
         return snippet;
     }
@@ -105,21 +109,24 @@ public class NoteEvent implements Event {
         this.snippet = snippet;
     }
 
-    public enum NoteableType {
-        COMMIT("Commit"),
-        ISSUE("Issue"),
-        MERGE_REQUEST("MergeRequest"),
-        SNIPPET("Snippet");
+    public static enum NoteableType {
 
-        private String name;
+        ISSUE, MERGE_REQUEST, SNIPPET, COMMIT;
+        private static JacksonJsonEnumHelper<NoteableType> enumHelper = new JacksonJsonEnumHelper<>(NoteableType.class, true, true);
 
-        NoteableType(String name) {
-            this.name = name;
+        @JsonCreator
+        public static NoteableType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
         }
 
         @Override
         public String toString() {
-            return (name);
+            return (enumHelper.toString(this));
         }
     }
 
@@ -128,7 +135,7 @@ public class NoteEvent implements Event {
 
         private Integer id;
         private String note;
-        private NoteableType notableType;
+        private NoteableType noteableType;
         private Integer authorId;
         private Date createdAt;
         private Date updatedAt;
@@ -158,11 +165,11 @@ public class NoteEvent implements Event {
         }
 
         public NoteableType getNoteableType() {
-            return notableType;
+            return noteableType;
         }
 
-        public void setNoteableType(NoteableType notableType) {
-            this.notableType = notableType;
+        public void NoteableType(NoteableType notableType) {
+            this.noteableType = notableType;
         }
 
         public Integer getAuthorId() {

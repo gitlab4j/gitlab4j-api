@@ -333,6 +333,17 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testMergeRequestNote() {
+
+        try {
+            Note note = makeFakeApiCall(Note.class, "merge-request-note");
+            assertTrue(compareJson(note, "merge-request-note"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testNotificationSettings() {
 
         try {
