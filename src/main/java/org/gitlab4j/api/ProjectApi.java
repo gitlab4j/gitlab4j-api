@@ -1865,7 +1865,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public Project archiveProject(Integer projectId)
             throws GitLabApiException {
-        Response response = post(Response.Status.ACCEPTED, (new GitLabApiForm()), "projects", projectId, "archive");
+        Response response = post(Response.Status.CREATED, (new GitLabApiForm()), "projects", projectId, "archive");
         return (response.readEntity(Project.class));
     }
 
@@ -1880,7 +1880,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public Project unarchiveProject(Integer projectId)
             throws GitLabApiException {
-        Response response = post(Response.Status.ACCEPTED, (new GitLabApiForm()), "projects", projectId, "unarchive");
+        Response response = post(Response.Status.CREATED, (new GitLabApiForm()), "projects", projectId, "unarchive");
         return (response.readEntity(Project.class));
     }
 }
