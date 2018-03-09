@@ -1853,4 +1853,34 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", projectId, "share", groupId);
     }
+
+    /**
+     * Archive a project
+     *
+     * POST /projects/:id/archive
+     *
+     * @param projectId the ID of the project to archive, required
+     * @return the archived GitLab Project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project archiveProject(Integer projectId)
+            throws GitLabApiException {
+        Response response = post(Response.Status.CREATED, (new GitLabApiForm()), "projects", projectId, "archive");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Unarchive a project
+     *
+     * POST /projects/:id/unarchive
+     *
+     * @param projectId the ID of the project to unarchive, required
+     * @return the unarchived GitLab Project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project unarchiveProject(Integer projectId)
+            throws GitLabApiException {
+        Response response = post(Response.Status.CREATED, (new GitLabApiForm()), "projects", projectId, "unarchive");
+        return (response.readEntity(Project.class));
+    }
 }

@@ -441,6 +441,15 @@ public class TestProjectApi {
     }
 
     @Test
+    public void testArchiveProject() throws GitLabApiException {
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        assertEquals(true, gitLabApi.getProjectApi().archiveProject(project.getId()).getArchived());
+        assertEquals(false, gitLabApi.getProjectApi().unarchiveProject(project.getId()).getArchived());
+    }
+
+    @Test
     public void testGetOptionalProject() throws GitLabApiException {
 
         Optional<Project> optional = gitLabApi.getProjectApi().getOptionalProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
