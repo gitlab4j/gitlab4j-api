@@ -62,6 +62,7 @@ public class GitLabApi {
     private LabelsApi labelsApi;
     private NotesApi notesApi;
     private EventsApi eventsApi;
+    private ProtectedBranchesApi protectedBranchesApi;
 
     /**
      * Create a new GitLabApi instance that is logically a duplicate of this instance, with the exception off sudo state.
@@ -1018,6 +1019,25 @@ public class GitLabApi {
         }
 
         return (userApi);
+    }
+
+    /**
+     * Gets the ProtectedBranchesApi instance owned by this GitLabApi instance. The ProtectedBranchesApi is used
+     * to perform all protection related actions on a branch of a project.
+     *
+     * @return the ProtectedBranchesApi instance owned by this GitLabApi instance
+     */
+    public ProtectedBranchesApi getProtectedBranchesApi() {
+
+        if (this.protectedBranchesApi == null) {
+            synchronized (this) {
+                if (this.protectedBranchesApi == null) {
+                    this.protectedBranchesApi = new ProtectedBranchesApi(this);
+                }
+            }
+        }
+
+        return (this.protectedBranchesApi);
     }
 
     /**

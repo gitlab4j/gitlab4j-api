@@ -252,23 +252,4 @@ public class TestRepositoryApi {
         assertNotNull(unprotectedBranch);
         assertFalse(unprotectedBranch.getProtected());
     }
-
-    @Test
-    public void testGetProtectedBranches() throws GitLabApiException {
-
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        Branch branch = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_PROTECT_BRANCH_NAME, "master");
-        assertNotNull(branch);
-
-        List<Branch> branches = gitLabApi.getRepositoryApi().getProtectedBranches(project.getId());
-        assertNotNull(branches);
-        assertTrue(branches.contains(branch));
-
-        gitLabApi.getRepositoryApi().unprotectBranchVoid(project.getId(), branch.getName());
-        branches = gitLabApi.getRepositoryApi().getProtectedBranches(project.getId());
-        assertNotNull(branches);
-        assertFalse(branches.contains(branch));
-    }
 }
