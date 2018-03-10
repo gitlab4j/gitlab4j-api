@@ -111,7 +111,6 @@ public class RepositoryApi extends AbstractApi {
         return (response.readEntity(Branch.class));
     }
 
-
     /**
      * Delete a single project repository branch.
      *
@@ -161,7 +160,6 @@ public class RepositoryApi extends AbstractApi {
         Response response = post(Response.Status.CREATED , formData.asMap(), "projects", projectId, "protected_branches");
         return (response.readEntity(Branch.class));
     }
-
 
     /**
      * Gets a list of protected branches from a project.
