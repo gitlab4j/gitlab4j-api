@@ -8,7 +8,6 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
