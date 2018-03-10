@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Tag;
@@ -142,6 +144,41 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
+     * Protects a single repository branch or several project repository branches using a wildcard protected branch.
+     *
+     * POST /projects/:id/protected_branches
+     *
+     * @param projectId the ID of the project to protect
+     * @param branchName the name of the branch to protect
+     * @return the branch info for the protected branch
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Branch protectBranch(Integer projectId, String branchName, AccessLevel pushAccessLevel, AccessLevel mergeAccessLevel) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("id", projectId, true)
+                .withParam("name", branchName, true)
+                .withParam("push_access_level", pushAccessLevel.toValue(), false)
+                .withParam("merge_access_level", mergeAccessLevel.toValue(), false);
+        Response response = post(Response.Status.CREATED , formData.asMap(), "projects", projectId, "protected_branches");
+        return (response.readEntity(Branch.class));
+    }
+
+
+    /**
+     * Gets a list of protected branches from a project.
+     *
+     * GET /projects/:id/protected_branches
+     *
+     * @param projectId the ID of the project to protect
+     * @return the list of protected branches for the project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Branch> getProtectedBranches(Integer projectId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", projectId, "protected_branches");
+        return (response.readEntity(new GenericType<List<Branch>>() {}));
+    }
+
+    /**
      * Unprotects a single project repository branch. This is an idempotent function, unprotecting an
      * already unprotected repository branch will not produce an error.
      *
@@ -155,6 +192,19 @@ public class RepositoryApi extends AbstractApi {
     public Branch unprotectBranch(Integer projectId, String branchName) throws GitLabApiException {
         Response response = put(Response.Status.OK, null, "projects", projectId, "repository", "branches", urlEncode(branchName), "unprotect");
         return (response.readEntity(Branch.class));
+    }
+
+    /**
+     * Unprotects the given protected branch or wildcard protected branch.
+     *
+     * DELETE /projects/:id/protected_branches/:name
+     *
+     * @param projectId the ID of the project to un-protect
+     * @param branchName the name of the branch to un-protect
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void unprotectBranchVoid(Integer projectId, String branchName) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "projects", projectId, "protected_branches", urlEncode(branchName));
     }
 
     /**
@@ -463,7 +513,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Compare branches, tags or commits. This can be accessed without authentication
      * if the repository is publicly accessible.
-     * 
+     *
      * @param projectId the ID of the project owned by the authenticated user
      * @param from the commit SHA or branch name
      * @param to the commit SHA or branch name
@@ -479,7 +529,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Compare branches, tags or commits. This can be accessed without authentication
      * if the repository is publicly accessible.
-     * 
+     *
      * @param projectPath the path of the project owned by the authenticated user
      * @param from the commit SHA or branch name
      * @param to the commit SHA or branch name

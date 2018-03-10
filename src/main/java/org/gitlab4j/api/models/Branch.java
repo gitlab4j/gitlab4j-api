@@ -4,17 +4,20 @@ package org.gitlab4j.api.models;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
+import java.util.Map;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Branch {
-
     private Commit commit;
     private Boolean developersCanMerge;
     private Boolean developersCanPush;
     private Boolean merged;
     private String name;
     private Boolean isProtected;
+    private List<BranchAccessLevelDetails> pushAccessLevels;
+    private List<BranchAccessLevelDetails> mergeAccessLevels;
 
     public Commit getCommit() {
         return commit;
@@ -62,6 +65,22 @@ public class Branch {
 
     public void setProtected(Boolean isProtected) {
         this.isProtected = isProtected;
+    }
+
+    public List<BranchAccessLevelDetails> getPushAccessLevels() {
+        return this.pushAccessLevels;
+    }
+
+    public void setPushAccessLevels(List<BranchAccessLevelDetails> pushAccessLevels) {
+        this.pushAccessLevels = pushAccessLevels;
+    }
+
+    public List<BranchAccessLevelDetails> getMergeAccessLevels() {
+        return this.mergeAccessLevels;
+    }
+
+    public void setMergeAccessLevels(List<BranchAccessLevelDetails> mergeAccessLevels) {
+        this.mergeAccessLevels = mergeAccessLevels;
     }
 
     public static final boolean isValid(Branch branch) {
