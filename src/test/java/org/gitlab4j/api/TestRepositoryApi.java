@@ -29,14 +29,14 @@ import static org.junit.Assume.assumeTrue;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * <p>
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * <p>
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
- * <p>
+ *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that testCreate() is executed first.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
