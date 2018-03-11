@@ -1,5 +1,9 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,6 +19,30 @@ public class Runner {
     private String name;
     private Boolean online;
     private String status;
+
+    /**
+     * Enum to use for RunnerDetail accessLevel property.
+     */
+    public enum RunnerScope {
+        SPECIFIC, SHARED, ACTIVE, ONLINE, PAUSED;
+        private static JacksonJsonEnumHelper<RunnerScope> enumHelper =
+                new JacksonJsonEnumHelper<>(RunnerScope.class);
+
+        @JsonCreator
+        public static RunnerScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 
     public Integer getId() {
         return id;

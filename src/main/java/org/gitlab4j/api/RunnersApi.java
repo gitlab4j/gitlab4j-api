@@ -3,9 +3,7 @@ package org.gitlab4j.api;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.JobStatus;
 import org.gitlab4j.api.models.Runner;
-import org.gitlab4j.api.models.RunnerAccessLevel;
 import org.gitlab4j.api.models.RunnerDetail;
-import org.gitlab4j.api.models.RunnerScope;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -40,9 +38,9 @@ public class RunnersApi extends AbstractApi {
      * @return List of Runners
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Runner> getRunners(RunnerScope scope) throws GitLabApiException {
+    public List<Runner> getRunners(Runner.RunnerScope scope) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", (scope == null) ? null : scope.toValue());
+                .withParam("scope", scope);
         Response response = get(Response.Status.OK, formData.asMap(), "runners");
         return (response.readEntity(new GenericType<List<Runner>>() {
         }));
@@ -71,9 +69,9 @@ public class RunnersApi extends AbstractApi {
      * @return a Pager containing the Runners for the user
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Runner> getRunners(RunnerScope scope, int itemsPerPage) throws GitLabApiException {
+    public Pager<Runner> getRunners(Runner.RunnerScope scope, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", (scope == null) ? null : scope.toValue());
+                .withParam("scope", scope);
         return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
     }
 
@@ -98,9 +96,9 @@ public class RunnersApi extends AbstractApi {
      * @return List of Runners
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Runner> getAllRunners(RunnerScope scope) throws GitLabApiException {
+    public List<Runner> getAllRunners(Runner.RunnerScope scope) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", (scope == null) ? null : scope.toValue());
+                .withParam("scope", scope);
         Response response = get(Response.Status.OK, formData.asMap(), "runners", "all");
         return (response.readEntity(new GenericType<List<Runner>>() {
         }));
@@ -129,9 +127,9 @@ public class RunnersApi extends AbstractApi {
      * @return a Pager containing the Runners
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Runner> getAllRunners(RunnerScope scope, int itemsPerPage) throws GitLabApiException {
+    public Pager<Runner> getAllRunners(Runner.RunnerScope scope, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", (scope == null) ? null : scope.toValue());
+                .withParam("scope", scope);
         return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
     }
 
@@ -165,14 +163,14 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public RunnerDetail updateRunner(Integer id, String description, Boolean active, List<String> tagList,
-                                     Boolean runUntagged, Boolean locked, RunnerAccessLevel accessLevel) throws GitLabApiException {
+                                     Boolean runUntagged, Boolean locked, RunnerDetail.RunnerAccessLevel accessLevel) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("description", description, false)
                 .withParam("active", active, false)
                 .withParam("tag_list", tagList, false)
                 .withParam("run_untagged", runUntagged, false)
                 .withParam("locked", locked, false)
-                .withParam("access_level", (accessLevel == null) ? null : accessLevel.toValue(), false);
+                .withParam("access_level", accessLevel, false);
         Response response = put(Response.Status.OK, formData.asMap(), "runners", id);
         return (response.readEntity(RunnerDetail.class));
     }
@@ -214,7 +212,7 @@ public class RunnersApi extends AbstractApi {
      */
     public List<Job> getJobs(Integer id, JobStatus status) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("status", (status == null) ? null : status.toValue(), false);
+                .withParam("status", status, false);
         Response response = get(Response.Status.OK, formData.asMap(), "runners", id, "jobs");
         return (response.readEntity(new GenericType<List<Job>>() {
         }));
@@ -247,7 +245,7 @@ public class RunnersApi extends AbstractApi {
      */
     public Pager<Job> getJobs(Integer id, JobStatus status, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("status", (status == null) ? null : status.toValue(), false);
+                .withParam("status", status, false);
         return (new Pager<>(this, Job.class, itemsPerPage, formData.asMap(), "runners", id, "jobs"));
     }
 

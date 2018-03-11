@@ -1,5 +1,9 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,6 +20,31 @@ public class RunnerDetail extends Runner {
     private List<String> tagList;
     private String version;
     private String accessLevel;
+
+    /**
+     * Enum to use for RunnersApi filtering.
+     */
+    public enum RunnerAccessLevel {
+
+        NOT_PROTECTED, REF_PROTECTED;
+        private static JacksonJsonEnumHelper<RunnerAccessLevel> enumHelper =
+                new JacksonJsonEnumHelper<>(RunnerAccessLevel.class);
+
+        @JsonCreator
+        public static RunnerAccessLevel forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 
     public String getPlatform() {
         return this.platform;
