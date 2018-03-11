@@ -149,13 +149,13 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[NotificationSettingsApi](#notificationsettingsapi)<br/>
 &nbsp;&nbsp;[PipelineApi](#pipelineapi)<br/>
 &nbsp;&nbsp;[ProjectApi](#projectapi)<br/>
+&nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi) <br/>
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)
-&nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi)
 
 
 ### Sub API Examples
