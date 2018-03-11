@@ -10,7 +10,7 @@ public enum RunnerAccessLevel {
         this.value = value;
     }
 
-    public String getValue() {
+    public String toValue() {
         return this.value;
     }
 }

@@ -114,7 +114,7 @@ public class RunnersApi extends AbstractApi {
                 .withParam("tag_list", tagList, false)
                 .withParam("run_untagged", runUntagged, false)
                 .withParam("locked", locked, false)
-                .withParam("access_level", (accessLevel == null) ? null : accessLevel.getValue(), false);
+                .withParam("access_level", (accessLevel == null) ? null : accessLevel.toValue(), false);
         Response response = put(Response.Status.OK, formData.asMap(), "runners", id);
         return (response.readEntity(RunnerDetail.class));
     }
