@@ -909,6 +909,25 @@ public class GitLabApi {
     }
 
     /**
+     * Gets the ProtectedBranchesApi instance owned by this GitLabApi instance. The ProtectedBranchesApi is used
+     * to perform all protection related actions on a branch of a project.
+     *
+     * @return the ProtectedBranchesApi instance owned by this GitLabApi instance
+     */
+    public ProtectedBranchesApi getProtectedBranchesApi() {
+
+        if (this.protectedBranchesApi == null) {
+            synchronized (this) {
+                if (this.protectedBranchesApi == null) {
+                    this.protectedBranchesApi = new ProtectedBranchesApi(this);
+                }
+            }
+        }
+
+        return (this.protectedBranchesApi);
+    }
+
+    /**
      * Gets the RepositoryApi instance owned by this GitLabApi instance. The RepositoryApi is used
      * to perform all repository related API calls.
      *
@@ -1039,25 +1058,6 @@ public class GitLabApi {
         }
 
         return (userApi);
-    }
-
-    /**
-     * Gets the ProtectedBranchesApi instance owned by this GitLabApi instance. The ProtectedBranchesApi is used
-     * to perform all protection related actions on a branch of a project.
-     *
-     * @return the ProtectedBranchesApi instance owned by this GitLabApi instance
-     */
-    public ProtectedBranchesApi getProtectedBranchesApi() {
-
-        if (this.protectedBranchesApi == null) {
-            synchronized (this) {
-                if (this.protectedBranchesApi == null) {
-                    this.protectedBranchesApi = new ProtectedBranchesApi(this);
-                }
-            }
-        }
-
-        return (this.protectedBranchesApi);
     }
 
     /**
