@@ -78,18 +78,20 @@ public class TestProtectedBranchesApi {
     }
 
     @AfterClass
-    public static void teardown() throws GitLabApiException {
+    public static void teardown() {
         if (gitLabApi != null) {
 
             try {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
 
                 try {
+                    gitLabApi.getProtectedBranchesApi().unprotectBranch(project.getId(), TEST_BRANCH_NAME);
                     gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
                 } catch (GitLabApiException ignore) {
                 }
 
                 try {
+                    gitLabApi.getProtectedBranchesApi().unprotectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
                     gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
                 } catch (GitLabApiException ignore) {
                 }
