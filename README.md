@@ -156,6 +156,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)
+&nbsp;&nbsp;[RunnersApi](#runnersapi)
 
 
 ### Sub API Examples
@@ -301,4 +302,10 @@ List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();
 ```java
 // Get the User info for user_id 1
 User user = gitLabApi.getUserApi().getUser(1);
+```
+
+#### RunnersApi
+```java
+// Get All Runners.
+List<Runner> runners = api.getRunnersApi().getAllRunners();
 ```
