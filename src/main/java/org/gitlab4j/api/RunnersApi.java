@@ -42,7 +42,7 @@ public class RunnersApi extends AbstractApi {
      */
     public List<Runner> getRunners(RunnerScope scope) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", scope.toValue());
+                .withParam("scope", (scope == null) ? null : scope.toValue());
         Response response = get(Response.Status.OK, formData.asMap(), "runners");
         return (response.readEntity(new GenericType<List<Runner>>() {
         }));
@@ -71,7 +71,7 @@ public class RunnersApi extends AbstractApi {
      */
     public List<Runner> getAllRunners(RunnerScope scope) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", scope.toValue());
+                .withParam("scope", (scope == null) ? null : scope.toValue());
         Response response = get(Response.Status.OK, formData.asMap(), "runners", "all");
         return (response.readEntity(new GenericType<List<Runner>>() {
         }));
@@ -86,7 +86,7 @@ public class RunnersApi extends AbstractApi {
      * @return RunnerDetail instance.
      * @throws GitLabApiException if any exception occurs
      */
-    public RunnerDetail getRunnerDetails(Integer id) throws GitLabApiException {
+    public RunnerDetail getRunnerDetail(Integer id) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "runners", id);
         return (response.readEntity(RunnerDetail.class));
     }
@@ -114,7 +114,7 @@ public class RunnersApi extends AbstractApi {
                 .withParam("tag_list", tagList, false)
                 .withParam("run_untagged", runUntagged, false)
                 .withParam("locked", locked, false)
-                .withParam("access_level", accessLevel.getValue(), false);
+                .withParam("access_level", (accessLevel == null) ? null : accessLevel.getValue(), false);
         Response response = put(Response.Status.OK, formData.asMap(), "runners", id);
         return (response.readEntity(RunnerDetail.class));
     }
@@ -136,6 +136,19 @@ public class RunnersApi extends AbstractApi {
      *
      * GET /runners/:id/jobs
      *
+     * @param id The ID of a runner
+     * @return List jobs that are being processed or were processed by specified Runner
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Job> getJobs(Integer id) throws GitLabApiException {
+        return getJobs(id, null);
+    }
+
+    /**
+     * List jobs that are being processed or were processed by specified Runner.
+     *
+     * GET /runners/:id/jobs
+     *
      * @param id     The ID of a runner
      * @param status Status of the job; one of: running, success, failed, canceled
      * @return List jobs that are being processed or were processed by specified Runner
@@ -143,7 +156,7 @@ public class RunnersApi extends AbstractApi {
      */
     public List<Job> getJobs(Integer id, JobStatus status) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("status", status.toValue(), false);
+                .withParam("status", (status == null) ? null : status.toValue(), false);
         Response response = get(Response.Status.OK, formData.asMap(), "runners", id, "jobs");
         return (response.readEntity(new GenericType<List<Job>>() {
         }));

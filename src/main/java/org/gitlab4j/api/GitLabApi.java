@@ -52,8 +52,10 @@ public class GitLabApi {
     private NotificationSettingsApi notificationSettingsApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
+    private ProtectedBranchesApi protectedBranchesApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
+    private RunnersApi runnersApi;
     private ServicesApi servicesApi;
     private SessionApi sessionApi;
     private SystemHooksApi systemHooksApi;
@@ -62,7 +64,6 @@ public class GitLabApi {
     private LabelsApi labelsApi;
     private NotesApi notesApi;
     private EventsApi eventsApi;
-    private ProtectedBranchesApi protectedBranchesApi;
 
     /**
      * Create a new GitLabApi instance that is logically a duplicate of this instance, with the exception off sudo state.
@@ -148,7 +149,7 @@ public class GitLabApi {
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public static GitLabApi oauth2Login(ApiVersion apiVersion, String url, String username, String password, 
+    public static GitLabApi oauth2Login(ApiVersion apiVersion, String url, String username, String password,
             String secretToken, Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors)
             throws GitLabApiException {
 
@@ -185,7 +186,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and the specified GitLab API version.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -203,7 +204,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token using GitLab API version 4.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -220,7 +221,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and the specified GitLab API version.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -263,7 +264,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token using GitLab API version 4.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -984,7 +985,7 @@ public class GitLabApi {
     }
 
     /**
-     * Gets the SystemHooksApi instance owned by this GitLabApi instance. All methods 
+     * Gets the SystemHooksApi instance owned by this GitLabApi instance. All methods
      * require administrator authorization.
      *
      * @return the SystemHooksApi instance owned by this GitLabApi instance
@@ -1038,6 +1039,25 @@ public class GitLabApi {
         }
 
         return (this.protectedBranchesApi);
+    }
+
+    /**
+    * Gets the RunnersApi instance owned by this GitLabApi instance. The RunnersApi is used
+    * to perform all Runner related API calls.
+    *
+    * @return the RunnerApi instance owned by this GitLabApi instance
+    */
+    public RunnersApi getRunnersApi() {
+
+        if (runnersApi == null) {
+            synchronized (this) {
+                if (runnersApi == null) {
+                    runnersApi = new RunnersApi(this);
+                }
+            }
+        }
+
+        return (runnersApi);
     }
 
     /**
