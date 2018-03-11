@@ -152,11 +152,11 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi) <br/>
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
+&nbsp;&nbsp;[RunnersApi](#runnersapi) <br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)
-&nbsp;&nbsp;[RunnersApi](#runnersapi)
 
 
 ### Sub API Examples
