@@ -1,6 +1,6 @@
 package org.gitlab4j.api;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -32,7 +32,7 @@ public class TestUtils {
     static {
 
         testProperties = new Properties();
-        try (InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("test-gitlab4j.properties")) {
+        try (InputStream input = new FileInputStream("test-gitlab4j.properties")) {
             testProperties.load(input);
         } catch (IOException ioe) {
         }
