@@ -155,6 +155,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)
+&nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi)
 
 
 ### Sub API Examples
@@ -295,4 +296,9 @@ List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();
 ```java
 // Get the User info for user_id 1
 User user = gitLabApi.getUserApi().getUser(1);
+```
+
+#### ProtectedBranchesApi
+```java
+List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
 ```
