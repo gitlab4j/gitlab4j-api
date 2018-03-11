@@ -280,6 +280,12 @@ List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
 ```
 
+#### RunnersApi
+```java
+// Get All Runners.
+List<Runner> runners = api.getRunnersApi().getAllRunners();
+```
+
 #### ServicesApi
 ```java
 // Activates the gitlab-ci service.
@@ -302,10 +308,4 @@ List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();
 ```java
 // Get the User info for user_id 1
 User user = gitLabApi.getUserApi().getUser(1);
-```
-
-#### RunnersApi
-```java
-// Get All Runners.
-List<Runner> runners = api.getRunnersApi().getAllRunners();
 ```
