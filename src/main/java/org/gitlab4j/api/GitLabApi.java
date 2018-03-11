@@ -947,6 +947,25 @@ public class GitLabApi {
     }
 
     /**
+     * Gets the RunnersApi instance owned by this GitLabApi instance. The RunnersApi is used
+     * to perform all Runner related API calls.
+     *
+     * @return the RunnerApi instance owned by this GitLabApi instance
+     */
+    public RunnersApi getRunnersApi() {
+
+        if (runnersApi == null) {
+            synchronized (this) {
+                if (runnersApi == null) {
+                    runnersApi = new RunnersApi(this);
+                }
+            }
+        }
+
+        return (runnersApi);
+    }
+
+    /**
      * Gets the ServicesApi instance owned by this GitLabApi instance. The ServicesApi is used
      * to perform all services related API calls.
      *
@@ -1039,25 +1058,6 @@ public class GitLabApi {
         }
 
         return (this.protectedBranchesApi);
-    }
-
-    /**
-    * Gets the RunnersApi instance owned by this GitLabApi instance. The RunnersApi is used
-    * to perform all Runner related API calls.
-    *
-    * @return the RunnerApi instance owned by this GitLabApi instance
-    */
-    public RunnersApi getRunnersApi() {
-
-        if (runnersApi == null) {
-            synchronized (this) {
-                if (runnersApi == null) {
-                    runnersApi = new RunnersApi(this);
-                }
-            }
-        }
-
-        return (runnersApi);
     }
 
     /**
