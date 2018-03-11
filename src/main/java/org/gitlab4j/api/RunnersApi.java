@@ -49,6 +49,35 @@ public class RunnersApi extends AbstractApi {
     }
 
     /**
+     * Get a list of all available runners available to the user.
+     *
+     * GET /runners
+     *
+     * @param itemsPerPage the number of Runner instances that will be fetched per page
+     * @return a Pager containing the Runners for the user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Runner> getRunners(int itemsPerPage) throws GitLabApiException {
+        return getRunners(null, itemsPerPage);
+    }
+
+    /**
+     * Get a list of specific runners available to the user.
+     *
+     * GET /runners
+     *
+     * @param scope        The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @param itemsPerPage The number of Runner instances that will be fetched per page
+     * @return a Pager containing the Runners for the user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Runner> getRunners(RunnerScope scope, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("scope", (scope == null) ? null : scope.toValue());
+        return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
+    }
+
+    /**
      * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
      *
      * GET /runners/all
@@ -75,6 +104,35 @@ public class RunnersApi extends AbstractApi {
         Response response = get(Response.Status.OK, formData.asMap(), "runners", "all");
         return (response.readEntity(new GenericType<List<Runner>>() {
         }));
+    }
+
+    /**
+     * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * GET /runners/all
+     *
+     * @param itemsPerPage The number of Runner instances that will be fetched per page
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Runner> getAllRunners(int itemsPerPage) throws GitLabApiException {
+        return getAllRunners(null, itemsPerPage);
+    }
+
+    /**
+     * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * GET /runners/all
+     *
+     * @param scope        The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @param itemsPerPage The number of Runner instances that will be fetched per page
+     * @return a Pager containing the Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Runner> getAllRunners(RunnerScope scope, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("scope", (scope == null) ? null : scope.toValue());
+        return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
     }
 
     /**
@@ -163,18 +221,62 @@ public class RunnersApi extends AbstractApi {
     }
 
     /**
+     * List jobs that are being processed or were processed by specified Runner.
+     *
+     * GET /runners/:id/jobs
+     *
+     * @param id           The ID of a runner
+     * @param itemsPerPage The number of Runner instances that will be fetched per page
+     * @return a Pager containing the Jobs for the Runner
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Job> getJobs(Integer id, int itemsPerPage) throws GitLabApiException {
+        return getJobs(id, null, itemsPerPage);
+    }
+
+    /**
+     * List jobs that are being processed or were processed by specified Runner.
+     *
+     * GET /runners/:id/jobs
+     *
+     * @param id           The ID of a runner
+     * @param status       Status of the job; one of: running, success, failed, canceled
+     * @param itemsPerPage The number of Runner instances that will be fetched per page
+     * @return a Pager containing the Jobs for the Runner
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Job> getJobs(Integer id, JobStatus status, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("status", (status == null) ? null : status.toValue(), false);
+        return (new Pager<>(this, Job.class, itemsPerPage, formData.asMap(), "runners", id, "jobs"));
+    }
+
+    /**
      * List all runners (specific and shared) available in the project. Shared runners are listed if at least one
      * shared runner is defined and shared runners usage is enabled in the project's settings.
      *
      * GET /projects/:id/runners
      *
-     * @param projectId
-     * @return
+     * @param projectId The ID of the project owned by the authenticated user
+     * @return List of all Runner available in the project
      */
     public List<Runner> getProjectRunners(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "runners");
         return (response.readEntity(new GenericType<List<Runner>>() {
         }));
+    }
+
+    /**
+     * List all runners (specific and shared) available in the project. Shared runners are listed if at least one
+     * shared runner is defined and shared runners usage is enabled in the project's settings.
+     *
+     * GET /projects/:id/runners
+     *
+     * @param projectId The ID of the project owned by the authenticated user
+     * @return Pager of all Runner available in the project
+     */
+    public Pager<Runner> getProjectRunners(Integer projectId, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<>(this, Runner.class, itemsPerPage, null, "projects", projectId, "runners"));
     }
 
     /**
