@@ -149,6 +149,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[NotificationSettingsApi](#notificationsettingsapi)<br/>
 &nbsp;&nbsp;[PipelineApi](#pipelineapi)<br/>
 &nbsp;&nbsp;[ProjectApi](#projectapi)<br/>
+&nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi) <br/>
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
@@ -259,6 +260,11 @@ Project projectSpec = new Project()
     .withPublic(true);
 
 Project newProject = gitLabApi.getProjectApi().createProject(projectSpec);
+```
+
+#### ProtectedBranchesApi
+```java
+List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
 ```
 
 #### RepositoryApi

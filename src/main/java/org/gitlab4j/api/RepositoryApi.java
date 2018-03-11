@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Tag;
@@ -109,7 +110,6 @@ public class RepositoryApi extends AbstractApi {
         Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "branches");
         return (response.readEntity(Branch.class));
     }
-
 
     /**
      * Delete a single project repository branch.
@@ -463,7 +463,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Compare branches, tags or commits. This can be accessed without authentication
      * if the repository is publicly accessible.
-     * 
+     *
      * @param projectId the ID of the project owned by the authenticated user
      * @param from the commit SHA or branch name
      * @param to the commit SHA or branch name
@@ -479,7 +479,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Compare branches, tags or commits. This can be accessed without authentication
      * if the repository is publicly accessible.
-     * 
+     *
      * @param projectPath the path of the project owned by the authenticated user
      * @param from the commit SHA or branch name
      * @param to the commit SHA or branch name

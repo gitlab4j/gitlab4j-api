@@ -1,6 +1,5 @@
 package org.gitlab4j.api;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,8 +32,7 @@ public class TestUtils {
     static {
 
         testProperties = new Properties();
-        File path = new File(System.getProperty("user.home"), "test-gitlab4j.properties");
-        try (InputStream input = new FileInputStream(path)) {
+        try (InputStream input = new FileInputStream("test-gitlab4j.properties")) {
             testProperties.load(input);
         } catch (IOException ioe) {
         }

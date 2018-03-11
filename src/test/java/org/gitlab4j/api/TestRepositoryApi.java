@@ -28,13 +28,13 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that testCreate() is executed first.
@@ -47,6 +47,7 @@ public class TestRepositoryApi {
     private static final String TEST_NAMESPACE;
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
+
     static {
         TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
         TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
@@ -96,19 +97,19 @@ public class TestRepositoryApi {
 
             try {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-                
+
                 try {
                     gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Cleanup test files.");
                 } catch (GitLabApiException ignore) {
                 }
-                
+
                 try {
                     gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
                 } catch (GitLabApiException ignore) {
                 }
 
                 gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
-                
+
             } catch (GitLabApiException ignore) {
             }
         }
@@ -203,14 +204,14 @@ public class TestRepositoryApi {
 
     @Test
     public void testCompare() throws GitLabApiException {
-        
+
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
         List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId());
         assertNotNull(commits);
         assertTrue(commits.size() > 1);
-        
+
         int numCommits = commits.size();
         CompareResults compareResults = gitLabApi.getRepositoryApi().compare(project.getId(), commits.get(numCommits - 1).getId(), commits.get(numCommits - 2).getId());
         assertNotNull(compareResults);
@@ -221,7 +222,7 @@ public class TestRepositoryApi {
 
     @Test
     public void testCreateFileAndDeleteFile() throws GitLabApiException {
-        
+
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
@@ -230,7 +231,7 @@ public class TestRepositoryApi {
         file.setContent("This is a test file.");
         RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(file, project.getId(), TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
-        
+
         gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Testing deleteFile().");
     }
 
@@ -244,9 +245,9 @@ public class TestRepositoryApi {
         assertNotNull(branch);
 
         Branch protectedBranch = gitLabApi.getRepositoryApi().protectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
-        assertNotNull(protectedBranch);        
+        assertNotNull(protectedBranch);
         assertTrue(protectedBranch.getProtected());
-        
+
         Branch unprotectedBranch = gitLabApi.getRepositoryApi().unprotectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
         assertNotNull(unprotectedBranch);
         assertFalse(unprotectedBranch.getProtected());
