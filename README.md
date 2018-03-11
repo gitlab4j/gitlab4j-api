@@ -262,6 +262,11 @@ Project projectSpec = new Project()
 Project newProject = gitLabApi.getProjectApi().createProject(projectSpec);
 ```
 
+#### ProtectedBranchesApi
+```java
+List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
+```
+
 #### RepositoryApi
 ```java
 // Get a list of repository branches from a project, sorted by name alphabetically
@@ -296,9 +301,4 @@ List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();
 ```java
 // Get the User info for user_id 1
 User user = gitLabApi.getUserApi().getUser(1);
-```
-
-#### ProtectedBranchesApi
-```java
-List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
 ```
