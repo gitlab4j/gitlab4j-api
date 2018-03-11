@@ -13,6 +13,8 @@ public class Runner {
     private Boolean active;
     private Boolean is_shared;
     private String name;
+    private Boolean online;
+    private String status;
 
     public Integer getId() {
         return id;
@@ -52,5 +54,21 @@ public class Runner {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getOnline() {
+        return this.online;
+    }
+
+    public void setOnline(Boolean online) {
+        this.online = online;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
