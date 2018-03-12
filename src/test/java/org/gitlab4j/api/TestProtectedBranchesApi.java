@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
@@ -153,6 +154,9 @@ public class TestProtectedBranchesApi {
         assertNotNull(project);
 
         ProtectedBranch branch = gitLabApi.getProtectedBranchesApi().protectBranch(project.getId(), TEST_BRANCH_NAME);
+        assertNotNull(branch);
+        assertEquals(TEST_BRANCH_NAME, branch.getName());
+
         List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
         assertNotNull(branches);
         assertTrue(branches.stream()
