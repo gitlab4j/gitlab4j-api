@@ -16,10 +16,14 @@ import javax.xml.bind.DatatypeConverter;
 public class ISO8601 {
 
     public static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ";
+    public static final String SPACEY_PATTERN = "yyyy-MM-dd HH:mm:ss Z";
     public static final String PATTERN_MSEC = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     public static final String OUTPUT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String OUTPUT_MSEC_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String UTC_PATTERN = "yyyy-MM-dd HH:mm:ss 'UTC'";
+
+    private static final String PATTERN_REGEX = "\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d[-+]\\d\\d\\d\\d";
+    private static final String SPACEY_PATTERN_REGEX = "\\d\\d\\d\\d-\\d\\d-\\d\\d \\d\\d:\\d\\d:\\d\\d [-+]\\d\\d\\d\\d";
 
     // Set up ThreadLocal storage to save a thread local SimpleDateFormat keyed with the format string
     private static final class SafeDateFormatter {
@@ -128,8 +132,20 @@ public class ISO8601 {
         if (dateTimeString.endsWith("UTC")) {
             return (SafeDateFormatter.getDateFormat(UTC_PATTERN).parse(dateTimeString));
         } else {
-            Calendar cal = DatatypeConverter.parseDateTime(dateTimeString);
-            return (cal.getTime());
+            try {
+                Calendar cal = DatatypeConverter.parseDateTime(dateTimeString);
+                return (cal.getTime());
+            } catch (Exception e) {
+                if (dateTimeString.matches(PATTERN_REGEX)) {
+                    // Try using the ISO8601 format
+                    return (SafeDateFormatter.getDateFormat(PATTERN).parse(dateTimeString));
+                } else if (dateTimeString.matches(SPACEY_PATTERN_REGEX)) {
+                    // Try using the invalid ISO8601 format with spaces, GitLab sometimes uses this
+                    return (SafeDateFormatter.getDateFormat(SPACEY_PATTERN).parse(dateTimeString));
+                } else {
+                    throw e;
+                }
+            }
         }
     }
 
