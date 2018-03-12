@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Tag;

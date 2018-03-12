@@ -86,13 +86,14 @@ public class TestRepositoryApi {
 
         if (problems.isEmpty()) {
             gitLabApi = new GitLabApi(ApiVersion.V3, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            teardown();
         } else {
             System.err.print(problems);
         }
     }
 
     @AfterClass
-    public static void teardown() throws GitLabApiException {
+    public static void teardown() {
         if (gitLabApi != null) {
 
             try {

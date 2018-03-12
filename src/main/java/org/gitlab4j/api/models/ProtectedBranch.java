@@ -9,9 +9,10 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProtectedBranch {
+
     private String name;
-    private List<BranchAccessLevelDetail> pushAccessLevels;
-    private List<BranchAccessLevelDetail> mergeAccessLevels;
+    private List<BranchAccessLevel> pushAccessLevels;
+    private List<BranchAccessLevel> mergeAccessLevels;
 
     public String getName() {
         return this.name;
@@ -21,19 +22,19 @@ public class ProtectedBranch {
         this.name = name;
     }
 
-    public List<BranchAccessLevelDetail> getPushAccessLevels() {
+    public List<BranchAccessLevel> getPushAccessLevels() {
         return this.pushAccessLevels;
     }
 
-    public void setPushAccessLevels(List<BranchAccessLevelDetail> pushAccessLevels) {
+    public void setPushAccessLevels(List<BranchAccessLevel> pushAccessLevels) {
         this.pushAccessLevels = pushAccessLevels;
     }
 
-    public List<BranchAccessLevelDetail> getMergeAccessLevels() {
+    public List<BranchAccessLevel> getMergeAccessLevels() {
         return this.mergeAccessLevels;
     }
 
-    public void setMergeAccessLevels(List<BranchAccessLevelDetail> mergeAccessLevels) {
+    public void setMergeAccessLevels(List<BranchAccessLevel> mergeAccessLevels) {
         this.mergeAccessLevels = mergeAccessLevels;
     }
 

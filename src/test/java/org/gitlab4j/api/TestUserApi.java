@@ -27,11 +27,11 @@ import org.junit.Test;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  * TEST_USERNAME
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  * TEST_SUDO_AS_USERNAME
@@ -56,7 +56,11 @@ public class TestUserApi {
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_USERNAME = TestUtils.getProperty("TEST_USERNAME");
         TEST_SUDO_AS_USERNAME = TestUtils.getProperty("TEST_SUDO_AS_USERNAME");
-        TEST_SSH_KEY = TestUtils.getProperty("TEST_SSH_KEY");
+        TEST_SSH_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvbkmGRaANy2nmLrfYa9LkjMqjs9twYZXQKUPK18j" +
+                "BWmNgnAm818IikxjfFit3Gqnnh9zdNzlzUYs2osmfdHwRLeFY3hKVR6WckGYVroQuV5ArUA4+oME+IIQ2soCv/" +
+                "vNWfEmp2N1mpBTwi2mIYKurCKv6UpIpGK9D+ezNk5H0waVTK8EvZ/ey69Nu7C7RsbTYeyi5WY/jaUG5JbsEeKY" +
+                "IW/2DIlUts7gcB2hzXtt7r7+6DLx82Vb+S2jPZu2JQaB4zfgS7LQgzHUy1aAAgUUpuAbvWzuGHKO0p551Ru4qi" +
+                "tyXN2+OUVXcYAsuIIdGGB0wLvTDgiOOSZWnSE+sg6XX user@example.com";
     }
 
     private static final String TEST_IMPERSONATION_TOKEN_NAME = "token1";
@@ -149,7 +153,7 @@ public class TestUserApi {
     @Test
     public void testSudoAsUser() throws GitLabApiException {
 
-        assumeTrue(TEST_SUDO_AS_USERNAME != null);
+        assumeTrue(TEST_SUDO_AS_USERNAME != null && TEST_SUDO_AS_USERNAME.length() > 0);
 
         try {
 
