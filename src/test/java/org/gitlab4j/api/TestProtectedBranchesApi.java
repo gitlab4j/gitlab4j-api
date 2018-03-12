@@ -1,5 +1,11 @@
 package org.gitlab4j.api;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
+
+import java.util.List;
+
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProtectedBranch;
@@ -9,13 +15,6 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import java.util.List;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -157,6 +156,6 @@ public class TestProtectedBranchesApi {
         List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
         assertNotNull(branches);
         assertTrue(branches.stream()
-                .anyMatch((protectedBranch) -> protectedBranch.getName().equals(TEST_BRANCH_NAME)));
+                .anyMatch((protectedBranch) -> branch.getName().equals(TEST_BRANCH_NAME)));
     }
 }

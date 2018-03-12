@@ -54,6 +54,7 @@ import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
+import org.gitlab4j.api.models.ProtectedBranch;
 import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.SshKey;
@@ -261,6 +262,17 @@ public class TestGitLabApiBeans {
         try {
             ProjectHook hook = makeFakeApiCall(ProjectHook.class, "hook");
             assertTrue(compareJson(hook, "hook"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testProtectedBranch() {
+
+        try {
+            ProtectedBranch protectedBranch = makeFakeApiCall(ProtectedBranch.class, "protected-branch");
+            assertTrue(compareJson(protectedBranch, "protected-branch"));
         } catch (Exception e) {
             e.printStackTrace();
         }

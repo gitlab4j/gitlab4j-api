@@ -18,11 +18,10 @@ import org.junit.runners.MethodSorters;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
- * TEST_HOOK_URL
+ *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -34,7 +33,7 @@ public class TestSystemHooksApi {
     private static final String TEST_PRIVATE_TOKEN;
     static {
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_HOOK_URL = TestUtils.getProperty("TEST_HOOK_URL");
+        TEST_HOOK_URL = "http://hook.example.com/hook/callback";
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
     

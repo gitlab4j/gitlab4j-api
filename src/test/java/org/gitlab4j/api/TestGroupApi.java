@@ -83,10 +83,12 @@ public class TestGroupApi {
                 problems += "Problem fetching test group, error=" + gle.getMessage() + "\n";
             }
 
-            try {
-                testUser = gitLabApi.getUserApi().getUser(TEST_GROUP_MEMBER_USERNAME);
-            } catch (GitLabApiException gle) {
-                problems += "Problem fetching test user, error=" + gle.getMessage() + "\n";
+            if (TEST_GROUP_MEMBER_USERNAME != null && TEST_GROUP_MEMBER_USERNAME.length() > 0) {
+                try {
+                    testUser = gitLabApi.getUserApi().getUser(TEST_GROUP_MEMBER_USERNAME);
+                } catch (GitLabApiException gle) {
+                    problems += "Problem fetching test user, error=" + gle.getMessage() + "\n";
+                }
             }
         }
 
