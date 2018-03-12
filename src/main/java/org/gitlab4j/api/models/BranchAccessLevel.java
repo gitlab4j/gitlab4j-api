@@ -6,15 +6,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BranchAccessLevelDetail {
-    private String accessLevel;
+public class BranchAccessLevel {
+
+    private AccessLevel accessLevel;
     private String accessLevelDescription;
 
-    public String getAccessLevel() {
+    public AccessLevel getAccessLevel() {
         return this.accessLevel;
     }
 
-    public void setAccessLevel(String accessLevel) {
+    public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
 

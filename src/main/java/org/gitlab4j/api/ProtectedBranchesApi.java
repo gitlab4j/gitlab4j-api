@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ProtectedBranchesApi extends AbstractApi {
+
     public ProtectedBranchesApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
