@@ -156,6 +156,6 @@ public class TestProtectedBranchesApi {
         List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
         assertNotNull(branches);
         assertTrue(branches.stream()
-                .anyMatch((protectedBranch) -> branch.getName().equals(TEST_BRANCH_NAME)));
+                .anyMatch((protectedBranch) -> protectedBranch.getName().equals(TEST_BRANCH_NAME)));
     }
 }
