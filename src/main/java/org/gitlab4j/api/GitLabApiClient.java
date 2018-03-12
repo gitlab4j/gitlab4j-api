@@ -25,6 +25,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -432,6 +433,21 @@ public class GitLabApiClient {
         URL url = getApiUrl(pathArgs);
         Entity<?> entity = Entity.entity(payload, MediaType.APPLICATION_JSON);
         return (invocation(url, null).post(entity));
+    }
+
+    /**
+     * Perform an HTTP POST call with the specified StreamingOutput, MediaType, and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param stream the StreamingOutput instance that contains the POST data
+     * @param mediaType the content-type of the POST data
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response post(StreamingOutput stream, String mediaType, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (invocation(url, null).post(Entity.entity(stream, mediaType)));
     }
 
     /**

@@ -7,6 +7,7 @@ import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 
@@ -136,6 +137,25 @@ public abstract class AbstractApi implements Constants {
     protected Response post(Response.Status expectedStatus, Object payload, Object... pathArgs) throws GitLabApiException {
         try {
             return validate(getApiClient().post(payload, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
+     * Perform an HTTP POST call with the specified payload object and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param stream the StreamingOutput taht will be used for the POST data
+     * @param mediaType the content-type for the streamed data
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response post(Response.Status expectedStatus, StreamingOutput stream, String mediaType, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().post(stream, mediaType, pathArgs), expectedStatus);
         } catch (Exception e) {
             throw handle(e);
         }

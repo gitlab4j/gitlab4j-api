@@ -7,6 +7,7 @@ import static org.junit.Assume.assumeTrue;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Version;
+import org.gitlab4j.api.utils.SecretString;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -112,8 +113,8 @@ public class TestGitLabLogin {
 
     @Test
     public void testSessionFallover() throws GitLabApiException {
-
         assumeFalse(hasSession);
+        @SuppressWarnings("deprecation")
         GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V4, TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD);
         assertNotNull(gitLabApi);
         Version version = gitLabApi.getVersion();
@@ -121,9 +122,27 @@ public class TestGitLabLogin {
     }
 
     @Test
-    public void testOauth2Login() throws GitLabApiException {
-
+    public void testOauth2LoginWithStringPassword() throws GitLabApiException {
+        @SuppressWarnings("deprecation")
         GitLabApi gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, null, null, true);
+        assertNotNull(gitLabApi);
+        Version version = gitLabApi.getVersion();
+        assertNotNull(version);
+    }
+
+    @Test
+    public void testOauth2LoginWithCharSequencePassword() throws GitLabApiException {
+        SecretString password = new SecretString(TEST_LOGIN_PASSWORD);
+        GitLabApi gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, TEST_LOGIN_USERNAME, password, null, null, true);
+        assertNotNull(gitLabApi);
+        Version version = gitLabApi.getVersion();
+        assertNotNull(version);
+    }
+
+    @Test
+    public void testOauth2LoginWithCharArrayPassword() throws GitLabApiException {
+        char[] password = TEST_LOGIN_PASSWORD.toCharArray();
+        GitLabApi gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, TEST_LOGIN_USERNAME, password, null, null, true);
         assertNotNull(gitLabApi);
         Version version = gitLabApi.getVersion();
         assertNotNull(version);
