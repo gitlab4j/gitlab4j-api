@@ -48,19 +48,19 @@ public class TestGitLabLogin {
 
         problems = "";
 
-        if (TEST_LOGIN_USERNAME == null || TEST_LOGIN_USERNAME.trim().length() == 0) {
+        if (TEST_LOGIN_USERNAME == null || TEST_LOGIN_USERNAME.trim().isEmpty()) {
             problems += "TEST_LOGIN_USERNAME cannot be empty\n";
         }
 
-        if (TEST_LOGIN_PASSWORD == null || TEST_LOGIN_PASSWORD.trim().length() == 0) {
+        if (TEST_LOGIN_PASSWORD == null || TEST_LOGIN_PASSWORD.trim().isEmpty()) {
             problems += "TEST_LOGIN_PASSWORD cannot be empty\n";
         }
 
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().length() == 0) {
+        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
             problems += "TEST_HOST_URL cannot be empty\n";
         }
 
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
 
