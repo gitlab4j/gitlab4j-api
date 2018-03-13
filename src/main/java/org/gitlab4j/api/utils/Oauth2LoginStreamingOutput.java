@@ -57,7 +57,7 @@ public class Oauth2LoginStreamingOutput implements StreamingOutput, AutoCloseabl
 
     @Override
     public void close() {
-        password.clear();
+        clearPassword();
     }
 
     @Override
