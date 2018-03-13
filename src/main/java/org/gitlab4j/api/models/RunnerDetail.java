@@ -19,10 +19,10 @@ public class RunnerDetail extends Runner {
     private String revision;
     private List<String> tagList;
     private String version;
-    private String accessLevel;
+    private RunnerAccessLevel accessLevel;
 
     /**
-     * Enum to use for RunnersApi filtering.
+     * Enum to use for RunnerDetail accessLevel property.
      */
     public enum RunnerAccessLevel {
 
@@ -94,11 +94,11 @@ public class RunnerDetail extends Runner {
         this.version = version;
     }
 
-    public String getAccessLevel() {
+    public RunnerAccessLevel getAccessLevel() {
         return this.accessLevel;
     }
 
-    public void setAccessLevel(String accessLevel) {
+    public void setAccessLevel(RunnerAccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
 }

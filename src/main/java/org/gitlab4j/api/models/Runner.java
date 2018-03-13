@@ -18,10 +18,10 @@ public class Runner {
     private Boolean is_shared;
     private String name;
     private Boolean online;
-    private String status;
+    private RunnerScope status;
 
     /**
-     * Enum to use for RunnerDetail accessLevel property.
+     * Enum to use for RunnersApi filtering.
      */
     public enum RunnerScope {
         SPECIFIC, SHARED, ACTIVE, ONLINE, PAUSED;
@@ -92,11 +92,11 @@ public class Runner {
         this.online = online;
     }
 
-    public String getStatus() {
+    public RunnerScope getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RunnerScope status) {
         this.status = status;
     }
 }
