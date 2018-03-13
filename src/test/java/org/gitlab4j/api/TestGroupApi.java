@@ -61,15 +61,15 @@ public class TestGroupApi {
     public static void setup() {
 
         String problems = "";
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().length() == 0) {
+        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
             problems += "TEST_HOST_URL cannot be empty\n";
         }
 
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
 
-        if (TEST_USERNAME == null || TEST_USERNAME.trim().length() == 0) {
+        if (TEST_USERNAME == null || TEST_USERNAME.trim().isEmpty()) {
             problems += "TEST_USER_NAME cannot be empty\n";
         }
 

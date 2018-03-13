@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.Constants.TokenType;
@@ -12,6 +13,8 @@ import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
+import org.gitlab4j.api.utils.Oauth2LoginStreamingOutput;
+import org.gitlab4j.api.utils.SecretString;
 
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
@@ -96,9 +99,42 @@ public class GitLabApi {
      * @param password password for a given {@code username}
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, replaced by {@link #oauth2Login(String, String, CharSequence)}, will be removed in 4.9.0
      */
+    @Deprecated
     public static GitLabApi oauth2Login(String url, String username, String password) throws GitLabApiException {
         return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, password, null, null, false));
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password a CharSequence containing the password for a given {@code username}
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(String url, String username, CharSequence password) throws GitLabApiException {
+        return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, password, null, null, false));
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password a char array holding the password for a given {@code username}
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(String url, String username, char[] password) throws GitLabApiException {
+
+        try (SecretString secretPassword = new SecretString(password)) {
+            return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, secretPassword, null, null, false));
+        }
     }
 
     /**
@@ -111,9 +147,44 @@ public class GitLabApi {
      * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, replaced by {@link #oauth2Login(String, String, CharSequence, boolean)}, will be removed in 4.9.0
      */
+    @Deprecated
     public static GitLabApi oauth2Login(String url, String username, String password, boolean ignoreCertificateErrors) throws GitLabApiException {
         return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, password, null, null, ignoreCertificateErrors));
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password a CharSequence containing the password for a given {@code username}
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(String url, String username, CharSequence password, boolean ignoreCertificateErrors) throws GitLabApiException {
+        return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, password, null, null, ignoreCertificateErrors));
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password a char array holding the password for a given {@code username}
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(String url, String username, char[] password, boolean ignoreCertificateErrors) throws GitLabApiException {
+
+        try (SecretString secretPassword = new SecretString(password)) {
+            return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, secretPassword, null, null, ignoreCertificateErrors));
+        }
     }
 
     /**
@@ -128,11 +199,75 @@ public class GitLabApi {
      * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, will be removed in 4.9.0
      */
-    public static GitLabApi oauth2Login(String url, String username, String password,
-            String secretToken, Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors)
-            throws GitLabApiException {
+    @Deprecated
+    public static GitLabApi oauth2Login(String url, String username, String password, String secretToken,
+            Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
         return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, password, secretToken, clientConfigProperties, ignoreCertificateErrors));
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password a CharSequence containing the password for a given {@code username}
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(String url, String username, CharSequence password, String secretToken,
+            Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
+        return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, password, secretToken, clientConfigProperties, ignoreCertificateErrors));
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password a char array holding the password for a given {@code username}
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(String url, String username, char[] password, String secretToken,
+            Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
+
+        try (SecretString secretPassword = new SecretString(password)) {
+            return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, secretPassword,
+                secretToken, clientConfigProperties, ignoreCertificateErrors));
+        }
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param username user name for which private token should be obtained
+     * @param password a char array holding the password for a given {@code username}
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(ApiVersion apiVersion, String url, String username, char[] password, String secretToken,
+            Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
+
+        try (SecretString secretPassword = new SecretString(password)) {
+            return (GitLabApi.oauth2Login(apiVersion, url, username, secretPassword,
+                secretToken, clientConfigProperties, ignoreCertificateErrors));
+        }
     }
 
     /**
@@ -149,9 +284,8 @@ public class GitLabApi {
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public static GitLabApi oauth2Login(ApiVersion apiVersion, String url, String username, String password,
-            String secretToken, Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors)
-            throws GitLabApiException {
+    public static GitLabApi oauth2Login(ApiVersion apiVersion, String url, String username, CharSequence password,
+            String secretToken, Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
 
         if (username == null || username.trim().length() == 0) {
             throw new IllegalArgumentException("both username and email cannot be empty or null");
@@ -168,19 +302,17 @@ public class GitLabApi {
             }
         }
 
-        GitLabApiForm formData = new GitLabApiForm()
-            .withParam("grant_type", "password", true)
-            .withParam("username", username, true)
-            .withParam("password", password, true);
+        try (Oauth2LoginStreamingOutput stream = new Oauth2LoginStreamingOutput(username, password)) {
 
-        Response response = new Oauth2Api(gitLabApi).post(Response.Status.OK, formData, "oauth", "token");
-        OauthTokenResponse oauthToken = response.readEntity(OauthTokenResponse.class);
-        gitLabApi = new GitLabApi(apiVersion, url, TokenType.ACCESS, oauthToken.getAccessToken(), secretToken, clientConfigProperties);
-        if (ignoreCertificateErrors) {
-            gitLabApi.setIgnoreCertificateErrors(true);
+            Response response = new Oauth2Api(gitLabApi).post(Response.Status.OK, stream, MediaType.APPLICATION_JSON, "oauth", "token");
+            OauthTokenResponse oauthToken = response.readEntity(OauthTokenResponse.class);
+            gitLabApi = new GitLabApi(apiVersion, url, TokenType.ACCESS, oauthToken.getAccessToken(), secretToken, clientConfigProperties);
+            if (ignoreCertificateErrors) {
+                gitLabApi.setIgnoreCertificateErrors(true);
+            }
+
+            return (gitLabApi);
         }
-
-        return (gitLabApi);
     }
 
     /**
@@ -196,7 +328,9 @@ public class GitLabApi {
      * @param password password for a given {@code username}
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, will be removed in 4.9.0
      */
+    @Deprecated
     public static GitLabApi login(ApiVersion apiVersion, String url, String username, String password) throws GitLabApiException {
         return (GitLabApi.login(apiVersion, url, username, password, false));
     }
@@ -213,7 +347,9 @@ public class GitLabApi {
      * @param password password for a given {@code username}
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, will be removed in 4.9.0
      */
+    @Deprecated
     public static GitLabApi login(String url, String username, String password) throws GitLabApiException {
         return (GitLabApi.login(ApiVersion.V4, url, username, password, false));
     }
@@ -232,7 +368,9 @@ public class GitLabApi {
      * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, will be removed in 4.9.0
      */
+    @Deprecated
     public static GitLabApi login(ApiVersion apiVersion, String url, String username, String password, boolean ignoreCertificateErrors) throws GitLabApiException {
 
         GitLabApi gitLabApi = new GitLabApi(apiVersion, url, (String)null);
@@ -274,7 +412,9 @@ public class GitLabApi {
      * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, will be removed in 4.9.0
      */
+    @Deprecated
     public static GitLabApi login(String url, String username, String password, boolean ignoreCertificateErrors) throws GitLabApiException {
         return (GitLabApi.login(ApiVersion.V4, url, username, password, ignoreCertificateErrors));
     }
@@ -288,7 +428,7 @@ public class GitLabApi {
      * @param password password for a given {@code username}
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
-     * @deprecated  As of release 4.2.0, replaced by {@link #login(String, String, String)}, will be removed in 5.0.0
+     * @deprecated  As of release 4.2.0, replaced by {@link #login(String, String, String)}, will be removed in 4.9.0
      */
     @Deprecated
     public static GitLabApi create(String url, String username, String password) throws GitLabApiException {
@@ -302,8 +442,9 @@ public class GitLabApi {
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this method will always return null.
      *
      * @return the Session instance
-     * @deprecated  This method will be removed in Release 5.0.0
+     * @deprecated  This method will be removed in Release 4.9.0
      */
+    @Deprecated
     public Session getSession() {
         return session;
     }
