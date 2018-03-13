@@ -24,7 +24,7 @@ public class Runner {
      * Enum to use for RunnersApi filtering.
      */
     public enum RunnerStatus {
-        SPECIFIC, SHARED, ACTIVE, ONLINE, PAUSED;
+        SPECIFIC, SHARED, ACTIVE, ONLINE, PAUSED, OFFLINE;
         private static JacksonJsonEnumHelper<RunnerStatus> enumHelper =
                 new JacksonJsonEnumHelper<>(RunnerStatus.class);
 
