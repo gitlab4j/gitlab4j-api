@@ -38,7 +38,7 @@ public class RunnersApi extends AbstractApi {
      * @return List of Runners
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Runner> getRunners(Runner.RunnerScope scope) throws GitLabApiException {
+    public List<Runner> getRunners(Runner.RunnerStatus scope) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("scope", scope);
         Response response = get(Response.Status.OK, formData.asMap(), "runners");
@@ -69,7 +69,7 @@ public class RunnersApi extends AbstractApi {
      * @return a Pager containing the Runners for the user
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Runner> getRunners(Runner.RunnerScope scope, int itemsPerPage) throws GitLabApiException {
+    public Pager<Runner> getRunners(Runner.RunnerStatus scope, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("scope", scope);
         return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
@@ -96,7 +96,7 @@ public class RunnersApi extends AbstractApi {
      * @return List of Runners
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Runner> getAllRunners(Runner.RunnerScope scope) throws GitLabApiException {
+    public List<Runner> getAllRunners(Runner.RunnerStatus scope) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("scope", scope);
         Response response = get(Response.Status.OK, formData.asMap(), "runners", "all");
@@ -127,7 +127,7 @@ public class RunnersApi extends AbstractApi {
      * @return a Pager containing the Runners
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Runner> getAllRunners(Runner.RunnerScope scope, int itemsPerPage) throws GitLabApiException {
+    public Pager<Runner> getAllRunners(Runner.RunnerStatus scope, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("scope", scope);
         return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));

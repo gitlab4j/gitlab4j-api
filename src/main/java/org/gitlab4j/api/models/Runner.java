@@ -18,18 +18,18 @@ public class Runner {
     private Boolean is_shared;
     private String name;
     private Boolean online;
-    private RunnerScope status;
+    private RunnerStatus status;
 
     /**
      * Enum to use for RunnersApi filtering.
      */
-    public enum RunnerScope {
+    public enum RunnerStatus {
         SPECIFIC, SHARED, ACTIVE, ONLINE, PAUSED;
-        private static JacksonJsonEnumHelper<RunnerScope> enumHelper =
-                new JacksonJsonEnumHelper<>(RunnerScope.class);
+        private static JacksonJsonEnumHelper<RunnerStatus> enumHelper =
+                new JacksonJsonEnumHelper<>(RunnerStatus.class);
 
         @JsonCreator
-        public static RunnerScope forValue(String value) {
+        public static RunnerStatus forValue(String value) {
             return enumHelper.forValue(value);
         }
 
@@ -92,11 +92,11 @@ public class Runner {
         this.online = online;
     }
 
-    public RunnerScope getStatus() {
+    public RunnerStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(RunnerScope status) {
+    public void setStatus(RunnerStatus status) {
         this.status = status;
     }
 }
