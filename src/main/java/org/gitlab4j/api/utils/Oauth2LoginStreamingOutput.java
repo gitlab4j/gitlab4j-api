@@ -31,19 +31,19 @@ public class Oauth2LoginStreamingOutput implements StreamingOutput, AutoCloseabl
     public void write(OutputStream output) throws IOException, WebApplicationException {
 
         PrintWriter writer = new PrintWriter(output);
-        writer.append("{ ");
-        writer.append("\"grant_type\": \"password\", ");
-        writer.append("\"username\": \"" + username + "\", ");
-        writer.append("\"password\": ");
+        writer.write("{ ");
+        writer.write("\"grant_type\": \"password\", ");
+        writer.write("\"username\": \"" + username + "\", ");
+        writer.write("\"password\": ");
 
         // Output the quoted password
-        writer.append('"');
+        writer.write('"');
         for (int i = 0, length = password.length(); i < length; i++) {
-            writer.append(password.charAt(i));
+            writer.write(password.charAt(i));
         }     
-        writer.append('"');
+        writer.write('"');
 
-        writer.append(" }");
+        writer.write(" }");
         writer.flush();
         writer.close();
     }
