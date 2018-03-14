@@ -26,108 +26,108 @@ public class Job {
     private JobStatus status;
 
     public Integer getId() {
-    return id;
-  }
+        return id;
+    }
 
     public void setId(Integer id) {
-    this.id = id;
-  }
+        this.id = id;
+    }
 
     public Commit getCommit() {
-    return commit;
-  }
+        return commit;
+    }
 
     public void setCommit(Commit commit) {
-    this.commit = commit;
-  }
+        this.commit = commit;
+    }
 
     public Date getCreatedAt() {
-    return createdAt;
-  }
+        return createdAt;
+    }
 
     public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
+        this.createdAt = createdAt;
+    }
 
     public Date getFinishedAt() {
-    return finishedAt;
-  }
+        return finishedAt;
+    }
 
     public void setFinishedAt(Date finishedAt) {
-    this.finishedAt = finishedAt;
-  }
+        this.finishedAt = finishedAt;
+    }
 
     public String getName() {
-    return name;
-  }
+        return name;
+    }
 
     public void setName(String name) {
-    this.name = name;
-  }
+        this.name = name;
+    }
 
     public Pipeline getPipeline() {
-    return pipeline;
-  }
+        return pipeline;
+    }
 
     public void setPipeline(Pipeline pipeline) {
-    this.pipeline = pipeline;
-  }
+        this.pipeline = pipeline;
+    }
 
     public String getRef() {
-    return ref;
-  }
+        return ref;
+    }
 
     public void setRef(String ref) {
-    this.ref = ref;
-  }
+        this.ref = ref;
+    }
 
     public User getUser() {
-    return user;
-  }
+        return user;
+    }
 
     public void setUser(User user) {
-    this.user = user;
-  }
+        this.user = user;
+    }
 
     public Date getStartedAt() {
-    return startedAt;
-  }
+        return startedAt;
+    }
 
     public void setStartedAt(Date startedAt) {
-    this.startedAt = startedAt;
-  }
+        this.startedAt = startedAt;
+    }
 
     public Boolean getTag() {
-    return tag;
-  }
+        return tag;
+    }
 
     public void setTag(Boolean tag) {
-    this.tag = tag;
-  }
+        this.tag = tag;
+    }
 
     public String getStage() {
-    return stage;
-  }
+        return stage;
+    }
 
     public void setStage(String stage) {
-    this.stage = stage;
-  }
+        this.stage = stage;
+    }
 
     public JobStatus getStatus() {
-    return status;
-  }
+        return status;
+    }
 
     public void setStatus(JobStatus status) {
-    this.status = status;
-  }
+        this.status = status;
+    }
 
     public String getCoverage() {
-    return coverage;
-  }
+        return coverage;
+    }
 
     public void setCoverage(String coverage) {
-    this.coverage = coverage;
-  }
+        this.coverage = coverage;
+    }
 
     public ArtifactsFile getArtifactsFile() {
         return artifactsFile;
