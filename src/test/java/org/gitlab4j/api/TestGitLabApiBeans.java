@@ -55,6 +55,8 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.ProtectedBranch;
+import org.gitlab4j.api.models.Runner;
+import org.gitlab4j.api.models.RunnerDetail;
 import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.SshKey;
@@ -273,6 +275,32 @@ public class TestGitLabApiBeans {
         try {
             ProtectedBranch protectedBranch = makeFakeApiCall(ProtectedBranch.class, "protected-branch");
             assertTrue(compareJson(protectedBranch, "protected-branch"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testRunnerDetail() {
+
+        try {
+            RunnerDetail runnerDetail = makeFakeApiCall(RunnerDetail.class, "runner-detail");
+            assertTrue(compareJson(runnerDetail, "runner-detail"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testAllRunners() {
+
+        try {
+
+            InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream("all-runners.json"));
+            ObjectMapper objectMapper = jacksonJson.getContext(null);
+            List<Runner> allRunners = objectMapper.readValue(reader, new TypeReference<List<Runner>>() {});
+            assertTrue(compareJson(allRunners, "all-runners"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
