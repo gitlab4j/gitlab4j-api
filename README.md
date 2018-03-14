@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.5'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.7'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.8.5</version>
+    <version>4.8.7</version>
 </dependency>
 ```
 
@@ -209,7 +209,7 @@ List<Job> jobs = gitLabApi.getJobApi().getJobs(1234);
 List<Label> labels = gitLabApi.getLabelsApi().getLabels(1234);
 ```
 
-### MergeRequestApi
+#### MergeRequestApi
 ```java
 // Get a list of the merge requests for the specified project
 List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(1234);
@@ -283,7 +283,7 @@ RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234
 #### RunnersApi
 ```java
 // Get All Runners.
-List<Runner> runners = api.getRunnersApi().getAllRunners();
+List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
 ```
 
 #### ServicesApi
