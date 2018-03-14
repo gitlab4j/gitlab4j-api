@@ -15,7 +15,7 @@ public class Runner {
     private Integer id;
     private String description;
     private Boolean active;
-    private Boolean is_shared;
+    private Boolean isShared;
     private String name;
     private Boolean online;
     private RunnerStatus status;
@@ -69,11 +69,11 @@ public class Runner {
     }
 
     public Boolean getIs_shared() {
-        return is_shared;
+        return isShared;
     }
 
     public void setIs_shared(Boolean is_shared) {
-        this.is_shared = is_shared;
+        this.isShared = is_shared;
     }
 
     public String getName() {
