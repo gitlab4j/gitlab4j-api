@@ -7,13 +7,17 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import java.util.Date;
 import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RunnerDetail extends Runner {
 
+    private String architecture;
     private String platform;
+    private Date contactedAt;
     private List<Project> projects;
     private String token;
     private String revision;
@@ -46,12 +50,28 @@ public class RunnerDetail extends Runner {
         }
     }
 
+    public String getArchitecture() {
+        return architecture;
+    }
+
+    public void setArchitecture(String architecture) {
+        this.architecture = architecture;
+    }
+
     public String getPlatform() {
         return this.platform;
     }
 
     public void setPlatform(String platform) {
         this.platform = platform;
+    }
+
+    public Date getContactedAt() {
+        return contactedAt;
+    }
+
+    public void setContactedAt(Date contactedAt) {
+        this.contactedAt = contactedAt;
     }
 
     public List<Project> getProjects() {
