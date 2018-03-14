@@ -279,6 +279,7 @@ public class RunnersApi extends AbstractApi {
      *
      * @param projectId The ID of the project owned by the authenticated user
      * @return List of all Runner available in the project
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getProjectRunners(Integer projectId) throws GitLabApiException {
         if (projectId == null) {
@@ -296,7 +297,9 @@ public class RunnersApi extends AbstractApi {
      * GET /projects/:id/runners
      *
      * @param projectId The ID of the project owned by the authenticated user
+     * @param itemsPerPage the number of Project instances that will be fetched per page
      * @return Pager of all Runner available in the project
+     * @throws GitLabApiException if any exception occurs
      */
     public Pager<Runner> getProjectRunners(Integer projectId, int itemsPerPage) throws GitLabApiException {
         if (projectId == null) {
@@ -327,7 +330,7 @@ public class RunnersApi extends AbstractApi {
 
     /**
      * Disable a specific runner from the project. It works only if the project isn't the only project associated with
-     * the specified runner. If so, an error is returned. Use the {@link{#removeRunner(Integer)}} instead.
+     * the specified runner. If so, an error is returned. Use the {@link #removeRunner(Integer)} instead.
      *
      * DELETE /projects/:id/runners/:runner_id
      *
