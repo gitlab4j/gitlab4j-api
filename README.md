@@ -152,6 +152,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi) <br/>
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
+&nbsp;&nbsp;[RunnersApi](#runnersapi) <br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
@@ -277,6 +278,12 @@ List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
 ```java
 // Get info (name, size, ...) and the content from a file in repository
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
+```
+
+#### RunnersApi
+```java
+// Get All Runners.
+List<Runner> runners = api.getRunnersApi().getAllRunners();
 ```
 
 #### ServicesApi

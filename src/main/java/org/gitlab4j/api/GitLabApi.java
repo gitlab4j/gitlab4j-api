@@ -55,8 +55,10 @@ public class GitLabApi {
     private NotificationSettingsApi notificationSettingsApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
+    private ProtectedBranchesApi protectedBranchesApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
+    private RunnersApi runnersApi;
     private ServicesApi servicesApi;
     private SessionApi sessionApi;
     private SystemHooksApi systemHooksApi;
@@ -65,7 +67,6 @@ public class GitLabApi {
     private LabelsApi labelsApi;
     private NotesApi notesApi;
     private EventsApi eventsApi;
-    private ProtectedBranchesApi protectedBranchesApi;
 
     /**
      * Create a new GitLabApi instance that is logically a duplicate of this instance, with the exception off sudo state.
@@ -284,8 +285,7 @@ public class GitLabApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public static GitLabApi oauth2Login(ApiVersion apiVersion, String url, String username, CharSequence password,
-            String secretToken, Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors)
-            throws GitLabApiException {
+            String secretToken, Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
 
         if (username == null || username.trim().length() == 0) {
             throw new IllegalArgumentException("both username and email cannot be empty or null");
@@ -318,7 +318,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and the specified GitLab API version.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -338,7 +338,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token using GitLab API version 4.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -357,7 +357,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and the specified GitLab API version.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -402,7 +402,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token using GitLab API version 4.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -1050,6 +1050,25 @@ public class GitLabApi {
     }
 
     /**
+     * Gets the ProtectedBranchesApi instance owned by this GitLabApi instance. The ProtectedBranchesApi is used
+     * to perform all protection related actions on a branch of a project.
+     *
+     * @return the ProtectedBranchesApi instance owned by this GitLabApi instance
+     */
+    public ProtectedBranchesApi getProtectedBranchesApi() {
+
+        if (this.protectedBranchesApi == null) {
+            synchronized (this) {
+                if (this.protectedBranchesApi == null) {
+                    this.protectedBranchesApi = new ProtectedBranchesApi(this);
+                }
+            }
+        }
+
+        return (this.protectedBranchesApi);
+    }
+
+    /**
      * Gets the RepositoryApi instance owned by this GitLabApi instance. The RepositoryApi is used
      * to perform all repository related API calls.
      *
@@ -1085,6 +1104,25 @@ public class GitLabApi {
         }
 
         return (repositoryFileApi);
+    }
+
+    /**
+     * Gets the RunnersApi instance owned by this GitLabApi instance. The RunnersApi is used
+     * to perform all Runner related API calls.
+     *
+     * @return the RunnerApi instance owned by this GitLabApi instance
+     */
+    public RunnersApi getRunnersApi() {
+
+        if (runnersApi == null) {
+            synchronized (this) {
+                if (runnersApi == null) {
+                    runnersApi = new RunnersApi(this);
+                }
+            }
+        }
+
+        return (runnersApi);
     }
 
     /**
@@ -1126,7 +1164,7 @@ public class GitLabApi {
     }
 
     /**
-     * Gets the SystemHooksApi instance owned by this GitLabApi instance. All methods 
+     * Gets the SystemHooksApi instance owned by this GitLabApi instance. All methods
      * require administrator authorization.
      *
      * @return the SystemHooksApi instance owned by this GitLabApi instance
@@ -1161,25 +1199,6 @@ public class GitLabApi {
         }
 
         return (userApi);
-    }
-
-    /**
-     * Gets the ProtectedBranchesApi instance owned by this GitLabApi instance. The ProtectedBranchesApi is used
-     * to perform all protection related actions on a branch of a project.
-     *
-     * @return the ProtectedBranchesApi instance owned by this GitLabApi instance
-     */
-    public ProtectedBranchesApi getProtectedBranchesApi() {
-
-        if (this.protectedBranchesApi == null) {
-            synchronized (this) {
-                if (this.protectedBranchesApi == null) {
-                    this.protectedBranchesApi = new ProtectedBranchesApi(this);
-                }
-            }
-        }
-
-        return (this.protectedBranchesApi);
     }
 
     /**

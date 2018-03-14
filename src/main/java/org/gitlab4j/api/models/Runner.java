@@ -1,5 +1,9 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -13,6 +17,32 @@ public class Runner {
     private Boolean active;
     private Boolean is_shared;
     private String name;
+    private Boolean online;
+    private RunnerStatus status;
+
+    /**
+     * Enum to use for RunnersApi filtering.
+     */
+    public enum RunnerStatus {
+        SPECIFIC, SHARED, ACTIVE, ONLINE, PAUSED, OFFLINE;
+        private static JacksonJsonEnumHelper<RunnerStatus> enumHelper =
+                new JacksonJsonEnumHelper<>(RunnerStatus.class);
+
+        @JsonCreator
+        public static RunnerStatus forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 
     public Integer getId() {
         return id;
@@ -52,5 +82,21 @@ public class Runner {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getOnline() {
+        return this.online;
+    }
+
+    public void setOnline(Boolean online) {
+        this.online = online;
+    }
+
+    public RunnerStatus getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(RunnerStatus status) {
+        this.status = status;
     }
 }
