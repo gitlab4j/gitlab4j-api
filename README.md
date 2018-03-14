@@ -289,13 +289,13 @@ List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
 #### ServicesApi
 ```java
 // Activates the gitlab-ci service.
-getLabApi.getServicesApi().setGitLabCI("project-name", "auth-token", "project-ci-url");
+gitLabApi.getServicesApi().setGitLabCI("project-name", "auth-token", "project-ci-url");
 ```
 
 #### SessionApi
 ```java
 // Log in to the GitLab server and get the session info
-getLabApi.getSessionApi().login("your-username", "your-email", "your-password");
+gitLabApi.getSessionApi().login("your-username", "your-email", "your-password");
 ```
 
 #### SystemHooksApi
