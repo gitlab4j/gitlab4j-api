@@ -51,6 +51,7 @@ public class GitLabApi {
     private CommitsApi commitsApi;
     private DeployKeysApi deployKeysApi;
     private GroupApi groupApi;
+    private HealthCheckApi healthCheckApi;
     private IssuesApi issuesApi;
     private MergeRequestApi mergeRequestApi;
     private MilestonesApi milestonesApi;
@@ -876,6 +877,25 @@ public class GitLabApi {
         }
 
         return (groupApi);
+    }
+
+    /**
+     * Gets the HealthCheckApi instance owned by this GitLabApi instance. The HealthCheckApi is used
+     * to perform all admin level gitlab health monitoring.
+     *
+     * @return the HealthCheckApi instance owned by this GitLabApi instance
+     */
+    public HealthCheckApi getHealthCheckApi() {
+
+        if (healthCheckApi == null) {
+            synchronized (this) {
+                if (healthCheckApi == null) {
+                    healthCheckApi = new HealthCheckApi(this);
+                }
+            }
+        }
+
+        return (healthCheckApi);
     }
 
     /**
