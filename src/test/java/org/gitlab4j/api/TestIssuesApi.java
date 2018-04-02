@@ -203,6 +203,26 @@ public class TestIssuesApi {
     }
 
     @Test
+    public void testCloseIssueClosedAt() throws GitLabApiException {
+
+        assertNotNull(testProject);
+        Integer projectId = testProject.getId();
+        Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        assertNull(issue.getClosedAt());
+        assertNull(issue.getClosedBy());
+
+        Issue closedIssue = gitLabApi.getIssuesApi().closeIssue(projectId, issue.getIid());
+        assertNotNull(closedIssue);
+        assertEquals(IssueState.CLOSED, closedIssue.getState());
+        assertEquals(issue.getId(), closedIssue.getId());
+
+        closedIssue = gitLabApi.getIssuesApi().getIssue(projectId, issue.getIid());
+        assertNotNull(closedIssue);
+        assertEquals(IssueState.CLOSED, closedIssue.getState());
+        assertNotNull(closedIssue.getClosedAt());
+    }
+
+    @Test
     public void testDeleteIssue() throws GitLabApiException {
 
         assertNotNull(testProject);

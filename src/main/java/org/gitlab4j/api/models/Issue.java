@@ -18,6 +18,9 @@ public class Issue {
     private Author author;
     private Boolean confidential;
     private Date createdAt;
+    private Date updatedAt;
+    private Date closedAt;
+    private User closedBy;
     private String description;
     private Date dueDate;
     private Integer id;
@@ -28,7 +31,6 @@ public class Issue {
     private IssueState state;
     private Boolean subscribed;
     private String title;
-    private Date updatedAt;
     private Integer userNotesCount;
     private String webUrl;
     private TimeStats timeStats;
@@ -151,6 +153,22 @@ public class Issue {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Date getClosedAt() {
+        return closedAt;
+    }
+
+    public void setClosedAt(Date closedAt) {
+        this.closedAt = closedAt;
+    }
+
+    public User getClosedBy() {
+        return closedBy;
+    }
+
+    public void setClosedBy(User closedBy) {
+        this.closedBy = closedBy;
     }
 
     public Integer getUserNotesCount() {
