@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
+import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,6 +22,8 @@ import org.gitlab4j.api.utils.SecretString;
  * a separate API class for each concern.
  */
 public class GitLabApi {
+
+    private final static Logger LOG = Logger.getLogger(GitLabApi.class.getName());
 
     /** GitLab4J default per page.  GitLab will ignore anything over 100. */
     public static final int DEFAULT_PER_PAGE = 100;
@@ -67,6 +70,15 @@ public class GitLabApi {
     private LabelsApi labelsApi;
     private NotesApi notesApi;
     private EventsApi eventsApi;
+
+    /**
+     * Get the GitLab4J shared Logger instance.
+     *
+     * @return the GitLab4J shared Logger instance
+     */
+    public static final Logger getLogger() {
+        return (LOG);
+    }
 
     /**
      * Create a new GitLabApi instance that is logically a duplicate of this instance, with the exception off sudo state.
