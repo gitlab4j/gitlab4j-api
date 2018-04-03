@@ -181,6 +181,29 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
+     * Get a Pager of repository commits in a project
+     *
+     * GET /projects/:id/repository/commits
+     *
+     * @param projectId the project ID to get the list of commits for
+     * @param ref the name of a repository branch or tag or if not given the default branch
+     * @param since only commits after or on this date will be returned
+     * @param until only commits before or on this date will be returned
+     * @param itemsPerPage the number of Commit instances that will be fetched per page
+     * @param path the path to file of a project
+     * @return a Pager containing the commits for the specified project ID
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Pager<Commit> getCommits(int projectId, String ref, Date since, Date until, int itemsPerPage, String path) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("ref_name", ref)
+                .withParam("since", ISO8601.toString(since, false))
+                .withParam("until", ISO8601.toString(until, false))
+                .withParam("path", (path == null ? null : urlEncode(path)));
+        return (new Pager<Commit>(this, Commit.class, itemsPerPage, formData.asMap(),  "projects", projectId, "repository", "commits"));
+    }
+
+    /**
      * Get a specific commit identified by the commit hash or name of a branch or tag.
      *
      * GET /projects/:id/repository/commits/:sha
