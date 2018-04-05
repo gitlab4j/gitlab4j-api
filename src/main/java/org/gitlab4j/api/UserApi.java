@@ -119,17 +119,15 @@ public class UserApi extends AbstractApi {
      * POST /users/:id/block
      *
      * @param userId the ID of the user to block
-     * @return the User instance for the blocked user
      * @throws GitLabApiException if any exception occurs
      */
-    public User blockUser(Integer userId) throws GitLabApiException {
+    public void blockUser(Integer userId) throws GitLabApiException {
 
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
         }
 
-        Response response = post(Response.Status.CREATED, (Form) null, "users", userId, "block");
-        return (response.readEntity(User.class));
+        post(Response.Status.CREATED, (Form) null, "users", userId, "block");
     }
 
     /**
@@ -138,17 +136,15 @@ public class UserApi extends AbstractApi {
      * POST /users/:id/unblock
      *
      * @param userId the ID of the user to unblock
-     * @return the User instance for the unblocked user
      * @throws GitLabApiException if any exception occurs
      */
-    public User unblockUser(Integer userId) throws GitLabApiException {
+    public void unblockUser(Integer userId) throws GitLabApiException {
 
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
         }
 
-        Response response = post(Response.Status.CREATED, (Form) null, "users", userId, "unblock");
-        return (response.readEntity(User.class));
+        post(Response.Status.CREATED, (Form) null, "users", userId, "unblock");
     }
 
     /**

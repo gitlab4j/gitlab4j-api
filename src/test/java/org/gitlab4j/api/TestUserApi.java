@@ -2,9 +2,11 @@ package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
 
 import java.text.ParseException;
@@ -49,12 +51,14 @@ public class TestUserApi {
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_USERNAME;
+    private static final String TEST_BLOCK_USERNAME;
     private static final String TEST_SUDO_AS_USERNAME;
     private static final String TEST_SSH_KEY;
     static {
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_USERNAME = TestUtils.getProperty("TEST_USERNAME");
+        TEST_BLOCK_USERNAME = TestUtils.getProperty("TEST_BLOCK_USERNAME");
         TEST_SUDO_AS_USERNAME = TestUtils.getProperty("TEST_SUDO_AS_USERNAME");
         TEST_SSH_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvbkmGRaANy2nmLrfYa9LkjMqjs9twYZXQKUPK18j" +
                 "BWmNgnAm818IikxjfFit3Gqnnh9zdNzlzUYs2osmfdHwRLeFY3hKVR6WckGYVroQuV5ArUA4+oME+IIQ2soCv/" +
@@ -66,6 +70,7 @@ public class TestUserApi {
     private static final String TEST_IMPERSONATION_TOKEN_NAME = "token1";
 
     private static GitLabApi gitLabApi;
+    private static User blockUser;
 
     public TestUserApi() {
         super();
@@ -89,6 +94,15 @@ public class TestUserApi {
 
         if (problems.isEmpty()) {
             gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+
+            if (TEST_BLOCK_USERNAME != null) {
+                try {
+                    blockUser = gitLabApi.getUserApi().getUser(TEST_BLOCK_USERNAME);
+                    if (blockUser != null) {
+                        gitLabApi.getUserApi().unblockUser(blockUser.getId());
+                    }
+                } catch (Exception ignore) {}
+            }
 
             if (TEST_SSH_KEY != null) {
                 try {
@@ -134,6 +148,20 @@ public class TestUserApi {
         User user = gitLabApi.getUserApi().getUser(TEST_USERNAME);
         assertNotNull(user);
         assertEquals(TEST_USERNAME, user.getUsername());
+    }
+
+    @Test
+    public void testBlockUnblockUser() throws GitLabApiException {
+        assumeNotNull(blockUser);
+
+        assertNotEquals("blocked", blockUser.getState());
+        gitLabApi.getUserApi().blockUser(blockUser.getId());
+        User user = gitLabApi.getUserApi().getUser(blockUser.getId());
+        assertEquals("blocked", user.getState());
+
+        gitLabApi.getUserApi().unblockUser(blockUser.getId());
+        user = gitLabApi.getUserApi().getUser(blockUser.getId());
+        assertNotEquals("blocked", user.getState());
     }
 
     @Test
