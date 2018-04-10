@@ -29,6 +29,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -169,7 +170,8 @@ public class TestProjectApi {
                 .withMergeRequestsEnabled(true)
                 .withWikiEnabled(true)
                 .withSnippetsEnabled(true)
-                .withVisibility(Visibility.PUBLIC);
+                .withVisibility(Visibility.PUBLIC)
+                .withTagList(Arrays.asList("tag1","tag2"));
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
@@ -179,6 +181,7 @@ public class TestProjectApi {
         assertEquals(project.getMergeRequestsEnabled(), newProject.getMergeRequestsEnabled());
         assertEquals(project.getWikiEnabled(), newProject.getWikiEnabled());
         assertEquals(project.getSnippetsEnabled(), newProject.getSnippetsEnabled());
+        assertEquals(project.getTagList(), newProject.getTagList());
         assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
     }
 
@@ -192,7 +195,8 @@ public class TestProjectApi {
                 .withMergeRequestsEnabled(true)
                 .withWikiEnabled(true)
                 .withSnippetsEnabled(true)
-                .withVisibility(Visibility.PUBLIC);
+                .withVisibility(Visibility.PUBLIC)
+                .withTagList(Arrays.asList("tag1","tag2"));
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
@@ -202,6 +206,7 @@ public class TestProjectApi {
         assertEquals(project.getMergeRequestsEnabled(), newProject.getMergeRequestsEnabled());
         assertEquals(project.getWikiEnabled(), newProject.getWikiEnabled());
         assertEquals(project.getSnippetsEnabled(), newProject.getSnippetsEnabled());
+        assertEquals(project.getTagList(), newProject.getTagList());
         assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
 
         project = new Project()
