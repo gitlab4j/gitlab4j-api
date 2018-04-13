@@ -324,7 +324,7 @@ public class RunnersApi extends AbstractApi {
         }
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("runner_id", runnerId, true);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "runners");
+        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "runners");
         return (response.readEntity(Runner.class));
     }
 
