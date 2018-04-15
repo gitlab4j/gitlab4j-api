@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,12 +28,26 @@ public class TestUtils {
         return (out.toString());
     }
 
-
     private static Properties testProperties;
     static {
 
+        // Get the maven basedir, we use it to locate the properties for the unit tests
+        String basedir = (String) System.getProperties().get("basedir");
+
+        // If we are performing a release in target/checkout, trim off the target/checkout directory from basedir
+        if (basedir != null && (basedir.endsWith("target/checkout") || basedir.endsWith("target\\checkout"))) {
+            basedir = basedir.substring(0, basedir.length() - 15);
+        }
+
+        File propertiesFile = new File(basedir, "test-gitlab4j.properties");
+        if (!propertiesFile.exists()) {
+            propertiesFile = new File((String) System.getProperties().get("user.home"), "test-gitlab4j.properties");
+        }
+
+        System.out.println("test-gitlab4j.properties location: " + propertiesFile.getAbsolutePath());
+
         testProperties = new Properties();
-        try (InputStream input = new FileInputStream("test-gitlab4j.properties")) {
+        try (InputStream input = new FileInputStream(propertiesFile)) {
             testProperties.load(input);
         } catch (IOException ioe) {
         }
