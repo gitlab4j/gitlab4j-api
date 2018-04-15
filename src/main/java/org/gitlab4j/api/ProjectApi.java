@@ -649,10 +649,20 @@ public class ProjectApi extends AbstractApi implements Constants {
         if (isApiVersion(ApiVersion.V3)) {
             boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
             formData.withParam("public", isPublic);
+            
+            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
+                // What would be the preferred way to deal with this, as the V3 API doesn't
+                // appear to do anything if you send in the tag_list? Could either just ignore,
+                // or throw an exception.
+            }
         } else {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
                 project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
             formData.withParam("visibility", visibility);
+            
+            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
+                formData.withParam("tag_list", String.join(",", project.getTagList()));
+            }
         }
 
         if (project.getNamespace() != null) {
@@ -880,10 +890,20 @@ public class ProjectApi extends AbstractApi implements Constants {
             formData.withParam("visibility_level", project.getVisibilityLevel());
             boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
             formData.withParam("public", isPublic);
+            
+            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
+                // What would be the preferred way to deal with this, as the V3 API doesn't
+                // appear to do anything if you send in the tag_list? Could either just ignore,
+                // or throw an exception.
+            }
         } else {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
                 project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
             formData.withParam("visibility", visibility);
+            
+            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
+                formData.withParam("tag_list", String.join(",", project.getTagList()));
+            }
         }
 
         Response response = putWithFormData(Response.Status.OK, formData, "projects", id);
