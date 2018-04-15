@@ -651,9 +651,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             formData.withParam("public", isPublic);
             
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                // What would be the preferred way to deal with this, as the V3 API doesn't
-                // appear to do anything if you send in the tag_list? Could either just ignore,
-                // or throw an exception.
+                throw new IllegalArgumentException("GitLab API v3 does not support tag lists when creating projects");
             }
         } else {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
@@ -892,9 +890,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             formData.withParam("public", isPublic);
             
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                // What would be the preferred way to deal with this, as the V3 API doesn't
-                // appear to do anything if you send in the tag_list? Could either just ignore,
-                // or throw an exception.
+                throw new IllegalArgumentException("GitLab API v3 does not support tag lists when updating projects");
             }
         } else {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :

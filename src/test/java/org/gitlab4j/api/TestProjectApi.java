@@ -171,7 +171,7 @@ public class TestProjectApi {
                 .withWikiEnabled(true)
                 .withSnippetsEnabled(true)
                 .withVisibility(Visibility.PUBLIC)
-                .withTagList(Arrays.asList("tag1","tag2"));
+                .withTagList(Arrays.asList("tag1", "tag2"));
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
@@ -196,7 +196,7 @@ public class TestProjectApi {
                 .withWikiEnabled(true)
                 .withSnippetsEnabled(true)
                 .withVisibility(Visibility.PUBLIC)
-                .withTagList(Arrays.asList("tag1","tag2"));
+                .withTagList(Arrays.asList("tag1", "tag2"));
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
