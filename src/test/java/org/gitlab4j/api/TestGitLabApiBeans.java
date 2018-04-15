@@ -38,6 +38,7 @@ import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Event;
+import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.Issue;
@@ -55,6 +56,7 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.ProtectedBranch;
+import org.gitlab4j.api.models.PushRule;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
 import org.gitlab4j.api.models.Session;
@@ -175,6 +177,17 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testFileUpload() {
+
+        try {
+            FileUpload fileUpload = makeFakeApiCall(FileUpload.class, "file-upload");
+            assertTrue(compareJson(fileUpload, "file-upload"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testGroup() {
 
         try {
@@ -275,6 +288,17 @@ public class TestGitLabApiBeans {
         try {
             ProtectedBranch protectedBranch = makeFakeApiCall(ProtectedBranch.class, "protected-branch");
             assertTrue(compareJson(protectedBranch, "protected-branch"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testPushRule() {
+
+        try {
+            PushRule pushRule = makeFakeApiCall(PushRule.class, "push-rule");
+            assertTrue(compareJson(pushRule, "push-rule"));
         } catch (Exception e) {
             e.printStackTrace();
         }
