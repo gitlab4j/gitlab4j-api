@@ -1,5 +1,8 @@
 package org.gitlab4j.api;
 
+import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA_TYPE;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
@@ -33,6 +36,11 @@ import org.gitlab4j.api.utils.JacksonJson;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+
 
 /**
  * This class utilizes the Jersey client package to communicate with a GitLab API endpoint.
@@ -224,6 +232,7 @@ public class GitLabApiClient {
         }
 
         clientConfig.register(JacksonJson.class);
+        clientConfig.register(MultiPartFeature.class);
     }
 
     /**
@@ -448,6 +457,45 @@ public class GitLabApiClient {
     protected Response post(StreamingOutput stream, String mediaType, Object... pathArgs) throws IOException {
         URL url = getApiUrl(pathArgs);
         return (invocation(url, null).post(Entity.entity(stream, mediaType)));
+    }
+
+    /**
+     * Perform a file upload as part of the , returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (upload(name, fileToUpload, mediaTypeString, url));
+    }
+
+    /**
+     * Perform a file upload using multipart/form-data, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, URL url) throws IOException {
+
+        MediaType mediaType = (mediaTypeString != null ? MediaType.valueOf(mediaTypeString) : null);
+        try (MultiPart multiPart = new FormDataMultiPart()) {
+            FileDataBodyPart filePart = mediaType != null ?
+                new FileDataBodyPart(name, fileToUpload, mediaType) :
+                new FileDataBodyPart(name, fileToUpload);
+            multiPart.bodyPart(filePart);
+            return (invocation(url, null).post(Entity.entity(multiPart, MULTIPART_FORM_DATA_TYPE)));
+        }
     }
 
     /**

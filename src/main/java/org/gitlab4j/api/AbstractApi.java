@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -147,7 +148,7 @@ public abstract class AbstractApi implements Constants {
      * a ClientResponse instance with the data returned from the endpoint.
      *
      * @param expectedStatus the HTTP status that should be returned from the server
-     * @param stream the StreamingOutput taht will be used for the POST data
+     * @param stream the StreamingOutput that will be used for the POST data
      * @param mediaType the content-type for the streamed data
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -192,6 +193,46 @@ public abstract class AbstractApi implements Constants {
     protected Response post(Response.Status expectedStatus, Form formData, URL url) throws GitLabApiException {
         try {
             return validate(getApiClient().post(formData, url), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
+     * Perform a file upload with the specified File instance and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaType the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response upload(Response.Status expectedStatus, String name, File fileToUpload, String mediaType, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().upload(name, fileToUpload, mediaType, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
+     * Perform a file upload with the specified File instance and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaType the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response upload(Response.Status expectedStatus, String name, File fileToUpload, String mediaType, URL url) throws GitLabApiException {
+        try {
+            return validate(getApiClient().upload(name, fileToUpload, mediaType, url), expectedStatus);
         } catch (Exception e) {
             throw handle(e);
         }
