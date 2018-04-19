@@ -66,5 +66,6 @@
   "repository_storage": "default",
   "only_allow_merge_if_pipeline_succeeds": false,
   "only_allow_merge_if_all_discussions_are_resolved": false,
-  "request_access_enabled": false
+  "request_access_enabled": false,
+  "merge_method": "merge"
 }

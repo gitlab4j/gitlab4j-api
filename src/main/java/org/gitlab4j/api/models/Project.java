@@ -8,9 +8,37 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Project {
+
+    // Enum for the merge_method of the Project instance.
+    public enum MergeMethod {
+
+        MERGE, REBASE_MERGE, FF;
+
+        private static JacksonJsonEnumHelper<MergeMethod> enumHelper = new JacksonJsonEnumHelper<>(MergeMethod.class);
+
+        @JsonCreator
+        public static MergeMethod forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 
     private Integer approvalsBeforeMerge;
     private Boolean archived;
@@ -29,6 +57,7 @@ public class Project {
     private Boolean jobsEnabled;
     private Date lastActivityAt;
     private Boolean lfsEnabled;
+    private MergeMethod mergeMethod;
     private Boolean mergeRequestsEnabled;
     private String name;
     private Namespace namespace;
@@ -222,6 +251,19 @@ public class Project {
 
     public Project withLfsEnabled(Boolean lfsEnabled) {
         this.lfsEnabled = lfsEnabled;
+        return (this);
+    }
+
+    public MergeMethod getMergeMethod() {
+        return mergeMethod;
+    }
+
+    public void setMergeMethod(MergeMethod mergeMethod) {
+        this.mergeMethod = mergeMethod;
+    }
+
+    public Project withMergeMethod(MergeMethod mergeMethod) {
+        this.mergeMethod = mergeMethod;
         return (this);
     }
 

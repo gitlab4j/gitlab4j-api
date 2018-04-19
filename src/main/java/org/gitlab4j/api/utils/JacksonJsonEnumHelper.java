@@ -58,6 +58,17 @@ public class JacksonJsonEnumHelper<E extends Enum<E>> {
         }
     }
 
+    /**
+     * Add an enum that has a specialized name that does not fit the standard naming conventions.
+     *
+     * @param e the enum to add
+     * @param name the name for the enum
+     */
+    public void addEnum(E e, String name) {
+        valuesMap.put(name, e);
+        namesMap.put(e, name);
+    }
+
     @JsonCreator
     public E forValue(String value) {
         return valuesMap.get(value);

@@ -590,6 +590,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * visibility (optional) - Limit by visibility public, internal, or private
      * visibilityLevel (optional)
      * issuesEnabled (optional) - Enable issues for this project
+     * mergeMethod (optional) - Set the merge method used
      * mergeRequestsEnabled (optional) - Enable merge requests for this project
      * wikiEnabled (optional) - Enable wiki for this project
      * snippetsEnabled (optional) - Enable snippets for this project
@@ -629,6 +630,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("default_branch", project.getDefaultBranch())
             .withParam("description", project.getDescription())
             .withParam("issues_enabled", project.getIssuesEnabled())
+            .withParam("merge_method",  project.getMergeMethod())
             .withParam("merge_requests_enabled", project.getMergeRequestsEnabled())
             .withParam("jobs_enabled", project.getJobsEnabled())
             .withParam("wiki_enabled", project.getWikiEnabled())
@@ -822,6 +824,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * description (optional) - short project description
      * visibility (optional) - Limit by visibility public, internal, or private
      * issuesEnabled (optional) - Enable issues for this project
+     * mergeMethod (optional) - Set the merge method used
      * mergeRequestsEnabled (optional) - Enable merge requests for this project
      * wikiEnabled (optional) - Enable wiki for this project
      * snippetsEnabled (optional) - Enable snippets for this project
@@ -869,6 +872,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("default_branch", project.getDefaultBranch())
             .withParam("description", project.getDescription())
             .withParam("issues_enabled", project.getIssuesEnabled())
+            .withParam("merge_method",  project.getMergeMethod())
             .withParam("merge_requests_enabled", project.getMergeRequestsEnabled())
             .withParam("jobs_enabled", project.getJobsEnabled())
             .withParam("wiki_enabled", project.getWikiEnabled())
