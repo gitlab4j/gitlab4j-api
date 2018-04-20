@@ -54,6 +54,7 @@ public class GitLabApiClient {
 
     private ClientConfig clientConfig;
     private Client apiClient;
+    private String baseUrl;
     private String hostUrl;
     private TokenType tokenType = TokenType.PRIVATE;
     private String authToken;
@@ -91,7 +92,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL, private token, and secret token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param privateToken the private token to authenticate with
      */
@@ -102,7 +103,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL, private token, and secret token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
      * @param authToken the token to authenticate with
@@ -141,7 +142,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL, private token, and secret token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param privateToken the private token to authenticate with
      * @param secretToken use this token to validate received payloads
@@ -153,7 +154,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL, private token, and secret token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
      * @param authToken the token to authenticate with
@@ -166,7 +167,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL and private token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param privateToken the private token to authenticate with
      * @param secretToken use this token to validate received payloads
@@ -177,7 +178,7 @@ public class GitLabApiClient {
     }
 
     /**
-     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version, 
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
      * server URL and private token.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
@@ -191,7 +192,7 @@ public class GitLabApiClient {
     }
 
     /**
-     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version, 
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
      * server URL and private token.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
@@ -205,6 +206,7 @@ public class GitLabApiClient {
 
         // Remove the trailing "/" from the hostUrl if present
         this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl);
+        this.baseUrl = this.hostUrl;
         if (ApiVersion.OAUTH2_CLIENT != apiVersion) {
             this.hostUrl += apiVersion.getApiNamespace();
         }
@@ -265,7 +267,6 @@ public class GitLabApiClient {
     /**
      * Set the ID of the user to sudo as.
      *
-     * @param sudoAsId the ID of the user to sudo as
      */
     Integer getSudoAsId() {
         return (sudoAsId);
@@ -282,29 +283,44 @@ public class GitLabApiClient {
 
     /**
      * Construct a REST URL with the specified path arguments.
-     * 
+     *
      * @param pathArgs variable list of arguments used to build the URI
      * @return a REST URL with the specified path arguments
      * @throws IOException if an error occurs while constructing the URL
      */
     protected URL getApiUrl(Object... pathArgs) throws IOException {
+        String url = appendPathArgs(this.hostUrl, pathArgs);
+        return (new URL(url));
+    }
 
-        StringBuilder url = new StringBuilder();
-        url.append(hostUrl);
+    /**
+     * Construct a REST URL with the specified path arguments using
+     * Gitlab base url.
+     *
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a REST URL with the specified path arguments
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected URL getUrlWithBase(Object... pathArgs) throws IOException {
+        String url = appendPathArgs(this.baseUrl, pathArgs);
+        return (new URL(url));
+    }
+
+    private String appendPathArgs(String url, Object... pathArgs) {
+        StringBuilder urlBuilder = new StringBuilder(url);
         for (Object pathArg : pathArgs) {
             if (pathArg != null) {
-                url.append("/");
-                url.append(pathArg.toString());
+                urlBuilder.append("/");
+                urlBuilder.append(pathArg.toString());
             }
         }
-
-        return (new URL(url.toString()));
+        return urlBuilder.toString();
     }
 
     /**
      * Validates the secret token (X-GitLab-Token) header against the expected secret token, returns true if valid,
      * otherwise returns false.
-     * 
+     *
      * @param response the Response instance sent from the GitLab server
      * @return true if the response's secret token is valid, otherwise returns false
      */
@@ -323,7 +339,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP GET call with the specified query parameters and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -337,7 +353,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP GET call with the specified query parameters and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -349,7 +365,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP GET call with the specified query parameters and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param accepts if non-empty will set the Accepts header to this value
      * @param pathArgs variable list of arguments used to build the URI
@@ -364,7 +380,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP GET call with the specified query parameters and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param url the fully formed path to the GitLab API endpoint
      * @param accepts if non-empty will set the Accepts header to this value
@@ -377,7 +393,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param formData the Form containing the name/value pairs
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -391,7 +407,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a Response instance with the data returned from the endpoint
@@ -405,7 +421,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP POST call with the specified form data and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param formData the Form containing the name/value pairs
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -501,7 +517,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP PUT call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -561,7 +577,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP DELETE call with the specified form data and path objects, returning
      * a Response instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a Response instance with the data returned from the endpoint
@@ -574,7 +590,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP DELETE call with the specified form data and URL, returning
      * a Response instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param url the fully formed path to the GitLab API endpoint
      * @return a Response instance with the data returned from the endpoint

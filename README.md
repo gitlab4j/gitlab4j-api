@@ -139,6 +139,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
 &nbsp;&nbsp;[EventsApi](#eventsapi)<br/>
 &nbsp;&nbsp;[GroupApi](#groupapi)<br/>
+&nbsp;&nbsp;[HealthCheckApi](#healthcheckapi)<br/>
 &nbsp;&nbsp;[IssuesApi](#issuesapi)<br/>
 &nbsp;&nbsp;[JobApi](#jobapi)<br/>
 &nbsp;&nbsp;[LabelsApi](#labelsapi)<br/>
@@ -189,6 +190,13 @@ List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, n
 ```java
 // Get a list of groups that you have access to
 List<Group> groups = gitLabApi.getGroupApi().getGroups();
+```
+
+#### HealthCheckApi
+```java
+// Get the liveness endpoint health check results.
+// Assumes ip_whitelisted
+LivenessHealthCheck healthCheck = gitLabApi.getHealthCheckApi().getLiveness();
 ```
 
 #### IssuesApi
