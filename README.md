@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.11'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.12'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.8.11</version>
+    <version>4.8.12</version>
 </dependency>
 ```
 
@@ -194,9 +194,9 @@ List<Group> groups = gitLabApi.getGroupApi().getGroups();
 
 #### HealthCheckApi
 ```java
-// Get the liveness endpoint health check results.
-// Assumes ip_whitelisted
-LivenessHealthCheck healthCheck = gitLabApi.getHealthCheckApi().getLiveness();
+// Get the liveness endpoint health check results. Assumes ip_whitelisted per:
+// https://docs.gitlab.com/ee/administration/monitoring/ip_whitelist.html
+HealthCheckInfo healthCheck = gitLabApi.getHealthCheckApi().getLiveness();
 ```
 
 #### IssuesApi

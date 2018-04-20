@@ -40,6 +40,7 @@ import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.HealthCheckInfo;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Job;
@@ -193,6 +194,17 @@ public class TestGitLabApiBeans {
         try {
             Group group = makeFakeApiCall(Group.class, "group");
             assertTrue(compareJson(group, "group"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testHealthCheckInfo() {
+
+        try {
+            HealthCheckInfo healthCheck = makeFakeApiCall(HealthCheckInfo.class, "health-check");
+            assertTrue(compareJson(healthCheck, "health-check"));
         } catch (Exception e) {
             e.printStackTrace();
         }
