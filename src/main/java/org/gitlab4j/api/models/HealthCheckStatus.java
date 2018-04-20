@@ -1,17 +1,26 @@
 package org.gitlab4j.api.models;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-public class HealthCheckStatus {
-    private String status;
+public enum HealthCheckStatus {
+    OK, FAILED;
 
-    public String getStatus() {
-        return this.status;
+    private static JacksonJsonEnumHelper<HealthCheckStatus> enumHelper = new JacksonJsonEnumHelper<>(HealthCheckStatus.class);
+
+    @JsonCreator
+    public static HealthCheckStatus forValue(String value) {
+        return enumHelper.forValue(value);
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    @JsonValue
+    public String toValue() {
+        return enumHelper.toString(this);
+    }
+
+    @Override
+    public String toString() {
+        return enumHelper.toString(this);
     }
 }
