@@ -20,8 +20,8 @@ public class JiraService extends NotificationService {
 
     private SecretString password;
 
-    public JiraService withCommitEvents(Boolean commitEventd) {
-        return withCommitEvents(commitEventd, this);
+    public JiraService withCommitEvents(Boolean commitEvents) {
+        return withCommitEvents(commitEvents, this);
     }
 
     public JiraService withMergeRequestsEvents(Boolean mergeRequestsEvents) {
