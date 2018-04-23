@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Project;
 
 /**
  * This class is the base class for all the sub API classes. It provides implementations of
@@ -22,6 +23,42 @@ public abstract class AbstractApi implements Constants {
 
     public AbstractApi(GitLabApi gitLabApi) {
         this.gitLabApi = gitLabApi;
+    }
+
+    /**
+     * Returns the project ID or path from the provided Integer, String, or Project instance.
+     *
+     * @param obj the object to determine the ID or path from
+     * @return the project ID or path from the provided Integer, String, or Project instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Object getProjectIdOrPath(Object obj) throws GitLabApiException {
+
+        if (obj == null) {
+            throw (new RuntimeException("Cannot determine ID or path from null object"));
+        } else if (obj instanceof Integer) {
+            return (obj);
+        } else if (obj instanceof String) {
+            return (urlEncode(((String) obj).trim()));
+        } else if (obj instanceof Project) {
+
+            Integer id = ((Project) obj).getId();
+            if (id != null && id.intValue() > 0) {
+                return (id);
+            }
+
+            String path = ((Project) obj).getPath();
+            if (path != null && path.trim().length() > 0) {
+                return (urlEncode(path.trim()));
+            }
+
+            throw (new RuntimeException("Cannot determine ID or path from provided Project instance"));
+
+        } else {
+
+            throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() + 
+                    " instance, must be Integer, String, or Project instance"));
+        }
     }
 
     protected ApiVersion getApiVersion() {

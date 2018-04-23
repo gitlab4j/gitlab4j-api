@@ -67,6 +67,7 @@ import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.services.SlackService;
 import org.gitlab4j.api.systemhooks.ProjectSystemHookEvent;
 import org.gitlab4j.api.systemhooks.PushSystemHookEvent;
 import org.gitlab4j.api.systemhooks.SystemHookEvent;
@@ -458,6 +459,17 @@ public class TestGitLabApiBeans {
         try {
             Session session = makeFakeApiCall(Session.class, "session");
             assertTrue(compareJson(session, "session"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testSlackService() {
+
+        try {
+            SlackService slackNotifications = makeFakeApiCall(SlackService.class, "slack-notifications");
+            assertTrue(compareJson(slackNotifications, "slack-notifications"));
         } catch (Exception e) {
             e.printStackTrace();
         }
