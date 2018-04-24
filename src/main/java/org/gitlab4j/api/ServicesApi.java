@@ -122,7 +122,7 @@ public class ServicesApi extends AbstractApi {
      * @param room HipChatService Room
      * @param server HipChatService Server URL
      * @throws GitLabApiException if any exception occurs
-     * @deprecated replaced with {@link #updateHipChat(Object, HipChatService) updateHipChat} method
+     * @deprecated replaced with {@link #updateHipChatService(Object, HipChatService) updateHipChat} method
      */
     public void setHipChat(Object projectIdOrPath, String token, String room, String server) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
