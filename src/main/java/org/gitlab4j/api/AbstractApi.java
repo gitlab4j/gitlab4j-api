@@ -47,7 +47,7 @@ public abstract class AbstractApi implements Constants {
                 return (id);
             }
 
-            String path = ((Project) obj).getPath();
+            String path = ((Project) obj).getPathWithNamespace();
             if (path != null && path.trim().length() > 0) {
                 return (urlEncode(path.trim()));
             }

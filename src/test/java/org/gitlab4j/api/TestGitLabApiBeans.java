@@ -57,7 +57,7 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.ProtectedBranch;
-import org.gitlab4j.api.models.PushRule;
+import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
 import org.gitlab4j.api.models.Session;
@@ -67,6 +67,7 @@ import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
 import org.gitlab4j.api.systemhooks.ProjectSystemHookEvent;
 import org.gitlab4j.api.systemhooks.PushSystemHookEvent;
@@ -310,7 +311,7 @@ public class TestGitLabApiBeans {
     public void testPushRule() {
 
         try {
-            PushRule pushRule = makeFakeApiCall(PushRule.class, "push-rule");
+            PushRules pushRule = makeFakeApiCall(PushRules.class, "push-rule");
             assertTrue(compareJson(pushRule, "push-rule"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -338,6 +339,17 @@ public class TestGitLabApiBeans {
             List<Runner> allRunners = objectMapper.readValue(reader, new TypeReference<List<Runner>>() {});
             assertTrue(compareJson(allRunners, "all-runners"));
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testJiraService() {
+
+        try {
+            JiraService jira = makeFakeApiCall(JiraService.class, "jira");
+            assertTrue(compareJson(jira, "jira"));
         } catch (Exception e) {
             e.printStackTrace();
         }

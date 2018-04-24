@@ -26,6 +26,7 @@ public class ServicesApi extends AbstractApi {
      * @param token for authentication
      * @param projectCIUrl URL of the GitLab-CI project
      * @throws GitLabApiException if any exception occurs
+     * @deprecated No longer supported
      */
     public void setGitLabCI(Object projectIdOrPath, String token, String projectCIUrl) throws GitLabApiException {
         final Form formData = new Form();
@@ -41,6 +42,7 @@ public class ServicesApi extends AbstractApi {
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
+     * @deprecated No longer supported
      */
     public void deleteGitLabCI(Object projectIdOrPath) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
@@ -56,7 +58,7 @@ public class ServicesApi extends AbstractApi {
      * @return a HipChatService instance holding the HipChatService notification settings
      * @throws GitLabApiException if any exception occurs
      */
-    public HipChatService getHipChat(Object projectIdOrPath) throws GitLabApiException {
+    public HipChatService getHipChatService(Object projectIdOrPath) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "hipchat");
         return (response.readEntity(HipChatService.class)); 
     }
@@ -89,7 +91,7 @@ public class ServicesApi extends AbstractApi {
      * @return a HipChatService instance holding the newly updated settings
      * @throws GitLabApiException if any exception occurs
      */
-    public HipChatService updateHipChat(Object projectIdOrPath, HipChatService hipChat) throws GitLabApiException {
+    public HipChatService updateHipChatService(Object projectIdOrPath, HipChatService hipChat) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("push_events", hipChat.getPushEvents())
                 .withParam("issues_events", hipChat.getIssuesEvents())
@@ -137,12 +139,25 @@ public class ServicesApi extends AbstractApi {
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
+     * @deprecated replaced with {@link #deleteHipChatService(Object) updateHipChat} method
      */
     public void deleteHipChat(Object projectIdOrPath) throws GitLabApiException {
+        deleteHipChatService(projectIdOrPath);
+    }
+
+    /**
+     * Deletes the HipChatService service for a project.
+     *
+     * DELETE /projects/:id/services/hipchat
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteHipChatService(Object projectIdOrPath) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "hipchat");
     }
-    
+
     /**
      * Get the Slack notification settings for a project.
      *
@@ -152,7 +167,7 @@ public class ServicesApi extends AbstractApi {
      * @return a SlackService instance holding the Slack notification settings
      * @throws GitLabApiException if any exception occurs
      */
-    public SlackService getSlackNotifications(Object projectIdOrPath) throws GitLabApiException {
+    public SlackService getSlackService(Object projectIdOrPath) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "slack");
         return (response.readEntity(SlackService.class)); 
     }
@@ -193,7 +208,7 @@ public class ServicesApi extends AbstractApi {
      * @return a SlackService instance holding the newly updated settings
      * @throws GitLabApiException if any exception occurs
      */
-    public SlackService updateSlackNotifications(Object projectIdOrPath, SlackService slackNotifications) throws GitLabApiException {
+    public SlackService updateSlackService(Object projectIdOrPath, SlackService slackNotifications) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("webhook", slackNotifications.getWebhook(), true)
                 .withParam("username", slackNotifications.getUsername())
@@ -230,7 +245,7 @@ public class ServicesApi extends AbstractApi {
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteSlackNotifications(Object projectIdOrPath) throws GitLabApiException {
+    public void deleteSlackService(Object projectIdOrPath) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "slack");
     }
@@ -244,7 +259,7 @@ public class ServicesApi extends AbstractApi {
      * @return a JiraService instance holding the JIRA service settings
      * @throws GitLabApiException if any exception occurs
      */
-    public JiraService getJira(Object projectIdOrPath) throws GitLabApiException {
+    public JiraService getJiraService(Object projectIdOrPath) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "jira");
         return (response.readEntity(JiraService.class)); 
     }
@@ -270,7 +285,7 @@ public class ServicesApi extends AbstractApi {
      * @return a JiraService instance holding the newly updated settings
      * @throws GitLabApiException if any exception occurs
      */
-    public JiraService updateJira(Object projectIdOrPath, JiraService jira) throws GitLabApiException {
+    public JiraService updateJiraService(Object projectIdOrPath, JiraService jira) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("merge_requests_events", jira.getMergeRequestsEvents())
                 .withParam("commit_events", jira.getCommitEvents())
@@ -292,7 +307,7 @@ public class ServicesApi extends AbstractApi {
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteJira(Object projectIdOrPath) throws GitLabApiException {
+    public void deleteJiraService(Object projectIdOrPath) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "jira");
     }

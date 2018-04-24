@@ -4,8 +4,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.gitlab4j.api.utils.SecretString;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement
@@ -18,7 +16,7 @@ public class JiraService extends NotificationService {
     public static final String USERNAME_PROP = "username";
     public static final String JIRA_ISSUE_TRANSITION_ID_PROP = "jira_issue_transition_id";
 
-    private SecretString password;
+    private CharSequence password;
 
     public JiraService withCommitEvents(Boolean commitEvents) {
         return withCommitEvents(commitEvents, this);
@@ -29,15 +27,15 @@ public class JiraService extends NotificationService {
     }
 
     @JsonIgnore
-    public SecretString getPassword() {
+    public CharSequence getPassword() {
         return password;
     }
 
-    public void setPassword(SecretString password) {
+    public void setPassword(CharSequence password) {
         this.password = password;
     }
 
-    public JiraService withUrl(SecretString password) {
+    public JiraService withPassword(CharSequence password) {
         setPassword(password);
         return (this);
     }

@@ -84,7 +84,7 @@ public abstract class NotificationService {
         this.pushEvents = pushEvents;
     }
 
-    public <T> T withPushEvents(Boolean pushEvents, T derivedInstance) {
+    protected <T> T withPushEvents(Boolean pushEvents, T derivedInstance) {
         this.pushEvents = pushEvents;
         return (derivedInstance);
     }
@@ -97,7 +97,7 @@ public abstract class NotificationService {
         this.issuesEvents = issuesEvents;
     }
 
-    public <T> T withIssuesEvents(Boolean issuesEvents, T derivedInstance) {
+    protected <T> T withIssuesEvents(Boolean issuesEvents, T derivedInstance) {
         this.issuesEvents = issuesEvents;
         return (derivedInstance);
     }
@@ -110,7 +110,7 @@ public abstract class NotificationService {
         this.confidentialIssuesEvents = confidentialIssuesEvents;
     }
 
-    public <T> T withConfidentialIssuesEvents(Boolean confidentialIssuesEvents, T derivedInstance) {
+    protected <T> T withConfidentialIssuesEvents(Boolean confidentialIssuesEvents, T derivedInstance) {
         this.confidentialIssuesEvents = confidentialIssuesEvents;
         return (derivedInstance);
     }
@@ -124,7 +124,7 @@ public abstract class NotificationService {
         this.commitEvents = commitEvents;
     }
 
-    public <T> T withCommitEvents(Boolean commitEvents, T derivedInstance) {
+    protected <T> T withCommitEvents(Boolean commitEvents, T derivedInstance) {
         setCommitEvents(commitEvents);
         return (derivedInstance);
     }
@@ -137,7 +137,7 @@ public abstract class NotificationService {
         this.mergeRequestsEvents = mergeRequestsEvents;
     }
 
-    public <T> T withMergeRequestsEvents(Boolean mergeRequestsEvents, T derivedInstance) {
+    protected <T> T withMergeRequestsEvents(Boolean mergeRequestsEvents, T derivedInstance) {
         this.mergeRequestsEvents = mergeRequestsEvents;
         return (derivedInstance);
     }
@@ -150,7 +150,7 @@ public abstract class NotificationService {
         this.tagPushEvents = tagPushEvents;
     }
 
-    public <T> T withTagPushEvents(Boolean tagPushEvents, T derivedInstance) {
+    protected <T> T withTagPushEvents(Boolean tagPushEvents, T derivedInstance) {
         this.tagPushEvents = tagPushEvents;
         return (derivedInstance);
     }
@@ -163,7 +163,7 @@ public abstract class NotificationService {
         this.noteEvents = noteEvents;
     }
 
-    public <T> T withNoteEvents(Boolean noteEvents, T derivedInstance) {
+    protected <T> T withNoteEvents(Boolean noteEvents, T derivedInstance) {
         this.noteEvents = noteEvents;
         return (derivedInstance);
     }
@@ -176,7 +176,7 @@ public abstract class NotificationService {
         this.confidentialNoteEvents = confidentialNoteEvents;
     }
 
-    public <T> T withConfidentialNoteEvents(Boolean confidentialNoteEvents, T derivedInstance) {
+    protected <T> T withConfidentialNoteEvents(Boolean confidentialNoteEvents, T derivedInstance) {
         this.confidentialNoteEvents = confidentialNoteEvents;
         return (derivedInstance);
     }
@@ -189,7 +189,7 @@ public abstract class NotificationService {
         this.pipelineEvents = pipelineEvents;
     }
 
-    public <T> T withPipelineEvents(Boolean pipelineEvents, T derivedInstance) {
+    protected <T> T withPipelineEvents(Boolean pipelineEvents, T derivedInstance) {
         this.pipelineEvents = pipelineEvents;
         return (derivedInstance);
     }
@@ -202,7 +202,7 @@ public abstract class NotificationService {
         this.wikiPageEvents = wikiPageEvents;
     }
 
-    public <T> T withWikiPageEvents(Boolean wikiPageEvents, T derivedInstance) {
+    protected <T> T withWikiPageEvents(Boolean wikiPageEvents, T derivedInstance) {
         this.wikiPageEvents = wikiPageEvents;
         return (derivedInstance);
     }
@@ -215,7 +215,7 @@ public abstract class NotificationService {
         this.jobEvents = jobEvents;
     }
 
-    public <T> T withJobEvents(Boolean jobEvents, T derivedInstance) {
+    protected <T> T withJobEvents(Boolean jobEvents, T derivedInstance) {
         this.jobEvents = jobEvents;
         return (derivedInstance);
     }
