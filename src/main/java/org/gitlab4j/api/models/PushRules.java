@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PushRule {
+public class PushRules {
 
     private Integer id;
     private Integer projectId;
@@ -38,7 +38,7 @@ public class PushRule {
         this.projectId = projectId;
     }
     
-    public PushRule withProjectId(Integer projectId) {
+    public PushRules withProjectId(Integer projectId) {
         this.projectId = projectId;
         return (this);
     }
@@ -51,7 +51,7 @@ public class PushRule {
         this.commitMessageRegex = commitMessageRegex;
     }
     
-    public PushRule withCommitMessageRegex(String commitMessageRegex) {
+    public PushRules withCommitMessageRegex(String commitMessageRegex) {
         this.commitMessageRegex = commitMessageRegex;
     return (this);
  }
@@ -64,7 +64,7 @@ public class PushRule {
         this.branchNameRegex = branchNameRegex;
     }
     
-    public PushRule withBranchNameRegex(String branchNameRegex) {
+    public PushRules withBranchNameRegex(String branchNameRegex) {
         this.branchNameRegex = branchNameRegex;
     return (this);
  }
@@ -77,7 +77,7 @@ public class PushRule {
         this.denyDeleteTag = denyDeleteTag;
     }
     
-    public PushRule withDenyDeleteTag(Boolean denyDeleteTag) {
+    public PushRules withDenyDeleteTag(Boolean denyDeleteTag) {
         this.denyDeleteTag = denyDeleteTag;
     return (this);
  }
@@ -98,7 +98,7 @@ public class PushRule {
         this.memberCheck = memberCheck;
     }
     
-    public PushRule withMemberCheck(Boolean memberCheck) {
+    public PushRules withMemberCheck(Boolean memberCheck) {
         this.memberCheck = memberCheck;
     return (this);
  }
@@ -111,7 +111,7 @@ public class PushRule {
         this.preventSecrets = preventSecrets;
     }
     
-    public PushRule withPreventSecrets(Boolean preventSecrets) {
+    public PushRules withPreventSecrets(Boolean preventSecrets) {
         this.preventSecrets = preventSecrets;
     return (this);
  }
@@ -124,7 +124,7 @@ public class PushRule {
         this.authorEmailRegex = authorEmailRegex;
     }
     
-    public PushRule withAuthorEmailRegex(String authorEmailRegex) {
+    public PushRules withAuthorEmailRegex(String authorEmailRegex) {
         this.authorEmailRegex = authorEmailRegex;
     return (this);
  }
@@ -137,7 +137,7 @@ public class PushRule {
         this.fileNameRegex = fileNameRegex;
     }
     
-    public PushRule withFileNameRegex(String fileNameRegex) {
+    public PushRules withFileNameRegex(String fileNameRegex) {
         this.fileNameRegex = fileNameRegex;
     return (this);
  }
@@ -150,7 +150,7 @@ public class PushRule {
         this.maxFileSize = maxFileSize;
     }
     
-    public PushRule withMaxFileSize(Integer maxFileSize) {
+    public PushRules withMaxFileSize(Integer maxFileSize) {
         this.maxFileSize = maxFileSize;
     return (this);
  }

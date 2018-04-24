@@ -43,7 +43,7 @@ import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
-import org.gitlab4j.api.models.PushRule;
+import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Visibility;
 
@@ -1938,54 +1938,25 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Get a list of project's push rules. Only returns the first page
+     * Get the project's push rules.
      *
      * GET /projects/:id/push_rule
      *
      * @param projectId the project ID to get the push rules for
-     * @return a list of project's push rules
+     * @return the push rules for the specified project
      * @throws GitLabApiException if any exception occurs
      */
-    public List<PushRule> getPushRules(Integer projectId) throws GitLabApiException {
-        return (getPushRules(projectId, 1, getDefaultPerPage()));
+    public PushRules getPushRules(Integer projectId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", projectId, "push_rule");
+        return (response.readEntity(PushRules.class));
     }
 
     /**
-     * Get a list of project's push rules using the specified page and per page settings.
-     *
-     * GET /projects/:id/push_rule
-     *
-     * @param projectId the project ID to get the push rules for
-     * @param page the page to get
-     * @param perPage the number of push rules per page
-     * @return the list of push rules in the specified range
-     * @throws GitLabApiException if any exception occurs
-     */
-    public List<PushRule> getPushRules(Integer projectId, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "push_rule");
-        return (response.readEntity(new GenericType<List<PushRule>>() {}));
-    }
-
-    /**
-     * Get a Pager of project's push rules.
-     *
-     * GET /projects/:id/push_rule
-     *
-     * @param projectId the project ID to get the push rules for
-     * @param itemsPerPage the number of push rules per page
-     * @return a Pager instance for paging over the project's push rules
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Pager<PushRule> getPushRules(Integer projectId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<PushRule>(this, PushRule.class, itemsPerPage, null, "projects", projectId, "push_rule"));
-    }
-
-    /**
-     * Creates new push rule for the specified project.
+     * Adds a push rule to a specified project.
      *
      * POST /projects/:id/push_rule
      *
-     * The following properties on the PushRule instance are utilized in the creation of the push rule:
+     * The following properties on the PushRules instance are utilized in the creation of the push rule:
      *
      *<code>
      * denyDeleteTag (optional) - Deny deleting a tag
@@ -1999,11 +1970,11 @@ public class ProjectApi extends AbstractApi implements Constants {
      *</code>
      *
      * @param projectId the project ID to add the push rule to
-     * @param pushRule the PUshRule instance containing the push rule configuration to add
-     * @return a PushRule instance with the newly created push rule info
+     * @param pushRule the PushRule instance containing the push rule configuration to add
+     * @return a PushRules instance with the newly created push rule info
      * @throws GitLabApiException if any exception occurs
      */
-    public PushRule createPushRule(Integer projectId, PushRule pushRule) throws GitLabApiException {
+    public PushRules createPushRules(Integer projectId, PushRules pushRule) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
@@ -2020,7 +1991,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("max_file_size", pushRule.getMaxFileSize());
 
         Response response = post(Response.Status.CREATED, formData, "projects", projectId, "push_rule");
-        return (response.readEntity(PushRule.class));
+        return (response.readEntity(PushRules.class));
     }
 
     /**
@@ -2028,7 +1999,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * PUT /projects/:id/push_rule/:push_rule_id
      *
-     * The following properties on the PushRule instance are utilized when updating the push rule:
+     * The following properties on the PushRules instance are utilized when updating the push rule:
      *
      *<code>
      * denyDeleteTag (optional) - Deny deleting a tag
@@ -2042,19 +2013,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      *</code>
      *
      * @param projectId the project ID to update the push rule for
-     * @param pushRuleId the push rule ID to update
-     * @param pushRule the PUshRule instance containing the push rule configuration to update
-     * @return a PushRule instance with the newly created push rule info
+     * @param pushRule the PushRules instance containing the push rule configuration to update
+     * @return a PushRules instance with the newly created push rule info
      * @throws GitLabApiException if any exception occurs
      */
-    public PushRule updatePushRule(Integer projectId, Integer pushRuleId, PushRule pushRule) throws GitLabApiException {
+    public PushRules updatePushRules(Integer projectId, PushRules pushRule) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
-        }
-
-        if (pushRuleId == null) {
-            throw new RuntimeException("pushRuleId cannot be null");
         }
 
         GitLabApiForm formData = new GitLabApiForm()
@@ -2067,30 +2033,25 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("file_name_regex", pushRule.getFileNameRegex())
             .withParam("max_file_size", pushRule.getMaxFileSize());
 
-        Response response = post(Response.Status.OK, formData, "projects", projectId, "push_rule", pushRuleId);
-        return (response.readEntity(PushRule.class));
+        Response response = post(Response.Status.OK, formData, "projects", projectId, "push_rule");
+        return (response.readEntity(PushRules.class));
     }
 
     /**
      * Removes a push rule from a project. This is an idempotent method and can be
      * called multiple times. Either the push rule is available or not.
      *
-     * DELETE /projects/:id/push_rule/:push_rule_id
+     * DELETE /projects/:id/push_rule
      *
      * @param projectId the project ID to delete the push rule from
-     * @param pushRuleId the push rule ID to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deletePushRule(Integer projectId, Integer pushRuleId) throws GitLabApiException {
+    public void deletePushRules(Integer projectId) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        if (pushRuleId == null) {
-            throw new RuntimeException("pushRuleId cannot be null");
-        }
-
-        delete(Response.Status.OK, null, "projects", projectId, "push_rule", pushRuleId);
+        delete(Response.Status.OK, null, "projects", projectId, "push_rule");
     }
 }
