@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.12'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.14'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.8.12</version>
+    <version>4.8.14</version>
 </dependency>
 ```
 
@@ -296,8 +296,12 @@ List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
 
 #### ServicesApi
 ```java
-// Activates the gitlab-ci service.
-gitLabApi.getServicesApi().setGitLabCI("project-name", "auth-token", "project-ci-url");
+// Activate/Update the Slack Notifications service
+SlackService slackService =  new SlackService()
+        .withMergeRequestsEvents(true)
+        .withWebhook("https://hooks.slack.com/services/ABCDEFGHI/KJLMNOPQR/wetrewq7897HKLH8998wfjjj")
+        .withUsername("GitLab4J");
+gitLabApi.getServicesApi().updateSlackService("project-path", slackService);
 ```
 
 #### SessionApi
