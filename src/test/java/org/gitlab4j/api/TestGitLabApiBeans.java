@@ -297,6 +297,21 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testProjectEvents() {
+
+        try {
+
+            InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream("project-events.json"));
+            ObjectMapper objectMapper = jacksonJson.getContext(null);
+            List<Event> events = objectMapper.readValue(reader, new TypeReference<List<Event>>() {});
+            assertTrue(compareJson(events, "project-events"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testProtectedBranch() {
 
         try {

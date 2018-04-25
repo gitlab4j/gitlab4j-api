@@ -39,7 +39,7 @@ public class Note {
 
     public static enum NoteableType {
 
-        ISSUE, MERGE_REQUEST, SNIPPET;
+        COMMIT, ISSUE, MERGE_REQUEST, SNIPPET;
         private static JacksonJsonEnumHelper<NoteableType> enumHelper = new JacksonJsonEnumHelper<>(NoteableType.class, true, true);
 
         @JsonCreator

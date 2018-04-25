@@ -1,6 +1,8 @@
 
 package org.gitlab4j.api.models;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,9 +20,14 @@ public class Event {
     private EventData data;
     private Integer projectId;
     private Integer targetId;
+    private Integer targetIid;
     private String targetTitle;
     private TargetType targetType;
     private String title;
+    private Date createdAt;
+
+    private Note note;
+    private PushData pushData;
 
     public String getActionName() {
         return actionName;
@@ -78,6 +85,14 @@ public class Event {
         this.targetId = targetId;
     }
 
+    public Integer getTargetIid() {
+        return targetIid;
+    }
+
+    public void setTargetIid(Integer targetIid) {
+        this.targetIid = targetIid;
+    }
+
     public String getTargetTitle() {
         return targetTitle;
     }
@@ -100,5 +115,29 @@ public class Event {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Note getNote() {
+        return note;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
+    }
+
+    public PushData getPushData() {
+        return pushData;
+    }
+
+    public void setPushData(PushData pushData) {
+        this.pushData = pushData;
     }
 }
