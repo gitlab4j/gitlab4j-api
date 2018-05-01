@@ -137,7 +137,8 @@ public class RunnersApi extends AbstractApi {
      * GET /runners/all
      *
      * @param page    The page offset of runners
-     * @param perPage The number of runners to get after the page offset     * @return List of Runners
+     * @param perPage The number of runners to get after the page offset
+     * @return a list of all runners in the GitLab instance
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getAllRunners(int page, int perPage) throws GitLabApiException {
