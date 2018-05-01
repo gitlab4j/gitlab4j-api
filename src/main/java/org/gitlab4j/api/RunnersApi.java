@@ -26,11 +26,11 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getRunners() throws GitLabApiException {
-        return getRunners(null);
+        return getRunners(null, null, null);
     }
 
     /**
-     * Get a list of specific runners available to the user.
+     * Get a list of all available runners available to the user with pagination support.
      *
      * GET /runners
      *
@@ -39,8 +39,39 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getRunners(Runner.RunnerStatus scope) throws GitLabApiException {
+        return getRunners(scope, null, null);
+    }
+
+    /**
+     * Get a list of all available runners available to the user with pagination support.
+     *
+     * GET /runners
+     *
+     * @param page    The page offset of runners
+     * @param perPage The number of runners to get after the page offset
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Runner> getRunners(int page, int perPage) throws GitLabApiException {
+        return getRunners(null, page, perPage);
+    }
+
+    /**
+     * Get a list of specific runners available to the user.
+     *
+     * GET /runners
+     *
+     * @param scope   The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @param page    The page offset of runners
+     * @param perPage The number of runners to get after the page offset
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Runner> getRunners(Runner.RunnerStatus scope, Integer page, Integer perPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", scope, false);
+                .withParam("scope", scope, false)
+                .withParam("page", page, false)
+                .withParam("per_page", perPage, false);
         Response response = get(Response.Status.OK, formData.asMap(), "runners");
         return (response.readEntity(new GenericType<List<Runner>>() {
         }));
@@ -84,7 +115,7 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getAllRunners() throws GitLabApiException {
-        return getAllRunners(null);
+        return getAllRunners(null, null, null);
     }
 
     /**
@@ -97,8 +128,38 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getAllRunners(Runner.RunnerStatus scope) throws GitLabApiException {
+        return getAllRunners(scope, null, null);
+    }
+
+    /**
+     * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * GET /runners/all
+     *
+     * @param page    The page offset of runners
+     * @param perPage The number of runners to get after the page offset     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Runner> getAllRunners(int page, int perPage) throws GitLabApiException {
+        return getAllRunners(null, page, perPage);
+    }
+
+    /**
+     * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * GET /runners/all
+     *
+     * @param scope   The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @param page    The page offset of runners
+     * @param perPage The number of runners to get after the page offset
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Runner> getAllRunners(Runner.RunnerStatus scope, Integer page, Integer perPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", scope, false);
+                .withParam("scope", scope, false)
+                .withParam("page", page, false)
+                .withParam("per_page", perPage, false);
         Response response = get(Response.Status.OK, formData.asMap(), "runners", "all");
         return (response.readEntity(new GenericType<List<Runner>>() {
         }));
@@ -132,6 +193,7 @@ public class RunnersApi extends AbstractApi {
                 .withParam("scope", scope, false);
         return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
     }
+
 
     /**
      * Get details of a runner.
@@ -296,7 +358,7 @@ public class RunnersApi extends AbstractApi {
      *
      * GET /projects/:id/runners
      *
-     * @param projectId The ID of the project owned by the authenticated user
+     * @param projectId    The ID of the project owned by the authenticated user
      * @param itemsPerPage the number of Project instances that will be fetched per page
      * @return Pager of all Runner available in the project
      * @throws GitLabApiException if any exception occurs
