@@ -560,7 +560,7 @@ public class UserApi extends AbstractApi {
     }
 
     /**
-     * Deletes key owned by currently authenticated user. This is an idempotent function and calling it 
+     * Deletes key owned by currently authenticated user. This is an idempotent function and calling it
      * on a key that is already deleted or not available results in success.
      *
      * DELETE /user/keys/:key_id
@@ -745,6 +745,7 @@ public class UserApi extends AbstractApi {
      * @return the populated Form instance
      */
     Form userToForm(User user, Integer projectsLimit, String password, boolean create) {
+
         return (new GitLabApiForm()
                 .withParam("email", user.getEmail(), create)
                 .withParam("password", password, create)
@@ -761,7 +762,8 @@ public class UserApi extends AbstractApi {
                 .withParam("location", user.getLocation(), false)
                 .withParam("admin", user.getIsAdmin(), false)
                 .withParam("can_create_group", user.getCanCreateGroup(), false)
-                .withParam("external", user.getExternal(), false))
-                .withParam("skip_confirmation",user.getSkipConfirmation(),false);
+                .withParam("external", user.getExternal(), false)
+                .withParam("extern_uid", user.getExternUid(), false)
+                .withParam("skip_confirmation",user.getSkipConfirmation(),false));
     }
 }
