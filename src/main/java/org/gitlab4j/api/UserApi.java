@@ -791,8 +791,8 @@ public class UserApi extends AbstractApi {
      * @return the populated Form instance
      */
     Form userToForm(User user, Integer projectsLimit, String password, boolean create) {
-        projectsLimit = (user.getProjectsLimit() == null) ? user.getProjectsLimit() : projectsLimit;
-        password = (user.getPassword() == null) ? user.getPassword() : password;
+        projectsLimit = (projectsLimit == null) ? user.getProjectsLimit() : projectsLimit;
+        password = (password == null) ? user.getPassword() : password;
 
         return (new GitLabApiForm()
                 .withParam("email", user.getEmail(), create)
