@@ -4,25 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class User extends AbstractUser {
-    private String password;
-    private Boolean resetPassword;
     private String externUid;
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setResetPassword(Boolean resetPassword) {
-        this.resetPassword = resetPassword;
-    }
-
-    public Boolean getResetPassword() {
-        return this.resetPassword;
-    }
 
     public void setExternUid(String externUid) {
         this.externUid = externUid;
@@ -34,16 +16,6 @@ public class User extends AbstractUser {
 
     public User withEmail(String email) {
         setEmail(email);
-        return this;
-    }
-
-    public User withPassword(String password) {
-        setPassword(password);
-        return this;
-    }
-
-    public User withResetPassword(boolean resetPassword) {
-        setResetPassword(resetPassword);
         return this;
     }
 
