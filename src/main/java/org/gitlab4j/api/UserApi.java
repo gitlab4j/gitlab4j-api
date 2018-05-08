@@ -383,49 +383,13 @@ public class UserApi extends AbstractApi {
      * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
      *
      * @param user the User instance with the user info to create
+     * @param password the password for the new user
+     * @param resetPassword whether to send a password reset link
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
      */
-    public User createUserWithReset(User user) throws GitLabApiException {
-        Form formData = userToForm(user, null, null, true, true);
-        Response response = post(Response.Status.CREATED, formData, "users");
-        return (response.readEntity(User.class));
-    }
-
-    /**
-     * Creates a new user. Note only administrators can create new users.
-     * Either password or reset_password should be specified (reset_password takes priority).
-     *
-     * POST /users
-     *
-     * email (required) - Email
-     * password (optional) - Password
-     * reset_password (optional) - Send user password reset link - true or false(default)
-     * username (required) - Username
-     * name (required) - Name
-     * skype (optional) - Skype ID
-     * linkedin (optional) - LinkedIn
-     * twitter (optional) - Twitter account
-     * website_url (optional) - Website URL
-     * organization (optional) - Organization name
-     * projects_limit (optional) - Number of projects user can create
-     * extern_uid (optional) - External UID
-     * provider (optional) - External provider name
-     * bio (optional) - User's biography
-     * location (optional) - User's location
-     * admin (optional) - User is admin - true or false (default)
-     * can_create_group (optional) - User can create groups - true or false
-     * skip_confirmation (optional) - Skip confirmation - true or false (default)
-     * external (optional) - Flags the user as external - true or false(default)
-     * avatar (optional) - Image file for user's avatar
-     * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
-     *
-     * @param user the User instance with the user info to create
-     * @return created User instance
-     * @throws GitLabApiException if any exception occurs
-     */
-    public User createUserWithPassword(User user, CharSequence password) throws GitLabApiException {
-        Form formData = userToForm(user, null, password, null, true);
+    public User createUser(User user, CharSequence password, boolean resetPassword) throws GitLabApiException {
+        Form formData = userToForm(user, null, password, resetPassword, true);
         Response response = post(Response.Status.CREATED, formData, "users");
         return (response.readEntity(User.class));
     }
