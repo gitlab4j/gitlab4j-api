@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.utils.SecretString;
 
 /**
  * This class provides an entry point to all the GitLab API users calls.
@@ -313,6 +315,9 @@ public class UserApi extends AbstractApi {
      * Creates a new user. Note only administrators can create new users.
      * Either password or reset_password should be specified (reset_password takes priority).
      *
+     * If both the User object's projectsLimit and the parameter projectsLimit is specified
+     * the parameter will take precedence.
+     *
      * POST /users
      *
      * email (required) - Email
@@ -343,7 +348,7 @@ public class UserApi extends AbstractApi {
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
      */
-    public User createUser(User user, String password, Integer projectsLimit) throws GitLabApiException {
+    public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
         Form formData = userToForm(user, projectsLimit, password, null, true);
         Response response = post(Response.Status.CREATED, formData, "users");
         return (response.readEntity(User.class));
@@ -353,6 +358,8 @@ public class UserApi extends AbstractApi {
      * Creates a new user. Note only administrators can create new users.
      * Either password or reset_password should be specified (reset_password takes priority).
      *
+     * Creates a user with reset_password being <code>true</code>
+     *
      * POST /users
      *
      * email (required) - Email
@@ -378,12 +385,11 @@ public class UserApi extends AbstractApi {
      * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
      *
      * @param user the User instance with the user info to create
-     * @param resetPassword whether to send user password reset link
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
      */
-    public User createUser(User user, boolean resetPassword) throws GitLabApiException {
-        Form formData = userToForm(user, null, null, resetPassword, true);
+    public User createUserWithReset(User user) throws GitLabApiException {
+        Form formData = userToForm(user, null, null, true, true);
         Response response = post(Response.Status.CREATED, formData, "users");
         return (response.readEntity(User.class));
     }
@@ -420,7 +426,7 @@ public class UserApi extends AbstractApi {
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
      */
-    public User createUser(User user, String password) throws GitLabApiException {
+    public User createUserWithPassword(User user, CharSequence password) throws GitLabApiException {
         Form formData = userToForm(user, null, password, null, true);
         Response response = post(Response.Status.CREATED, formData, "users");
         return (response.readEntity(User.class));
@@ -431,20 +437,26 @@ public class UserApi extends AbstractApi {
      *
      * PUT /users/:id
      *
-     * email (required) - Email
-     * password (required) - Password
-     * username (required) - Username
-     * name (required) - Name
-     * skype (optional) - Skype ID
-     * linkedin (optional) - Linkedin
-     * twitter (optional) - Twitter account
-     * website_url (optional) - Website url
-     * projects_limit (optional) - Number of projects user can create
-     * extern_uid (optional) - External UID
-     * provider (optional) - External provider name
-     * bio (optional) - User's bio
+     * email - Email
+     * username - Username
+     * name - Name
+     * password - Password
+     * skype - Skype ID
+     * linkedin - LinkedIn
+     * twitter - Twitter account
+     * website_url - Website URL
+     * organization - Organization name
+     * projects_limit - Limit projects each user can create
+     * extern_uid - External UID
+     * provider - External provider name
+     * bio - User's biography
+     * location (optional) - User's location
      * admin (optional) - User is admin - true or false (default)
      * can_create_group (optional) - User can create groups - true or false
+     * skip_reconfirmation (optional) - Skip reconfirmation - true or false (default)
+     * external (optional) - Flags the user as external - true or false(default)
+     * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
+     * avatar (optional) - Image file for user's avatar
      *
      * @param user the User instance with the user info to modify
      * @param password the new password for the user
@@ -452,8 +464,8 @@ public class UserApi extends AbstractApi {
      * @return the modified User instance
      * @throws GitLabApiException if any exception occurs
      */
-    public User modifyUser(User user, String password, Integer projectsLimit) throws GitLabApiException {
-        Form form = userToForm(user, projectsLimit, password, null, false);
+    public User modifyUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
+        Form form = userToForm(user, projectsLimit, password, false, false);
         Response response = put(Response.Status.OK, form.asMap(), "users", user.getId());
         return (response.readEntity(User.class));
     }
@@ -829,10 +841,10 @@ public class UserApi extends AbstractApi {
      * @param create whether the form is being populated to create a new user
      * @return the populated Form instance
      */
-    Form userToForm(User user, Integer projectsLimit, String password, Boolean resetPassword, boolean create) {
+    Form userToForm(User user, Integer projectsLimit, CharSequence password, Boolean resetPassword, boolean create) {
         if (create) {
-            if ((password == null || password.trim().isEmpty()) && !resetPassword) {
-                throw new RuntimeException("either password or reset_password must be set");
+            if ((password == null || password.toString().trim().isEmpty()) && !resetPassword) {
+                throw new IllegalArgumentException("either password or reset_password must be set");
             }
         }
         projectsLimit = (projectsLimit == null) ? user.getProjectsLimit() : projectsLimit;
