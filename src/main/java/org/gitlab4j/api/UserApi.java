@@ -1,6 +1,5 @@
 package org.gitlab4j.api;
 
-import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +13,6 @@ import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
-import org.gitlab4j.api.utils.SecretString;
 
 /**
  * This class provides an entry point to all the GitLab API users calls.
