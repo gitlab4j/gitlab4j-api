@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.models.Participant;
 
 /**
  * This class implements the client side API for the GitLab merge request calls.
@@ -585,12 +586,26 @@ public class MergeRequestApi extends AbstractApi {
      *
      * @param projectId the project ID to get the merge requests for
      * @param mergeRequestIid the IID of the merge request to get
-     * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
-     * @return all merge requests for the specified project
+     * @return a merge request including its changes
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest getMergeRequestChanges(Integer projectId, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+    public MergeRequest getMergeRequestChanges(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestIid, "changes");
         return (response.readEntity(MergeRequest.class));
+    }
+    
+    /**
+     * Get participants of merge request.
+     * 
+     * GET /projects/:id/merge_requests/:merge_request_iid/participants
+     * 
+     * @param projectId the project ID to get the merge requests for
+     * @param mergeRequestIid the IID of the merge request to get
+     * @param itemsPerPage the number of Participant instances that will be fetched per page
+     * @return all participants for the specified merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Participant> getParticipants(Integer projectId, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+        return new Pager<Participant>(this, Participant.class, itemsPerPage, null, "projects", projectId, "merge_requests", mergeRequestIid, "participants");
     }
 }
