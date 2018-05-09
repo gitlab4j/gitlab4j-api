@@ -577,4 +577,20 @@ public class MergeRequestApi extends AbstractApi {
         Response response = post(Response.Status.OK, (Form)null, "projects", projectId, "merge_requests", mergeRequestIid, "unapprove");
         return (response.readEntity(MergeRequest.class));
     }
+
+    /**
+     * Get merge request with changes information.
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/changes
+     *
+     * @param projectId the project ID to get the merge requests for
+     * @param mergeRequestIid the IID of the merge request to get
+     * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
+     * @return all merge requests for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest getMergeRequestChanges(Integer projectId, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestIid, "changes");
+        return (response.readEntity(MergeRequest.class));
+    }
 }
