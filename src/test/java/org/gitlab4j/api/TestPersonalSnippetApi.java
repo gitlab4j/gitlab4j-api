@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Snippet;
+import org.gitlab4j.api.models.Visibility;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -46,7 +47,8 @@ public class TestPersonalSnippetApi {
     
 	@Test
 	public void testCreate() throws GitLabApiException {
-		Snippet snippet = createPersonalSnippet(new Snippet("A Small Snippet", "Snippet.java", "Java content"));
+		Snippet snippet = createPersonalSnippet(
+					new Snippet("A Small Snippet", "Snippet.java", "Java content"));
 		assertEquals("A Small Snippet", snippet.getTitle());
 		assertEquals("Snippet.java", snippet.getFileName());
 		assertNull(snippet.getContent());
@@ -95,8 +97,12 @@ public class TestPersonalSnippetApi {
 	
 	@Test
 	public void testRetrieveSnippet() throws GitLabApiException {
-		Snippet snippet = createPersonalSnippet
-				(new Snippet("Xml Snippet", "file.xml", "<parent><data>1</data></parent>"));
+		Snippet snippet = createPersonalSnippet (new Snippet(
+													"Xml Snippet", 
+													"file.xml", 
+													"<parent><data>1</data></parent>", 
+													Visibility.INTERNAL, 
+													"Description"));
 		
 		PersonalSnippetApi api = gitLabApi.getPersonalSnippetApi();
 		Snippet savedSnippet = api.getSnippet(snippet.getId());
@@ -104,6 +110,7 @@ public class TestPersonalSnippetApi {
 		assertEquals("Xml Snippet", savedSnippet.getTitle());
 		assertEquals("file.xml", savedSnippet.getFileName());
 		assertEquals("<parent><data>1</data></parent>", savedSnippet.getContent());
+		assertEquals("Description", savedSnippet.getDescription());
 		
 		deletePersonalSnippet(savedSnippet);
 	}
@@ -115,7 +122,11 @@ public class TestPersonalSnippetApi {
 	
 	public Snippet createPersonalSnippet(Snippet snippet) throws GitLabApiException {
 		PersonalSnippetApi api = gitLabApi.getPersonalSnippetApi();
-		return api.createSnippet(snippet.getTitle(), snippet.getFileName(), snippet.getContent());
+		return api.createSnippet(snippet.getTitle(), 
+							snippet.getFileName(), 
+							snippet.getContent(), 
+							snippet.getVisibility(), 
+							snippet.getDescription());
 	}
 	
 }

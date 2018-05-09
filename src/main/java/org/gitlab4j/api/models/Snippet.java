@@ -43,9 +43,17 @@ public class Snippet {
     private String webUrl;
     private String content;
     private String rawUrl;
+    private Visibility visibility;
+    private String  description;
 
     public Snippet() {
 
+    }
+    
+    public Snippet(String title, String fileName, String content, Visibility visibility, String description) {
+    	this(title, fileName, content);
+    	this.visibility = visibility;
+    	this.description = description;
     }
     
     public Snippet(String title, String fileName, String content) {
@@ -132,5 +140,21 @@ public class Snippet {
 
 	public void setRawUrl(String rawUrl) {
 		this.rawUrl = rawUrl;
+	}
+
+	public Visibility getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(Visibility visibility) {
+		this.visibility = visibility;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Snippet;
+import org.gitlab4j.api.models.Visibility;
 
 /**
  * This class provides an entry point to all the GitLab Personal Snippet API project calls.
@@ -28,6 +29,29 @@ public class PersonalSnippetApi extends AbstractApi {
 				.withParam("title", title)
 				.withParam("file_name", filename)
 				.withParam("content", content);
+		
+		Response response = post(Response.Status.CREATED, formData, "snippets");
+		return (response.readEntity(Snippet.class));
+	}
+	
+    /**
+     * Create a new Personal Snippet.
+     *
+     * @param title the title of the snippet
+     * @param fileName the file name of the snippet
+     * @param content the content of the snippet
+     * @param visibility the visibility (Public, Internal, Private) of the snippet
+     * @param description the description of the snippet
+     * @return the created Snippet
+     * @throws GitLabApiException if any exception occurs
+     */
+	public Snippet createSnippet(String title, String filename, String content, Visibility visibility, String description) throws GitLabApiException {
+		GitLabApiForm formData = new GitLabApiForm()
+				.withParam("title", title)
+				.withParam("file_name", filename)
+				.withParam("content", content)
+				.withParam("visibility", visibility)
+				.withParam("description", description);
 		
 		Response response = post(Response.Status.CREATED, formData, "snippets");
 		return (response.readEntity(Snippet.class));
