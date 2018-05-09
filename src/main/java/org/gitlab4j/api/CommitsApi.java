@@ -302,6 +302,21 @@ public class CommitsApi extends AbstractApi {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha, "comments");
         return (response.readEntity(new GenericType<List<Comment>>() {}));
     }
+    
+    /**
+     * Get a Pager of the comments of a commit in a project.
+     *
+     * GET /projects/:id/repository/commits/:sha/comments
+     *
+     * @param projectId the project ID that the commit belongs to
+     * @param sha a commit hash or name of a branch or tag
+     * @param itemsPerPage the number of Comment instances that will be fetched per page
+     * @return a List of Comment instances for the specified project ID/sha pair
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Pager<Comment> getComments(int projectId, String sha, int itemsPerPage) throws GitLabApiException {
+        return new Pager<Comment>(this, Comment.class, itemsPerPage, null, "projects", projectId, "repository", "commits", sha, "comments");
+    }
 
     /**
      * Add a comment to a commit.  In order to post a comment in a particular line of a particular file,
