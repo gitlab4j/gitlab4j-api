@@ -32,7 +32,13 @@ public class PersonalSnippetApi extends AbstractApi {
 
 	public List<Snippet> getSnippets() throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "snippets");
-        return (response.readEntity(new GenericType<List<Snippet>>() {}));
+        List<Snippet> snippets = (response.readEntity(new GenericType<List<Snippet>>() {}));
+        
+        for (Snippet snippet : snippets) {
+			snippet.setContent(getSnippetContent(snippet.getId()));
+		}
+
+        return snippets;
 	}
 	
 	public String getSnippetContent(Integer snippetId) throws GitLabApiException {

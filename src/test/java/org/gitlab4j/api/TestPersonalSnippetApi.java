@@ -69,12 +69,15 @@ public class TestPersonalSnippetApi {
 	@Test
 	public void testList() throws GitLabApiException {
 		Snippet snippet1 = createPersonalSnippet(new Snippet("Snippet 1", "Snippet.java", "Java content"));
-		Snippet snippet2 = createPersonalSnippet(new Snippet("Snippet 2", "Snippet.java", "Java content"));
+		Snippet snippet2 = createPersonalSnippet(new Snippet("Snippet 2", "Snippet.java", "Another java content"));
 		
 		PersonalSnippetApi api = gitLabApi.getPersonalSnippetApi();
 		List<Snippet> snippets = api.getSnippets();
 		
 		assertTrue(snippets.size() >= 2);
+		assertTrue(snippets.stream().anyMatch(s -> s.getContent().equals("Java content")));
+		assertTrue(snippets.stream().anyMatch(s -> s.getContent().equals("Another java content")));
+
 		
 		deletePersonalSnippet(snippet1);
 		deletePersonalSnippet(snippet2);
@@ -87,7 +90,10 @@ public class TestPersonalSnippetApi {
 		PersonalSnippetApi api = gitLabApi.getPersonalSnippetApi();
 		String snippetContent = api.getSnippetContent(snippet.getId());
 		assertEquals("System.out.println(\"\");", snippetContent);
+		deletePersonalSnippet(snippet);
 	}
+	
+	
 	
 	public void deletePersonalSnippet(Snippet snippet) throws GitLabApiException {
 		PersonalSnippetApi api = gitLabApi.getPersonalSnippetApi();
