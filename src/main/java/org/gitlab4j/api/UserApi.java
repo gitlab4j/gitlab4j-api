@@ -311,23 +311,34 @@ public class UserApi extends AbstractApi {
 
     /**
      * Creates a new user. Note only administrators can create new users.
+     * Either password or reset_password should be specified (reset_password takes priority).
+     *
+     * If both the User object's projectsLimit and the parameter projectsLimit is specified
+     * the parameter will take precedence.
      *
      * POST /users
      *
      * email (required) - Email
-     * password (required) - Password
+     * password (optional) - Password
+     * reset_password (optional) - Send user password reset link - true or false(default)
      * username (required) - Username
      * name (required) - Name
      * skype (optional) - Skype ID
-     * linkedin (optional) - Linkedin
+     * linkedin (optional) - LinkedIn
      * twitter (optional) - Twitter account
-     * website_url (optional) - Website url
+     * website_url (optional) - Website URL
+     * organization (optional) - Organization name
      * projects_limit (optional) - Number of projects user can create
      * extern_uid (optional) - External UID
      * provider (optional) - External provider name
-     * bio (optional) - User's bio
+     * bio (optional) - User's biography
+     * location (optional) - User's location
      * admin (optional) - User is admin - true or false (default)
      * can_create_group (optional) - User can create groups - true or false
+     * skip_confirmation (optional) - Skip confirmation - true or false (default)
+     * external (optional) - Flags the user as external - true or false(default)
+     * avatar (optional) - Image file for user's avatar
+     * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
      *
      * @param user the User instance with the user info to create
      * @param password the password for the new user
@@ -335,8 +346,50 @@ public class UserApi extends AbstractApi {
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
      */
-    public User createUser(User user, String password, Integer projectsLimit) throws GitLabApiException {
-        Form formData = userToForm(user, projectsLimit, password, true);
+    public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
+        Form formData = userToForm(user, projectsLimit, password, null, true);
+        Response response = post(Response.Status.CREATED, formData, "users");
+        return (response.readEntity(User.class));
+    }
+
+    /**
+     * Creates a new user. Note only administrators can create new users.
+     * Either password or reset_password should be specified (reset_password takes priority).
+     *
+     * Creates a user with reset_password being <code>true</code>
+     *
+     * POST /users
+     *
+     * email (required) - Email
+     * password (optional) - Password
+     * reset_password (optional) - Send user password reset link - true or false(default)
+     * username (required) - Username
+     * name (required) - Name
+     * skype (optional) - Skype ID
+     * linkedin (optional) - LinkedIn
+     * twitter (optional) - Twitter account
+     * website_url (optional) - Website URL
+     * organization (optional) - Organization name
+     * projects_limit (optional) - Number of projects user can create
+     * extern_uid (optional) - External UID
+     * provider (optional) - External provider name
+     * bio (optional) - User's biography
+     * location (optional) - User's location
+     * admin (optional) - User is admin - true or false (default)
+     * can_create_group (optional) - User can create groups - true or false
+     * skip_confirmation (optional) - Skip confirmation - true or false (default)
+     * external (optional) - Flags the user as external - true or false(default)
+     * avatar (optional) - Image file for user's avatar
+     * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
+     *
+     * @param user the User instance with the user info to create
+     * @param password the password for the new user
+     * @param resetPassword whether to send a password reset link
+     * @return created User instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public User createUser(User user, CharSequence password, boolean resetPassword) throws GitLabApiException {
+        Form formData = userToForm(user, null, password, resetPassword, true);
         Response response = post(Response.Status.CREATED, formData, "users");
         return (response.readEntity(User.class));
     }
@@ -346,20 +399,26 @@ public class UserApi extends AbstractApi {
      *
      * PUT /users/:id
      *
-     * email (required) - Email
-     * password (required) - Password
-     * username (required) - Username
-     * name (required) - Name
-     * skype (optional) - Skype ID
-     * linkedin (optional) - Linkedin
-     * twitter (optional) - Twitter account
-     * website_url (optional) - Website url
-     * projects_limit (optional) - Number of projects user can create
-     * extern_uid (optional) - External UID
-     * provider (optional) - External provider name
-     * bio (optional) - User's bio
+     * email - Email
+     * username - Username
+     * name - Name
+     * password - Password
+     * skype - Skype ID
+     * linkedin - LinkedIn
+     * twitter - Twitter account
+     * website_url - Website URL
+     * organization - Organization name
+     * projects_limit - Limit projects each user can create
+     * extern_uid - External UID
+     * provider - External provider name
+     * bio - User's biography
+     * location (optional) - User's location
      * admin (optional) - User is admin - true or false (default)
      * can_create_group (optional) - User can create groups - true or false
+     * skip_reconfirmation (optional) - Skip reconfirmation - true or false (default)
+     * external (optional) - Flags the user as external - true or false(default)
+     * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
+     * avatar (optional) - Image file for user's avatar
      *
      * @param user the User instance with the user info to modify
      * @param password the new password for the user
@@ -367,8 +426,8 @@ public class UserApi extends AbstractApi {
      * @return the modified User instance
      * @throws GitLabApiException if any exception occurs
      */
-    public User modifyUser(User user, String password, Integer projectsLimit) throws GitLabApiException {
-        Form form = userToForm(user, projectsLimit, password, false);
+    public User modifyUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
+        Form form = userToForm(user, projectsLimit, password, false, false);
         Response response = put(Response.Status.OK, form.asMap(), "users", user.getId());
         return (response.readEntity(User.class));
     }
@@ -560,7 +619,7 @@ public class UserApi extends AbstractApi {
     }
 
     /**
-     * Deletes key owned by currently authenticated user. This is an idempotent function and calling it 
+     * Deletes key owned by currently authenticated user. This is an idempotent function and calling it
      * on a key that is already deleted or not available results in success.
      *
      * DELETE /user/keys/:key_id
@@ -744,24 +803,34 @@ public class UserApi extends AbstractApi {
      * @param create whether the form is being populated to create a new user
      * @return the populated Form instance
      */
-    Form userToForm(User user, Integer projectsLimit, String password, boolean create) {
+    Form userToForm(User user, Integer projectsLimit, CharSequence password, Boolean resetPassword, boolean create) {
+        if (create) {
+            if ((password == null || password.toString().trim().isEmpty()) && !resetPassword) {
+                throw new IllegalArgumentException("either password or reset_password must be set");
+            }
+        }
+        projectsLimit = (projectsLimit == null) ? user.getProjectsLimit() : projectsLimit;
+
         return (new GitLabApiForm()
                 .withParam("email", user.getEmail(), create)
-                .withParam("password", password, create)
+                .withParam("password", password, false)
+                .withParam("reset_password", resetPassword, false)
                 .withParam("username", user.getUsername(), create)
                 .withParam("name", user.getName(), create)
                 .withParam("skype", user.getSkype(), false)
                 .withParam("linkedin", user.getLinkedin(), false)
                 .withParam("twitter", user.getTwitter(), false)
                 .withParam("website_url", user.getWebsiteUrl(), false)
-                .withParam("projects_limit", projectsLimit, false)
                 .withParam("organization", user.getOrganization(), false)
+                .withParam("projects_limit", projectsLimit, false)
+                .withParam("extern_uid", user.getExternUid(), false)
                 .withParam("provider", user.getProvider(), false)
                 .withParam("bio", user.getBio(), false)
                 .withParam("location", user.getLocation(), false)
                 .withParam("admin", user.getIsAdmin(), false)
                 .withParam("can_create_group", user.getCanCreateGroup(), false)
-                .withParam("external", user.getExternal(), false))
-                .withParam("skip_confirmation",user.getSkipConfirmation(),false);
+                .withParam("skip_confirmation", user.getSkipConfirmation(), false)
+                .withParam("external", user.getExternal(), false)
+                .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(),false));
     }
 }
