@@ -310,41 +310,40 @@ public class UserApi extends AbstractApi {
     }
 
     /**
-     * Creates a new user. Note only administrators can create new users.
+     * <p>Creates a new user. Note only administrators can create new users.
      * Either password or reset_password should be specified (reset_password takes priority).
      *
      * If both the User object's projectsLimit and the parameter projectsLimit is specified
-     * the parameter will take precedence.
+     * the parameter will take precedence.</p>
      *
-     * POST /users
+     * <pre>POST /users</pre>
      *
-     * email (required) - Email
-     * password (optional) - Password
-     * reset_password (optional) - Send user password reset link - true or false(default)
+     * The following properties of the provided User instance can be set during creation:<pre><code> email (required) - Email
      * username (required) - Username
      * name (required) - Name
      * skype (optional) - Skype ID
      * linkedin (optional) - LinkedIn
      * twitter (optional) - Twitter account
-     * website_url (optional) - Website URL
+     * websiteUrl (optional) - Website URL
      * organization (optional) - Organization name
-     * projects_limit (optional) - Number of projects user can create
-     * extern_uid (optional) - External UID
+     * projectsLimit (optional) - Number of projects user can create
+     * externUid (optional) - External UID
      * provider (optional) - External provider name
      * bio (optional) - User's biography
      * location (optional) - User's location
      * admin (optional) - User is admin - true or false (default)
-     * can_create_group (optional) - User can create groups - true or false
-     * skip_confirmation (optional) - Skip confirmation - true or false (default)
+     * canCreateGroup (optional) - User can create groups - true or false
+     * skipConfirmation (optional) - Skip confirmation - true or false (default)
      * external (optional) - Flags the user as external - true or false(default)
-     * avatar (optional) - Image file for user's avatar
-     * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
+     * sharedRunnersMinutesLimit (optional) - Pipeline minutes quota for this user
+     *</code></pre>
      *
      * @param user the User instance with the user info to create
      * @param password the password for the new user
      * @param projectsLimit the maximum number of project
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed in version 5.0, replaced by {@link #createUser(User, CharSequence, boolean)}
      */
     public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
         Form formData = userToForm(user, projectsLimit, password, null, true);
@@ -353,34 +352,30 @@ public class UserApi extends AbstractApi {
     }
 
     /**
-     * Creates a new user. Note only administrators can create new users.
-     * Either password or reset_password should be specified (reset_password takes priority).
+     * <p>Creates a new user. Note only administrators can create new users.
+     * Either password or resetPassword should be specified (resetPassword takes priority).</p>
      *
-     * Creates a user with reset_password being <code>true</code>
+     * <pre>POST /users</pre>
      *
-     * POST /users
-     *
-     * email (required) - Email
-     * password (optional) - Password
-     * reset_password (optional) - Send user password reset link - true or false(default)
+     * The following properties of the provided User instance can be set during creation:<pre><code> email (required) - Email
      * username (required) - Username
      * name (required) - Name
      * skype (optional) - Skype ID
      * linkedin (optional) - LinkedIn
      * twitter (optional) - Twitter account
-     * website_url (optional) - Website URL
+     * websiteUrl (optional) - Website URL
      * organization (optional) - Organization name
-     * projects_limit (optional) - Number of projects user can create
-     * extern_uid (optional) - External UID
+     * projectsLimit (optional) - Number of projects user can create
+     * externUid (optional) - External UID
      * provider (optional) - External provider name
      * bio (optional) - User's biography
      * location (optional) - User's location
      * admin (optional) - User is admin - true or false (default)
-     * can_create_group (optional) - User can create groups - true or false
-     * skip_confirmation (optional) - Skip confirmation - true or false (default)
+     * canCreateGroup (optional) - User can create groups - true or false
+     * skipConfirmation (optional) - Skip confirmation - true or false (default)
      * external (optional) - Flags the user as external - true or false(default)
-     * avatar (optional) - Image file for user's avatar
-     * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
+     * sharedRunnersMinutesLimit (optional) - Pipeline minutes quota for this user
+     *</code></pre>
      *
      * @param user the User instance with the user info to create
      * @param password the password for the new user
@@ -395,37 +390,74 @@ public class UserApi extends AbstractApi {
     }
 
     /**
-     * Modifies an existing user. Only administrators can change attributes of a user.
+     * <p>Modifies an existing user. Only administrators can change attributes of a user.</p>
      *
-     * PUT /users/:id
+     * <pre>PUT /users</pre>
      *
-     * email - Email
-     * username - Username
-     * name - Name
-     * password - Password
-     * skype - Skype ID
-     * linkedin - LinkedIn
-     * twitter - Twitter account
-     * website_url - Website URL
-     * organization - Organization name
-     * projects_limit - Limit projects each user can create
-     * extern_uid - External UID
-     * provider - External provider name
-     * bio - User's biography
+     * The following properties of the provided User instance can be set during update:<pre><code> email (required) - Email
+     * username (required) - Username
+     * name (required) - Name
+     * skype (optional) - Skype ID
+     * linkedin (optional) - LinkedIn
+     * twitter (optional) - Twitter account
+     * websiteUrl (optional) - Website URL
+     * organization (optional) - Organization name
+     * projectsLimit (optional) - Number of projects user can create
+     * externUid (optional) - External UID
+     * provider (optional) - External provider name
+     * bio (optional) - User's biography
      * location (optional) - User's location
      * admin (optional) - User is admin - true or false (default)
-     * can_create_group (optional) - User can create groups - true or false
-     * skip_reconfirmation (optional) - Skip reconfirmation - true or false (default)
+     * canCreateGroup (optional) - User can create groups - true or false
+     * skipConfirmation (optional) - Skip confirmation - true or false (default)
      * external (optional) - Flags the user as external - true or false(default)
-     * shared_runners_minutes_limit (optional) - Pipeline minutes quota for this user
-     * avatar (optional) - Image file for user's avatar
+     * sharedRunnersMinutesLimit (optional) - Pipeline minutes quota for this user
+     *</code></pre>
+     *
+     * @param user the User instance with the user info to modify
+     * @param password the new password for the user
+     * @return the modified User instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public User updateUser(User user, CharSequence password) throws GitLabApiException {
+        Form form = userToForm(user, null, password, false, false);
+        Response response = put(Response.Status.OK, form.asMap(), "users", user.getId());
+        return (response.readEntity(User.class));
+    }
+
+    /**
+     * Modifies an existing user. Only administrators can change attributes of a user.
+     *
+     * <pre>PUT /users/:id</pre>
+     *
+     * The following properties of the provided User instance can be set during update:<pre><code> email (required) - Email
+     * username (required) - Username
+     * name (required) - Name
+     * skype (optional) - Skype ID
+     * linkedin (optional) - LinkedIn
+     * twitter (optional) - Twitter account
+     * websiteUrl (optional) - Website URL
+     * organization (optional) - Organization name
+     * projectsLimit (optional) - Number of projects user can create
+     * externUid (optional) - External UID
+     * provider (optional) - External provider name
+     * bio (optional) - User's biography
+     * location (optional) - User's location
+     * admin (optional) - User is admin - true or false (default)
+     * canCreateGroup (optional) - User can create groups - true or false
+     * skipConfirmation (optional) - Skip confirmation - true or false (default)
+     * external (optional) - Flags the user as external - true or false(default)
+     * sharedRunnersMinutesLimit (optional) - Pipeline minutes quota for this user
+     *</code></pre>
      *
      * @param user the User instance with the user info to modify
      * @param password the new password for the user
      * @param projectsLimit the maximum number of project
      * @return the modified User instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed in version 5.0, replaced by {@link #updateUser(User, CharSequence)}
      */
+    @Deprecated
     public User modifyUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
         Form form = userToForm(user, projectsLimit, password, false, false);
         Response response = put(Response.Status.OK, form.asMap(), "users", user.getId());
