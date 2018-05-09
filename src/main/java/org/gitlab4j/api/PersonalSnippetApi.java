@@ -79,5 +79,22 @@ public class PersonalSnippetApi extends AbstractApi {
 		Response response = get(Response.Status.OK, null, "snippets", snippetId, "raw");
 		return (response.readEntity(String.class));
 	}
+
+	/**
+	 * Get a specific Personal Snippet
+	 * 
+	 * @param snippetId the snippet ID to remove 
+	 * @return the snippet with the given id
+	 * @throws GitLabApiException 
+	 */
+	public Snippet getSnippet(Integer snippetId) throws GitLabApiException {
+		if (snippetId == null) {
+			throw new RuntimeException("snippetId can't be null");
+		}
+		Response response = get(Response.Status.OK, null, "snippets", snippetId);
+		Snippet snippet = response.readEntity(Snippet.class);
+		snippet.setContent(getSnippetContent(snippet.getId()));
+		return snippet;
+	}
 	
 }

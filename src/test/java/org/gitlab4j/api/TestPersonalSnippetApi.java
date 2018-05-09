@@ -93,7 +93,20 @@ public class TestPersonalSnippetApi {
 		deletePersonalSnippet(snippet);
 	}
 	
-	
+	@Test
+	public void testRetrieveSnippet() throws GitLabApiException {
+		Snippet snippet = createPersonalSnippet
+				(new Snippet("Xml Snippet", "file.xml", "<parent><data>1</data></parent>"));
+		
+		PersonalSnippetApi api = gitLabApi.getPersonalSnippetApi();
+		Snippet savedSnippet = api.getSnippet(snippet.getId());
+		
+		assertEquals("Xml Snippet", savedSnippet.getTitle());
+		assertEquals("file.xml", savedSnippet.getFileName());
+		assertEquals("<parent><data>1</data></parent>", savedSnippet.getContent());
+		
+		deletePersonalSnippet(savedSnippet);
+	}
 	
 	public void deletePersonalSnippet(Snippet snippet) throws GitLabApiException {
 		PersonalSnippetApi api = gitLabApi.getPersonalSnippetApi();
