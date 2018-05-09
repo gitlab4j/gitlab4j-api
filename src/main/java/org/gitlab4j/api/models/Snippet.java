@@ -41,7 +41,19 @@ public class Snippet {
     private String title;
     private String updatedAt;
     private String webUrl;
+    private String content;
+    private String rawUrl;
 
+    public Snippet() {
+
+    }
+    
+    public Snippet(String title, String fileName, String content) {
+    	this.title = title;
+    	this.fileName = fileName;
+    	this.content = content;
+    }
+    
     public Author getAuthor() {
         return this.author;
     }
@@ -105,4 +117,20 @@ public class Snippet {
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
     }
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getRawUrl() {
+		return rawUrl;
+	}
+
+	public void setRawUrl(String rawUrl) {
+		this.rawUrl = rawUrl;
+	}
 }
