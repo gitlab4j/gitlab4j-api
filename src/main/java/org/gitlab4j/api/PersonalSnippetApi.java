@@ -110,7 +110,7 @@ public class PersonalSnippetApi extends AbstractApi {
 	 * 
 	 * @param snippetId the snippet ID to remove 
 	 * @return the snippet with the given id
-	 * @throws GitLabApiException 
+	 * @throws GitLabApiException if any exception occurs
 	 */
 	public Snippet getSnippet(Integer snippetId) throws GitLabApiException {
 		if (snippetId == null) {
