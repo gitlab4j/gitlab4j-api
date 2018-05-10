@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.17'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.18'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.8.17</version>
+    <version>4.8.18</version>
 </dependency>
 ```
 
@@ -320,4 +320,13 @@ List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();
 ```java
 // Get the User info for user_id 1
 User user = gitLabApi.getUserApi().getUser(1);
+
+// Create a new user with no password who will recieve a reset password email
+User userConfig = new User()
+    .withEmail("jdoe@example.com")
+    .withName("Jane Doe")
+    .withUsername("jdoe");
+String password = null;
+boolean sendResetPasswordEmail = true;
+gitLabApi.getUserApi().createUser(userConfig, password, sendResetPasswordEmail);
 ```
