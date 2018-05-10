@@ -7,16 +7,16 @@ import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Visibility;
 
 /**
- * This class provides an entry point to all the GitLab Personal Snippet API project calls.
+ * This class provides an entry point to all the GitLab Snippet API project calls.
  */
-public class PersonalSnippetApi extends AbstractApi {
+public class SnippetApi extends AbstractApi {
 
-	public PersonalSnippetApi(GitLabApi gitLabApi) {
+	public SnippetApi(GitLabApi gitLabApi) {
 		super(gitLabApi);
 	}
 
     /**
-     * Create a new Personal Snippet.
+     * Create a new Snippet.
      *
      * @param title the title of the snippet
      * @param fileName the file name of the snippet
@@ -35,7 +35,7 @@ public class PersonalSnippetApi extends AbstractApi {
 	}
 	
     /**
-     * Create a new Personal Snippet.
+     * Create a new Snippet.
      *
      * @param title the title of the snippet
      * @param fileName the file name of the snippet
@@ -58,7 +58,7 @@ public class PersonalSnippetApi extends AbstractApi {
 	}
 
     /**
-     * Removes Personal Snippet
+     * Removes Snippet
      *
      * DELETE /snippets/:id
      *
@@ -73,11 +73,11 @@ public class PersonalSnippetApi extends AbstractApi {
 	}
 
     /**
-     * Get a list of Authenticated User's Personal Snippets.
+     * Get a list of Authenticated User's Snippets.
      *
      * GET /snippets
      *
-     * @return a list of authenticated user's personal snippets
+     * @return a list of authenticated user's snippets
      * @throws GitLabApiException if any exception occurs
      */
 	public List<Snippet> getSnippets() throws GitLabApiException {
@@ -92,12 +92,12 @@ public class PersonalSnippetApi extends AbstractApi {
 	}
 	
     /**
-     * Get a the content of a Personal Snippet
+     * Get a the content of a Snippet
      *
      * GET /snippets/id/raw
      *
  *     @param snippetId the snippet ID to remove
-     * @return the content of personal snippet
+     * @return the content of snippet
      * @throws GitLabApiException if any exception occurs
      */
 	public String getSnippetContent(Integer snippetId) throws GitLabApiException {
@@ -106,7 +106,7 @@ public class PersonalSnippetApi extends AbstractApi {
 	}
 
 	/**
-	 * Get a specific Personal Snippet
+	 * Get a specific Snippet
 	 * 
 	 * @param snippetId the snippet ID to remove 
 	 * @return the snippet with the given id
