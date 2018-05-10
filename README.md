@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.18'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.19'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.8.18</version>
+    <version>4.8.19</version>
 </dependency>
 ```
 
@@ -156,6 +156,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[RunnersApi](#runnersapi) <br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
+&nbsp;&nbsp;[SnippetsApi](#snippetsapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)
 
@@ -308,6 +309,12 @@ gitLabApi.getServicesApi().updateSlackService("project-path", slackService);
 ```java
 // Log in to the GitLab server and get the session info
 gitLabApi.getSessionApi().login("your-username", "your-email", "your-password");
+```
+
+#### SnippetsApi
+```java
+// Get a list of the authenticated user's snippets
+List<Snippet> snippets = gitLabApi.getSnippetsApi().getSnippets();
 ```
 
 #### SystemHooksApi
