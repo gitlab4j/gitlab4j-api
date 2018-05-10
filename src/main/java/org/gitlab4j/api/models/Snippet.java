@@ -41,7 +41,27 @@ public class Snippet {
     private String title;
     private String updatedAt;
     private String webUrl;
+    private String content;
+    private String rawUrl;
+    private Visibility visibility;
+    private String  description;
 
+    public Snippet() {
+
+    }
+    
+    public Snippet(String title, String fileName, String content, Visibility visibility, String description) {
+    	this(title, fileName, content);
+    	this.visibility = visibility;
+    	this.description = description;
+    }
+    
+    public Snippet(String title, String fileName, String content) {
+    	this.title = title;
+    	this.fileName = fileName;
+    	this.content = content;
+    }
+    
     public Author getAuthor() {
         return this.author;
     }
@@ -105,4 +125,36 @@ public class Snippet {
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
     }
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getRawUrl() {
+		return rawUrl;
+	}
+
+	public void setRawUrl(String rawUrl) {
+		this.rawUrl = rawUrl;
+	}
+
+	public Visibility getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(Visibility visibility) {
+		this.visibility = visibility;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

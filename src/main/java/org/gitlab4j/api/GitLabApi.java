@@ -71,6 +71,7 @@ public class GitLabApi {
     private LabelsApi labelsApi;
     private NotesApi notesApi;
     private EventsApi eventsApi;
+    private SnippetsApi snippetsApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -1276,4 +1277,22 @@ public class GitLabApi {
 
         return (optional.get());
     }
+    
+    /**
+     * Gets the SnippetsApi instance owned by this GitLabApi instance. The SnippetsApi is used
+     * to perform all snippet related API calls.
+     *
+     * @return the SnippetsApi instance owned by this GitLabApi instance
+     */
+	public SnippetsApi getSnippetApi() {
+        if (snippetsApi == null) {
+            synchronized (this) {
+                if (snippetsApi == null) {
+                	snippetsApi = new SnippetsApi(this);
+                }
+            }
+        }
+
+        return snippetsApi;
+	}
 }
