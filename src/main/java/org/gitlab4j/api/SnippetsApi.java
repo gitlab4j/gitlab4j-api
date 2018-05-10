@@ -26,9 +26,9 @@ public class SnippetsApi extends AbstractApi {
      */
 	public Snippet createSnippet(String title, String fileName, String content) throws GitLabApiException {
 		GitLabApiForm formData = new GitLabApiForm()
-				.withParam("title", title)
-				.withParam("file_name", fileName)
-				.withParam("content", content);
+				.withParam("title", title, true)
+				.withParam("file_name", fileName, true)
+				.withParam("content", content, true);
 		
 		Response response = post(Response.Status.CREATED, formData, "snippets");
 		return (response.readEntity(Snippet.class));
@@ -47,9 +47,9 @@ public class SnippetsApi extends AbstractApi {
      */
 	public Snippet createSnippet(String title, String fileName, String content, Visibility visibility, String description) throws GitLabApiException {
 		GitLabApiForm formData = new GitLabApiForm()
-				.withParam("title", title)
-				.withParam("file_name", fileName)
-				.withParam("content", content)
+				.withParam("title", title, true)
+				.withParam("file_name", fileName, true)
+				.withParam("content", content, true)
 				.withParam("visibility", visibility)
 				.withParam("description", description);
 		
@@ -77,18 +77,33 @@ public class SnippetsApi extends AbstractApi {
      *
      * GET /snippets
      *
+     * @param downloadContent indicating whether to download the snippet content
+     * @return a list of authenticated user's snippets
+     * @throws GitLabApiException if any exception occurs
+     */
+	public List<Snippet> getSnippets(boolean downloadContent) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "snippets");
+        List<Snippet> snippets = (response.readEntity(new GenericType<List<Snippet>>() {}));
+        
+        if(downloadContent) {
+        	for (Snippet snippet : snippets) {
+        		snippet.setContent(getSnippetContent(snippet.getId()));
+        	}
+        }
+
+        return snippets;
+	}
+	
+    /**
+     * Get a list of Authenticated User's Snippets.
+     *
+     * GET /snippets
+     *
      * @return a list of authenticated user's snippets
      * @throws GitLabApiException if any exception occurs
      */
 	public List<Snippet> getSnippets() throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "snippets");
-        List<Snippet> snippets = (response.readEntity(new GenericType<List<Snippet>>() {}));
-        
-        for (Snippet snippet : snippets) {
-			snippet.setContent(getSnippetContent(snippet.getId()));
-		}
-
-        return snippets;
+		return getSnippets(false);
 	}
 	
     /**
@@ -96,7 +111,7 @@ public class SnippetsApi extends AbstractApi {
      *
      * GET /snippets/id/raw
      *
- *     @param snippetId the snippet ID to remove
+     * @param snippetId the snippet ID to remove
      * @return the content of snippet
      * @throws GitLabApiException if any exception occurs
      */
@@ -109,17 +124,34 @@ public class SnippetsApi extends AbstractApi {
 	 * Get a specific Snippet
 	 * 
 	 * @param snippetId the snippet ID to remove 
+	 * @param downloadContent indicating whether to download the snippet content
+	 * @return the snippet with the given id
+	 * @throws GitLabApiException if any exception occurs
+	 */
+	public Snippet getSnippet(Integer snippetId, boolean downloadContent) throws GitLabApiException {
+		if (snippetId == null) {
+			throw new RuntimeException("snippetId can't be null");
+		}
+		
+		Response response = get(Response.Status.OK, null, "snippets", snippetId);
+		Snippet snippet = response.readEntity(Snippet.class);
+		
+		if(downloadContent) {
+			snippet.setContent(getSnippetContent(snippet.getId()));
+		}
+		
+		return snippet;
+	}
+	
+	/**
+	 * Get a specific Snippet
+	 * 
+	 * @param snippetId the snippet ID to remove 
 	 * @return the snippet with the given id
 	 * @throws GitLabApiException if any exception occurs
 	 */
 	public Snippet getSnippet(Integer snippetId) throws GitLabApiException {
-		if (snippetId == null) {
-			throw new RuntimeException("snippetId can't be null");
-		}
-		Response response = get(Response.Status.OK, null, "snippets", snippetId);
-		Snippet snippet = response.readEntity(Snippet.class);
-		snippet.setContent(getSnippetContent(snippet.getId()));
-		return snippet;
+		return getSnippet(snippetId, false);
 	}
 	
 }

@@ -24,6 +24,12 @@ public class TestSnippetsApi {
     }
 
     private static GitLabApi gitLabApi;
+    private static final String TEST_SNIPPET_TITLE_1 = "test-snippet-title-1";
+    private static final String TEST_SNIPPET_FILE_NAME_1 = "test-snippet-file-name-1";
+    private static final String TEST_SNIPPET_CONTENT_1 = "test-snippet-content-1";
+    private static final String TEST_SNIPPET_CONTENT_2 = "test-snippet-content-2";
+    private static final String TEST_SNIPPET_DESCRIPTION_1 = "test-snippet-description-1";
+    
 	
     @BeforeClass
     public static void setup() {
@@ -47,10 +53,11 @@ public class TestSnippetsApi {
     
 	@Test
 	public void testCreate() throws GitLabApiException {
-		Snippet snippet = createSnippet(
-					new Snippet("A Small Snippet", "Snippet.java", "Java content"));
-		assertEquals("A Small Snippet", snippet.getTitle());
-		assertEquals("Snippet.java", snippet.getFileName());
+		Snippet snippet = createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, 
+													TEST_SNIPPET_FILE_NAME_1, 
+													TEST_SNIPPET_CONTENT_1));
+		assertEquals(TEST_SNIPPET_TITLE_1, snippet.getTitle());
+		assertEquals(TEST_SNIPPET_FILE_NAME_1, snippet.getFileName());
 		assertNull(snippet.getContent());
 		
 		deleteSnippet(snippet);
@@ -58,7 +65,9 @@ public class TestSnippetsApi {
 	
 	@Test
 	public void testDelete() throws GitLabApiException {
-		Snippet snippet = createSnippet(new Snippet("A Small Snippet", "Snippet.java", "Java content"));
+		Snippet snippet = createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, 
+													TEST_SNIPPET_FILE_NAME_1, 
+													TEST_SNIPPET_CONTENT_1));
 		deleteSnippet(snippet);
 		
 		SnippetsApi api = gitLabApi.getSnippetApi();
@@ -70,15 +79,19 @@ public class TestSnippetsApi {
 
 	@Test
 	public void testList() throws GitLabApiException {
-		Snippet snippet1 = createSnippet(new Snippet("Snippet 1", "Snippet.java", "Java content"));
-		Snippet snippet2 = createSnippet(new Snippet("Snippet 2", "Snippet.java", "Another java content"));
+		Snippet snippet1 = createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, 
+													TEST_SNIPPET_FILE_NAME_1, 
+													TEST_SNIPPET_CONTENT_1));
+		Snippet snippet2 = createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, 
+													TEST_SNIPPET_FILE_NAME_1, 
+													TEST_SNIPPET_CONTENT_2));
 		
 		SnippetsApi api = gitLabApi.getSnippetApi();
-		List<Snippet> snippets = api.getSnippets();
+		List<Snippet> snippets = api.getSnippets(true);
 		
 		assertTrue(snippets.size() >= 2);
-		assertTrue(snippets.stream().anyMatch(s -> s.getContent().equals("Java content")));
-		assertTrue(snippets.stream().anyMatch(s -> s.getContent().equals("Another java content")));
+		assertTrue(snippets.stream().anyMatch(s -> s.getContent().equals(TEST_SNIPPET_CONTENT_1)));
+		assertTrue(snippets.stream().anyMatch(s -> s.getContent().equals(TEST_SNIPPET_CONTENT_2)));
 
 		
 		deleteSnippet(snippet1);
@@ -88,29 +101,28 @@ public class TestSnippetsApi {
 	@Test
 	public void testSnippetContent() throws GitLabApiException {
 		Snippet snippet = createSnippet(
-				new Snippet("Snippet 1", "Snippet.java", "System.out.println(\"\");"));
+				new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_1));
 		SnippetsApi api = gitLabApi.getSnippetApi();
 		String snippetContent = api.getSnippetContent(snippet.getId());
-		assertEquals("System.out.println(\"\");", snippetContent);
+		assertEquals(TEST_SNIPPET_CONTENT_1, snippetContent);
 		deleteSnippet(snippet);
 	}
 	
 	@Test
 	public void testRetrieveSnippet() throws GitLabApiException {
-		Snippet snippet = createSnippet (new Snippet(
-													"Xml Snippet", 
-													"file.xml", 
-													"<parent><data>1</data></parent>", 
+		Snippet snippet = createSnippet (new Snippet(TEST_SNIPPET_TITLE_1, 
+													TEST_SNIPPET_FILE_NAME_1,
+													TEST_SNIPPET_CONTENT_1,
 													Visibility.INTERNAL, 
-													"Description"));
+													TEST_SNIPPET_DESCRIPTION_1));
 		
 		SnippetsApi api = gitLabApi.getSnippetApi();
-		Snippet savedSnippet = api.getSnippet(snippet.getId());
+		Snippet savedSnippet = api.getSnippet(snippet.getId(), true);
 		
-		assertEquals("Xml Snippet", savedSnippet.getTitle());
-		assertEquals("file.xml", savedSnippet.getFileName());
-		assertEquals("<parent><data>1</data></parent>", savedSnippet.getContent());
-		assertEquals("Description", savedSnippet.getDescription());
+		assertEquals(TEST_SNIPPET_TITLE_1, savedSnippet.getTitle());
+		assertEquals(TEST_SNIPPET_FILE_NAME_1, savedSnippet.getFileName());
+		assertEquals(TEST_SNIPPET_CONTENT_1, savedSnippet.getContent());
+		assertEquals(TEST_SNIPPET_DESCRIPTION_1, savedSnippet.getDescription());
 		
 		deleteSnippet(savedSnippet);
 	}
