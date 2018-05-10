@@ -24,10 +24,10 @@ public class PersonalSnippetApi extends AbstractApi {
      * @return the created Snippet
      * @throws GitLabApiException if any exception occurs
      */
-	public Snippet createSnippet(String title, String filename, String content) throws GitLabApiException {
+	public Snippet createSnippet(String title, String fileName, String content) throws GitLabApiException {
 		GitLabApiForm formData = new GitLabApiForm()
 				.withParam("title", title)
-				.withParam("file_name", filename)
+				.withParam("file_name", fileName)
 				.withParam("content", content);
 		
 		Response response = post(Response.Status.CREATED, formData, "snippets");
@@ -45,10 +45,10 @@ public class PersonalSnippetApi extends AbstractApi {
      * @return the created Snippet
      * @throws GitLabApiException if any exception occurs
      */
-	public Snippet createSnippet(String title, String filename, String content, Visibility visibility, String description) throws GitLabApiException {
+	public Snippet createSnippet(String title, String fileName, String content, Visibility visibility, String description) throws GitLabApiException {
 		GitLabApiForm formData = new GitLabApiForm()
 				.withParam("title", title)
-				.withParam("file_name", filename)
+				.withParam("file_name", fileName)
 				.withParam("content", content)
 				.withParam("visibility", visibility)
 				.withParam("description", description);
@@ -96,6 +96,7 @@ public class PersonalSnippetApi extends AbstractApi {
      *
      * GET /snippets/id/raw
      *
+ *     @param snippetId the snippet ID to remove
      * @return the content of personal snippet
      * @throws GitLabApiException if any exception occurs
      */
