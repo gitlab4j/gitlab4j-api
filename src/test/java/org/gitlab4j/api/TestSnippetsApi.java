@@ -13,7 +13,7 @@ import org.gitlab4j.api.models.Visibility;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TestSnippetApi {
+public class TestSnippetsApi {
 
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
@@ -61,7 +61,7 @@ public class TestSnippetApi {
 		Snippet snippet = createSnippet(new Snippet("A Small Snippet", "Snippet.java", "Java content"));
 		deleteSnippet(snippet);
 		
-		SnippetApi api = gitLabApi.getSnippetApi();
+		SnippetsApi api = gitLabApi.getSnippetApi();
 		List<Snippet> snippets = api.getSnippets();
 		boolean found = snippets.stream().anyMatch(
 					s -> s.getId().equals(snippet.getId()));
@@ -73,7 +73,7 @@ public class TestSnippetApi {
 		Snippet snippet1 = createSnippet(new Snippet("Snippet 1", "Snippet.java", "Java content"));
 		Snippet snippet2 = createSnippet(new Snippet("Snippet 2", "Snippet.java", "Another java content"));
 		
-		SnippetApi api = gitLabApi.getSnippetApi();
+		SnippetsApi api = gitLabApi.getSnippetApi();
 		List<Snippet> snippets = api.getSnippets();
 		
 		assertTrue(snippets.size() >= 2);
@@ -89,7 +89,7 @@ public class TestSnippetApi {
 	public void testSnippetContent() throws GitLabApiException {
 		Snippet snippet = createSnippet(
 				new Snippet("Snippet 1", "Snippet.java", "System.out.println(\"\");"));
-		SnippetApi api = gitLabApi.getSnippetApi();
+		SnippetsApi api = gitLabApi.getSnippetApi();
 		String snippetContent = api.getSnippetContent(snippet.getId());
 		assertEquals("System.out.println(\"\");", snippetContent);
 		deleteSnippet(snippet);
@@ -104,7 +104,7 @@ public class TestSnippetApi {
 													Visibility.INTERNAL, 
 													"Description"));
 		
-		SnippetApi api = gitLabApi.getSnippetApi();
+		SnippetsApi api = gitLabApi.getSnippetApi();
 		Snippet savedSnippet = api.getSnippet(snippet.getId());
 		
 		assertEquals("Xml Snippet", savedSnippet.getTitle());
@@ -116,12 +116,12 @@ public class TestSnippetApi {
 	}
 	
 	public void deleteSnippet(Snippet snippet) throws GitLabApiException {
-		SnippetApi api = gitLabApi.getSnippetApi();
+		SnippetsApi api = gitLabApi.getSnippetApi();
 		api.deleteSnippet(snippet.getId());
 	}
 	
 	public Snippet createSnippet(Snippet snippet) throws GitLabApiException {
-		SnippetApi api = gitLabApi.getSnippetApi();
+		SnippetsApi api = gitLabApi.getSnippetApi();
 		return api.createSnippet(snippet.getTitle(), 
 							snippet.getFileName(), 
 							snippet.getContent(), 

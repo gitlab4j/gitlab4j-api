@@ -7,11 +7,11 @@ import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Visibility;
 
 /**
- * This class provides an entry point to all the GitLab Snippet API project calls.
+ * This class provides an entry point to all the GitLab Snippets API project calls.
  */
-public class SnippetApi extends AbstractApi {
+public class SnippetsApi extends AbstractApi {
 
-	public SnippetApi(GitLabApi gitLabApi) {
+	public SnippetsApi(GitLabApi gitLabApi) {
 		super(gitLabApi);
 	}
 
