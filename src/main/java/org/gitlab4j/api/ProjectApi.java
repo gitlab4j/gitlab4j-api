@@ -1811,7 +1811,7 @@ public class ProjectApi extends AbstractApi implements Constants {
         delete(Response.Status.NO_CONTENT, null, "projects", projectId, "snippets", snippetId);
     }
 
-    /*
+    /**
      * Get the raw project snippet as plain text.
      *
      * GET /projects/:id/snippets/:snippet_id/raw
@@ -1826,7 +1826,7 @@ public class ProjectApi extends AbstractApi implements Constants {
         return (response.readEntity(String.class));
     }
 
-    /*
+    /**
      * Get the raw project snippet plain text as an Optional instance.
      *
      * GET /projects/:id/snippets/:snippet_id/raw
