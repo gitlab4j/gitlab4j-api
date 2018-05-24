@@ -43,7 +43,7 @@ public class RepositoryFileApi extends AbstractApi {
         Form form = new Form();
         addFormParam(form, "ref", ref, true);
         Response response = get(Response.Status.OK, form.asMap(),
-                "projects", projectId, "repository", "files", urlEncode(filePath));
+                "projects", projectId, "repository", "files", urlEncodeForPath(filePath));
         return (response.readEntity(RepositoryFile.class));
     }
 
