@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.CompareResults;
+import org.gitlab4j.api.models.Contributor;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.utils.FileUtils;
@@ -497,5 +498,20 @@ public class RepositoryApi extends AbstractApi {
 
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectPath, "repository", "compare");
         return (response.readEntity(CompareResults.class));
+    }
+    
+    /**
+     * Get a Pager of contributors from a project.
+     *
+     * GET /projects/:id/repository/contributors
+     *
+     * @param projectId the project to get the list of contributors for
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return the list of contributors for the specified project ID
+     *
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Contributor> getContributors(Integer projectId, int itemsPerPage) throws GitLabApiException {
+        return new Pager<Contributor>(this, Contributor.class, itemsPerPage, null, "projects", projectId, "repository", "contributors");
     }
 }
