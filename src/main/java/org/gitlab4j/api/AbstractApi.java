@@ -3,7 +3,6 @@ package org.gitlab4j.api;
 import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Form;
