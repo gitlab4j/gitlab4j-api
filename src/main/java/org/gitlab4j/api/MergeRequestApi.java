@@ -593,16 +593,48 @@ public class MergeRequestApi extends AbstractApi {
         Response response = get(Response.Status.OK, null, "projects", projectId, "merge_requests", mergeRequestIid, "changes");
         return (response.readEntity(MergeRequest.class));
     }
-    
+
     /**
-     * Get participants of merge request.
-     * 
+     * Get list of participants of merge request.
+     *
      * GET /projects/:id/merge_requests/:merge_request_iid/participants
-     * 
+     *
+     * @param projectId the project ID to get the merge requests for
+     * @param mergeRequestIid the IID of the merge request to get
+     * @return a List containing all participants for the specified merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Participant> getParticipants(Integer projectId, Integer mergeRequestIid) throws GitLabApiException {
+        return (getParticipants(projectId, mergeRequestIid, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get list of participants of merge request and in the specified page range.
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/participants
+     *
+     * @param projectId the project ID to get the merge requests for
+     * @param mergeRequestIid the IID of the merge request to get
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @return a List containing all participants for the specified merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Participant> getParticipants(Integer projectId, Integer mergeRequestIid, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
+                    "projects", projectId, "merge_requests", mergeRequestIid, "participants");
+        return (response.readEntity(new GenericType<List<Participant>>() { }));
+    }
+
+    /**
+     * Get a Pager of the participants of merge request.
+     *
+     * GET /projects/:id/merge_requests/:merge_request_iid/participants
+     *
      * @param projectId the project ID to get the merge requests for
      * @param mergeRequestIid the IID of the merge request to get
      * @param itemsPerPage the number of Participant instances that will be fetched per page
-     * @return all participants for the specified merge request
+     * @return a Pager containing all participants for the specified merge request
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Participant> getParticipants(Integer projectId, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
