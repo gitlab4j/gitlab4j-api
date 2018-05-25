@@ -2054,12 +2054,41 @@ public class ProjectApi extends AbstractApi implements Constants {
 
         delete(Response.Status.OK, null, "projects", projectId, "push_rule");
     }
-    
+
     /**
-     * Get a Pager of projects that were forked from the specified project.
+     * Get a list of projects that were forked from the specified project.
      * 
      * GET /projects/:id/forks
      * 
+     * @param projectId the ID of the project
+     * @return a List of forked projects
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getForks(Integer projectId) throws GitLabApiException {
+        return (getForks(projectId, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get a list of projects that were forked from the specified project and in the specified page range.
+     *
+     * GET /projects/:id/forks
+     *
+     * @param projectId the ID of the project
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @return a List of forked projects
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getForks(Integer projectId, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),"projects", projectId, "forks");
+        return (response.readEntity(new GenericType<List<Project>>() { }));
+    }
+
+    /**
+     * Get a Pager of projects that were forked from the specified project.
+     *
+     * GET /projects/:id/forks
+     *
      * @param projectId the ID of the project
      * @param itemsPerPage the number of Project instances that will be fetched per page
      * @return a Pager of projects
