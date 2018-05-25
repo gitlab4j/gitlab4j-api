@@ -76,18 +76,6 @@ public abstract class AbstractApi implements Constants {
     protected GitLabApiClient getApiClient() {
         return (gitLabApi.getApiClient());
     }
-
-    protected String urlEncode(String s) throws GitLabApiException {
-        try {
-            String encoded = URLEncoder.encode(s, "UTF-8");
-            encoded = encoded.replace(".", "%2E");
-            encoded = encoded.replace("-", "%2D");
-            encoded = encoded.replace("_", "%5F");
-            return (encoded);
-        } catch (Exception e) {
-            throw new GitLabApiException(e);
-        }
-    }
     
     /**
      * Encode a string to be used as in-path argument for a gitlab api request.
@@ -99,7 +87,7 @@ public abstract class AbstractApi implements Constants {
      * @return encoded version of s with spaces encoded as %2F
      * @throws GitLabApiException if encoding throws an exception
      */
-    protected String urlEncodeForPath(String s) throws GitLabApiException {
+    protected String urlEncode(String s) throws GitLabApiException {
         try {
             String encoded = URLEncoder.encode(s, "UTF-8");
             // Since the encode method encodes plus signs as %2B,
