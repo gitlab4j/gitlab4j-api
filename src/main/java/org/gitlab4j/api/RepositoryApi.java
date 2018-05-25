@@ -499,7 +499,37 @@ public class RepositoryApi extends AbstractApi {
         Response response = get(Response.Status.OK, formData.asMap(), "projects", projectPath, "repository", "compare");
         return (response.readEntity(CompareResults.class));
     }
-    
+
+    /**
+     * Get a list of contributors from a project.
+     *
+     * GET /projects/:id/repository/contributors
+     *
+     * @param projectId the project to get the list of contributors for
+     * @return a List containing the contributors for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Contributor> getContributors(Integer projectId) throws GitLabApiException {
+        return (getContributors(projectId, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get a list of contributors from a project and in the specified page range.
+     *
+     * GET /projects/:id/repository/contributors
+     *
+     * @param projectId the project to get the list of contributors for
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @return a List containing the contributors for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Contributor> getContributors(Integer projectId, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
+                "projects", projectId, "repository", "contributors");
+        return (response.readEntity(new GenericType<List<Contributor>>() { }));
+    }
+
     /**
      * Get a Pager of contributors from a project.
      *
@@ -507,8 +537,7 @@ public class RepositoryApi extends AbstractApi {
      *
      * @param projectId the project to get the list of contributors for
      * @param itemsPerPage the number of Project instances that will be fetched per page
-     * @return the list of contributors for the specified project ID
-     *
+     * @return a Pager containing the contributors for the specified project ID
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Contributor> getContributors(Integer projectId, int itemsPerPage) throws GitLabApiException {
