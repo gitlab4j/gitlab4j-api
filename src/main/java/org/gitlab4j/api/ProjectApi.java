@@ -1811,7 +1811,7 @@ public class ProjectApi extends AbstractApi implements Constants {
         delete(Response.Status.NO_CONTENT, null, "projects", projectId, "snippets", snippetId);
     }
 
-    /*
+    /**
      * Get the raw project snippet as plain text.
      *
      * GET /projects/:id/snippets/:snippet_id/raw
@@ -1826,7 +1826,7 @@ public class ProjectApi extends AbstractApi implements Constants {
         return (response.readEntity(String.class));
     }
 
-    /*
+    /**
      * Get the raw project snippet plain text as an Optional instance.
      *
      * GET /projects/:id/snippets/:snippet_id/raw
@@ -2053,5 +2053,19 @@ public class ProjectApi extends AbstractApi implements Constants {
         }
 
         delete(Response.Status.OK, null, "projects", projectId, "push_rule");
+    }
+    
+    /**
+     * Get a Pager of projects that were forked from the specified project.
+     * 
+     * GET /projects/:id/forks
+     * 
+     * @param projectId the ID of the project
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager of projects
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Project> getForks(Integer projectId, int itemsPerPage) throws GitLabApiException {
+        return new Pager<Project>(this, Project.class, itemsPerPage, null, "projects", projectId, "forks");
     }
 }

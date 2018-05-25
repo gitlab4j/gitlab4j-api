@@ -37,7 +37,7 @@ public class GitLabApi {
         }
     }
 
-    // Used to keep track of GitLabApiExceptions on calls that return Optionsl<?>
+    // Used to keep track of GitLabApiExceptions on calls that return Optional<?>
     private static final Map<Optional<?>, GitLabApiException> optionalExceptionMap =
             Collections.synchronizedMap(new WeakHashMap<Optional<?>, GitLabApiException>());
 

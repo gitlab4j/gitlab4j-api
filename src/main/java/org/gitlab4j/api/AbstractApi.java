@@ -76,10 +76,23 @@ public abstract class AbstractApi implements Constants {
     protected GitLabApiClient getApiClient() {
         return (gitLabApi.getApiClient());
     }
-
+    
+    /**
+     * Encode a string to be used as in-path argument for a gitlab api request.
+     * 
+     * Standard URL encoding changes spaces to plus signs, but for arguments that are part of the path,
+     * like the :file_path in a "Get raw file" request, gitlab expects spaces to be encoded with %20.
+     * 
+     * @param s the string to encode
+     * @return encoded version of s with spaces encoded as %2F
+     * @throws GitLabApiException if encoding throws an exception
+     */
     protected String urlEncode(String s) throws GitLabApiException {
         try {
             String encoded = URLEncoder.encode(s, "UTF-8");
+            // Since the encode method encodes plus signs as %2B,
+            // we can simply replace the encoded spaces with the correct encoding here 
+            encoded = encoded.replace("+", "%20");
             encoded = encoded.replace(".", "%2E");
             encoded = encoded.replace("-", "%2D");
             encoded = encoded.replace("_", "%5F");
