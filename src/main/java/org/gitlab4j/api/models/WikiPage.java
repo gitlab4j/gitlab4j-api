@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class WikiPage {
 
-    private Integer id;
     private String title;
     private String content;
     private String slug;
@@ -44,14 +43,6 @@ public class WikiPage {
         this.title = title;
         this.slug = slug;
         this.content = content;
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getTitle() {
