@@ -1,14 +1,5 @@
 package org.gitlab4j.api;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
-import java.util.WeakHashMap;
-import java.util.logging.Logger;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.Session;
@@ -16,6 +7,14 @@ import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
 import org.gitlab4j.api.utils.Oauth2LoginStreamingOutput;
 import org.gitlab4j.api.utils.SecretString;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
+import java.util.WeakHashMap;
+import java.util.logging.Logger;
 
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
@@ -72,6 +71,7 @@ public class GitLabApi {
     private NotesApi notesApi;
     private EventsApi eventsApi;
     private SnippetsApi snippetsApi;
+    private WikisApi wikisApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -1295,4 +1295,22 @@ public class GitLabApi {
 
         return snippetsApi;
 	}
+
+    /**
+     * Gets the WikisApi instance owned by this GitLabApi instance. The WikisApi is used to perform all snippet related
+     * API calls.
+     *
+     * @return the WikisApi instance owned by this GitLabApi instance
+     */
+    public WikisApi getWikisApi() {
+        if (wikisApi == null) {
+            synchronized (this) {
+                if (wikisApi == null) {
+                    wikisApi = new WikisApi(this);
+                }
+            }
+        }
+
+        return wikisApi;
+    }
 }
