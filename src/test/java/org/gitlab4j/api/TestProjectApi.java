@@ -279,6 +279,23 @@ public class TestProjectApi {
         assertEquals(TEST_PROJECT_NAME_1, projects.get(1).getName());
     }
 
+
+    @Test
+    public void testListProjectsWithStatistics() throws GitLabApiException {
+
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(false, null,
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, false, false, false, false, true);
+        assertNotNull(projects);
+        assertTrue(projects.size() >= 2);
+
+        assertNotNull(projects.get(0).getStatistics());
+        assertNotNull(projects.get(0).getStatistics().getLfsObjectSize());
+        assertNotNull(projects.get(0).getStatistics().getCommitCount());
+        assertNotNull(projects.get(0).getStatistics().getJobArtifactsSize());
+        assertNotNull(projects.get(0).getStatistics().getStorageSize());
+
+    }
+
     @Test
     public void testListProjectsWithParamsViaPager() throws GitLabApiException {
 
