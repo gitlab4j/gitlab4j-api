@@ -46,7 +46,7 @@ import static org.junit.Assume.assumeTrue;
  * <p>
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-public class TestProjectApiWikis {
+public class TestWikisApi {
 
     // The following needs to be set to your test repository
     private static final String TEST_NAMESPACE;
@@ -65,7 +65,7 @@ public class TestProjectApiWikis {
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
 
-    public TestProjectApiWikis() {
+    public TestWikisApi() {
         super();
     }
 
@@ -114,10 +114,10 @@ public class TestProjectApiWikis {
     private static void deleteAllTestWikiPages() {
         if (gitLabApi != null) {
             try {
-                List<WikiPage> wikiPages = gitLabApi.getProjectApi().getWikiPages(testProjectId);
+                List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProjectId);
                 wikiPages.stream().filter(wp -> wp.getTitle().startsWith(TEST_WIKI_TITLE_PREFIX)).map(WikiPage::getSlug).forEach(slug -> {
                     try {
-                        gitLabApi.getProjectApi().deleteWikiPage(testProjectId, slug);
+                        gitLabApi.getWikisApi().deletePage(testProjectId, slug);
                     } catch (GitLabApiException ignored) {
                     }
                 });
@@ -133,7 +133,7 @@ public class TestProjectApiWikis {
     }
 
     private WikiPage createWikiPage(String title, String content) throws GitLabApiException {
-        return (gitLabApi.getProjectApi().createWikiPage(testProjectId, title, content));
+        return (gitLabApi.getWikisApi().createPage(testProjectId, title, content));
     }
 
     @Test
@@ -152,7 +152,7 @@ public class TestProjectApiWikis {
         assertNotNull(wikiPage);
 
         title = TEST_WIKI_TITLE_PREFIX + "Test updateWikiPage()";
-        wikiPage = gitLabApi.getProjectApi().updateWikiPage(testProjectId, wikiPage.getSlug(), title, "some content");
+        wikiPage = gitLabApi.getWikisApi().updatePage(testProjectId, wikiPage.getSlug(), title, "some content");
         assertEquals(title, wikiPage.getTitle());
         assertEquals("some content", wikiPage.getContent());
     }
@@ -164,7 +164,7 @@ public class TestProjectApiWikis {
         assertNotNull(newWikiPage);
 
         String wikiPageSlug = newWikiPage.getSlug();
-        List<WikiPage> wikiPages = gitLabApi.getProjectApi().getWikiPages(testProjectId);
+        List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProjectId);
         assertNotNull(wikiPages);
 
         wikiPages.stream().filter(wp -> wp.getSlug().equals(wikiPageSlug)).forEach(wp -> {
@@ -180,8 +180,8 @@ public class TestProjectApiWikis {
         assertNotNull(createdWikiPage);
 
         String wikiPageSlug = createdWikiPage.getSlug();
-        gitLabApi.getProjectApi().deleteWikiPage(testProjectId, wikiPageSlug);
-        List<WikiPage> wikiPages = gitLabApi.getProjectApi().getWikiPages(testProjectId);
+        gitLabApi.getWikisApi().deletePage(testProjectId, wikiPageSlug);
+        List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProjectId);
         if (wikiPages.stream().anyMatch(wp -> wp.getSlug().equals(wikiPageSlug))) {
             fail("WikiPage was not deleted.");
         }

@@ -72,6 +72,7 @@ public class GitLabApi {
     private NotesApi notesApi;
     private EventsApi eventsApi;
     private SnippetsApi snippetsApi;
+    private WikisApi wikisApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -1295,4 +1296,22 @@ public class GitLabApi {
 
         return snippetsApi;
 	}
+
+    /**
+     * Gets the WikisApi instance owned by this GitLabApi instance. The WikisApi is used to perform all wiki related API calls.
+     *
+     * @return the WikisApi instance owned by this GitLabApi instance
+     */
+    public WikisApi getWikisApi() {
+        if (wikisApi == null) {
+            synchronized (this) {
+                if (wikisApi == null) {
+                    wikisApi = new WikisApi(this);
+                }
+            }
+        }
+
+        return wikisApi;
+    }
+
 }
