@@ -843,12 +843,13 @@ public class UserApi extends AbstractApi {
         }
         projectsLimit = (projectsLimit == null) ? user.getProjectsLimit() : projectsLimit;
 
-        return (new GitLabApiForm()
-                .withParam("email", user.getEmail(), create)
+        if(create){
+            return (new GitLabApiForm()
+                .withParam("email", user.getEmail(), true)
                 .withParam("password", password, false)
                 .withParam("reset_password", resetPassword, false)
-                .withParam("username", user.getUsername(), create)
-                .withParam("name", user.getName(), create)
+                .withParam("username", user.getUsername(), true)
+                .withParam("name", user.getName(), true)
                 .withParam("skype", user.getSkype(), false)
                 .withParam("linkedin", user.getLinkedin(), false)
                 .withParam("twitter", user.getTwitter(), false)
@@ -862,6 +863,28 @@ public class UserApi extends AbstractApi {
                 .withParam("admin", user.getIsAdmin(), false)
                 .withParam("can_create_group", user.getCanCreateGroup(), false)
                 .withParam("skip_confirmation", user.getSkipConfirmation(), false)
+                .withParam("external", user.getExternal(), false)
+                .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(),false));
+        }
+        return (new GitLabApiForm()
+                .withParam("email", user.getEmail(), false)
+                .withParam("password", password, false)
+                .withParam("reset_password", resetPassword, false)
+                .withParam("username", user.getUsername(), false)
+                .withParam("name", user.getName(), false)
+                .withParam("skype", user.getSkype(), false)
+                .withParam("linkedin", user.getLinkedin(), false)
+                .withParam("twitter", user.getTwitter(), false)
+                .withParam("website_url", user.getWebsiteUrl(), false)
+                .withParam("organization", user.getOrganization(), false)
+                .withParam("projects_limit", projectsLimit, false)
+                .withParam("extern_uid", user.getExternUid(), false)
+                .withParam("provider", user.getProvider(), false)
+                .withParam("bio", user.getBio(), false)
+                .withParam("location", user.getLocation(), false)
+                .withParam("admin", user.getIsAdmin(), false)
+                .withParam("can_create_group", user.getCanCreateGroup(), false)
+                .withParam("skip_reconfirmation", user.getSkipConfirmation(), false)
                 .withParam("external", user.getExternal(), false)
                 .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(),false));
     }
