@@ -842,6 +842,7 @@ public class UserApi extends AbstractApi {
             }
         }
         projectsLimit = (projectsLimit == null) ? user.getProjectsLimit() : projectsLimit;
+        String skipConfirmationFeildName = create ? "skip_confirmation" : "skip_reconfirmation";
 
         return (new GitLabApiForm()
                 .withParam("email", user.getEmail(), create)
@@ -861,7 +862,7 @@ public class UserApi extends AbstractApi {
                 .withParam("location", user.getLocation(), false)
                 .withParam("admin", user.getIsAdmin(), false)
                 .withParam("can_create_group", user.getCanCreateGroup(), false)
-                .withParam("skip_confirmation", user.getSkipConfirmation(), false)
+                .withParam(skipConfirmationFeildName, user.getSkipConfirmation(), false)
                 .withParam("external", user.getExternal(), false)
                 .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(),false));
     }
