@@ -5,9 +5,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
- *
  * contains sizing information from the project.
- * To get this information, the project api has to be called with parameter statistics=true which is only allowed for gitlab admins.
+ * To get this information, the project api has to be called with parameter statistics=true 
+ * which is only allowed for gitlab admins.
  *
  * Example json from projects api response:
  * https://<gitlab>/api/v4//projects?statistics=true
@@ -58,16 +58,5 @@ public class ProjectStatistics {
 
     public void setStorageSize(long storageSize) {
         this.storageSize = storageSize;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("ProjectStatistics{");
-        sb.append("commitCount=").append(commitCount);
-        sb.append(", storageSize=").append(storageSize);
-        sb.append(", lfsObjectSize=").append(lfsObjectSize);
-        sb.append(", jobArtifactsSize=").append(jobArtifactsSize);
-        sb.append('}');
-        return sb.toString();
     }
 }
