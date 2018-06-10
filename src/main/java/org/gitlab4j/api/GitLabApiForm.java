@@ -23,7 +23,7 @@ public class GitLabApiForm extends Form {
      * @param value the value of the field/attribute to add
      * @return this GitLabAPiForm instance
      */
-    protected GitLabApiForm withParam(String name, Object value) throws IllegalArgumentException {
+    public GitLabApiForm withParam(String name, Object value) throws IllegalArgumentException {
         return (withParam(name, value, false));
     }
 
@@ -37,7 +37,7 @@ public class GitLabApiForm extends Form {
      * @return this GitLabAPiForm instance
      * @throws IllegalArgumentException if a required parameter is null or empty
      */
-    protected GitLabApiForm withParam(String name, Object value, boolean required) throws IllegalArgumentException {
+    public GitLabApiForm withParam(String name, Object value, boolean required) throws IllegalArgumentException {
 
         if (value == null) {
 

@@ -104,6 +104,29 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for ordering the results of getMergeRequests(). */
+    public enum MergeRequestOrderBy {
+
+        CREATED_AT, UPDATED_AT;
+
+        private static JacksonJsonEnumHelper<MergeRequestOrderBy> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestOrderBy.class);
+
+        @JsonCreator
+        public static MergeRequestOrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for ordering the results of getGroups() and getSubGroups(). */
     public enum GroupOrderBy {
 
@@ -179,6 +202,27 @@ public interface Constants {
 
         @JsonCreator
         public static IssueScope forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the scope for getMergeRequests methods. */
+    public enum MergeRequestScope {
+
+        CREATED_BY_ME, ASSIGNED_TO_ME, ALL;
+
+        private static JacksonJsonEnumHelper<MergeRequestScope> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestScope.class);
+
+        @JsonCreator
+        public static MergeRequestScope forValue(String value) { return enumHelper.forValue(value); }
 
         @JsonValue
         public String toValue() {

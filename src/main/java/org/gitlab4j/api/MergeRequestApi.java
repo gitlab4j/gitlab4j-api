@@ -5,11 +5,13 @@ import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.models.MergeRequestFilter;
 import org.gitlab4j.api.models.Participant;
 
 /**
@@ -19,6 +21,52 @@ public class MergeRequestApi extends AbstractApi {
 
     public MergeRequestApi(GitLabApi gitLabApi) {
         super(gitLabApi);
+    }
+
+    /**
+     * Get all merge requests matching the filter.
+     *
+     * GET /merge_requests
+     *
+     * @param filter a MergeRequestFilter instance with the filter settings
+     * @return all merge requests for the specified project matching the filter
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<MergeRequest> getMergeRequests(MergeRequestFilter filter) throws GitLabApiException {
+        return (getMergeRequests(filter, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get all merge requests matching the filter.
+     *
+     * GET /merge_requests
+     *
+     * @param filter a MergeRequestFilter instance with the filter settings
+     * @param page the page to get
+     * @param perPage the number of MergeRequest instances per page
+     * @return all merge requests for the specified project matching the filter
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<MergeRequest> getMergeRequests(MergeRequestFilter filter, int page, int perPage) throws GitLabApiException {
+        MultivaluedMap<String, String> queryParams = (filter != null ?
+            filter.getQueryParams(page, perPage).asMap() : getPageQueryParams(page, perPage));
+        Response response = get(Response.Status.OK, queryParams, "merge_requests");
+        return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
+    }
+
+    /**
+     * Get all merge requests matching the filter.
+     *
+     * GET /merge_requests
+     *
+     * @param filter a MergeRequestFilter instance with the filter settings
+     * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
+     * @return all merge requests for the specified project matching the filter
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<MergeRequest> getMergeRequests(MergeRequestFilter filter, int itemsPerPage) throws GitLabApiException {
+        MultivaluedMap<String, String> queryParams = (filter != null ? filter.getQueryParams().asMap() : null);
+        return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "merge_requests"));
     }
 
     /**
