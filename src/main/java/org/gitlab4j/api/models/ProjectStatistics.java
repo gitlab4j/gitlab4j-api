@@ -5,20 +5,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
- * contains sizing information from the project.
- * To get this information, the project api has to be called with parameter statistics=true 
- * which is only allowed for gitlab admins.
- *
- * Example json from projects api response:
- * https://<gitlab>/api/v4//projects?statistics=true
- *
- * "statistics": {
- *       "commit_count": 37,
- *       "storage_size": 1038090,
- *       "repository_size": 1038090,
- *       "lfs_objects_size": 0,
- *       "job_artifacts_size": 0
- *     }
+ * This class contains the sizing information from the project. To get this information,
+ * ProjectApi.getProject() has to be called with parameter statistics=true 
+ * which is only allowed for GitLab admins.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProjectStatistics {
