@@ -350,7 +350,21 @@ public class TestProjectApi {
     @Test
     public void testListStarredProjects() throws GitLabApiException {
 
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        try {
+            gitLabApi.getProjectApi().starProject(project);
+        } catch (Exception ignore) {
+        }
+
         List<Project> projects = gitLabApi.getProjectApi().getStarredProjects();
+
+        try {
+            gitLabApi.getProjectApi().unstarProject(project);
+        } catch (Exception ignore) {
+        }
+
         assertNotNull(projects);
         assertNotNull(projects);
         assertEquals(1, projects.size());
@@ -360,8 +374,22 @@ public class TestProjectApi {
     @Test
     public void testListStarredProjectsWithParams() throws GitLabApiException {
 
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        try {
+            gitLabApi.getProjectApi().starProject(project);
+        } catch (Exception ignore) {
+        }
+
         List<Project> projects = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
                 Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, TEST_PROJECT_NAME, true, true, true, true, true);
+
+        try {
+            gitLabApi.getProjectApi().unstarProject(project);
+        } catch (Exception ignore) {
+        }
+
         assertNotNull(projects);
         assertEquals(1, projects.size());
         assertEquals(TEST_PROJECT_NAME, projects.get(0).getName());
