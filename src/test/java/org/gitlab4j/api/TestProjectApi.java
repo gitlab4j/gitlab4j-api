@@ -495,4 +495,24 @@ public class TestProjectApi {
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
     }
+
+    @Test
+    public void testStarAndUnstarProject() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        try {
+            gitLabApi.getProjectApi().unstarProject(project);
+        } catch (Exception ignore) {
+        }
+
+        Project starredProject = gitLabApi.getProjectApi().starProject(project);
+        assertNotNull(starredProject);
+        assertEquals(1, (int)starredProject.getStarCount());
+
+        Project unstarredProject = gitLabApi.getProjectApi().unstarProject(project);
+        assertNotNull(unstarredProject);
+        assertEquals(0, (int)unstarredProject.getStarCount());
+    }
 }

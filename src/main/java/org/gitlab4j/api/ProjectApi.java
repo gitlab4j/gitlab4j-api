@@ -2097,4 +2097,34 @@ public class ProjectApi extends AbstractApi implements Constants {
     public Pager<Project> getForks(Integer projectId, int itemsPerPage) throws GitLabApiException {
         return new Pager<Project>(this, Project.class, itemsPerPage, null, "projects", projectId, "forks");
     }
+
+    /**
+     * Star a project.
+     *
+     * POST /projects/:id/star
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @return a Project instance with the new project info
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project starProject(Object projectIdOrPath) throws GitLabApiException {
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
+        Response response = post(expectedStatus, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "star");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Unstar a project.
+     *
+     * POST /projects/:id/unstar
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @return a Project instance with the new project info
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project unstarProject(Object projectIdOrPath) throws GitLabApiException {
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
+        Response response = post(expectedStatus, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "unstar");
+        return (response.readEntity(Project.class));
+    }
 }
