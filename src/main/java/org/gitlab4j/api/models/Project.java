@@ -85,6 +85,7 @@ public class Project {
     private String webUrl;
     private Boolean wikiEnabled;
     private Boolean printingMergeRequestLinkEnabled;
+    private ProjectStatistics statistics;
 
     public Integer getApprovalsBeforeMerge() {
         return approvalsBeforeMerge;
@@ -592,7 +593,16 @@ public class Project {
         return (this);
     }
 
+    public ProjectStatistics getStatistics() {
+        return statistics;
+    }
+
+    public void setStatistics(ProjectStatistics statistics) {
+        this.statistics = statistics;
+    }
+
     public static final boolean isValid(Project project) {
         return (project != null && project.getId() != null);
     }
+
 }
