@@ -2033,7 +2033,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("file_name_regex", pushRule.getFileNameRegex())
             .withParam("max_file_size", pushRule.getMaxFileSize());
 
-        Response response = post(Response.Status.OK, formData, "projects", projectId, "push_rule");
+        final Response response = putWithFormData(Response.Status.OK, formData, "projects", projectId, "push_rule");
         return (response.readEntity(PushRules.class));
     }
 
