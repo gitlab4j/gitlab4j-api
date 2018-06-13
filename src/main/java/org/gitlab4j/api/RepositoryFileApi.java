@@ -226,7 +226,14 @@ public class RepositoryFileApi extends AbstractApi {
         }
 
         addFormParam(form, "encoding", file.getEncoding(), false);
-        addFormParam(form, "content", file.getContent(), true);
+
+        // Cannot use addFormParam() as it does not accept an empty or whitespace only string
+        String content = file.getContent();
+        if (content == null) {
+            throw new IllegalArgumentException("content cannot be null");
+        }
+        form.param("content", content);
+
         addFormParam(form, "commit_message", commitMessage, true);
         return (form);
     }

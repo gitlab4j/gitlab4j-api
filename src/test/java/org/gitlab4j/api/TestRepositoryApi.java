@@ -237,6 +237,21 @@ public class TestRepositoryApi {
     }
 
     @Test
+    public void testCreateFileWithEmptyContent() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        RepositoryFile file = new RepositoryFile();
+        file.setFilePath(TEST_FILEPATH);
+        file.setContent("");
+        RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(file, project.getId(), TEST_BRANCH_NAME, "Testing createFile().");
+        assertNotNull(createdFile);
+
+        gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Testing deleteFile().");
+    }
+
+    @Test
     public void testProtectBranch() throws GitLabApiException {
 
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
