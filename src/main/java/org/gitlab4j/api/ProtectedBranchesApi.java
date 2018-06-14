@@ -53,7 +53,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch protectBranch(Integer projectId, String branchName) throws GitLabApiException {
-        return protectBranch(projectId, branchName, AccessLevel.MASTER, AccessLevel.MASTER);
+        return protectBranch(projectId, branchName, AccessLevel.MAINTAINER, AccessLevel.MAINTAINER);
     }
 
     /**
@@ -63,8 +63,8 @@ public class ProtectedBranchesApi extends AbstractApi {
      *
      * @param projectId        the ID of the project to protect
      * @param branchName       the name of the branch to protect
-     * @param pushAccessLevel  Access levels allowed to push (defaults: 40, master access level)
-     * @param mergeAccessLevel Access levels allowed to merge (defaults: 40, master access level)
+     * @param pushAccessLevel  Access levels allowed to push (defaults: 40, maintainer access level)
+     * @param mergeAccessLevel Access levels allowed to merge (defaults: 40, maintainer access level)
      * @return the branch info for the protected branch
      * @throws GitLabApiException if any exception occurs
      */
