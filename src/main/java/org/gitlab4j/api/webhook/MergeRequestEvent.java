@@ -12,7 +12,9 @@ public class MergeRequestEvent implements Event {
     public static final String OBJECT_KIND = "merge_request";
 
     private User user;
+    private EventProject project;
     private ObjectAttributes objectAttributes;
+    private EventRepository repository;
 
     public String getObjectKind() {
         return (OBJECT_KIND);
@@ -31,12 +33,28 @@ public class MergeRequestEvent implements Event {
         this.user = user;
     }
 
+    public EventProject getProject() {
+        return project;
+    }
+
+    public void setProject(EventProject project) {
+        this.project = project;
+    }
+
     public ObjectAttributes getObjectAttributes() {
         return this.objectAttributes;
     }
 
     public void setObjectAttributes(ObjectAttributes objectAttributes) {
         this.objectAttributes = objectAttributes;
+    }
+
+    public EventRepository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(EventRepository repository) {
+        this.repository = repository;
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
