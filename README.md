@@ -26,8 +26,8 @@ dependencies {
 
 **Ivy and SBT**<br/>
 There have been reports of problems resolving some dependencies when using Ivy or SBT, for help resolving those issues see:<br/>
-<a href="https://github.com/jax-rs/api/issues/571">JAX-RS API Issue #571</a><br/>
-<a href="https://github.com/jax-rs/api/issues/572">JAX-RS API Issue #572</a>
+<a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/571">JAX-RS API Issue #571</a><br/>
+<a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/572">JAX-RS API Issue #572</a>
 
 ---
 
