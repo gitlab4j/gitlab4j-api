@@ -541,6 +541,39 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a specific project, which is owned by the authentication user.
+     *
+     * GET /projects/:id
+     *
+     * @param namespace the name of the project namespace or group
+     * @param project the name of the project to get
+     * @param statistics include project statistics
+     * @return the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project getProject(String namespace, String project, Boolean statistics) throws GitLabApiException {
+
+        if (namespace == null) {
+            throw new RuntimeException("namespace cannot be null");
+        }
+
+        if (project == null) {
+            throw new RuntimeException("project cannot be null");
+        }
+
+        String projectPath = null;
+        try {
+            projectPath = URLEncoder.encode(namespace + "/" + project, "UTF-8");
+        } catch (UnsupportedEncodingException uee) {
+            throw (new GitLabApiException(uee));
+        }
+
+        Form formData = new GitLabApiForm().withParam("statistics", statistics);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectPath);
+        return (response.readEntity(Project.class));
+    }
+
+    /**
      * Get an Optional instance with the value for the specific project, which is owned by the authentication user.
      *
      * GET /projects/:id
