@@ -478,6 +478,22 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a specific project, which is owned by the authentication user.
+     *
+     * GET /projects/:id
+     *
+     * @param projectId the ID of the project to get
+     * @param statistics include project statistics
+     * @return the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project getProject(Integer projectId, Boolean statistics) throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("statistics", statistics);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId);
+        return (response.readEntity(Project.class));
+    }
+
+    /**
      * Get an Optional instance with the value for the specific project, which is owned by the authentication user.
      *
      * GET /projects/:id
