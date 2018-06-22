@@ -426,6 +426,26 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
+     * Get an archive of the complete repository by SHA (optional).
+     *
+     * GET /projects/:id/repository/archive
+     *
+     * @param projectId the ID of the project
+     * @param sha the SHA of the archive to get
+     * @param format The archive format. Default is tar.gz. Options are tar.gz, tar.bz2, tbz, tbz2,
+     * tb2, bz2, tar, zip
+     * @return an input stream that can be used to save as a file
+     * or to read the content of the archive
+     * @throws GitLabApiException if any exception occurs
+     */
+    public InputStream getRepositoryArchive(Integer projectId, String sha, String format) throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("sha", sha).withParam("format", format);
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+                  "projects", projectId, "repository", "archive");
+        return (response.readEntity(InputStream.class));
+    }
+
+    /**
      * Get an archive of the complete repository by SHA (optional) and saves to the specified directory.
      * If the archive already exists in the directory it will be overwritten.
      *
@@ -442,6 +462,43 @@ public class RepositoryApi extends AbstractApi {
         Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
                 "projects", projectId, "repository", "archive");
+
+        try {
+
+            if (directory == null)
+                directory = new File(System.getProperty("java.io.tmpdir"));
+
+            String filename = FileUtils.getFilenameFromContentDisposition(response);
+            File file = new File(directory, filename);
+
+            InputStream in = response.readEntity(InputStream.class);
+            Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return (file);
+
+        } catch (IOException ioe) {
+            throw new GitLabApiException(ioe);
+        }
+    }
+
+    /**
+     * Get an archive of the complete repository by SHA (optional) and saves to the specified directory.
+     * If the archive already exists in the directory it will be overwritten.
+     *
+     * GET /projects/:id/repository/archive
+     *
+     * @param projectId the ID of the project
+     * @param sha the SHA of the archive to get
+     * @param directory the File instance of the directory to save the archive to, if null will use "java.io.tmpdir"
+     * @param format The archive format. Default is tar.gz. Options are tar.gz, tar.bz2, tbz, tbz2,
+     * tb2, bz2, tar, zip
+     * @return a File instance pointing to the downloaded instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public File getRepositoryArchive(Integer projectId, String sha, File directory, String format) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm().withParam("sha", sha).withParam("format", format);
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+            "projects", projectId, "repository", "archive");
 
         try {
 
