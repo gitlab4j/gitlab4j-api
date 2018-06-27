@@ -429,8 +429,15 @@ public abstract class AbstractApi implements Constants {
      */
     protected Response validate(Response response, Response.Status expected) throws GitLabApiException {
 
-        if (response.getStatus() != expected.getStatusCode()) {
-            throw new GitLabApiException(response);
+        int responseCode = response.getStatus();
+        int expectedResponseCode = expected.getStatusCode();
+
+        if (responseCode != expectedResponseCode) {
+
+            // If the expected code is 200-204 and the response code is 200-204 it is OK.  We do this because
+            // GitLab is constantly changing the expected code in the 200 to 204 range
+            if (expectedResponseCode > 204 || responseCode > 204 || expectedResponseCode < 200 || responseCode < 200)
+                throw new GitLabApiException(response);
         }
 
         if (!getApiClient().validateSecretToken(response)) {
