@@ -11,6 +11,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.Markdown;
 import org.gitlab4j.api.models.RepositoryFile;
 
 /**
@@ -93,7 +95,7 @@ public class RepositoryFileApi extends AbstractApi {
         } else {
             response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
         }
-        
+
         return (response.readEntity(RepositoryFile.class));
     }
 
@@ -123,7 +125,7 @@ public class RepositoryFileApi extends AbstractApi {
         } else {
             response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
         }
-   
+
         return (response.readEntity(RepositoryFile.class));
     }
 
@@ -213,6 +215,26 @@ public class RepositoryFileApi extends AbstractApi {
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(),  MediaType.MEDIA_TYPE_WILDCARD,
                 "projects", projectId, "repository", "files", urlEncode(filepath), "raw");
         return (response.readEntity(InputStream.class));
+    }
+
+    /**
+     * Render an arbitrary Markdown document.
+     *
+     * POST /api/v4/markdown
+     *
+     * @param text text to be transformed
+     * @return a Markdown instance with transformed info
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Markdown getMarkdown(String text) throws GitLabApiException {
+
+        if(!isApiVersion(ApiVersion.V4)){
+            throw new GitLabApiException("Api version must be v4");
+        }
+
+        Form formData = new GitLabApiForm().withParam("text", text, true);
+        Response response = post(Response.Status.OK, formData.asMap(), "markdown");
+        return (response.readEntity(Markdown.class));
     }
 
     private Form createForm(RepositoryFile file, String branchName, String commitMessage) {
