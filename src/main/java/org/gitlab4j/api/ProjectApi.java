@@ -23,6 +23,7 @@
 
 package org.gitlab4j.api;
 
+import com.alibaba.fastjson.JSONObject;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -2175,5 +2176,24 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
         Response response = post(expectedStatus, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "unstar");
         return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Get languages used in a project with percentage value.
+     *
+     * Get /projects/:id/languages
+     *
+     * @param projectId the ID of the project
+     * @return a JSONObject instance with the language info
+     * @throws GitLabApiException if any exception occurs
+     */
+    public JSONObject getProjectLanguage(Integer projectId) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),"projects", projectId, "languages");
+        return (response.readEntity(JSONObject.class));
     }
 }
