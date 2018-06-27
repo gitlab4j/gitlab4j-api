@@ -29,6 +29,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -183,6 +185,13 @@ public class TestIssuesApi {
         Integer projectId = testProject.getId();
         String title = getUniqueTitle();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, title, ISSUE_DESCRIPTION);
+        assertNotNull(issue);
+        assertEquals(title, issue.getTitle());
+        assertEquals(ISSUE_DESCRIPTION, issue.getDescription());
+        assertEquals(IssueState.OPENED, issue.getState());
+
+        List<Integer> assigneeIds = Arrays.asList(issue.getAuthor().getId());
+        issue = gitLabApi.getIssuesApi().createIssue(projectId, title, ISSUE_DESCRIPTION, null, assigneeIds, null, null, new Date(), null, null, null);
         assertNotNull(issue);
         assertEquals(title, issue.getTitle());
         assertEquals(ISSUE_DESCRIPTION, issue.getDescription());
