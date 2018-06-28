@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Branch;
@@ -272,14 +273,25 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testProjectLanguages() {
+
+        try {
+            InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream("project-languages.json"));
+            ObjectMapper objectMapper = jacksonJson.getContext(null);
+            Map<String, Float> projectLanguages = objectMapper.readValue(reader, new TypeReference<Map<String, Float>>() {});
+            assertTrue(compareJson(projectLanguages, "project-languages"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
     public void testProjectUsers() {
 
         try {
             InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream("project-users.json"));
             ObjectMapper objectMapper = jacksonJson.getContext(null);
-            List<ProjectUser> projectUsres = objectMapper.readValue(reader, new TypeReference<List<ProjectUser>>() {});
-            assertTrue(compareJson(projectUsres, "project-users"));
-
+            List<ProjectUser> projectUsers = objectMapper.readValue(reader, new TypeReference<List<ProjectUser>>() {});
+            assertTrue(compareJson(projectUsers, "project-users"));
         } catch (Exception e) {
             e.printStackTrace();
         }

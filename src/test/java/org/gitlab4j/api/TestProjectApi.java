@@ -31,6 +31,7 @@ import static org.junit.Assume.assumeTrue;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.ws.rs.core.Response;
@@ -459,6 +460,18 @@ public class TestProjectApi {
         List<Project> projects = gitLabApi.getProjectApi().getMemberProjects(1, 10);
         assertTrue(projects != null);
         assertTrue(projects.size() > 0);
+    }
+
+    @Test
+    public void testProjectLanguages() throws GitLabApiException {
+
+        assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
+        assumeTrue(TEST_GROUP.trim().length() > 0 && TEST_GROUP_PROJECT.trim().length() > 0);
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_GROUP, TEST_GROUP_PROJECT);
+        assertNotNull(project);
+        Map<String, Float> projectLanguages = gitLabApi.getProjectApi().getProjectLanguages(project.getId());
+        assertNotNull(projectLanguages);
     }
 
     @Test
