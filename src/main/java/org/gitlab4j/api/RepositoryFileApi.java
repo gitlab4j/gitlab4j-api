@@ -93,7 +93,7 @@ public class RepositoryFileApi extends AbstractApi {
         } else {
             response = post(Response.Status.CREATED, formData, "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
         }
-        
+
         return (response.readEntity(RepositoryFile.class));
     }
 
@@ -123,7 +123,7 @@ public class RepositoryFileApi extends AbstractApi {
         } else {
             response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "repository", "files", urlEncode(file.getFilePath()));
         }
-   
+
         return (response.readEntity(RepositoryFile.class));
     }
 

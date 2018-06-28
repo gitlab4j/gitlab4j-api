@@ -28,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.ws.rs.core.Form;
@@ -2175,5 +2176,25 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
         Response response = post(expectedStatus, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "unstar");
         return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Get languages used in a project with percentage value.
+     *
+     * Get /projects/:id/languages
+     *
+     * @param projectId the ID of the project
+     * @return a Map instance with the language as the key and the percentage as the value
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 10.8
+     */
+    public Map<String, Float> getProjectLanguages(Integer projectId) throws GitLabApiException {
+
+        if (projectId == null) {
+            throw new RuntimeException("projectId cannot be null");
+        }
+
+        Response response = get(Response.Status.OK, null, "projects", projectId, "languages");
+        return (response.readEntity(new GenericType<Map<String, Float>>() {}));
     }
 }
