@@ -6,17 +6,11 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-import java.util.List;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.Branch;
-import org.gitlab4j.api.models.LicenseTemplate;
-import org.gitlab4j.api.models.Markdown;
-import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
 
 /**
