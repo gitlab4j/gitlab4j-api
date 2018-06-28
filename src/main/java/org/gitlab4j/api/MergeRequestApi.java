@@ -329,20 +329,60 @@ public class MergeRequestApi extends AbstractApi {
      * @param stateEvent new state for the merge request, optional
      * @param labels comma separated list of labels, optional
      * @param milestoneId the ID of a milestone, optional
+     * @param removeSourceBranch Flag indicating if a merge request should remove the source
+     *                           branch when merging, optional
+     * @param squash Squash commits into a single commit when merging, optional
+     * @param discussionLocked Flag indicating if the merge request's discussion is locked, optional
+     * @param allowCollaboration Allow commits from members who can merge to the target branch,
+     *                           optional
      * @return the updated merge request
      * @throws GitLabApiException if any exception occurs
      */
+    public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestIid,
+            String targetBranch, String title, Integer assigneeId, String description,
+            StateEvent stateEvent, String labels, Integer milestoneId, Boolean removeSourceBranch,
+            Boolean squash, Boolean discussionLocked, Boolean allowCollaboration)
+            throws GitLabApiException {
+
+        Form formData = new GitLabApiForm()
+                .withParam("target_branch", targetBranch)
+                .withParam("title", title)
+                .withParam("assignee_id", assigneeId)
+                .withParam("description", description)
+                .withParam("state_event", stateEvent)
+                .withParam("labels", labels)
+                .withParam("milestone_id", milestoneId)
+                .withParam("remove_source_branch", removeSourceBranch)
+                .withParam("squash", squash)
+                .withParam("discussion_locked", discussionLocked)
+                .withParam("allow_collaboration", allowCollaboration);
+
+        return updateMergeRequest(projectId, mergeRequestIid, formData);
+    }
+
+    /**
+     * Updates an existing merge request. You can change branches, title, or even close the MR.
+     *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
+     * PUT /projects/:id/merge_requests/:merge_request_iid
+     *
+     * @param projectId the ID of a project
+     * @param mergeRequestIid the internal ID of the merge request to update
+     * @param targetBranch the target branch, optional
+     * @param title the title for the merge request
+     * @param assigneeId the Assignee user ID, optional
+     * @param description the description of the merge request, optional
+     * @param stateEvent new state for the merge request, optional
+     * @param labels comma separated list of labels, optional
+     * @param milestoneId the ID of a milestone, optional
+     * @return the updated merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    @Deprecated
     public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestIid, String targetBranch,
             String title, Integer assigneeId, String description, StateEvent stateEvent, String labels,
             Integer milestoneId) throws GitLabApiException {
-
-        if (projectId == null) {
-            throw new RuntimeException("projectId cannot be null");
-        }
-
-        if (mergeRequestIid == null) {
-            throw new RuntimeException("mergeRequestIid cannot be null");
-        }
 
         Form formData = new GitLabApiForm()
         .withParam("target_branch", targetBranch)
@@ -353,8 +393,7 @@ public class MergeRequestApi extends AbstractApi {
         .withParam("labels", labels)
         .withParam("milestone_id", milestoneId);
 
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestIid);
-        return (response.readEntity(MergeRequest.class));
+        return updateMergeRequest(projectId, mergeRequestIid, formData);
     }
 
     /**
@@ -379,6 +418,19 @@ public class MergeRequestApi extends AbstractApi {
     public MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestIid, String sourceBranch, String targetBranch, String title, String description,
             Integer assigneeId) throws GitLabApiException {
 
+        Form formData = new Form();
+        addFormParam(formData, "source_branch", sourceBranch, false);
+        addFormParam(formData, "target_branch", targetBranch, false);
+        addFormParam(formData, "title", title, false);
+        addFormParam(formData, "description", description, false);
+        addFormParam(formData, "assignee_id", assigneeId, false);
+
+        return updateMergeRequest(projectId, mergeRequestIid, formData);
+    }
+
+    protected MergeRequest updateMergeRequest(Integer projectId, Integer mergeRequestIid,
+            Form formData) throws GitLabApiException {
+
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
@@ -387,14 +439,8 @@ public class MergeRequestApi extends AbstractApi {
             throw new RuntimeException("mergeRequestId cannot be null");
         }
 
-        Form formData = new Form();
-        addFormParam(formData, "source_branch", sourceBranch, false);
-        addFormParam(formData, "target_branch", targetBranch, false);
-        addFormParam(formData, "title", title, false);
-        addFormParam(formData, "description", description, false);
-        addFormParam(formData, "assignee_id", assigneeId, false);
-
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestIid);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId,
+                "merge_requests", mergeRequestIid);
         return (response.readEntity(MergeRequest.class));
     }
 
