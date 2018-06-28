@@ -221,69 +221,6 @@ public class RepositoryFileApi extends AbstractApi {
         return (response.readEntity(InputStream.class));
     }
 
-    /**
-     * Render an arbitrary Markdown document.
-     *
-     * POST /api/v4/markdown
-     *
-     * @param text text to be transformed
-     * @return a Markdown instance with transformed info
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Markdown getMarkdown(String text) throws GitLabApiException {
-
-        if(!isApiVersion(ApiVersion.V4)){
-            throw new GitLabApiException("Api version must be v4");
-        }
-
-        Form formData = new GitLabApiForm().withParam("text", text, true);
-        Response response = post(Response.Status.OK, formData.asMap(), "markdown");
-        return (response.readEntity(Markdown.class));
-    }
-
-    /**
-     * Get all license templates.
-     *
-     * GET /licenses
-     *
-     * @return a list of LicenseTemplate instances
-     * @throws GitLabApiException if any exception occurs
-     */
-    public List<LicenseTemplate> getAllLicenseTemplates() throws GitLabApiException {
-        GitLabApiForm formData = null;
-        Response response = get(Response.Status.OK, formData.asMap(), "licenses");
-        return (response.readEntity(new GenericType<List<LicenseTemplate>>() {}));
-    }
-
-    /**
-     * Get popular license templates.
-     *
-     * GET /licenses
-     *
-     * @return a list of LicenseTemplate instances
-     * @throws GitLabApiException if any exception occurs
-     */
-    public List<LicenseTemplate> getPopularLicenseTemplates() throws GitLabApiException {
-        Form formData = new GitLabApiForm().withParam("popular", true, true);
-        Response response = get(Response.Status.OK, formData.asMap(), "licenses");
-        return (response.readEntity(new GenericType<List<LicenseTemplate>>() {}));
-    }
-
-    /**
-     * Get a single license template.
-     *
-     * GET /licenses
-     *
-     * @param key The key of the license template
-     * @return a LicenseTemplate instance
-     * @throws GitLabApiException if any exception occurs
-     */
-    public LicenseTemplate getSingleLicenseTemplate(String key) throws GitLabApiException {
-        GitLabApiForm formData = null;
-        Response response = get(Response.Status.OK, formData.asMap(), "licenses", key);
-        return (response.readEntity(LicenseTemplate.class));
-    }
-
     private Form createForm(RepositoryFile file, String branchName, String commitMessage) {
 
         Form form = new Form();

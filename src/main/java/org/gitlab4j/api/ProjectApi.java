@@ -23,12 +23,12 @@
 
 package org.gitlab4j.api;
 
-import com.alibaba.fastjson.JSONObject;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.ws.rs.core.Form;
@@ -2184,16 +2184,17 @@ public class ProjectApi extends AbstractApi implements Constants {
      * Get /projects/:id/languages
      *
      * @param projectId the ID of the project
-     * @return a JSONObject instance with the language info
+     * @return a Map instance with the language as the key and the percentage as the value
      * @throws GitLabApiException if any exception occurs
+     * @since GitLab 10.8
      */
-    public JSONObject getProjectLanguage(Integer projectId) throws GitLabApiException {
+    public Map<String, Float> getProjectLanguages(Integer projectId) throws GitLabApiException {
 
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
 
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),"projects", projectId, "languages");
-        return (response.readEntity(JSONObject.class));
+        Response response = get(Response.Status.OK, null, "projects", projectId, "languages");
+        return (response.readEntity(new GenericType<Map<String, Float>>() {}));
     }
 }

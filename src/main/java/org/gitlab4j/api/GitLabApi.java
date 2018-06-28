@@ -53,6 +53,8 @@ public class GitLabApi {
     private GroupApi groupApi;
     private HealthCheckApi healthCheckApi;
     private IssuesApi issuesApi;
+    private LicensesApi licensesApi;
+    private MarkdownApi markdownApi;
     private MergeRequestApi mergeRequestApi;
     private MilestonesApi milestonesApi;
     private NamespaceApi namespaceApi;
@@ -949,6 +951,44 @@ public class GitLabApi {
         }
 
         return (labelsApi);
+    }
+
+    /**
+     * Gets the LicensesApi instance owned by this GitLabApi instance. The LicensesApi is used
+     * to perform all license related API calls.
+     *
+     * @return the LicensesApi instance owned by this GitLabApi instance
+     */
+    public LicensesApi getLicensesApi() {
+
+        if (licensesApi == null) {
+            synchronized (this) {
+                if (licensesApi == null) {
+                    licensesApi = new LicensesApi(this);
+                }
+            }
+        }
+
+        return (licensesApi);
+    }
+
+    /**
+     * Gets the MarkdownApi instance owned by this GitLabApi instance. The MarkdownApi is used
+     * to perform all markdown related API calls.
+     *
+     * @return the MarkdownApi instance owned by this GitLabApi instance
+     */
+    public MarkdownApi getMarkdownApi() {
+
+        if (markdownApi == null) {
+            synchronized (this) {
+                if (markdownApi == null) {
+                    markdownApi = new MarkdownApi(this);
+                }
+            }
+        }
+
+        return (markdownApi);
     }
 
     /**
