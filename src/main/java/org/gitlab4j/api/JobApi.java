@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
@@ -206,6 +207,25 @@ public class JobApi extends AbstractApi implements Constants {
         Form formData = new GitLabApiForm().withParam("job", jobName, true);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
                 "projects", projectId, "jobs", "artifacts", ref, "download");
+        return (response.readEntity(InputStream.class));
+    }
+
+    /**
+     * Download a single artifact file from within the job's artifacts archive.
+     *
+     * Only a single file is going to be extracted from the archive and streamed to a client.
+     *
+     * GET /projects/:id/jobs/:job_id/artifacts/*artifact_path
+     *
+     * @param projectId    The ID of the project owned by the authenticated user
+     * @param jobId        The unique job identifier
+     * @param artifactPath Path to a file inside the artifacts archive
+     * @return an InputStream to read the specified artifacts file from
+     * @throws GitLabApiException if any exception occurs
+     */
+
+    public InputStream downloadSingleArtifactsFile(Integer projectId, Integer jobId, Path artifactPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "jobs", jobId, "artifacts", artifactPath);
         return (response.readEntity(InputStream.class));
     }
 
