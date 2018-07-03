@@ -1,5 +1,13 @@
 package org.gitlab4j.api;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.utils.FileUtils;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,19 +16,6 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.Branch;
-import org.gitlab4j.api.models.CompareResults;
-import org.gitlab4j.api.models.Contributor;
-import org.gitlab4j.api.models.Tag;
-import org.gitlab4j.api.models.TreeItem;
-import org.gitlab4j.api.utils.FileUtils;
 
 /**
  * This class provides an entry point to all the GitLab API repository calls.
@@ -223,6 +218,42 @@ public class RepositoryApi extends AbstractApi {
                 .withParam("release_description", releaseNotes, false);
         Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "tags");
         return (response.readEntity(Tag.class));
+    }
+
+    /**
+     * Add release notes to the existing git tag.
+     *
+     * POST /projects/:id/repository/tags/:tagName/release
+     *
+     * @param projectId the ID of the project
+     * @param tagName the name of a tag
+     * @param releaseNotes release notes with markdown support
+     * @return a Tag instance containing info on the newly created tag
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Release createRelease(Integer projectId, String tagName, String releaseNotes) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("description", releaseNotes, false);
+        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "tags", tagName, "release");
+        return (response.readEntity(Release.class));
+    }
+
+    /**
+     * Updates the release notes of a given release.
+     *
+     * PUT /projects/:id/repository/tags/:tagName/release
+     *
+     * @param projectId the ID of the project
+     * @param tagName the name of a tag
+     * @param releaseNotes release notes with markdown support
+     * @return a Tag instance containing info on the newly created tag
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Release updateRelease(Integer projectId, String tagName, String releaseNotes) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("description", releaseNotes, false);
+        Response response = put(Response.Status.CREATED, formData.asMap(), "projects", projectId, "repository", "tags", tagName, "release");
+        return (response.readEntity(Release.class));
     }
 
     /**
