@@ -1,25 +1,19 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
-
-import java.util.Date;
-import java.util.List;
-
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.Comment;
-import org.gitlab4j.api.models.Commit;
-import org.gitlab4j.api.models.Diff;
-import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import javax.ws.rs.core.Response;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.junit.Assume.assumeTrue;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -154,6 +148,19 @@ public class TestCommitsApi {
         pager = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), null, 10);
         assertNotNull(pager);
         assertTrue(pager.getTotalItems() > 0);
+    }
+
+    @Test
+    public void testCommitRefs() throws GitLabApiException {
+        assertNotNull(testProject);
+
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId());
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+
+        List<CommitRef> commitRefs = gitLabApi.getCommitsApi().getCommitRefs(testProject.getId(), commits.get(0).getId());
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
     }
 
     @Test

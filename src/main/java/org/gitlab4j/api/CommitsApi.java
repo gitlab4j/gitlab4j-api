@@ -1,21 +1,18 @@
 package org.gitlab4j.api;
 
+import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.utils.ISO8601;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.models.Comment;
-import org.gitlab4j.api.models.Commit;
-import org.gitlab4j.api.models.CommitAction;
-import org.gitlab4j.api.models.CommitPayload;
-import org.gitlab4j.api.models.Diff;
-import org.gitlab4j.api.utils.ISO8601;
+import static org.gitlab4j.api.models.CommitRef.RefType.all;
 
 /**
  * This class implements the client side API for the GitLab commits calls.
@@ -252,6 +249,41 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
+     * Get a specific commit identified by the commit hash or name of a branch or tag as an Optional instance
+     *
+     * GET /projects/:id/repository/commits/:sha/refs
+     *
+     * @param projectId the project ID that the commit belongs to
+     * @param sha a commit hash or name of a branch or tag
+     * @return Get all references (from branches or tags) a commit is pushed to
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @since Gitlab 10.6
+     */
+    public List<CommitRef> getCommitRefs(int projectId, String sha) throws GitLabApiException {
+        return getCommitRefs(projectId, sha, all);
+    }
+
+    /**
+     * Get a specific commit identified by the commit hash or name of a branch or tag as an Optional instance
+     *
+     * GET /projects/:id/repository/commits/:sha/refs?type=:refType
+     *
+     * @param projectId the project ID that the commit belongs to
+     * @param sha a commit hash or name of a branch or tag
+     * @param refType the scope of commits. Possible values branch, tag, all. Default is all.
+     * @return Get all references (from branches or tags) a commit is pushed to
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @since Gitlab 10.6
+     */
+    public List<CommitRef> getCommitRefs(int projectId, String sha, CommitRef.RefType refType) throws GitLabApiException {
+        Form form = new GitLabApiForm()
+                .withParam("type", refType)
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        Response response = get(Response.Status.OK, form.asMap(), "projects", projectId, "repository", "commits", sha, "refs");
+        return (response.readEntity(new GenericType<List<CommitRef>>(){}));
+    }
+
+    /**
      * Get the list of diffs of a commit in a project.
      *
      * GET /projects/:id/repository/commits/:sha/diff
@@ -302,7 +334,7 @@ public class CommitsApi extends AbstractApi {
         Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha, "comments");
         return (response.readEntity(new GenericType<List<Comment>>() {}));
     }
-    
+
     /**
      * Get a Pager of the comments of a commit in a project.
      *
