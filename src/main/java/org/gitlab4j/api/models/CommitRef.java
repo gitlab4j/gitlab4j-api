@@ -1,5 +1,9 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,7 +19,24 @@ public class CommitRef {
     private String name;
 
    public enum RefType {
-        branch, tag, all
+        BRANCH, TAG, ALL;
+
+       private static JacksonJsonEnumHelper<RefType> enumHelper = new JacksonJsonEnumHelper<>(RefType.class);
+
+       @JsonCreator
+       public static RefType forValue(String value) {
+           return enumHelper.forValue(value);
+       }
+
+       @JsonValue
+       public String toValue() {
+           return (enumHelper.toString(this));
+       }
+
+       @Override
+       public String toString() {
+           return (enumHelper.toString(this));
+       }
     }
 
     public RefType getType() {

@@ -1,7 +1,12 @@
 package org.gitlab4j.api;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.CompareResults;
+import org.gitlab4j.api.models.Contributor;
+import org.gitlab4j.api.models.Release;
+import org.gitlab4j.api.models.Tag;
+import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.utils.FileUtils;
 
 import javax.ws.rs.core.Form;

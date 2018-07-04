@@ -1,7 +1,11 @@
 package org.gitlab4j.api;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.models.Comment;
+import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.CommitRef;
+import org.gitlab4j.api.models.Diff;
+import org.gitlab4j.api.models.Project;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -12,7 +16,9 @@ import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
 /**

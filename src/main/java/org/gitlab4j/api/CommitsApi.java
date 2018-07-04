@@ -1,6 +1,11 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.models.Comment;
+import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.CommitAction;
+import org.gitlab4j.api.models.CommitPayload;
+import org.gitlab4j.api.models.CommitRef;
+import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.utils.ISO8601;
 
 import javax.ws.rs.core.Form;
