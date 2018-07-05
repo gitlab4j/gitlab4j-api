@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
 
 /**
@@ -56,8 +57,44 @@ public abstract class AbstractApi implements Constants {
 
         } else {
 
-            throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() + 
-                    " instance, must be Integer, String, or Project instance"));
+            throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
+                    " instance, must be Integer, String, or a Project instance"));
+        }
+    }
+
+    /**
+     * Returns the group ID or path from the provided Integer, String, or Group instance.
+     *
+     * @param obj the object to determine the ID or path from
+     * @return the group ID or path from the provided Integer, String, or Group instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Object getGroupIdOrPath(Object obj) throws GitLabApiException {
+
+        if (obj == null) {
+            throw (new RuntimeException("Cannot determine ID or path from null object"));
+        } else if (obj instanceof Integer) {
+            return (obj);
+        } else if (obj instanceof String) {
+            return (urlEncode(((String) obj).trim()));
+        } else if (obj instanceof Group) {
+
+            Integer id = ((Group) obj).getId();
+            if (id != null && id.intValue() > 0) {
+                return (id);
+            }
+
+            String path = ((Group) obj).getFullPath();
+            if (path != null && path.trim().length() > 0) {
+                return (urlEncode(path.trim()));
+            }
+
+            throw (new RuntimeException("Cannot determine ID or path from provided Group instance"));
+
+        } else {
+
+            throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
+                    " instance, must be Integer, String, or a Group instance"));
         }
     }
 
