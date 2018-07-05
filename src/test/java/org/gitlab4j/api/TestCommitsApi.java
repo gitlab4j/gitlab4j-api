@@ -165,8 +165,8 @@ public class TestCommitsApi {
         assertTrue(commits.size() > 0);
 
         List<CommitRef> commitRefs = gitLabApi.getCommitsApi().getCommitRefs(testProject.getId(), commits.get(0).getId());
-        assertNotNull(commits);
-        assertTrue(commits.size() > 0);
+        assertNotNull(commitRefs);
+        assertTrue(commitRefs.size() > 0);
     }
 
     @Test
