@@ -220,10 +220,43 @@ public class JobApi extends AbstractApi implements Constants {
      * @param projectId    The ID of the project owned by the authenticated user
      * @param jobId        The unique job identifier
      * @param artifactPath Path to a file inside the artifacts archive
+     * @param directory the File instance of the directory to save the file to, if null will use "java.io.tmpdir"
+     * @return a File instance pointing to the download of the specified artifacts file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public File downloadSingleArtifactsFile(Integer projectId, Integer jobId, Path artifactPath, File directory) throws GitLabApiException {
+
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "jobs", jobId, "artifacts", artifactPath);
+        try {
+
+            if (directory == null)
+                directory = new File(System.getProperty("java.io.tmpdir"));
+
+            String filename = artifactPath.getFileName().toString();
+            File file = new File(directory, filename);
+
+            InputStream in = response.readEntity(InputStream.class);
+            Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return (file);
+
+        } catch (IOException ioe) {
+            throw new GitLabApiException(ioe);
+        }
+    }
+
+    /**
+     * Download a single artifact file from within the job's artifacts archive.
+     *
+     * Only a single file is going to be extracted from the archive and streamed to a client.
+     *
+     * GET /projects/:id/jobs/:job_id/artifacts/*artifact_path
+     *
+     * @param projectId    The ID of the project owned by the authenticated user
+     * @param jobId        The unique job identifier
+     * @param artifactPath Path to a file inside the artifacts archive
      * @return an InputStream to read the specified artifacts file from
      * @throws GitLabApiException if any exception occurs
      */
-
     public InputStream downloadSingleArtifactsFile(Integer projectId, Integer jobId, Path artifactPath) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "jobs", jobId, "artifacts", artifactPath);
         return (response.readEntity(InputStream.class));
