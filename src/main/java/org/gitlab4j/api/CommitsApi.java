@@ -5,6 +5,7 @@ import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitAction;
 import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CommitRef;
+import org.gitlab4j.api.models.CommitRef.RefType;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.utils.ISO8601;
 
@@ -16,8 +17,6 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import static org.gitlab4j.api.models.CommitRef.RefType.all;
 
 /**
  * This class implements the client side API for the GitLab commits calls.
@@ -265,7 +264,7 @@ public class CommitsApi extends AbstractApi {
      * @since Gitlab 10.6
      */
     public List<CommitRef> getCommitRefs(int projectId, String sha) throws GitLabApiException {
-        return getCommitRefs(projectId, sha, all);
+        return getCommitRefs(projectId, sha, RefType.ALL);
     }
 
     /**
