@@ -15,6 +15,7 @@ import org.gitlab4j.api.Constants.IssueState;
 public class Issue {
 
     private Assignee assignee;
+    private List<Assignee> assignees;
     private Author author;
     private Boolean confidential;
     private Date createdAt;
@@ -33,6 +34,8 @@ public class Issue {
     private String title;
     private Integer userNotesCount;
     private String webUrl;
+    private Integer weight;
+    private Boolean disscussionLocked;
     private TimeStats timeStats;
 
     public Assignee getAssignee() {
@@ -41,6 +44,14 @@ public class Issue {
 
     public void setAssignee(Assignee assignee) {
         this.assignee = assignee;
+    }
+
+    public List<Assignee> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(List<Assignee> assignees) {
+        this.assignees = assignees;
     }
 
     public Author getAuthor() {
@@ -185,6 +196,22 @@ public class Issue {
 
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Boolean getDisscussionLocked() {
+        return disscussionLocked;
+    }
+
+    public void setDisscussionLocked(Boolean disscussionLocked) {
+        this.disscussionLocked = disscussionLocked;
     }
 
     public TimeStats getTimeStats() {
