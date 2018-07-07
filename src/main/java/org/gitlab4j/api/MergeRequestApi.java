@@ -1,18 +1,17 @@
 package org.gitlab4j.api;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestFilter;
 import org.gitlab4j.api.models.Participant;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * This class implements the client side API for the GitLab merge request calls.
@@ -269,11 +268,13 @@ public class MergeRequestApi extends AbstractApi {
      * @param labels labels for MR, optional
      * @param milestoneId the ID of a milestone, optional
      * @param removeSourceBranch Flag indicating if a merge request should remove the source branch when merging, optional
+     * @param squash Squash commits into a single commit when merging, optional
      * @return the created MergeRequest instance
      * @throws GitLabApiException if any exception occurs
+     * @since GitLab Starter 8.17, GitLab CE 11.0.
      */
     public MergeRequest createMergeRequest(Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId,
-                                           Integer targetProjectId, String[] labels, Integer milestoneId, Boolean removeSourceBranch)
+                                           Integer targetProjectId, String[] labels, Integer milestoneId, Boolean removeSourceBranch, Boolean squash)
             throws GitLabApiException {
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
@@ -289,9 +290,35 @@ public class MergeRequestApi extends AbstractApi {
         addFormParam(formData, "labels", labels == null ? null : String.join(",", labels), false);
         addFormParam(formData, "milestone_id", milestoneId, false);
         addFormParam(formData, "remove_source_branch", removeSourceBranch, false);
+        addFormParam(formData, "squash", squash, false);
 
         Response response = post(Response.Status.CREATED, formData, "projects", projectId, "merge_requests");
         return (response.readEntity(MergeRequest.class));
+    }
+
+
+    /**
+     * Creates a merge request and optionally assigns a reviewer to it.
+     *
+     * POST /projects/:id/merge_requests
+     *
+     * @param projectId the ID of a project, required
+     * @param sourceBranch the source branch, required
+     * @param targetBranch the target branch, required
+     * @param title the title for the merge request, required
+     * @param description the description of the merge request
+     * @param assigneeId the Assignee user ID, optional
+     * @param targetProjectId the ID of a target project, optional
+     * @param labels labels for MR, optional
+     * @param milestoneId the ID of a milestone, optional
+     * @param removeSourceBranch Flag indicating if a merge request should remove the source branch when merging, optional
+     * @return the created MergeRequest instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest createMergeRequest(Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId,
+                                           Integer targetProjectId, String[] labels, Integer milestoneId, Boolean removeSourceBranch)
+            throws GitLabApiException {
+       return createMergeRequest(projectId, sourceBranch, targetBranch, title, description, assigneeId, targetProjectId, labels, milestoneId, removeSourceBranch, null);
     }
 
     /**
@@ -511,7 +538,7 @@ public class MergeRequestApi extends AbstractApi {
      * @return the merged merge request
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestIid, 
+    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestIid,
             String mergeCommitMessage, Boolean shouldRemoveSourceBranch, Boolean mergeWhenPipelineSucceeds)
             throws GitLabApiException {
         return (acceptMergeRequest(projectId, mergeRequestIid, mergeCommitMessage,
@@ -540,7 +567,7 @@ public class MergeRequestApi extends AbstractApi {
      * @return the merged merge request
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestIid, 
+    public MergeRequest acceptMergeRequest(Integer projectId, Integer mergeRequestIid,
             String mergeCommitMessage, Boolean shouldRemoveSourceBranch, Boolean mergeWhenPipelineSucceeds, String sha)
             throws GitLabApiException {
 
