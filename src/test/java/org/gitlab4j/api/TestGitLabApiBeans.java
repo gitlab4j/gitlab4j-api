@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.api.models.ArtifactsFile;
+import org.gitlab4j.api.models.AwardEmoji;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
@@ -100,6 +101,17 @@ public class TestGitLabApiBeans {
     public static void setup() {
         jacksonJson = new JacksonJson();
         jacksonJson.getObjectMapper().configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+    }
+
+    @Test
+    public void testAwardEmoji() {
+
+        try {
+            AwardEmoji awardEmoji = makeFakeApiCall(AwardEmoji.class, "award-emoji");
+            assertTrue(compareJson(awardEmoji, "award-emoji"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
