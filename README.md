@@ -135,6 +135,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 
 ### Available Sub APIs
 ------------------
+&nbsp;&nbsp;[AwardEmojiApi](#awardemojiapi)<br/>
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
 &nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
 &nbsp;&nbsp;[EpicsApi](#epicsapi)<br/>
@@ -164,6 +165,12 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 
 ### Sub API Examples
 ----------------
+
+#### AwardEmojiApi
+```java
+// Get a list of AwardEmoji belonging to the specified issue (group ID = 1, issues IID = 1)
+List<AwardEmoji> awardEmojis = gitLabApi.getAwardEmojiApi().getIssuAwardEmojis(1, 1);
+```
 
 #### CommitsApi
 ```java

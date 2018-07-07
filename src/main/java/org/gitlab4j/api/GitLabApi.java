@@ -48,6 +48,7 @@ public class GitLabApi {
     private int defaultPerPage = DEFAULT_PER_PAGE;
     private Session session;
 
+    private AwardEmojiApi awardEmojiApi;
     private CommitsApi commitsApi;
     private DeployKeysApi deployKeysApi;
     private EpicsApi epicsApi;
@@ -807,6 +808,25 @@ public class GitLabApi {
 
         Response response = new VersionApi(this).get(Response.Status.OK, null, "version");
         return (response.readEntity(Version.class));
+    }
+
+    /**
+     * Gets the AwardEmojiApi instance owned by this GitLabApi instance. The AwardEmojiApi is used
+     * to perform all award emoji related API calls.
+     *
+     * @return the AwardEmojiApi instance owned by this GitLabApi instance
+     */
+    public AwardEmojiApi getAwardEmojiApi() {
+
+        if (awardEmojiApi == null) {
+            synchronized (this) {
+                if (awardEmojiApi == null) {
+                    awardEmojiApi = new AwardEmojiApi(this);
+                }
+            }
+        }
+
+        return (awardEmojiApi);
     }
 
     /**
