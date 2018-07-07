@@ -258,7 +258,7 @@ public class EpicsApi extends AbstractApi {
                 .withParam("description", description)
                 .withParam("start_date", startDate)
                 .withParam("end_date", endDate);
-        Response response = put(Response.Status.CREATED, formData.asMap(),
+        Response response = put(Response.Status.OK, formData.asMap(),
                 "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid);
         return (response.readEntity(Epic.class));
     }
@@ -288,7 +288,7 @@ public class EpicsApi extends AbstractApi {
                 .withParam("description", epic.getDescription())
                 .withParam("start_date", epic.getStartDate())
                 .withParam("end_date", epic.getEndDate());
-        Response response = put(Response.Status.CREATED, formData.asMap(),
+        Response response = put(Response.Status.OK, formData.asMap(),
                 "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid);
         return (response.readEntity(Epic.class));
     }
@@ -384,7 +384,7 @@ public class EpicsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public EpicIssue removeIssue(Object groupIdOrPath, Integer epicIid, Integer issueIid) throws GitLabApiException {
-        Response response = delete(Response.Status.CREATED, null,
+        Response response = delete(Response.Status.OK, null,
                 "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues", issueIid);
         return (response.readEntity(EpicIssue.class));
     }
@@ -406,7 +406,7 @@ public class EpicsApi extends AbstractApi {
         GitLabApiForm form = new GitLabApiForm()
             .withParam("move_before_id", moveBeforeId)
             .withParam("move_after_id", moveAfterId);
-        Response response = post(Response.Status.CREATED, form,
+        Response response = post(Response.Status.OK, form,
                 "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues", issueIid);
         return (response.readEntity(EpicIssue.class));
     }
