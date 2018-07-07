@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.29'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.30'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.8.29</version>
+    <version>4.8.30</version>
 </dependency>
 ```
 
@@ -137,6 +137,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 ------------------
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
 &nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
+&nbsp;&nbsp;[EpicsApi](#epicsapi)<br/>
 &nbsp;&nbsp;[EventsApi](#eventsapi)<br/>
 &nbsp;&nbsp;[GroupApi](#groupapi)<br/>
 &nbsp;&nbsp;[HealthCheckApi](#healthcheckapi)<br/>
@@ -179,10 +180,16 @@ List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature",
 List<DeployKey> deployKeys = gitLabApi.getDeployKeysApi().getDeployKeys();
 ```
 
+#### EpicsApi
+```java
+// Get a list epics of the requested group and its subgroups.
+List<Epic> epics = gitLabApi.getEpicsApi().getEpics(1);
+```
+
 #### EventsApi
 ```java
 // Get a list of Events for the authenticated user
-Date after = new Date(0); // After Eposc
+Date after = new Date(0); // After Epoch
 Date before = new Date(); // Before now
 List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, before, after, DESC);
 ```
