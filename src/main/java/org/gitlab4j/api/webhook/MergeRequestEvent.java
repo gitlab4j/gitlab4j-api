@@ -13,8 +13,8 @@ public class MergeRequestEvent implements Event {
 
     private User user;
     private EventProject project;
-    private ObjectAttributes objectAttributes;
     private EventRepository repository;
+    private ObjectAttributes objectAttributes;
 
     public String getObjectKind() {
         return (OBJECT_KIND);
@@ -41,20 +41,20 @@ public class MergeRequestEvent implements Event {
         this.project = project;
     }
 
-    public ObjectAttributes getObjectAttributes() {
-        return this.objectAttributes;
-    }
-
-    public void setObjectAttributes(ObjectAttributes objectAttributes) {
-        this.objectAttributes = objectAttributes;
-    }
-
     public EventRepository getRepository() {
         return repository;
     }
 
     public void setRepository(EventRepository repository) {
         this.repository = repository;
+    }
+
+    public ObjectAttributes getObjectAttributes() {
+        return this.objectAttributes;
+    }
+
+    public void setObjectAttributes(ObjectAttributes objectAttributes) {
+        this.objectAttributes = objectAttributes;
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)

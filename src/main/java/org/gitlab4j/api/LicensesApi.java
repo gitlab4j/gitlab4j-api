@@ -1,9 +1,11 @@
 package org.gitlab4j.api;
 
 import java.util.List;
+
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+
 import org.gitlab4j.api.models.LicenseTemplate;
 
 /**
@@ -24,8 +26,7 @@ public class LicensesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<LicenseTemplate> getAllLicenseTemplates() throws GitLabApiException {
-        GitLabApiForm formData = null;
-        Response response = get(Response.Status.OK, formData.asMap(), "licenses");
+        Response response = get(Response.Status.OK, null, "licenses");
         return (response.readEntity(new GenericType<List<LicenseTemplate>>() {}));
     }
 
@@ -53,8 +54,7 @@ public class LicensesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public LicenseTemplate getSingleLicenseTemplate(String key) throws GitLabApiException {
-        GitLabApiForm formData = null;
-        Response response = get(Response.Status.OK, formData.asMap(), "licenses", key);
+        Response response = get(Response.Status.OK, null, "licenses", key);
         return (response.readEntity(LicenseTemplate.class));
     }
 }

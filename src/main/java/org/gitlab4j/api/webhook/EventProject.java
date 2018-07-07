@@ -8,6 +8,7 @@ import org.gitlab4j.api.models.AccessLevel;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventProject {
 
+    private Integer id;
     private String name;
     private String description;
     private String webUrl;
@@ -22,6 +23,14 @@ public class EventProject {
     private String url;
     private String sshUrl;
     private String httpUrl;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

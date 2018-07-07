@@ -50,14 +50,18 @@ public class GitLabApi {
 
     private CommitsApi commitsApi;
     private DeployKeysApi deployKeysApi;
+    private EventsApi eventsApi;
     private GroupApi groupApi;
     private HealthCheckApi healthCheckApi;
     private IssuesApi issuesApi;
+    private JobApi jobApi;
+    private LabelsApi labelsApi;
     private LicensesApi licensesApi;
     private MarkdownApi markdownApi;
     private MergeRequestApi mergeRequestApi;
     private MilestonesApi milestonesApi;
     private NamespaceApi namespaceApi;
+    private NotesApi notesApi;
     private NotificationSettingsApi notificationSettingsApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
@@ -67,13 +71,10 @@ public class GitLabApi {
     private RunnersApi runnersApi;
     private ServicesApi servicesApi;
     private SessionApi sessionApi;
-    private SystemHooksApi systemHooksApi;
-    private UserApi userApi;
-    private JobApi jobApi;
-    private LabelsApi labelsApi;
-    private NotesApi notesApi;
-    private EventsApi eventsApi;
     private SnippetsApi snippetsApi;
+    private SystemHooksApi systemHooksApi;
+    private TagsApi tagsApi;
+    private UserApi userApi;
     private WikisApi wikisApi;
 
     /**
@@ -1254,6 +1255,25 @@ public class GitLabApi {
         }
 
         return (systemHooksApi);
+    }
+
+    /**
+     * Gets the TagsApi instance owned by this GitLabApi instance. The TagsApi is used
+     * to perform all tag and release related API calls.
+     *
+     * @return the TagsApi instance owned by this GitLabApi instance
+     */
+    public TagsApi getTagsApi() {
+
+        if (tagsApi == null) {
+            synchronized (this) {
+                if (tagsApi == null) {
+                    tagsApi = new TagsApi(this);
+                }
+            }
+        }
+
+        return (tagsApi);
     }
 
     /**

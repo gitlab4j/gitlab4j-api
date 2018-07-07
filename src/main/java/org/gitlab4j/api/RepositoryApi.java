@@ -165,6 +165,7 @@ public class RepositoryApi extends AbstractApi {
      * @param projectId the ID of the project to get the tags for
      * @return the list of tags for the specified project ID
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Replaced by TagsApi.getTags(Object)
      */
     public List<Tag> getTags(Integer projectId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "repository", "tags");
@@ -181,6 +182,7 @@ public class RepositoryApi extends AbstractApi {
      * @param perPage the number of Tag instances per page
      * @return the list of tags for the specified project ID
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Replaced by TagsApi.getTags(Object, int, int)
      */
     public List<Tag> getTags(Integer projectId, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "repository", "tags");
@@ -196,6 +198,7 @@ public class RepositoryApi extends AbstractApi {
      * @param itemsPerPage the number of Project instances that will be fetched per page
      * @return the list of tags for the specified project ID
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Replaced by TagsApi.getTags(Object, int)
      */
     public Pager<Tag> getTags(Integer projectId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Tag>(this, Tag.class, itemsPerPage, null, "projects", projectId, "repository", "tags"));
@@ -213,6 +216,7 @@ public class RepositoryApi extends AbstractApi {
      * @param releaseNotes the release notes for the tag (optional)
      * @return a Tag instance containing info on the newly created tag
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Replaced by TagsApi.createTag(Object, String, String, String, String)
      */
     public Tag createTag(Integer projectId, String tagName, String ref, String message, String releaseNotes) throws GitLabApiException {
 
@@ -275,6 +279,7 @@ public class RepositoryApi extends AbstractApi {
      * @param releaseNotesFile a whose contents are the release notes (optional)
      * @return a Tag instance containing info on the newly created tag
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Replaced by TagsApi.CreateTag(Object, String, String, String, File)
      */
     public Tag createTag(Integer projectId, String tagName, String ref, String message, File releaseNotesFile) throws GitLabApiException {
 
@@ -300,6 +305,7 @@ public class RepositoryApi extends AbstractApi {
      * @param projectId the ID of the project
      * @param tagName The name of the tag to delete
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Replaced by TagsApi.deleteTag(Object, String)
      */
     public void deleteTag(Integer projectId, String tagName) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
