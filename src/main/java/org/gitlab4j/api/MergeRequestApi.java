@@ -271,6 +271,7 @@ public class MergeRequestApi extends AbstractApi {
      * @param squash Squash commits into a single commit when merging, optional
      * @return the created MergeRequest instance
      * @throws GitLabApiException if any exception occurs
+     * @since GitLab Starter 8.17, GitLab CE 11.0.
      */
     public MergeRequest createMergeRequest(Integer projectId, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId,
                                            Integer targetProjectId, String[] labels, Integer milestoneId, Boolean removeSourceBranch, Boolean squash)
