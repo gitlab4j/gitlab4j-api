@@ -38,6 +38,8 @@ import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.Diff;
+import org.gitlab4j.api.models.Epic;
+import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Group;
@@ -164,6 +166,28 @@ public class TestGitLabApiBeans {
         try {
             Comment comment = makeFakeApiCall(Comment.class, "comment");
             assertTrue(compareJson(comment, "comment"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testEpic() {
+
+        try {
+            Epic epic = makeFakeApiCall(Epic.class, "epic");
+            assertTrue(compareJson(epic, "epic"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testEpicIssue() {
+
+        try {
+            EpicIssue epicIssue = makeFakeApiCall(EpicIssue.class, "epic-issue");
+            assertTrue(compareJson(epicIssue, "epic-issue"));
         } catch (Exception e) {
             e.printStackTrace();
         }

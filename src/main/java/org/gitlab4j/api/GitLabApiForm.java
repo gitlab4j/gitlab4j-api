@@ -22,6 +22,18 @@ public class GitLabApiForm extends Form {
     }
 
     /**
+     * Create a GitLabApiForm instance with the "page", and "per_page" parameters preset.
+     *
+     * @param page the value for the "page" parameter
+     * @param perPage the value for the "per_page" parameter
+     */
+    public GitLabApiForm(int page, int perPage) {
+        super();
+        withParam(AbstractApi.PAGE_PARAM,  page);
+        withParam(AbstractApi.PER_PAGE_PARAM, (Integer)perPage);
+    }
+
+    /**
      * Fluent method for adding query and form parameters to a get() or post() call.
      * 
      * @param name the name of the field/attribute to add

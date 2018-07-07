@@ -35,7 +35,7 @@ public class Issue {
     private Integer userNotesCount;
     private String webUrl;
     private Integer weight;
-    private Boolean disscussionLocked;
+    private Boolean discussionLocked;
     private TimeStats timeStats;
 
     public Assignee getAssignee() {
@@ -206,12 +206,12 @@ public class Issue {
         this.weight = weight;
     }
 
-    public Boolean getDisscussionLocked() {
-        return disscussionLocked;
+    public Boolean getDiscussionLocked() {
+        return discussionLocked;
     }
 
-    public void setDisscussionLocked(Boolean disscussionLocked) {
-        this.disscussionLocked = disscussionLocked;
+    public void setDiscussionLocked(Boolean discussionLocked) {
+        this.discussionLocked = discussionLocked;
     }
 
     public TimeStats getTimeStats() {
