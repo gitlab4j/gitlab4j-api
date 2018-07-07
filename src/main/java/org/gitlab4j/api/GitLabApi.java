@@ -50,6 +50,7 @@ public class GitLabApi {
 
     private CommitsApi commitsApi;
     private DeployKeysApi deployKeysApi;
+    private EpicsApi epicsApi;
     private EventsApi eventsApi;
     private GroupApi groupApi;
     private HealthCheckApi healthCheckApi;
@@ -844,6 +845,25 @@ public class GitLabApi {
         }
 
         return (deployKeysApi);
+    }
+
+    /**
+     * Gets the EpicsApi instance owned by this GitLabApi instance. The EpicsApi is used
+     * to perform all Epics and Epic Issues related API calls.
+     *
+     * @return the EpicsApi instance owned by this GitLabApi instance
+     */
+    public EpicsApi getEpicsApi() {
+
+        if (epicsApi == null) {
+            synchronized (this) {
+                if (epicsApi == null) {
+                    epicsApi = new EpicsApi(this);
+                }
+            }
+        }
+
+        return (epicsApi);
     }
 
     /**
