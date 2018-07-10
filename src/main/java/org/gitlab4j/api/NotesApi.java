@@ -371,7 +371,7 @@ public class NotesApi extends AbstractApi {
         }
 
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
-        Response response = put(Response.Status.CREATED, formData.asMap(),
+        Response response = put(Response.Status.OK, formData.asMap(),
                 "projects", projectId, "merge_requests", mergeRequestIid, "notes", noteId);
         return (response.readEntity(Note.class));
     }

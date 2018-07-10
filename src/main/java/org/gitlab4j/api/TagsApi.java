@@ -205,7 +205,7 @@ public class TagsApi extends AbstractApi {
      */
     public Release updateRelease(Object projectIdOrPath, String tagName, String releaseNotes) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("description", releaseNotes);
-        Response response = put(Response.Status.CREATED, formData.asMap(),
+        Response response = put(Response.Status.OK, formData.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", tagName, "release");
         return (response.readEntity(Release.class));
     }
