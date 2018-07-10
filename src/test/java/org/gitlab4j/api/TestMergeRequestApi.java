@@ -27,6 +27,7 @@ public class TestMergeRequestApi {
 
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
 
+    @SuppressWarnings("deprecation")
     @Before
     public void setUp() throws Exception {
         initMocks(this);
