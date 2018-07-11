@@ -760,11 +760,31 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void addLdapGroupLink(Object groupIdOrPath, String cn, AccessLevel groupAccess, String provider) throws GitLabApiException {
+
+        if (groupAccess == null) {
+            throw new RuntimeException("groupAccess cannot be null or empty");
+        }
+
+        addLdapGroupLink(groupIdOrPath, cn, groupAccess.toValue(), provider);
+    }
+
+    /**
+     * Adds an LDAP group link.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/ldap_group_links</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param cn the CN of a LDAP group
+     * @param groupAccess the minimum access level for members of the LDAP group
+     * @param provider the LDAP provider for the LDAP group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void addLdapGroupLink(Object groupIdOrPath, String cn, Integer groupAccess, String provider) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("cn",  cn, true)
-                .withParam("group_Access", groupAccess, true)
+                .withParam("group_access", groupAccess, true)
                 .withParam("provider",  provider, true);
-        post(Response.Status.NO_CONTENT, formData, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links");
+        post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links");
     }
 
     /**
