@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedHashMap;
 
+import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.utils.ISO8601;
 
 /**
@@ -66,6 +67,30 @@ public class GitLabApiForm extends Form {
      */
     public GitLabApiForm withParam(String name, Date date, boolean required) throws IllegalArgumentException {
         return (withParam(name, (date == null ? null : ISO8601.toString(date)), required));
+    }
+
+    /**
+     * Fluent method for adding AccessLevel query and form parameters to a get() or post() call.
+     *
+     * @param name the name of the field/attribute to add
+     * @param date the value of the field/attribute to add
+     * @return this GitLabAPiForm instance
+     */
+    public GitLabApiForm withParam(String name, AccessLevel level) throws IllegalArgumentException {
+        return (withParam(name, level, false));
+    }
+
+    /**
+     * Fluent method for adding AccessLevel query and form parameters to a get() or post() call.
+     *
+     * @param name the name of the field/attribute to add
+     * @param level the value of the field/attribute to add
+     * @param required the field is required flag
+     * @return this GitLabAPiForm instance
+     * @throws IllegalArgumentException if a required parameter is null or empty
+     */
+    public GitLabApiForm withParam(String name, AccessLevel level, boolean required) throws IllegalArgumentException {
+        return (withParam(name, (level == null ? null : level.toValue()), required));
     }
 
     /**
