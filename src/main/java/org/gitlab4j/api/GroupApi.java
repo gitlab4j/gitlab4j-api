@@ -735,4 +735,76 @@ public class GroupApi extends AbstractApi {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "groups", groupId, "members", userId);
     }
+
+    /**
+     * Syncs the group with its linked LDAP group. Only available to group owners and administrators.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/ldap_sync</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void ldapSync(Object groupIdOrPath) throws GitLabApiException {
+        post(Response.Status.NO_CONTENT, (Form)null, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_sync");
+    }
+
+    /**
+     * Adds an LDAP group link.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/ldap_group_links</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param cn the CN of a LDAP group
+     * @param groupAccess the minimum access level for members of the LDAP group
+     * @param provider the LDAP provider for the LDAP group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void addLdapGroupLink(Object groupIdOrPath, String cn, AccessLevel groupAccess, String provider) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("cn",  cn, true)
+                .withParam("group_Access", groupAccess, true)
+                .withParam("provider",  provider, true);
+        post(Response.Status.NO_CONTENT, formData, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links");
+    }
+
+    /**
+     * Deletes an LDAP group link.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/ldap_group_links/:cn</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param cn the CN of the LDAP group link to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteLdapGroupLink(Object groupIdOrPath, String cn) throws GitLabApiException {
+
+        if (cn == null || cn.trim().isEmpty()) {
+            throw new RuntimeException("cn cannot be null or empty");
+        }
+
+        delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links", cn);
+    }
+
+    /**
+     * Deletes an LDAP group link for a specific LDAP provider.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/ldap_group_links/:provider/:cn</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param cn the CN of the LDAP group link to delete
+     * @param provider the name of the LDAP provider
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteLdapGroupLink(Object groupIdOrPath, String cn, String provider) throws GitLabApiException {
+
+        if (cn == null || cn.trim().isEmpty()) {
+            throw new RuntimeException("cn cannot be null or empty");
+        }
+
+        if (provider == null || provider.trim().isEmpty()) {
+            throw new RuntimeException("LDAP provider cannot be null or empty");
+        }
+
+        delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links", provider, cn);
+    }
 }
