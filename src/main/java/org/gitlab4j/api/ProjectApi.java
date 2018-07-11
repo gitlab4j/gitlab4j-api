@@ -1908,7 +1908,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
             .withParam("group_id", groupId, true)
-            .withParam("group_access", accessLevel.toValue(), true)
+            .withParam("group_access", accessLevel, true)
             .withParam("expires_at", expiresAt);
         post(Response.Status.CREATED, formData, "projects", projectId, "share");
     }
