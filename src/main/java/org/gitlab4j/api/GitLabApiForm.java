@@ -73,7 +73,7 @@ public class GitLabApiForm extends Form {
      * Fluent method for adding AccessLevel query and form parameters to a get() or post() call.
      *
      * @param name the name of the field/attribute to add
-     * @param date the value of the field/attribute to add
+     * @param level the value of the field/attribute to add
      * @return this GitLabAPiForm instance
      */
     public GitLabApiForm withParam(String name, AccessLevel level) throws IllegalArgumentException {
