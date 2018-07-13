@@ -92,6 +92,10 @@ you can still use GitLab4J-API by creating your GitLabApi instance as follows:
 GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
 ```
 
+**NOTICE**:  
+As of GitLab 11.0 support for the GitLab API v3 has been removed (see https://about.gitlab.com/2018/06/01/api-v3-removal-impending/). Support for GitLab API v3 will be removed from this library in January 2019. If you are utilizing the v3 support, please update your code before January 2019.
+  
+
 ---
 ## Results Paging
 GitLab4J-API provides an easy to use paging mechanism to page through lists of results from the GitLab API.
