@@ -40,9 +40,9 @@
 	<properties>
         <java.source.version>1.8</java.source.version>
         <java.target.version>1.8</java.target.version>
-		<jersey.version>2.26</jersey.version>
-		<jackson.version>2.9.3</jackson.version>
-		<javaServlet.version>3.1.0</javaServlet.version>
+		<jersey.version>2.27</jersey.version>
+		<jackson.version>2.9.6</jackson.version>
+		<javaServlet.version>4.0.1</javaServlet.version>
 		<junit.version>4.12</junit.version>
 		<mockito.version>2.19.0</mockito.version>
 		<hamcrest.version>1.3</hamcrest.version>
@@ -234,12 +234,12 @@
 			<artifactId>jersey-media-multipart</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>${javaServlet.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
