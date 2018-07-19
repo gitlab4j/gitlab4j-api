@@ -47,9 +47,22 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<MergeRequest> getMergeRequests(MergeRequestFilter filter, int page, int perPage) throws GitLabApiException {
+
         MultivaluedMap<String, String> queryParams = (filter != null ?
             filter.getQueryParams(page, perPage).asMap() : getPageQueryParams(page, perPage));
-        Response response = get(Response.Status.OK, queryParams, "merge_requests");
+        Response response;
+        if (filter != null && (filter.getProjectId() != null && filter.getProjectId().intValue() > 0) ||
+                (filter.getIids() != null && filter.getIids().size() > 0)) {
+
+            if (filter.getProjectId() == null || filter.getProjectId().intValue() == 0) {
+                throw new RuntimeException("project ID cannot be null or 0");
+            }
+
+            response = get(Response.Status.OK, queryParams, "projects", filter.getProjectId(), "merge_requests");
+        } else {
+            response = get(Response.Status.OK, queryParams, "merge_requests");
+        }
+
         return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
     }
 
@@ -64,8 +77,19 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<MergeRequest> getMergeRequests(MergeRequestFilter filter, int itemsPerPage) throws GitLabApiException {
+
         MultivaluedMap<String, String> queryParams = (filter != null ? filter.getQueryParams().asMap() : null);
-        return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "merge_requests"));
+        if (filter != null && (filter.getProjectId() != null && filter.getProjectId().intValue() > 0) ||
+                (filter.getIids() != null && filter.getIids().size() > 0)) {
+
+            if (filter.getProjectId() == null || filter.getProjectId().intValue() == 0) {
+                throw new RuntimeException("project ID cannot be null or 0");
+            }
+
+            return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "projects", filter.getProjectId(), "merge_requests"));
+        } else {
+            return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "merge_requests"));
+        }
     }
 
     /**

@@ -17,6 +17,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class MergeRequestFilter {
 
+    private Integer projectId;
+    private List<Integer> iids;
     private MergeRequestState state;
     private MergeRequestOrderBy orderBy;
     private SortOrder sort;
@@ -34,6 +36,32 @@ public class MergeRequestFilter {
     private String sourceBranch;
     private String targetBranch;
     private String search;
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
+    public MergeRequestFilter withProjectId(Integer projectId) {
+        this.projectId = projectId;
+        return (this);
+    }
+
+    public List<Integer> getIids() {
+        return iids;
+    }
+
+    public void setIids(List<Integer> iids) {
+        this.iids = iids;
+    }
+
+    public MergeRequestFilter withIids(List<Integer> iids) {
+        this.iids = iids;
+        return (this);
+    }
 
     public MergeRequestState getState() {
         return state;
@@ -266,6 +294,7 @@ public class MergeRequestFilter {
     @JsonIgnore 
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
+            .withParam("iids", iids)
             .withParam("state", state)
             .withParam("order_by", orderBy)
             .withParam("sort", sort)
