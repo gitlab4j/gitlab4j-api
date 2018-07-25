@@ -391,6 +391,32 @@ public class GitLabApiClient {
     }
 
     /**
+     * Perform an HTTP HEAD call with the specified query parameters and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response head(MultivaluedMap<String, String> queryParams, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (head(queryParams, url));
+    }
+
+    /**
+     * Perform an HTTP HEAD call with the specified query parameters and URL, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     */
+    protected Response head(MultivaluedMap<String, String> queryParams, URL url) {
+        return (invocation(url, queryParams).head());
+    }
+
+    /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      *

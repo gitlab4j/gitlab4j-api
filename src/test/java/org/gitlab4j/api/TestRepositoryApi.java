@@ -203,6 +203,16 @@ public class TestRepositoryApi {
     }
 
     @Test
+    public void testRepositoryFileGetFile() throws GitLabApiException, IOException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        RepositoryFile fileInfo = gitLabApi.getRepositoryFileApi().getFileInfo(project.getId(), "README", "master");
+        assertNotNull(fileInfo);
+    }
+
+    @Test
     public void testCompare() throws GitLabApiException {
 
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);

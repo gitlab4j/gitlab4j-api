@@ -23,16 +23,68 @@ public class RepositoryFileApi extends AbstractApi {
     }
 
     /**
+     * Get information on a file in the repository. Allows you to receive information about file in repository like name, size.
+     * Only works with GitLab 11.1.0+, returns an empty object for earlier versions of GitLab.
+     *
+     * HEAD /projects/:id/repository/files
+     *
+     * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
+     * @param filePath (required) - Full path to the file. Ex. lib/class.rb
+     * @param ref (required) - The name of branch, tag or commit
+     * @return a RepositoryFile instance with the file info
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab-11.1.0
+     */
+    public RepositoryFile getFileInfo(Object projectIdOrPath, String filePath, String ref) throws GitLabApiException {
+
+        Form form = new Form();
+        addFormParam(form, "ref", ref, true);
+        Response response = head(Response.Status.OK, form.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(filePath));
+
+        RepositoryFile file = new RepositoryFile();
+        file.setBlobId(response.getHeaderString("X-Gitlab-Blob-Id"));
+        file.setCommitId(response.getHeaderString("X-Gitlab-Commit-Id"));
+        file.setEncoding(response.getHeaderString("X-Gitlab-Encoding"));
+        file.setFileName(response.getHeaderString("X-Gitlab-File-Name"));
+        file.setFilePath(response.getHeaderString("X-Gitlab-File-Path"));
+        file.setLastCommitId(response.getHeaderString("X-Gitlab-Last-Commit-Id"));
+        file.setRef(response.getHeaderString("X-Gitlab-Ref"));
+
+        String sizeStr = response.getHeaderString("X-Gitlab-Size");
+        file.setSize(sizeStr != null ? Integer.valueOf(sizeStr) : -1);
+
+        return (file);
+    }
+
+    /**
      * Get file from repository. Allows you to receive information about file in repository like name, size, content.
      * Note that file content is Base64 encoded.
      *
      * GET /projects/:id/repository/files
      *
-     * @param filePath (required) - Full path to new file. Ex. lib/class.rb
+     * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
+     * @param filePath (required) - Full path to the file. Ex. lib/class.rb
+     * @param ref (required) - The name of branch, tag or commit
+     * @return a RepositoryFile instance with the file info and file content
+     * @throws GitLabApiException if any exception occurs
+     */
+    public RepositoryFile getFile(Object projectIdOrPath, String filePath, String ref) throws GitLabApiException {
+        return (getFile(projectIdOrPath, filePath, ref, true));
+    }
+
+    /**
+     * Get file from repository. Allows you to receive information about file in repository like name, size, content.
+     * Note that file content is Base64 encoded.
+     *
+     * GET /projects/:id/repository/files
+     *
+     * @param filePath (required) - Full path to the file. Ex. lib/class.rb
      * @param projectId (required) - the project ID
      * @param ref (required) - The name of branch, tag or commit
-     * @return a RepositoryFile instance with the file info
+     * @return a RepositoryFile instance with the file info and file content
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed in version 5.0, replaced by {@link #getFile(Object, String, String)}
      */
     public RepositoryFile getFile(String filePath, Integer projectId, String ref) throws GitLabApiException {
 
@@ -40,10 +92,31 @@ public class RepositoryFileApi extends AbstractApi {
             return (getFileV3(filePath, projectId, ref));
         }
 
+        return (getFile(projectId, filePath, ref, true));
+    }
+
+    /**
+     * Get file from repository. Allows you to receive information about file in repository like name, size, and optionally content.
+     * Note that file content is Base64 encoded.
+     *
+     * GET /projects/:id/repository/files
+     *
+     * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
+     * @param filePath (required) - Full path to the file. Ex. lib/class.rb
+     * @param ref (required) - The name of branch, tag or commit
+     * @param includeContent if true will also fetch file content
+     * @return a RepositoryFile instance with the file info and optionally file content
+     * @throws GitLabApiException if any exception occurs
+     */
+    public RepositoryFile getFile(Object projectIdOrPath, String filePath, String ref, boolean includeContent) throws GitLabApiException {
+
+        if (!includeContent) {
+            return (getFileInfo(projectIdOrPath, filePath, ref));
+        }
+
         Form form = new Form();
         addFormParam(form, "ref", ref, true);
-        Response response = get(Response.Status.OK, form.asMap(),
-                "projects", projectId, "repository", "files", urlEncode(filePath));
+        Response response = get(Response.Status.OK, form.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(filePath));
         return (response.readEntity(RepositoryFile.class));
     }
 
@@ -58,6 +131,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @param ref (required) - The name of branch, tag or commit
      * @return a RepositoryFile instance with the file info
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed in version 5.0
      */
     protected RepositoryFile getFileV3(String filePath, Integer projectId, String ref) throws GitLabApiException {
         Form form = new Form();
