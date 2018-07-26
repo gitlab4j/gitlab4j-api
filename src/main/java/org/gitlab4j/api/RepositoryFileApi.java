@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +21,26 @@ public class RepositoryFileApi extends AbstractApi {
 
     public RepositoryFileApi(GitLabApi gitLabApi) {
         super(gitLabApi);
+    }
+
+    /**
+     * Get an Optional instance with the value holding information on a file in the repository.
+     * Allows you to receive information about file in repository like name, size.
+     * Only works with GitLab 11.1.0+, value will be an empty object for earlier versions of GitLab.
+     *
+     * HEAD /projects/:id/repository/files
+     *
+     * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
+     * @param filePath (required) - Full path to the file. Ex. lib/class.rb
+     * @param ref (required) - The name of branch, tag or commit
+     * @return an Optional instance with the specified RepositoryFile as a value
+     */
+    public Optional<RepositoryFile> getOptionalFileInfo(Object projectIdOrPath, String filePath, String ref) {
+        try {
+            return (Optional.ofNullable(getFileInfo(projectIdOrPath, filePath, ref)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**
@@ -55,6 +76,26 @@ public class RepositoryFileApi extends AbstractApi {
         file.setSize(sizeStr != null ? Integer.valueOf(sizeStr) : -1);
 
         return (file);
+    }
+
+    /**
+     * Get an Optional instance with the value holding information and content for a file in the repository.
+     * Allows you to receive information about file in repository like name, size, and content.
+     * Only works with GitLab 11.1.0+, value will be an empty object for earlier versions of GitLab.
+     *
+     * HEAD /projects/:id/repository/files
+     *
+     * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
+     * @param filePath (required) - Full path to the file. Ex. lib/class.rb
+     * @param ref (required) - The name of branch, tag or commit
+     * @return an Optional instance with the specified RepositoryFile as a value
+     */
+    public Optional<RepositoryFile> getOptionalFile(Object projectIdOrPath, String filePath, String ref) {
+        try {
+            return (Optional.ofNullable(getFile(projectIdOrPath, filePath, ref, true)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**
