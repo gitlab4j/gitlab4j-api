@@ -18,7 +18,6 @@ import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.RepositoryFile;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -56,7 +55,6 @@ public class TestRepositoryApi {
 
     private static final String TEST_BRANCH_NAME = "feature/test_branch";
     private static final String TEST_PROTECT_BRANCH_NAME = "feature/protect_branch";
-    private static final String TEST_FILEPATH = "test-file.txt";
     private static GitLabApi gitLabApi;
 
     public TestRepositoryApi() {
@@ -97,11 +95,6 @@ public class TestRepositoryApi {
 
             try {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-
-                try {
-                    gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Cleanup test files.");
-                } catch (GitLabApiException ignore) {
-                }
 
                 try {
                     gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
@@ -173,46 +166,6 @@ public class TestRepositoryApi {
     }
 
     @Test
-    public void testRawFileViaFile() throws GitLabApiException, IOException {
-
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        File file = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README", null);
-        assertTrue(file.length() > 0);
-        file.delete();
-
-        file = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README", new File("."));
-        assertTrue(file.length() > 0);
-        file.delete();
-    }
-
-    @Test
-    public void testRepositoryFileViaInputStream() throws GitLabApiException, IOException {
-
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        InputStream in = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README");
-
-        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-README", "");
-        Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
-
-        assertTrue(target.toFile().length() > 0);
-        Files.delete(target);
-    }
-
-    @Test
-    public void testRepositoryFileGetFile() throws GitLabApiException, IOException {
-
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        RepositoryFile fileInfo = gitLabApi.getRepositoryFileApi().getFileInfo(project.getId(), "README", "master");
-        assertNotNull(fileInfo);
-    }
-
-    @Test
     public void testCompare() throws GitLabApiException {
 
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
@@ -228,36 +181,6 @@ public class TestRepositoryApi {
 
         compareResults = gitLabApi.getRepositoryApi().compare(TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(numCommits - 1).getId(), commits.get(numCommits - 2).getId());
         assertNotNull(compareResults);
-    }
-
-    @Test
-    public void testCreateFileAndDeleteFile() throws GitLabApiException {
-
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        RepositoryFile file = new RepositoryFile();
-        file.setFilePath(TEST_FILEPATH);
-        file.setContent("This is a test file.");
-        RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(file, project.getId(), TEST_BRANCH_NAME, "Testing createFile().");
-        assertNotNull(createdFile);
-
-        gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Testing deleteFile().");
-    }
-
-    @Test
-    public void testCreateFileWithEmptyContent() throws GitLabApiException {
-
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        RepositoryFile file = new RepositoryFile();
-        file.setFilePath(TEST_FILEPATH);
-        file.setContent("");
-        RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(file, project.getId(), TEST_BRANCH_NAME, "Testing createFile().");
-        assertNotNull(createdFile);
-
-        gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Testing deleteFile().");
     }
 
     @Test
