@@ -21,7 +21,6 @@ public class Runner {
     private RunnerStatus status;
     private String ipAddress;
 
-
     /**
      * Enum to use for RunnersApi filtering.
      */
@@ -45,8 +44,6 @@ public class Runner {
             return (enumHelper.toString(this));
         }
     }
-
-
 
 
     public Integer getId() {
