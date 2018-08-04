@@ -19,6 +19,8 @@ public class Runner {
     private String name;
     private Boolean online;
     private RunnerStatus status;
+    private String ipAddress;
+
 
     /**
      * Enum to use for RunnersApi filtering.
@@ -43,6 +45,9 @@ public class Runner {
             return (enumHelper.toString(this));
         }
     }
+
+
+
 
     public Integer getId() {
         return id;
@@ -98,5 +103,13 @@ public class Runner {
 
     public void setStatus(RunnerStatus status) {
         this.status = status;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 }
