@@ -411,4 +411,49 @@ public class RunnersApi extends AbstractApi {
         Response response = delete(Response.Status.OK, formData.asMap(), "projects", projectId, "runners");
         return (response.readEntity(Runner.class));
     }
+
+    /**
+     * Register a new runner for the gitlab instance.
+     *
+     * POST /runners/
+     *
+     * @param token       the token of the project (for project specific runners) or the token from the admin page.
+     * @param description The description of a runner
+     * @param active      The state of a runner; can be set to true or false
+     * @param tagList     The list of tags for a runner; put array of tags, that should be finally assigned to a runner
+     * @param runUntagged Flag indicating the runner can execute untagged jobs
+     * @param locked      Flag indicating the runner is locked
+     * @return RunnerDetail instance.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public RunnerDetail registerRunner(String token, String description, Boolean active, List<String> tagList,
+                                     Boolean runUntagged, Boolean locked, Integer maximumTimeout) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("token", token, true)
+                .withParam("description", description, false)
+                .withParam("active", active, false)
+                .withParam("locked", locked, false)
+                .withParam("run_untagged", runUntagged, false)
+                .withParam("tag_list", tagList, false)
+                .withParam("maximum_timeout", maximumTimeout, false);
+        Response response = post(Response.Status.CREATED, formData.asMap(), "runners");
+        return (response.readEntity(RunnerDetail.class));
+    }
+
+    /**
+     * Deletes a registed Runner.
+     *
+     * DELETE /runners/
+     *
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteRunner(String token) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("token", token, true);
+
+        delete(Response.Status.NO_CONTENT, formData.asMap(), "runners");
+    }
+
+
 }
