@@ -4,7 +4,6 @@ import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.JobStatus;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
-import org.glassfish.jersey.internal.guava.Preconditions;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -430,8 +429,6 @@ public class RunnersApi extends AbstractApi {
     public RunnerDetail registerRunner(String token, String description, Boolean active, List<String> tagList,
                                      Boolean runUntagged, Boolean locked, Integer maximumTimeout) throws GitLabApiException {
 
-        Preconditions.checkNotNull(token, "token is necessary for registering a new runner");
-
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("token", token, true)
                 .withParam("description", description, false)
@@ -452,8 +449,6 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteRunner(String token) throws GitLabApiException {
-        Preconditions.checkNotNull(token, "A token is necessary to delete a registered runner.");
-
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("token", token, true);
 
