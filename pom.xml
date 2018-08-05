@@ -48,6 +48,8 @@
 		<hamcrest.version>1.3</hamcrest.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<systemRules.version>1.18.0</systemRules.version>
+		<assertJ.version>3.10.0</assertJ.version>
 	</properties>
 
 	<scm>
@@ -256,6 +258,18 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
 			<version>${hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.stefanbirkner</groupId>
+			<artifactId>system-rules</artifactId>
+			<version>${systemRules.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${assertJ.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

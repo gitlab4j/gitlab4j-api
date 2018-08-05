@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.*;
 
 import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
@@ -97,7 +98,7 @@ public class TestRunnersApi {
         }
 
         if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN, true);
         } else {
             System.err.print(problems);
         }
