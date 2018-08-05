@@ -97,7 +97,7 @@ public class GitLabApi {
 
         Integer sudoUserId = this.getSudoAsId();
         GitLabApi gitLabApi = new GitLabApi(apiVersion, gitLabServerUrl,
-                getTokenType(), getAuthToken(), getSecretToken(), clientConfigProperties);
+                getTokenType(), getAuthToken(), getSecretToken(), clientConfigProperties, false);
         if (sudoUserId != null) {
             gitLabApi.apiClient.setSudoAsId(sudoUserId);
         }
@@ -326,7 +326,7 @@ public class GitLabApi {
 
             Response response = new Oauth2Api(gitLabApi).post(Response.Status.OK, stream, MediaType.APPLICATION_JSON, "oauth", "token");
             OauthTokenResponse oauthToken = response.readEntity(OauthTokenResponse.class);
-            gitLabApi = new GitLabApi(apiVersion, url, TokenType.ACCESS, oauthToken.getAccessToken(), secretToken, clientConfigProperties);
+            gitLabApi = new GitLabApi(apiVersion, url, TokenType.ACCESS, oauthToken.getAccessToken(), secretToken, clientConfigProperties, false);
             if (ignoreCertificateErrors) {
                 gitLabApi.setIgnoreCertificateErrors(true);
             }
@@ -545,7 +545,7 @@ public class GitLabApi {
      * @param secretToken use this token to validate received payloads
      */
     public GitLabApi(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken) {
-        this(apiVersion, hostUrl, tokenType, authToken, secretToken, null);
+        this(apiVersion, hostUrl, tokenType, authToken, secretToken, null, false);
     }
 
     /**
@@ -593,7 +593,7 @@ public class GitLabApi {
      * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
      */
     public GitLabApi(ApiVersion apiVersion, String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
-        this(apiVersion, hostUrl, TokenType.PRIVATE, privateToken, secretToken, clientConfigProperties);
+        this(apiVersion, hostUrl, TokenType.PRIVATE, privateToken, secretToken, clientConfigProperties, false);
     }
 
     /**
@@ -606,7 +606,7 @@ public class GitLabApi {
      * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
      */
     public GitLabApi(String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties) {
-        this(ApiVersion.V4, hostUrl, tokenType, authToken, secretToken, clientConfigProperties);
+        this(ApiVersion.V4, hostUrl, tokenType, authToken, secretToken, clientConfigProperties, false);
     }
 
    /**
@@ -618,7 +618,17 @@ public class GitLabApi {
      * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
      */
     public GitLabApi(String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
-        this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, privateToken, secretToken, clientConfigProperties);
+        this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, privateToken, secretToken, clientConfigProperties, false);
+    }
+
+    /**
+     * Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
+     *
+     * @param hostUrl the URL of the GitLab server
+     * @param privateToken to private token to use for access to the API
+     */
+    public GitLabApi(String hostUrl, String privateToken, boolean activateRequestResponseLogging) {
+        this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, privateToken, null, null, activateRequestResponseLogging);
     }
 
     /**
@@ -631,11 +641,11 @@ public class GitLabApi {
      * @param secretToken use this token to validate received payloads
      * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
      */
-    public GitLabApi(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties) {
+    public GitLabApi(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties, boolean activateRequestResponseLogging) {
         this.apiVersion = apiVersion;
         this.gitLabServerUrl = hostUrl;
         this.clientConfigProperties = clientConfigProperties;
-        apiClient = new GitLabApiClient(apiVersion, hostUrl, tokenType, authToken, secretToken, clientConfigProperties);
+        apiClient = new GitLabApiClient(apiVersion, hostUrl, tokenType, authToken, secretToken, clientConfigProperties, activateRequestResponseLogging);
     }
 
     /**
