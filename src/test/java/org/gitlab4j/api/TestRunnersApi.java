@@ -23,30 +23,29 @@
 
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.*;
-import org.glassfish.jersey.internal.guava.Lists;
-import org.junit.*;
-import org.junit.runners.MethodSorters;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeTrue;
 
-import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.logging.*;
 
-import static org.junit.Assert.*;
-import static org.junit.Assume.assumeTrue;
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.Runner;
+import org.gitlab4j.api.models.RunnerDetail;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
  * <p>
  * TEST_NAMESPACE
- * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * TEST_GROUP_PROJECT
  * <p>
  * If any of the above are NULL, all tests in this class will be skipped.
  * <p>
@@ -57,24 +56,15 @@ public class TestRunnersApi {
 
     // The following needs to be set to your test repository
     private static final String TEST_NAMESPACE;
-    private static final String TEST_PROJECT_NAME;
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
-    private static final String TEST_GROUP;
-    private static final String TEST_GROUP_PROJECT;
 
     static {
         TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
-        TEST_GROUP = TestUtils.getProperty("TEST_GROUP");
-        TEST_GROUP_PROJECT = TestUtils.getProperty("TEST_GROUP_PROJECT");
     }
 
-    private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
-    private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
-    private static final String TEST_PROJECT_NAME_UPDATE = "test-gitlab4j-create-project-update";
     private static GitLabApi gitLabApi;
 
     public TestRunnersApi() {
@@ -98,7 +88,7 @@ public class TestRunnersApi {
         }
 
         if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN, true);
+            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
         } else {
             System.err.print(problems);
         }
@@ -113,33 +103,24 @@ public class TestRunnersApi {
             }
 
             allRunners = gitLabApi.getRunnersApi().getAllRunners();
-
             assertEquals(0, allRunners.size());
         }
-
     }
 
     /**
      * creates a new runner for a random project
      */
-    private static void createRunner() throws GitLabApiException {
+    private static Runner createRunner() throws GitLabApiException {
 
-        // WHEN
         Project project = gitLabApi.getProjectApi().getProjects().get(0);
         project = gitLabApi.getProjectApi().getProject(project.getId());
         String runnersToken = project.getRunnersToken();
 
-        // THEN
-        gitLabApi.getRunnersApi().registerRunner(runnersToken,
+        return (gitLabApi.getRunnersApi().registerRunner(runnersToken,
                 "Junit registered runner", true,
                 Arrays.asList("wow"), false,
-                false, null);
-
-        // ASSERT
-        List<Runner> allRunners = gitLabApi.getRunnersApi().getAllRunners();
-
+                false, null));
     }
-
 
     @Before
     public void beforeMethod() throws GitLabApiException {
@@ -151,31 +132,27 @@ public class TestRunnersApi {
             RunnerDetail runnerDetail = gitLabApi.getRunnersApi().getRunnerDetail(runner.getId());
             gitLabApi.getRunnersApi().deleteRunner(runnerDetail.getToken());
         }
-
     }
 
     @Test
     public void shouldHaveRunnerDetails() throws GitLabApiException {
 
-        createRunner();
+        assertNotNull("Runner was not created", createRunner());
 
         List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
-
         assertEquals(1, runners.size());
         assertNotNull("Description should not be null", runners.get(0).getDescription());
-
     }
 
     @Test
     public void shouldDeleteRunner() throws GitLabApiException {
 
-        createRunner();
-        createRunner();
-        createRunner();
+        assertNotNull("Runner was not created", createRunner());
+        assertNotNull("Runner was not created", createRunner());
+        assertNotNull("Runner was not created", createRunner());
 
         List<Runner> allRunners = gitLabApi.getRunnersApi().getAllRunners();
         assertEquals(3, allRunners.size());
-
 
         for (Runner runner : allRunners) {
             RunnerDetail runnerDetail = gitLabApi.getRunnersApi().getRunnerDetail(runner.getId());
@@ -184,9 +161,5 @@ public class TestRunnersApi {
 
         allRunners = gitLabApi.getRunnersApi().getAllRunners();
         assertEquals(0, allRunners.size());
-
-
     }
-
-
 }

@@ -13,6 +13,7 @@ import java.util.List;
  * This class provides an entry point to all the GitLab API repository files calls.
  */
 public class RunnersApi extends AbstractApi {
+
     public RunnersApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
@@ -417,12 +418,13 @@ public class RunnersApi extends AbstractApi {
      *
      * POST /runners/
      *
-     * @param token       the token of the project (for project specific runners) or the token from the admin page.
+     * @param token       the token of the project (for project specific runners) or the token from the admin page
      * @param description The description of a runner
      * @param active      The state of a runner; can be set to true or false
      * @param tagList     The list of tags for a runner; put array of tags, that should be finally assigned to a runner
      * @param runUntagged Flag indicating the runner can execute untagged jobs
      * @param locked      Flag indicating the runner is locked
+     * @param maximumTimeout the maximum timeout set when this Runner will handle the job
      * @return RunnerDetail instance.
      * @throws GitLabApiException if any exception occurs
      */
@@ -442,10 +444,11 @@ public class RunnersApi extends AbstractApi {
     }
 
     /**
-     * Deletes a registed Runner.
+     * Deletes a registered Runner.
      *
      * DELETE /runners/
      *
+     * @param token the runners authentication token
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteRunner(String token) throws GitLabApiException {
@@ -454,6 +457,4 @@ public class RunnersApi extends AbstractApi {
 
         delete(Response.Status.NO_CONTENT, formData.asMap(), "runners");
     }
-
-
 }
