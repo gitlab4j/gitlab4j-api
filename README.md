@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.38'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.39'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.8.38</version>
+    <version>4.8.39</version>
 </dependency>
 ```
 
@@ -95,6 +95,23 @@ GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.co
 **NOTICE**:  
 As of GitLab 11.0 support for the GitLab API v3 has been removed (see https://about.gitlab.com/2018/06/01/api-v3-removal-impending/). Support for GitLab API v3 will be removed from this library in January 2019. If you are utilizing the v3 support, please update your code before January 2019.
   
+
+---
+## Logging of API Requests and Responses
+As of GitLab4J-API 4.8.39 support has been added to log the requests to and the responses from the
+GitLab API.  Enable logging using one of the following methods on the GitLabApi instance:
+```java
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
+
+// Log using the shared logger and default level of FINE
+gitLabApi.enableRequestResponseLogging();
+
+// Log using the shared logger and the INFO level
+gitLabApi.enableRequestResponseLogging(java.util.logging.Level.INFO);
+
+// Log using the specified logger and the INFO level
+gitLabApi.enableRequestResponseLogging(youtLoggerInstance, java.util.logging.Level.INFO);
+```
 
 ---
 ## Results Paging
