@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
@@ -23,7 +24,7 @@ import org.gitlab4j.api.utils.SecretString;
  */
 public class GitLabApi {
 
-    private final static Logger LOG = Logger.getLogger(GitLabApi.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(GitLabApi.class.getName());
 
     /** GitLab4J default per page.  GitLab will ignore anything over 100. */
     public static final int DEFAULT_PER_PAGE = 100;
@@ -85,7 +86,7 @@ public class GitLabApi {
      * @return the GitLab4J shared Logger instance
      */
     public static final Logger getLogger() {
-        return (LOG);
+        return (LOGGER);
     }
 
     /**
@@ -636,6 +637,69 @@ public class GitLabApi {
         this.gitLabServerUrl = hostUrl;
         this.clientConfigProperties = clientConfigProperties;
         apiClient = new GitLabApiClient(apiVersion, hostUrl, tokenType, authToken, secretToken, clientConfigProperties);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API
+     * using the GitLab4J shared Logger instance and Level.FINE as the level.
+     *
+     * @return this GitLabApi instance
+     */
+    public GitLabApi withRequestResponseLogging() {
+        enableRequestResponseLogging();
+        return (this);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API
+     * using the GitLab4J shared Logger instance.
+     *
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @return this GitLabApi instance
+     */
+    public GitLabApi withRequestResponseLogging(Level level) {
+        enableRequestResponseLogging(level);
+        return (this);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API.
+     *
+     * @param logger the Logger instance to log to
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @return this GitLabApi instance
+     */
+    public GitLabApi withRequestResponseLogging(Logger logger, Level level) {
+        enableRequestResponseLogging(logger, level);
+        return (this);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API
+     * using the GitLab4J shared Logger instance and Level.FINE as the level.
+     */
+    public void enableRequestResponseLogging() {
+        enableRequestResponseLogging(LOGGER, Level.FINE);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API
+     * using the GitLab4J shared Logger instance.
+     *
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     */
+    public void enableRequestResponseLogging(Level level) {
+        enableRequestResponseLogging(LOGGER, level);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API.
+     *
+     * @param logger the Logger instance to log to
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     */
+    public void enableRequestResponseLogging(Logger logger, Level level) {
+        this.apiClient.enableRequestResponseLogging(logger, level);
     }
 
     /**
@@ -1413,5 +1477,4 @@ public class GitLabApi {
 
         return wikisApi;
     }
-
 }
