@@ -12,6 +12,8 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -36,6 +38,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -235,6 +238,24 @@ public class GitLabApiClient {
 
         clientConfig.register(JacksonJson.class);
         clientConfig.register(MultiPartFeature.class);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API.
+     *
+     * @param logger the Logger instance to log to
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     */
+    void enableRequestResponseLogging(Logger logger, Level level) {
+
+        LoggingFeature loggingFeature = new LoggingFeature(
+            logger, level, LoggingFeature.Verbosity.PAYLOAD_TEXT, LoggingFeature.DEFAULT_MAX_ENTITY_SIZE);
+        clientConfig.register(loggingFeature);
+
+        // Recreate the Client instance if already created.
+        if (apiClient != null) {
+            createApiClient();
+        }
     }
 
     /**
@@ -629,18 +650,22 @@ public class GitLabApiClient {
         return (invocation(url, queryParams, MediaType.APPLICATION_JSON));
     }
 
+    protected Client createApiClient() {
+
+        ClientBuilder clientBuilder = ClientBuilder.newBuilder().withConfig(clientConfig);
+
+        if (ignoreCertificateErrors) {
+            clientBuilder.sslContext(openSslContext).hostnameVerifier(openHostnameVerifier);
+        }
+
+        apiClient = clientBuilder.build();
+        return (apiClient);
+    }
+
     protected Invocation.Builder invocation(URL url, MultivaluedMap<String, String> queryParams, String accept) {
 
         if (apiClient == null) {
-            if (ignoreCertificateErrors) {
-                apiClient = ClientBuilder.newBuilder()
-                        .withConfig(clientConfig)
-                        .sslContext(openSslContext)
-                        .hostnameVerifier(openHostnameVerifier)
-                        .build();
-            } else {
-                apiClient = ClientBuilder.newBuilder().withConfig(clientConfig).build();
-            }
+            createApiClient();
         }
 
         WebTarget target = apiClient.target(url.toExternalForm()).property(ClientProperties.FOLLOW_REDIRECTS, true);
