@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.HookManager;
 import org.gitlab4j.api.utils.HttpRequestUtils;
@@ -19,7 +20,7 @@ import org.gitlab4j.api.utils.JacksonJson;
  */
 public class WebHookManager extends HookManager {
 
-    private final static Logger LOG = Logger.getLogger(WebHookManager.class.getName());
+    private final static Logger LOGGER = GitLabApi.getLogger();
     private final JacksonJson jacksonJson = new JacksonJson();
 
     // Collection of objects listening for WebHook events.
@@ -53,12 +54,12 @@ public class WebHookManager extends HookManager {
 
         if (!isValidSecretToken(request)) {
             String message = "X-Gitlab-Token mismatch!";
-            LOG.warning(message);
+            LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
 
         String eventName = request.getHeader("X-Gitlab-Event");
-        LOG.info("handleEvent: X-Gitlab-Event=" + eventName);
+        LOGGER.info("handleEvent: X-Gitlab-Event=" + eventName);
         switch (eventName) {
 
         case BuildEvent.BUILD_HOOK_X_GITLAB_EVENT:
@@ -74,19 +75,19 @@ public class WebHookManager extends HookManager {
 
         default:
             String message = "Unsupported X-Gitlab-Event, event Name=" + eventName;
-            LOG.warning(message);
+            LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
 
         try {
 
             Event event;
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine(HttpRequestUtils.getShortRequestDump(eventName + " webhook", true, request));
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine(HttpRequestUtils.getShortRequestDump(eventName + " webhook", true, request));
                 String postData = HttpRequestUtils.getPostDataAsString(request);
-                LOG.fine("Raw POST data:\n" + postData);
+                LOGGER.fine("Raw POST data:\n" + postData);
                 event = jacksonJson.unmarshal(Event.class, postData);
-                LOG.fine(event.getObjectKind() + " event:\n" + jacksonJson.marshal(event) + "\n");
+                LOGGER.fine(event.getObjectKind() + " event:\n" + jacksonJson.marshal(event) + "\n");
             } else {
                 InputStreamReader reader = new InputStreamReader(request.getInputStream());
                 event = jacksonJson.unmarshal(Event.class, reader);
@@ -95,7 +96,7 @@ public class WebHookManager extends HookManager {
             fireEvent(event);
 
         } catch (Exception e) {
-            LOG.warning("Error parsing JSON data, exception=" + e.getClass().getSimpleName() + ", error=" + e.getMessage());
+            LOGGER.warning("Error parsing JSON data, exception=" + e.getClass().getSimpleName() + ", error=" + e.getMessage());
             throw new GitLabApiException(e);
         }
     }
@@ -108,7 +109,7 @@ public class WebHookManager extends HookManager {
      */
     public void handleEvent(Event event) throws GitLabApiException {
 
-        LOG.info("handleEvent: object_kind=" + event.getObjectKind());
+        LOGGER.info("handleEvent: object_kind=" + event.getObjectKind());
 
         switch (event.getObjectKind()) {
         case BuildEvent.OBJECT_KIND:
@@ -123,7 +124,7 @@ public class WebHookManager extends HookManager {
 
         default:
             String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
-            LOG.warning(message);
+            LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
 
@@ -194,7 +195,7 @@ public class WebHookManager extends HookManager {
 
         default:
             String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
-            LOG.warning(message);
+            LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
     }
