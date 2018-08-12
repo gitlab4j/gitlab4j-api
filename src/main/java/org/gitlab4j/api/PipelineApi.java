@@ -183,7 +183,7 @@ public class PipelineApi extends AbstractApi implements Constants {
     /**
      * Create a pipelines in a project.
      *
-     * POST /projects/:id/pipelines
+     * POST /projects/:id/pipeline
      *
      * @param projectId the project ID to create a pipeline in
      * @param ref reference to commit
@@ -192,7 +192,7 @@ public class PipelineApi extends AbstractApi implements Constants {
      */
     public Pipeline createPipeline(int projectId, String ref) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("ref", ref);
-        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "pipelines");
+        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "pipeline");
         return (response.readEntity(Pipeline.class));
     }
 
