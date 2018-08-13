@@ -65,4 +65,29 @@ public class Member {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public Member withAccessLevel(AccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
+        return this;
+    }
+
+    public Member withCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public Member withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Member withState(String state) {
+        this.state = state;
+        return this;
+    }
+
+    public Member withUsername(String username) {
+        this.username = username;
+        return this;
+    }
 }
