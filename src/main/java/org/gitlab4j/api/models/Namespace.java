@@ -53,4 +53,29 @@ public class Namespace {
     public void setFullPath(String fullPath) {
         this.fullPath = fullPath;
     }
+
+    public Namespace withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Namespace withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Namespace withPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public Namespace withKind(String kind) {
+        this.kind = kind;
+        return this;
+    }
+
+    public Namespace withFullPath(String fullPath) {
+        this.fullPath = fullPath;
+        return this;
+    }
 }
