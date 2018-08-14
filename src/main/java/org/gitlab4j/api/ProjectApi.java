@@ -1127,9 +1127,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectId the project ID to get team member for
      * @param userId the user ID of the member
      * @return the member specified by the project ID/user ID pair
-     * @throws GitLabApiException if any exception occurs
      */
-    public Optional<Member> getOptionalMember(Integer projectId, Integer userId) throws GitLabApiException {
+    public Optional<Member> getOptionalMember(Integer projectId, Integer userId)  {
         try {
             return (Optional.ofNullable(getMember(projectId, userId)));
         } catch (GitLabApiException glae) {
