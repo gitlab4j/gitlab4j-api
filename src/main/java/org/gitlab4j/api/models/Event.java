@@ -140,4 +140,64 @@ public class Event {
     public void setPushData(PushData pushData) {
         this.pushData = pushData;
     }
+
+    public Event withActionName(String actionName) {
+        this.actionName = actionName;
+        return this;
+    }
+
+    public Event withAuthor(Author author) {
+        this.author = author;
+        return this;
+    }
+
+    public Event withAuthorId(Integer authorId) {
+        this.authorId = authorId;
+        return this;
+    }
+
+    public Event withAuthorUsername(String authorUsername) {
+        this.authorUsername = authorUsername;
+        return this;
+    }
+
+    public Event withData(EventData data) {
+        this.data = data;
+        return this;
+    }
+
+    public Event withProjectId(Integer projectId) {
+        this.projectId = projectId;
+        return this;
+    }
+
+    public Event withTargetId(Integer targetId) {
+        this.targetId = targetId;
+        return this;
+    }
+
+    public Event withTargetIid(Integer targetIid) {
+        this.targetIid = targetIid;
+        return this;
+    }
+
+    public Event withTargetTitle(String targetTitle) {
+        this.targetTitle = targetTitle;
+        return this;
+    }
+
+    public Event withTargetType(TargetType targetType) {
+        this.targetType = targetType;
+        return this;
+    }
+
+    public Event withTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Event withCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
 }
