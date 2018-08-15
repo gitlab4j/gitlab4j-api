@@ -121,4 +121,49 @@ public class RunnerDetail extends Runner {
     public void setAccessLevel(RunnerAccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
+
+    public RunnerDetail withArchitecture(String architecture) {
+        this.architecture = architecture;
+        return this;
+    }
+
+    public RunnerDetail withPlatform(String platform) {
+        this.platform = platform;
+        return this;
+    }
+
+    public RunnerDetail withContactedAt(Date contactedAt) {
+        this.contactedAt = contactedAt;
+        return this;
+    }
+
+    public RunnerDetail withProjects(List<Project> projects) {
+        this.projects = projects;
+        return this;
+    }
+
+    public RunnerDetail withToken(String token) {
+        this.token = token;
+        return this;
+    }
+
+    public RunnerDetail withRevision(String revision) {
+        this.revision = revision;
+        return this;
+    }
+
+    public RunnerDetail withTagList(List<String> tagList) {
+        this.tagList = tagList;
+        return this;
+    }
+
+    public RunnerDetail withVersion(String version) {
+        this.version = version;
+        return this;
+    }
+
+    public RunnerDetail withAccessLevel(RunnerAccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
+        return this;
+    }
 }
