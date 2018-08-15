@@ -144,4 +144,80 @@ public class Job {
     public void setRunner(Runner runner) {
         this.runner = runner;
     }
+
+
+    public Job withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Job withCommit(Commit commit) {
+        this.commit = commit;
+        return this;
+    }
+
+    public Job withCoverage(String coverage) {
+        this.coverage = coverage;
+        return this;
+    }
+
+    public Job withCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public Job withFinishedAt(Date finishedAt) {
+        this.finishedAt = finishedAt;
+        return this;
+    }
+
+    public Job withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Job withPipeline(Pipeline pipeline) {
+        this.pipeline = pipeline;
+        return this;
+    }
+
+    public Job withRef(String ref) {
+        this.ref = ref;
+        return this;
+    }
+
+    public Job withRunner(Runner runner) {
+        this.runner = runner;
+        return this;
+    }
+
+    public Job withUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public Job withStartedAt(Date startedAt) {
+        this.startedAt = startedAt;
+        return this;
+    }
+
+    public Job withArtifactsFile(ArtifactsFile artifactsFile) {
+        this.artifactsFile = artifactsFile;
+        return this;
+    }
+
+    public Job withTag(Boolean tag) {
+        this.tag = tag;
+        return this;
+    }
+
+    public Job withStage(String stage) {
+        this.stage = stage;
+        return this;
+    }
+
+    public Job withStatus(JobStatus status) {
+        this.status = status;
+        return this;
+    }
 }
