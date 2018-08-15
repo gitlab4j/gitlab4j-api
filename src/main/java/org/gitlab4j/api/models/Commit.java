@@ -165,4 +165,90 @@ public class Commit {
     public void setUrl(String url) {
         this.url = url;
     }
+
+
+    public Commit withAuthor(Author author) {
+        this.author = author;
+        return this;
+    }
+
+    public Commit withAuthoredDate(Date authoredDate) {
+        this.authoredDate = authoredDate;
+        return this;
+    }
+
+    public Commit withAuthorEmail(String authorEmail) {
+        this.authorEmail = authorEmail;
+        return this;
+    }
+
+    public Commit withAuthorName(String authorName) {
+        this.authorName = authorName;
+        return this;
+    }
+
+    public Commit withCommittedDate(Date committedDate) {
+        this.committedDate = committedDate;
+        return this;
+    }
+
+    public Commit withCommitterEmail(String committerEmail) {
+        this.committerEmail = committerEmail;
+        return this;
+    }
+
+    public Commit withCommitterName(String committerName) {
+        this.committerName = committerName;
+        return this;
+    }
+
+    public Commit withCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public Commit withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public Commit withMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public Commit withParentIds(List<String> parentIds) {
+        this.parentIds = parentIds;
+        return this;
+    }
+
+    public Commit withShorwId(String shortId) {
+        this.shortId = shortId;
+        return this;
+    }
+
+    public Commit withStats(CommitStats stats) {
+        this.stats = stats;
+        return this;
+    }
+
+    public Commit withStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
+    public Commit withTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+        return this;
+    }
+
+    public Commit withTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Commit withUrl(String url) {
+        this.url = url;
+        return this;
+    }
 }
