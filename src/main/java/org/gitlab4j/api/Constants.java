@@ -86,7 +86,7 @@ public interface Constants {
     /** Enum to use for ordering the results of getProjects(). */
     public enum ProjectOrderBy {
 
-        ID, NAME, PATH, CREATED_AT, UPDATED_AT, LAST_ACTIVITY;
+        ID, NAME, PATH, CREATED_AT, UPDATED_AT, LAST_ACTIVITY_AT;
         private static JacksonJsonEnumHelper<ProjectOrderBy> enumHelper = new JacksonJsonEnumHelper<>(ProjectOrderBy.class);
 
         @JsonCreator
