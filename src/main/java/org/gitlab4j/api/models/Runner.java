@@ -109,4 +109,45 @@ public class Runner {
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
+
+
+    public Runner withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Runner withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Runner withActive(Boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public Runner withIsShared(Boolean isShared) {
+        this.isShared = isShared;
+        return this;
+    }
+
+    public Runner withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Runner withOnline(Boolean online) {
+        this.online = online;
+        return this;
+    }
+
+    public Runner withStatus(RunnerStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public Runner withIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+        return this;
+    }
 }

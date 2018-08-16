@@ -41,4 +41,20 @@ public class ProtectedBranch {
     public static final boolean isValid(ProtectedBranch branch) {
         return (branch != null && branch.getName() != null);
     }
+
+
+    public ProtectedBranch withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public ProtectedBranch withPushAccessLevels(List<BranchAccessLevel> pushAccessLevels) {
+        this.pushAccessLevels = pushAccessLevels;
+        return this;
+    }
+
+    public ProtectedBranch withMergeAccessLevels(List<BranchAccessLevel> mergeAccessLevels) {
+        this.mergeAccessLevels = mergeAccessLevels;
+        return this;
+    }
 }
