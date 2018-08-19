@@ -16,6 +16,7 @@ public class SystemHook {
     private Boolean pushEvents;
     private Boolean tagPushEvents;
     private Boolean enableSslVerification;
+    private Boolean repositoryUpdateEvents;
 
     public Integer getId() {
         return id;
@@ -64,4 +65,27 @@ public class SystemHook {
     public void setEnableSslVerification(Boolean enableSslVerification) {
         this.enableSslVerification = enableSslVerification;
     }
+
+    public void setRepositoryUpdateEvents(Boolean repositoryUpdateEvents) {
+        this.repositoryUpdateEvents = repositoryUpdateEvents;
+    }
+
+    public Boolean getRepositoryUpdateEvents() {
+        return repositoryUpdateEvents;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("SystemHook{");
+        sb.append("id=").append(id);
+        sb.append(", url='").append(url).append('\'');
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", pushEvents=").append(pushEvents);
+        sb.append(", tagPushEvents=").append(tagPushEvents);
+        sb.append(", enableSslVerification=").append(enableSslVerification);
+        sb.append(", repositoryUpdateEvents=").append(repositoryUpdateEvents);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }
