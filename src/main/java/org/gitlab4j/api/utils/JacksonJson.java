@@ -218,4 +218,29 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
             return (users);
         }
     }
+
+    /**
+     * This class is used to create a thread-safe singleton instance of JacksonJson customized
+     * to be used by
+     */
+    private static class JacksonJsonSingletonHelper {
+        private static final JacksonJson JACKSON_JSON = new JacksonJson();
+        static {
+            JACKSON_JSON.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
+            JACKSON_JSON.objectMapper.setSerializationInclusion(Include.ALWAYS);
+        }
+    }
+
+    /**
+     * Gets a the supplied object output as a formatted JSON string.  Null properties will
+     * result in the value of the property being null.  This is meant to be used for
+     * toString() implementations of GitLab4J classes.
+     *
+     * @param <T> the generics type for the provided object
+     * @param object the object to output as a JSON string
+     * @return a String containing the JSON for the specified object
+     */
+    public static <T> String toJsonString(final T object) {
+        return (JacksonJsonSingletonHelper.JACKSON_JSON.marshal(object));
+    }
 }
