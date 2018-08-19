@@ -1,5 +1,6 @@
 package org.gitlab4j.api.webhook;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -17,5 +18,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = WikiPageEvent.class, name = WikiPageEvent.OBJECT_KIND)
 })
 public interface Event {     
-    public String getObjectKind();
+    String getObjectKind();
+
+    void setRequestUrl(String url);
+
+    @JsonIgnore
+    String getRequestUrl();
+
+    void setRequestQueryString(String queryString);
+
+    @JsonIgnore
+    String getRequestQueryString();
 }

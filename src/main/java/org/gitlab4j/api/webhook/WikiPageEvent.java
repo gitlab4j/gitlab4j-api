@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import org.gitlab4j.api.models.User;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WikiPageEvent implements Event {
+public class WikiPageEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Wiki Page Hook";
     public static final String OBJECT_KIND = "wiki_page";

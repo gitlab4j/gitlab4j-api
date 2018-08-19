@@ -10,7 +10,7 @@ import org.gitlab4j.api.webhook.EventProject;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RepositorySystemHookEvent implements SystemHookEvent {
+public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
 
     public static final String REPOSITORY_UPDATE_EVENT = "repository_update";
 
@@ -25,7 +25,6 @@ public class RepositorySystemHookEvent implements SystemHookEvent {
 
     private List<RepositoryChange> changes;
     private List<String> refs;
-
 
     public String getEventName() {
         return (eventName);

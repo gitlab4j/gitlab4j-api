@@ -10,7 +10,7 @@ import org.gitlab4j.api.models.Visibility;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProjectSystemHookEvent implements SystemHookEvent {
+public class ProjectSystemHookEvent extends AbstractSystemHookEvent {
     
     public static final String PROJECT_CREATE_EVENT = "project_create";
     public static final String PROJECT_DESTROY_EVENT = "project_destroy";

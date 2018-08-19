@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import org.gitlab4j.api.models.User;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MergeRequestEvent implements Event {
+public class MergeRequestEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Merge Request Hook";
     public static final String OBJECT_KIND = "merge_request";

@@ -10,7 +10,7 @@ import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.User;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PipelineEvent implements Event {
+public class PipelineEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Pipeline Hook";
     public static final String OBJECT_KIND = "pipeline";

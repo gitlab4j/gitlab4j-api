@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpUtils;
 
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
@@ -93,6 +94,8 @@ public class WebHookManager extends HookManager {
                 event = jacksonJson.unmarshal(Event.class, reader);
             }
 
+            event.setRequestUrl(request.getRequestURL().toString());
+            event.setRequestQueryString(request.getQueryString());
             fireEvent(event);
 
         } catch (Exception e) {

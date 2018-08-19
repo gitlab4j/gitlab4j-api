@@ -82,6 +82,8 @@ public class SystemHookManager extends HookManager {
                 event = jacksonJson.unmarshal(SystemHookEvent.class, reader);
             }
 
+            event.setRequestUrl(request.getRequestURL().toString());
+            event.setRequestQueryString(request.getQueryString());
             fireEvent(event);
 
         } catch (Exception e) {

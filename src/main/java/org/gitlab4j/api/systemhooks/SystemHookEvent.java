@@ -1,5 +1,6 @@
 package org.gitlab4j.api.systemhooks;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -28,7 +29,14 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = RepositorySystemHookEvent.class, name = RepositorySystemHookEvent.REPOSITORY_UPDATE_EVENT)
 })
 public interface SystemHookEvent {
-    public String getEventName();
+
+    String getEventName();
+
+    void setRequestUrl(String requestUrl);
+    @JsonIgnore String getRequestUrl();
+
+    void setRequestQueryString(String requestQuesryString);
+    @JsonIgnore String getRequestQueryString();
 }
 
 // All of the following class definitions are needed to make the above work.

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NoteEvent implements Event {
+public class NoteEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Note Hook";
     public static final String OBJECT_KIND = "note";
