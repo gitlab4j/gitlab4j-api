@@ -1,9 +1,13 @@
 
 package org.gitlab4j.api.models;
 
+import java.util.Base64;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -89,5 +93,74 @@ public class RepositoryFile {
 
     public void setLastCommitId(String lastCommitId) {
         this.lastCommitId = lastCommitId;
+    }
+
+    /**
+     * Returns the content as a String, base64 decoding it if necessary.
+     * For binary files it is recommended to use getDecodedContentAsBytes() 
+     *
+     * @return the content as a String, base64 decoding it if necessary
+     */
+    @JsonIgnore
+    public String getDecodedContentAsString() {
+
+        if (content == null) {
+            return (null);
+        }
+
+        if ("base64".equalsIgnoreCase(encoding)) {
+            return (new String(Base64.getDecoder().decode(content)));
+        }
+
+        return (content);
+    }
+
+    /**
+     * Returns the content as a byte array, decoding from base64 if necessary.
+     * For String content it is recommended to use getDecodedContent().
+     *
+     * @return the content as a byte array, decoding from base64 if necessary
+     */
+    @JsonIgnore
+    public byte[] getDecodedContentAsBytes() {
+
+        if (content == null) {
+            return (null);
+        }
+
+        if ("base64".equalsIgnoreCase(encoding)) {
+            return (Base64.getDecoder().decode(content));
+        }
+
+        return (content.getBytes());
+    }
+
+    /**
+     * Encodes the provided String using Base64 and sets it as the content. The encoding
+     * property of this instance will be set to base64.
+     *
+     * @param content the String content to encode and set as the base64 encoded String content
+     */
+    @JsonIgnore
+    public void encodeAndSetContent(String content) {
+        encodeAndSetContent(content != null ? content.getBytes() : null);
+    }
+
+    /**
+     * Encodes the provided byte array using Base64 and sets it as the content. The encoding
+     * property of this instance will be set to base64.
+     *
+     * @param content the byte[] content to encode and set as the base64 encoded String content
+     */
+    @JsonIgnore
+    public void encodeAndSetContent(byte[] byteContent) {
+
+        if (byteContent == null) {
+            byteContent = null;
+            return;
+        }
+
+        this.content = Base64.getEncoder().encodeToString(byteContent);
+        encoding = "base64";
     }
 }

@@ -44,13 +44,15 @@ public class TestRepositoryFileApi {
     private static final String TEST_NAMESPACE;
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
-
     static {
         TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
         TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
+
+    private static final String TEST_CONTENT = "This is some content to test file content 1234567890 !@#$%^&().";
+    private static final String TEST_ADDITIONAL_CONTENT = "\n\nThis is an additional line";
 
     private static final String TEST_BRANCH_NAME = "feature/test_branch_for_files";
     private static final String TEST_FILEPATH = "test-file.txt";
@@ -183,7 +185,7 @@ public class TestRepositoryFileApi {
 
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
-        file.setContent("This is a test file.");
+        file.setContent(TEST_CONTENT);
         RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(file, project.getId(), TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
 
@@ -205,6 +207,41 @@ public class TestRepositoryFileApi {
         file.setContent("");
         RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(file, project.getId(), TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
+
+        gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Testing deleteFile().");
+        gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
+    }
+
+    @Test
+    public void testUpdateFile() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        Branch branch = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_BRANCH_NAME, "master");
+        assertNotNull(branch);
+
+        RepositoryFile file = new RepositoryFile();
+        file.setFilePath(TEST_FILEPATH);
+        file.setContent(TEST_CONTENT);
+        RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(file, project.getId(), TEST_BRANCH_NAME, "Testing createFile().");
+        assertNotNull(createdFile);
+
+        Optional<RepositoryFile> optionalFile = gitLabApi.getRepositoryFileApi().getOptionalFile(project, TEST_FILEPATH, TEST_BRANCH_NAME);
+        assertTrue(optionalFile.isPresent());
+        RepositoryFile newFile = optionalFile.get();
+        assertEquals(TEST_CONTENT, newFile.getDecodedContentAsString());
+
+        String newContent = TEST_CONTENT + TEST_ADDITIONAL_CONTENT;
+        file = new RepositoryFile();
+        file.setFilePath(TEST_FILEPATH);
+        file.encodeAndSetContent(newContent);
+        gitLabApi.getRepositoryFileApi().updateFile(file, project.getId(), TEST_BRANCH_NAME, "Testing updateFile().");
+
+        optionalFile = gitLabApi.getRepositoryFileApi().getOptionalFile(project, TEST_FILEPATH, TEST_BRANCH_NAME);
+        assertTrue(optionalFile.isPresent());
+        RepositoryFile updatedFile = optionalFile.get();
+        assertEquals(newContent, updatedFile.getDecodedContentAsString());
 
         gitLabApi.getRepositoryFileApi().deleteFile(TEST_FILEPATH, project.getId(), TEST_BRANCH_NAME, "Testing deleteFile().");
         gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
