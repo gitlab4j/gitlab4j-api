@@ -150,13 +150,13 @@ public class RepositoryFile {
      * Encodes the provided byte array using Base64 and sets it as the content. The encoding
      * property of this instance will be set to base64.
      *
-     * @param content the byte[] content to encode and set as the base64 encoded String content
+     * @param byteContent the byte[] content to encode and set as the base64 encoded String content
      */
     @JsonIgnore
     public void encodeAndSetContent(byte[] byteContent) {
 
         if (byteContent == null) {
-            byteContent = null;
+            this.content = null;
             return;
         }
 
