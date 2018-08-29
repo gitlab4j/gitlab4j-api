@@ -1,6 +1,8 @@
 package org.gitlab4j.api.models;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,6 +16,7 @@ public class Job {
     private String coverage;
     private Date createdAt;
     private Date finishedAt;
+    private Date artifactsExpireAt;
     private String name;
     private Pipeline pipeline;
     private String ref;
@@ -21,7 +24,9 @@ public class Job {
     private User user;
     private Date startedAt;
     private ArtifactsFile artifactsFile;
+    private List<Artifact> artifacts;
     private Boolean tag;
+    private String webUrl;
     private String stage;
     private JobStatus status;
 
@@ -55,6 +60,14 @@ public class Job {
 
     public void setFinishedAt(Date finishedAt) {
         this.finishedAt = finishedAt;
+    }
+
+    public Date getArtifactsExpireAt() {
+        return artifactsExpireAt;
+    }
+
+    public void setArtifactsExpireAt(Date artifactsExpireAt) {
+        this.artifactsExpireAt = artifactsExpireAt;
     }
 
     public String getName() {
@@ -105,6 +118,14 @@ public class Job {
         this.tag = tag;
     }
 
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+    }
+
     public String getStage() {
         return stage;
     }
@@ -137,6 +158,14 @@ public class Job {
         this.artifactsFile = artifactsFile;
     }
 
+    public List<Artifact> getArtifacts() {
+        return artifacts;
+    }
+
+    public void setArtifacts(List<Artifact> artifacts) {
+        this.artifacts = artifacts;
+    }
+
     public Runner getRunner() {
         return runner;
     }
@@ -144,7 +173,6 @@ public class Job {
     public void setRunner(Runner runner) {
         this.runner = runner;
     }
-
 
     public Job withId(Integer id) {
         this.id = id;
