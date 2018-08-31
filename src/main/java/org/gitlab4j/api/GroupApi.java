@@ -342,6 +342,19 @@ public class GroupApi extends AbstractApi {
         return (response.readEntity(Group.class));
     }
 
+    public Group addGroup(Group group) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("name", group.getName())
+                .withParam("path", group.getPath())
+                .withParam("description", group.getDescription())
+                .withParam("visibility", group.getDescription())
+                .withParam("lfs_enabled", group.getLfsEnabled())
+                .withParam("request_access_enabled", group.getRequestAccessEnabled())
+                .withParam("parent_id", isApiVersion(ApiVersion.V3) ? null : group.getParentId());
+        Response response = post(Response.Status.CREATED, formData, "groups");
+        return (response.readEntity(Group.class));
+    }
+
     /**
      * Creates a new project group. Available only for users who can create groups.
      *
@@ -369,6 +382,28 @@ public class GroupApi extends AbstractApi {
                 .withParam("request_access_enabled", requestAccessEnabled)
                 .withParam("parent_id", isApiVersion(ApiVersion.V3) ? null : parentId);
         Response response = post(Response.Status.CREATED, formData, "groups");
+        return (response.readEntity(Group.class));
+    }
+
+    /**
+     * Updates a project group. Available only for users who can create groups.
+     *
+     * PUT /groups
+     *
+     * @param group to update
+     * @return updated group instance
+     * @throws GitLabApiException at any exception
+     */
+    public Group updateGroup(Group group) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("name", group.getName())
+                .withParam("path", group.getPath())
+                .withParam("description", group.getDescription())
+                .withParam("visibility", group.getVisibility())
+                .withParam("lfs_enabled", group.getLfsEnabled())
+                .withParam("request_access_enabled", group.getRequestAccessEnabled())
+                .withParam("parent_id", isApiVersion(ApiVersion.V3) ? null : group.getParentId());
+        Response response = put(Response.Status.OK, formData.asMap(), "groups", group.getId());
         return (response.readEntity(Group.class));
     }
 
