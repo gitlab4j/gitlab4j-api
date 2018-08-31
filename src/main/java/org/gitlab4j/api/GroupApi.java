@@ -342,6 +342,19 @@ public class GroupApi extends AbstractApi {
         return (response.readEntity(Group.class));
     }
 
+    public Group addGroup(Group group) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("name", group.getName())
+                .withParam("path", group.getPath())
+                .withParam("description", group.getDescription())
+                .withParam("visibility", group.getDescription())
+                .withParam("lfs_enabled", group.getLfsEnabled())
+                .withParam("request_access_enabled", group.getRequestAccessEnabled())
+                .withParam("parent_id", isApiVersion(ApiVersion.V3) ? null : group.getParentId());
+        Response response = post(Response.Status.CREATED, formData, "groups");
+        return (response.readEntity(Group.class));
+    }
+
     /**
      * Creates a new project group. Available only for users who can create groups.
      *
