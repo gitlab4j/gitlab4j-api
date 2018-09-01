@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Job;
 
 /**
@@ -258,6 +259,60 @@ public class JobApi extends AbstractApi implements Constants {
     public InputStream downloadArtifactsFile(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
         Response response = getWithAccepts(Response.Status.OK, null, MediaType.MEDIA_TYPE_WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts");
+        return (response.readEntity(InputStream.class));
+    }
+
+    /**
+     * Download a single artifact file from within the job's artifacts archive.
+     *
+     * Only a single file is going to be extracted from the archive and streamed to a client.
+     *
+     * GET /projects/:id/jobs/:job_id/artifacts/*artifact_path
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param jobId the unique job identifier
+     * @param artifactsFile an ArtifactsFile instance for the artifact to download
+     * @param directory the File instance of the directory to save the file to, if null will use "java.io.tmpdir"
+     * @return a File instance pointing to the download of the specified artifacts file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public File downloadArtifactsFile(Object projectIdOrPath, Integer jobId, ArtifactsFile artifactsFile, File directory) throws GitLabApiException {
+
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", artifactsFile.getFilename());
+        try {
+
+            if (directory == null)
+                directory = new File(System.getProperty("java.io.tmpdir"));
+
+            String filename = artifactsFile.getFilename();
+            File file = new File(directory, filename);
+
+            InputStream in = response.readEntity(InputStream.class);
+            Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return (file);
+
+        } catch (IOException ioe) {
+            throw new GitLabApiException(ioe);
+        }
+    }
+
+    /**
+     * Download a single artifact file from within the job's artifacts archive.
+     *
+     * Only a single file is going to be extracted from the archive and streamed to a client.
+     *
+     * GET /projects/:id/jobs/:job_id/artifacts/*artifact_path
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param jobId the unique job identifier
+     * @param artifactsFile an ArtifactsFile instance for the artifact to download
+     * @return an InputStream to read the specified artifacts file from
+     * @throws GitLabApiException if any exception occurs
+     */
+    public InputStream downloadArtifactsFile(Object projectIdOrPath, Integer jobId, ArtifactsFile artifactsFile) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", artifactsFile.getFilename());
         return (response.readEntity(InputStream.class));
     }
 
