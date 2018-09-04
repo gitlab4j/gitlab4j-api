@@ -7,8 +7,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.HashSet;
 import java.util.List;
 
+import java.util.Set;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -26,6 +28,19 @@ import org.gitlab4j.api.utils.FileUtils;
  * This class provides an entry point to all the GitLab API repository calls.
  */
 public class RepositoryApi extends AbstractApi {
+
+    private static final Set<String> validFormat = new HashSet<String>(){
+      {
+        add("tar.bz2");
+        add("tbz");
+        add("tbz2");
+        add("tb2");
+        add("bz2");
+        add("tar");
+        add("zip");
+        add("tar.gz");
+      }
+    };
 
     public RepositoryApi(GitLabApi gitLabApi) {
         super(gitLabApi);
@@ -436,6 +451,13 @@ public class RepositoryApi extends AbstractApi {
      *
      * GET /projects/:id/repository/archive
      *
+     * While gitlab-ce has a bug when you try to download file archives with format by using "&format=zip(or tar... etc.)",
+     * there is a solution to request .../archive.:format instead of .../archive?format=:format.
+     * So we must check format if it is valid.
+     *
+     * Issue:  https://gitlab.com/gitlab-org/gitlab-ce/issues/45992
+     *         https://gitlab.com/gitlab-com/support-forum/issues/3067
+     *
      * @param projectId the ID of the project
      * @param sha the SHA of the archive to get
      * @param format The archive format. Default is tar.gz. Options are tar.gz, tar.bz2, tbz, tbz2,
@@ -445,9 +467,9 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public InputStream getRepositoryArchive(Integer projectId, String sha, String format) throws GitLabApiException {
-        Form formData = new GitLabApiForm().withParam("sha", sha).withParam("format", format);
+        Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                  "projects", projectId, "repository", "archive");
+                  "projects", projectId, "repository", "archive".concat(checkFormat(format)));
         return (response.readEntity(InputStream.class));
     }
 
@@ -492,6 +514,13 @@ public class RepositoryApi extends AbstractApi {
      *
      * GET /projects/:id/repository/archive
      *
+     * While gitlab-ce has a bug when you try to download file archives with format by using "&format=zip(or tar... etc.)",
+     * there is a solution to request .../archive.:format instead of .../archive?format=:format.
+     * So we must check format if it is valid.
+     *
+     * Issue:  https://gitlab.com/gitlab-org/gitlab-ce/issues/45992
+     *         https://gitlab.com/gitlab-com/support-forum/issues/3067
+     *
      * @param projectId the ID of the project
      * @param sha the SHA of the archive to get
      * @param directory the File instance of the directory to save the archive to, if null will use "java.io.tmpdir"
@@ -502,9 +531,9 @@ public class RepositoryApi extends AbstractApi {
      */
     public File getRepositoryArchive(Integer projectId, String sha, File directory, String format) throws GitLabApiException {
 
-        Form formData = new GitLabApiForm().withParam("sha", sha).withParam("format", format);
+        Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-            "projects", projectId, "repository", "archive");
+            "projects", projectId, "repository", "archive".concat(checkFormat(format)));
 
         try {
 
@@ -605,5 +634,43 @@ public class RepositoryApi extends AbstractApi {
      */
     public Pager<Contributor> getContributors(Integer projectId, int itemsPerPage) throws GitLabApiException {
         return new Pager<Contributor>(this, Contributor.class, itemsPerPage, null, "projects", projectId, "repository", "contributors");
+    }
+
+    /*   gitlab-ce/lib/gitlab/git/repository #386   */
+    /*
+        extension =
+            case format
+            when "tar.bz2", "tbz", "tbz2", "tb2", "bz2"
+                "tar.bz2"
+            when "tar"
+                "tar"
+            when "zip"
+                "zip"
+            else
+                # everything else should fall back to tar.gz
+                "tar.gz"
+            end
+    */
+    /**
+     * While gitlab-ce has a bug when you try to download file archives with format by using "&format=zip(or tar... etc.)",
+     * there is a solution to request .../archive.:format instead of .../archive?format=:format.
+     * We must check format if it is valid.
+     *
+     * Issue:  https://gitlab.com/gitlab-org/gitlab-ce/issues/45992
+     *         https://gitlab.com/gitlab-com/support-forum/issues/3067
+     *
+     * @param format The archive format. Default is tar.gz. Options are tar.gz, tar.bz2, tbz, tbz2,
+     * tb2, bz2, tar, zip
+     * @return A valid format with a prefix ".". Default is .tar.gz.
+     */
+    private String checkFormat(String format) throws GitLabApiException {
+
+        if(format == null)
+            throw new GitLabApiException("format should not be null");
+
+        if(validFormat.contains(format))
+            return ".".concat(format);
+        else
+            return ".tar.gz";
     }
 }
