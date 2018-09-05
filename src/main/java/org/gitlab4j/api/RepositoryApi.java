@@ -467,9 +467,13 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public InputStream getRepositoryArchive(Integer projectId, String sha, String format) throws GitLabApiException {
+
+        // Throws a GitLabApiException if format is invalid
+        format = checkFormat(format);
+
         Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                  "projects", projectId, "repository", "archive".concat(checkFormat(format)));
+                  "projects", projectId, "repository", "archive", ".", format);
         return (response.readEntity(InputStream.class));
     }
 
@@ -531,9 +535,12 @@ public class RepositoryApi extends AbstractApi {
      */
     public File getRepositoryArchive(Integer projectId, String sha, File directory, String format) throws GitLabApiException {
 
+        // Throws a GitLabApiException if format is invalid
+        format = checkFormat(format);
+
         Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-            "projects", projectId, "repository", "archive".concat(checkFormat(format)));
+            "projects", projectId, "repository", "archive", ".", format);
 
         try {
 
@@ -636,7 +643,7 @@ public class RepositoryApi extends AbstractApi {
         return new Pager<Contributor>(this, Contributor.class, itemsPerPage, null, "projects", projectId, "repository", "contributors");
     }
 
-    /*   gitlab-ce/lib/gitlab/git/repository #386   */
+    /*   gitlab-ce/lib/gitlab/git/repository.rb #386   */
     /*
         extension =
             case format
@@ -661,16 +668,16 @@ public class RepositoryApi extends AbstractApi {
      *
      * @param format The archive format. Default is tar.gz. Options are tar.gz, tar.bz2, tbz, tbz2,
      * tb2, bz2, tar, zip
-     * @return A valid format with a prefix ".". Default is .tar.gz.
+     * @return A valid format. Default is tar.gz.
      */
     private String checkFormat(String format) throws GitLabApiException {
 
-        if(format == null)
-            throw new GitLabApiException("format should not be null");
+        if(format == null || format.isEmpty())
+            return "tar.gz";
 
-        if(validFormat.contains(format))
-            return ".".concat(format);
-        else
-            return ".tar.gz";
+        if(!validFormat.contains(format))
+            throw new GitLabApiException("Invalid format! Options are tar.gz, tar.bz2, tbz, tbz2, tb2, bz2, tar, zip.");
+
+        return format;
     }
 }
