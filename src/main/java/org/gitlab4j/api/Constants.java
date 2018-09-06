@@ -1,5 +1,8 @@
 package org.gitlab4j.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -436,6 +439,43 @@ public interface Constants {
         @Override
         public String toString() {
             return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to specify the format of a downloaded archive. */
+    public enum ArchiveFormat {
+
+        BZ2, TAR, TAR_BZ2, TAR_GZ, TB2, TBZ, TBZ2, ZIP;
+
+        private final String value;
+
+        ArchiveFormat() {
+            this.value = name().toLowerCase().replace('_', '.');
+        }
+
+        private static Map<String, ArchiveFormat> valuesMap = new HashMap<String, ArchiveFormat>(8);
+        static {
+            for (ArchiveFormat archiveFormat : ArchiveFormat.values())
+                valuesMap.put(archiveFormat.value, archiveFormat);
+        }
+
+        public static ArchiveFormat forValue(String value) throws GitLabApiException {
+
+            if (value == null || value.trim().isEmpty()) {
+                return (null);
+            }
+
+            ArchiveFormat archiveFormat = valuesMap.get(value);
+            if (archiveFormat != null) {
+                return (archiveFormat);
+            }
+
+            throw new GitLabApiException("Invalid format! Options are tar.gz, tar.bz2, tbz, tbz2, tb2, bz2, tar, and zip.");
+        }
+
+        @Override
+        public String toString() {
+            return (value);
         }
     }
 }
