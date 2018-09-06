@@ -15,7 +15,15 @@ public class Permissions {
         return projectAccess;
     }
 
+    public void setProjectAccess(ProjectAccess projectAccess) {
+        this.projectAccess = projectAccess;
+    }
+
     public ProjectAccess getGroupAccess() {
         return groupAccess;
+    }
+
+    public void setGroupAccess(ProjectAccess groupAccess) {
+        this.groupAccess = groupAccess;
     }
 }
