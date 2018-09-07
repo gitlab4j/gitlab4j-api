@@ -15,6 +15,8 @@ dependencies {
 }
 ```
 
+**NOTE:** Pulling dependencies may fail when using Gradle prior to 4.5. See [Gradle issue 3065](https://github.com/gradle/gradle/issues/3065#issuecomment-364092456)
+
 **Maven: pom.xml**
 ```xml
 <dependency>
