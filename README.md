@@ -29,6 +29,9 @@ There have been reports of problems resolving some dependencies when using Ivy o
 <a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/571">JAX-RS API Issue #571</a><br/>
 <a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/572">JAX-RS API Issue #572</a>
 
+**Gradle**<br/>
+Pulling dependencies will fail when using Gradle prior to 4.5. See [Gradle issue 3065](https://github.com/gradle/gradle/issues/3065#issuecomment-364092456)
+
 ---
 
 ## Javadocs
