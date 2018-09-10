@@ -325,4 +325,22 @@ public class TestIssuesApi {
 
         assertTimeStats(timeStats, 0, 0);
     }
+
+    @Test
+    public void testGetIssuesWithOptions() throws GitLabApiException {
+        assertNotNull(testProject);
+        Integer projectId = testProject.getId();
+
+        Issue issueOpen = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        Issue issueClose = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        issueClose = gitLabApi.getIssuesApi().closeIssue(projectId, issueClose.getIid());
+
+        List<Issue> opens = gitLabApi.getIssuesApi().getIssues(projectId,null,IssueState.OPENED,null,null,null,null,null,null,null,null,null,null,null,null,null);
+        List<Issue> closes = gitLabApi.getIssuesApi().getIssues(projectId,null,IssueState.CLOSED,null,null,null,null,null,null,null,null,null,null,null,null,null);
+
+        assertNotNull(opens);
+        assertNotNull(closes);
+        assertEquals(opens.get(0).getIid(), issueOpen.getIid());
+        assertEquals(closes.get(0).getIid(), issueClose.getIid());
+    }
 }
