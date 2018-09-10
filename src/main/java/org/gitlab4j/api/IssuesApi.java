@@ -138,15 +138,15 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
      * @param iid Return only the milestone having the given iid.
-     * @param state Return all issues or just those that are opened or closed.
+     * @param state {@link org.gitlab4j.api.Constants.IssueState} Return all issues or just those that are opened or closed.
      * @param labels Comma-separated list of label names, issues must have all labels to be returned. No+Label lists all issues with no labels.
      * @param milestone The milestone title. No+Milestone lists all issues with no milestone.
-     * @param scope Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
+     * @param scope {@link org.gitlab4j.api.Constants.IssueScope} Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
      * @param authorId Return issues created by the given user id.
      * @param assigneeId Return issues assigned to the given user id.
      * @param myReactionEmoji Return issues reacted by the authenticated user by the given emoji.
-     * @param orderBy Return issues ordered by created_at or updated_at fields. Default is created_at.
-     * @param sort Return issues sorted in asc or desc order. Default is desc.
+     * @param orderBy {@link org.gitlab4j.api.Constants.IssueOrderBy} Return issues ordered by created_at or updated_at fields. Default is created_at.
+     * @param sort {@link org.gitlab4j.api.Constants.SortOrder} Return issues sorted in asc or desc order. Default is desc.
      * @param search Search project issues against their title and description.
      * @param createdAfter Return issues created on or after the given time.
      * @param createdBefore Return issues created on or before the given time.
@@ -191,15 +191,15 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
      * @param iid Return only the milestone having the given iid.
-     * @param state Return all issues or just those that are opened or closed.
+     * @param state {@link org.gitlab4j.api.Constants.IssueState} Return all issues or just those that are opened or closed.
      * @param labels Comma-separated list of label names, issues must have all labels to be returned. No+Label lists all issues with no labels.
      * @param milestone The milestone title. No+Milestone lists all issues with no milestone.
-     * @param scope Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
+     * @param scope {@link org.gitlab4j.api.Constants.IssueScope} Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
      * @param authorId Return issues created by the given user id.
      * @param assigneeId Return issues assigned to the given user id.
      * @param myReactionEmoji Return issues reacted by the authenticated user by the given emoji.
-     * @param orderBy Return issues ordered by created_at or updated_at fields. Default is created_at.
-     * @param sort Return issues sorted in asc or desc order. Default is desc.
+     * @param orderBy {@link org.gitlab4j.api.Constants.IssueOrderBy} Return issues ordered by created_at or updated_at fields. Default is created_at.
+     * @param sort {@link org.gitlab4j.api.Constants.SortOrder} Return issues sorted in asc or desc order. Default is desc.
      * @param search Search project issues against their title and description.
      * @param createdAfter Return issues created on or after the given time.
      * @param createdBefore Return issues created on or before the given time.
@@ -245,15 +245,15 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
      * @param iid Return only the milestone having the given iid.
-     * @param state Return all issues or just those that are opened or closed.
+     * @param state {@link org.gitlab4j.api.Constants.IssueState} Return all issues or just those that are opened or closed.
      * @param labels Comma-separated list of label names, issues must have all labels to be returned. No+Label lists all issues with no labels.
      * @param milestone The milestone title. No+Milestone lists all issues with no milestone.
-     * @param scope Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
+     * @param scope {@link org.gitlab4j.api.Constants.IssueScope} Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
      * @param authorId Return issues created by the given user id.
      * @param assigneeId Return issues assigned to the given user id.
      * @param myReactionEmoji Return issues reacted by the authenticated user by the given emoji.
-     * @param orderBy Return issues ordered by created_at or updated_at fields. Default is created_at.
-     * @param sort Return issues sorted in asc or desc order. Default is desc.
+     * @param orderBy {@link org.gitlab4j.api.Constants.IssueOrderBy} Return issues ordered by created_at or updated_at fields. Default is created_at.
+     * @param sort {@link org.gitlab4j.api.Constants.SortOrder} Return issues sorted in asc or desc order. Default is desc.
      * @param search Search project issues against their title and description.
      * @param createdAfter Return issues created on or after the given time.
      * @param createdBefore Return issues created on or before the given time.
