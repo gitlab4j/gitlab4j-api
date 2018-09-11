@@ -40,6 +40,7 @@ import org.gitlab4j.api.Constants.IssueState;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.filter.ListIssueFilter;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.TimeStats;
 import org.junit.AfterClass;
@@ -335,8 +336,16 @@ public class TestIssuesApi {
         Issue issueClose = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         issueClose = gitLabApi.getIssuesApi().closeIssue(projectId, issueClose.getIid());
 
-        List<Issue> opens = gitLabApi.getIssuesApi().getIssues(projectId,null,IssueState.OPENED,null,null,null,null,null,null,null,null,null,null,null,null,null);
-        List<Issue> closes = gitLabApi.getIssuesApi().getIssues(projectId,null,IssueState.CLOSED,null,null,null,null,null,null,null,null,null,null,null,null,null);
+        ListIssueFilter openFilter = new ListIssueFilter.Builder()
+                .withState(IssueState.OPENED)
+                .build();
+
+        ListIssueFilter closeFilter = new ListIssueFilter.Builder()
+                .withState(IssueState.CLOSED)
+                .build();
+
+        List<Issue> opens = gitLabApi.getIssuesApi().getIssues(projectId,openFilter);
+        List<Issue> closes = gitLabApi.getIssuesApi().getIssues(projectId,closeFilter);
 
         assertNotNull(opens);
         assertNotNull(closes);

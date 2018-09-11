@@ -33,9 +33,9 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.filter.ListIssueFilter;
 import org.gitlab4j.api.models.TimeStats;
 import org.gitlab4j.api.utils.DurationUtils;
-import org.gitlab4j.api.utils.ISO8601;
 
 /**
  * This class provides an entry point to all the GitLab API Issue calls.
@@ -132,159 +132,102 @@ public class IssuesApi extends AbstractApi implements Constants {
     /**
      * Get a list of project's issues. Only returns the first page with default 100 items.
      *
-     * Except 'projectIdOrPath' parameter, any others are optional. If you don't need them, you can pass a 'null'.
-     *
      * GET /projects/:id/issues
      *
      * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
-     * @param iid Return only the milestone having the given iid.
-     * @param state {@link org.gitlab4j.api.Constants.IssueState} Return all issues or just those that are opened or closed.
-     * @param labels Comma-separated list of label names, issues must have all labels to be returned. No+Label lists all issues with no labels.
-     * @param milestone The milestone title. No+Milestone lists all issues with no milestone.
-     * @param scope {@link org.gitlab4j.api.Constants.IssueScope} Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
-     * @param authorId Return issues created by the given user id.
-     * @param assigneeId Return issues assigned to the given user id.
-     * @param myReactionEmoji Return issues reacted by the authenticated user by the given emoji.
-     * @param orderBy {@link org.gitlab4j.api.Constants.IssueOrderBy} Return issues ordered by created_at or updated_at fields. Default is created_at.
-     * @param sort {@link org.gitlab4j.api.Constants.SortOrder} Return issues sorted in asc or desc order. Default is desc.
-     * @param search Search project issues against their title and description.
-     * @param createdAfter Return issues created on or after the given time.
-     * @param createdBefore Return issues created on or before the given time.
-     * @param updatedAfter Return issues updated on or after the given time.
-     * @param updatedBefore Return issues updated on or before the given time.
+     * @param filter {@link ListIssueFilter} a ListIssueFilter instance with the filter settings
      * @return the list of issues in the specified range.
      * @throws GitLabApiException
      */
-    public List<Issue> getIssues(Object projectIdOrPath, List<String> iid, IssueState state, String labels, String milestone,
-        IssueScope scope, Integer authorId, Integer assigneeId, String myReactionEmoji, IssueOrderBy orderBy, SortOrder sort,
-        String search, Date createdAfter, Date createdBefore, Date updatedAfter, Date updatedBefore) throws GitLabApiException {
-
-        GitLabApiForm formData = new GitLabApiForm()
-            .withParam("iids", iid)
-            .withParam("state", state)
-            .withParam("labels", labels)
-            .withParam("milestone", milestone)
-            .withParam("scope", scope)
-            .withParam("author_id", authorId)
-            .withParam("assignee_id", assigneeId)
-            .withParam("my_reaction_emoji", myReactionEmoji)
-            .withParam("order_by", orderBy)
-            .withParam("sort", sort)
-            .withParam("search", search)
-            .withParam("created_after", ISO8601.toString(createdAfter, false))
-            .withParam("created_before", ISO8601.toString(createdBefore, false))
-            .withParam("updated_after", ISO8601.toString(updatedAfter, false))
-            .withParam("updated_before", ISO8601.toString(updatedBefore, false))
-            .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues");
-
-        return (response.readEntity(new GenericType<List<Issue>>() {}));
+    public List<Issue> getIssues(Object projectIdOrPath, ListIssueFilter filter) throws GitLabApiException {
+        return (getIssues(projectIdOrPath, filter, 1, getDefaultPerPage()));
     }
 
     /**
      * Get a list of project's issues.
      *
-     * Except 'projectIdOrPath', 'page' and 'perPage' parameters, any others are optional. If you don't need them, you can pass a 'null'.
-     *
      * GET /projects/:id/issues
      *
      * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
-     * @param iid Return only the milestone having the given iid.
-     * @param state {@link org.gitlab4j.api.Constants.IssueState} Return all issues or just those that are opened or closed.
-     * @param labels Comma-separated list of label names, issues must have all labels to be returned. No+Label lists all issues with no labels.
-     * @param milestone The milestone title. No+Milestone lists all issues with no milestone.
-     * @param scope {@link org.gitlab4j.api.Constants.IssueScope} Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
-     * @param authorId Return issues created by the given user id.
-     * @param assigneeId Return issues assigned to the given user id.
-     * @param myReactionEmoji Return issues reacted by the authenticated user by the given emoji.
-     * @param orderBy {@link org.gitlab4j.api.Constants.IssueOrderBy} Return issues ordered by created_at or updated_at fields. Default is created_at.
-     * @param sort {@link org.gitlab4j.api.Constants.SortOrder} Return issues sorted in asc or desc order. Default is desc.
-     * @param search Search project issues against their title and description.
-     * @param createdAfter Return issues created on or after the given time.
-     * @param createdBefore Return issues created on or before the given time.
-     * @param updatedAfter Return issues updated on or after the given time.
-     * @param updatedBefore Return issues updated on or before the given time.
+     * @param filter {@link ListIssueFilter} a ListIssueFilter instance with the filter settings.
      * @param page the page to get.
      * @param perPage the number of projects per page.
      * @return the list of issues in the specified range.
      * @throws GitLabApiException
      */
-    public List<Issue> getIssues(Object projectIdOrPath, List<String> iid, IssueState state, String labels, String milestone,
-        IssueScope scope, Integer authorId, Integer assigneeId, String myReactionEmoji, IssueOrderBy orderBy, SortOrder sort,
-        String search, Date createdAfter, Date createdBefore, Date updatedAfter, Date updatedBefore, int page, int perPage) throws GitLabApiException {
+    public List<Issue> getIssues(Object projectIdOrPath, ListIssueFilter filter, int page, int perPage) throws GitLabApiException {
 
-        GitLabApiForm formData = new GitLabApiForm(page, perPage)
-            .withParam("iids", iid)
-            .withParam("state", state)
-            .withParam("labels", labels)
-            .withParam("milestone", milestone)
-            .withParam("scope", scope)
-            .withParam("author_id", authorId)
-            .withParam("assignee_id", assigneeId)
-            .withParam("my_reaction_emoji", myReactionEmoji)
-            .withParam("order_by", orderBy)
-            .withParam("sort", sort)
-            .withParam("search", search)
-            .withParam("created_after", ISO8601.toString(createdAfter, false))
-            .withParam("created_before", ISO8601.toString(createdBefore, false))
-            .withParam("updated_after", ISO8601.toString(updatedAfter, false))
-            .withParam("updated_before", ISO8601.toString(updatedBefore, false));
-
+        GitLabApiForm formData = filter.getQueryParams(page, perPage);
         Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues");
-
         return (response.readEntity(new GenericType<List<Issue>>() {}));
     }
 
     /**
      * Get a list of project's issues.
      *
-     * Except 'projectIdOrPath' and 'itemsPerPage' parameters, any others are optional. If you don't need them, you can just pass a 'null'.
-     *
      * GET /projects/:id/issues
      *
      * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
-     * @param iid Return only the milestone having the given iid.
-     * @param state {@link org.gitlab4j.api.Constants.IssueState} Return all issues or just those that are opened or closed.
-     * @param labels Comma-separated list of label names, issues must have all labels to be returned. No+Label lists all issues with no labels.
-     * @param milestone The milestone title. No+Milestone lists all issues with no milestone.
-     * @param scope {@link org.gitlab4j.api.Constants.IssueScope} Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
-     * @param authorId Return issues created by the given user id.
-     * @param assigneeId Return issues assigned to the given user id.
-     * @param myReactionEmoji Return issues reacted by the authenticated user by the given emoji.
-     * @param orderBy {@link org.gitlab4j.api.Constants.IssueOrderBy} Return issues ordered by created_at or updated_at fields. Default is created_at.
-     * @param sort {@link org.gitlab4j.api.Constants.SortOrder} Return issues sorted in asc or desc order. Default is desc.
-     * @param search Search project issues against their title and description.
-     * @param createdAfter Return issues created on or after the given time.
-     * @param createdBefore Return issues created on or before the given time.
-     * @param updatedAfter Return issues updated on or after the given time.
-     * @param updatedBefore Return issues updated on or before the given time.
+     * @param filter {@link ListIssueFilter} a ListIssueFilter instance with the filter settings.
      * @param itemsPerPage the number of Project instances that will be fetched per page.
      * @return the list of issues in the specified range.
      * @throws GitLabApiException
      */
-    public Pager<Issue> getIssues(Object projectIdOrPath, List<String> iid, IssueState state, String labels, String milestone,
-        IssueScope scope, Integer authorId, Integer assigneeId, String myReactionEmoji, IssueOrderBy orderBy, SortOrder sort,
-        String search, Date createdAfter, Date createdBefore, Date updatedAfter, Date updatedBefore, int itemsPerPage) throws GitLabApiException {
+    public Pager<Issue> getIssues(Object projectIdOrPath, ListIssueFilter filter, int itemsPerPage) throws GitLabApiException {
 
-        GitLabApiForm formData = new GitLabApiForm()
-            .withParam("iids", iid)
-            .withParam("state", state)
-            .withParam("labels", labels)
-            .withParam("milestone", milestone)
-            .withParam("scope", scope)
-            .withParam("author_id", authorId)
-            .withParam("assignee_id", assigneeId)
-            .withParam("my_reaction_emoji", myReactionEmoji)
-            .withParam("order_by", orderBy)
-            .withParam("sort", sort)
-            .withParam("search", search)
-            .withParam("created_after", ISO8601.toString(createdAfter, false))
-            .withParam("created_before", ISO8601.toString(createdBefore, false))
-            .withParam("updated_after", ISO8601.toString(updatedAfter, false))
-            .withParam("updated_before", ISO8601.toString(updatedBefore, false));
-
+        GitLabApiForm formData = filter.getQueryParams();
         return (new Pager<Issue>(this, Issue.class, itemsPerPage, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues"));
+    }
+
+    /**
+     * Get all issues the authenticated user has access to.
+     * By default it returns only issues created by the current user.
+     * Only returns the first page with default 100 items.
+     *
+     * GET /issues
+     *
+     * @param filter {@link ListIssueFilter} a ListIssueFilter instance with the filter settings
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException
+     */
+    public List<Issue> getIssues(ListIssueFilter filter) throws GitLabApiException {
+        return (getIssues(filter, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get all issues the authenticated user has access to.
+     * By default it returns only issues created by the current user.
+     *
+     * GET /issues
+     *
+     * @param filter {@link ListIssueFilter} a ListIssueFilter instance with the filter settings.
+     * @param page the page to get.
+     * @param perPage the number of projects per page.
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException
+     */
+    public List<Issue> getIssues(ListIssueFilter filter, int page, int perPage) throws GitLabApiException {
+
+        GitLabApiForm formData = filter.getQueryParams(page, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "issues");
+        return (response.readEntity(new GenericType<List<Issue>>() {}));
+    }
+
+    /**
+     * Get all issues the authenticated user has access to.
+     * By default it returns only issues created by the current user.
+     *
+     * GET /issues
+     *
+     * @param filter {@link ListIssueFilter} a ListIssueFilter instance with the filter settings.
+     * @param itemsPerPage the number of Project instances that will be fetched per page.
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException
+     */
+    public Pager<Issue> getIssues(ListIssueFilter filter, int itemsPerPage) throws GitLabApiException {
+
+        GitLabApiForm formData = filter.getQueryParams();
+        return (new Pager<Issue>(this, Issue.class, itemsPerPage, formData.asMap(),  "issues"));
     }
 
     /**
