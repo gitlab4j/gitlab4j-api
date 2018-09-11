@@ -1,4 +1,4 @@
-package org.gitlab4j.api.models.filter;
+package org.gitlab4j.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
@@ -16,7 +16,7 @@ import org.gitlab4j.api.utils.ISO8601;
  *
  *  This class is used to filter issues when getting lists of them.
  */
-public class ListIssueFilter {
+public class IssueFilter {
 
     /**
      * Return only the milestone having the given iid.
@@ -215,26 +215,80 @@ public class ListIssueFilter {
         this.updatedBefore = updatedBefore;
     }
 
-    /*- constructor -*/
-    public ListIssueFilter() {}
+    /*- builder -*/
+    public IssueFilter withIids(List<String> iids) {
+        this.iids = iids;
+        return (this);
+    }
 
-    @JsonIgnore
-    private ListIssueFilter(Builder builder) {
-        this.iids            = builder.iids;
-        this.state           = builder.state;
-        this.labels          = builder.labels;
-        this.milestone       = builder.milestone;
-        this.scope           = builder.scope;
-        this.authorId        = builder.authorId;
-        this.assigneeId      = builder.assigneeId;
-        this.myReactionEmoji = builder.myReactionEmoji;
-        this.orderBy         = builder.orderBy;
-        this.sort            = builder.sort;
-        this.search          = builder.search;
-        this.createdAfter    = builder.createdAfter;
-        this.createdBefore   = builder.createdBefore;
-        this.updatedAfter    = builder.updatedAfter;
-        this.updatedBefore   = builder.updatedBefore;
+    public IssueFilter withState(IssueState state) {
+        this.state = state;
+        return (this);
+    }
+
+    public IssueFilter withLabels(String labels) {
+        this.labels = labels;
+        return (this);
+    }
+
+    public IssueFilter withMilestone(String milestone) {
+        this.milestone = milestone;
+        return (this);
+    }
+
+    public IssueFilter withScope(IssueScope scope) {
+        this.scope = scope;
+        return (this);
+    }
+
+    public IssueFilter withAuthorId(Integer authorId) {
+        this.authorId = authorId;
+        return (this);
+    }
+
+    public IssueFilter withAssigneeId(Integer assigneeId) {
+        this.assigneeId = assigneeId;
+        return (this);
+    }
+
+    public IssueFilter withMyReactionEmoji(String myReactionEmoji) {
+        this.myReactionEmoji = myReactionEmoji;
+        return (this);
+    }
+
+    public IssueFilter withOrderBy(IssueOrderBy orderBy) {
+        this.orderBy = orderBy;
+        return (this);
+    }
+
+    public IssueFilter withSort(SortOrder sort) {
+        this.sort = sort;
+        return (this);
+    }
+
+    public IssueFilter withSearch(String search) {
+        this.search = search;
+        return (this);
+    }
+
+    public IssueFilter withCreatedAfter(Date createdAfter) {
+        this.createdAfter = createdAfter;
+        return (this);
+    }
+
+    public IssueFilter withCreatedBefore(Date createdBefore) {
+        this.createdBefore = createdBefore;
+        return (this);
+    }
+
+    public IssueFilter withUpdatedAfter(Date updatedAfter) {
+        this.updatedAfter = updatedAfter;
+        return (this);
+    }
+
+    public IssueFilter withUpdatedBefore(Date updatedBefore) {
+        this.updatedBefore = updatedBefore;
+        return (this);
     }
 
     /*- params generator -*/
@@ -263,105 +317,5 @@ public class ListIssueFilter {
                 .withParam("created_before", ISO8601.toString(createdBefore, false))
                 .withParam("updated_after", ISO8601.toString(updatedAfter, false))
                 .withParam("updated_before", ISO8601.toString(updatedBefore, false)));
-    }
-
-    /*- builder -*/
-    public static class Builder {
-
-        private List<String> iids;
-        private IssueState state;
-        private String labels;
-        private String milestone;
-        private IssueScope scope;
-        private Integer authorId;
-        private Integer assigneeId;
-        private String myReactionEmoji;
-        private IssueOrderBy orderBy;
-        private SortOrder sort;
-        private String search;
-        private Date createdAfter;
-        private Date createdBefore;
-        private Date updatedAfter;
-        private Date updatedBefore;
-
-        /*- filters -*/
-        public Builder withIids(List<String> iids) {
-            this.iids = iids;
-            return (this);
-        }
-
-        public Builder withState(IssueState state) {
-            this.state = state;
-            return (this);
-        }
-
-        public Builder withLabels(String labels) {
-            this.labels = labels;
-            return (this);
-        }
-
-        public Builder withMilestone(String milestone) {
-            this.milestone = milestone;
-            return (this);
-        }
-
-        public Builder withScope(IssueScope scope) {
-            this.scope = scope;
-            return (this);
-        }
-
-        public Builder withAuthorId(Integer authorId) {
-            this.authorId = authorId;
-            return (this);
-        }
-
-        public Builder withAssigneeId(Integer assigneeId) {
-            this.assigneeId = assigneeId;
-            return (this);
-        }
-
-        public Builder withMyReactionEmoji(String myReactionEmoji) {
-            this.myReactionEmoji = myReactionEmoji;
-            return (this);
-        }
-
-        public Builder withOrderBy(IssueOrderBy orderBy) {
-            this.orderBy = orderBy;
-            return (this);
-        }
-
-        public Builder withSort(SortOrder sort) {
-            this.sort = sort;
-            return (this);
-        }
-
-        public Builder withSearch(String search) {
-            this.search = search;
-            return (this);
-        }
-
-        public Builder withCreatedAfter(Date createdAfter) {
-            this.createdAfter = createdAfter;
-            return (this);
-        }
-
-        public Builder withCreatedBefore(Date createdBefore) {
-            this.createdBefore = createdBefore;
-            return (this);
-        }
-
-        public Builder withUpdatedAfter(Date updatedAfter) {
-            this.updatedAfter = updatedAfter;
-            return (this);
-        }
-
-        public Builder withUpdatedBefore(Date updatedBefore) {
-            this.updatedBefore = updatedBefore;
-            return (this);
-        }
-
-        public ListIssueFilter build() {
-            return new ListIssueFilter(this);
-        }
     }
 }

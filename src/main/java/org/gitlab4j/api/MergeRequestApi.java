@@ -3,7 +3,7 @@ package org.gitlab4j.api;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.MergeRequest;
-import org.gitlab4j.api.models.filter.MergeRequestFilter;
+import org.gitlab4j.api.models.MergeRequestFilter;
 import org.gitlab4j.api.models.Participant;
 
 import javax.ws.rs.core.Form;

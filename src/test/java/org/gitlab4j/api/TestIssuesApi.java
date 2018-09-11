@@ -40,7 +40,7 @@ import org.gitlab4j.api.Constants.IssueState;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
-import org.gitlab4j.api.models.filter.ListIssueFilter;
+import org.gitlab4j.api.models.IssueFilter;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.TimeStats;
 import org.junit.AfterClass;
@@ -336,13 +336,11 @@ public class TestIssuesApi {
         Issue issueClose = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         issueClose = gitLabApi.getIssuesApi().closeIssue(projectId, issueClose.getIid());
 
-        ListIssueFilter openFilter = new ListIssueFilter.Builder()
-                .withState(IssueState.OPENED)
-                .build();
+        IssueFilter openFilter = new IssueFilter()
+                .withState(IssueState.OPENED);
 
-        ListIssueFilter closeFilter = new ListIssueFilter.Builder()
-                .withState(IssueState.CLOSED)
-                .build();
+        IssueFilter closeFilter = new IssueFilter()
+                .withState(IssueState.CLOSED);
 
         List<Issue> opens = gitLabApi.getIssuesApi().getIssues(projectId,openFilter);
         List<Issue> closes = gitLabApi.getIssuesApi().getIssues(projectId,closeFilter);

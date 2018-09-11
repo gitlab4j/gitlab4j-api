@@ -1,4 +1,4 @@
-package org.gitlab4j.api.models.filter;
+package org.gitlab4j.api.models;
 
 import java.util.Date;
 import java.util.List;
