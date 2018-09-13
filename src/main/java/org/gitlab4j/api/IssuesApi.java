@@ -33,6 +33,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.IssueFilter;
 import org.gitlab4j.api.models.TimeStats;
 import org.gitlab4j.api.utils.DurationUtils;
 
@@ -126,6 +127,107 @@ public class IssuesApi extends AbstractApi implements Constants {
      */
     public Pager<Issue> getIssues(Integer projectId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Issue>(this, Issue.class, itemsPerPage, null, "projects", projectId, "issues"));
+    }
+
+    /**
+     * Get a list of project's issues. Only returns the first page with default 100 items.
+     *
+     * GET /projects/:id/issues
+     *
+     * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException
+     */
+    public List<Issue> getIssues(Object projectIdOrPath, IssueFilter filter) throws GitLabApiException {
+        return (getIssues(projectIdOrPath, filter, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get a list of project's issues.
+     *
+     * GET /projects/:id/issues
+     *
+     * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
+     * @param page the page to get.
+     * @param perPage the number of projects per page.
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException
+     */
+    public List<Issue> getIssues(Object projectIdOrPath, IssueFilter filter, int page, int perPage) throws GitLabApiException {
+
+        GitLabApiForm formData = filter.getQueryParams(page, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues");
+        return (response.readEntity(new GenericType<List<Issue>>() {}));
+    }
+
+    /**
+     * Get a list of project's issues.
+     *
+     * GET /projects/:id/issues
+     *
+     * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
+     * @param itemsPerPage the number of Project instances that will be fetched per page.
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException
+     */
+    public Pager<Issue> getIssues(Object projectIdOrPath, IssueFilter filter, int itemsPerPage) throws GitLabApiException {
+
+        GitLabApiForm formData = filter.getQueryParams();
+        return (new Pager<Issue>(this, Issue.class, itemsPerPage, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues"));
+    }
+
+    /**
+     * Get all issues the authenticated user has access to.
+     * By default it returns only issues created by the current user.
+     * Only returns the first page with default 100 items.
+     *
+     * GET /issues
+     *
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException
+     */
+    public List<Issue> getIssues(IssueFilter filter) throws GitLabApiException {
+        return (getIssues(filter, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get all issues the authenticated user has access to.
+     * By default it returns only issues created by the current user.
+     *
+     * GET /issues
+     *
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
+     * @param page the page to get.
+     * @param perPage the number of projects per page.
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException
+     */
+    public List<Issue> getIssues(IssueFilter filter, int page, int perPage) throws GitLabApiException {
+
+        GitLabApiForm formData = filter.getQueryParams(page, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "issues");
+        return (response.readEntity(new GenericType<List<Issue>>() {}));
+    }
+
+    /**
+     * Get all issues the authenticated user has access to.
+     * By default it returns only issues created by the current user.
+     *
+     * GET /issues
+     *
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
+     * @param itemsPerPage the number of Project instances that will be fetched per page.
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException
+     */
+    public Pager<Issue> getIssues(IssueFilter filter, int itemsPerPage) throws GitLabApiException {
+
+        GitLabApiForm formData = filter.getQueryParams();
+        return (new Pager<Issue>(this, Issue.class, itemsPerPage, formData.asMap(),  "issues"));
     }
 
     /**
