@@ -137,7 +137,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @param projectIdOrPath The ID or URL-encoded path of the project owned by the authenticated user.
      * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings
      * @return the list of issues in the specified range.
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Issue> getIssues(Object projectIdOrPath, IssueFilter filter) throws GitLabApiException {
         return (getIssues(projectIdOrPath, filter, 1, getDefaultPerPage()));
@@ -153,7 +153,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @param page the page to get.
      * @param perPage the number of projects per page.
      * @return the list of issues in the specified range.
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Issue> getIssues(Object projectIdOrPath, IssueFilter filter, int page, int perPage) throws GitLabApiException {
 
@@ -171,7 +171,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
      * @param itemsPerPage the number of Project instances that will be fetched per page.
      * @return the list of issues in the specified range.
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Pager<Issue> getIssues(Object projectIdOrPath, IssueFilter filter, int itemsPerPage) throws GitLabApiException {
 
@@ -188,7 +188,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings
      * @return the list of issues in the specified range.
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Issue> getIssues(IssueFilter filter) throws GitLabApiException {
         return (getIssues(filter, 1, getDefaultPerPage()));
@@ -204,7 +204,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @param page the page to get.
      * @param perPage the number of projects per page.
      * @return the list of issues in the specified range.
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public List<Issue> getIssues(IssueFilter filter, int page, int perPage) throws GitLabApiException {
 
@@ -222,7 +222,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
      * @param itemsPerPage the number of Project instances that will be fetched per page.
      * @return the list of issues in the specified range.
-     * @throws GitLabApiException
+     * @throws GitLabApiException if any exception occurs
      */
     public Pager<Issue> getIssues(IssueFilter filter, int itemsPerPage) throws GitLabApiException {
 
