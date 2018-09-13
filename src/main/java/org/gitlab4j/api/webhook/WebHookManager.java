@@ -52,13 +52,18 @@ public class WebHookManager extends HookManager {
      */
     public void handleEvent(HttpServletRequest request) throws GitLabApiException {
 
+        String eventName = request.getHeader("X-Gitlab-Event");
+        if (eventName == null || eventName.trim().isEmpty()) {
+            LOGGER.warning("X-Gitlab-Event header is missing!");
+            return;
+        }
+
         if (!isValidSecretToken(request)) {
             String message = "X-Gitlab-Token mismatch!";
             LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
 
-        String eventName = request.getHeader("X-Gitlab-Event");
         LOGGER.info("handleEvent: X-Gitlab-Event=" + eventName);
         switch (eventName) {
 
