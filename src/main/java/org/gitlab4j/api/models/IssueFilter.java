@@ -31,7 +31,7 @@ public class IssueFilter {
     /**
      * Comma-separated list of label names, issues must have all labels to be returned. No+Label lists all issues with no labels.
      */
-    private String labels;
+    private List<String> labels;
 
     /**
      * The milestone title. No+Milestone lists all issues with no milestone.
@@ -111,11 +111,11 @@ public class IssueFilter {
         this.state = state;
     }
 
-    public String getLabels() {
+    public List<String> getLabels() {
         return labels;
     }
 
-    public void setLabels(String labels) {
+    public void setLabels(List<String> labels) {
         this.labels = labels;
     }
 
@@ -226,7 +226,7 @@ public class IssueFilter {
         return (this);
     }
 
-    public IssueFilter withLabels(String labels) {
+    public IssueFilter withLabels(List<String> labels) {
         this.labels = labels;
         return (this);
     }
@@ -304,7 +304,7 @@ public class IssueFilter {
         return (new GitLabApiForm()
                 .withParam("iids", iids)
                 .withParam("state", state)
-                .withParam("labels", labels)
+                .withParam("labels", (labels != null ? String.join(",", labels) : null))
                 .withParam("milestone", milestone)
                 .withParam("scope", scope)
                 .withParam("author_id", authorId)
