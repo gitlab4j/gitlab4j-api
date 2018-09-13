@@ -17,6 +17,7 @@ public class AbstractUser {
     private Date confirmedAt;
     private Date createdAt;
     private Date currentSignInAt;
+    private List<CustomAttribute> customAttributes;
     private String email;
     private Boolean external;
     private Integer id;
@@ -287,5 +288,13 @@ public class AbstractUser {
 
     public void setSkipConfirmation(Boolean skipConfirmation) {
         this.skipConfirmation = skipConfirmation;
+    }
+
+    public List<CustomAttribute> getCustomAttributes() {
+        return customAttributes;
+    }
+
+    public void setCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
     }
 }

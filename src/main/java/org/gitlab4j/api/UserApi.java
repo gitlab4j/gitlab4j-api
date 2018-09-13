@@ -9,6 +9,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
@@ -32,7 +33,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers() throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "users");
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "users", "?with_custom_attributes=true");
         return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
@@ -47,7 +48,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers(int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "users");
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "users", "?with_custom_attributes=true");
         return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
@@ -61,7 +62,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> getUsers(int itemsPerPage) throws GitLabApiException {
-        return (new Pager<User>(this, User.class, itemsPerPage, null, "users"));
+        return (new Pager<User>(this, User.class, itemsPerPage, null, "users", "?with_custom_attributes=true"));
     }
 
     /**
@@ -76,7 +77,7 @@ public class UserApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("active", true)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
         return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
@@ -95,7 +96,7 @@ public class UserApi extends AbstractApi {
                 .withParam("active", true)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
         return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
@@ -110,7 +111,7 @@ public class UserApi extends AbstractApi {
      */
     public Pager<User> getActiveUsers(int itemsPerPage) throws GitLabApiException{
         GitLabApiForm formData = new GitLabApiForm().withParam("active", true);
-        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users", "?with_custom_attributes=true"));
     }
 
     /**
@@ -167,7 +168,7 @@ public class UserApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("blocked", true)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
         return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
@@ -186,7 +187,7 @@ public class UserApi extends AbstractApi {
                 .withParam("blocked", true)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
         return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
@@ -201,7 +202,7 @@ public class UserApi extends AbstractApi {
      */
     public Pager<User> getBlockedUsers(int itemsPerPage) throws GitLabApiException{
         GitLabApiForm formData = new GitLabApiForm().withParam("blocked", true);
-        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users", "?with_custom_attributes=true"));
     }
 
     /**
@@ -214,7 +215,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public User getUser(int userId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "users", userId);
+        Response response = get(Response.Status.OK, null, "users", userId, "?with_custom_attributes=true");
         return (response.readEntity(User.class));
     }
 
@@ -247,7 +248,7 @@ public class UserApi extends AbstractApi {
      */
     public User getUser(String username) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("username", username, true);
-        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
         List<User> users = response.readEntity(new GenericType<List<User>>() {});
         return (users.isEmpty() ? null : users.get(0));
     }
@@ -281,7 +282,7 @@ public class UserApi extends AbstractApi {
      */
     public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true).withParam(PER_PAGE_PARAM,  getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
         return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
@@ -298,7 +299,7 @@ public class UserApi extends AbstractApi {
      */
     public List<User> findUsers(String emailOrUsername, int page, int perPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true).withParam(PAGE_PARAM,  page).withParam(PER_PAGE_PARAM,  perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
         return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
@@ -314,7 +315,7 @@ public class UserApi extends AbstractApi {
      */
     public Pager<User> findUsers(String emailOrUsername, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true);
-        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users", "?with_custom_attributes=true"));
     }
 
     /**
@@ -431,6 +432,17 @@ public class UserApi extends AbstractApi {
         Form form = userToForm(user, null, password, false, false);
         Response response = put(Response.Status.OK, form.asMap(), "users", user.getId());
         return (response.readEntity(User.class));
+    }
+
+    public CustomAttribute updateCustomAttribute(User user, CustomAttribute attribute) throws GitLabApiException {
+        Form form = new Form("value", attribute.getValue());
+        Response response = put(Response.Status.OK, form.asMap(), "users", user.getId(), "custom_attributes" ,attribute.getKey());
+        return response.readEntity(CustomAttribute.class);
+    }
+
+    public CustomAttribute getCustomAttribute(User user, String key) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "users", user.getId(), "custom_attributes", key);
+        return response.readEntity(CustomAttribute.class);
     }
 
     /**
@@ -649,7 +661,7 @@ public class UserApi extends AbstractApi {
         }
 
         GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
-        Response response = post(Response.Status.CREATED, formData, "users", userId, "keys");
+        Response response = post(Response.Status.CREATED, formData, "users?with_custom_attributes=true", userId, "keys");
         SshKey sshKey = response.readEntity(SshKey.class);
         if (sshKey != null) {
             sshKey.setUserId(userId);
