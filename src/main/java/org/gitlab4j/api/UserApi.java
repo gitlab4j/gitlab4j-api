@@ -127,7 +127,11 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("userId cannot be null");
         }
 
-        post(Response.Status.CREATED, (Form) null, "users", userId, "block");
+        if (isApiVersion(ApiVersion.V3)) {
+            put(Response.Status.CREATED, null, "users", userId, "block");
+        } else {
+            post(Response.Status.CREATED, (Form) null, "users", userId, "block");
+        }
     }
 
     /**
@@ -144,7 +148,11 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("userId cannot be null");
         }
 
-        post(Response.Status.CREATED, (Form) null, "users", userId, "unblock");
+        if (isApiVersion(ApiVersion.V3)) {
+            put(Response.Status.CREATED, null, "users", userId, "unblock");
+        } else {
+            post(Response.Status.CREATED, (Form) null, "users", userId, "unblock");
+        }
     }
 
     /**
