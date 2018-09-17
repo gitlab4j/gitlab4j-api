@@ -113,13 +113,13 @@ public abstract class AbstractApi implements Constants {
     protected GitLabApiClient getApiClient() {
         return (gitLabApi.getApiClient());
     }
-    
+
     /**
      * Encode a string to be used as in-path argument for a gitlab api request.
-     * 
+     *
      * Standard URL encoding changes spaces to plus signs, but for arguments that are part of the path,
      * like the :file_path in a "Get raw file" request, gitlab expects spaces to be encoded with %20.
-     * 
+     *
      * @param s the string to encode
      * @return encoded version of s with spaces encoded as %2F
      * @throws GitLabApiException if encoding throws an exception
@@ -517,6 +517,7 @@ public abstract class AbstractApi implements Constants {
         return (new GitLabApiException(thrown));
     }
 
+
     /**
      * Creates a MultivaluedMap instance containing "page" and "per_page" params.
      *
@@ -525,6 +526,20 @@ public abstract class AbstractApi implements Constants {
      * @return a MultivaluedMap instance containing "page" and "per_page" params
      */
     protected MultivaluedMap<String, String> getPageQueryParams(int page, int perPage) {
+        return (new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage).asMap());
+    }
+
+    /**
+     * Creates a MultivaluedMap instance containing "page" and "per_page" params.
+     *
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @param customAttributesEnabled enables customAttributes for this query
+     * @return a MultivaluedMap instance containing "page" and "per_page" params
+     */
+    protected MultivaluedMap<String, String> getPageQueryParams(int page, int perPage, boolean customAttributesEnabled) {
+        if (customAttributesEnabled)
+            return (new GitLabApiForm().withParam("with_custom_attributes", true).withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage).asMap());
        return (new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage).asMap());
     }
 
@@ -535,5 +550,17 @@ public abstract class AbstractApi implements Constants {
      */
     protected MultivaluedMap<String, String> getDefaultPerPageParam() {
        return (new GitLabApiForm().withParam(PER_PAGE_PARAM, getDefaultPerPage()).asMap());
+    }
+
+    /**
+     * Creates a MultivaluedMap instance containing the "per_page" param with the default value.
+     *
+     * @param customAttributesEnabled enables customAttributes for this query
+     * @return a MultivaluedMap instance containing the "per_page" param with the default value
+     */
+    protected MultivaluedMap<String, String> getDefaultPerPageParam(boolean customAttributesEnabled) {
+        if (customAttributesEnabled)
+            return (new GitLabApiForm().withParam("with_custom_attributes", true).withParam(PER_PAGE_PARAM, getDefaultPerPage()).asMap());
+        return (new GitLabApiForm().withParam(PER_PAGE_PARAM, getDefaultPerPage()).asMap());
     }
 }

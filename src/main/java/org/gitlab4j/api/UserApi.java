@@ -1,24 +1,24 @@
 package org.gitlab4j.api;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 /**
  * This class provides an entry point to all the GitLab API users calls.
  */
 public class UserApi extends AbstractApi {
+
+    private boolean customAttributesEnabled = false;
 
     UserApi(GitLabApi gitLabApi) {
         super(gitLabApi);
@@ -26,35 +26,37 @@ public class UserApi extends AbstractApi {
 
     /**
      * Get a list of users. Only returns the first page
-     *
+     * <p>
      * GET /users
      *
      * @return a list of Users, this list will only contain the first 100 users in the system.
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers() throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "users", "?with_custom_attributes=true");
-        return (response.readEntity(new GenericType<List<User>>() {}));
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(customAttributesEnabled), "users");
+        return (response.readEntity(new GenericType<List<User>>() {
+        }));
     }
 
     /**
      * Get a list of users using the specified page and per page settings.
-     *
+     * <p>
      * GET /users
      *
-     * @param page the page to get
+     * @param page    the page to get
      * @param perPage the number of users per page
      * @return the list of Users in the specified range
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers(int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "users", "?with_custom_attributes=true");
-        return (response.readEntity(new GenericType<List<User>>() {}));
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage, customAttributesEnabled), "users");
+        return (response.readEntity(new GenericType<List<User>>() {
+        }));
     }
 
     /**
      * Get a Pager of users.
-     *
+     * <p>
      * GET /users
      *
      * @param itemsPerPage the number of User instances that will be fetched per page
@@ -62,68 +64,74 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> getUsers(int itemsPerPage) throws GitLabApiException {
-        return (new Pager<User>(this, User.class, itemsPerPage, null, "users", "?with_custom_attributes=true"));
+        GitLabApiForm formData = new GitLabApiForm().withParam("with_custom_attributes", customAttributesEnabled);
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
     /**
      * Get a list of active users. Only returns the first page
-     *
+     * <p>
      * GET /users?active=true
      *
      * @return a list of active Users, this list will only contain the first 100 users in the system.
      * @throws GitLabApiException if any exception occurs
      */
-    public List<User> getActiveUsers() throws GitLabApiException{
+    public List<User> getActiveUsers() throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
+                .withParam("with_custom_attributes", customAttributesEnabled)
                 .withParam("active", true)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
-        return (response.readEntity(new GenericType<List<User>>() {}));
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {
+        }));
     }
 
     /**
      * Get a list of active users using the specified page and per page settings.
-     *
+     * <p>
      * GET /users?active=true
      *
-     * @param page the page to get
+     * @param page    the page to get
      * @param perPage the number of users per page
      * @return the list of active Users in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<User> getActiveUsers(int page, int perPage) throws GitLabApiException{
+    public List<User> getActiveUsers(int page, int perPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
+                .withParam("with_custom_attributes", customAttributesEnabled)
                 .withParam("active", true)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
-        return (response.readEntity(new GenericType<List<User>>() {}));
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {
+        }));
     }
 
     /**
      * Get a Pager of active users.
-     *
+     * <p>
      * GET /users?active=true
      *
      * @param itemsPerPage the number of active User instances that will be fetched per page
      * @return a Pager of active User
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<User> getActiveUsers(int itemsPerPage) throws GitLabApiException{
-        GitLabApiForm formData = new GitLabApiForm().withParam("active", true);
-        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users", "?with_custom_attributes=true"));
+    public Pager<User> getActiveUsers(int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("active", true)
+                .withParam("with_custom_attributes", customAttributesEnabled);
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
     /**
      * Blocks the specified user. Available only for admin.
-     *
+     * <p>
      * POST /users/:id/block
      *
      * @param userId the ID of the user to block
      * @throws GitLabApiException if any exception occurs
      */
     public void blockUser(Integer userId) throws GitLabApiException {
-
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
         }
@@ -137,7 +145,7 @@ public class UserApi extends AbstractApi {
 
     /**
      * Unblocks the specified user. Available only for admin.
-     *
+     * <p>
      * POST /users/:id/unblock
      *
      * @param userId the ID of the user to unblock
@@ -158,56 +166,62 @@ public class UserApi extends AbstractApi {
 
     /**
      * Get a list of blocked users. Only returns the first page
-     *
+     * <p>
      * GET /users?blocked=true
      *
      * @return a list of blocked Users, this list will only contain the first 100 users in the system.
      * @throws GitLabApiException if any exception occurs
      */
-    public List<User> getBlockedUsers() throws GitLabApiException{
+    public List<User> getBlockedUsers() throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
+                .withParam("with_custom_attributes", customAttributesEnabled)
                 .withParam("blocked", true)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
-        return (response.readEntity(new GenericType<List<User>>() {}));
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {
+        }));
     }
 
     /**
      * Get a list of blocked users using the specified page and per page settings.
-     *
+     * <p>
      * GET /users?blocked=true
      *
-     * @param page the page to get
+     * @param page    the page to get
      * @param perPage the number of users per page
      * @return the list of blocked Users in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<User> getblockedUsers(int page, int perPage) throws GitLabApiException{
+    public List<User> getblockedUsers(int page, int perPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
+                .withParam("with_custom_attributes", customAttributesEnabled)
                 .withParam("blocked", true)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
-        return (response.readEntity(new GenericType<List<User>>() {}));
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {
+        }));
     }
 
     /**
      * Get a Pager of blocked users.
-     *
+     * <p>
      * GET /users?blocked=true
      *
      * @param itemsPerPage the number of blocked User instances that will be fetched per page
      * @return a Pager of blocked User
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<User> getBlockedUsers(int itemsPerPage) throws GitLabApiException{
-        GitLabApiForm formData = new GitLabApiForm().withParam("blocked", true);
-        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users", "?with_custom_attributes=true"));
+    public Pager<User> getBlockedUsers(int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("blocked", true)
+                .withParam("with_custom_attributes", customAttributesEnabled);
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
     /**
      * Get a single user.
-     *
+     * <p>
      * GET /users/:id
      *
      * @param userId the ID of the user to get
@@ -215,13 +229,14 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public User getUser(int userId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "users", userId, "?with_custom_attributes=true");
+        GitLabApiForm formData = new GitLabApiForm().withParam("with_custom_attributes", customAttributesEnabled);
+        Response response = get(Response.Status.OK, formData.asMap(), "users", userId);
         return (response.readEntity(User.class));
     }
 
     /**
      * Get a single user as an Optional instance.
-     *
+     * <p>
      * GET /users/:id
      *
      * @param userId the ID of the user to get
@@ -237,9 +252,9 @@ public class UserApi extends AbstractApi {
 
     /**
      * Lookup a user by username.
-     *
+     * <p>
      * NOTE: This is for admin users only.
-     *
+     * <p>
      * GET /users?username=:username
      *
      * @param username the username of the user to get
@@ -247,17 +262,20 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public User getUser(String username) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("username", username, true);
-        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
-        List<User> users = response.readEntity(new GenericType<List<User>>() {});
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("username", username, true)
+                .withParam("with_custom_attributes", customAttributesEnabled);
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        List<User> users = response.readEntity(new GenericType<List<User>>() {
+        });
         return (users.isEmpty() ? null : users.get(0));
     }
 
     /**
      * Lookup a user by username and return an Optional instance.
-     *
+     * <p>
      * NOTE: This is for admin users only.
-     *
+     * <p>
      * GET /users?username=:username
      *
      * @param username the username of the user to get
@@ -273,7 +291,7 @@ public class UserApi extends AbstractApi {
 
     /**
      * Search users by Email or username
-     *
+     * <p>
      * GET /users?search=:email_or_username
      *
      * @param emailOrUsername the email or username to search for
@@ -281,52 +299,63 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true).withParam(PER_PAGE_PARAM,  getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
-        return (response.readEntity(new GenericType<List<User>>() {}));
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("search", emailOrUsername, true)
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage())
+                .withParam("with_custom_attributes", customAttributesEnabled);
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {
+        }));
     }
 
     /**
      * Search users by Email or username in the specified page range.
-     *
+     * <p>
      * GET /users?search=:email_or_username
      *
      * @param emailOrUsername the email or username to search for
-     * @param page the page to get
-     * @param perPage the number of users per page
+     * @param page            the page to get
+     * @param perPage         the number of users per page
      * @return the User List with the email or username like emailOrUsername in the specified page range
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> findUsers(String emailOrUsername, int page, int perPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true).withParam(PAGE_PARAM,  page).withParam(PER_PAGE_PARAM,  perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "users", "?with_custom_attributes=true");
-        return (response.readEntity(new GenericType<List<User>>() {}));
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("search", emailOrUsername, true)
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage)
+                .withParam("with_custom_attributes", customAttributesEnabled);
+        Response response = get(Response.Status.OK, formData.asMap(), "users");
+        return (response.readEntity(new GenericType<List<User>>() {
+        }));
     }
 
     /**
      * Search users by Email or username and return a Pager
-     *
+     * <p>
      * GET /users?search=:email_or_username
      *
      * @param emailOrUsername the email or username to search for
-     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @param itemsPerPage    the number of Project instances that will be fetched per page
      * @return the User Pager with the email or username like emailOrUsername
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> findUsers(String emailOrUsername, int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("search", emailOrUsername, true);
-        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users", "?with_custom_attributes=true"));
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("search", emailOrUsername, true)
+                .withParam("with_custom_attributes", customAttributesEnabled);
+        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
     /**
      * <p>Creates a new user. Note only administrators can create new users.
      * Either password or reset_password should be specified (reset_password takes priority).
-     *
+     * <p>
      * If both the User object's projectsLimit and the parameter projectsLimit is specified
      * the parameter will take precedence.</p>
      *
      * <pre>POST /users</pre>
-     *
+     * <p>
      * The following properties of the provided User instance can be set during creation:<pre><code> email (required) - Email
      * username (required) - Username
      * name (required) - Name
@@ -345,14 +374,14 @@ public class UserApi extends AbstractApi {
      * skipConfirmation (optional) - Skip confirmation - true or false (default)
      * external (optional) - Flags the user as external - true or false(default)
      * sharedRunnersMinutesLimit (optional) - Pipeline minutes quota for this user
-     *</code></pre>
+     * </code></pre>
      *
-     * @param user the User instance with the user info to create
-     * @param password the password for the new user
+     * @param user          the User instance with the user info to create
+     * @param password      the password for the new user
      * @param projectsLimit the maximum number of project
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #createUser(User, CharSequence, boolean)}
+     * @deprecated Will be removed in version 5.0, replaced by {@link #createUser(User, CharSequence, boolean)}
      */
     public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
         Form formData = userToForm(user, projectsLimit, password, null, true);
@@ -365,7 +394,7 @@ public class UserApi extends AbstractApi {
      * Either password or resetPassword should be specified (resetPassword takes priority).</p>
      *
      * <pre>POST /users</pre>
-     *
+     * <p>
      * The following properties of the provided User instance can be set during creation:<pre><code> email (required) - Email
      * username (required) - Username
      * name (required) - Name
@@ -384,10 +413,10 @@ public class UserApi extends AbstractApi {
      * skipConfirmation (optional) - Skip confirmation - true or false (default)
      * external (optional) - Flags the user as external - true or false(default)
      * sharedRunnersMinutesLimit (optional) - Pipeline minutes quota for this user
-     *</code></pre>
+     * </code></pre>
      *
-     * @param user the User instance with the user info to create
-     * @param password the password for the new user
+     * @param user          the User instance with the user info to create
+     * @param password      the password for the new user
      * @param resetPassword whether to send a password reset link
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
@@ -402,7 +431,7 @@ public class UserApi extends AbstractApi {
      * <p>Modifies an existing user. Only administrators can change attributes of a user.</p>
      *
      * <pre>PUT /users</pre>
-     *
+     * <p>
      * The following properties of the provided User instance can be set during update:<pre><code> email (required) - Email
      * username (required) - Username
      * name (required) - Name
@@ -421,9 +450,9 @@ public class UserApi extends AbstractApi {
      * skipConfirmation (optional) - Skip confirmation - true or false (default)
      * external (optional) - Flags the user as external - true or false(default)
      * sharedRunnersMinutesLimit (optional) - Pipeline minutes quota for this user
-     *</code></pre>
+     * </code></pre>
      *
-     * @param user the User instance with the user info to modify
+     * @param user     the User instance with the user info to modify
      * @param password the new password for the user
      * @return the modified User instance
      * @throws GitLabApiException if any exception occurs
@@ -434,22 +463,11 @@ public class UserApi extends AbstractApi {
         return (response.readEntity(User.class));
     }
 
-    public CustomAttribute updateCustomAttribute(User user, CustomAttribute attribute) throws GitLabApiException {
-        Form form = new Form("value", attribute.getValue());
-        Response response = put(Response.Status.OK, form.asMap(), "users", user.getId(), "custom_attributes" ,attribute.getKey());
-        return response.readEntity(CustomAttribute.class);
-    }
-
-    public CustomAttribute getCustomAttribute(User user, String key) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "users", user.getId(), "custom_attributes", key);
-        return response.readEntity(CustomAttribute.class);
-    }
-
     /**
      * Modifies an existing user. Only administrators can change attributes of a user.
      *
      * <pre>PUT /users/:id</pre>
-     *
+     * <p>
      * The following properties of the provided User instance can be set during update:<pre><code> email (required) - Email
      * username (required) - Username
      * name (required) - Name
@@ -468,14 +486,14 @@ public class UserApi extends AbstractApi {
      * skipConfirmation (optional) - Skip confirmation - true or false (default)
      * external (optional) - Flags the user as external - true or false(default)
      * sharedRunnersMinutesLimit (optional) - Pipeline minutes quota for this user
-     *</code></pre>
+     * </code></pre>
      *
-     * @param user the User instance with the user info to modify
-     * @param password the new password for the user
+     * @param user          the User instance with the user info to modify
+     * @param password      the new password for the user
      * @param projectsLimit the maximum number of project
      * @return the modified User instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #updateUser(User, CharSequence)}
+     * @deprecated Will be removed in version 5.0, replaced by {@link #updateUser(User, CharSequence)}
      */
     @Deprecated
     public User modifyUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
@@ -486,7 +504,7 @@ public class UserApi extends AbstractApi {
 
     /**
      * Deletes a user. Available only for administrators.
-     *
+     * <p>
      * DELETE /users/:id
      *
      * @param userId the user ID to delete
@@ -498,12 +516,12 @@ public class UserApi extends AbstractApi {
 
     /**
      * Deletes a user. Available only for administrators.
-     *
+     * <p>
      * DELETE /users/:id
      *
-     * @param userId the user ID to delete
+     * @param userId     the user ID to delete
      * @param hardDelete If true, contributions that would usually be moved to the
-     * ghost user will be deleted instead, as well as groups owned solely by this user
+     *                   ghost user will be deleted instead, as well as groups owned solely by this user
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteUser(Integer userId, Boolean hardDelete) throws GitLabApiException {
@@ -519,7 +537,7 @@ public class UserApi extends AbstractApi {
 
     /**
      * Deletes a user. Available only for administrators.
-     *
+     * <p>
      * DELETE /users/:id
      *
      * @param user the User instance to delete
@@ -531,34 +549,34 @@ public class UserApi extends AbstractApi {
 
     /**
      * Deletes a user. Available only for administrators.
-     *
+     * <p>
      * DELETE /users/:id
      *
-     * @param user the User instance to delete
+     * @param user       the User instance to delete
      * @param hardDelete If true, contributions that would usually be moved to the
-     * ghost user will be deleted instead, as well as groups owned solely by this user
+     *                   ghost user will be deleted instead, as well as groups owned solely by this user
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteUser(User user, Boolean hardDelete) throws GitLabApiException {
         deleteUser(user.getId(), hardDelete);
     }
 
-   /**
-    * Get currently authenticated user.
-    *
-    * GET /user
-    *
-    * @return the User instance for the currently authenticated user
-    * @throws GitLabApiException if any exception occurs
-    */
-   public User getCurrentUser() throws GitLabApiException {
-       Response response = get(Response.Status.OK, null, "user");
-       return (response.readEntity(User.class));
-   }
+    /**
+     * Get currently authenticated user.
+     * <p>
+     * GET /user
+     *
+     * @return the User instance for the currently authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public User getCurrentUser() throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "user");
+        return (response.readEntity(User.class));
+    }
 
     /**
      * Get a list of currently authenticated user's SSH keys.
-     *
+     * <p>
      * GET /user/keys
      *
      * @return a list of currently authenticated user's SSH keys
@@ -566,12 +584,13 @@ public class UserApi extends AbstractApi {
      */
     public List<SshKey> getSshKeys() throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "user", "keys");
-        return (response.readEntity(new GenericType<List<SshKey>>() {}));
+        return (response.readEntity(new GenericType<List<SshKey>>() {
+        }));
     }
 
     /**
      * Get a list of a specified user's SSH keys. Available only for admin users.
-     *
+     * <p>
      * GET /users/:id/keys
      *
      * @param userId the ID of the user to get SSH keys for
@@ -585,7 +604,8 @@ public class UserApi extends AbstractApi {
         }
 
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "users", userId, "keys");
-        List<SshKey> keys = response.readEntity(new GenericType<List<SshKey>>() {});
+        List<SshKey> keys = response.readEntity(new GenericType<List<SshKey>>() {
+        });
         if (keys == null) {
             return (keys);
         }
@@ -599,7 +619,7 @@ public class UserApi extends AbstractApi {
 
     /**
      * Get a single SSH Key.
-     *
+     * <p>
      * GET /user/keys/:key_id
      *
      * @param keyId the ID of the SSH key.
@@ -613,7 +633,7 @@ public class UserApi extends AbstractApi {
 
     /**
      * Get a single SSH Key as an Optional instance.
-     *
+     * <p>
      * GET /user/keys/:key_id
      *
      * @param keyId the ID of the SSH key
@@ -629,11 +649,11 @@ public class UserApi extends AbstractApi {
 
     /**
      * Creates a new key owned by the currently authenticated user.
-     *
+     * <p>
      * POST /user/keys
      *
      * @param title the new SSH Key's title
-     * @param key the new SSH key
+     * @param key   the new SSH key
      * @return an SshKey instance with info on the added SSH key
      * @throws GitLabApiException if any exception occurs
      */
@@ -645,12 +665,12 @@ public class UserApi extends AbstractApi {
 
     /**
      * Create new key owned by specified user. Available only for admin users.
-     *
+     * <p>
      * POST /users/:id/keys
      *
      * @param userId the ID of the user to add the SSH key for
-     * @param title the new SSH Key's title
-     * @param key the new SSH key
+     * @param title  the new SSH Key's title
+     * @param key    the new SSH key
      * @return an SshKey instance with info on the added SSH key
      * @throws GitLabApiException if any exception occurs
      */
@@ -661,7 +681,7 @@ public class UserApi extends AbstractApi {
         }
 
         GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
-        Response response = post(Response.Status.CREATED, formData, "users?with_custom_attributes=true", userId, "keys");
+        Response response = post(Response.Status.CREATED, formData, "users", userId, "keys");
         SshKey sshKey = response.readEntity(SshKey.class);
         if (sshKey != null) {
             sshKey.setUserId(userId);
@@ -673,7 +693,7 @@ public class UserApi extends AbstractApi {
     /**
      * Deletes key owned by currently authenticated user. This is an idempotent function and calling it
      * on a key that is already deleted or not available results in success.
-     *
+     * <p>
      * DELETE /user/keys/:key_id
      *
      * @param keyId the key ID to delete
@@ -691,11 +711,11 @@ public class UserApi extends AbstractApi {
 
     /**
      * Deletes key owned by a specified user. Available only for admin users.
-     *
+     * <p>
      * DELETE /users/:id/keys/:key_id
      *
      * @param userId the user ID of the user to delete the key for
-     * @param keyId the key ID to delete
+     * @param keyId  the key ID to delete
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteSshKey(Integer userId, Integer keyId) throws GitLabApiException {
@@ -714,7 +734,7 @@ public class UserApi extends AbstractApi {
 
     /**
      * Get a list of a specified user's impersonation tokens.  Available only for admin users.
-     *
+     * <p>
      * GET /users/:id/impersonation_tokens
      *
      * @param userId the ID of the user to get impersonation tokens for
@@ -727,11 +747,11 @@ public class UserApi extends AbstractApi {
 
     /**
      * Get a list of a specified user's impersonation tokens.  Available only for admin users.
-     *
+     * <p>
      * GET /users/:id/impersonation_tokens
      *
      * @param userId the ID of the user to get impersonation tokens for
-     * @param state the state of impersonation tokens to list (ALL, ACTIVE, INACTIVE)
+     * @param state  the state of impersonation tokens to list (ALL, ACTIVE, INACTIVE)
      * @return a list of a specified user's impersonation tokens
      * @throws GitLabApiException if any exception occurs
      */
@@ -745,15 +765,16 @@ public class UserApi extends AbstractApi {
                 .withParam("state", state)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "users", userId, "impersonation_tokens");
-        return (response.readEntity(new GenericType<List<ImpersonationToken>>() {}));
+        return (response.readEntity(new GenericType<List<ImpersonationToken>>() {
+        }));
     }
 
     /**
      * Get an impersonation token of a user.  Available only for admin users.
-     *
+     * <p>
      * GET /users/:user_id/impersonation_tokens/:impersonation_token_id
      *
-     * @param userId the ID of the user to get SSH keys for
+     * @param userId  the ID of the user to get SSH keys for
      * @param tokenId the impersonation token ID to get
      * @return the specified impersonation token
      * @throws GitLabApiException if any exception occurs
@@ -774,10 +795,10 @@ public class UserApi extends AbstractApi {
 
     /**
      * Get an impersonation token of a user as an Optional instance. Available only for admin users.
-     *
+     * <p>
      * GET /users/:user_id/impersonation_tokens/:impersonation_token_id
      *
-     * @param userId the ID of the user to get SSH keys for
+     * @param userId  the ID of the user to get SSH keys for
      * @param tokenId the impersonation token ID to get
      * @return the specified impersonation token as an Optional instance
      */
@@ -791,13 +812,13 @@ public class UserApi extends AbstractApi {
 
     /**
      * Create an impersonation token.  Available only for admin users.
-     *
+     * <p>
      * POST /users/:user_id/impersonation_tokens
      *
-     * @param userId the ID of the user to get SSH keys for
-     * @param name the name of the impersonation token, required
+     * @param userId    the ID of the user to get SSH keys for
+     * @param name      the name of the impersonation token, required
      * @param expiresAt the expiration date of the impersonation token, optional
-     * @param scopes an array of scopes of the impersonation token
+     * @param scopes    an array of scopes of the impersonation token
      * @return the created ImpersonationToken instance
      * @throws GitLabApiException if any exception occurs
      */
@@ -825,10 +846,10 @@ public class UserApi extends AbstractApi {
 
     /**
      * Revokes an impersonation token. Available only for admin users.
-     *
+     * <p>
      * DELETE /users/:user_id/impersonation_tokens/:impersonation_token_id
      *
-     * @param userId the user ID of the user to revoke the impersonation token for
+     * @param userId  the user ID of the user to revoke the impersonation token for
      * @param tokenId the impersonation token ID to revoke
      * @throws GitLabApiException if any exception occurs
      */
@@ -849,10 +870,10 @@ public class UserApi extends AbstractApi {
     /**
      * Populate the REST form with data from the User instance.
      *
-     * @param user the User instance to populate the Form instance with
+     * @param user          the User instance to populate the Form instance with
      * @param projectsLimit the maximum number of projects the user is allowed (optional)
-     * @param password the password, required when creating a new user
-     * @param create whether the form is being populated to create a new user
+     * @param password      the password, required when creating a new user
+     * @param create        whether the form is being populated to create a new user
      * @return the populated Form instance
      */
     Form userToForm(User user, Integer projectsLimit, CharSequence password, Boolean resetPassword, boolean create) {
@@ -884,6 +905,15 @@ public class UserApi extends AbstractApi {
                 .withParam("can_create_group", user.getCanCreateGroup(), false)
                 .withParam(skipConfirmationFeildName, user.getSkipConfirmation(), false)
                 .withParam("external", user.getExternal(), false)
-                .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(),false));
+                .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(), false));
+    }
+
+    public void enableCustomAttributes() {
+        this.customAttributesEnabled = true;
+    }
+
+    public UserApi withCustomAttributes() {
+        enableCustomAttributes();
+        return this;
     }
 }
