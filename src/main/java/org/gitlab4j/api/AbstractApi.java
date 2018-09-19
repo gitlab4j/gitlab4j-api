@@ -538,9 +538,12 @@ public abstract class AbstractApi implements Constants {
      * @return a MultivaluedMap instance containing "page" and "per_page" params
      */
     protected MultivaluedMap<String, String> getPageQueryParams(int page, int perPage, boolean customAttributesEnabled) {
+
+        GitLabApiForm form = new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage);
         if (customAttributesEnabled)
-            return (new GitLabApiForm().withParam("with_custom_attributes", true).withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage).asMap());
-       return (new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage).asMap());
+            return (form.withParam("with_custom_attributes", true).asMap());
+
+       return (form.asMap());
     }
 
     /**
@@ -559,8 +562,11 @@ public abstract class AbstractApi implements Constants {
      * @return a MultivaluedMap instance containing the "per_page" param with the default value
      */
     protected MultivaluedMap<String, String> getDefaultPerPageParam(boolean customAttributesEnabled) {
+
+        GitLabApiForm form = new GitLabApiForm().withParam(PER_PAGE_PARAM, getDefaultPerPage());
         if (customAttributesEnabled)
-            return (new GitLabApiForm().withParam("with_custom_attributes", true).withParam(PER_PAGE_PARAM, getDefaultPerPage()).asMap());
-        return (new GitLabApiForm().withParam(PER_PAGE_PARAM, getDefaultPerPage()).asMap());
+            return (form.withParam("with_custom_attributes", true).asMap());
+
+        return (form.asMap());
     }
 }

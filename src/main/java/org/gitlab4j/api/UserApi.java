@@ -25,6 +25,20 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Enables custom attributes to be returned when fetching User instances.
+     */
+    public void enableCustomAttributes() {
+        customAttributesEnabled = true;
+    }
+
+    /**
+     * Disables custom attributes to be returned when fetching User instances.
+     */
+    public void disableCustomAttributes() {
+        customAttributesEnabled = false;
+    }
+
+    /**
      * Get a list of users. Only returns the first page
      * <p>
      * GET /users
@@ -64,8 +78,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> getUsers(int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("with_custom_attributes", customAttributesEnabled);
-        return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
+        return (new Pager<User>(this, User.class, itemsPerPage, creatGitLabApiForm().asMap(), "users"));
     }
 
     /**
@@ -77,8 +90,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getActiveUsers() throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("with_custom_attributes", customAttributesEnabled)
+        GitLabApiForm formData = creatGitLabApiForm()
                 .withParam("active", true)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "users");
@@ -97,8 +109,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getActiveUsers(int page, int perPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("with_custom_attributes", customAttributesEnabled)
+        GitLabApiForm formData = creatGitLabApiForm()
                 .withParam("active", true)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
@@ -117,9 +128,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> getActiveUsers(int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("active", true)
-                .withParam("with_custom_attributes", customAttributesEnabled);
+        GitLabApiForm formData = creatGitLabApiForm().withParam("active", true);
         return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
@@ -173,8 +182,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getBlockedUsers() throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("with_custom_attributes", customAttributesEnabled)
+        GitLabApiForm formData = creatGitLabApiForm()
                 .withParam("blocked", true)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "users");
@@ -193,8 +201,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getblockedUsers(int page, int perPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("with_custom_attributes", customAttributesEnabled)
+        GitLabApiForm formData = creatGitLabApiForm()
                 .withParam("blocked", true)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
@@ -213,9 +220,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> getBlockedUsers(int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("blocked", true)
-                .withParam("with_custom_attributes", customAttributesEnabled);
+        GitLabApiForm formData = creatGitLabApiForm().withParam("blocked", true);
         return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
@@ -262,9 +267,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public User getUser(String username) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("username", username, true)
-                .withParam("with_custom_attributes", customAttributesEnabled);
+        GitLabApiForm formData = creatGitLabApiForm().withParam("username", username, true);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
         List<User> users = response.readEntity(new GenericType<List<User>>() {
         });
@@ -299,10 +302,9 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
+        GitLabApiForm formData = creatGitLabApiForm()
                 .withParam("search", emailOrUsername, true)
-                .withParam(PER_PAGE_PARAM, getDefaultPerPage())
-                .withParam("with_custom_attributes", customAttributesEnabled);
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "users");
         return (response.readEntity(new GenericType<List<User>>() {
         }));
@@ -320,11 +322,10 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> findUsers(String emailOrUsername, int page, int perPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
+        GitLabApiForm formData = creatGitLabApiForm()
                 .withParam("search", emailOrUsername, true)
                 .withParam(PAGE_PARAM, page)
-                .withParam(PER_PAGE_PARAM, perPage)
-                .withParam("with_custom_attributes", customAttributesEnabled);
+                .withParam(PER_PAGE_PARAM, perPage);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
         return (response.readEntity(new GenericType<List<User>>() {
         }));
@@ -341,9 +342,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> findUsers(String emailOrUsername, int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("search", emailOrUsername, true)
-                .withParam("with_custom_attributes", customAttributesEnabled);
+        GitLabApiForm formData = creatGitLabApiForm().withParam("search", emailOrUsername, true);
         return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
@@ -908,12 +907,15 @@ public class UserApi extends AbstractApi {
                 .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(), false));
     }
 
-    public void enableCustomAttributes() {
-        this.customAttributesEnabled = true;
-    }
-
-    public UserApi withCustomAttributes() {
-        enableCustomAttributes();
-        return this;
+    /**
+     * Creates a GitLabApiForm instance that will optionally include the
+     * with_custom_attributes query param if enabled.
+     *
+     * @return a GitLabApiForm instance that will optionally include the
+     * with_custom_attributes query param if enabled
+     */
+    private GitLabApiForm creatGitLabApiForm() {
+        GitLabApiForm formData = new GitLabApiForm();
+        return (customAttributesEnabled ? formData.withParam("with_custom_attributes", true) : formData);
     }
 }
