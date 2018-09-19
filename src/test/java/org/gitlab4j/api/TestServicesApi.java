@@ -105,8 +105,14 @@ public class TestServicesApi {
 
     @Test
     public void testGetJiraService() throws GitLabApiException {
+
         JiraService jiraService =  gitLabApi.getServicesApi().getJiraService(testProject);
         assertNotNull(jiraService);
+
+        // Make sure the jira_issue_transition_id is retrievable.
+        // This is testing that a class cast exception is not thrown.
+        Integer jiraIssueTransitionId = jiraService.getJiraIssueTransitionId();
+        assertTrue(jiraIssueTransitionId == null || jiraIssueTransitionId != null);
     }
 
     @Test
