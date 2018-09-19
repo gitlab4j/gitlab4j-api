@@ -1,5 +1,7 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AbstractUser {
 
     private String avatarUrl;
@@ -17,6 +20,7 @@ public class AbstractUser {
     private Date confirmedAt;
     private Date createdAt;
     private Date currentSignInAt;
+    private List<CustomAttribute> customAttributes;
     private String email;
     private Boolean external;
     private Integer id;
@@ -287,5 +291,13 @@ public class AbstractUser {
 
     public void setSkipConfirmation(Boolean skipConfirmation) {
         this.skipConfirmation = skipConfirmation;
+    }
+
+    public List<CustomAttribute> getCustomAttributes() {
+        return customAttributes;
+    }
+
+    public void setCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
     }
 }

@@ -1,6 +1,7 @@
 package org.gitlab4j.api.models;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 @XmlRootElement
 public class User extends AbstractUser {
@@ -101,6 +102,11 @@ public class User extends AbstractUser {
 
     public User withSharedRunnersMinuteLimit(Integer sharedRunnersMinuteLimit) {
         setSharedRunnersMinutesLimit(sharedRunnersMinuteLimit);
+        return this;
+    }
+
+    public User withCustomAttributes(List<CustomAttribute> customAttributes) {
+        setCustomAttributes(customAttributes);
         return this;
     }
 }
