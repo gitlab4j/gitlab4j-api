@@ -18,6 +18,6 @@
         "url": "https://jira.example.com",
         "api_url": "",
         "username": "test",
-        "jira_issue_transition_id": ""
+        "jira_issue_transition_id": 1234
     }
 }
