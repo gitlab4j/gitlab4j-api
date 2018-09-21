@@ -918,16 +918,10 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException on failure while setting customAttributes
      */
     public CustomAttribute createCustomAttribute(final Integer userId, final CustomAttribute customAttribute) throws GitLabApiException {
-        if (Objects.isNull(userId)) {
-            throw new IllegalArgumentException("UserID can't be null");
-        }
         if (Objects.isNull(customAttribute)) {
             throw new IllegalArgumentException("CustomAttributes can't be null");
         }
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("value", customAttribute.getValue());
-        Response response = put(Response.Status.OK, formData.asMap(), "users", userId, "custom_attributes", customAttribute.getKey());
-        return (response.readEntity(CustomAttribute.class));
+        return createCustomAttribute(userId, customAttribute.getKey(), customAttribute.getValue());
     }
 
     /**
@@ -940,13 +934,20 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException on failure while setting customAttributes
      */
     public CustomAttribute createCustomAttribute(final Integer userId, final String key, final String value) throws GitLabApiException {
+        if (Objects.isNull(userId)) {
+            throw new IllegalArgumentException("UserId can't be null.");
+        }
         if (Objects.isNull(key) || key.trim().isEmpty()) {
             throw new IllegalArgumentException("Key can't be null or empty");
         }
         if (Objects.isNull(value) || value.trim().isEmpty()) {
             throw new IllegalArgumentException("Value can't be null or empty");
         }
-        return createCustomAttribute(userId, new CustomAttribute().withKey(key).withValue(value));
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("value", value);
+        Response response = put(Response.Status.OK, formData.asMap(), "users", userId, "custom_attributes", key);
+        return (response.readEntity(CustomAttribute.class));
     }
 
     /**
@@ -958,16 +959,13 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException on failure while changing customAttributes
      */
     public CustomAttribute changeCustomAttribute(final Integer userId, final CustomAttribute customAttribute) throws GitLabApiException {
-        if (Objects.isNull(userId)) {
-            throw new IllegalArgumentException("UserID can't be null");
-        }
         if (Objects.isNull(customAttribute)) {
             throw new IllegalArgumentException("CustomAttributes can't be null");
         }
 
         //changing & creating custom attributes is the same call in gitlab api
         // -> https://docs.gitlab.com/ce/api/custom_attributes.html#set-custom-attribute
-        return createCustomAttribute(userId, customAttribute);
+        return createCustomAttribute(userId, customAttribute.getKey(), customAttribute.getValue());
     }
 
     /**
@@ -980,13 +978,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException on failure while changing customAttributes
      */
     public CustomAttribute changeCustomAttribute(final Integer userId, final String key, final String value) throws GitLabApiException {
-        if (Objects.isNull(key) || key.trim().isEmpty()) {
-            throw new IllegalArgumentException("Key can't be null or empty");
-        }
-        if (Objects.isNull(value) || value.trim().isEmpty()) {
-            throw new IllegalArgumentException("Value can't be null or empty");
-        }
-        return changeCustomAttribute(userId, new CustomAttribute().withKey(key).withValue(value));
+        return createCustomAttribute(userId, key, value);
     }
 
     /**
@@ -997,14 +989,11 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException on failure while deleting customAttributes
      */
     public void deleteCustomAttribute(final Integer userId, final CustomAttribute customAttribute) throws GitLabApiException {
-        if (Objects.isNull(userId)) {
-            throw new IllegalArgumentException("userID can't be null");
-        }
         if (Objects.isNull(customAttribute)) {
             throw new IllegalArgumentException("customAttributes can't be null");
         }
 
-        Response response = delete(Response.Status.OK, null, "users", userId, "custom_attributes", customAttribute.getKey());
+        deleteCustomAttribute(userId, customAttribute.getKey());
     }
 
     /**
@@ -1015,10 +1004,13 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException on failure while deleting customAttributes
      */
     public void deleteCustomAttribute(final Integer userId, final String key) throws GitLabApiException {
+        if (Objects.isNull(userId)) {
+            throw new IllegalArgumentException("UserId can't be null");
+        }
         if (Objects.isNull(key) || key.trim().isEmpty()) {
             throw new IllegalArgumentException("Key can't be null or empty");
         }
-        deleteCustomAttribute(userId, new CustomAttribute().withKey(key));
+        delete(Response.Status.OK, null, "users", userId, "custom_attributes", key);
     }
 
     /**
