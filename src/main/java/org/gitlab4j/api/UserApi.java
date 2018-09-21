@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -78,7 +80,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> getUsers(int itemsPerPage) throws GitLabApiException {
-        return (new Pager<User>(this, User.class, itemsPerPage, creatGitLabApiForm().asMap(), "users"));
+        return (new Pager<User>(this, User.class, itemsPerPage, createGitLabApiForm().asMap(), "users"));
     }
 
     /**
@@ -90,7 +92,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getActiveUsers() throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm()
+        GitLabApiForm formData = createGitLabApiForm()
                 .withParam("active", true)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "users");
@@ -109,7 +111,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getActiveUsers(int page, int perPage) throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm()
+        GitLabApiForm formData = createGitLabApiForm()
                 .withParam("active", true)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
@@ -128,7 +130,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> getActiveUsers(int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm().withParam("active", true);
+        GitLabApiForm formData = createGitLabApiForm().withParam("active", true);
         return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
@@ -182,7 +184,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getBlockedUsers() throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm()
+        GitLabApiForm formData = createGitLabApiForm()
                 .withParam("blocked", true)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "users");
@@ -201,7 +203,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getblockedUsers(int page, int perPage) throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm()
+        GitLabApiForm formData = createGitLabApiForm()
                 .withParam("blocked", true)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
@@ -220,7 +222,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> getBlockedUsers(int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm().withParam("blocked", true);
+        GitLabApiForm formData = createGitLabApiForm().withParam("blocked", true);
         return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
@@ -267,7 +269,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public User getUser(String username) throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm().withParam("username", username, true);
+        GitLabApiForm formData = createGitLabApiForm().withParam("username", username, true);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
         List<User> users = response.readEntity(new GenericType<List<User>>() {
         });
@@ -302,7 +304,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> findUsers(String emailOrUsername) throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm()
+        GitLabApiForm formData = createGitLabApiForm()
                 .withParam("search", emailOrUsername, true)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "users");
@@ -322,7 +324,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> findUsers(String emailOrUsername, int page, int perPage) throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm()
+        GitLabApiForm formData = createGitLabApiForm()
                 .withParam("search", emailOrUsername, true)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
@@ -342,7 +344,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<User> findUsers(String emailOrUsername, int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = creatGitLabApiForm().withParam("search", emailOrUsername, true);
+        GitLabApiForm formData = createGitLabApiForm().withParam("search", emailOrUsername, true);
         return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(), "users"));
     }
 
@@ -908,13 +910,117 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Creates custom attribute for the given user
+     *
+     * @param userId          to set the customAttributes for
+     * @param customAttribute to set
+     * @return createdCustomAttribute
+     * @throws GitLabApiException on failure while setting customAttributes
+     */
+    public CustomAttribute createCustomAttribute(final Integer userId, final CustomAttribute customAttribute) throws GitLabApiException {
+        if (Objects.isNull(customAttribute)) {
+            throw new IllegalArgumentException("CustomAttributes can't be null");
+        }
+        return createCustomAttribute(userId, customAttribute.getKey(), customAttribute.getValue());
+    }
+
+    /**
+     * Creates custom attribute for the given user
+     *
+     * @param userId to set the customAttributes for
+     * @param key    for the customAttribute
+     * @param value  for the customAttribute
+     * @return createdCustomAttribute
+     * @throws GitLabApiException on failure while setting customAttributes
+     */
+    public CustomAttribute createCustomAttribute(final Integer userId, final String key, final String value) throws GitLabApiException {
+        if (Objects.isNull(userId)) {
+            throw new IllegalArgumentException("UserId can't be null.");
+        }
+        if (Objects.isNull(key) || key.trim().isEmpty()) {
+            throw new IllegalArgumentException("Key can't be null or empty");
+        }
+        if (Objects.isNull(value) || value.trim().isEmpty()) {
+            throw new IllegalArgumentException("Value can't be null or empty");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("value", value);
+        Response response = put(Response.Status.OK, formData.asMap(), "users", userId, "custom_attributes", key);
+        return (response.readEntity(CustomAttribute.class));
+    }
+
+    /**
+     * Change custom attribute for the given user
+     *
+     * @param userId          to change the customAttributes for
+     * @param customAttribute to change
+     * @return changedCustomAttribute
+     * @throws GitLabApiException on failure while changing customAttributes
+     */
+    public CustomAttribute changeCustomAttribute(final Integer userId, final CustomAttribute customAttribute) throws GitLabApiException {
+        if (Objects.isNull(customAttribute)) {
+            throw new IllegalArgumentException("CustomAttributes can't be null");
+        }
+
+        //changing & creating custom attributes is the same call in gitlab api
+        // -> https://docs.gitlab.com/ce/api/custom_attributes.html#set-custom-attribute
+        return createCustomAttribute(userId, customAttribute.getKey(), customAttribute.getValue());
+    }
+
+    /**
+     * Changes custom attribute for the given user
+     *
+     * @param userId to change the customAttribute for
+     * @param key    for the customAttribute
+     * @param value  for the customAttribute
+     * @return changedCustomAttribute
+     * @throws GitLabApiException on failure while changing customAttributes
+     */
+    public CustomAttribute changeCustomAttribute(final Integer userId, final String key, final String value) throws GitLabApiException {
+        return createCustomAttribute(userId, key, value);
+    }
+
+    /**
+     * Delete a custom attribute for the given user
+     *
+     * @param userId          to delete the customAttribute for
+     * @param customAttribute to remove
+     * @throws GitLabApiException on failure while deleting customAttributes
+     */
+    public void deleteCustomAttribute(final Integer userId, final CustomAttribute customAttribute) throws GitLabApiException {
+        if (Objects.isNull(customAttribute)) {
+            throw new IllegalArgumentException("customAttributes can't be null");
+        }
+
+        deleteCustomAttribute(userId, customAttribute.getKey());
+    }
+
+    /**
+     * Delete a custom attribute for the given user
+     *
+     * @param userId to delete the customAttribute for
+     * @param key    of the customAttribute to remove
+     * @throws GitLabApiException on failure while deleting customAttributes
+     */
+    public void deleteCustomAttribute(final Integer userId, final String key) throws GitLabApiException {
+        if (Objects.isNull(userId)) {
+            throw new IllegalArgumentException("UserId can't be null");
+        }
+        if (Objects.isNull(key) || key.trim().isEmpty()) {
+            throw new IllegalArgumentException("Key can't be null or empty");
+        }
+        delete(Response.Status.OK, null, "users", userId, "custom_attributes", key);
+    }
+
+    /**
      * Creates a GitLabApiForm instance that will optionally include the
      * with_custom_attributes query param if enabled.
      *
      * @return a GitLabApiForm instance that will optionally include the
      * with_custom_attributes query param if enabled
      */
-    private GitLabApiForm creatGitLabApiForm() {
+    private GitLabApiForm createGitLabApiForm() {
         GitLabApiForm formData = new GitLabApiForm();
         return (customAttributesEnabled ? formData.withParam("with_custom_attributes", true) : formData);
     }
