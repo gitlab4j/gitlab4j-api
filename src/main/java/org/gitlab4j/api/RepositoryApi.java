@@ -473,7 +473,7 @@ public class RepositoryApi extends AbstractApi {
          */
         Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                  "projects", projectId, "repository", "archive", ".", format.toString());
+                "projects", projectId, "repository", "archive" + "." + format.toString());
         return (response.readEntity(InputStream.class));
     }
 
@@ -558,7 +558,7 @@ public class RepositoryApi extends AbstractApi {
          */
         Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-            "projects", projectId, "repository", "archive", ".", format.toString());
+                "projects", projectId, "repository", "archive" + "." + format.toString());
 
         try {
 
