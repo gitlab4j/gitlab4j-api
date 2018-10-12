@@ -1,12 +1,13 @@
 package org.gitlab4j.api;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.services.ExternalWikiService;
 import org.gitlab4j.api.services.HipChatService;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 /**
  * Access for the services API.  Currently only the gitlab-ci, HipChatService, Slack, and JIRA service are supported.
@@ -20,11 +21,12 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Activates the gitlab-ci service for a project.
-     *
+     * <p>
      * PUT /projects/:id/services/gitlab-ci
+     *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
-     * @param token for authentication
-     * @param projectCIUrl URL of the GitLab-CI project
+     * @param token           for authentication
+     * @param projectCIUrl    URL of the GitLab-CI project
      * @throws GitLabApiException if any exception occurs
      * @deprecated No longer supported
      */
@@ -37,7 +39,7 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Deletes the gitlab-ci service for a project.
-     *
+     * <p>
      * DELETE /projects/:id/services/gitlab-ci
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
@@ -51,7 +53,7 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Get the HipChatService notification configuration for a project.
-     *
+     * <p>
      * Get /projects/:id/services/hipchat
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
@@ -60,16 +62,16 @@ public class ServicesApi extends AbstractApi {
      */
     public HipChatService getHipChatService(Object projectIdOrPath) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "hipchat");
-        return (response.readEntity(HipChatService.class)); 
+        return (response.readEntity(HipChatService.class));
     }
-    
+
     /**
      * Updates the HipChatService notification settings for a project.
-     *
+     * <p>
      * PUT /projects/:id/services/hipchat
-     * 
+     * <p>
      * The following properties on the HipChatService instance are utilized in the update of the settings:
-     *
+     * <p>
      * pushEvents (optional) - Enable notifications for push events
      * issuesEvents (optional) - Enable notifications for issue events
      * confidentialIssuesEvents (optional) - Enable notifications for confidential issue events
@@ -87,7 +89,7 @@ public class ServicesApi extends AbstractApi {
      * notifyOnlyBrokenPipelines (optional) - Send notifications for broken pipelines
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
-     * @param hipChat the HipChatService instance holding the settings
+     * @param hipChat         the HipChatService instance holding the settings
      * @return a HipChatService instance holding the newly updated settings
      * @throws GitLabApiException if any exception occurs
      */
@@ -114,13 +116,13 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Activates HipChatService notifications.
-     *
+     * <p>
      * PUT /projects/:id/services/hipchat
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
-     * @param token for authentication
-     * @param room HipChatService Room
-     * @param server HipChatService Server URL
+     * @param token           for authentication
+     * @param room            HipChatService Room
+     * @param server          HipChatService Server URL
      * @throws GitLabApiException if any exception occurs
      * @deprecated replaced with {@link #updateHipChatService(Object, HipChatService) updateHipChat} method
      */
@@ -134,7 +136,7 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Deletes the HipChatService service for a project.
-     *
+     * <p>
      * DELETE /projects/:id/services/hipchat
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
@@ -147,7 +149,7 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Deletes the HipChatService service for a project.
-     *
+     * <p>
      * DELETE /projects/:id/services/hipchat
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
@@ -160,7 +162,7 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Get the Slack notification settings for a project.
-     *
+     * <p>
      * Get /projects/:id/services/slack
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
@@ -169,16 +171,16 @@ public class ServicesApi extends AbstractApi {
      */
     public SlackService getSlackService(Object projectIdOrPath) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "slack");
-        return (response.readEntity(SlackService.class)); 
+        return (response.readEntity(SlackService.class));
     }
 
     /**
      * Updates the Slack notification settings for a project.
-     *
+     * <p>
      * PUT /projects/:id/services/slack
-     *
+     * <p>
      * The following properties on the SlackService instance are utilized in the update of the settings:
-     * 
+     * <p>
      * webhook (required) - https://hooks.slack.com/services/...
      * username (optional) - username
      * defaultChannel (optional) - Default channel to use if others are not configured
@@ -203,7 +205,7 @@ public class ServicesApi extends AbstractApi {
      * pipelineChannel (optional) - The name of the channel to receive pipeline events notifications
      * wikiPageChannel (optional) - The name of the channel to receive wiki page events notifications
      *
-     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param projectIdOrPath    id, path of the project, or a Project instance holding the project ID or path
      * @param slackNotifications the SlackService instance holding the settings
      * @return a SlackService instance holding the newly updated settings
      * @throws GitLabApiException if any exception occurs
@@ -212,7 +214,7 @@ public class ServicesApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("webhook", slackNotifications.getWebhook(), true)
                 .withParam("username", slackNotifications.getUsername())
-                .withParam("channel",  slackNotifications.getDefaultChannel())
+                .withParam("channel", slackNotifications.getDefaultChannel())
                 .withParam("notify_only_broken_pipelines", slackNotifications.getNotifyOnlyBrokenPipelines())
                 .withParam("notify_only_default_branch", slackNotifications.getNotifyOnlyDefaultBranch())
                 .withParam("push_events", slackNotifications.getPushEvents())
@@ -239,7 +241,7 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Deletes the Slack notifications service for a project.
-     *
+     * <p>
      * DELETE /projects/:id/services/slack
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
@@ -249,10 +251,10 @@ public class ServicesApi extends AbstractApi {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "slack");
     }
-    
+
     /**
      * Get the JIRA service settings for a project.
-     *
+     * <p>
      * Get /projects/:id/services/jira
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
@@ -261,16 +263,16 @@ public class ServicesApi extends AbstractApi {
      */
     public JiraService getJiraService(Object projectIdOrPath) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "jira");
-        return (response.readEntity(JiraService.class)); 
+        return (response.readEntity(JiraService.class));
     }
 
     /**
      * Updates the JIRA service settings for a project.
-     *
+     * <p>
      * PUT /projects/:id/services/jira
-     * 
+     * <p>
      * The following properties on the JiraService instance are utilized in the update of the settings:
-     *
+     * <p>
      * mergeRequestsEvents (optional) - Enable notifications for merge request events
      * commitEvents (optional) - Enable notifications for commit events
      * url (required) - The URL to the JIRA project which is being linked to this GitLab project, e.g., https://jira.example.com.
@@ -281,7 +283,7 @@ public class ServicesApi extends AbstractApi {
      * jiraIssueTransitionId (optional) - The ID of a transition that moves issues to a closed state.
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
-     * @param jira the JiraService instance holding the settings
+     * @param jira            the JiraService instance holding the settings
      * @return a JiraService instance holding the newly updated settings
      * @throws GitLabApiException if any exception occurs
      */
@@ -293,15 +295,18 @@ public class ServicesApi extends AbstractApi {
                 .withParam("api_url", jira.getApiUrl())
                 .withParam("project_key", jira.getProjectKey())
                 .withParam("username", jira.getUsername(), true)
-                .withParam("password",  jira.getPassword(), true)
+                .withParam("password", jira.getPassword(), true)
                 .withParam("jira_issue_transition_id", jira.getJiraIssueTransitionId());
         Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "services", "jira");
         return (response.readEntity(JiraService.class));
     }
 
+
+
+
     /**
      * Deletes the JIRA service for a project.
-     *
+     * <p>
      * DELETE /projects/:id/services/jira
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
@@ -310,5 +315,56 @@ public class ServicesApi extends AbstractApi {
     public void deleteJiraService(Object projectIdOrPath) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "jira");
+    }
+
+
+    /**
+     * Get the JIRA service settings for a project.
+     * <p>
+     * Get /projects/:id/services/external-wiki
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @return a ExternalWikiService instance holding the External Wiki service settings
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ExternalWikiService getExternalWikiService(Object projectIdOrPath) throws GitLabApiException {
+        Response response = this.get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "external-wiki");
+        return (response.readEntity(ExternalWikiService.class));
+    }
+
+
+    /**
+     * Updates the ExternalWikiService service settings for a project.
+     * <p>
+     * PUT /projects/:id/services/external-wiki
+     * <p>
+     * The following properties on the JiraService instance are utilized in the update of the settings:
+     * <p>
+     * external_wiki_url (required) - The URL to the External Wiki project which is being linked to this GitLab project, e.g., http://www.wikidot.com/
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param externalWiki            the ExternalWikiService instance holding the settings
+     * @return a ExternalWikiService instance holding the newly updated settings
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ExternalWikiService updateExternalWikiService(Object projectIdOrPath,  ExternalWikiService externalWiki) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("external_wiki_url", externalWiki.getExternalWikiUrl());
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "services", "external-wiki");
+        return (response.readEntity(ExternalWikiService.class));
+    }
+
+    /**
+     * Deletes the ExternalWiki service for a project.
+     * <p>
+     * DELETE /projects/:id/services/external-wiki
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteExternalWikiService(Object projectIdOrPath) throws GitLabApiException {
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "external-wiki");
+
     }
 }
