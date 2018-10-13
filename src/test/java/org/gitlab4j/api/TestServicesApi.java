@@ -8,6 +8,7 @@ import static org.junit.Assume.assumeTrue;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.services.ExternalWikiService;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
 import org.junit.Before;
@@ -188,5 +189,37 @@ public class TestServicesApi {
         SlackService deleteSlackService =  gitLabApi.getServicesApi().getSlackService(testProject);
         assertNotNull(deleteSlackService);
         assertFalse(deleteSlackService.getActive());
+    }
+
+    @Test
+    public void testGetExternalWiki() throws GitLabApiException {
+        ExternalWikiService wikiService =  gitLabApi.getServicesApi().getExternalWikiService(testProject);
+        assertNotNull(wikiService);
+    }
+
+    @Test
+    public void testUpdateExternalWiki() throws GitLabApiException {
+        try {
+            ExternalWikiService wikiService =  new ExternalWikiService()
+                    .withExternalWikiUrl("http://wiki.io");
+            ExternalWikiService updatedExternalWikiService =  gitLabApi.getServicesApi().updateExternalWikiService(testProject, wikiService);
+            assertNotNull(updatedExternalWikiService);
+        } finally {
+            try { gitLabApi.getServicesApi().deleteExternalWikiService(testProject); } catch (Exception ignore) {}
+        }
+    }
+
+    @Test
+    public void testDeleteExternalWikiService() throws GitLabApiException {
+        ExternalWikiService wikiService =  new ExternalWikiService()
+                .withExternalWikiUrl("http://wiki.io");
+        ExternalWikiService updatedExternalWikiService =  gitLabApi.getServicesApi().updateExternalWikiService(testProject, wikiService);
+        assertNotNull(updatedExternalWikiService);
+        assertTrue(updatedExternalWikiService.getActive());
+
+        gitLabApi.getServicesApi().deleteExternalWikiService(testProject);
+        ExternalWikiService deleteExternalWikiService =  gitLabApi.getServicesApi().getExternalWikiService(testProject);
+        assertNotNull(deleteExternalWikiService);
+        assertFalse(deleteExternalWikiService.getActive());
     }
 }
