@@ -85,6 +85,7 @@ public class Project {
     private String webUrl;
     private Boolean wikiEnabled;
     private Boolean printingMergeRequestLinkEnabled;
+    private Boolean resolveOutdatedDiffDiscussions;
     private ProjectStatistics statistics;
 
     public Integer getApprovalsBeforeMerge() {
@@ -590,6 +591,19 @@ public class Project {
 
     public Project withPrintingMergeRequestLinkEnabled(Boolean printingMergeRequestLinkEnabled) {
         this.printingMergeRequestLinkEnabled = printingMergeRequestLinkEnabled;
+        return (this);
+    }
+
+    public Boolean getResolveOutdatedDiffDiscussions() {
+        return resolveOutdatedDiffDiscussions;
+    }
+
+    public void setResolveOutdatedDiffDiscussions(Boolean resolveOutdatedDiffDiscussions) {
+        this.resolveOutdatedDiffDiscussions = resolveOutdatedDiffDiscussions;
+    }
+
+    public Project withResolveOutdatedDiffDiscussions(boolean resolveOutdatedDiffDiscussions) {
+        this.resolveOutdatedDiffDiscussions = resolveOutdatedDiffDiscussions;
         return (this);
     }
 
