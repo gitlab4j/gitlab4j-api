@@ -85,7 +85,9 @@ public class Project {
     private String webUrl;
     private Boolean wikiEnabled;
     private Boolean printingMergeRequestLinkEnabled;
+    private Boolean resolveOutdatedDiffDiscussions;
     private ProjectStatistics statistics;
+    private Boolean initializeWithReadme;
 
     public Integer getApprovalsBeforeMerge() {
         return approvalsBeforeMerge;
@@ -590,6 +592,32 @@ public class Project {
 
     public Project withPrintingMergeRequestLinkEnabled(Boolean printingMergeRequestLinkEnabled) {
         this.printingMergeRequestLinkEnabled = printingMergeRequestLinkEnabled;
+        return (this);
+    }
+
+    public Boolean getResolveOutdatedDiffDiscussions() {
+        return resolveOutdatedDiffDiscussions;
+    }
+
+    public void setResolveOutdatedDiffDiscussions(Boolean resolveOutdatedDiffDiscussions) {
+        this.resolveOutdatedDiffDiscussions = resolveOutdatedDiffDiscussions;
+    }
+
+    public Project withResolveOutdatedDiffDiscussions(boolean resolveOutdatedDiffDiscussions) {
+        this.resolveOutdatedDiffDiscussions = resolveOutdatedDiffDiscussions;
+        return (this);
+    }
+
+    public Boolean getInitializeWithReadme() {
+        return initializeWithReadme;
+    }
+
+    public void setInitializeWithReadme(Boolean initializeWithReadme) {
+        this.initializeWithReadme = initializeWithReadme;
+    }
+
+    public Project withInitializeWithReadme(boolean initializeWithReadme) {
+        this.initializeWithReadme = initializeWithReadme;
         return (this);
     }
 
