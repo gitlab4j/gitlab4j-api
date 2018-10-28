@@ -151,10 +151,10 @@ public class GitLabApiException extends Exception {
     }
 
     /**
-     * Returns a Map<String, List<String>> instance containing validation errors if this GitLabApiException 
+     * Returns a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException 
      * was caused by validation errors on the GitLab server, otherwise returns null.
      *
-     * @return a Map<String, List<String>> instance containing validation errors if this GitLabApiException 
+     * @return a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException 
      * was caused by validation errors on the GitLab server, otherwise returns null
      */
     public Map<String, List<String>> getValidationErrors() {
