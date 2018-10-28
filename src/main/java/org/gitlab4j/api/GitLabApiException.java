@@ -69,17 +69,27 @@ public class GitLabApiException extends Exception {
                         // If the node is an object, then it is validation errors
                         if (jsonMessage.isObject()) {
 
+                            StringBuilder buf = new StringBuilder();
                             validationErrors = new HashMap<>();
                             Iterator<Entry<String, JsonNode>> fields = jsonMessage.fields();
                             while(fields.hasNext()) {
 
                                 Entry<String, JsonNode> field = fields.next();
+                                String fieldName = field.getKey();                                
                                 List<String> values = new ArrayList<>();
-                                validationErrors.put(field.getKey(), values);
+                                validationErrors.put(fieldName, values);
                                 for (JsonNode value : field.getValue()) {
                                     values.add(value.asText());
                                 }
+
+                                if (values.size() > 0) {
+                                    buf.append((buf.length() > 0 ? ", " : "")).append(fieldName);
+                                }
                             }
+
+                            if (buf.length() > 0) {
+                                this.message = "The following fields have validation errors: " + buf.toString();
+                            }    
 
                         } else {
                             this.message = jsonMessage.asText();
@@ -131,7 +141,7 @@ public class GitLabApiException extends Exception {
 
     /**
      * Returns the HTTP status code that was the cause of the exception. returns 0 if the
-     * causing error was not an HTTP related exception.
+     * causing error was not an HTTP related exception
      *
      * @return the HTTP status code, returns 0 if the causing error was not an HTTP related exception
      */
