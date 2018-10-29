@@ -628,13 +628,13 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * GET /projects/:id/issues/:issue_iid/closed_by
      *
-     * @param projectId the project ID that owns the issue
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param issueIid the internal ID of a project's issue
      * @return a List containing all the merge requests what will close the issue when merged.
      * @throws GitLabApiException if any exception occurs
      */
-    public List<MergeRequest> getClosedByMergeRequests(Integer projectId, Integer issueIid) throws GitLabApiException {
-        return (getClosedByMergeRequests(projectId, issueIid, 1, getDefaultPerPage()));
+    public List<MergeRequest> getClosedByMergeRequests(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+        return (getClosedByMergeRequests(projectIdOrPath, issueIid, 1, getDefaultPerPage()));
     }
 
     /**
@@ -642,16 +642,16 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * GET /projects/:id/issues/:issue_iid/closed_by
      *
-     * @param projectId the project ID that owns the issue
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param issueIid the internal ID of a project's issue
      * @param page the page to get
      * @param perPage the number of issues per page
      * @return a List containing all the merge requests what will close the issue when merged.
      * @throws GitLabApiException if any exception occurs
      */
-    public List<MergeRequest> getClosedByMergeRequests(Integer projectId, Integer issueIid, int page, int perPage) throws GitLabApiException {
+    public List<MergeRequest> getClosedByMergeRequests(Object projectIdOrPath, Integer issueIid, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
-                "projects", projectId, "issues", issueIid, "closed_by");
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "closed_by");
         return (response.readEntity(new GenericType<List<MergeRequest>>() { }));
     }
 
@@ -660,14 +660,14 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * GET /projects/:id/issues/:issue_iid/closed_by
      *
-     * @param projectId the project ID that owns the issue
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param issueIid the internal ID of a project's issue
      * @param itemsPerPage the number of Issue instances that will be fetched per page
      * @return a Pager containing all the issues that would be closed by merging the provided merge request
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<MergeRequest> getClosedByMergeRequests(Integer projectId, Integer issueIid, int itemsPerPage) throws GitLabApiException {
+    public Pager<MergeRequest> getClosedByMergeRequests(Object projectIdOrPath, Integer issueIid, int itemsPerPage) throws GitLabApiException {
         return new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, null,
-                "projects", projectId, "issues", issueIid, "closed_by");
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "closed_by");
     }
 }
