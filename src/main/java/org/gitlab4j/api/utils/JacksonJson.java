@@ -243,4 +243,15 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     public static <T> String toJsonString(final T object) {
         return (JacksonJsonSingletonHelper.JACKSON_JSON.marshal(object));
     }
+
+    /**
+     * Parse the provided String into a JsonNode instance.
+     *
+     * @param jsonString a String containing JSON to parse
+     * @return a JsonNode with the String parsed into a JSON tree
+     * @throws IOException if any IO error occurs
+     */
+    public static JsonNode toJsonNode(String jsonString) throws IOException {
+        return (JacksonJsonSingletonHelper.JACKSON_JSON.objectMapper.readTree(jsonString));
+    }
 }

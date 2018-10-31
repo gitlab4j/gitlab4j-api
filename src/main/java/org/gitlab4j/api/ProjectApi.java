@@ -655,6 +655,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * repositoryStorage (optional) - Which storage shard the repository is on. Available only to admins
      * approvalsBeforeMerge (optional) - How many approvers should approve merge request by default
      * printingMergeRequestLinkEnabled (optional) - Show link to create/view merge request when pushing from the command line
+     * resolveOutdatedDiffDiscussions (optional) - Automatically resolve merge request diffs discussions on lines changed with a push
+     * initialize_with_readme (optional) - Initialize project with README file
      *
      * @param project the Project instance with the configuration for the new project
      * @param importUrl the URL to import the repository from
@@ -696,7 +698,9 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("repository_storage", project.getRepositoryStorage())
             .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
             .withParam("import_url", importUrl)
-            .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled());
+            .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled())
+            .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
+            .withParam("initialize_with_readme", project.getInitializeWithReadme());
 
         if (isApiVersion(ApiVersion.V3)) {
             boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
@@ -889,12 +893,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      * repositoryStorage (optional) - Which storage shard the repository is on. Available only to admins
      * approvalsBeforeMerge (optional) - How many approvers should approve merge request by default
      * printingMergeRequestLinkEnabled (optional) - Show link to create/view merge request when pushing from the command line
+     * resolveOutdatedDiffDiscussions (optional) - Automatically resolve merge request diffs discussions on lines changed with a push
      *
      * NOTE: The following parameters specified by the GitLab API edit project are not supported:
      *     import_url
      *     tag_list array
      *     avatar
      *     ci_config_path
+     *     initialize_with_readme
      *
      * @param project the Project instance with the configuration for the new project
      * @return a Project instance with the newly updated project info
@@ -936,7 +942,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("request_access_enabled", project.getRequestAccessEnabled())
             .withParam("repository_storage", project.getRepositoryStorage())
             .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
-            .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled());
+            .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled())
+            .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());

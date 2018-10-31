@@ -1,17 +1,19 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.Commit;
-import org.gitlab4j.api.models.MergeRequest;
-import org.gitlab4j.api.models.MergeRequestFilter;
-import org.gitlab4j.api.models.Participant;
+import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.List;
-import java.util.Optional;
+
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.models.MergeRequestFilter;
+import org.gitlab4j.api.models.Participant;
 
 /**
  * This class implements the client side API for the GitLab merge request calls.
@@ -784,5 +786,53 @@ public class MergeRequestApi extends AbstractApi {
      */
     public Pager<Participant> getParticipants(Integer projectId, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
         return new Pager<Participant>(this, Participant.class, itemsPerPage, null, "projects", projectId, "merge_requests", mergeRequestIid, "participants");
+    }
+
+    /**
+     * Get list containing all the issues that would be closed by merging the provided merge requestt.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/closes_issues</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param mergeRequestIid the IID of the merge request to get the closes issues for
+     * @return a List containing all the issues that would be closed by merging the provided merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Issue> getClosesIssues(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+        return (getClosesIssues(projectIdOrPath, mergeRequestIid, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get list containing all the issues that would be closed by merging the provided merge request.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/closes_issues</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param mergeRequestIid the IID of the merge request to get the closes issues for
+     * @param page the page to get
+     * @param perPage the number of issues per page
+     * @return a List containing all the issues that would be closed by merging the provided merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Issue> getClosesIssues(Object projectIdOrPath, Integer mergeRequestIid, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
+                    "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "closes_issues");
+        return (response.readEntity(new GenericType<List<Issue>>() { }));
+    }
+
+    /**
+     * Get a Pager containing all the issues that would be closed by merging the provided merge request.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/closes_issues</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param mergeRequestIid the IID of the merge request to get the closes issues for
+     * @param itemsPerPage the number of Issue instances that will be fetched per page
+     * @return a Pager containing all the issues that would be closed by merging the provided merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Issue> getClosesIssues(Object projectIdOrPath, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+        return new Pager<Issue>(this, Issue.class, itemsPerPage, null, 
+                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "closes_issues");
     }
 }

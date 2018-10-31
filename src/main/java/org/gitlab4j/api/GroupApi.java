@@ -347,7 +347,7 @@ public class GroupApi extends AbstractApi {
                 .withParam("name", group.getName())
                 .withParam("path", group.getPath())
                 .withParam("description", group.getDescription())
-                .withParam("visibility", group.getDescription())
+                .withParam("visibility", group.getVisibility())
                 .withParam("lfs_enabled", group.getLfsEnabled())
                 .withParam("request_access_enabled", group.getRequestAccessEnabled())
                 .withParam("parent_id", isApiVersion(ApiVersion.V3) ? null : group.getParentId());
