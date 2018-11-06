@@ -13,6 +13,7 @@ import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectOfGroupFilter;
 import org.gitlab4j.api.models.Visibility;
 
 /**
@@ -244,22 +245,8 @@ public class GroupApi extends AbstractApi {
      * @return a list of projects belonging to the specified group ID
      * @throws GitLabApiException if any exception occurs
      */
-  public List<Project> getProjects(int groupId, Boolean archived, Visibility visibility, ProjectOrderBy orderBy,
-      SortOrder sortOrder, String search, Boolean simple, Boolean owned, Boolean starred, Boolean withIssuesEnabled,
-      Boolean withMergeRequestsEnabled, Boolean withCustomAttributes) throws GitLabApiException {
-      Form formData = new GitLabApiForm()
-          .withParam("archived", archived)
-          .withParam("visibility", visibility)
-          .withParam("order_by", orderBy)
-          .withParam("order_by", orderBy)
-          .withParam("sort", sortOrder)
-          .withParam("search", search)
-          .withParam("simple", simple)
-          .withParam("owned", owned)
-          .withParam("starred", starred)
-          .withParam("with_issues_enabled", withIssuesEnabled)
-          .withParam("with_merge_requests_enabled", withMergeRequestsEnabled)
-          .withParam("with_custom_attributes", withCustomAttributes);
+  public List<Project> getProjects(int groupId, ProjectOfGroupFilter filter) throws GitLabApiException {
+    GitLabApiForm formData = filter.getQueryParams();
         Response response = get(Response.Status.OK, formData.asMap(), "groups", groupId, "projects");
         return (response.readEntity(new GenericType<List<Project>>() {}));
     }
