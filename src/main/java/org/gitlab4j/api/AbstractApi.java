@@ -13,6 +13,7 @@ import javax.ws.rs.core.StreamingOutput;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.User;
 
 /**
  * This class is the base class for all the sub API classes. It provides implementations of
@@ -95,6 +96,42 @@ public abstract class AbstractApi implements Constants {
 
             throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
                     " instance, must be Integer, String, or a Group instance"));
+        }
+    }
+
+    /**
+     * Returns the user ID or path from the provided Integer, String, or User instance.
+     *
+     * @param obj the object to determine the ID or username from
+     * @return the user ID or username from the provided Integer, String, or User instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Object getUserIdOrUsername(Object obj) throws GitLabApiException {
+
+        if (obj == null) {
+            throw (new RuntimeException("Cannot determine ID or username from null object"));
+        } else if (obj instanceof Integer) {
+            return (obj);
+        } else if (obj instanceof String) {
+            return (urlEncode(((String) obj).trim()));
+        } else if (obj instanceof User) {
+
+            Integer id = ((User) obj).getId();
+            if (id != null && id.intValue() > 0) {
+                return (id);
+            }
+
+            String username = ((User) obj).getUsername();
+            if (username != null && username.trim().length() > 0) {
+                return (urlEncode(username.trim()));
+            }
+
+            throw (new RuntimeException("Cannot determine ID or username from provided User instance"));
+
+        } else {
+
+            throw (new RuntimeException("Cannot determine ID or username from provided " + obj.getClass().getSimpleName() +
+                    " instance, must be Integer, String, or a User instance"));
         }
     }
 
