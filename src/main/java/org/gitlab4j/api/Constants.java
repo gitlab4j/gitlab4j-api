@@ -199,28 +199,6 @@ public interface Constants {
         }
     }
 
-    /** Enum to use for ordering the results of getProjects() of GroupsApi. */
-    public enum GroupProjectOrderBy {
-
-        ID, NAME, PATH, CREATED_AT, UPDATED_AT, LAST_ACTIVITY_AT;
-        private static JacksonJsonEnumHelper<GroupProjectOrderBy> enumHelper = new JacksonJsonEnumHelper<>(GroupProjectOrderBy.class);
-
-        @JsonCreator
-        public static GroupProjectOrderBy forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
-
     /** Enum to use for specifying the scope when calling getPipelines(). */
     public enum PipelineScope {
 

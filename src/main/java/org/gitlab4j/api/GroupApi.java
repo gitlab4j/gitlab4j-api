@@ -244,7 +244,7 @@ public class GroupApi extends AbstractApi {
      * @return a list of projects belonging to the specified group ID
      * @throws GitLabApiException if any exception occurs
      */
-  public List<Project> getProjects(int groupId, Boolean archived, Visibility visibility, GroupProjectOrderBy orderBy,
+  public List<Project> getProjects(int groupId, Boolean archived, Visibility visibility, ProjectOrderBy orderBy,
       SortOrder sortOrder, String search, Boolean simple, Boolean owned, Boolean starred, Boolean withIssuesEnabled,
       Boolean withMergeRequestsEnabled, Boolean withCustomAttributes) throws GitLabApiException {
       Form formData = new GitLabApiForm()
