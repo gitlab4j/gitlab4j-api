@@ -231,18 +231,7 @@ public class GroupApi extends AbstractApi {
      * GET /groups/:id/projects
      *
      * @param groupId the group ID to list the projects for
-     * @param archived Limit by archived status
-     * @param visibility Limit by visibility public, internal, or private 
-     * @param orderBy Return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields. Default is created_at
-     * @param sortOrder Return projects sorted in asc or desc order. Default is desc
-     * @param search Return list of authorized projects matching the search criteria
-     * @param simple Return only the ID, URL, name, and path of each project
-     * @param owned Limit by projects owned by the current user
-     * @param starred Limit by projects starred by the current user
-     * @param withIssuesEnabled Limit by enabled issues feature
-     * @param withMergeRequestsEnabled Limit by enabled merge requests feature
-     * @param withCustomAttributes Include custom attributes in response (admins only)
-     * @return a list of projects belonging to the specified group ID
+     * @param filter the ProjectOfGroupFilter instance holding the filter values for the query
      * @throws GitLabApiException if any exception occurs
      */
   public List<Project> getProjects(int groupId, ProjectOfGroupFilter filter) throws GitLabApiException {
