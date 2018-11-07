@@ -230,15 +230,15 @@ public class GroupApi extends AbstractApi {
      *
      * GET /groups/:id/projects
      *
-     * @param groupId the group ID to list the projects for
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param filter the ProjectOfGroupFilter instance holding the filter values for the query
      * @throws GitLabApiException if any exception occurs
      */
-  public List<Project> getProjects(int groupId, ProjectOfGroupFilter filter) throws GitLabApiException {
+  public List<Project> getProjects(Object groupIdOrPath, ProjectOfGroupFilter filter) throws GitLabApiException {
     GitLabApiForm formData = filter.getQueryParams();
-        Response response = get(Response.Status.OK, formData.asMap(), "groups", groupId, "projects");
-        return (response.readEntity(new GenericType<List<Project>>() {}));
-    }
+    Response response = get(Response.Status.OK, formData.asMap(), "groups",  getGroupIdOrPath(groupIdOrPath), "projects");
+    return (response.readEntity(new GenericType<List<Project>>() {}));
+  }
 
     /**
      * Get a list of projects belonging to the specified group ID.
