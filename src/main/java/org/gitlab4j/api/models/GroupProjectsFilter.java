@@ -8,7 +8,7 @@ import org.gitlab4j.api.GitLabApiForm;
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified group.
  */
-public class ProjectOfGroupFilter {
+public class GroupProjectsFilter {
 
     private Boolean archived;
     private Visibility visibility;
@@ -28,7 +28,7 @@ public class ProjectOfGroupFilter {
      * @param archived if true will only return archived projects
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withArchived(Boolean archived) {
+    public GroupProjectsFilter withArchived(Boolean archived) {
         this.archived = archived;
         return (this);  
     }
@@ -39,7 +39,7 @@ public class ProjectOfGroupFilter {
      * @param visibility the visibility to match
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withVisibility(Visibility visibility) {
+    public GroupProjectsFilter withVisibility(Visibility visibility) {
         this.visibility = visibility;
         return (this);       
     }
@@ -50,7 +50,7 @@ public class ProjectOfGroupFilter {
      * @param orderBy specifies what field to order by
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withOrderBy(ProjectOrderBy orderBy) {
+    public GroupProjectsFilter withOrderBy(ProjectOrderBy orderBy) {
         this.orderBy = orderBy;
         return (this);
     }
@@ -61,7 +61,7 @@ public class ProjectOfGroupFilter {
      * @param sort sort direction, ASC or DESC
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withSortOder(SortOrder sort) {
+    public GroupProjectsFilter withSortOder(SortOrder sort) {
         this.sort = sort;
         return (this);
     }
@@ -72,7 +72,7 @@ public class ProjectOfGroupFilter {
      * @param search the search criteria
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withSearch(String search) {
+    public GroupProjectsFilter withSearch(String search) {
         this.search = search;
         return (this);
     }
@@ -84,7 +84,7 @@ public class ProjectOfGroupFilter {
      * @param simple if true, return only limited fields for each project
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withSimple(Boolean simple) {
+    public GroupProjectsFilter withSimple(Boolean simple) {
         this.simple = simple;
         return (this);
     }
@@ -95,7 +95,7 @@ public class ProjectOfGroupFilter {
      * @param owned if true, limit to projects explicitly owned by the current user
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withOwned(Boolean owned) {
+    public GroupProjectsFilter withOwned(Boolean owned) {
         this.owned = owned;
         return (this);
     }
@@ -106,7 +106,7 @@ public class ProjectOfGroupFilter {
      * @param starred if true, limit by projects starred by the current user
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withStarred(Boolean starred) {
+    public GroupProjectsFilter withStarred(Boolean starred) {
         this.starred = starred;
         return (this);
     }
@@ -117,7 +117,7 @@ public class ProjectOfGroupFilter {
      * @param withCustomAttributes if true, include custom attributes in the repsonse
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withCustomAttributes(Boolean withCustomAttributes) {
+    public GroupProjectsFilter withCustomAttributes(Boolean withCustomAttributes) {
         this.withCustomAttributes = withCustomAttributes;
         return (this);
     }
@@ -128,7 +128,7 @@ public class ProjectOfGroupFilter {
      * @param withIssuesEnabled if true, limit by enabled issues feature
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withIssuesEnabled(Boolean withIssuesEnabled) {
+    public GroupProjectsFilter withIssuesEnabled(Boolean withIssuesEnabled) {
         this.withIssuesEnabled = withIssuesEnabled;
         return (this);
     }
@@ -139,7 +139,7 @@ public class ProjectOfGroupFilter {
      * @param withMergeRequestsEnabled if true, imit by enabled merge requests feature
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectOfGroupFilter withMergeRequestsEnabled(Boolean withMergeRequestsEnabled) {
+    public GroupProjectsFilter withMergeRequestsEnabled(Boolean withMergeRequestsEnabled) {
         this.withMergeRequestsEnabled = withMergeRequestsEnabled;
         return (this);
     }
