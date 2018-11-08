@@ -13,6 +13,7 @@ import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectOfGroupFilter;
 import org.gitlab4j.api.models.Visibility;
 
 /**
@@ -223,6 +224,21 @@ public class GroupApi extends AbstractApi {
                 .withParam("owned", owned);
         return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups", groupId, "subgroups"));
     }
+
+    /**
+     * Get a list of projects belonging to the specified group ID.
+     *
+     * GET /groups/:id/projects
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param filter the ProjectOfGroupFilter instance holding the filter values for the query
+     * @throws GitLabApiException if any exception occurs
+     */
+  public List<Project> getProjects(Object groupIdOrPath, ProjectOfGroupFilter filter) throws GitLabApiException {
+    GitLabApiForm formData = filter.getQueryParams();
+    Response response = get(Response.Status.OK, formData.asMap(), "groups",  getGroupIdOrPath(groupIdOrPath), "projects");
+    return (response.readEntity(new GenericType<List<Project>>() {}));
+  }
 
     /**
      * Get a list of projects belonging to the specified group ID.
