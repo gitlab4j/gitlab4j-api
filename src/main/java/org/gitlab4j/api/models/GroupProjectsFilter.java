@@ -2,7 +2,6 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.Constants.ProjectOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
-import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.GitLabApiForm;
 
 /**
