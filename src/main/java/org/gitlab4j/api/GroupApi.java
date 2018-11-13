@@ -13,6 +13,7 @@ import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.GroupProjectsFilter;
 import org.gitlab4j.api.models.Visibility;
 
 /**
@@ -222,6 +223,38 @@ public class GroupApi extends AbstractApi {
                 .withParam("statistics", statistics)
                 .withParam("owned", owned);
         return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups", groupId, "subgroups"));
+    }
+
+    /**
+     * Get a list of projects belonging to the specified group ID and filter.
+     *
+     * GET /groups/:id/projects
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param filter the GroupProjectsFilter instance holding the filter values for the query
+     * @return a List containing Project instances that belong to the group and match the provided filter
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getProjects(Object groupIdOrPath, GroupProjectsFilter filter) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        Response response = get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {}));
+    }
+
+    /**
+     * Get a Pager of projects belonging to the specified group ID and filter.
+     *
+     * GET /groups/:id/projects
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param filter the GroupProjectsFilter instance holding the filter values for the query
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager containing Project instances that belong to the group and match the provided filter
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Project> getProjects(Object groupIdOrPath, GroupProjectsFilter filter, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        return (new Pager<Project>(this, Project.class, itemsPerPage, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "projects"));
     }
 
     /**
