@@ -300,4 +300,165 @@ public class AbstractUser {
     public void setCustomAttributes(List<CustomAttribute> customAttributes) {
         this.customAttributes = customAttributes;
     }
+
+
+    public AbstractUser withAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+        return this;
+    }
+
+    public AbstractUser withBio(String bio) {
+        this.bio = bio;
+        return this;
+    }
+
+    public AbstractUser withCanCreateGroup(Boolean canCreateGroup) {
+        this.canCreateGroup = canCreateGroup;
+        return this;
+    }
+
+    public AbstractUser withCanCreateProject(Boolean canCreateProject) {
+        this.canCreateProject = canCreateProject;
+        return this;
+    }
+
+    public AbstractUser withColorSchemeId(Integer colorSchemeId) {
+        this.colorSchemeId = colorSchemeId;
+        return this;
+    }
+
+    public AbstractUser withConfirmedAt(Date confirmedAt) {
+        this.confirmedAt = confirmedAt;
+        return this;
+    }
+
+    public AbstractUser withCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public AbstractUser withCurrentSignInAt(Date currentSignInAt) {
+        this.currentSignInAt = currentSignInAt;
+        return this;
+    }
+
+    public AbstractUser withEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public AbstractUser withExternal(Boolean external) {
+        this.external = external;
+        return this;
+    }
+
+    public AbstractUser withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public AbstractUser withIdentities(List<Identity> identities) {
+        this.identities = identities;
+        return this;
+    }
+
+    public AbstractUser withIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+        return this;
+    }
+
+    public AbstractUser withLastActivityOn(Date lastActivityOn) {
+        this.lastActivityOn = lastActivityOn;
+        return this;
+    }
+
+    public AbstractUser withLastSignInAt(Date lastSignInAt) {
+        this.lastSignInAt = lastSignInAt;
+        return this;
+    }
+
+    public AbstractUser withLinkedin(String linkedin) {
+        this.linkedin = linkedin;
+        return this;
+    }
+
+    public AbstractUser withLocation(String location) {
+        this.location = location;
+        return this;
+    }
+
+    public AbstractUser withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public AbstractUser withOrganization(String organization) {
+        this.organization = organization;
+        return this;
+    }
+
+    public AbstractUser withProjectsLimit(Integer projectsLimit) {
+        this.projectsLimit = projectsLimit;
+        return this;
+    }
+
+    public AbstractUser withProvider(String provider) {
+        this.provider = provider;
+        return this;
+    }
+
+    public AbstractUser withSharedRunnersMinutesLimit(Integer sharedRunnersMinutesLimit) {
+        this.sharedRunnersMinutesLimit = sharedRunnersMinutesLimit;
+        return this;
+    }
+
+    public AbstractUser withSkype(String skype) {
+        this.skype = skype;
+        return this;
+    }
+
+    public AbstractUser withState(String state) {
+        this.state = state;
+        return this;
+    }
+
+    public AbstractUser withThemeId(Integer themeId) {
+        this.themeId = themeId;
+        return this;
+    }
+
+    public AbstractUser withTwitter(String twitter) {
+        this.twitter = twitter;
+        return this;
+    }
+
+    public AbstractUser withTwoFactorEnabled(Boolean twoFactorEnabled) {
+        this.twoFactorEnabled = twoFactorEnabled;
+        return this;
+    }
+
+    public AbstractUser withUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public AbstractUser withWebsiteUrl(String websiteUrl) {
+        this.websiteUrl = websiteUrl;
+        return this;
+    }
+
+    public AbstractUser withWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+        return this;
+    }
+
+    public AbstractUser withSkipConfirmation(Boolean skipConfirmation) {
+        this.skipConfirmation = skipConfirmation;
+        return this;
+    }
+
+    public AbstractUser withCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
+        return this;
+    }
 }
