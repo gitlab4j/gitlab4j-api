@@ -332,7 +332,9 @@ public class JobApi extends AbstractApi implements Constants {
      */
     public File downloadSingleArtifactsFile(Object projectIdOrPath, Integer jobId, Path artifactPath, File directory) throws GitLabApiException {
 
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", artifactPath);
+        String path = artifactPath.toString().replace("\\", "/");
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", path);
         try {
 
             if (directory == null)
@@ -364,7 +366,9 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public InputStream downloadSingleArtifactsFile(Object projectIdOrPath, Integer jobId, Path artifactPath) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", artifactPath);
+        String path = artifactPath.toString().replace("\\", "/");
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", path);
         return (response.readEntity(InputStream.class));
     }
 
@@ -380,7 +384,8 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
      public String getTrace(Object projectIdOrPath, int jobId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "trace");
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "trace");
         return (response.readEntity(String.class));
      }
 
