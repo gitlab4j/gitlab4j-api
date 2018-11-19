@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AbstractUser {
+public abstract class AbstractUser<U extends AbstractUser<U>> {
 
     private String avatarUrl;
     private String bio;
@@ -302,163 +302,195 @@ public class AbstractUser {
     }
 
 
-    public AbstractUser withAvatarUrl(String avatarUrl) {
+    @SuppressWarnings("unchecked")
+    public U withAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withBio(String bio) {
+    @SuppressWarnings("unchecked")
+    public U withBio(String bio) {
         this.bio = bio;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withCanCreateGroup(Boolean canCreateGroup) {
+    @SuppressWarnings("unchecked")
+    public U withCanCreateGroup(Boolean canCreateGroup) {
         this.canCreateGroup = canCreateGroup;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withCanCreateProject(Boolean canCreateProject) {
+    @SuppressWarnings("unchecked")
+    public U withCanCreateProject(Boolean canCreateProject) {
         this.canCreateProject = canCreateProject;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withColorSchemeId(Integer colorSchemeId) {
+    @SuppressWarnings("unchecked")
+    public U withColorSchemeId(Integer colorSchemeId) {
         this.colorSchemeId = colorSchemeId;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withConfirmedAt(Date confirmedAt) {
+    @SuppressWarnings("unchecked")
+    public U withConfirmedAt(Date confirmedAt) {
         this.confirmedAt = confirmedAt;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withCreatedAt(Date createdAt) {
+    @SuppressWarnings("unchecked")
+    public U withCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withCurrentSignInAt(Date currentSignInAt) {
+    @SuppressWarnings("unchecked")
+    public U withCurrentSignInAt(Date currentSignInAt) {
         this.currentSignInAt = currentSignInAt;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withEmail(String email) {
+    @SuppressWarnings("unchecked")
+    public U withEmail(String email) {
         this.email = email;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withExternal(Boolean external) {
+    @SuppressWarnings("unchecked")
+    public U withExternal(Boolean external) {
         this.external = external;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withId(Integer id) {
+    @SuppressWarnings("unchecked")
+    public U withId(Integer id) {
         this.id = id;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withIdentities(List<Identity> identities) {
+    @SuppressWarnings("unchecked")
+    public U withIdentities(List<Identity> identities) {
         this.identities = identities;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withIsAdmin(Boolean isAdmin) {
+    @SuppressWarnings("unchecked")
+    public U withIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withLastActivityOn(Date lastActivityOn) {
+    @SuppressWarnings("unchecked")
+    public U withLastActivityOn(Date lastActivityOn) {
         this.lastActivityOn = lastActivityOn;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withLastSignInAt(Date lastSignInAt) {
+    @SuppressWarnings("unchecked")
+    public U withLastSignInAt(Date lastSignInAt) {
         this.lastSignInAt = lastSignInAt;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withLinkedin(String linkedin) {
+    @SuppressWarnings("unchecked")
+    public U withLinkedin(String linkedin) {
         this.linkedin = linkedin;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withLocation(String location) {
+    @SuppressWarnings("unchecked")
+    public U withLocation(String location) {
         this.location = location;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withName(String name) {
+    @SuppressWarnings("unchecked")
+    public U withName(String name) {
         this.name = name;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withOrganization(String organization) {
+    @SuppressWarnings("unchecked")
+    public U withOrganization(String organization) {
         this.organization = organization;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withProjectsLimit(Integer projectsLimit) {
+    @SuppressWarnings("unchecked")
+    public U withProjectsLimit(Integer projectsLimit) {
         this.projectsLimit = projectsLimit;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withProvider(String provider) {
+    @SuppressWarnings("unchecked")
+    public U withProvider(String provider) {
         this.provider = provider;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withSharedRunnersMinutesLimit(Integer sharedRunnersMinutesLimit) {
+    @SuppressWarnings("unchecked")
+    public U withSharedRunnersMinutesLimit(Integer sharedRunnersMinutesLimit) {
         this.sharedRunnersMinutesLimit = sharedRunnersMinutesLimit;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withSkype(String skype) {
+    @SuppressWarnings("unchecked")
+    public U withSkype(String skype) {
         this.skype = skype;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withState(String state) {
+    @SuppressWarnings("unchecked")
+    public U withState(String state) {
         this.state = state;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withThemeId(Integer themeId) {
+    @SuppressWarnings("unchecked")
+    public U withThemeId(Integer themeId) {
         this.themeId = themeId;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withTwitter(String twitter) {
+    @SuppressWarnings("unchecked")
+    public U withTwitter(String twitter) {
         this.twitter = twitter;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withTwoFactorEnabled(Boolean twoFactorEnabled) {
+    @SuppressWarnings("unchecked")
+    public U withTwoFactorEnabled(Boolean twoFactorEnabled) {
         this.twoFactorEnabled = twoFactorEnabled;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withUsername(String username) {
+    @SuppressWarnings("unchecked")
+    public U withUsername(String username) {
         this.username = username;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withWebsiteUrl(String websiteUrl) {
+    @SuppressWarnings("unchecked")
+    public U withWebsiteUrl(String websiteUrl) {
         this.websiteUrl = websiteUrl;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withWebUrl(String webUrl) {
+    @SuppressWarnings("unchecked")
+    public U withWebUrl(String webUrl) {
         this.webUrl = webUrl;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withSkipConfirmation(Boolean skipConfirmation) {
+    @SuppressWarnings("unchecked")
+    public U withSkipConfirmation(Boolean skipConfirmation) {
         this.skipConfirmation = skipConfirmation;
-        return this;
+        return (U)this;
     }
 
-    public AbstractUser withCustomAttributes(List<CustomAttribute> customAttributes) {
+    @SuppressWarnings("unchecked")
+    public U withCustomAttributes(List<CustomAttribute> customAttributes) {
         this.customAttributes = customAttributes;
-        return this;
+        return (U)this;
     }
 }
