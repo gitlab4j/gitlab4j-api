@@ -1,7 +1,5 @@
 package org.gitlab4j.api;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
