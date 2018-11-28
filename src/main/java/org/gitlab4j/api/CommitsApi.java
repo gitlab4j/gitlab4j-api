@@ -1,22 +1,26 @@
 package org.gitlab4j.api;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitAction;
 import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CommitRef;
 import org.gitlab4j.api.models.CommitRef.RefType;
+import org.gitlab4j.api.models.CommitStatus;
+import org.gitlab4j.api.models.CommitStatusFilter;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.utils.ISO8601;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * This class implements the client side API for the GitLab commits calls.
@@ -288,6 +292,80 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
+     * Get a list of repository commit statuses that meet the provided filter.
+     *
+     * GET /projects/:id/repository/commits/:sha/statuses
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha the commit SHA
+     * @param filter the commit statuses file, contains ref, stage, name, all
+     * @return a List containing the commit statuses for the specified project and sha that meet the provided filter
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<CommitStatus> getCommitStatuses(Object projectIdOrPath, String sha, CommitStatusFilter filter) throws GitLabApiException {
+        return (getCommitStatuses(projectIdOrPath, sha, filter, 1, getDefaultPerPage()));
+    }
+
+    /**
+     * Get a list of repository commit statuses that meet the provided filter.
+     *
+     * GET /projects/:id/repository/commits/:sha/statuses
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha the commit SHA
+     * @param filter the commit statuses file, contains ref, stage, name, all
+     * @param page the page to get
+     * @param perPage the number of commits statuses per page
+     * @return a List containing the commit statuses for the specified project and sha that meet the provided filter
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<CommitStatus> getCommitStatuses(Object projectIdOrPath, String sha,
+            CommitStatusFilter filter, int page, int perPage) throws GitLabApiException {
+
+        if (projectIdOrPath == null) {
+            throw new RuntimeException("projectIdOrPath cannot be null");
+        }
+
+        if (sha == null || sha.trim().isEmpty()) {
+            throw new RuntimeException("sha cannot be null");
+        }
+
+        MultivaluedMap<String, String> queryParams = (filter != null ?
+                filter.getQueryParams(page, perPage).asMap() : getPageQueryParams(page, perPage));
+        Response response = get(Response.Status.OK, queryParams, 
+                "projects", this.getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "statuses");
+        return (response.readEntity(new GenericType<List<CommitStatus>>() {}));
+    }
+
+    /**
+     * Get a Pager of repository commit statuses that meet the provided filter.
+     *
+     * GET /projects/:id/repository/commits/:sha/statuses
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha the commit SHA
+     * @param filter the commit statuses file, contains ref, stage, name, all
+     * @param itemsPerPage the number of CommitStatus instances that will be fetched per page
+     * @return a Pager containing the commit statuses for the specified project and sha that meet the provided filter
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Pager<CommitStatus> getCommitStatuses(Object projectIdOrPath, String sha, 
+            CommitStatusFilter filter, int itemsPerPage) throws GitLabApiException {
+
+        if (projectIdOrPath == null) {
+            throw new RuntimeException("projectIdOrPath cannot be null");
+        }
+
+        if (sha == null || sha.trim().isEmpty()) {
+            throw new RuntimeException("sha cannot be null");
+        }
+
+        MultivaluedMap<String, String> queryParams = (filter != null ? filter.getQueryParams().asMap() : null);
+        return (new Pager<CommitStatus>(this, CommitStatus.class, itemsPerPage, queryParams,
+                "projects", this.getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "statuses"));
+    }
+
+    /**
      * Get the list of diffs of a commit in a project.
      *
      * GET /projects/:id/repository/commits/:sha/diff
@@ -399,7 +477,7 @@ public class CommitsApi extends AbstractApi {
      *
      * POST /projects/:id/repository/commits
      *
-     * @param projectId the ID of the project
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param branch tame of the branch to commit into. To create a new branch, also provide startBranch
      * @param commitMessage the commit message
      * @param startBranch the name of the branch to start the new commit from
@@ -409,7 +487,7 @@ public class CommitsApi extends AbstractApi {
      * @return the create Commit instance
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Commit createCommit(int projectId, String branch, String commitMessage, String startBranch,
+    public Commit createCommit(Object projectIdOrPath, String branch, String commitMessage, String startBranch,
             String authorEmail, String authorName, List<CommitAction> actions) throws GitLabApiException {
 
         CommitPayload payload = new CommitPayload();
@@ -420,37 +498,7 @@ public class CommitsApi extends AbstractApi {
         payload.setAuthorName(authorName);
         payload.setActions(actions);
 
-        Response response = post(Response.Status.CREATED, payload, "projects", projectId, "repository", "commits");
-        return (response.readEntity(Commit.class));
-    }
-
-    /**
-     * Create a commit with multiple files and actions.
-     *
-     * POST /projects/:id/repository/commits
-     *
-     * @param project the path of the project
-     * @param branch tame of the branch to commit into. To create a new branch, also provide startBranch
-     * @param commitMessage the commit message
-     * @param startBranch the name of the branch to start the new commit from
-     * @param authorEmail the commit author's email address
-     * @param authorName the commit author's name
-     * @param actions the array of CommitAction to commit as a batch
-     * @return the create Commit instance
-     * @throws GitLabApiException if any exception occurs during execution
-     */
-    public Commit createCommit(String project, String branch, String commitMessage, String startBranch,
-            String authorEmail, String authorName, List<CommitAction> actions) throws GitLabApiException {
-
-        CommitPayload payload = new CommitPayload();
-        payload.setBranch(branch);
-        payload.setCommitMessage(commitMessage);
-        payload.setStartBranch(startBranch);
-        payload.setAuthorEmail(authorEmail);
-        payload.setAuthorName(authorName);
-        payload.setActions(actions);
-
-        Response response = post(Response.Status.CREATED, payload, "projects", urlEncode(project), "repository", "commits");
+        Response response = post(Response.Status.CREATED, payload, "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits");
         return (response.readEntity(Commit.class));
     }
 }

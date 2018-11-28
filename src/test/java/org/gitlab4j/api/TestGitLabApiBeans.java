@@ -36,6 +36,7 @@ import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitPayload;
+import org.gitlab4j.api.models.CommitStatus;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.Diff;
@@ -145,6 +146,17 @@ public class TestGitLabApiBeans {
         try {
             CommitPayload commitPayload = makeFakeApiCall(CommitPayload.class, "commit-payload");
             assertTrue(compareJson(commitPayload, "commit-payload"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testCommitStatus() {
+
+        try {
+            CommitStatus commitStatus = makeFakeApiCall(CommitStatus.class, "commit-status");
+            assertTrue(compareJson(commitStatus, "commit-status"));
         } catch (Exception e) {
             e.printStackTrace();
         }
