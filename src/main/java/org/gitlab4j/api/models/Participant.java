@@ -3,5 +3,5 @@ package org.gitlab4j.api.models;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Participant extends AbstractUser {
+public class Participant extends AbstractUser<Participant> {
 }
