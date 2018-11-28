@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -77,5 +79,10 @@ public class EpicIssue extends Issue {
 
     public void setRelativePosition(Integer relativePosition) {
         this.relativePosition = relativePosition;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -117,5 +118,10 @@ public class ImpersonationToken {
 
     public void setExpiresAt(Date expiresAt) {
         this.expiresAt = expiresAt;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

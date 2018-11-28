@@ -1,5 +1,7 @@
 package org.gitlab4j.api.models;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -86,5 +88,10 @@ public class Changes {
 
     public void setRenamedFile(Boolean renamedFile) {
         this.renamedFile = renamedFile;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

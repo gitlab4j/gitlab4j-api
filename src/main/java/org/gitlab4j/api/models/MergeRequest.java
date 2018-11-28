@@ -373,4 +373,9 @@ public class MergeRequest {
     public static final boolean isValid(MergeRequest mergeRequest) {
         return (mergeRequest != null && mergeRequest.getId() != null);
     }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
+    }
 }

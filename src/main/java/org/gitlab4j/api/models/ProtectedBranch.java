@@ -1,10 +1,13 @@
 
 package org.gitlab4j.api.models;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -42,7 +45,6 @@ public class ProtectedBranch {
         return (branch != null && branch.getName() != null);
     }
 
-
     public ProtectedBranch withName(String name) {
         this.name = name;
         return this;
@@ -56,5 +58,10 @@ public class ProtectedBranch {
     public ProtectedBranch withMergeAccessLevels(List<BranchAccessLevel> mergeAccessLevels) {
         this.mergeAccessLevels = mergeAccessLevels;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

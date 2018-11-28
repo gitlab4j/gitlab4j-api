@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PushRules {
@@ -53,8 +55,8 @@ public class PushRules {
     
     public PushRules withCommitMessageRegex(String commitMessageRegex) {
         this.commitMessageRegex = commitMessageRegex;
-    return (this);
- }
+        return (this);
+    }
 
     public String getBranchNameRegex() {
         return branchNameRegex;
@@ -66,8 +68,8 @@ public class PushRules {
     
     public PushRules withBranchNameRegex(String branchNameRegex) {
         this.branchNameRegex = branchNameRegex;
-    return (this);
- }
+        return (this);
+    }
  
     public Boolean getDenyDeleteTag() {
         return denyDeleteTag;
@@ -79,8 +81,8 @@ public class PushRules {
     
     public PushRules withDenyDeleteTag(Boolean denyDeleteTag) {
         this.denyDeleteTag = denyDeleteTag;
-    return (this);
- }
+        return (this);
+    }
  
     public Date getCreatedAt() {
         return createdAt;
@@ -100,8 +102,8 @@ public class PushRules {
     
     public PushRules withMemberCheck(Boolean memberCheck) {
         this.memberCheck = memberCheck;
-    return (this);
- }
+        return (this);
+    }
  
     public Boolean getPreventSecrets() {
         return preventSecrets;
@@ -113,8 +115,8 @@ public class PushRules {
     
     public PushRules withPreventSecrets(Boolean preventSecrets) {
         this.preventSecrets = preventSecrets;
-    return (this);
- }
+        return (this);
+    }
  
     public String getAuthorEmailRegex() {
         return authorEmailRegex;
@@ -126,8 +128,8 @@ public class PushRules {
     
     public PushRules withAuthorEmailRegex(String authorEmailRegex) {
         this.authorEmailRegex = authorEmailRegex;
-    return (this);
- }
+        return (this);
+    }
  
     public String getFileNameRegex() {
         return fileNameRegex;
@@ -139,8 +141,8 @@ public class PushRules {
     
     public PushRules withFileNameRegex(String fileNameRegex) {
         this.fileNameRegex = fileNameRegex;
-    return (this);
- }
+        return (this);
+    }
  
     public Integer getMaxFileSize() {
         return maxFileSize;
@@ -152,6 +154,11 @@ public class PushRules {
     
     public PushRules withMaxFileSize(Integer maxFileSize) {
         this.maxFileSize = maxFileSize;
-    return (this);
- }
+        return (this);
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
+    }
  }

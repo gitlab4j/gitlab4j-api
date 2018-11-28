@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Member {
@@ -89,5 +91,10 @@ public class Member {
     public Member withUsername(String username) {
         this.username = username;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

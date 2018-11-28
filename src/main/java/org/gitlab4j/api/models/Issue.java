@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.gitlab4j.api.Constants.IssueState;
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -220,5 +221,10 @@ public class Issue {
 
     public void setTimeStats(TimeStats timeStats) {
         this.timeStats = timeStats;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

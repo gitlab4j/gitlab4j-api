@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Group {
@@ -274,5 +276,10 @@ public class Group {
     public Group withSharedProjects(List<Project> sharedProjects) {
         this.sharedProjects = sharedProjects;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

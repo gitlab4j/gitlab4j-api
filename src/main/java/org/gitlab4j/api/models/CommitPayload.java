@@ -2,6 +2,8 @@ package org.gitlab4j.api.models;
 
 import java.util.List;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 public class CommitPayload {
 
     private String branch;
@@ -57,5 +59,10 @@ public class CommitPayload {
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

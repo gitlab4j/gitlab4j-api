@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Commit {
@@ -250,5 +252,10 @@ public class Commit {
     public Commit withUrl(String url) {
         this.url = url;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
