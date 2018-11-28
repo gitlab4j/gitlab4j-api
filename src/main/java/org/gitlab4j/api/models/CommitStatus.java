@@ -13,6 +13,7 @@ public class CommitStatus {
 
     private Boolean allowFailure;
     private Author author;
+    private Float coverage;
     private Date createdAt;
     private String description;
     private Date finishedAt;
@@ -38,6 +39,14 @@ public class CommitStatus {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Float getCoverage() {
+        return coverage;
+    }
+
+    public void setCoverage(Float coverage) {
+        this.coverage = coverage;
     }
 
     public Date getCreatedAt() {
@@ -118,5 +127,30 @@ public class CommitStatus {
 
     public void setTargetUrl(String targetUrl) {
         this.targetUrl = targetUrl;
+    }
+
+    public CommitStatus withCoverage(Float coverage) {
+        this.coverage = coverage;
+        return this;
+    }
+
+    public CommitStatus withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public CommitStatus withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public CommitStatus withRef(String ref) {
+        this.ref = ref;
+        return this;
+    }
+
+    public CommitStatus withTargetUrl(String targetUrl) {
+        this.targetUrl = targetUrl;
+        return this;
     }
 }

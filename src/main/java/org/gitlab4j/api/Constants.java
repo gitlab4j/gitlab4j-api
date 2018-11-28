@@ -501,4 +501,29 @@ public interface Constants {
             return (value);
         }
     }
+
+    /**
+     * Enum for the various Commit build status values.
+     */
+    public enum CommitBuildState {
+
+        PENDING, RUNNING, SUCCESS, FAILED, CANCELED;
+
+        private static JacksonJsonEnumHelper<CommitBuildState> enumHelper = new JacksonJsonEnumHelper<>(CommitBuildState.class);
+
+        @JsonCreator
+        public static CommitBuildState forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 }

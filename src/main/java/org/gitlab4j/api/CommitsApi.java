@@ -364,6 +364,50 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
+     * <p>Add or update the build status of a commit.  The following fluent methods are available on the
+     * CommitStatus instance for setting up the status:</p>
+     * <pre><code>
+     * withCoverage(Float)
+     * withDescription(String)
+     * withName(String)
+     * withRef(String)
+     * withTargetUrl(String)
+     * </code></pre>
+     * <pre><code>
+     * POST /projects/:id/statuses/:sha
+     * </code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance (required)
+     * @param sha a commit SHA (required)
+     * @param state the state of the status. Can be one of the following: PENDING, RUNNING, SUCCESS, FAILED, CANCELED (required)
+     * @param status the CommitSatus instance hoilding the optional parms: ref, name, target_url, description, and coverage
+     * @return a CommitStatus instance with the updated info
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public CommitStatus addCommitStatus(Object projectIdOrPath, String sha, CommitBuildState state, CommitStatus status) throws GitLabApiException {
+
+        if (projectIdOrPath == null) {
+            throw new RuntimeException("projectIdOrPath cannot be null");
+        }
+
+        if (sha == null || sha.trim().isEmpty()) {
+            throw new RuntimeException("sha cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("state", state, true);
+        if (status != null) {
+            formData.withParam("ref", status.getRef())
+                .withParam("name", status.getName())
+                .withParam("target_url", status.getTargetUrl())
+                .withParam("description", status.getDescription())
+                .withParam("coverage", status.getCoverage());
+        }
+
+        Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "statuses", sha);
+        return (response.readEntity(CommitStatus.class));
+    }
+
+    /**
      * Get the list of diffs of a commit in a project.
      *
      * GET /projects/:id/repository/commits/:sha/diff
