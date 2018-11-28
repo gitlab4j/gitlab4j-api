@@ -4,6 +4,8 @@ package org.gitlab4j.api.models;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 /**
  * This class contains the sizing information from the project. To get this information,
  * ProjectApi.getProject() has to be called with parameter statistics=true 
@@ -47,5 +49,10 @@ public class ProjectStatistics {
 
     public void setStorageSize(long storageSize) {
         this.storageSize = storageSize;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
