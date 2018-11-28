@@ -2165,4 +2165,20 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "languages");
         return (response.readEntity(new GenericType<Map<String, Float>>() {}));
     }
+
+    /**
+     * Transfer a project to a new namespace.  This was added in GitLab 11.1
+     *
+     * PUT /projects/:id/transfer.
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param namespace the namespace to transfer the project to
+     * @return the updated Project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project transferProject(Object projectIdOrPath, String namespace) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("namespace", namespace, true);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "transfer");
+        return (response.readEntity(Project.class));
+    }
 }

@@ -71,6 +71,7 @@ public class TestProjectApi {
     private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_GROUP;
     private static final String TEST_GROUP_PROJECT;
+    private static final String TEST_XFER_NAMESPACE;
 
     static {
         TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
@@ -79,11 +80,13 @@ public class TestProjectApi {
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_GROUP = TestUtils.getProperty("TEST_GROUP");
         TEST_GROUP_PROJECT = TestUtils.getProperty("TEST_GROUP_PROJECT");
+        TEST_XFER_NAMESPACE = TestUtils.getProperty("TEST_XFER_NAMESPACE");
     }
 
     private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
     private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
     private static final String TEST_PROJECT_NAME_UPDATE = "test-gitlab4j-create-project-update";
+    private static final String TEST_XFER_PROJECT_NAME = "test-gitlab4j-xfer-project";
     private static GitLabApi gitLabApi;
 
     public TestProjectApi() {
@@ -149,6 +152,14 @@ public class TestProjectApi {
             if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
                 try {
                     Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_GROUP_PROJECT);
+                    gitLabApi.getProjectApi().deleteProject(project);
+                } catch (GitLabApiException ignore) {
+                }
+            }
+
+            if (TEST_XFER_NAMESPACE != null) {
+                try {
+                    Project project = gitLabApi.getProjectApi().getProject(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME);
                     gitLabApi.getProjectApi().deleteProject(project);
                 } catch (GitLabApiException ignore) {
                 }
@@ -555,5 +566,22 @@ public class TestProjectApi {
         Project unstarredProject = gitLabApi.getProjectApi().unstarProject(project);
         assertNotNull(unstarredProject);
         assertEquals(0, (int)unstarredProject.getStarCount());
+    }
+
+    @Test
+    public void testTransferProject() throws GitLabApiException {
+
+        assumeTrue(TEST_XFER_NAMESPACE != null && TEST_XFER_NAMESPACE.trim().length() > 0);
+
+        Project project = new Project()
+                .withName(TEST_XFER_PROJECT_NAME)
+                .withDescription("GitLab4J test project - transfer.")
+                .withVisibility(Visibility.PUBLIC);
+
+        Project newProject = gitLabApi.getProjectApi().createProject(project);
+        assertNotNull(newProject);
+
+        Project transferedProject = gitLabApi.getProjectApi().transferProject(newProject, TEST_XFER_NAMESPACE);
+        assertNotNull(transferedProject);
     }
 }
