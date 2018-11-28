@@ -139,30 +139,32 @@ public class TestProjectApi {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE);
                 gitLabApi.getProjectApi().deleteProject(project);
             } catch (GitLabApiException ignore) {}
+            
+            try {
+                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_XFER_PROJECT_NAME);
+                gitLabApi.getProjectApi().deleteProject(project);
+            } catch (GitLabApiException ignore) {}
 
             if (TEST_GROUP != null && TEST_PROJECT_NAME != null) {
                 try {
                     Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
                     List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
                     gitLabApi.getProjectApi().unshareProject(project.getId(), groups.get(0).getId());
-                } catch (GitLabApiException ignore) {
-                }
+                } catch (GitLabApiException ignore) {}
             }
 
             if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
                 try {
                     Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_GROUP_PROJECT);
                     gitLabApi.getProjectApi().deleteProject(project);
-                } catch (GitLabApiException ignore) {
-                }
+                } catch (GitLabApiException ignore) {}
             }
 
             if (TEST_XFER_NAMESPACE != null) {
                 try {
                     Project project = gitLabApi.getProjectApi().getProject(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME);
                     gitLabApi.getProjectApi().deleteProject(project);
-                } catch (GitLabApiException ignore) {
-                }
+                } catch (GitLabApiException ignore) {}
             }
         }
     }
@@ -581,7 +583,10 @@ public class TestProjectApi {
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
 
-        Project transferedProject = gitLabApi.getProjectApi().transferProject(newProject, TEST_XFER_NAMESPACE);
+        Project projectToTransfer = gitLabApi.getProjectApi().getProject(newProject);
+        assertNotNull(projectToTransfer);
+
+        Project transferedProject = gitLabApi.getProjectApi().transferProject(projectToTransfer, TEST_XFER_NAMESPACE);
         assertNotNull(transferedProject);
     }
 }
