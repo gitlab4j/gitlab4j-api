@@ -708,6 +708,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * printingMergeRequestLinkEnabled (optional) - Show link to create/view merge request when pushing from the command line
      * resolveOutdatedDiffDiscussions (optional) - Automatically resolve merge request diffs discussions on lines changed with a push
      * initialize_with_readme (optional) - Initialize project with README file
+     * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      *
      * @param project the Project instance with the configuration for the new project
      * @param importUrl the URL to import the repository from
@@ -946,6 +947,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * approvalsBeforeMerge (optional) - How many approvers should approve merge request by default
      * printingMergeRequestLinkEnabled (optional) - Show link to create/view merge request when pushing from the command line
      * resolveOutdatedDiffDiscussions (optional) - Automatically resolve merge request diffs discussions on lines changed with a push
+     * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      *
      * NOTE: The following parameters specified by the GitLab API edit project are not supported:
      *     import_url
