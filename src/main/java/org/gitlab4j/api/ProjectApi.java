@@ -751,7 +751,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("import_url", importUrl)
             .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled())
             .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
-            .withParam("initialize_with_readme", project.getInitializeWithReadme());
+            .withParam("initialize_with_readme", project.getInitializeWithReadme())
+            .withParam("packages_enabled", project.getPackagesEnabled());
 
         if (isApiVersion(ApiVersion.V3)) {
             boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
@@ -994,7 +995,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("repository_storage", project.getRepositoryStorage())
             .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
             .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled())
-            .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions());
+            .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
+            .withParam("packages_enabled", project.getPackagesEnabled());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());

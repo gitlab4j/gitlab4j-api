@@ -89,6 +89,7 @@ public class Project {
     private Boolean resolveOutdatedDiffDiscussions;
     private ProjectStatistics statistics;
     private Boolean initializeWithReadme;
+    private Boolean packagesEnabled;
 
     public Integer getApprovalsBeforeMerge() {
         return approvalsBeforeMerge;
@@ -619,6 +620,19 @@ public class Project {
 
     public Project withInitializeWithReadme(boolean initializeWithReadme) {
         this.initializeWithReadme = initializeWithReadme;
+        return (this);
+    }
+
+    public Boolean getPackagesEnabled() {
+        return packagesEnabled;
+    }
+
+    public void setPackagesEnabled(Boolean packagesEnabled) {
+        this.packagesEnabled = packagesEnabled;
+    }
+
+    public Project withPackagesEnabled(Boolean packagesEnabled) {
+        this.packagesEnabled = packagesEnabled;
         return (this);
     }
 
