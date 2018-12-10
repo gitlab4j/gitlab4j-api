@@ -74,6 +74,9 @@ public class Note {
     private String title;
     private String updatedAt;
     private Boolean upvote;
+    private Boolean resolved;
+    private Boolean resolvable;
+    private Participant resolvedBy;
 
     public String getAttachment() {
         return attachment;
@@ -193,6 +196,30 @@ public class Note {
 
     public void setUpvote(Boolean upvote) {
         this.upvote = upvote;
+    }
+
+    public Boolean getResolved() {
+        return resolved;
+    }
+
+    public void setResolved(Boolean resolved) {
+        this.resolved = resolved;
+    }
+
+    public Boolean getResolvable() {
+        return resolvable;
+    }
+
+    public void setResolvable(Boolean resolvable) {
+        this.resolvable = resolvable;
+    }
+
+    public Participant getResolvedBy() {
+        return resolvedBy;
+    }
+
+    public void setResolvedBy(Participant resolvedBy) {
+        this.resolvedBy = resolvedBy;
     }
 
     @Override
