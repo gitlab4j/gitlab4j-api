@@ -3,9 +3,11 @@ package org.gitlab4j.api;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -273,5 +275,50 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
         } catch (GitLabApiException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+ 
+    /**
+     * Gets all the items from each page as a single List instance.
+     *
+     * @return all the items from each page as a single List instance
+     * @throws GitLabApiException if any error occurs
+     */
+    public List<T> all() throws GitLabApiException {
+
+    	// Make sure that current page is 0, this will ensure the whole list is fetched
+    	// regardless of what page the instance is currently on.
+    	currentPage = 0;
+    	List<T> allItems = new ArrayList<>(totalItems);
+
+    	// Iterate through the pages and append each page of items to the list
+    	while (hasNext()) {
+    		allItems.addAll(next());
+    	}
+
+    	return (allItems);
+    }
+
+    /**
+     * Builds and returns a Stream instance for streaming all the items from each page.
+     *
+     * @return a Stream instance for streaming all the items from each pag
+     * @throws GitLabApiException if any error occurs
+     */
+    public Stream<T> stream() throws GitLabApiException {
+
+    	// Make sure that current page is 0, this will ensure the whole list is streamed
+    	// regardless of what page the instance is currently on.
+    	currentPage = 0;
+
+    	// Create a Stream.Builder to ontain all the items.  This is more efficient than
+    	// getting a List with all() and streaming that List
+    	Stream.Builder<T> streamBuilder = Stream.builder();
+
+    	// Iterate through the pages and append each page of items to the stream builder
+    	while (hasNext()) {
+    		next().forEach(streamBuilder);
+    	}
+
+    	return (streamBuilder.build());
     }
 }

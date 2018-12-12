@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.1'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.2'
 }
 ```
 
@@ -22,7 +22,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.9.1</version>
+    <version>4.9.2</version>
 </dependency>
 ```
 
@@ -130,6 +130,21 @@ while (projectsPager.hasNext())) {
     }
 }
 ```
+As of GitLab4J-API 4.9.2, you can also fetch all the items as a single list or get a Java 8+ Stream instance using a Pager instance:
+```java
+// Get a Pager instance so we can load all the projects into a single list, 10 items at a time:
+Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
+List<Project> allProjects = projectPager.all();
+```
+
+```java
+// Get a Pager instance to get a Stream<Project> instance.
+Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
+
+// Stream the Projects printing out the project name.
+projectPager.stream().map(Project::getName).forEach(name -> System.out.println(name));
+```
+
 ---
 ## Java 8 Optional&lt;T&gt; Support
 GitLab4J-API supports Java 8 Optional&lt;T&gt; for API calls that result in the return of a single item. Here is an example on how to use the Java 8 Optional&lt;T&gt; API calls:

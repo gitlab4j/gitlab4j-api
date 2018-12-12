@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.junit.Before;
@@ -199,5 +200,44 @@ public class TestPager {
                 System.out.format("page=%d, item=%d, name=%s, username=%s%n", pageIndex, itemNumber, member.getName(), member.getUsername());
             }
         }
+    }
+
+    @Test
+    public void testAll() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        Pager<Commit> pager = gitLabApi.getCommitsApi().getCommits(project, 1);
+        assertNotNull(pager);
+        assertEquals(1, pager.getItemsPerPage());
+        assertTrue(0 < pager.getTotalPages());
+
+        int numCommits = pager.getTotalItems();
+        assertTrue(0 < numCommits);
+
+        List<Commit> allCommits = pager.all();
+        System.out.println("All commits:");
+        allCommits.stream().map(Commit::getId).forEach(System.out::println);
+
+        assertEquals(numCommits, allCommits.size());
+    }
+
+    @Test
+    public void testStream() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        Pager<Commit> pager = gitLabApi.getCommitsApi().getCommits(project, 1);
+        assertNotNull(pager);
+        assertEquals(1, pager.getItemsPerPage());
+        assertTrue(0 < pager.getTotalPages());
+
+        int numCommits = pager.getTotalItems();
+        assertTrue(0 < numCommits);
+
+        System.out.println("Streamed commits:");
+       assertEquals(numCommits, pager.stream().map(Commit::getId).peek(System.out::println).count());
     }
 }
