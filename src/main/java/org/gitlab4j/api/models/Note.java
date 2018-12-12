@@ -59,6 +59,27 @@ public class Note {
         }
     }
 
+    public static enum Type {
+
+        DISCUSSION_NOTE, DIFF_NOTE;
+        private static JacksonJsonEnumHelper<Type> enumHelper = new JacksonJsonEnumHelper<>(Type.class, true, true);
+
+        @JsonCreator
+        public static Type forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     private String attachment;
     private Author author;
     private String body;
@@ -77,6 +98,7 @@ public class Note {
     private Boolean resolved;
     private Boolean resolvable;
     private Participant resolvedBy;
+    private Type type;
 
     public String getAttachment() {
         return attachment;
@@ -220,6 +242,14 @@ public class Note {
 
     public void setResolvedBy(Participant resolvedBy) {
         this.resolvedBy = resolvedBy;
+    }
+
+    public Type getType() {
+      return type;
+    }
+
+    public void setType(Type type) {
+      this.type = type;
     }
 
     @Override

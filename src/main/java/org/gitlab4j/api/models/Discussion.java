@@ -13,14 +13,14 @@ import org.gitlab4j.api.utils.JacksonJson;
 public class Discussion {
 
   private String id;
-  private String individualNote;
+  private Boolean individualNote;
   private List<Note> notes;
 
   public String getId() {
     return id;
   }
 
-  public String getIndividualNote() {
+  public Boolean getIndividualNote() {
     return individualNote;
   }
 
@@ -32,7 +32,7 @@ public class Discussion {
     this.id = id;
   }
 
-  public void setIndividualNote(String individualNote) {
+  public void setIndividualNote(Boolean individualNote) {
     this.individualNote = individualNote;
   }
 
