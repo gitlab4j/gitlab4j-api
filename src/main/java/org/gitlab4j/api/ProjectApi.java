@@ -133,6 +133,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @deprecated  Will be removed in version 5.0, replaced by {@link #getProjects(Boolean, Visibility,
      *      Constants.ProjectOrderBy, Constants.SortOrder, String, Boolean, Boolean, Boolean, Boolean, Boolean)}
      */
+    @Deprecated
     public List<Project> getProjects(Boolean archived, Visibility visibility, String orderBy,
             String sort, String search, Boolean simple, Boolean owned, Boolean membership,
             Boolean starred, Boolean statistics) throws GitLabApiException {
@@ -365,51 +366,6 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public Stream<Project> getMemberProjectsStream() throws GitLabApiException {
         return (getMemberProjects(getDefaultPerPage()).stream());
-    }
-
-    /**
-     * Get a list of all GitLab projects (admin only).
-     *
-     * <pre><code>GET /projects/all</code></pre>
-     *
-     * @return a list of all GitLab projects
-     * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed, no longer supported by the GitLab API
-     */
-    public List<Project> getAllProjects() throws GitLabApiException {
-        return (getAllProjects(getDefaultPerPage()).all());
-    }
-
-    /**
-     * Get a Pager of all GitLab projects (admin only).
-     *
-     * <pre><code>GET /projects/all</code></pre>
-     *
-     * @param itemsPerPage the number of Project instances that will be fetched per page
-     * @return a Pager of all GitLab projects
-     * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed, no longer supported by the GitLab API
-     */
-    public Pager<Project> getAllProjects(int itemsPerPage) throws GitLabApiException {
-
-        if (!isApiVersion(ApiVersion.V3)) {
-            throw new GitLabApiException("Not supported by GitLab API version " + this.getApiVersion());
-        }
-
-        return (new Pager<Project>(this, Project.class, itemsPerPage, null, "projects", "all"));
-    }
-
-    /**
-     * Get a Stream of all GitLab projects (admin only).
-     *
-     * <pre><code>GET /projects/all</code></pre>
-     *
-     * @return a Stream of all GitLab projects
-     * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed, no longer supported by the GitLab API
-     */
-    public Stream<Project> getAllProjectsStream() throws GitLabApiException {
-        return (getAllProjects(getDefaultPerPage()).stream());
     }
 
     /**
@@ -1840,6 +1796,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer)}
      */
+    @Deprecated
     public List<Issue> getIssues(Object projectIdOrPath) throws GitLabApiException {
         return (getIssues(projectIdOrPath, getDefaultPerPage()).all());
     }
@@ -1856,6 +1813,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer, int, int)}
      */
+    @Deprecated
     public List<Issue> getIssues(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", getProjectIdOrPath(projectIdOrPath), "issues");
         return (response.readEntity(new GenericType<List<Issue>>() {}));
@@ -1872,6 +1830,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer, int)}
      */
+    @Deprecated
     public Pager<Issue> getIssues(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Issue>(this, Issue.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "issues"));
     }
@@ -1886,6 +1845,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer)}
      */
+    @Deprecated
     public Stream<Issue> getIssuesStream(Object projectIdOrPath) throws GitLabApiException {
         return (getIssues(projectIdOrPath, getDefaultPerPage()).stream());
     }
@@ -1917,6 +1877,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#deleteIssue(Integer, Integer)}
      */
+    @Deprecated
     public void deleteIssue(Object projectIdOrPath, Integer issueId) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, getDefaultPerPageParam(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueId);
