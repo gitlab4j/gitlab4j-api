@@ -347,7 +347,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @param branchName the name of branch
      * @param commitMessage the commit message
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #deleteFile(Object, RepositoryFile, String, String)}
+     * @deprecated  Will be removed in version 5.0, replaced by {@link #deleteFile(Object, String, String, String)}
      */
     @Deprecated
     public void deleteFile(String filePath, Integer projectId, String branchName, String commitMessage) throws GitLabApiException {
@@ -364,7 +364,7 @@ public class RepositoryFileApi extends AbstractApi {
      * V4:
      * GET /projects/:id/repository/files/:filepath
      *
-     * @param projectId the ID of the project
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param commitOrBranchName the commit or branch name to get the file for
      * @param filepath the path of the file to get
      * @param directory the File instance of the directory to save the file to, if null will use "java.io.tmpdir"
