@@ -10,7 +10,6 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Commit;
-import org.gitlab4j.api.models.Discussion;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestFilter;
@@ -281,44 +280,6 @@ public class MergeRequestApi extends AbstractApi {
     }
 
     /**
-     * Get a list of merge request discussions.
-     *
-     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
-     *
-     * GET /projects/:id/merge_requests/:merge_request_iid/discussions
-     *
-     * @param projectId the project ID for the merge request
-     * @param mergeRequestIid the internal ID of the merge request
-     * @param page the page to get
-     * @param perPage the number of commits per page
-     * @return a list containing the discussions for the specified merge request
-     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
-     */
-    public List<Discussion> getDiscussions(int projectId, int mergeRequestIid, int page, int perPage) throws GitLabApiException {
-        Form formData = new GitLabApiForm().withParam("owned", false).withParam(PAGE_PARAM,  page).withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", projectId, "merge_requests", mergeRequestIid, "discussions");
-        return (response.readEntity(new GenericType<List<Discussion>>() {}));
-    }
-
-    /**
-     * Get a Pager of merge request discussions.
-     *
-     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
-     *
-     * GET /projects/:id/merge_requests/:merge_request_iid/discussions
-     *
-     * @param projectId the project ID for the merge request
-     * @param mergeRequestIid the internal ID of the merge request
-     * @param itemsPerPage the number of Commit instances that will be fetched per page
-     * @return a Pager containing the discussions for the specified merge request
-     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
-     */
-    public Pager<Discussion> getDiscussions(int projectId, int mergeRequestIid, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
-              "projects", projectId, "merge_requests", mergeRequestIid, "discussions"));
-    }
-
-    /**
      * Creates a merge request and optionally assigns a reviewer to it.
      *
      * POST /projects/:id/merge_requests
@@ -360,7 +321,6 @@ public class MergeRequestApi extends AbstractApi {
         Response response = post(Response.Status.CREATED, formData, "projects", projectId, "merge_requests");
         return (response.readEntity(MergeRequest.class));
     }
-
 
     /**
      * Creates a merge request and optionally assigns a reviewer to it.

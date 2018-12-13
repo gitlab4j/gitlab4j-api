@@ -554,6 +554,15 @@ public abstract class AbstractApi implements Constants {
         return (new GitLabApiException(thrown));
     }
 
+    /**
+     * Creates a MultivaluedMap instance containing the "per_page" param.
+     *
+     * @param perPage the number of projects per page
+     * @return a MultivaluedMap instance containing the "per_page" param
+     */
+    protected MultivaluedMap<String, String> getPerPageQueryParam(int perPage) {
+        return (new GitLabApiForm().withParam(PER_PAGE_PARAM, perPage).asMap());
+    }
 
     /**
      * Creates a MultivaluedMap instance containing "page" and "per_page" params.

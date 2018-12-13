@@ -40,7 +40,7 @@ public class Note {
 
     public static enum NoteableType {
 
-        COMMIT, ISSUE, MERGE_REQUEST, SNIPPET;
+        COMMIT, EPIC, ISSUE, MERGE_REQUEST, SNIPPET;
         private static JacksonJsonEnumHelper<NoteableType> enumHelper = new JacksonJsonEnumHelper<>(NoteableType.class, true, true);
 
         @JsonCreator
@@ -93,7 +93,7 @@ public class Note {
     private Integer noteableIid;
     private Boolean system;
     private String title;
-    private String updatedAt;
+    private Date updatedAt;
     private Boolean upvote;
     private Boolean resolved;
     private Boolean resolvable;
@@ -204,11 +204,11 @@ public class Note {
         this.title = title;
     }
 
-    public String getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 

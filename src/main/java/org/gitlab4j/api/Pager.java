@@ -3,7 +3,6 @@ package org.gitlab4j.api;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -87,7 +86,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
         try {
             currentItems = mapper.readValue((InputStream) response.getEntity(), javaType);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new GitLabApiException(e);
         }
 
@@ -310,8 +309,8 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
     	// regardless of what page the instance is currently on.
     	currentPage = 0;
 
-    	// Create a Stream.Builder to ontain all the items.  This is more efficient than
-    	// getting a List with all() and streaming that List
+        // Create a Stream.Builder to contain all the items.  This is more efficient than
+        // getting a List with all() and streaming that List
     	Stream.Builder<T> streamBuilder = Stream.builder();
 
     	// Iterate through the pages and append each page of items to the stream builder
