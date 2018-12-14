@@ -51,6 +51,7 @@ public class GitLabApi {
 
     private AwardEmojiApi awardEmojiApi;
     private CommitsApi commitsApi;
+    private DiscussionsApi discussionsApi;
     private DeployKeysApi deployKeysApi;
     private EpicsApi epicsApi;
     private EventsApi eventsApi;
@@ -916,7 +917,7 @@ public class GitLabApi {
      * Gets the DeployKeysApi instance owned by this GitLabApi instance. The DeployKeysApi is used
      * to perform all deploy key related API calls.
      *
-     * @return the CommitsApi instance owned by this GitLabApi instance
+     * @return the DeployKeysApi instance owned by this GitLabApi instance
      */
     public DeployKeysApi getDeployKeysApi() {
 
@@ -929,6 +930,25 @@ public class GitLabApi {
         }
 
         return (deployKeysApi);
+    }
+
+    /**
+     * Gets the DiscussionsApi instance owned by this GitLabApi instance. The DiscussionsApi is used
+     * to perform all discussion related API calls.
+     *
+     * @return the DiscussionsApi instance owned by this GitLabApi instance
+     */
+    public DiscussionsApi getDiscussionsApi() {
+
+        if (discussionsApi == null) {
+            synchronized (this) {
+                if (discussionsApi == null) {
+                    discussionsApi = new DiscussionsApi(this);
+                }
+            }
+        }
+
+        return (discussionsApi);
     }
 
     /**
