@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -60,5 +61,20 @@ public class JsonUtils {
         final Object obj = jacksonJson.getObjectMapper().treeToValue(node, Object.class);
         System.out.println(jacksonJson.getObjectMapper().writeValueAsString(obj));
         System.out.flush();
+    }
+
+    static String readResource(String filename) throws IOException {
+
+        InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(filename));
+        StringBuilder stringBuilder = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(reader)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            }
+        }
+
+        return (stringBuilder.toString());
     }
 }
