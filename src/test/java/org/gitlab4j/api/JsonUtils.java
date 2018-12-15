@@ -3,6 +3,7 @@ package org.gitlab4j.api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
@@ -23,26 +24,56 @@ public class JsonUtils {
         jacksonJson.getObjectMapper().configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
         jacksonJson.getObjectMapper().configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
     }
-    
 
-    static <T> T unmarshal(Class<T> returnType, String filename) throws JsonParseException, JsonMappingException, IOException {
-        InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(filename));
+    
+    static <T> T unmarshalResource(Class<T> returnType, String filename) throws JsonParseException, JsonMappingException, IOException {
+        InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
         return (jacksonJson.unmarshal(returnType, reader));
     }
 
-    static <T> List<T> unmarshalList(Class<T> returnType,  String filename) throws JsonParseException, JsonMappingException, IOException {
-        InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(filename));
-        return (jacksonJson.unmarshalList(returnType, reader));
+    static <T> List<T> unmarshalResourceList(Class<T> returnType,  String filename) throws JsonParseException, JsonMappingException, IOException {
+        InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
+        return (JsonUtils.unmarshalList(returnType, reader));
     }
 
-    static <T> Map<String, T> unmarshalMap(Class<T> returnType,  String filename) throws JsonParseException, JsonMappingException, IOException {
-        InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(filename));
+    static <T> Map<String, T> unmarshalResourceMap(Class<T> returnType, String filename) throws JsonParseException, JsonMappingException, IOException {
+        InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
         return (jacksonJson.unmarshalMap(returnType, reader));
     }
 
-    static <T> boolean compareJson(T apiObject, String filename) throws IOException {
+    static <T> T unmarshal(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
+        return (jacksonJson.unmarshal(returnType, reader));
+    }
 
-        InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(filename));
+    static <T> T unmarshal(Class<T> returnType, String json) throws JsonParseException, JsonMappingException, IOException {
+        return (jacksonJson.unmarshal(returnType, json));
+    }
+
+    static <T> List<T> unmarshalList(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
+        return (jacksonJson.unmarshalList(returnType, reader));
+    }
+
+    static <T> List<T> unmarshalList(Class<T> returnType, String json) throws JsonParseException, JsonMappingException, IOException {
+        return (jacksonJson.unmarshalList(returnType, json));
+    }
+
+    static <T> Map<String, T> unmarshalMap(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
+        return (jacksonJson.unmarshalMap(returnType, reader));
+    }
+
+    static <T> Map<String, T> unmarshalMap(Class<T> returnType, String json) throws JsonParseException, JsonMappingException, IOException {
+        return (jacksonJson.unmarshalMap(returnType, json));
+    }
+
+    
+
+    static <T> boolean compareJson(T apiObject, String filename) throws IOException {
+        InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
+        return (compareJson(apiObject, reader));
+    }
+
+    static <T> boolean compareJson(T apiObject, InputStreamReader reader) throws IOException {
+
         String objectJson = jacksonJson.marshal(apiObject);
         JsonNode tree1 = jacksonJson.getObjectMapper().readTree(objectJson.getBytes());
         JsonNode tree2 = jacksonJson.getObjectMapper().readTree(reader);
@@ -57,10 +88,11 @@ public class JsonUtils {
         return (sameJson);
     }
 
+    
     static void sortedDump(final JsonNode node) throws JsonProcessingException {
         final Object obj = jacksonJson.getObjectMapper().treeToValue(node, Object.class);
-        System.out.println(jacksonJson.getObjectMapper().writeValueAsString(obj));
-        System.out.flush();
+        System.err.println(jacksonJson.getObjectMapper().writeValueAsString(obj));
+        System.err.flush();
     }
 
     static String readResource(String filename) throws IOException {
