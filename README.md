@@ -182,6 +182,7 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[AwardEmojiApi](#awardemojiapi)<br/>
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
 &nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
+&nbsp;&nbsp;[DiscussionsApi](#discussionsapi)<br/>
 &nbsp;&nbsp;[EpicsApi](#epicsapi)<br/>
 &nbsp;&nbsp;[EventsApi](#eventsapi)<br/>
 &nbsp;&nbsp;[GroupApi](#groupapi)<br/>
@@ -229,6 +230,12 @@ List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature",
 ```java
 // Get a list of DeployKeys for the authenticated user
 List<DeployKey> deployKeys = gitLabApi.getDeployKeysApi().getDeployKeys();
+```
+
+#### DiscussionsApi
+```java
+// Get a list of Discussions for the specified merge request
+List<DeployKey> deployKeys = gitLabApi.getDiscussionsApi().getMergeRequestDiscussions(projectId, mergeRequestIid);
 ```
 
 #### EpicsApi
