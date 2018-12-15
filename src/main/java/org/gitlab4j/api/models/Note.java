@@ -38,6 +38,8 @@ public class Note {
         }
     }
 
+    // This is not used because the GitLab example JSON is using a funny string for the MERGE_REQUEST notable_type ("Merge request").
+    // Once they fix the bug, the notableType field can be changed from String to NotableType.
     public static enum NoteableType {
 
         COMMIT, EPIC, ISSUE, MERGE_REQUEST, SNIPPET;
@@ -89,7 +91,10 @@ public class Note {
     private String fileName;
     private Integer id;
     private Integer noteableId;
-    private NoteableType noteableType;
+    
+    // Use String for noteableType until the constant is fixed in the GitLab API
+    private String noteableType;
+    
     private Integer noteableIid;
     private Boolean system;
     private String title;
@@ -172,11 +177,11 @@ public class Note {
         this.noteableId = noteableId;
     }
 
-    public NoteableType getNoteableType() {
+    public String getNoteableType() {
         return noteableType;
     }
 
-    public void setNoteableType(NoteableType noteableType) {
+    public void setNoteableType(String noteableType) {
         this.noteableType = noteableType;
     }
 
