@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -40,9 +41,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Branch> getBranches(Object projectIdOrPath) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "branches");
-        return (response.readEntity(new GenericType<List<Branch>>() {}));
+        return (getBranches(projectIdOrPath, getDefaultPerPage()).all());
     }
 
     /**
@@ -76,6 +75,19 @@ public class RepositoryApi extends AbstractApi {
     public Pager<Branch> getBranches(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Branch>(this, Branch.class, itemsPerPage, null, "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "branches"));
+    }
+
+    /**
+     * Get a Stream of repository branches from a project, sorted by name alphabetically.
+     *
+     * GET /projects/:id/repository/branches
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a Stream of repository branches for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Branch> getBranchesStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getBranches(projectIdOrPath, getDefaultPerPage()).stream());
     }
 
     /**
@@ -192,6 +204,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @deprecated Replaced by TagsApi.getTags(Object)
      */
+    @Deprecated
     public List<Tag> getTags(Object projectIdOrPath) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "tags");
@@ -210,6 +223,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @deprecated Replaced by TagsApi.getTags(Object, int, int)
      */
+    @Deprecated
     public List<Tag> getTags(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "tags");
@@ -227,6 +241,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @deprecated Replaced by TagsApi.getTags(Object, int)
      */
+    @Deprecated
     public Pager<Tag> getTags(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Tag>(this, Tag.class, itemsPerPage, null, "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "tags"));
@@ -337,6 +352,19 @@ public class RepositoryApi extends AbstractApi {
      *
      * GET /projects/:id/repository/tree
      *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a Stream containing a tree with the root directories and files of a project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<TreeItem> getTreeStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getTreeStream(projectIdOrPath, "/", "master"));
+    }
+
+    /**
+     * Get a list of repository files and directories in a project.
+     *
+     * GET /projects/:id/repository/tree
+     *
      * id (required) - The ID of a project
      * path (optional) - The path inside repository. Used to get content of subdirectories
      * ref_name (optional) - The name of a repository branch or tag or if not given the default branch
@@ -372,6 +400,25 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
+     * Get a Stream of repository files and directories in a project.
+     *
+     * GET /projects/:id/repository/tree
+     *
+     * id (required) - The ID of a project
+     * path (optional) - The path inside repository. Used to get content of subdirectories
+     * ref_name (optional) - The name of a repository branch or tag or if not given the default branch
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filePath the path inside repository, used to get content of subdirectories
+     * @param refName the name of a repository branch or tag or if not given the default branch
+     * @return a Stream containing a tree with the directories and files of a project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<TreeItem> getTreeStream(Object projectIdOrPath, String filePath, String refName) throws GitLabApiException {
+        return (getTreeStream(projectIdOrPath, filePath, refName, false));
+    }
+
+    /**
      * Get a list of repository files and directories in a project.
      *
      * GET /projects/:id/repository/tree
@@ -389,14 +436,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<TreeItem> getTree(Object projectIdOrPath, String filePath, String refName, Boolean recursive) throws GitLabApiException {
-        Form formData = new GitLabApiForm()
-                .withParam("id", getProjectIdOrPath(projectIdOrPath), true)
-                .withParam("path", filePath, false)
-                .withParam(isApiVersion(ApiVersion.V3) ? "ref_name" : "ref", refName, false)
-                .withParam("recursive", recursive, false)
-                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tree");
-        return (response.readEntity(new GenericType<List<TreeItem>>() {}));
+        return (getTree(projectIdOrPath, filePath, refName, recursive, getDefaultPerPage()).all());
     }
 
     /**
@@ -425,6 +465,27 @@ public class RepositoryApi extends AbstractApi {
                 .withParam("recursive", recursive, false);
         return (new Pager<TreeItem>(this, TreeItem.class, itemsPerPage, formData.asMap(), "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "tree"));
+    }
+
+    /**
+     * Get a Stream of repository files and directories in a project.
+     *
+     * GET /projects/:id/repository/tree
+     *
+     * id (required) - The ID of a project
+     * path (optional) - The path inside repository. Used to get contend of subdirectories
+     * ref_name (optional) - The name of a repository branch or tag or if not given the default branch
+     * recursive (optional) - Boolean value used to get a recursive tree (false by default)
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filePath the path inside repository, used to get content of subdirectories
+     * @param refName the name of a repository branch or tag or if not given the default branch
+     * @param recursive flag to get a recursive tree or not
+     * @return a Stream containing a tree with the directories and files of a project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<TreeItem> getTreeStream(Object projectIdOrPath, String filePath, String refName, Boolean recursive) throws GitLabApiException {
+        return (getTree(projectIdOrPath, filePath, refName, recursive, getDefaultPerPage()).stream());
     }
 
     /**
@@ -634,7 +695,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Contributor> getContributors(Object projectIdOrPath) throws GitLabApiException {
-        return (getContributors(projectIdOrPath, 1, getDefaultPerPage()));
+        return (getContributors(projectIdOrPath, getDefaultPerPage()).all());
     }
 
     /**
@@ -667,5 +728,18 @@ public class RepositoryApi extends AbstractApi {
     public Pager<Contributor> getContributors(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
         return new Pager<Contributor>(this, Contributor.class, itemsPerPage, null, "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "contributors");
+    }
+
+    /**
+     * Get a list of contributors from a project.
+     *
+     * GET /projects/:id/repository/contributors
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a List containing the contributors for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Contributor> getContributorsStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getContributors(projectIdOrPath, getDefaultPerPage()).stream());
     }
 }

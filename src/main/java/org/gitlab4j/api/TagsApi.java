@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -28,22 +29,20 @@ public class TagsApi extends AbstractApi {
     /**
      * Get a list of repository tags from a project, sorted by name in reverse alphabetical order.
      *
-     * GET /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @return the list of tags for the specified project ID
      * @throws GitLabApiException if any exception occurs
      */
     public List<Tag> getTags(Object projectIdOrPath) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags");
-        return (response.readEntity(new GenericType<List<Tag>>() { }));
+        return (getTags(projectIdOrPath, getDefaultPerPage()).all());
     }
 
     /**
      * Get a list of repository tags from a project, sorted by name in reverse alphabetical order and in the specified page range.
      *
-     * GET /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param page the page to get
@@ -60,7 +59,7 @@ public class TagsApi extends AbstractApi {
     /**
      * Get a list of repository tags from a project, sorted by name in reverse alphabetical order.
      *
-     * GET /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param itemsPerPage the number of Project instances that will be fetched per page
@@ -72,9 +71,22 @@ public class TagsApi extends AbstractApi {
     }
 
     /**
+     * Get a Stream of repository tags from a project, sorted by name in reverse alphabetical order.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @return a Stream of tags for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Tag> getTagsStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getTags(projectIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
      * Get a specific repository tag determined by its name.
      *
-     * GET /projects/:id/repository/tags/:tagName
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags/:tagName</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param tagName the name of the tag to fetch the info for
@@ -89,7 +101,7 @@ public class TagsApi extends AbstractApi {
     /**
      * Get an Optional instance holding a Tag instance of a specific repository tag determined by its name.
      *
-     * GET /projects/:id/repository/tags/:tagName
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags/:tagName</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param tagName the name of the tag to fetch the info for
@@ -107,7 +119,7 @@ public class TagsApi extends AbstractApi {
     /**
      * Creates a tag on a particular ref of the given project. A message and release notes are optional.
      *
-     * POST /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param tagName The name of the tag Must be unique for the project
@@ -134,7 +146,7 @@ public class TagsApi extends AbstractApi {
      * release notes are optional. This method is the same as {@link #createTag(Object, String, String, String, String)},
      * but instead allows the release notes to be supplied in a file.
      *
-     * POST /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param tagName the name of the tag, must be unique for the project
@@ -163,7 +175,7 @@ public class TagsApi extends AbstractApi {
     /**
      * Deletes the tag from a project with the specified tag name.
      *
-     * DELETE /projects/:id/repository/tags/:tag_name
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/repository/tags/:tag_name</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param tagName The name of the tag to delete
@@ -177,7 +189,7 @@ public class TagsApi extends AbstractApi {
     /**
      * Add release notes to the existing git tag.
      *
-     * POST /projects/:id/repository/tags/:tagName/release
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/tags/:tagName/release</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param tagName the name of a tag
@@ -195,7 +207,7 @@ public class TagsApi extends AbstractApi {
     /**
      * Updates the release notes of a given release.
      *
-     * PUT /projects/:id/repository/tags/:tagName/release
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/tags/:tagName/release</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param tagName the name of a tag

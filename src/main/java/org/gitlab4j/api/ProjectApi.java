@@ -1794,7 +1794,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @return a list of project's issues
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer)}
+     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Object)}
      */
     @Deprecated
     public List<Issue> getIssues(Object projectIdOrPath) throws GitLabApiException {
@@ -1811,7 +1811,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param perPage the number of issues per page
      * @return the list of issues in the specified range
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer, int, int)}
+     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Object, int, int)}
      */
     @Deprecated
     public List<Issue> getIssues(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
@@ -1828,7 +1828,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param itemsPerPage the number of issues per page
      * @return the list of issues in the specified range
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer, int)}
+     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Object, int)}
      */
     @Deprecated
     public Pager<Issue> getIssues(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
@@ -1843,7 +1843,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @return a Stream of the project's issues
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Integer)}
+     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Object)}
      */
     @Deprecated
     public Stream<Issue> getIssuesStream(Object projectIdOrPath) throws GitLabApiException {
@@ -1859,7 +1859,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param issueId the internal ID of a project's issue
      * @return the specified Issue instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#getIssue(Integer, Integer)}
+     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#getIssue(Object, Integer)}
      */
     @Deprecated
     public Issue getIssue(Object projectIdOrPath, Integer issueId) throws GitLabApiException {
@@ -1875,7 +1875,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param issueId the internal ID of a project's issue
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#deleteIssue(Integer, Integer)}
+     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#deleteIssue(Object, Integer)}
      */
     @Deprecated
     public void deleteIssue(Object projectIdOrPath, Integer issueId) throws GitLabApiException {
@@ -2398,8 +2398,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @return the updated Project instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Project setProjectAvatar(Object projectIdOrPath, File fileToUpload) throws GitLabApiException {
-        return (setProjectAvatar(projectIdOrPath, fileToUpload, null));
+    public Project setProjectAvatar(Object projectIdOrPath, File avatarFile) throws GitLabApiException {
+        return (setProjectAvatar(projectIdOrPath, avatarFile, null));
     }
 
     /**
