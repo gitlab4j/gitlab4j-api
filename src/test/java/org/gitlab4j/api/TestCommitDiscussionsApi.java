@@ -40,6 +40,13 @@ public class TestCommitDiscussionsApi implements Constants {
 
     @Test
     public void testGetCommitDiscussionsByList() throws Exception {
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, 1);        
+        assertNotNull(discussions);
+        assertTrue(compareJson(discussions, "commit-discussions.json"));
+    }
+
+    @Test
+    public void testGetCommitDiscussionsByListWithMaxItems() throws Exception {
         List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, 1, 20);        
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "commit-discussions.json"));

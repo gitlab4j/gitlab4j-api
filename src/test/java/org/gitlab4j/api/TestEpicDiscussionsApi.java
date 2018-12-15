@@ -40,6 +40,13 @@ public class TestEpicDiscussionsApi implements Constants {
 
     @Test
     public void testGetEpicDiscussionsByList() throws Exception {
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getEpicDiscussions(1, 1);        
+        assertNotNull(discussions);
+        assertTrue(compareJson(discussions, "epic-discussions.json"));
+    }
+
+    @Test
+    public void testGetEpicDiscussionsByListWithMaxItems() throws Exception {
         List<Discussion> discussions = new DiscussionsApi(gitLabApi).getEpicDiscussions(1, 1, 20);        
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "epic-discussions.json"));

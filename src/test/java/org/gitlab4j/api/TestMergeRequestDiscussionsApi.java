@@ -40,6 +40,13 @@ public class TestMergeRequestDiscussionsApi implements Constants {
 
     @Test
     public void testGetMergeRequestDiscussionsByList() throws Exception {
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getMergeRequestDiscussions(1, 1);        
+        assertNotNull(discussions);
+        assertTrue(compareJson(discussions, "merge-request-discussions.json"));
+    }
+
+    @Test
+    public void testGetMergeRequestDiscussionsByListMaxItems() throws Exception {
         List<Discussion> discussions = new DiscussionsApi(gitLabApi).getMergeRequestDiscussions(1, 1, 20);        
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "merge-request-discussions.json"));

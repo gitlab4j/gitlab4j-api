@@ -40,6 +40,13 @@ public class TestSnippetDiscussionsApi implements Constants {
 
     @Test
     public void testGetSnippetDiscussionsByList() throws Exception {
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getSnippetDiscussions(1, 1);        
+        assertNotNull(discussions);
+        assertTrue(compareJson(discussions, "snippet-discussions.json"));
+    }
+
+    @Test
+    public void testGetSnippetDiscussionsByListWithMaxItems() throws Exception {
         List<Discussion> discussions = new DiscussionsApi(gitLabApi).getSnippetDiscussions(1, 1, 20);        
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "snippet-discussions.json"));
