@@ -149,6 +149,21 @@ Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
 // Stream the Projects printing out the project name.
 projectPager.stream().map(Project::getName).forEach(name -> System.out.println(name));
 ```
+The following API classes also include ```getXxxxxStream()``` methods which return a Java 8 Stream:
+```
+GroupApi
+IssuesApi
+NotesApi
+ProjectApi
+RepositoryApi
+TagsApi
+UserApi
+```
+Example usage:
+```java
+// Stream the visible Projects printing out the project name.
+gitlabApi.getProjectsApi().getProjectsStream().map(Project::getName).forEach(name -> System.out.println(name));
+```
 
 ---
 ## Java 8 Optional&lt;T&gt; Support
