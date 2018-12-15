@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.5'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.6'
 }
 ```
 
@@ -22,7 +22,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.9.5</version>
+    <version>4.9.6</version>
 </dependency>
 ```
 
@@ -70,6 +70,7 @@ gitLabApi.sudo("johndoe")
 // To turn off sudo mode
 gitLabApi.unsudo();
 ```
+
 ---
 ## Connecting Through a Proxy Server
 As of GitLab4J-API 4.8.2 support has been added for connecting to the GitLab server using an HTTP proxy server:
@@ -130,12 +131,17 @@ while (projectsPager.hasNext())) {
     }
 }
 ```
-As of GitLab4J-API 4.9.2, you can also fetch all the items as a single list or get a Java 8+ Stream instance using a Pager instance:
+
+As of GitLab4J-API 4.9.2, you can also fetch all the items as a single list using a Pager instance:
 ```java
 // Get a Pager instance so we can load all the projects into a single list, 10 items at a time:
 Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
 List<Project> allProjects = projectPager.all();
 ```
+
+---
+## Java 8 Stream Support
+As of GitLab4J-API 4.9.2, you can also fetch all the items a Java 8+ Stream instance using a Pager instance:
 
 ```java
 // Get a Pager instance to get a Stream<Project> instance.
@@ -155,6 +161,7 @@ if (optionalGroup.isPresent())
 
 return gitlabApi.getGroupApi().addGroup("my-group-name", "my-group-path");
 ```
+
 ---
 ## Issue Time Estimates
 GitLab issues allow for time tracking. The following time units are currently available:
