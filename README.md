@@ -141,8 +141,7 @@ List<Project> allProjects = projectPager.all();
 
 ---
 ## Java 8 Stream Support
-As of GitLab4J-API 4.9.2, you can also fetch all the items a Java 8+ Stream instance using a Pager instance:
-
+As of GitLab4J-API 4.9.2, you can also stream list based items in a Java 8 Stream using a Pager instance as follows:
 ```java
 // Get a Pager instance to get a Stream<Project> instance.
 Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
