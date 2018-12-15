@@ -2387,4 +2387,34 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "transfer");
         return (response.readEntity(Project.class));
     }
+
+    /**
+     * Uploads and sets the project avatar for the specified project
+     *
+     * <pre><code>PUT /projects/:id/uploads</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param avatarFile the File instance of the avatar file to upload
+     * @return the updated Project instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project setProjectAvatar(Object projectIdOrPath, File fileToUpload) throws GitLabApiException {
+        return (setProjectAvatar(projectIdOrPath, fileToUpload, null));
+    }
+
+    /**
+     * Uploads and sets the project avatar for the specified project. 
+     *
+     * <pre><code>PUT /projects/:id/uploads</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param avatarFile the File instance of the avatar file to upload
+     * @param mediaType the media type of the avatar file to upload, optional
+     * @return the updated Project instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project setProjectAvatar(Object projectIdOrPath, File avatarFile, String mediaType) throws GitLabApiException {
+        Response response = putUpload(Response.Status.OK, "avatar", avatarFile, mediaType, "projects", getProjectIdOrPath(projectIdOrPath));
+        return (response.readEntity(Project.class));
+    }
 }
