@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
@@ -37,6 +38,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 
 /**
@@ -132,7 +134,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      */
     public <T> List<T> unmarshalList(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(null);
-        return (objectMapper.readValue(reader, new TypeReference<List<T>>() {}));
+        CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, returnType);
+        return (objectMapper.readValue(reader, javaType));
     }
 
     /**
@@ -148,7 +151,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      */
     public <T> List<T> unmarshalList(Class<T> returnType, String postData) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(null);
-        return objectMapper.readValue(postData, new TypeReference<List<T>>() {});
+        CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, returnType);
+        return (objectMapper.readValue(postData, javaType));
     }
 
     /**
