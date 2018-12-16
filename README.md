@@ -163,6 +163,10 @@ Example usage:
 ```java
 // Stream the visible Projects printing out the project name.
 gitlabApi.getProjectsApi().getProjectsStream().map(Project::getName).forEach(name -> System.out.println(name));
+
+// Operate on the stream in parallel, this example sorts User instances by username
+Stream<User> stream = new UserApi(gitLabApi).getUsersStream();
+List<User> sortedUsers = stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
 ```
 
 ---
