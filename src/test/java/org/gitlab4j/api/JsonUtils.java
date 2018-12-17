@@ -65,7 +65,6 @@ public class JsonUtils {
         return (jacksonJson.unmarshalMap(returnType, json));
     }
 
-    
 
     static <T> boolean compareJson(T apiObject, String filename) throws IOException {
         InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
@@ -88,7 +87,23 @@ public class JsonUtils {
         return (sameJson);
     }
 
-    
+    static <T> boolean compareJson(T apiObject, T apiObject1) throws IOException {
+
+        String objectJson = jacksonJson.marshal(apiObject);
+        String object1Json = jacksonJson.marshal(apiObject1);
+        JsonNode tree1 = jacksonJson.getObjectMapper().readTree(objectJson.getBytes());
+        JsonNode tree2 = jacksonJson.getObjectMapper().readTree(object1Json.getBytes());
+
+        boolean sameJson = tree1.equals(tree2);
+        if (!sameJson) {
+            System.err.println("JSON did not match:");
+            sortedDump(tree1);
+            sortedDump(tree2);
+        }
+
+        return (sameJson);
+    }
+
     static void sortedDump(final JsonNode node) throws JsonProcessingException {
         final Object obj = jacksonJson.getObjectMapper().treeToValue(node, Object.class);
         System.err.println(jacksonJson.getObjectMapper().writeValueAsString(obj));
