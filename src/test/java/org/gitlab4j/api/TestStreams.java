@@ -1,8 +1,10 @@
 package org.gitlab4j.api;
 
 import static java.util.Comparator.comparing;
+import static org.gitlab4j.api.JsonUtils.compareJson;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -35,7 +37,8 @@ public class TestStreams implements Constants {
 
     @BeforeClass
     public static void setupClass() throws Exception {
-        // Get a list of users sorted by username
+
+        // Get a list of users sorted by username, we use this as thye source of truth for the asserts
         sortedUsers = JsonUtils.unmarshalResourceList(User.class, "user-list.json");
         sortedUsers.sort(comparing(User::getUsername));
     }
@@ -52,34 +55,34 @@ public class TestStreams implements Constants {
     @Test
     public void testStream() throws Exception {
 
+        // Arrange
         Stream<User> stream = new UserApi(gitLabApi).getUsersStream();
-        assertNotNull(stream);
 
+        // Assert
+        assertNotNull(stream);
         List<User> users = stream.sorted(comparing(User::getUsername)).collect(toList());
         assertNotNull(users);
 
         assertEquals(users.size(), sortedUsers.size());
-
         for (int i = 0; i < users.size(); i++) {
-            assertEquals(users.get(i).getId(), sortedUsers.get(i).getId());
-            assertEquals(users.get(i).getUsername(), sortedUsers.get(i).getUsername());
+            assertTrue(compareJson(sortedUsers.get(i), users.get(i)));
         }
     }
 
     @Test
     public void testParallelStream() throws Exception {
 
+        // Arrange
         Stream<User> stream = new UserApi(gitLabApi).getUsersStream();
-        assertNotNull(stream);
 
+        // Assert
+        assertNotNull(stream);
         List<User> users = stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
         assertNotNull(users);
 
         assertEquals(users.size(), sortedUsers.size());
-
         for (int i = 0; i < users.size(); i++) {
-            assertEquals(users.get(i).getId(), sortedUsers.get(i).getId());
-            assertEquals(users.get(i).getUsername(), sortedUsers.get(i).getUsername());
+            assertTrue(compareJson(sortedUsers.get(i), users.get(i)));
         }
     }
 }
