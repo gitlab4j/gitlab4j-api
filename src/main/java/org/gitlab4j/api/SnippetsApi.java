@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -19,22 +20,9 @@ public class SnippetsApi extends AbstractApi {
     }
 
     /**
-     * Get a Pager of the authenticated user's snippets.
-     *
-     * GET /snippets
-     *
-     * @param itemsPerPage the number of snippets per page
-     * @return the Pager of snippets
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Pager<Snippet> getSnippets(int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Snippet>(this, Snippet.class, itemsPerPage, null, "snippets"));
-    }
-
-    /**
      * Get a list of the authenticated user's snippets.
      *
-     * GET /snippets
+     * <pre><code>GitLab Endpoint: GET /snippets</code></pre>
      *
      * @param downloadContent indicating whether to download the snippet content
      * @return a list of authenticated user's snippets
@@ -57,19 +45,44 @@ public class SnippetsApi extends AbstractApi {
     /**
      * Get a list of the authenticated user's snippets.
      *
-     * GET /snippets
+     * <pre><code>GitLab Endpoint: GET /snippets</code></pre>
      *
      * @return a list of authenticated user's snippets
      * @throws GitLabApiException if any exception occurs
      */
     public List<Snippet> getSnippets() throws GitLabApiException {
-        return getSnippets(false);
+        return (getSnippets(getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of the authenticated user's snippets.
+     *
+     * <pre><code>GitLab Endpoint: GET /snippets</code></pre>
+     *
+     * @param itemsPerPage the number of snippets per page
+     * @return the Pager of snippets
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Snippet> getSnippets(int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Snippet>(this, Snippet.class, itemsPerPage, null, "snippets"));
+    }
+
+    /**
+     * Get a Stream of the authenticated user's snippets.
+     *
+     * <pre><code>GitLab Endpoint: GET /snippets</code></pre>
+     *
+     * @return a Stream of authenticated user's snippets
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Snippet> getSnippetsStream() throws GitLabApiException {
+        return (getSnippets(getDefaultPerPage()).stream());
     }
 
     /**
      * Get the content of a Snippet.
      *
-     * GET /snippets/:id/raw
+     * <pre><code>GitLab Endpoint: GET /snippets/:id/raw</code></pre>
      *
      * @param snippetId the snippet ID to remove
      * @return the content of snippet
@@ -118,19 +131,19 @@ public class SnippetsApi extends AbstractApi {
     /**
      * Get a specific snippet as an Optional instance.
      *
-     * GET /snippets/:snippet_id
+     * <pre><code>GitLab Endpoint: GET /snippets/:snippet_id</code></pre>
      *
      * @param snippetId the ID of the snippet to get the Optional instance for
      * @return the specified Snippet as an Optional instance
      */
-    public Optional<Snippet> getOptionalSnippet( Integer snippetId) {
+    public Optional<Snippet> getOptionalSnippet(Integer snippetId) {
         return (getOptionalSnippet(snippetId, false));
     }
 
     /**
      * Get a specific snippet as an Optional instance.
      *
-     * GET /snippets/:snippet_id
+     * <pre><code>GitLab Endpoint: GET /snippets/:snippet_id</code></pre>
      *
      * @param snippetId the ID of the snippet to get the Optional instance for
      * @param downloadContent indicating whether to download the snippet content
@@ -187,7 +200,7 @@ public class SnippetsApi extends AbstractApi {
     /**
      * Removes Snippet.
      *
-     * DELETE /snippets/:id
+     * <pre><code>GitLab Endpoint: DELETE /snippets/:id</code></pre>
      *
      * @param snippetId the snippet ID to remove
      * @throws GitLabApiException if any exception occurs

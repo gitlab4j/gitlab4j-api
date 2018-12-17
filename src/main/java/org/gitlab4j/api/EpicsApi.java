@@ -3,6 +3,7 @@ package org.gitlab4j.api;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -29,7 +30,7 @@ public class EpicsApi extends AbstractApi {
 
     /**
      * Gets all epics of the requested group and its subgroups.
-     * 
+     *
      * <pre><code>GitLab Endpoint: GET /groups/:id/epics</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
@@ -37,7 +38,7 @@ public class EpicsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Epic> getEpics(Object groupIdOrPath) throws GitLabApiException {
-        return (getEpics(groupIdOrPath, 1, getDefaultPerPage()));
+        return (getEpics(groupIdOrPath, getDefaultPerPage()).all());
     }
 
     /**
@@ -71,6 +72,19 @@ public class EpicsApi extends AbstractApi {
     }
 
     /**
+     * Gets all epics of the requested group and its subgroups as a Stream.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a Stream of all epics of the requested group and its subgroups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Epic> getEpicsStream(Object groupIdOrPath) throws GitLabApiException {
+        return (getEpics(groupIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
      * Gets all epics of the requested group and its subgroups.
      * 
      * <pre><code>GitLab Endpoint: GET /groups/:id/epics</code></pre>
@@ -87,7 +101,7 @@ public class EpicsApi extends AbstractApi {
      */
     public List<Epic> getEpics(Object groupIdOrPath, Integer authorId, String labels, EpicOrderBy orderBy,
             SortOrder sortOrder, String search) throws GitLabApiException {
-        return (getEpics(groupIdOrPath, authorId, labels, orderBy, sortOrder, search, 1, getDefaultPerPage()));
+        return (getEpics(groupIdOrPath, authorId, labels, orderBy, sortOrder, search, getDefaultPerPage()).all());
     }
 
     /**
@@ -144,6 +158,26 @@ public class EpicsApi extends AbstractApi {
                 .withParam("sort", sortOrder)
                 .withParam("search", search);
         return (new Pager<Epic>(this, Epic.class, itemsPerPage, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epics"));
+    }
+
+    /**
+     * Gets all epics of the requested group and its subgroups as a Stream.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param authorId returns epics created by the given user id
+     * @param labels return epics matching a comma separated list of labels names.
+     *        Label names from the epic group or a parent group can be used
+     * @param orderBy return epics ordered by CREATED_AT or UPDATED_AT. Default is CREATED_AT
+     * @param sortOrder return epics sorted in ASC or DESC order. Default is DESC
+     * @param search search epics against their title and description
+     * @return a Stream of matching epics of the requested group and its subgroups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Epic> getEpicsStream(Object groupIdOrPath, Integer authorId, String labels, EpicOrderBy orderBy,
+            SortOrder sortOrder, String search) throws GitLabApiException {
+        return (getEpics(groupIdOrPath, authorId, labels, orderBy, sortOrder, search, getDefaultPerPage()).stream());
     }
 
     /**
@@ -305,11 +339,10 @@ public class EpicsApi extends AbstractApi {
     public void deleteEpic(Object groupIdOrPath, Integer epicIid) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid);
     }
-    
 
     /**
      * Gets all issues that are assigned to an epic and the authenticated user has access to.
-     * 
+     *
      * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_iid/issues</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
@@ -318,13 +351,13 @@ public class EpicsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Epic> getEpicIssues(Object groupIdOrPath, Integer epicIid) throws GitLabApiException {
-        return (getEpicIssues(groupIdOrPath, epicIid, 1, getDefaultPerPage()));
+        return (getEpicIssues(groupIdOrPath, epicIid, getDefaultPerPage()).all());
     }
 
     /**
      * Gets all issues that are assigned to an epic and the authenticated user has access to
      * using the specified page and per page setting.
-     * 
+     *
      * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_iid/issues</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
@@ -341,7 +374,7 @@ public class EpicsApi extends AbstractApi {
 
     /**
      * Get a Pager of all issues that are assigned to an epic and the authenticated user has access to.
-     * 
+     *
      * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_iid/issues</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
@@ -352,6 +385,20 @@ public class EpicsApi extends AbstractApi {
      */
     public Pager<Epic> getEpicIssues(Object groupIdOrPath, Integer epicIid, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Epic>(this, Epic.class, itemsPerPage, null, "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues"));
+    }
+
+    /**
+     * Gets all issues that are assigned to an epic and the authenticated user has access to as a Stream.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_iid/issues</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param epicIid the IID of the epic to get issues for
+     * @return a Stream of all epic issues belonging to the specified epic
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Epic> getEpicIssuesStream(Object groupIdOrPath, Integer epicIid) throws GitLabApiException {
+        return (getEpicIssues(groupIdOrPath, epicIid, getDefaultPerPage()).stream());
     }
 
     /**

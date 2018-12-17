@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -19,22 +20,21 @@ public class SystemHooksApi extends AbstractApi {
 
     /**
      * Get a list of all system hooks. This method requires admin access.
-     * Only returns the first page. This method requires admin access.
      *
-     * <code>GET /hooks</code>
+     * <pre><code>GitLab Endpoint: GET /hooks</code></pre>
      *
      * @return a list of SystemHookEvent
      * @throws GitLabApiException if any exception occurs
      */
     public List<SystemHook> getSystemHooks() throws GitLabApiException {
-        return (getSystemHooks(1, getDefaultPerPage()));
+        return (getSystemHooks(getDefaultPerPage()).all());
     }
 
     /**
      * Get a list of all system hooks using the specified page and per page settings. 
      * This method requires admin access.
      *
-     * <code>GET /hooks</code>
+     * <pre><code>GitLab Endpoint: GET /hooks</code></pre>
      *
      * @param page the page to get
      * @param perPage the number of deploy keys per page
@@ -49,7 +49,7 @@ public class SystemHooksApi extends AbstractApi {
     /**
      * Get a Pager of all system hooks. This method requires admin access.
      *
-     * <code>GET /hooks</code>
+     * <pre><code>GitLab Endpoint: GET /hooks</code></pre>
      *
      * @param itemsPerPage the number of SystemHookEvent instances that will be fetched per page
      * @return a Pager of SystemHookEvent
@@ -60,9 +60,21 @@ public class SystemHooksApi extends AbstractApi {
     }
 
     /**
+     * Get a Stream of all system hooks. This method requires admin access.
+     *
+     * <pre><code>GitLab Endpoint: GET /hooks</code></pre>
+     *
+     * @return a Stream of SystemHookEvent
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<SystemHook> getSystemHookStream() throws GitLabApiException {
+        return (getSystemHooks(getDefaultPerPage()).stream());
+    }
+
+    /**
      * Add a new system hook. This method requires admin access.
      *
-     * <code>POST /hooks</code>
+     *  <pre><code>GitLab Endpoint: POST /hooks</code></pre>
      *
      * @param url the hook URL, required
      * @param token secret token to validate received payloads, optional
@@ -92,7 +104,7 @@ public class SystemHooksApi extends AbstractApi {
     /**
      * Deletes a system hook. This method requires admin access.
      *
-     * <code>DELETE /hooks/:hook_id</code>
+     *  <pre><code>GitLab Endpoint: DELETE /hooks/:hook_id</code></pre>
      *
      * @param hook the SystemHook instance to delete
      * @throws GitLabApiException if any exception occurs
@@ -109,7 +121,7 @@ public class SystemHooksApi extends AbstractApi {
     /**
      * Deletes a system hook. This method requires admin access.
      *
-     * <code>DELETE /hooks/:hook_id</code>
+     * <pre><code>GitLab Endpoint: DELETE /hooks/:hook_id</code></pre>
      *
      * @param hookId the ID of the system hook to delete
      * @throws GitLabApiException if any exception occurs
@@ -127,7 +139,7 @@ public class SystemHooksApi extends AbstractApi {
     /**
      * Test a system hook. This method requires admin access.
      *
-     * <code>GET /hooks/:hook_id</code>
+     * <pre><code>GitLab Endpoint: GET /hooks/:hook_id</code></pre>
      *
      * @param hook the SystemHookEvent instance to test
      * @throws GitLabApiException if any exception occurs
@@ -144,7 +156,7 @@ public class SystemHooksApi extends AbstractApi {
     /**
      * Test a system hook. This method requires admin access.
      *
-     * <code>GET /hooks/:hook_id</code>
+     * <pre><code>GitLab Endpoint: GET /hooks/:hook_id</code></pre>
      *
      * @param hookId the ID of the system hook to test
      * @throws GitLabApiException if any exception occurs

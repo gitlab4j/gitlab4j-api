@@ -17,7 +17,7 @@ public class MarkdownApi extends AbstractApi {
     /**
      * Render an arbitrary Markdown document.
      *
-     * POST /api/v4/markdown
+     * <pre><code>GitLab Endpoint: POST /api/v4/markdown</code></pre>
      *
      * @param text text to be transformed
      * @return a Markdown instance with transformed info
@@ -26,7 +26,7 @@ public class MarkdownApi extends AbstractApi {
      */
     public Markdown getMarkdown(String text) throws GitLabApiException {
 
-        if(!isApiVersion(ApiVersion.V4)){
+        if (!isApiVersion(ApiVersion.V4)) {
             throw new GitLabApiException("Api version must be v4");
         }
 

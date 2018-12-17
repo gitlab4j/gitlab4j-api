@@ -8,6 +8,7 @@ import org.gitlab4j.api.models.RunnerDetail;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This class provides an entry point to all the GitLab API repository files calls.
@@ -21,32 +22,57 @@ public class RunnersApi extends AbstractApi {
     /**
      * Get a list of all available runners available to the user.
      *
-     * GET /runners
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
      *
      * @return List of Runners
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getRunners() throws GitLabApiException {
-        return getRunners(null, null, null);
+        return (getRunners(null, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Stream of all available runners available to the user.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @return Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Runner> getRunnersStream() throws GitLabApiException {
+        return (getRunners(null, getDefaultPerPage()).stream());
     }
 
     /**
      * Get a list of all available runners available to the user with pagination support.
      *
-     * GET /runners
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
      *
      * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
      * @return List of Runners
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getRunners(Runner.RunnerStatus scope) throws GitLabApiException {
-        return getRunners(scope, null, null);
+        return (getRunners(scope, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Stream of all available runners available to the user with pagination support.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @return Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Runner> getRunnersStream(Runner.RunnerStatus scope) throws GitLabApiException {
+        return (getRunners(scope, getDefaultPerPage()).stream());
     }
 
     /**
      * Get a list of all available runners available to the user with pagination support.
      *
-     * GET /runners
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
      *
      * @param page    The page offset of runners
      * @param perPage The number of runners to get after the page offset
@@ -60,7 +86,7 @@ public class RunnersApi extends AbstractApi {
     /**
      * Get a list of specific runners available to the user.
      *
-     * GET /runners
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
      *
      * @param scope   The scope of specific runners to show, one of: active, paused, online; showing all runners null
      * @param page    The page offset of runners
@@ -81,61 +107,85 @@ public class RunnersApi extends AbstractApi {
     /**
      * Get a list of all available runners available to the user.
      *
-     * GET /runners
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
      *
      * @param itemsPerPage the number of Runner instances that will be fetched per page
      * @return a Pager containing the Runners for the user
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Runner> getRunners(int itemsPerPage) throws GitLabApiException {
-        return getRunners(null, itemsPerPage);
+        return (getRunners(null, itemsPerPage));
     }
 
     /**
      * Get a list of specific runners available to the user.
      *
-     * GET /runners
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
      *
-     * @param scope        The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @param scope the scope of specific runners to show, one of: active, paused, online; showing all runners null
      * @param itemsPerPage The number of Runner instances that will be fetched per page
      * @return a Pager containing the Runners for the user
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Runner> getRunners(Runner.RunnerStatus scope, int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", scope, false);
+        GitLabApiForm formData = new GitLabApiForm().withParam("scope", scope, false);
         return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
     }
 
     /**
      * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
      *
-     * GET /runners/all
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
      *
-     * @return List of Runners
+     * @return a List of Runners
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getAllRunners() throws GitLabApiException {
-        return getAllRunners(null, null, null);
+        return (getAllRunners(null, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Stream of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
+     *
+     * @return a Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Runner> getAllRunnersStream() throws GitLabApiException {
+        return (getAllRunners(null, getDefaultPerPage()).stream());
     }
 
     /**
      * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
      *
-     * GET /runners/all
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
      *
      * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
-     * @return List of Runners
+     * @return a List of Runners
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getAllRunners(Runner.RunnerStatus scope) throws GitLabApiException {
-        return getAllRunners(scope, null, null);
+        return (getAllRunners(scope, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Stream of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
+     *
+     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @return a Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Runner> getAllRunnersStream(Runner.RunnerStatus scope) throws GitLabApiException {
+        return (getAllRunners(scope, getDefaultPerPage()).stream());
     }
 
     /**
      * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
      *
-     * GET /runners/all
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
      *
      * @param page    The page offset of runners
      * @param perPage The number of runners to get after the page offset
@@ -143,13 +193,13 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getAllRunners(int page, int perPage) throws GitLabApiException {
-        return getAllRunners(null, page, perPage);
+        return (getAllRunners(null, page, perPage));
     }
 
     /**
      * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
      *
-     * GET /runners/all
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
      *
      * @param scope   The scope of specific runners to show, one of: active, paused, online; showing all runners null
      * @param page    The page offset of runners
@@ -163,14 +213,13 @@ public class RunnersApi extends AbstractApi {
                 .withParam("page", page, false)
                 .withParam("per_page", perPage, false);
         Response response = get(Response.Status.OK, formData.asMap(), "runners", "all");
-        return (response.readEntity(new GenericType<List<Runner>>() {
-        }));
+        return (response.readEntity(new GenericType<List<Runner>>() {}));
     }
 
     /**
      * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
      *
-     * GET /runners/all
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
      *
      * @param itemsPerPage The number of Runner instances that will be fetched per page
      * @return List of Runners
@@ -183,33 +232,33 @@ public class RunnersApi extends AbstractApi {
     /**
      * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
      *
-     * GET /runners/all
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
      *
-     * @param scope        The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @param scope the scope of specific runners to show, one of: active, paused, online; showing all runners null
      * @param itemsPerPage The number of Runner instances that will be fetched per page
      * @return a Pager containing the Runners
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Runner> getAllRunners(Runner.RunnerStatus scope, int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", scope, false);
+        GitLabApiForm formData = new GitLabApiForm().withParam("scope", scope, false);
         return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
     }
-
 
     /**
      * Get details of a runner.
      *
-     * GET /runners/:id
+     * <pre><code>GitLab Endpoint: GET /runners/:id</code></pre>
      *
      * @param runnerId Runner id to get details for
      * @return RunnerDetail instance.
      * @throws GitLabApiException if any exception occurs
      */
     public RunnerDetail getRunnerDetail(Integer runnerId) throws GitLabApiException {
+
         if (runnerId == null) {
             throw new RuntimeException("runnerId cannot be null");
         }
+
         Response response = get(Response.Status.OK, null, "runners", runnerId);
         return (response.readEntity(RunnerDetail.class));
     }
@@ -217,7 +266,7 @@ public class RunnersApi extends AbstractApi {
     /**
      * Update details of a runner.
      *
-     * PUT /runners/:id
+     * <pre><code>GitLab Endpoint: PUT /runners/:id</code></pre>
      *
      * @param runnerId    The ID of a runner
      * @param description The description of a runner
@@ -234,6 +283,7 @@ public class RunnersApi extends AbstractApi {
         if (runnerId == null) {
             throw new RuntimeException("runnerId cannot be null");
         }
+
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("description", description, false)
                 .withParam("active", active, false)
@@ -248,12 +298,13 @@ public class RunnersApi extends AbstractApi {
     /**
      * Remove a runner.
      *
-     * DELETE /runners/:id
+     * <pre><code>GitLab Endpoint: DELETE /runners/:id</code></pre>
      *
      * @param runnerId The ID of a runner
      * @throws GitLabApiException if any exception occurs
      */
     public void removeRunner(Integer runnerId) throws GitLabApiException {
+
         if (runnerId == null) {
             throw new RuntimeException("runnerId cannot be null");
         }
@@ -264,23 +315,34 @@ public class RunnersApi extends AbstractApi {
     /**
      * List jobs that are being processed or were processed by specified Runner.
      *
-     * GET /runners/:id/jobs
+     * <pre><code>GitLab Endpoint: GET /runners/:id/jobs</code></pre>
      *
      * @param runnerId The ID of a runner
      * @return List jobs that are being processed or were processed by specified Runner
      * @throws GitLabApiException if any exception occurs
      */
     public List<Job> getJobs(Integer runnerId) throws GitLabApiException {
-        if (runnerId == null) {
-            throw new RuntimeException("runnerId cannot be null");
-        }
-        return getJobs(runnerId, null);
+        return (getJobs(runnerId, null, getDefaultPerPage()).all());
     }
+
+    /**
+     * Get a Stream of jobs that are being processed or were processed by specified Runner.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/:id/jobs</code></pre>
+     *
+     * @param runnerId The ID of a runner
+     * @return a Stream of jobs that are being processed or were processed by specified Runner
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Job> getJobsStream(Integer runnerId) throws GitLabApiException {
+        return (getJobs(runnerId, null, getDefaultPerPage()).stream());
+    }
+
 
     /**
      * List jobs that are being processed or were processed by specified Runner.
      *
-     * GET /runners/:id/jobs
+     * <pre><code>GitLab Endpoint: GET /runners/:id/jobs</code></pre>
      *
      * @param runnerId The ID of a runner
      * @param status   Status of the job; one of: running, success, failed, canceled
@@ -288,20 +350,27 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Job> getJobs(Integer runnerId, JobStatus status) throws GitLabApiException {
-        if (runnerId == null) {
-            throw new RuntimeException("runnerId cannot be null");
-        }
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("status", status, false);
-        Response response = get(Response.Status.OK, formData.asMap(), "runners", runnerId, "jobs");
-        return (response.readEntity(new GenericType<List<Job>>() {
-        }));
+        return (getJobs(runnerId, status, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Stream of jobs that are being processed or were processed by specified Runner.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/:id/jobs</code></pre>
+     *
+     * @param runnerId The ID of a runner
+     * @param status   Status of the job; one of: running, success, failed, canceled
+     * @return a Stream of jobs that are being processed or were processed by specified Runner
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Job> getJobsStream(Integer runnerId, JobStatus status) throws GitLabApiException {
+        return (getJobs(runnerId, status, getDefaultPerPage()).stream());
     }
 
     /**
      * List jobs that are being processed or were processed by specified Runner.
      *
-     * GET /runners/:id/jobs
+     * <pre><code>GitLab Endpoint: GET /runners/:id/jobs</code></pre>
      *
      * @param runnerId     The ID of a runner
      * @param itemsPerPage The number of Runner instances that will be fetched per page
@@ -309,16 +378,13 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Job> getJobs(Integer runnerId, int itemsPerPage) throws GitLabApiException {
-        if (runnerId == null) {
-            throw new RuntimeException("runnerId cannot be null");
-        }
-        return getJobs(runnerId, null, itemsPerPage);
+        return (getJobs(runnerId, null, itemsPerPage));
     }
 
     /**
      * List jobs that are being processed or were processed by specified Runner.
      *
-     * GET /runners/:id/jobs
+     * <pre><code>GitLab Endpoint: GET /runners/:id/jobs</code></pre>
      *
      * @param runnerId     The ID of a runner
      * @param status       Status of the job; one of: running, success, failed, canceled
@@ -327,11 +393,12 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Job> getJobs(Integer runnerId, JobStatus status, int itemsPerPage) throws GitLabApiException {
+
         if (runnerId == null) {
             throw new RuntimeException("runnerId cannot be null");
         }
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("status", status, false);
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("status", status, false);
         return (new Pager<>(this, Job.class, itemsPerPage, formData.asMap(), "runners", runnerId, "jobs"));
     }
 
@@ -339,56 +406,61 @@ public class RunnersApi extends AbstractApi {
      * List all runners (specific and shared) available in the project. Shared runners are listed if at least one
      * shared runner is defined and shared runners usage is enabled in the project's settings.
      *
-     * GET /projects/:id/runners
+     * <pre><code>GitLab Endpoint: GET /projects/:id/runners</code></pre>
      *
-     * @param projectId The ID of the project owned by the authenticated user
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @return List of all Runner available in the project
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Runner> getProjectRunners(Integer projectId) throws GitLabApiException {
-        if (projectId == null) {
-            throw new RuntimeException("projectId cannot be null");
-        }
-        Response response = get(Response.Status.OK, null, "projects", projectId, "runners");
-        return (response.readEntity(new GenericType<List<Runner>>() {
-        }));
+    public List<Runner> getProjectRunners(Object projectIdOrPath) throws GitLabApiException {
+        return (getProjectRunners(projectIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Stream  all runners (specific and shared) available in the project. Shared runners are listed if at least one
+     * shared runner is defined and shared runners usage is enabled in the project's settings.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/runners</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a Stream of all Runner available in the project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Runner> getProjectRunnersStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getProjectRunners(projectIdOrPath, getDefaultPerPage()).stream());
     }
 
     /**
      * List all runners (specific and shared) available in the project. Shared runners are listed if at least one
      * shared runner is defined and shared runners usage is enabled in the project's settings.
      *
-     * GET /projects/:id/runners
+     * <pre><code>GitLab Endpoint: GET /projects/:id/runners</code></pre>
      *
-     * @param projectId    The ID of the project owned by the authenticated user
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param itemsPerPage the number of Project instances that will be fetched per page
      * @return Pager of all Runner available in the project
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Runner> getProjectRunners(Integer projectId, int itemsPerPage) throws GitLabApiException {
-        if (projectId == null) {
-            throw new RuntimeException("projectId cannot be null");
-        }
-        return (new Pager<>(this, Runner.class, itemsPerPage, null, "projects", projectId, "runners"));
+    public Pager<Runner> getProjectRunners(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<>(this, Runner.class, itemsPerPage, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "runners"));
     }
 
     /**
      * Enable an available specific runner in the project.
      *
-     * POST /projects/:id/runners
+     * <pre><code>GitLab Endpoint: POST /projects/:id/runners</code></pre>
      *
-     * @param projectId The ID of the project owned by the authenticated user
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param runnerId  The ID of a runner
      * @return Runner instance of the Runner enabled
      * @throws GitLabApiException if any exception occurs
      */
-    public Runner enableRunner(Integer projectId, Integer runnerId) throws GitLabApiException {
-        if (projectId == null || runnerId == null) {
-            throw new RuntimeException("projectId or runnerId cannot be null");
-        }
+    public Runner enableRunner(Object projectIdOrPath, Integer runnerId) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("runner_id", runnerId, true);
-        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", projectId, "runners");
+        Response response = post(Response.Status.CREATED, formData.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "runners");
         return (response.readEntity(Runner.class));
     }
 
@@ -396,27 +468,24 @@ public class RunnersApi extends AbstractApi {
      * Disable a specific runner from the project. It works only if the project isn't the only project associated with
      * the specified runner. If so, an error is returned. Use the {@link #removeRunner(Integer)} instead.
      *
-     * DELETE /projects/:id/runners/:runner_id
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/runners/:runner_id</code></pre>
      *
-     * @param projectId The ID of the project owned by the authenticated user
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param runnerId  The ID of a runner
      * @return Runner instance of the Runner disabled
      * @throws GitLabApiException if any exception occurs
      */
-    public Runner disableRunner(Integer projectId, Integer runnerId) throws GitLabApiException {
-        if (projectId == null || runnerId == null) {
-            throw new RuntimeException("projectId or runnerId cannot be null");
-        }
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("runner_id", runnerId, true);
-        Response response = delete(Response.Status.OK, formData.asMap(), "projects", projectId, "runners");
+    public Runner disableRunner(Object projectIdOrPath, Integer runnerId) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("runner_id", runnerId, true);
+        Response response = delete(Response.Status.OK, formData.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "runners");
         return (response.readEntity(Runner.class));
     }
 
     /**
      * Register a new runner for the gitlab instance.
      *
-     * POST /runners/
+     * <pre><code>GitLab Endpoint: POST /runners/</code></pre>
      *
      * @param token       the token of the project (for project specific runners) or the token from the admin page
      * @param description The description of a runner
@@ -446,15 +515,13 @@ public class RunnersApi extends AbstractApi {
     /**
      * Deletes a registered Runner.
      *
-     * DELETE /runners/
+     * <pre><code>GitLab Endpoint: DELETE /runners/</code></pre>
      *
      * @param token the runners authentication token
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteRunner(String token) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("token", token, true);
-
+        GitLabApiForm formData = new GitLabApiForm().withParam("token", token, true);
         delete(Response.Status.NO_CONTENT, formData.asMap(), "runners");
     }
 }
