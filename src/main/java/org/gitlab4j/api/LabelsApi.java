@@ -14,80 +14,89 @@ public class LabelsApi extends AbstractApi {
     }
 
     /**
-     * Get all labels of the specified project. Only returns the first page
+     * Get all labels of the specified project.
      *
-     * @param projectId the project ID to get the labels for
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @return a list of project's labels
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Label> getLabels(Integer projectId) throws GitLabApiException {
-        return (getLabels(projectId, 1, getDefaultPerPage()));
+    public List<Label> getLabels(Object projectIdOrPath) throws GitLabApiException {
+        return (getLabels(projectIdOrPath, getDefaultPerPage()).all());
     }
 
     /**
      * Get all labels of the specified project to using the specified page and per page setting
      *
-     * @param projectId the project ID to get the labels for
-     * @param page      the page to get
-     * @param perPage   the number of issues per page
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param page the page to get
+     * @param perPage the number of items per page
      * @return a list of project's labels in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Label> getLabels(Integer projectId, int page, int perPage) throws GitLabApiException {
-
-        if (projectId == null) {
-            throw new RuntimeException("projectId cannot be null");
-        }
-
-        Response response = get(javax.ws.rs.core.Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "labels");
+    public List<Label> getLabels(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
+        Response response = get(javax.ws.rs.core.Response.Status.OK, getPageQueryParams(page, perPage),
+                "projects", getProjectIdOrPath(projectIdOrPath), "labels");
         return (response.readEntity(new GenericType<List<Label>>() {}));
+    }
+
+    /**
+     * Get a Pager of all labels of the specified project.
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param itemsPerPage the number of items per page
+     * @return a list of project's labels in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Label> getLabels(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Label>(this, Label.class, itemsPerPage, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "labels"));
     }
 
     /**
      * Create a label
      *
-     * @param projectId   the project ID to create a label for
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param name        the name for the label
      * @param color       the color for the label
      * @param description the description for the label
      * @return the created Label instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Label createLabel(Integer projectId, String name, String color, String description) throws GitLabApiException {
-        return (createLabel(projectId, name, color, description, null));
+    public Label createLabel(Object projectIdOrPath, String name, String color, String description) throws GitLabApiException {
+        return (createLabel(projectIdOrPath, name, color, description, null));
     }
 
     /**
      * Create a label
      *
-     * @param projectId the project ID to create a label for
-     * @param name      the name for the label
-     * @param color     the color for the label
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param name the name for the label
+     * @param color the color for the label
      * @return the created Label instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Label createLabel(Integer projectId, String name, String color) throws GitLabApiException {
-        return (createLabel(projectId, name, color, null, null));
+    public Label createLabel(Object projectIdOrPath, String name, String color) throws GitLabApiException {
+        return (createLabel(projectIdOrPath, name, color, null, null));
     }
 
     /**
      * Create a label
      *
-     * @param projectId the project ID to create a label for
-     * @param name      the name for the label
-     * @param color     the color for the label
-     * @param priority  the priority for the label
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param name the name for the label
+     * @param color the color for the label
+     * @param priority the priority for the label
      * @return the created Label instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Label createLabel(Integer projectId, String name, String color, Integer priority) throws GitLabApiException {
-        return (createLabel(projectId, name, color, null, priority));
+    public Label createLabel(Object projectIdOrPath, String name, String color, Integer priority) throws GitLabApiException {
+        return (createLabel(projectIdOrPath, name, color, null, priority));
     }
 
     /**
      *  Create a label
      *
-     * @param projectId the project ID to create a label for
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param name the name for the label
      * @param color the color for the label
      * @param description the description for the label
@@ -95,18 +104,14 @@ public class LabelsApi extends AbstractApi {
      * @return the created Label instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Label createLabel(Integer projectId, String name, String color, String description, Integer priority) throws GitLabApiException {
-
-        if (projectId == null) {
-            throw new RuntimeException("projectId cannot be null");
-        }
+    public Label createLabel(Object projectIdOrPath, String name, String color, String description, Integer priority) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
                 .withParam("color", color, true)
                 .withParam("description", description)
                 .withParam("priority", priority);
-        Response response = post(Response.Status.CREATED, formData, "projects", projectId, "labels");
+        Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "labels");
         return (response.readEntity(Label.class));
     }
 
@@ -114,7 +119,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Update the specified label
      *
-     * @param projectId the project ID to update a label for
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param name the name for the label
      * @param newName the new name for the label
      * @param description the description for the label
@@ -122,15 +127,15 @@ public class LabelsApi extends AbstractApi {
      * @return the modified Label instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Label updateLabelName(Integer projectId, String name, String newName, String description, Integer priority) throws GitLabApiException {
-        return (updateLabel(projectId, name, newName, null, description, priority));
+    public Label updateLabelName(Object projectIdOrPath, String name, String newName, String description, Integer priority) throws GitLabApiException {
+        return (updateLabel(projectIdOrPath, name, newName, null, description, priority));
     }
 
 
     /**
      * Update the specified label
      *
-     * @param projectId the project ID to update a label for
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param name the name for the label
      * @param color the color for the label
      * @param description the description for the label
@@ -138,14 +143,14 @@ public class LabelsApi extends AbstractApi {
      * @return the modified Label instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Label updateLabelColor(Integer projectId, String name, String color, String description, Integer priority) throws GitLabApiException {
-        return (updateLabel(projectId, name, null, color, description, priority));
+    public Label updateLabelColor(Object projectIdOrPath, String name, String color, String description, Integer priority) throws GitLabApiException {
+        return (updateLabel(projectIdOrPath, name, null, color, description, priority));
     }
 
     /**
      * Update the specified label
      *
-     * @param projectId the project ID to update a label for
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param name the name for the label
      * @param newName the new name for the label
      * @param color the color for the label
@@ -154,11 +159,7 @@ public class LabelsApi extends AbstractApi {
      * @return the modified Label instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Label updateLabel(Integer projectId, String name, String newName, String color, String description, Integer priority) throws GitLabApiException {
-
-        if (projectId == null) {
-            throw new RuntimeException("projectId cannot be null");
-        }
+    public Label updateLabel(Object projectIdOrPath, String name, String newName, String color, String description, Integer priority) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
@@ -166,53 +167,50 @@ public class LabelsApi extends AbstractApi {
                 .withParam("color", color)
                 .withParam("description", description)
                 .withParam("priority", priority);
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "labels");
+        Response response = put(Response.Status.OK, formData.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "labels");
         return (response.readEntity(Label.class));
     }
 
     /**
      * Delete the specified label
      *
-     * @param projectId the project ID to delete a label for
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param name the name for the label
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteLabel(Integer projectId, String name) throws GitLabApiException {
+    public void deleteLabel(Object projectIdOrPath, String name) throws GitLabApiException {
 
-        if (projectId == null) {
-            throw new RuntimeException("projectId cannot be null");
-        }
-
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("name", name, true);
+        GitLabApiForm formData = new GitLabApiForm().withParam("name", name, true);
         Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, formData.asMap(), "projects", projectId, "labels");
+        delete(expectedStatus, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "labels");
     }
 
     /**
      * Subscribe a specified label
      *
-     * @param projectId the project ID to subscribe a label for
-     * @param labelId the lable ID
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param labelId the label ID
      * @return HttpStatusCode 503
      * @throws GitLabApiException if any exception occurs
      */
-    public Label subscribeLabel(Integer projectId, Integer labelId) throws GitLabApiException {
-        Response response = post(Response.Status.NOT_MODIFIED, getDefaultPerPageParam(), "projects", projectId, "labels", labelId, "subscribe");
+    public Label subscribeLabel(Object projectIdOrPath, Integer labelId) throws GitLabApiException {
+        Response response = post(Response.Status.NOT_MODIFIED, getDefaultPerPageParam(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "labels", labelId, "subscribe");
         return (response.readEntity(Label.class));
     }
-
 
     /**
      * Unsubscribe a specified label
      *
-     * @param projectId the project ID to unsubscribe a label for
-     * @param labelId the lable ID
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param labelId the label ID
      * @return HttpStatusCode 503
      * @throws GitLabApiException if any exception occurs
      */
-    public Label unsubscribeLabel(Integer projectId, Integer labelId) throws GitLabApiException {
-        Response response = post(Response.Status.NOT_MODIFIED, getDefaultPerPageParam(), "projects", projectId, "labels", labelId, "unsubscribe");
+    public Label unsubscribeLabel(Object projectIdOrPath, Integer labelId) throws GitLabApiException {
+        Response response = post(Response.Status.NOT_MODIFIED, getDefaultPerPageParam(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "labels", labelId, "unsubscribe");
         return (response.readEntity(Label.class));
     }
 }

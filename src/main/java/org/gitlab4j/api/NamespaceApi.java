@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -20,21 +21,20 @@ public class NamespaceApi extends AbstractApi {
      * Get a list of the namespaces of the authenticated user. If the user is an administrator,
      * a list of all namespaces in the GitLab instance is created.
      *
-     * GET /namespaces
+     * <pre><code>GitLab Endpoint: GET /namespaces</code></pre>
      *
      * @return a List of Namespace instances
      * @throws GitLabApiException if any exception occurs
      */
     public List<Namespace> getNamespaces() throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "namespaces");
-        return (response.readEntity(new GenericType<List<Namespace>>() {}));
+        return (getNamespaces(getDefaultPerPage()).all());
     }
 
     /**
      * Get a list of the namespaces of the authenticated user. If the user is an administrator,
-     * a list of all namespaces in the GitLab instance is created.
+     * a list of all namespaces in the GitLab instance is returned.
      *
-     * GET /namespaces
+     * <pre><code>GitLab Endpoint: GET /namespaces</code></pre>
      *
      * @param page the page to get
      * @param perPage the number of Namespace instances per page
@@ -48,9 +48,9 @@ public class NamespaceApi extends AbstractApi {
 
     /**
      * Get a Pager of the namespaces of the authenticated user. If the user is an administrator,
-     * a Pager of all namespaces in the GitLab instance is created.
+     * a Pager of all namespaces in the GitLab instance is returned.
      *
-     * GET /namespaces
+     * <pre><code>GitLab Endpoint: GET /namespaces</code></pre>
      *
      * @param itemsPerPage the number of Project instances that will be fetched per page
      * @return a Pager of Namespace instances
@@ -61,24 +61,35 @@ public class NamespaceApi extends AbstractApi {
     }
 
     /**
+     * Get a Stream of the namespaces of the authenticated user. If the user is an administrator,
+     * a Stream of all namespaces in the GitLab instance is returned.
+     *
+     * <pre><code>GitLab Endpoint: GET /namespaces</code></pre>
+     *
+     * @return a Stream of Namespace instances
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Namespace> getNamespacesStream() throws GitLabApiException {
+        return (getNamespaces(getDefaultPerPage()).stream());
+    }
+
+    /**
      * Get all namespaces that match a string in their name or path.
      *
-     * GET /namespaces?search=:query
+     * <pre><code>GitLab Endpoint: GET /namespaces?search=:query</code></pre>
      *
      * @param query the search string
      * @return the Namespace List with the matching namespaces
      * @throws GitLabApiException if any exception occurs
      */
     public List<Namespace> findNamespaces(String query) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("search", query, true).withParam(PER_PAGE_PARAM,  getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "namespaces");
-        return (response.readEntity(new GenericType<List<Namespace>>() {}));
+        return (findNamespaces(query, getDefaultPerPage()).all());
     }
 
     /**
      * Get all namespaces that match a string in their name or path in the specified page range.
      *
-     * GET /namespaces?search=:query
+     * <pre><code>GitLab Endpoint: GET /namespaces?search=:query</code></pre>
      *
      * @param query the search string
      * @param page the page to get
@@ -95,7 +106,7 @@ public class NamespaceApi extends AbstractApi {
     /**
      * Get a Pager of all namespaces that match a string in their name or path.
      *
-     * GET /namespaces?search=:query
+     * <pre><code>GitLab Endpoint: GET /namespaces?search=:query</code></pre>
      *
      * @param query the search string
      * @param itemsPerPage the number of Project instances that will be fetched per page
@@ -105,5 +116,18 @@ public class NamespaceApi extends AbstractApi {
     public Pager<Namespace> findNamespaces(String query, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("search", query, true);
         return (new Pager<Namespace>(this, Namespace.class, itemsPerPage, formData.asMap(), "namespaces"));
+    }
+
+    /**
+     * Get all namespaces that match a string in their name or path as a Stream.
+     *
+     * <pre><code>GitLab Endpoint: GET /namespaces?search=:query</code></pre>
+     *
+     * @param query the search string
+     * @return a Stream with the matching namespaces
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Namespace> findNamespacesStream(String query) throws GitLabApiException {
+        return (findNamespaces(query, getDefaultPerPage()).stream());
     }
 }
