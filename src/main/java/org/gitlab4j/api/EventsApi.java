@@ -21,7 +21,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a list of events for the authenticated user.
      *
-     * GET /events
+     * <pre><code>GitLab Endpoint: GET /events</code></pre>
      *
      * @param action include only events of a particular action type, optional
      * @param targetType include only events of a particular target type, optional
@@ -39,7 +39,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a list of events for the authenticated user and in the specified page range.
      *
-     * GET /events
+     * <pre><code>GitLab Endpoint: GET /events</code></pre>
      *
      * @param action include only events of a particular action type, optional
      * @param targetType include only events of a particular target type, optional
@@ -70,7 +70,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a list of events for the authenticated user and in the specified page range.
      *
-     * GET /events
+     * <pre><code>GitLab Endpoint: GET /events</code></pre>
      *
      * @param action include only events of a particular action type, optional
      * @param targetType include only events of a particular target type, optional
@@ -97,7 +97,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a Stream of events for the authenticated user.
      *
-     * GET /events
+     * <pre><code>GitLab Endpoint: GET /events</code></pre>
      *
      * @param action include only events of a particular action type, optional
      * @param targetType include only events of a particular target type, optional
@@ -115,7 +115,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a list of events for the specified user.
      *
-     * GET /users/:userId/events
+     * <pre><code>GitLab Endpoint: GET /users/:userId/events</code></pre>
      *
      * @param userIdOrUsername the user ID, username of the user, or a User instance holding the user ID or username
      * @param action include only events of a particular action type, optional
@@ -134,7 +134,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a list of events for the specified user and in the specified page range.
      *
-     * GET /users/:userId/events
+     * <pre><code>GitLab Endpoint: GET /users/:userId/events</code></pre>
      *
      * @param userIdOrUsername the user ID, username of the user, or a User instance holding the user ID or username
      * @param action include only events of a particular action type, optional
@@ -167,7 +167,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a list of events for the specified user and in the specified page range.
      *
-     * GET /users/:userId/events
+     * <pre><code>GitLab Endpoint: GET /users/:userId/events</code></pre>
      *
      * @param userIdOrUsername the user ID, username of the user, or a User instance holding the user ID or username
      * @param action include only events of a particular action type, optional
@@ -196,7 +196,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a Stream of events for the specified user.
      *
-     * GET /users/:userId/events
+     * <pre><code>GitLab Endpoint: GET /users/:userId/events</code></pre>
      *
      * @param userIdOrUsername the user ID, username of the user, or a User instance holding the user ID or username
      * @param action include only events of a particular action type, optional
@@ -215,7 +215,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a list of events for the specified project.
      *
-     * GET /:projectId/events
+     * <pre><code>GitLab Endpoint: GET /:projectId/events</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param action include only events of a particular action type, optional
@@ -234,7 +234,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a list of events for the specified project and in the specified page range.
      *
-     * GET /projects/:projectId/events
+     * <pre><code>GitLab Endpoint: GET /projects/:projectId/events</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param action include only events of a particular action type, optional
@@ -267,7 +267,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a list of events for the specified project and in the specified page range.
      *
-     * GET /projects/:projectId/events
+     * <pre><code>GitLab Endpoint: GET /projects/:projectId/events</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param action include only events of a particular action type, optional
@@ -296,7 +296,7 @@ public class EventsApi extends AbstractApi {
     /**
      * Get a Stream of events for the specified project.
      *
-     * GET /:projectId/events
+     * <pre><code>GitLab Endpoint: GET /:projectId/events</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param action include only events of a particular action type, optional

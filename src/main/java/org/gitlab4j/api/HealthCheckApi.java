@@ -18,7 +18,7 @@ public class HealthCheckApi extends AbstractApi {
      * Requires ip_whitelist, see the following link for more info:
      * See <a href="https://docs.gitlab.com/ee/administration/monitoring/ip_whitelist.html">https://docs.gitlab.com/ee/administration/monitoring/ip_whitelist.html</a>
      *
-     * GET /-/liveness
+     * <pre><code>GitLab Endpoint: GET /-/liveness</code></pre>
      *
      * @return HealthCheckInfo instance
      * @throws GitLabApiException if any exception occurs
@@ -30,7 +30,7 @@ public class HealthCheckApi extends AbstractApi {
     /**
      * Get Health Checks from the liveness endpoint.
      *
-     * GET /-/liveness
+     * <pre><code>GitLab Endpoint: GET /-/liveness</code></pre>
      *
      * @param token Health Status token
      * @return HealthCheckInfo instance
@@ -54,7 +54,7 @@ public class HealthCheckApi extends AbstractApi {
      * Requires ip_whitelist, see the following link for more info:
      * See <a href="https://docs.gitlab.com/ee/administration/monitoring/ip_whitelist.html">https://docs.gitlab.com/ee/administration/monitoring/ip_whitelist.html</a>
      *
-     * GET /-/readiness
+     * <pre><code>GitLab Endpoint: GET /-/readiness</code></pre>
      *
      * @return HealthCheckInfo instance
      * @throws GitLabApiException if any exception occurs
@@ -66,7 +66,7 @@ public class HealthCheckApi extends AbstractApi {
     /**
      * Get Health Checks from the readiness endpoint.
      *
-     * GET /-/readiness
+     * <pre><code>GitLab Endpoint: GET /-/readiness</code></pre>
      *
      * @param token Health Status token
      * @return HealthCheckInfo instance

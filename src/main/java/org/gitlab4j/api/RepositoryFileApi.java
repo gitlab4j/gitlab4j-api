@@ -28,7 +28,7 @@ public class RepositoryFileApi extends AbstractApi {
      * Allows you to receive information about file in repository like name, size.
      * Only works with GitLab 11.1.0+, value will be an empty object for earlier versions of GitLab.
      *
-     * HEAD /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: HEAD /projects/:id/repository/files</code></pre>
      *
      * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
      * @param filePath (required) - Full path to the file. Ex. lib/class.rb
@@ -48,7 +48,7 @@ public class RepositoryFileApi extends AbstractApi {
      * Get information on a file in the repository. Allows you to receive information about file in repository like name, size.
      * Only works with GitLab 11.1.0+, returns an empty object for earlier versions of GitLab.
      *
-     * HEAD /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: HEAD /projects/:id/repository/files</code></pre>
      *
      * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
      * @param filePath (required) - Full path to the file. Ex. lib/class.rb
@@ -84,7 +84,7 @@ public class RepositoryFileApi extends AbstractApi {
      * Allows you to receive information about file in repository like name, size, and content.
      * Only works with GitLab 11.1.0+, value will be an empty object for earlier versions of GitLab.
      *
-     * HEAD /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: HEAD /projects/:id/repository/files</code></pre>
      *
      * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
      * @param filePath (required) - Full path to the file. Ex. lib/class.rb
@@ -103,7 +103,7 @@ public class RepositoryFileApi extends AbstractApi {
      * Get file from repository. Allows you to receive information about file in repository like name, size, content.
      * Note that file content is Base64 encoded.
      *
-     * GET /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files</code></pre>
      *
      * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
      * @param filePath (required) - Full path to the file. Ex. lib/class.rb
@@ -119,7 +119,7 @@ public class RepositoryFileApi extends AbstractApi {
      * Get file from repository. Allows you to receive information about file in repository like name, size, content.
      * Note that file content is Base64 encoded.
      *
-     * GET /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files</code></pre>
      *
      * @param filePath (required) - Full path to the file. Ex. lib/class.rb
      * @param projectId (required) - the project ID
@@ -142,7 +142,7 @@ public class RepositoryFileApi extends AbstractApi {
      * Get file from repository. Allows you to receive information about file in repository like name, size, and optionally content.
      * Note that file content is Base64 encoded.
      *
-     * GET /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files</code></pre>
      *
      * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
      * @param filePath (required) - Full path to the file. Ex. lib/class.rb
@@ -167,7 +167,7 @@ public class RepositoryFileApi extends AbstractApi {
      * Get file from repository. Allows you to receive information about file in repository like name, size, content.
      * Note that file content is Base64 encoded.
      *
-     * GET /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files</code></pre>
      *
      * @param filePath (required) - Full path to new file. Ex. lib/class.rb
      * @param projectId (required) - the project ID
@@ -188,7 +188,7 @@ public class RepositoryFileApi extends AbstractApi {
     /**
      * Create new file in repository
      *
-     * POST /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/files</code></pre>
      *
      * file_path (required) - Full path to new file. Ex. lib/class.rb
      * branch_name (required) - The name of branch
@@ -221,7 +221,7 @@ public class RepositoryFileApi extends AbstractApi {
     /**
      * Create new file in repository
      *
-     * POST /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/files</code></pre>
      *
      * file_path (required) - Full path to new file. Ex. lib/class.rb
      * branch_name (required) - The name of branch
@@ -245,7 +245,7 @@ public class RepositoryFileApi extends AbstractApi {
     /**
      * Update existing file in repository
      *
-     * PUT /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/files</code></pre>
      *
      * file_path (required) - Full path to new file. Ex. lib/class.rb
      * branch_name (required) - The name of branch
@@ -278,7 +278,7 @@ public class RepositoryFileApi extends AbstractApi {
     /**
      * Update existing file in repository
      *
-     * PUT /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/files</code></pre>
      *
      * file_path (required) - Full path to new file. Ex. lib/class.rb
      * branch_name (required) - The name of branch
@@ -302,7 +302,7 @@ public class RepositoryFileApi extends AbstractApi {
     /**
      * Delete existing file in repository
      *
-     * DELETE /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/repository/files</code></pre>
      *
      * file_path (required) - Full path to file. Ex. lib/class.rb
      * branch_name (required) - The name of branch
@@ -336,7 +336,7 @@ public class RepositoryFileApi extends AbstractApi {
     /**
      * Delete existing file in repository
      *
-     * DELETE /projects/:id/repository/files
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/repository/files</code></pre>
      *
      * file_path (required) - Full path to file. Ex. lib/class.rb
      * branch_name (required) - The name of branch
@@ -359,10 +359,10 @@ public class RepositoryFileApi extends AbstractApi {
      * If the file already exists in the directory it will be overwritten.
      *
      * V3:
-     * GET /projects/:id/repository/blobs/:sha
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/blobs/:sha</code></pre>
      *
      * V4:
-     * GET /projects/:id/repository/files/:filepath
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files/:filepath</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param commitOrBranchName the commit or branch name to get the file for
@@ -401,10 +401,10 @@ public class RepositoryFileApi extends AbstractApi {
      * Get the raw file contents for a file by commit sha and path.
      *
      * V3:
-     * GET /projects/:id/repository/blobs/:sha
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/blobs/:sha</code></pre>
      *
      * V4:
-     * GET /projects/:id/repository/files/:filepath
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files/:filepath</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param commitOrBranchName the commit or branch name to get the file contents for

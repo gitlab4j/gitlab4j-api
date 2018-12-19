@@ -14,7 +14,7 @@ public class NotificationSettingsApi extends AbstractApi {
     /**
      * Get the global notification settings.
      * 
-     * GET /notification_settings
+     * <pre><code>GitLab Endpoint: GET /notification_settings</code></pre>
      *
      * @return a NotificationSettings instance containing the global notification settings
      * @throws GitLabApiException if any exception occurs
@@ -27,7 +27,7 @@ public class NotificationSettingsApi extends AbstractApi {
     /**
      * Update the global notification settings.
      * 
-     * PUT /notification_settings
+     * <pre><code>GitLab Endpoint: PUT /notification_settings</code></pre>
      *
      * @param settings a NotificationSettings instance with the new settings
      * @return a NotificationSettings instance containing the updated global notification settings
@@ -62,7 +62,7 @@ public class NotificationSettingsApi extends AbstractApi {
     /**
      * Get the notification settings for a group.
      * 
-     * GET /groups/:id/notification_settings
+     * <pre><code>GitLab Endpoint: GET /groups/:id/notification_settings</code></pre>
      *
      * @param groupId the group ID to get the notification settings for
      * @return a NotificationSettings instance containing the specified group's notification settings
@@ -76,7 +76,7 @@ public class NotificationSettingsApi extends AbstractApi {
     /**
      * Update the notification settings for a group
      * 
-     * PUT /groups/:id/notification_settings
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/notification_settings</code></pre>
      *
      * @param groupId the group ID to update the notification settings for
      * @param settings a NotificationSettings instance with the new settings
@@ -112,7 +112,7 @@ public class NotificationSettingsApi extends AbstractApi {
     /**
      * Get the notification settings for a project.
      * 
-     * GET /projects/:id/notification_settings
+     * <pre><code>GitLab Endpoint: GET /projects/:id/notification_settings</code></pre>
      *
      * @param projectId the project ID to get the notification settings for
      * @return a NotificationSettings instance containing the specified project's notification settings
@@ -126,7 +126,7 @@ public class NotificationSettingsApi extends AbstractApi {
     /**
      * Update the notification settings for a project
      * 
-     * PUT /projects/:id/notification_settings
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/notification_settings</code></pre>
      *
      * @param projectId the project ID to update the notification settings for
      * @param settings a NotificationSettings instance with the new settings

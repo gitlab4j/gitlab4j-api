@@ -21,8 +21,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Activates the gitlab-ci service for a project.
-     * <p>
-     * PUT /projects/:id/services/gitlab-ci
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/gitlab-ci</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param token           for authentication
@@ -39,8 +39,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Deletes the gitlab-ci service for a project.
-     * <p>
-     * DELETE /projects/:id/services/gitlab-ci
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/gitlab-ci</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
@@ -53,8 +53,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Get the HipChatService notification configuration for a project.
-     * <p>
-     * Get /projects/:id/services/hipchat
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/services/hipchat</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @return a HipChatService instance holding the HipChatService notification settings
@@ -67,9 +67,9 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Updates the HipChatService notification settings for a project.
-     * <p>
-     * PUT /projects/:id/services/hipchat
-     * <p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/hipchat</code></pre>
+     *
      * The following properties on the HipChatService instance are utilized in the update of the settings:
      * <p>
      * pushEvents (optional) - Enable notifications for push events
@@ -116,8 +116,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Activates HipChatService notifications.
-     * <p>
-     * PUT /projects/:id/services/hipchat
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/hipchat</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param token           for authentication
@@ -136,8 +136,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Deletes the HipChatService service for a project.
-     * <p>
-     * DELETE /projects/:id/services/hipchat
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/hipchat</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
@@ -149,8 +149,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Deletes the HipChatService service for a project.
-     * <p>
-     * DELETE /projects/:id/services/hipchat
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/hipchat</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
@@ -162,8 +162,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Get the Slack notification settings for a project.
-     * <p>
-     * Get /projects/:id/services/slack
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/services/slack</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @return a SlackService instance holding the Slack notification settings
@@ -176,9 +176,9 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Updates the Slack notification settings for a project.
-     * <p>
-     * PUT /projects/:id/services/slack
-     * <p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/slack</code></pre>
+     *
      * The following properties on the SlackService instance are utilized in the update of the settings:
      * <p>
      * webhook (required) - https://hooks.slack.com/services/...
@@ -241,8 +241,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Deletes the Slack notifications service for a project.
-     * <p>
-     * DELETE /projects/:id/services/slack
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/slack</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
@@ -254,8 +254,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Get the JIRA service settings for a project.
-     * <p>
-     * Get /projects/:id/services/jira
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/services/jira</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @return a JiraService instance holding the JIRA service settings
@@ -268,9 +268,9 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Updates the JIRA service settings for a project.
-     * <p>
-     * PUT /projects/:id/services/jira
-     * <p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/jira</code></pre>
+     *
      * The following properties on the JiraService instance are utilized in the update of the settings:
      * <p>
      * mergeRequestsEvents (optional) - Enable notifications for merge request events
@@ -301,13 +301,10 @@ public class ServicesApi extends AbstractApi {
         return (response.readEntity(JiraService.class));
     }
 
-
-
-
     /**
      * Deletes the JIRA service for a project.
-     * <p>
-     * DELETE /projects/:id/services/jira
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/jira</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
@@ -317,11 +314,10 @@ public class ServicesApi extends AbstractApi {
         delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "jira");
     }
 
-
     /**
      * Get the JIRA service settings for a project.
-     * <p>
-     * Get /projects/:id/services/external-wiki
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/services/external-wiki</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @return a ExternalWikiService instance holding the External Wiki service settings
@@ -332,12 +328,11 @@ public class ServicesApi extends AbstractApi {
         return (response.readEntity(ExternalWikiService.class));
     }
 
-
     /**
      * Updates the ExternalWikiService service settings for a project.
-     * <p>
-     * PUT /projects/:id/services/external-wiki
-     * <p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/external-wiki</code></pre>
+     *
      * The following properties on the JiraService instance are utilized in the update of the settings:
      * <p>
      * external_wiki_url (required) - The URL to the External Wiki project which is being linked to this GitLab project, e.g., http://www.wikidot.com/
@@ -356,8 +351,8 @@ public class ServicesApi extends AbstractApi {
 
     /**
      * Deletes the ExternalWiki service for a project.
-     * <p>
-     * DELETE /projects/:id/services/external-wiki
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/external-wiki</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs

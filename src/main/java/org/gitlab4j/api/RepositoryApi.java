@@ -34,7 +34,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of repository branches from a project, sorted by name alphabetically.
      *
-     * GET /projects/:id/repository/branches
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @return the list of repository branches for the specified project
@@ -47,7 +47,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of repository branches from a project, sorted by name alphabetically.
      *
-     * GET /projects/:id/repository/branches
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param page the page to get
@@ -64,7 +64,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a Pager of repository branches from a project, sorted by name alphabetically.
      *
-     * GET /projects/:id/repository/branches
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param itemsPerPage the number of Project instances that will be fetched per page
@@ -80,7 +80,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a Stream of repository branches from a project, sorted by name alphabetically.
      *
-     * GET /projects/:id/repository/branches
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @return a Stream of repository branches for the specified project
@@ -93,11 +93,11 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a single project repository branch.
      *
-     * GET /projects/:id/repository/branches/:branch
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches/:branch</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param branchName the name of the branch to get
-     * @return the branch info for the specified project ID/branch name pair
+     * @return the branch info for the specified project ID/branch name pair</code></pre>
      * @throws GitLabApiException if any exception occurs
      */
     public Branch getBranch(Object projectIdOrPath, String branchName) throws GitLabApiException {
@@ -109,7 +109,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get an Optional instance with the value for the specific repository branch.
      *
-     * GET /projects/:id/repository/branches/:branch
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches/:branch</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param branchName the name of the branch to get
@@ -127,7 +127,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Creates a branch for the project. Support as of version 6.8.x
      *
-     * POST /projects/:id/repository/branches
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/branches</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param branchName the name of the branch to create
@@ -148,7 +148,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Delete a single project repository branch.
      *
-     * DELETE /projects/:id/repository/branches/:branch
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/repository/branches/:branch</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param branchName the name of the branch to delete
@@ -164,7 +164,7 @@ public class RepositoryApi extends AbstractApi {
      * Protects a single project repository branch. This is an idempotent function,
      * protecting an already protected repository branch will not produce an error.
      *
-     * PUT /projects/:id/repository/branches/:branch/protect
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/branches/:branch/protect</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param branchName the name of the branch to protect
@@ -181,7 +181,7 @@ public class RepositoryApi extends AbstractApi {
      * Unprotects a single project repository branch. This is an idempotent function, unprotecting an
      * already unprotected repository branch will not produce an error.
      *
-     * PUT /projects/:id/repository/branches/:branch/unprotect
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/branches/:branch/unprotect</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param branchName the name of the branch to un-protect
@@ -197,7 +197,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of repository tags from a project, sorted by name in reverse alphabetical order.
      *
-     * GET /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @return the list of tags for the specified project ID
@@ -214,7 +214,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of repository tags from a project, sorted by name in reverse alphabetical order and in the specified page range.
      *
-     * GET /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param page the page to get
@@ -233,7 +233,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of repository tags from a project, sorted by name in reverse alphabetical order.
      *
-     * GET /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param itemsPerPage the number of Project instances that will be fetched per page
@@ -250,7 +250,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Creates a tag on a particular ref of the given project. A message and release notes are optional.
      *
-     * POST /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param tagName The name of the tag Must be unique for the project
@@ -278,7 +278,7 @@ public class RepositoryApi extends AbstractApi {
      * release notes are optional.  This method is the same as {@link #createTag(Object, String, String, String, String)},
      * but instead allows the release notes to be supplied in a file.
      *
-     * POST /projects/:id/repository/tags
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/tags</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param tagName the name of the tag, must be unique for the project
@@ -308,7 +308,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Deletes the tag from a project with the specified tag name.
      *
-     * DELETE /projects/:id/repository/tags/:tag_name
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/repository/tags/:tag_name</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param tagName The name of the tag to delete
@@ -323,7 +323,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of repository files and directories in a project.
      *
-     * GET /projects/:id/repository/tree
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @return a tree with the root directories and files of a project
@@ -336,7 +336,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a Pager of repository files and directories in a project.
      *
-     * GET /projects/:id/repository/tree
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param itemsPerPage the number of Project instances that will be fetched per page
@@ -350,7 +350,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of repository files and directories in a project.
      *
-     * GET /projects/:id/repository/tree
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @return a Stream containing a tree with the root directories and files of a project
@@ -363,7 +363,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of repository files and directories in a project.
      *
-     * GET /projects/:id/repository/tree
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *
      * id (required) - The ID of a project
      * path (optional) - The path inside repository. Used to get content of subdirectories
@@ -382,7 +382,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a Pager of repository files and directories in a project.
      *
-     * GET /projects/:id/repository/tree
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *
      * id (required) - The ID of a project
      * path (optional) - The path inside repository. Used to get content of subdirectories
@@ -402,7 +402,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a Stream of repository files and directories in a project.
      *
-     * GET /projects/:id/repository/tree
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *
      * id (required) - The ID of a project
      * path (optional) - The path inside repository. Used to get content of subdirectories
@@ -421,7 +421,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of repository files and directories in a project.
      *
-     * GET /projects/:id/repository/tree
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *
      * id (required) - The ID of a project
      * path (optional) - The path inside repository. Used to get contend of subdirectories
@@ -442,7 +442,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a Pager of repository files and directories in a project.
      *
-     * GET /projects/:id/repository/tree
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *
      * id (required) - The ID of a project
      * path (optional) - The path inside repository. Used to get contend of subdirectories
@@ -470,7 +470,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a Stream of repository files and directories in a project.
      *
-     * GET /projects/:id/repository/tree
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *
      * id (required) - The ID of a project
      * path (optional) - The path inside repository. Used to get contend of subdirectories
@@ -491,7 +491,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get the raw file contents for a blob by blob SHA.
      *
-     * GET /projects/:id/repository/raw_blobs/:sha
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/raw_blobs/:sha</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha the SHA of the file to get the contents for
@@ -507,7 +507,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get an archive of the complete repository by SHA (optional).
      *
-     * GET /projects/:id/repository/archive
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha the SHA of the archive to get
@@ -525,7 +525,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get an archive of the complete repository by SHA (optional).
      *
-     * GET /projects/:id/repository/archive
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha the SHA of the archive to get
@@ -541,7 +541,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get an archive of the complete repository by SHA (optional).
      *
-     * GET /projects/:id/repository/archive
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha the SHA of the archive to get
@@ -572,7 +572,7 @@ public class RepositoryApi extends AbstractApi {
      * Get an archive of the complete repository by SHA (optional) and saves to the specified directory.
      * If the archive already exists in the directory it will be overwritten.
      *
-     * GET /projects/:id/repository/archive
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha the SHA of the archive to get
@@ -607,7 +607,7 @@ public class RepositoryApi extends AbstractApi {
      * Get an archive of the complete repository by SHA (optional) and saves to the specified directory.
      * If the archive already exists in the directory it will be overwritten.
      *
-     * GET /projects/:id/repository/archive
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha the SHA of the archive to get
@@ -625,7 +625,7 @@ public class RepositoryApi extends AbstractApi {
      * Get an archive of the complete repository by SHA (optional) and saves to the specified directory.
      * If the archive already exists in the directory it will be overwritten.
      *
-     * GET /projects/:id/repository/archive
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha the SHA of the archive to get
@@ -688,7 +688,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of contributors from a project.
      *
-     * GET /projects/:id/repository/contributors
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/contributors</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @return a List containing the contributors for the specified project ID
@@ -701,7 +701,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of contributors from a project and in the specified page range.
      *
-     * GET /projects/:id/repository/contributors
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/contributors</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param page the page to get
@@ -718,7 +718,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a Pager of contributors from a project.
      *
-     * GET /projects/:id/repository/contributors
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/contributors</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param itemsPerPage the number of Project instances that will be fetched per page
@@ -733,7 +733,7 @@ public class RepositoryApi extends AbstractApi {
     /**
      * Get a list of contributors from a project.
      *
-     * GET /projects/:id/repository/contributors
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/contributors</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @return a List containing the contributors for the specified project ID

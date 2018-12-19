@@ -23,13 +23,13 @@
 
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.WikiPage;
+import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
+
+import org.gitlab4j.api.models.WikiPage;
 
 /**
  * This class implements the client side API for the GitLab Wikis API.
