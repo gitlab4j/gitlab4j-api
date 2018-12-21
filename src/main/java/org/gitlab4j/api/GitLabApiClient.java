@@ -567,14 +567,13 @@ public class GitLabApiClient {
      *
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
-    protected Response putUpload(String name, File fileToUpload, String mediaTypeString, Object... pathArgs) throws IOException {
+    protected Response putUpload(String name, File fileToUpload, Object... pathArgs) throws IOException {
         URL url = getApiUrl(pathArgs);
-        return (putUpload(name, fileToUpload, mediaTypeString, url));
+        return (putUpload(name, fileToUpload, url));
     }
 
     /**
@@ -583,21 +582,15 @@ public class GitLabApiClient {
      *
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
-    protected Response putUpload(String name, File fileToUpload, String mediaTypeString, URL url) throws IOException {
-
-        MediaType mediaType = (mediaTypeString != null ? MediaType.valueOf(mediaTypeString) : null);
-        try (MultiPart multiPart = new FormDataMultiPart()) {
-            FileDataBodyPart filePart = mediaType != null ?
-                new FileDataBodyPart(name, fileToUpload, mediaType) :
-                new FileDataBodyPart(name, fileToUpload);
-            multiPart.bodyPart(filePart);
-            return (invocation(url, null).put(Entity.entity(multiPart, MULTIPART_FORM_DATA_TYPE)));
-        }
+    protected Response putUpload(String name, File fileToUpload, URL url) throws IOException {
+        final FormDataMultiPart multiPart = new FormDataMultiPart();
+        multiPart.bodyPart(new FileDataBodyPart(name, fileToUpload, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+        return (invocation(url, null).put(Entity.entity(multiPart, MULTIPART_FORM_DATA_TYPE)));
     }
 
     /**

@@ -84,19 +84,7 @@ public class TestAvatarUpload {
         assertNotNull(project);
 
         File avatarFile = new File("src/test/resources/org/gitlab4j/api/avatar.png");
-        Project updatedProject = gitLabApi.getProjectApi().setProjectAvatar(project.getId(), avatarFile, null);
-        assertNotNull(updatedProject);
-        assertTrue(updatedProject.getAvatarUrl().endsWith("avatar.png"));
-    }
-
-    @Test
-    public void testSetProjectAvatarWithMediaType() throws GitLabApiException {
-
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        File avatarFile = new File("src/test/resources/org/gitlab4j/api/avatar.png");
-        Project updatedProject = gitLabApi.getProjectApi().setProjectAvatar(project.getId(), avatarFile, "image/png");
+        Project updatedProject = gitLabApi.getProjectApi().setProjectAvatar(project.getId(), avatarFile);
         assertNotNull(updatedProject);
         assertTrue(updatedProject.getAvatarUrl().endsWith("avatar.png"));
     }
