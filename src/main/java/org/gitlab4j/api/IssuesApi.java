@@ -286,12 +286,13 @@ public class IssuesApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param issueId the internal ID of a project's issue
+     * @param issueid the internal ID of a project's issue
      * @return the specified Issue instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Issue getIssue(Object projectIdOrPath, Integer issueId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueId);
+    public Issue getIssue(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
         return (response.readEntity(Issue.class));
     }
 
@@ -301,12 +302,12 @@ public class IssuesApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param issueId the internal ID of a project's issue
+     * @param issueIid the internal ID of a project's issue
      * @return the specified Issue as an Optional instance
      */
-    public Optional<Issue> getOptionalIssue(Object projectIdOrPath, Integer issueId) {
+    public Optional<Issue> getOptionalIssue(Object projectIdOrPath, Integer issueIid) {
         try {
-            return (Optional.ofNullable(getIssue(projectIdOrPath, issueId)));
+            return (Optional.ofNullable(getIssue(projectIdOrPath, issueIid)));
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
@@ -393,7 +394,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
-     * @param issueIid the issue IID to update, required
+     * @param issueIid the issue IID to update, optional
      * @param title the title of an issue, optional
      * @param description the description of an issue, optional
      * @param confidential set the issue to be confidential, default is false, optional
@@ -414,7 +415,7 @@ public class IssuesApi extends AbstractApi implements Constants {
         }
 
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("title", title, true)
+                .withParam("title", title)
                 .withParam("description", description)
                 .withParam("confidential", confidential)
                 .withParam("assignee_ids", assigneeIds)
