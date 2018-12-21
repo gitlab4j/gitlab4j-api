@@ -286,7 +286,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param issueid the internal ID of a project's issue
+     * @param issueIid the internal ID of a project's issue
      * @return the specified Issue instance
      * @throws GitLabApiException if any exception occurs
      */

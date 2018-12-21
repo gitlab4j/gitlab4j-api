@@ -97,7 +97,7 @@ public class RepositoryApi extends AbstractApi {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param branchName the name of the branch to get
-     * @return the branch info for the specified project ID/branch name pair</code></pre>
+     * @return the branch info for the specified project ID/branch name pair
      * @throws GitLabApiException if any exception occurs
      */
     public Branch getBranch(Object projectIdOrPath, String branchName) throws GitLabApiException {

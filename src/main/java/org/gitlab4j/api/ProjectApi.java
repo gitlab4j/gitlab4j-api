@@ -2395,7 +2395,6 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param avatarFile the File instance of the avatar file to upload
-     * @param mediaType the media type of the avatar file to upload, optional
      * @return the updated Project instance
      * @throws GitLabApiException if any exception occurs
      */
