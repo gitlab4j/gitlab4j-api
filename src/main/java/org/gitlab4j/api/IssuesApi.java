@@ -394,7 +394,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
-     * @param issueIid the issue IID to update, optional
+     * @param issueIid the issue IID to update, required
      * @param title the title of an issue, optional
      * @param description the description of an issue, optional
      * @param confidential set the issue to be confidential, default is false, optional
