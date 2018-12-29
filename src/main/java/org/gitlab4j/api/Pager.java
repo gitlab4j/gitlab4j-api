@@ -93,9 +93,22 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
         this.api = api;
         this.queryParams = queryParams;
         this.pathArgs = pathArgs;
-        this.itemsPerPage = getHeaderValue(response, PER_PAGE);
-        totalPages = getHeaderValue(response, TOTAL_PAGES_HEADER);
-        totalItems = getHeaderValue(response, TOTAL_HEADER);
+
+        try {
+            this.itemsPerPage = getHeaderValue(response, PER_PAGE);
+            totalPages = getHeaderValue(response, TOTAL_PAGES_HEADER);
+            totalItems = getHeaderValue(response, TOTAL_HEADER);
+        } catch (GitLabApiException glae) {
+
+            // Some API endpoints do not return the proper headers, check for that condition and act accordingly
+            if (currentItems != null && currentItems.size() < itemsPerPage) {
+                this.itemsPerPage = itemsPerPage;
+                totalPages = 1;
+                totalItems = currentItems.size();
+            } else {
+                throw (glae);
+            }
+        }
     }
 
     /**
