@@ -117,7 +117,22 @@ public class TagsApi extends AbstractApi {
     }
 
     /**
-     * Creates a tag on a particular ref of the given project. A message and release notes are optional.
+     * Creates a tag on a particular ref of the given project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/tags</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param tagName The name of the tag Must be unique for the project
+     * @param ref the git ref to place the tag on
+     * @return a Tag instance containing info on the newly created tag
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Tag createTag(Object projectIdOrPath, String tagName, String ref) throws GitLabApiException {
+        return (createTag(projectIdOrPath, tagName, ref, null, (String)null));
+    }
+
+    /**
+     * Creates a tag on a particular ref of the given project with optional message and release notes.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/tags</code></pre>
      *
