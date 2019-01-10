@@ -39,6 +39,7 @@ import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.logging.LoggingFeature;
+import org.glassfish.jersey.media.multipart.Boundary;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -557,7 +558,8 @@ public class GitLabApiClient {
                 new FileDataBodyPart(name, fileToUpload, mediaType) :
                 new FileDataBodyPart(name, fileToUpload);
             multiPart.bodyPart(filePart);
-            return (invocation(url, null).post(Entity.entity(multiPart, MULTIPART_FORM_DATA_TYPE)));
+            final Entity<?> entity = Entity.entity(multiPart, Boundary.addBoundary(multiPart.getMediaType()));
+            return (invocation(url, null).post(entity));
         }
     }
 
@@ -588,9 +590,12 @@ public class GitLabApiClient {
      * @throws IOException if an error occurs while constructing the URL
      */
     protected Response putUpload(String name, File fileToUpload, URL url) throws IOException {
-        final FormDataMultiPart multiPart = new FormDataMultiPart();
-        multiPart.bodyPart(new FileDataBodyPart(name, fileToUpload, MediaType.APPLICATION_OCTET_STREAM_TYPE));
-        return (invocation(url, null).put(Entity.entity(multiPart, MULTIPART_FORM_DATA_TYPE)));
+
+        try (MultiPart multiPart = new FormDataMultiPart()) {
+            multiPart.bodyPart(new FileDataBodyPart(name, fileToUpload, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+            final Entity<?> entity = Entity.entity(multiPart, Boundary.addBoundary(multiPart.getMediaType()));
+            return (invocation(url, null).put(entity));
+        }
     }
 
     /**

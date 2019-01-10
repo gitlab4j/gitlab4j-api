@@ -5,9 +5,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
+import java.util.Map;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.Version;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -32,12 +34,20 @@ public class TestAvatarUpload {
     private static final String TEST_NAMESPACE;
     private static final String TEST_HOST_URL;
     private static final String TEST_PRIVATE_TOKEN;
+    private static final String TEST_PROXY_URI;
+    private static final String TEST_PROXY_USERNAME;
+    private static final String TEST_PROXY_PASSWORD;
     static {
         TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
         TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
+        TEST_PROXY_URI = TestUtils.getProperty("TEST_PROXY_URI");
+        TEST_PROXY_USERNAME = TestUtils.getProperty("TEST_PROXY_USERNAME");
+        TEST_PROXY_PASSWORD = TestUtils.getProperty("TEST_PROXY_PASSWORD");
     }
+
+    private static final String AVATAR_FILENAME = "avatar.png";
 
     private static GitLabApi gitLabApi;
 
@@ -83,9 +93,28 @@ public class TestAvatarUpload {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        File avatarFile = new File("src/test/resources/org/gitlab4j/api/avatar.png");
+        File avatarFile = new File("src/test/resources/org/gitlab4j/api", AVATAR_FILENAME);
         Project updatedProject = gitLabApi.getProjectApi().setProjectAvatar(project.getId(), avatarFile);
         assertNotNull(updatedProject);
-        assertTrue(updatedProject.getAvatarUrl().endsWith("avatar.png"));
+        assertTrue(updatedProject.getAvatarUrl().endsWith(AVATAR_FILENAME));
+    }
+
+    @Test
+    public void testSetProjectAvatarWithProxy() throws GitLabApiException {
+
+        assumeTrue(TEST_PROXY_URI != null && TEST_PROXY_USERNAME != null && TEST_PROXY_PASSWORD != null);
+        assumeTrue(TEST_PROXY_URI.length() > 0 && TEST_PROXY_USERNAME.length() > 0 && TEST_PROXY_PASSWORD.length() > 0);
+
+        // Setup a GitLabApi instance to use a proxy
+        Map<String, Object> clientConfig = ProxyClientConfig.createProxyClientConfig(TEST_PROXY_URI, TEST_PROXY_USERNAME, TEST_PROXY_PASSWORD);
+        GitLabApi gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN, null, clientConfig);
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        File avatarFile = new File("src/test/resources/org/gitlab4j/api", AVATAR_FILENAME);
+        Project updatedProject = gitLabApi.getProjectApi().setProjectAvatar(project.getId(), avatarFile);
+        assertNotNull(updatedProject);
+        assertTrue(updatedProject.getAvatarUrl().endsWith(AVATAR_FILENAME));
     }
 }
