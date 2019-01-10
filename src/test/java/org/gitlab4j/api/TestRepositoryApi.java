@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 
 import org.gitlab4j.api.models.Branch;
@@ -54,6 +55,8 @@ public class TestRepositoryApi {
     }
 
     private static final String TEST_BRANCH_NAME = "feature/test_branch";
+    private static final String TEST_BRANCH1 = "feature/test_branch1";
+    private static final String TEST_BRANCH2 = "feature/test_branch2";
     private static final String TEST_PROTECT_BRANCH_NAME = "feature/protect_branch";
     private static GitLabApi gitLabApi;
 
@@ -98,6 +101,16 @@ public class TestRepositoryApi {
 
                 try {
                     gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
+                } catch (GitLabApiException ignore) {
+                }
+
+                try {
+                    gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH1);
+                } catch (GitLabApiException ignore) {
+                }
+
+                try {
+                    gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH2);
                 } catch (GitLabApiException ignore) {
                 }
 
@@ -199,5 +212,21 @@ public class TestRepositoryApi {
         Branch unprotectedBranch = gitLabApi.getRepositoryApi().unprotectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
         assertNotNull(unprotectedBranch);
         assertFalse(unprotectedBranch.getProtected());
+    }
+
+    @Test
+    public void testMergeBase() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        Branch branch1 = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_BRANCH1, "master");
+        assertNotNull(branch1);
+        Branch branch2 = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_BRANCH2, "master");
+        assertNotNull(branch2);
+
+        List<String> refs = Arrays.asList(TEST_BRANCH1, TEST_BRANCH2);
+        Commit mergeBase = gitLabApi.getRepositoryApi().getMergeBase(project, refs);
+        assertNotNull(mergeBase);
     }
 }

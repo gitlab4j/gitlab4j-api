@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Contributor;
 import org.gitlab4j.api.models.Tag;
@@ -741,5 +742,41 @@ public class RepositoryApi extends AbstractApi {
      */
     public Stream<Contributor> getContributorsStream(Object projectIdOrPath) throws GitLabApiException {
         return (getContributors(projectIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get the common ancestor for 2 or more refs (commit SHAs, branch names or tags).
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/merge_base</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param refs a List of 2 or more refs (commit SHAs, branch names or tags)
+     * @return the Commit instance containing the common ancestor
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Commit getMergeBase(Object projectIdOrPath, List<String> refs) throws GitLabApiException {
+        GitLabApiForm queryParams = new GitLabApiForm().withParam("refs", refs, true);
+        Response response = get(Response.Status.OK, queryParams.asMap(), "projects",
+                getProjectIdOrPath(projectIdOrPath), "repository", "merge_base");
+        return (response.readEntity(Commit.class));
+    }
+
+    /**
+     * Get an Optional instance with the value of the common ancestor
+     * for 2 or more refs (commit SHAs, branch names or tags).
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/merge_base</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param refs a List of 2 or more refs (commit SHAs, branch names or tags)
+     * @return an Optional instance with the Commit instance containing the common ancestor as the value
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Optional<Commit> getOptionalMergeBase(Object projectIdOrPath, List<String> refs) throws GitLabApiException {
+        try {
+            return (Optional.ofNullable(getMergeBase(projectIdOrPath, refs)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 }
