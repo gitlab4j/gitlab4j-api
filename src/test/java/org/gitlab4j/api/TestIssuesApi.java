@@ -329,6 +329,7 @@ public class TestIssuesApi {
 
     @Test
     public void testGetIssuesWithOptions() throws GitLabApiException {
+
         assertNotNull(testProject);
         Integer projectId = testProject.getId();
 
@@ -336,18 +337,16 @@ public class TestIssuesApi {
         Issue issueClose = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         issueClose = gitLabApi.getIssuesApi().closeIssue(projectId, issueClose.getIid());
 
-        IssueFilter openFilter = new IssueFilter()
-                .withState(IssueState.OPENED);
-
-        IssueFilter closeFilter = new IssueFilter()
-                .withState(IssueState.CLOSED);
-
-        List<Issue> opens = gitLabApi.getIssuesApi().getIssues(projectId,openFilter);
-        List<Issue> closes = gitLabApi.getIssuesApi().getIssues(projectId,closeFilter);
-
+        final Integer openIid = issueOpen.getIid();
+        IssueFilter openFilter = new IssueFilter().withState(IssueState.OPENED);
+        List<Issue> opens = gitLabApi.getIssuesApi().getIssues(projectId, openFilter);
         assertNotNull(opens);
+        assertTrue(opens.stream().map(Issue::getIid).anyMatch(iid -> iid.equals(openIid)));
+
+        final Integer closedIid = issueClose.getIid();
+        IssueFilter closeFilter = new IssueFilter().withState(IssueState.CLOSED);       
+        List<Issue> closes = gitLabApi.getIssuesApi().getIssues(projectId, closeFilter);
         assertNotNull(closes);
-        assertEquals(opens.get(0).getIid(), issueOpen.getIid());
-        assertEquals(closes.get(0).getIid(), issueClose.getIid());
+        assertTrue(closes.stream().map(Issue::getIid).anyMatch(iid -> iid.equals(closedIid)));
     }
 }
