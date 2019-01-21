@@ -23,12 +23,16 @@
 
 package org.gitlab4j.api;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.models.WikiAttachment;
 import org.gitlab4j.api.models.WikiPage;
 
 /**
@@ -162,5 +166,44 @@ public class WikisApi extends AbstractApi {
      */
     public void deletePage(Object projectIdOrPath, String slug) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "wikis", slug);
+    }
+
+    /**
+     * Uploads a file to the attachment folder inside the wiki’s repository. The attachment folder is the uploads folder.
+     *
+     * <pre><code>POST /projects/:id/wikis/attachments</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param fileToUpload the File instance of the file to upload, required
+     * @return a FileUpload instance with information on the just uploaded file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public WikiAttachment uploadAttachment(Object projectIdOrPath, File fileToUpload) throws GitLabApiException {
+        return (uploadAttachment(projectIdOrPath, fileToUpload, null));
+    }
+
+    /**
+     * Uploads a file to the attachment folder inside the wiki’s repository. The attachment folder is the uploads folder.
+     *
+     * <pre><code>POST /projects/:id/wikis/attachments</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param fileToUpload the File instance of the file to upload, required
+     * @param branch the name of the branch, defaults to the wiki repository default branch, optional
+     * @return a FileUpload instance with information on the just uploaded file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public WikiAttachment uploadAttachment(Object projectIdOrPath, File fileToUpload, String branch) throws GitLabApiException {
+
+        URL url;
+        try {
+            url = getApiClient().getApiUrl("projects", getProjectIdOrPath(projectIdOrPath), "wikis", "attachments");
+        } catch (IOException ioe) {
+            throw new GitLabApiException(ioe);
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("branch", branch);
+        Response response = upload(Response.Status.CREATED, "file", fileToUpload, null, formData, url);
+        return (response.readEntity(WikiAttachment.class));
     }
 }

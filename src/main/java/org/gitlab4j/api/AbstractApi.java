@@ -381,6 +381,28 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
+     * Perform a file upload with the specified File instance and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaType the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param formData the Form containing the name/value pairs
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response upload(Response.Status expectedStatus, String name, File fileToUpload, String mediaType, Form formData, URL url) throws GitLabApiException {
+
+        try {
+            return validate(getApiClient().upload(name, fileToUpload, mediaType, formData, url), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
      * Perform an HTTP PUT call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      *

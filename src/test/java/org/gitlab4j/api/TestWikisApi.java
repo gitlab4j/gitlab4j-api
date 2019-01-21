@@ -25,12 +25,14 @@ package org.gitlab4j.api;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.WikiAttachment;
 import org.gitlab4j.api.models.WikiPage;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -187,4 +189,28 @@ public class TestWikisApi {
         }
     }
 
+    @Test
+    public void testAttachment() throws GitLabApiException {
+        String title = TEST_WIKI_TITLE_PREFIX + "Test createWikiPage()";
+        WikiPage wikiPage = createWikiPage(title, testContent);
+        assertNotNull(wikiPage);
+
+        File attachFile = new File("README.md");
+        WikiAttachment attachment = gitLabApi.getWikisApi().uploadAttachment(testProjectId, attachFile);
+        assertNotNull(attachment);
+        assertEquals("README.md", attachment.getFileName());
+    }
+
+    @Test
+    public void testAttachmentWithBranch() throws GitLabApiException {
+        String title = TEST_WIKI_TITLE_PREFIX + "Test createWikiPage()";
+        WikiPage wikiPage = createWikiPage(title, testContent);
+        assertNotNull(wikiPage);
+
+        File attachFile = new File("README.md");
+        WikiAttachment attachment = gitLabApi.getWikisApi().uploadAttachment(testProjectId, attachFile, "master");
+        assertNotNull(attachment);
+        assertEquals("README.md", attachment.getFileName());
+        assertEquals("master", attachment.getBranch());
+    }
 }

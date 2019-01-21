@@ -1,7 +1,5 @@
 package org.gitlab4j.api;
 
-import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA_TYPE;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
@@ -536,7 +534,24 @@ public class GitLabApiClient {
      */
     protected Response upload(String name, File fileToUpload, String mediaTypeString, Object... pathArgs) throws IOException {
         URL url = getApiUrl(pathArgs);
-        return (upload(name, fileToUpload, mediaTypeString, url));
+        return (upload(name, fileToUpload, mediaTypeString, null, url));
+    }
+
+    /**
+     * Perform a file upload using the specified media type, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param formData the Form containing the name/value pairs
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (upload(name, fileToUpload, mediaTypeString, formData, url));
     }
 
     /**
@@ -546,14 +561,25 @@ public class GitLabApiClient {
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
      * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param formData the Form containing the name/value pairs
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
-    protected Response upload(String name, File fileToUpload, String mediaTypeString, URL url) throws IOException {
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, URL url) throws IOException {
 
         MediaType mediaType = (mediaTypeString != null ? MediaType.valueOf(mediaTypeString) : null);
-        try (MultiPart multiPart = new FormDataMultiPart()) {
+        try (FormDataMultiPart multiPart = new FormDataMultiPart()) {
+
+            if (formData != null) {
+                MultivaluedMap<String, String> formParams = formData.asMap();
+                formParams.forEach((key, values) -> {
+                    if (values != null) {
+                        values.forEach(value -> multiPart.field(key, value));
+                    }
+                });
+            }
+
             FileDataBodyPart filePart = mediaType != null ?
                 new FileDataBodyPart(name, fileToUpload, mediaType) :
                 new FileDataBodyPart(name, fileToUpload);
