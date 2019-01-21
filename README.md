@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.12'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.14'
 }
 ```
 
@@ -22,7 +22,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.9.12</version>
+    <version>4.9.14</version>
 </dependency>
 ```
 
@@ -225,6 +225,7 @@ The API has been broken up into sub API classes to make it easier to learn and t
 &nbsp;&nbsp;[SnippetsApi](#snippetsapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)
+&nbsp;&nbsp;[WikisApi](#wikisapi)
 
 
 ### Sub API Examples
@@ -420,4 +421,10 @@ User userConfig = new User()
 String password = null;
 boolean sendResetPasswordEmail = true;
 gitLabApi.getUserApi().createUser(userConfig, password, sendResetPasswordEmail);
+```
+
+#### WikisApi
+```java
+// Get a list of pages in project wiki
+List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages();
 ```
