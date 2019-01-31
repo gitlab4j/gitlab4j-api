@@ -984,9 +984,9 @@ public class ProjectApi extends AbstractApi implements Constants {
      * Updates a project. The following properties on the Project instance
      * are utilized in the edit of the project, null values are not updated:
      *
-     * id (required) - existing project id
-     * name (required) - project name
-     * path (optional) - project path
+     * id (required) - existing project id, either id or path must be provided
+     * name (optional) - project name
+     * path (optional) - project path, either id or path must be provided
      * defaultBranch (optional) - master by default
      * description (optional) - short project description
      * visibility (optional) - Limit by visibility public, internal, or private
@@ -1026,18 +1026,11 @@ public class ProjectApi extends AbstractApi implements Constants {
             throw new RuntimeException("Project instance cannot be null.");
         }
 
-        Integer id = project.getId();
-        if (id == null) {
-            throw new RuntimeException("Project ID cannot be null.");
-        }
-
-        String name = project.getName();
-        if (name == null || name.trim().length() == 0) {
-            throw new RuntimeException("Project name cannot be null or empty.");
-        }
+        // This will throw an exception if both id and path are not present
+        Object projectIdentifier = getProjectIdOrPath(project);
 
         GitLabApiForm formData = new GitLabApiForm()
-            .withParam("name", name, true)
+            .withParam("name", project.getName())
             .withParam("path", project.getPath())
             .withParam("default_branch", project.getDefaultBranch())
             .withParam("description", project.getDescription())
@@ -1078,7 +1071,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             }
         }
 
-        Response response = putWithFormData(Response.Status.OK, formData, "projects", id);
+        Response response = putWithFormData(Response.Status.OK, formData, "projects", projectIdentifier);
         return (response.readEntity(Project.class));
     }
 
