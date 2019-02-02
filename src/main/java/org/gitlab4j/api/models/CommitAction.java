@@ -10,7 +10,7 @@ public class CommitAction {
 
     public enum Action {
 
-        CREATE, DELETE, MOVE, UPDATE;
+        CREATE, DELETE, MOVE, UPDATE, CHMOD;
 
         private static JacksonJsonEnumHelper<Action> enumHelper = new JacksonJsonEnumHelper<>(Action.class);
 
@@ -58,6 +58,7 @@ public class CommitAction {
     private String content;
     private Encoding encoding;
     private String lastCommitId;
+    private Boolean executeFilemode;
 
     public Action getAction() {
         return action;
@@ -134,6 +135,19 @@ public class CommitAction {
 
     public CommitAction withLastCommitId(String lastCommitId) {
         this.lastCommitId = lastCommitId;
+        return this;
+    }
+
+    public Boolean getExecuteFilemode() {
+        return executeFilemode;
+    }
+
+    public void setExecuteFilemode(Boolean executeFilemode) {
+        this.executeFilemode = executeFilemode;
+    }
+
+    public CommitAction withExecuteFilemode(Boolean executeFilemode) {
+        this.executeFilemode = executeFilemode;
         return this;
     }
 
