@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -7,8 +8,12 @@ import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.User;
 
 /**
  * This class is the base class for all the sub API classes. It provides implementations of
@@ -20,6 +25,114 @@ public abstract class AbstractApi implements Constants {
 
     public AbstractApi(GitLabApi gitLabApi) {
         this.gitLabApi = gitLabApi;
+    }
+
+    /**
+     * Returns the project ID or path from the provided Integer, String, or Project instance.
+     *
+     * @param obj the object to determine the ID or path from
+     * @return the project ID or path from the provided Integer, String, or Project instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Object getProjectIdOrPath(Object obj) throws GitLabApiException {
+
+        if (obj == null) {
+            throw (new RuntimeException("Cannot determine ID or path from null object"));
+        } else if (obj instanceof Integer) {
+            return (obj);
+        } else if (obj instanceof String) {
+            return (urlEncode(((String) obj).trim()));
+        } else if (obj instanceof Project) {
+
+            Integer id = ((Project) obj).getId();
+            if (id != null && id.intValue() > 0) {
+                return (id);
+            }
+
+            String path = ((Project) obj).getPathWithNamespace();
+            if (path != null && path.trim().length() > 0) {
+                return (urlEncode(path.trim()));
+            }
+
+            throw (new RuntimeException("Cannot determine ID or path from provided Project instance"));
+
+        } else {
+
+            throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
+                    " instance, must be Integer, String, or a Project instance"));
+        }
+    }
+
+    /**
+     * Returns the group ID or path from the provided Integer, String, or Group instance.
+     *
+     * @param obj the object to determine the ID or path from
+     * @return the group ID or path from the provided Integer, String, or Group instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Object getGroupIdOrPath(Object obj) throws GitLabApiException {
+
+        if (obj == null) {
+            throw (new RuntimeException("Cannot determine ID or path from null object"));
+        } else if (obj instanceof Integer) {
+            return (obj);
+        } else if (obj instanceof String) {
+            return (urlEncode(((String) obj).trim()));
+        } else if (obj instanceof Group) {
+
+            Integer id = ((Group) obj).getId();
+            if (id != null && id.intValue() > 0) {
+                return (id);
+            }
+
+            String path = ((Group) obj).getFullPath();
+            if (path != null && path.trim().length() > 0) {
+                return (urlEncode(path.trim()));
+            }
+
+            throw (new RuntimeException("Cannot determine ID or path from provided Group instance"));
+
+        } else {
+
+            throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
+                    " instance, must be Integer, String, or a Group instance"));
+        }
+    }
+
+    /**
+     * Returns the user ID or path from the provided Integer, String, or User instance.
+     *
+     * @param obj the object to determine the ID or username from
+     * @return the user ID or username from the provided Integer, String, or User instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Object getUserIdOrUsername(Object obj) throws GitLabApiException {
+
+        if (obj == null) {
+            throw (new RuntimeException("Cannot determine ID or username from null object"));
+        } else if (obj instanceof Integer) {
+            return (obj);
+        } else if (obj instanceof String) {
+            return (urlEncode(((String) obj).trim()));
+        } else if (obj instanceof User) {
+
+            Integer id = ((User) obj).getId();
+            if (id != null && id.intValue() > 0) {
+                return (id);
+            }
+
+            String username = ((User) obj).getUsername();
+            if (username != null && username.trim().length() > 0) {
+                return (urlEncode(username.trim()));
+            }
+
+            throw (new RuntimeException("Cannot determine ID or username from provided User instance"));
+
+        } else {
+
+            throw (new RuntimeException("Cannot determine ID or username from provided " + obj.getClass().getSimpleName() +
+                    " instance, must be Integer, String, or a User instance"));
+        }
     }
 
     protected ApiVersion getApiVersion() {
@@ -38,9 +151,22 @@ public abstract class AbstractApi implements Constants {
         return (gitLabApi.getApiClient());
     }
 
+    /**
+     * Encode a string to be used as in-path argument for a gitlab api request.
+     *
+     * Standard URL encoding changes spaces to plus signs, but for arguments that are part of the path,
+     * like the :file_path in a "Get raw file" request, gitlab expects spaces to be encoded with %20.
+     *
+     * @param s the string to encode
+     * @return encoded version of s with spaces encoded as %2F
+     * @throws GitLabApiException if encoding throws an exception
+     */
     protected String urlEncode(String s) throws GitLabApiException {
         try {
             String encoded = URLEncoder.encode(s, "UTF-8");
+            // Since the encode method encodes plus signs as %2B,
+            // we can simply replace the encoded spaces with the correct encoding here 
+            encoded = encoded.replace("+", "%20");
             encoded = encoded.replace(".", "%2E");
             encoded = encoded.replace("-", "%2D");
             encoded = encoded.replace("_", "%5F");
@@ -106,6 +232,24 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
+     * Perform an HTTP HEAD call with the specified query parameters and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response head(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().head(queryParams, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      *
@@ -142,6 +286,25 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
+     * Perform an HTTP POST call with the specified payload object and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param stream the StreamingOutput that will be used for the POST data
+     * @param mediaType the content-type for the streamed data
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response post(Response.Status expectedStatus, StreamingOutput stream, String mediaType, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().post(stream, mediaType, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      *
@@ -172,6 +335,68 @@ public abstract class AbstractApi implements Constants {
     protected Response post(Response.Status expectedStatus, Form formData, URL url) throws GitLabApiException {
         try {
             return validate(getApiClient().post(formData, url), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
+     * Perform a file upload with the specified File instance and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaType the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response upload(Response.Status expectedStatus, String name, File fileToUpload, String mediaType, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().upload(name, fileToUpload, mediaType, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
+     * Perform a file upload with the specified File instance and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaType the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response upload(Response.Status expectedStatus, String name, File fileToUpload, String mediaType, URL url) throws GitLabApiException {
+        try {
+            return validate(getApiClient().upload(name, fileToUpload, mediaType, url), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
+     * Perform a file upload with the specified File instance and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaType the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param formData the Form containing the name/value pairs
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response upload(Response.Status expectedStatus, String name, File fileToUpload, String mediaType, Form formData, URL url) throws GitLabApiException {
+
+        try {
+            return validate(getApiClient().upload(name, fileToUpload, mediaType, formData, url), expectedStatus);
         } catch (Exception e) {
             throw handle(e);
         }
@@ -226,6 +451,45 @@ public abstract class AbstractApi implements Constants {
     protected Response putWithFormData(Response.Status expectedStatus, Form formData, Object... pathArgs) throws GitLabApiException {
         try {
             return validate(getApiClient().put(formData, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+
+    /**
+     * Perform a file upload using the HTTP PUT method with the specified File instance and path objects,
+     * returning a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response putUpload(Response.Status expectedStatus, String name, File fileToUpload, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().putUpload(name, fileToUpload, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
+     * Perform a file upload using the HTTP PUT method with the specified File instance and path objects,
+     * returning a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response putUpload(Response.Status expectedStatus, String name, File fileToUpload, URL url) throws GitLabApiException {
+        try {
+            return validate(getApiClient().putUpload(name, fileToUpload, url), expectedStatus);
         } catch (Exception e) {
             throw handle(e);
         }
@@ -318,8 +582,15 @@ public abstract class AbstractApi implements Constants {
      */
     protected Response validate(Response response, Response.Status expected) throws GitLabApiException {
 
-        if (response.getStatus() != expected.getStatusCode()) {
-            throw new GitLabApiException(response);
+        int responseCode = response.getStatus();
+        int expectedResponseCode = expected.getStatusCode();
+
+        if (responseCode != expectedResponseCode) {
+
+            // If the expected code is 200-204 and the response code is 200-204 it is OK.  We do this because
+            // GitLab is constantly changing the expected code in the 200 to 204 range
+            if (expectedResponseCode > 204 || responseCode > 204 || expectedResponseCode < 200 || responseCode < 200)
+                throw new GitLabApiException(response);
         }
 
         if (!getApiClient().validateSecretToken(response)) {
@@ -345,6 +616,16 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
+     * Creates a MultivaluedMap instance containing the "per_page" param.
+     *
+     * @param perPage the number of projects per page
+     * @return a MultivaluedMap instance containing the "per_page" param
+     */
+    protected MultivaluedMap<String, String> getPerPageQueryParam(int perPage) {
+        return (new GitLabApiForm().withParam(PER_PAGE_PARAM, perPage).asMap());
+    }
+
+    /**
      * Creates a MultivaluedMap instance containing "page" and "per_page" params.
      *
      * @param page the page to get
@@ -352,7 +633,24 @@ public abstract class AbstractApi implements Constants {
      * @return a MultivaluedMap instance containing "page" and "per_page" params
      */
     protected MultivaluedMap<String, String> getPageQueryParams(int page, int perPage) {
-       return (new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage).asMap());
+        return (new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage).asMap());
+    }
+
+    /**
+     * Creates a MultivaluedMap instance containing "page" and "per_page" params.
+     *
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @param customAttributesEnabled enables customAttributes for this query
+     * @return a MultivaluedMap instance containing "page" and "per_page" params
+     */
+    protected MultivaluedMap<String, String> getPageQueryParams(int page, int perPage, boolean customAttributesEnabled) {
+
+        GitLabApiForm form = new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage);
+        if (customAttributesEnabled)
+            return (form.withParam("with_custom_attributes", true).asMap());
+
+       return (form.asMap());
     }
 
     /**
@@ -362,5 +660,20 @@ public abstract class AbstractApi implements Constants {
      */
     protected MultivaluedMap<String, String> getDefaultPerPageParam() {
        return (new GitLabApiForm().withParam(PER_PAGE_PARAM, getDefaultPerPage()).asMap());
+    }
+
+    /**
+     * Creates a MultivaluedMap instance containing the "per_page" param with the default value.
+     *
+     * @param customAttributesEnabled enables customAttributes for this query
+     * @return a MultivaluedMap instance containing the "per_page" param with the default value
+     */
+    protected MultivaluedMap<String, String> getDefaultPerPageParam(boolean customAttributesEnabled) {
+
+        GitLabApiForm form = new GitLabApiForm().withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        if (customAttributesEnabled)
+            return (form.withParam("with_custom_attributes", true).asMap());
+
+        return (form.asMap());
     }
 }

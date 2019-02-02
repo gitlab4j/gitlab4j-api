@@ -1,18 +1,9 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
-
-import java.util.Date;
-import java.util.List;
-
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.CommitRef;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Project;
 import org.junit.Before;
@@ -20,6 +11,15 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import javax.ws.rs.core.Response;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -58,19 +58,19 @@ public class TestCommitsApi {
     public static void setup() {
 
         String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().length() == 0) {
+        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
             problems += "TEST_NAMESPACE cannot be empty\n";
         }
 
-        if (TEST_PROJECT_NAME == null || TEST_PROJECT_NAME.trim().length() == 0) {
+        if (TEST_PROJECT_NAME == null || TEST_PROJECT_NAME.trim().isEmpty()) {
             problems += "TEST_PROJECT_NAME cannot be empty\n";
         }
 
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().length() == 0) {
+        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
             problems += "TEST_HOST_URL cannot be empty\n";
         }
 
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
 
@@ -154,6 +154,19 @@ public class TestCommitsApi {
         pager = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), null, 10);
         assertNotNull(pager);
         assertTrue(pager.getTotalItems() > 0);
+    }
+
+    @Test
+    public void testCommitRefs() throws GitLabApiException {
+        assertNotNull(testProject);
+
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId());
+        assertNotNull(commits);
+        assertTrue(commits.size() > 0);
+
+        List<CommitRef> commitRefs = gitLabApi.getCommitsApi().getCommitRefs(testProject.getId(), commits.get(0).getId());
+        assertNotNull(commitRefs);
+        assertTrue(commitRefs.size() > 0);
     }
 
     @Test

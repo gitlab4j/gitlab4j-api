@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -134,5 +135,10 @@ public class CommitAction {
     public CommitAction withLastCommitId(String lastCommitId) {
         this.lastCommitId = lastCommitId;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

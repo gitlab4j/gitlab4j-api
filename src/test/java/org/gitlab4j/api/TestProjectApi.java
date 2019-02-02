@@ -29,7 +29,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.ws.rs.core.Response;
@@ -69,6 +71,7 @@ public class TestProjectApi {
     private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_GROUP;
     private static final String TEST_GROUP_PROJECT;
+    private static final String TEST_XFER_NAMESPACE;
 
     static {
         TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
@@ -77,11 +80,13 @@ public class TestProjectApi {
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_GROUP = TestUtils.getProperty("TEST_GROUP");
         TEST_GROUP_PROJECT = TestUtils.getProperty("TEST_GROUP_PROJECT");
+        TEST_XFER_NAMESPACE = TestUtils.getProperty("TEST_XFER_NAMESPACE");
     }
 
     private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
     private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
     private static final String TEST_PROJECT_NAME_UPDATE = "test-gitlab4j-create-project-update";
+    private static final String TEST_XFER_PROJECT_NAME = "test-gitlab4j-xfer-project";
     private static GitLabApi gitLabApi;
 
     public TestProjectApi() {
@@ -92,15 +97,15 @@ public class TestProjectApi {
     public static void setup() {
 
         String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().length() == 0) {
+        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
             problems += "TEST_NAMESPACE cannot be empty\n";
         }
 
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().length() == 0) {
+        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
             problems += "TEST_HOST_URL cannot be empty\n";
         }
 
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
 
@@ -134,22 +139,32 @@ public class TestProjectApi {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE);
                 gitLabApi.getProjectApi().deleteProject(project);
             } catch (GitLabApiException ignore) {}
+            
+            try {
+                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_XFER_PROJECT_NAME);
+                gitLabApi.getProjectApi().deleteProject(project);
+            } catch (GitLabApiException ignore) {}
 
             if (TEST_GROUP != null && TEST_PROJECT_NAME != null) {
                 try {
                     Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
                     List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
                     gitLabApi.getProjectApi().unshareProject(project.getId(), groups.get(0).getId());
-                } catch (GitLabApiException ignore) {
-                }
+                } catch (GitLabApiException ignore) {}
             }
 
             if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
                 try {
                     Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_GROUP_PROJECT);
                     gitLabApi.getProjectApi().deleteProject(project);
-                } catch (GitLabApiException ignore) {
-                }
+                } catch (GitLabApiException ignore) {}
+            }
+
+            if (TEST_XFER_NAMESPACE != null) {
+                try {
+                    Project project = gitLabApi.getProjectApi().getProject(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME);
+                    gitLabApi.getProjectApi().deleteProject(project);
+                } catch (GitLabApiException ignore) {}
             }
         }
     }
@@ -169,7 +184,8 @@ public class TestProjectApi {
                 .withMergeRequestsEnabled(true)
                 .withWikiEnabled(true)
                 .withSnippetsEnabled(true)
-                .withVisibility(Visibility.PUBLIC);
+                .withVisibility(Visibility.PUBLIC)
+                .withTagList(Arrays.asList("tag1", "tag2"));
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
@@ -179,6 +195,7 @@ public class TestProjectApi {
         assertEquals(project.getMergeRequestsEnabled(), newProject.getMergeRequestsEnabled());
         assertEquals(project.getWikiEnabled(), newProject.getWikiEnabled());
         assertEquals(project.getSnippetsEnabled(), newProject.getSnippetsEnabled());
+        assertEquals(project.getTagList(), newProject.getTagList());
         assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
     }
 
@@ -192,7 +209,8 @@ public class TestProjectApi {
                 .withMergeRequestsEnabled(true)
                 .withWikiEnabled(true)
                 .withSnippetsEnabled(true)
-                .withVisibility(Visibility.PUBLIC);
+                .withVisibility(Visibility.PUBLIC)
+                .withTagList(Arrays.asList("tag1", "tag2"));
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
@@ -202,6 +220,7 @@ public class TestProjectApi {
         assertEquals(project.getMergeRequestsEnabled(), newProject.getMergeRequestsEnabled());
         assertEquals(project.getWikiEnabled(), newProject.getWikiEnabled());
         assertEquals(project.getSnippetsEnabled(), newProject.getSnippetsEnabled());
+        assertEquals(project.getTagList(), newProject.getTagList());
         assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
 
         project = new Project()
@@ -274,6 +293,23 @@ public class TestProjectApi {
         assertEquals(TEST_PROJECT_NAME_1, projects.get(1).getName());
     }
 
+
+    @Test
+    public void testListProjectsWithStatistics() throws GitLabApiException {
+
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(false, null,
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, false, false, false, false, true);
+        assertNotNull(projects);
+        assertTrue(projects.size() >= 2);
+
+        assertNotNull(projects.get(0).getStatistics());
+        assertNotNull(projects.get(0).getStatistics().getLfsObjectSize());
+        assertNotNull(projects.get(0).getStatistics().getCommitCount());
+        assertNotNull(projects.get(0).getStatistics().getJobArtifactsSize());
+        assertNotNull(projects.get(0).getStatistics().getStorageSize());
+
+    }
+
     @Test
     public void testListProjectsWithParamsViaPager() throws GitLabApiException {
 
@@ -328,7 +364,21 @@ public class TestProjectApi {
     @Test
     public void testListStarredProjects() throws GitLabApiException {
 
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        try {
+            gitLabApi.getProjectApi().starProject(project);
+        } catch (Exception ignore) {
+        }
+
         List<Project> projects = gitLabApi.getProjectApi().getStarredProjects();
+
+        try {
+            gitLabApi.getProjectApi().unstarProject(project);
+        } catch (Exception ignore) {
+        }
+
         assertNotNull(projects);
         assertNotNull(projects);
         assertEquals(1, projects.size());
@@ -338,8 +388,22 @@ public class TestProjectApi {
     @Test
     public void testListStarredProjectsWithParams() throws GitLabApiException {
 
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        try {
+            gitLabApi.getProjectApi().starProject(project);
+        } catch (Exception ignore) {
+        }
+
         List<Project> projects = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
                 Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, TEST_PROJECT_NAME, true, true, true, true, true);
+
+        try {
+            gitLabApi.getProjectApi().unstarProject(project);
+        } catch (Exception ignore) {
+        }
+
         assertNotNull(projects);
         assertEquals(1, projects.size());
         assertEquals(TEST_PROJECT_NAME, projects.get(0).getName());
@@ -412,6 +476,18 @@ public class TestProjectApi {
     }
 
     @Test
+    public void testProjectLanguages() throws GitLabApiException {
+
+        assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
+        assumeTrue(TEST_GROUP.trim().length() > 0 && TEST_GROUP_PROJECT.trim().length() > 0);
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_GROUP, TEST_GROUP_PROJECT);
+        assertNotNull(project);
+        Map<String, Float> projectLanguages = gitLabApi.getProjectApi().getProjectLanguages(project.getId());
+        assertNotNull(projectLanguages);
+    }
+
+    @Test
     public void testForkProject() throws GitLabApiException {
 
         assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
@@ -472,5 +548,45 @@ public class TestProjectApi {
         assertNotNull(optional);
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
+    }
+
+    @Test
+    public void testStarAndUnstarProject() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        try {
+            gitLabApi.getProjectApi().unstarProject(project);
+        } catch (Exception ignore) {
+        }
+
+        Project starredProject = gitLabApi.getProjectApi().starProject(project);
+        assertNotNull(starredProject);
+        assertEquals(1, (int)starredProject.getStarCount());
+
+        Project unstarredProject = gitLabApi.getProjectApi().unstarProject(project);
+        assertNotNull(unstarredProject);
+        assertEquals(0, (int)unstarredProject.getStarCount());
+    }
+
+    @Test
+    public void testTransferProject() throws GitLabApiException {
+
+        assumeTrue(TEST_XFER_NAMESPACE != null && TEST_XFER_NAMESPACE.trim().length() > 0);
+
+        Project project = new Project()
+                .withName(TEST_XFER_PROJECT_NAME)
+                .withDescription("GitLab4J test project - transfer.")
+                .withVisibility(Visibility.PUBLIC);
+
+        Project newProject = gitLabApi.getProjectApi().createProject(project);
+        assertNotNull(newProject);
+
+        Project projectToTransfer = gitLabApi.getProjectApi().getProject(newProject);
+        assertNotNull(projectToTransfer);
+
+        Project transferedProject = gitLabApi.getProjectApi().transferProject(projectToTransfer, TEST_XFER_NAMESPACE);
+        assertNotNull(transferedProject);
     }
 }

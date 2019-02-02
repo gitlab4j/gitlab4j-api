@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,13 +38,36 @@ public class Note {
         }
     }
 
+    // This is not used because the GitLab example JSON is using a funny string for the MERGE_REQUEST notable_type ("Merge request").
+    // Once they fix the bug, the notableType field can be changed from String to NotableType.
     public static enum NoteableType {
 
-        ISSUE, MERGE_REQUEST, SNIPPET;
+        COMMIT, EPIC, ISSUE, MERGE_REQUEST, SNIPPET;
         private static JacksonJsonEnumHelper<NoteableType> enumHelper = new JacksonJsonEnumHelper<>(NoteableType.class, true, true);
 
         @JsonCreator
         public static NoteableType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    public static enum Type {
+
+        DISCUSSION_NOTE, DIFF_NOTE;
+        private static JacksonJsonEnumHelper<Type> enumHelper = new JacksonJsonEnumHelper<>(Type.class, true, true);
+
+        @JsonCreator
+        public static Type forValue(String value) {
             return enumHelper.forValue(value);
         }
 
@@ -67,12 +91,19 @@ public class Note {
     private String fileName;
     private Integer id;
     private Integer noteableId;
-    private NoteableType noteableType;
+    
+    // Use String for noteableType until the constant is fixed in the GitLab API
+    private String noteableType;
+    
     private Integer noteableIid;
     private Boolean system;
     private String title;
-    private String updatedAt;
+    private Date updatedAt;
     private Boolean upvote;
+    private Boolean resolved;
+    private Boolean resolvable;
+    private Participant resolvedBy;
+    private Type type;
 
     public String getAttachment() {
         return attachment;
@@ -146,11 +177,11 @@ public class Note {
         this.noteableId = noteableId;
     }
 
-    public NoteableType getNoteableType() {
+    public String getNoteableType() {
         return noteableType;
     }
 
-    public void setNoteableType(NoteableType noteableType) {
+    public void setNoteableType(String noteableType) {
         this.noteableType = noteableType;
     }
 
@@ -178,11 +209,11 @@ public class Note {
         this.title = title;
     }
 
-    public String getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -192,5 +223,42 @@ public class Note {
 
     public void setUpvote(Boolean upvote) {
         this.upvote = upvote;
+    }
+
+    public Boolean getResolved() {
+        return resolved;
+    }
+
+    public void setResolved(Boolean resolved) {
+        this.resolved = resolved;
+    }
+
+    public Boolean getResolvable() {
+        return resolvable;
+    }
+
+    public void setResolvable(Boolean resolvable) {
+        this.resolvable = resolvable;
+    }
+
+    public Participant getResolvedBy() {
+        return resolvedBy;
+    }
+
+    public void setResolvedBy(Participant resolvedBy) {
+        this.resolvedBy = resolvedBy;
+    }
+
+    public Type getType() {
+      return type;
+    }
+
+    public void setType(Type type) {
+      this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

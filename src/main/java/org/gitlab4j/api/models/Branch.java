@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Branch {
@@ -66,5 +68,41 @@ public class Branch {
 
     public static final boolean isValid(Branch branch) {
         return (branch != null && branch.getName() != null);
+    }
+
+
+    public Branch withCommit(Commit commit) {
+        this.commit = commit;
+        return this;
+    }
+
+    public Branch withDevelopersCanMerge(Boolean developersCanMerge) {
+        this.developersCanMerge = developersCanMerge;
+        return this;
+    }
+
+    public Branch withDevelopersCanPush(Boolean developersCanPush) {
+        this.developersCanPush = developersCanPush;
+        return this;
+    }
+
+    public Branch withDerged(Boolean merged) {
+        this.merged = merged;
+        return this;
+    }
+
+    public Branch withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Branch withIsProtected(Boolean isProtected) {
+        this.isProtected = isProtected;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

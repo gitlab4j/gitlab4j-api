@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
@@ -9,6 +10,8 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -25,6 +28,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -32,6 +36,13 @@ import org.gitlab4j.api.utils.JacksonJson;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.logging.LoggingFeature;
+import org.glassfish.jersey.media.multipart.Boundary;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+
 
 /**
  * This class utilizes the Jersey client package to communicate with a GitLab API endpoint.
@@ -45,6 +56,7 @@ public class GitLabApiClient {
 
     private ClientConfig clientConfig;
     private Client apiClient;
+    private String baseUrl;
     private String hostUrl;
     private TokenType tokenType = TokenType.PRIVATE;
     private String authToken;
@@ -82,7 +94,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL, private token, and secret token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param privateToken the private token to authenticate with
      */
@@ -93,7 +105,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL, private token, and secret token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
      * @param authToken the token to authenticate with
@@ -132,7 +144,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL, private token, and secret token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param privateToken the private token to authenticate with
      * @param secretToken use this token to validate received payloads
@@ -144,7 +156,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL, private token, and secret token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
      * @param authToken the token to authenticate with
@@ -157,7 +169,7 @@ public class GitLabApiClient {
     /**
      * Construct an instance to communicate with a GitLab API server using GitLab API version 4, and the specified
      * server URL and private token.
-     * 
+     *
      * @param hostUrl the URL to the GitLab API server
      * @param privateToken the private token to authenticate with
      * @param secretToken use this token to validate received payloads
@@ -168,7 +180,7 @@ public class GitLabApiClient {
     }
 
     /**
-     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version, 
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
      * server URL and private token.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
@@ -182,7 +194,7 @@ public class GitLabApiClient {
     }
 
     /**
-     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version, 
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
      * server URL and private token.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
@@ -196,6 +208,7 @@ public class GitLabApiClient {
 
         // Remove the trailing "/" from the hostUrl if present
         this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl);
+        this.baseUrl = this.hostUrl;
         if (ApiVersion.OAUTH2_CLIENT != apiVersion) {
             this.hostUrl += apiVersion.getApiNamespace();
         }
@@ -223,6 +236,25 @@ public class GitLabApiClient {
         }
 
         clientConfig.register(JacksonJson.class);
+        clientConfig.register(MultiPartFeature.class);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API.
+     *
+     * @param logger the Logger instance to log to
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     */
+    void enableRequestResponseLogging(Logger logger, Level level) {
+
+        LoggingFeature loggingFeature = new LoggingFeature(
+            logger, level, LoggingFeature.Verbosity.PAYLOAD_TEXT, LoggingFeature.DEFAULT_MAX_ENTITY_SIZE);
+        clientConfig.register(loggingFeature);
+
+        // Recreate the Client instance if already created.
+        if (apiClient != null) {
+            createApiClient();
+        }
     }
 
     /**
@@ -255,7 +287,6 @@ public class GitLabApiClient {
     /**
      * Set the ID of the user to sudo as.
      *
-     * @param sudoAsId the ID of the user to sudo as
      */
     Integer getSudoAsId() {
         return (sudoAsId);
@@ -272,29 +303,44 @@ public class GitLabApiClient {
 
     /**
      * Construct a REST URL with the specified path arguments.
-     * 
+     *
      * @param pathArgs variable list of arguments used to build the URI
      * @return a REST URL with the specified path arguments
      * @throws IOException if an error occurs while constructing the URL
      */
     protected URL getApiUrl(Object... pathArgs) throws IOException {
+        String url = appendPathArgs(this.hostUrl, pathArgs);
+        return (new URL(url));
+    }
 
-        StringBuilder url = new StringBuilder();
-        url.append(hostUrl);
+    /**
+     * Construct a REST URL with the specified path arguments using
+     * Gitlab base url.
+     *
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a REST URL with the specified path arguments
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected URL getUrlWithBase(Object... pathArgs) throws IOException {
+        String url = appendPathArgs(this.baseUrl, pathArgs);
+        return (new URL(url));
+    }
+
+    private String appendPathArgs(String url, Object... pathArgs) {
+        StringBuilder urlBuilder = new StringBuilder(url);
         for (Object pathArg : pathArgs) {
             if (pathArg != null) {
-                url.append("/");
-                url.append(pathArg.toString());
+                urlBuilder.append("/");
+                urlBuilder.append(pathArg.toString());
             }
         }
-
-        return (new URL(url.toString()));
+        return urlBuilder.toString();
     }
 
     /**
      * Validates the secret token (X-GitLab-Token) header against the expected secret token, returns true if valid,
      * otherwise returns false.
-     * 
+     *
      * @param response the Response instance sent from the GitLab server
      * @return true if the response's secret token is valid, otherwise returns false
      */
@@ -313,7 +359,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP GET call with the specified query parameters and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -327,7 +373,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP GET call with the specified query parameters and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -339,7 +385,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP GET call with the specified query parameters and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param accepts if non-empty will set the Accepts header to this value
      * @param pathArgs variable list of arguments used to build the URI
@@ -354,7 +400,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP GET call with the specified query parameters and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param url the fully formed path to the GitLab API endpoint
      * @param accepts if non-empty will set the Accepts header to this value
@@ -365,9 +411,35 @@ public class GitLabApiClient {
     }
 
     /**
+     * Perform an HTTP HEAD call with the specified query parameters and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response head(MultivaluedMap<String, String> queryParams, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (head(queryParams, url));
+    }
+
+    /**
+     * Perform an HTTP HEAD call with the specified query parameters and URL, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     */
+    protected Response head(MultivaluedMap<String, String> queryParams, URL url) {
+        return (invocation(url, queryParams).head());
+    }
+
+    /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param formData the Form containing the name/value pairs
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -381,7 +453,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a Response instance with the data returned from the endpoint
@@ -395,7 +467,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP POST call with the specified form data and URL, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param formData the Form containing the name/value pairs
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -435,9 +507,127 @@ public class GitLabApiClient {
     }
 
     /**
+     * Perform an HTTP POST call with the specified StreamingOutput, MediaType, and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param stream the StreamingOutput instance that contains the POST data
+     * @param mediaType the content-type of the POST data
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response post(StreamingOutput stream, String mediaType, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (invocation(url, null).post(Entity.entity(stream, mediaType)));
+    }
+
+    /**
+     * Perform a file upload using the specified media type, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (upload(name, fileToUpload, mediaTypeString, null, url));
+    }
+
+    /**
+     * Perform a file upload using the specified media type, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param formData the Form containing the name/value pairs
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (upload(name, fileToUpload, mediaTypeString, formData, url));
+    }
+
+    /**
+     * Perform a file upload using multipart/form-data, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param formData the Form containing the name/value pairs
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, URL url) throws IOException {
+
+        MediaType mediaType = (mediaTypeString != null ? MediaType.valueOf(mediaTypeString) : null);
+        try (FormDataMultiPart multiPart = new FormDataMultiPart()) {
+
+            if (formData != null) {
+                MultivaluedMap<String, String> formParams = formData.asMap();
+                formParams.forEach((key, values) -> {
+                    if (values != null) {
+                        values.forEach(value -> multiPart.field(key, value));
+                    }
+                });
+            }
+
+            FileDataBodyPart filePart = mediaType != null ?
+                new FileDataBodyPart(name, fileToUpload, mediaType) :
+                new FileDataBodyPart(name, fileToUpload);
+            multiPart.bodyPart(filePart);
+            final Entity<?> entity = Entity.entity(multiPart, Boundary.addBoundary(multiPart.getMediaType()));
+            return (invocation(url, null).post(entity));
+        }
+    }
+
+    /**
+     * Perform a file upload using multipart/form-data using the HTTP PUT method, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response putUpload(String name, File fileToUpload, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (putUpload(name, fileToUpload, url));
+    }
+
+    /**
+     * Perform a file upload using multipart/form-data using the HTTP PUT method, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param name the name for the form field that contains the file name
+     * @param fileToUpload a File instance pointing to the file to upload
+
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response putUpload(String name, File fileToUpload, URL url) throws IOException {
+
+        try (MultiPart multiPart = new FormDataMultiPart()) {
+            multiPart.bodyPart(new FileDataBodyPart(name, fileToUpload, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+            final Entity<?> entity = Entity.entity(multiPart, Boundary.addBoundary(multiPart.getMediaType()));
+            return (invocation(url, null).put(entity));
+        }
+    }
+
+    /**
      * Perform an HTTP PUT call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -497,7 +687,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP DELETE call with the specified form data and path objects, returning
      * a Response instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param pathArgs variable list of arguments used to build the URI
      * @return a Response instance with the data returned from the endpoint
@@ -510,7 +700,7 @@ public class GitLabApiClient {
     /**
      * Perform an HTTP DELETE call with the specified form data and URL, returning
      * a Response instance with the data returned from the endpoint.
-     * 
+     *
      * @param queryParams multivalue map of request parameters
      * @param url the fully formed path to the GitLab API endpoint
      * @return a Response instance with the data returned from the endpoint
@@ -523,18 +713,22 @@ public class GitLabApiClient {
         return (invocation(url, queryParams, MediaType.APPLICATION_JSON));
     }
 
+    protected Client createApiClient() {
+
+        ClientBuilder clientBuilder = ClientBuilder.newBuilder().withConfig(clientConfig);
+
+        if (ignoreCertificateErrors) {
+            clientBuilder.sslContext(openSslContext).hostnameVerifier(openHostnameVerifier);
+        }
+
+        apiClient = clientBuilder.build();
+        return (apiClient);
+    }
+
     protected Invocation.Builder invocation(URL url, MultivaluedMap<String, String> queryParams, String accept) {
 
         if (apiClient == null) {
-            if (ignoreCertificateErrors) {
-                apiClient = ClientBuilder.newBuilder()
-                        .withConfig(clientConfig)
-                        .sslContext(openSslContext)
-                        .hostnameVerifier(openHostnameVerifier)
-                        .build();
-            } else {
-                apiClient = ClientBuilder.newBuilder().withConfig(clientConfig).build();
-            }
+            createApiClient();
         }
 
         WebTarget target = apiClient.target(url.toExternalForm()).property(ClientProperties.FOLLOW_REDIRECTS, true);

@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SystemHook {
@@ -16,6 +18,7 @@ public class SystemHook {
     private Boolean pushEvents;
     private Boolean tagPushEvents;
     private Boolean enableSslVerification;
+    private Boolean repositoryUpdateEvents;
 
     public Integer getId() {
         return id;
@@ -63,5 +66,53 @@ public class SystemHook {
 
     public void setEnableSslVerification(Boolean enableSslVerification) {
         this.enableSslVerification = enableSslVerification;
+    }
+
+    public void setRepositoryUpdateEvents(Boolean repositoryUpdateEvents) {
+        this.repositoryUpdateEvents = repositoryUpdateEvents;
+    }
+
+    public Boolean getRepositoryUpdateEvents() {
+        return repositoryUpdateEvents;
+    }
+
+    public SystemHook withId(Integer id) {
+        this.id = id;
+        return (this);
+    }
+
+    public SystemHook withUrl(String url) {
+        this.url = url;
+        return (this);
+    }
+
+    public SystemHook withCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return (this);
+    }
+
+    public SystemHook withPushEvents(Boolean pushEvents) {
+        this.pushEvents = pushEvents;
+        return (this);
+    }
+
+    public SystemHook withTagPushEvents(Boolean tagPushEvents) {
+        this.tagPushEvents = tagPushEvents;
+        return (this);
+    }
+
+    public SystemHook withEnableSslVerification(Boolean enableSslVerification) {
+        this.enableSslVerification = enableSslVerification;
+        return (this);
+    }
+
+    public SystemHook withRepositoryUpdateEvents(Boolean repositoryUpdateEvents) {
+        this.repositoryUpdateEvents = repositoryUpdateEvents;
+        return (this);
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

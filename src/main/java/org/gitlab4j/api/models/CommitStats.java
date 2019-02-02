@@ -3,6 +3,8 @@ package org.gitlab4j.api.models;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CommitStats {
 
@@ -32,5 +34,10 @@ public class CommitStats {
 
     public void setTotal(Integer total) {
         this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

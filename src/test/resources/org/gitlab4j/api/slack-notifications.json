@@ -1,0 +1,31 @@
+{
+    "id": 100,
+    "title": "Slack notifications",
+    "created_at": "2018-04-21T17:08:36.759Z",
+    "updated_at": "2018-04-23T00:12:51.843Z",
+    "active": true,
+    "push_events": true,
+    "issues_events": false,
+    "confidential_issues_events": false,
+    "merge_requests_events": false,
+    "tag_push_events": false,
+    "note_events": false,
+    "confidential_note_events": false,
+    "pipeline_events": false,
+    "wiki_page_events": false,
+    "job_events": true,
+    "properties": {
+        "webhook": "https://hooks.slack.com/services/AAAA1BBB/ABCDEFGHI/aBCdef1Gerer65ere54gdffd",
+        "username": "GitLab",
+        "notify_only_broken_pipelines": false,
+        "notify_only_default_branch": true,
+        "push_channel": "pushes",
+        "issue_channel": "",
+        "confidential_issue_channel": "",
+        "merge_request_channel": "",
+        "note_channel": "",
+        "tag_push_channel": "",
+        "pipeline_channel": "",
+        "wiki_page_channel": ""
+    }
+}

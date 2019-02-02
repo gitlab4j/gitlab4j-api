@@ -6,8 +6,13 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AbstractUser {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class AbstractUser<U extends AbstractUser<U>> {
 
     private String avatarUrl;
     private String bio;
@@ -17,6 +22,7 @@ public class AbstractUser {
     private Date confirmedAt;
     private Date createdAt;
     private Date currentSignInAt;
+    private List<CustomAttribute> customAttributes;
     private String email;
     private Boolean external;
     private Integer id;
@@ -287,5 +293,211 @@ public class AbstractUser {
 
     public void setSkipConfirmation(Boolean skipConfirmation) {
         this.skipConfirmation = skipConfirmation;
+    }
+
+    public List<CustomAttribute> getCustomAttributes() {
+        return customAttributes;
+    }
+
+    public void setCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public U withAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withBio(String bio) {
+        this.bio = bio;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withCanCreateGroup(Boolean canCreateGroup) {
+        this.canCreateGroup = canCreateGroup;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withCanCreateProject(Boolean canCreateProject) {
+        this.canCreateProject = canCreateProject;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withColorSchemeId(Integer colorSchemeId) {
+        this.colorSchemeId = colorSchemeId;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withConfirmedAt(Date confirmedAt) {
+        this.confirmedAt = confirmedAt;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withCurrentSignInAt(Date currentSignInAt) {
+        this.currentSignInAt = currentSignInAt;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withEmail(String email) {
+        this.email = email;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withExternal(Boolean external) {
+        this.external = external;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withId(Integer id) {
+        this.id = id;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withIdentities(List<Identity> identities) {
+        this.identities = identities;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withLastActivityOn(Date lastActivityOn) {
+        this.lastActivityOn = lastActivityOn;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withLastSignInAt(Date lastSignInAt) {
+        this.lastSignInAt = lastSignInAt;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withLinkedin(String linkedin) {
+        this.linkedin = linkedin;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withLocation(String location) {
+        this.location = location;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withName(String name) {
+        this.name = name;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withOrganization(String organization) {
+        this.organization = organization;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withProjectsLimit(Integer projectsLimit) {
+        this.projectsLimit = projectsLimit;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withProvider(String provider) {
+        this.provider = provider;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withSharedRunnersMinutesLimit(Integer sharedRunnersMinutesLimit) {
+        this.sharedRunnersMinutesLimit = sharedRunnersMinutesLimit;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withSkype(String skype) {
+        this.skype = skype;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withState(String state) {
+        this.state = state;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withThemeId(Integer themeId) {
+        this.themeId = themeId;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withTwitter(String twitter) {
+        this.twitter = twitter;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withTwoFactorEnabled(Boolean twoFactorEnabled) {
+        this.twoFactorEnabled = twoFactorEnabled;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withUsername(String username) {
+        this.username = username;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withWebsiteUrl(String websiteUrl) {
+        this.websiteUrl = websiteUrl;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withSkipConfirmation(Boolean skipConfirmation) {
+        this.skipConfirmation = skipConfirmation;
+        return (U)this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public U withCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
+        return (U)this;
+    }
+    
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

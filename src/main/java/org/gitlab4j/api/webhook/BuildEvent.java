@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import org.gitlab4j.api.models.User;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BuildEvent implements Event {
+public class BuildEvent extends AbstractEvent {
 
     /** X-Gitlab-Event header value pre GitLab v9.3.0 */
     public static final String BUILD_HOOK_X_GITLAB_EVENT = "Build Hook";

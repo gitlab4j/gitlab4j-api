@@ -28,6 +28,9 @@ public abstract class AbstractPushEvent {
     private List<EventCommit> commits;
     private Integer totalCommitsCount;
 
+    private String requestUrl;
+    private String requestQuesryString;
+
     public String getEventName() {
         return (eventName);
     }
@@ -138,6 +141,24 @@ public abstract class AbstractPushEvent {
 
     public void setTotalCommitsCount(Integer totalCommitsCount) {
         this.totalCommitsCount = totalCommitsCount;
+    }
+
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
+    }
+
+    @JsonIgnore
+    public String getRequestUrl() {
+        return (requestUrl);
+    }
+
+    public void setRequestQueryString(String requestQuesryString) {
+        this.requestQuesryString = requestQuesryString;
+    }
+
+    @JsonIgnore
+    public String getRequestQueryString() {
+        return (requestQuesryString);
     }
 
     /**

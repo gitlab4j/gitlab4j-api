@@ -42,8 +42,12 @@ public class JacksonJsonEnumHelper<E extends Enum<E>> {
             StringBuilder nameBuf = new StringBuilder(chars.length);
             boolean nextCharIsCapitalized = firstLetterCapitalized;
             for (char ch : chars) {
-                if (ch == '_' && camelCased) {
-                    nextCharIsCapitalized = true;
+                if (ch == '_') {
+                    if (camelCased) {
+                        nextCharIsCapitalized = true;
+                    } else {
+                        nameBuf.append(' ');
+                    }
                 } else if (nextCharIsCapitalized) {
                     nextCharIsCapitalized = false;
                     nameBuf.append(Character.toUpperCase(ch));
@@ -56,6 +60,17 @@ public class JacksonJsonEnumHelper<E extends Enum<E>> {
             valuesMap.put(name, e);
             namesMap.put(e, name);
         }
+    }
+
+    /**
+     * Add an enum that has a specialized name that does not fit the standard naming conventions.
+     *
+     * @param e the enum to add
+     * @param name the name for the enum
+     */
+    public void addEnum(E e, String name) {
+        valuesMap.put(name, e);
+        namesMap.put(e, name);
     }
 
     @JsonCreator

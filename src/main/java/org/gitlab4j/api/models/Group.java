@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Group {
@@ -194,5 +196,90 @@ public class Group {
 
     public void setSharedProjects(List<Project> sharedProjects) {
         this.sharedProjects = sharedProjects;
+    }
+
+    public Group withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Group withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Group withPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public Group withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Group withVisibility(Visibility visibility) {
+        this.visibility = visibility;
+        return this;
+    }
+
+    public Group withlfsEnabled(boolean lfsEnabled) {
+        this.lfsEnabled = lfsEnabled;
+        return this;
+    }
+
+    public Group withAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+        return this;
+    }
+
+    public Group withWebUrl(String url) {
+        this.webUrl = url;
+        return this;
+    }
+
+    public Group withRequestAccessEnabled(boolean requestAccessEnabled) {
+        this.requestAccessEnabled = requestAccessEnabled;
+        return this;
+    }
+
+    public Group withFullName(String fullName) {
+        this.fullName = fullName;
+        return this;
+    }
+
+    public Group withFullPath(String fullPath) {
+        this.fullPath = fullPath;
+        return this;
+    }
+
+    public Group withParentId(Integer parentId) {
+        this.parentId = parentId;
+        return this;
+    }
+
+    public Group withSharedRunnersMinutesLimit(Integer minutesLimit) {
+        this.sharedRunnersMinutesLimit = minutesLimit;
+        return this;
+    }
+
+    public Group withStatistics(Statistics statistics) {
+        this.statistics = statistics;
+        return this;
+    }
+
+    public Group withProjects(List<Project> projects) {
+        this.projects = projects;
+        return this;
+    }
+
+    public Group withSharedProjects(List<Project> sharedProjects) {
+        this.sharedProjects = sharedProjects;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

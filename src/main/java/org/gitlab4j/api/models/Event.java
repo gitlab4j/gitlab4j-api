@@ -1,11 +1,14 @@
 
 package org.gitlab4j.api.models;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.gitlab4j.api.Constants.TargetType;
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -18,9 +21,14 @@ public class Event {
     private EventData data;
     private Integer projectId;
     private Integer targetId;
+    private Integer targetIid;
     private String targetTitle;
     private TargetType targetType;
     private String title;
+    private Date createdAt;
+
+    private Note note;
+    private PushData pushData;
 
     public String getActionName() {
         return actionName;
@@ -78,6 +86,14 @@ public class Event {
         this.targetId = targetId;
     }
 
+    public Integer getTargetIid() {
+        return targetIid;
+    }
+
+    public void setTargetIid(Integer targetIid) {
+        this.targetIid = targetIid;
+    }
+
     public String getTargetTitle() {
         return targetTitle;
     }
@@ -100,5 +116,94 @@ public class Event {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Note getNote() {
+        return note;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
+    }
+
+    public PushData getPushData() {
+        return pushData;
+    }
+
+    public void setPushData(PushData pushData) {
+        this.pushData = pushData;
+    }
+
+    public Event withActionName(String actionName) {
+        this.actionName = actionName;
+        return this;
+    }
+
+    public Event withAuthor(Author author) {
+        this.author = author;
+        return this;
+    }
+
+    public Event withAuthorId(Integer authorId) {
+        this.authorId = authorId;
+        return this;
+    }
+
+    public Event withAuthorUsername(String authorUsername) {
+        this.authorUsername = authorUsername;
+        return this;
+    }
+
+    public Event withData(EventData data) {
+        this.data = data;
+        return this;
+    }
+
+    public Event withProjectId(Integer projectId) {
+        this.projectId = projectId;
+        return this;
+    }
+
+    public Event withTargetId(Integer targetId) {
+        this.targetId = targetId;
+        return this;
+    }
+
+    public Event withTargetIid(Integer targetIid) {
+        this.targetIid = targetIid;
+        return this;
+    }
+
+    public Event withTargetTitle(String targetTitle) {
+        this.targetTitle = targetTitle;
+        return this;
+    }
+
+    public Event withTargetType(TargetType targetType) {
+        this.targetType = targetType;
+        return this;
+    }
+
+    public Event withTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Event withCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

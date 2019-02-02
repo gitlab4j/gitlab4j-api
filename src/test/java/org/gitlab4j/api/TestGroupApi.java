@@ -61,15 +61,15 @@ public class TestGroupApi {
     public static void setup() {
 
         String problems = "";
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().length() == 0) {
+        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
             problems += "TEST_HOST_URL cannot be empty\n";
         }
 
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
 
-        if (TEST_USERNAME == null || TEST_USERNAME.trim().length() == 0) {
+        if (TEST_USERNAME == null || TEST_USERNAME.trim().isEmpty()) {
             problems += "TEST_USER_NAME cannot be empty\n";
         }
 
@@ -83,10 +83,12 @@ public class TestGroupApi {
                 problems += "Problem fetching test group, error=" + gle.getMessage() + "\n";
             }
 
-            try {
-                testUser = gitLabApi.getUserApi().getUser(TEST_GROUP_MEMBER_USERNAME);
-            } catch (GitLabApiException gle) {
-                problems += "Problem fetching test user, error=" + gle.getMessage() + "\n";
+            if (TEST_GROUP_MEMBER_USERNAME != null && TEST_GROUP_MEMBER_USERNAME.length() > 0) {
+                try {
+                    testUser = gitLabApi.getUserApi().getUser(TEST_GROUP_MEMBER_USERNAME);
+                } catch (GitLabApiException gle) {
+                    problems += "Problem fetching test user, error=" + gle.getMessage() + "\n";
+                }
             }
         }
 

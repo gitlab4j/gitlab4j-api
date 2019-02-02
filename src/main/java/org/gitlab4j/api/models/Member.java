@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Member {
@@ -64,5 +66,35 @@ public class Member {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Member withAccessLevel(AccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
+        return this;
+    }
+
+    public Member withCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public Member withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Member withState(String state) {
+        this.state = state;
+        return this;
+    }
+
+    public Member withUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

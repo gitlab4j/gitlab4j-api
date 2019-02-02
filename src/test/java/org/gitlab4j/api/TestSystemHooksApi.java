@@ -18,11 +18,10 @@ import org.junit.runners.MethodSorters;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
- * TEST_HOOK_URL
+ *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -34,7 +33,7 @@ public class TestSystemHooksApi {
     private static final String TEST_PRIVATE_TOKEN;
     static {
         TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_HOOK_URL = TestUtils.getProperty("TEST_HOOK_URL");
+        TEST_HOOK_URL = "http://hook.example.com/hook/callback";
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
     
@@ -50,15 +49,15 @@ public class TestSystemHooksApi {
     public static void setup() {
 
         String problems = "";
-        if (TEST_HOOK_URL == null || TEST_HOOK_URL.trim().length() == 0) {
+        if (TEST_HOOK_URL == null || TEST_HOOK_URL.trim().isEmpty()) {
             problems += "TEST_HOOK_URL cannot be empty\n";
         }
 
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().length() == 0) {
+        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
             problems += "TEST_HOST_URL cannot be empty\n";
         }
 
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
 

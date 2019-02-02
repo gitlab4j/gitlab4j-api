@@ -19,7 +19,7 @@ public class MergeRequest {
     private Integer approvalsBeforeMerge;
     private Assignee assignee;
     private Author author;
-    private Diff changes;
+    private List<Diff> changes;
     private Date createdAt;
     private String description;
     private Integer downvotes;
@@ -80,11 +80,11 @@ public class MergeRequest {
         this.author = author;
     }
 
-    public Diff getChanges() {
+    public List<Diff> getChanges() {
         return changes;
     }
 
-    public void setChanges(Diff changes) {
+    public void setChanges(List<Diff> changes) {
         this.changes = changes;
     }
 
@@ -372,5 +372,10 @@ public class MergeRequest {
 
     public static final boolean isValid(MergeRequest mergeRequest) {
         return (mergeRequest != null && mergeRequest.getId() != null);
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

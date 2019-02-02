@@ -3,6 +3,8 @@ package org.gitlab4j.api.models;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Identity {
 
@@ -23,5 +25,10 @@ public class Identity {
 
     public void setExternUid(String externUid) {
         this.externUid = externUid;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

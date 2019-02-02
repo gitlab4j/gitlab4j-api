@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement
@@ -268,5 +270,10 @@ public class ProjectHook {
     @JsonIgnore
     public void setWiki_page_events(Boolean wikiPageEvents) {
         this.wikiPageEvents = wikiPageEvents;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

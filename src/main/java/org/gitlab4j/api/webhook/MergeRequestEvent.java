@@ -6,12 +6,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import org.gitlab4j.api.models.User;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MergeRequestEvent implements Event {
+public class MergeRequestEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Merge Request Hook";
     public static final String OBJECT_KIND = "merge_request";
 
     private User user;
+    private EventProject project;
+    private EventRepository repository;
     private ObjectAttributes objectAttributes;
 
     public String getObjectKind() {
@@ -29,6 +31,22 @@ public class MergeRequestEvent implements Event {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public EventProject getProject() {
+        return project;
+    }
+
+    public void setProject(EventProject project) {
+        this.project = project;
+    }
+
+    public EventRepository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(EventRepository repository) {
+        this.repository = repository;
     }
 
     public ObjectAttributes getObjectAttributes() {

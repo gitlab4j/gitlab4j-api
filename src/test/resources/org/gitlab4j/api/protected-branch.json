@@ -1,0 +1,23 @@
+{
+  "name": "develop",
+  "push_access_levels": [
+    {
+      "access_level": 40,
+      "access_level_description": "Masters"
+    },
+    {
+      "access_level": 30,
+      "access_level_description": "Developer access"
+    }
+  ],
+  "merge_access_levels": [
+    {
+      "access_level": 40,
+      "access_level_description": "Masters"
+    },
+    {
+      "access_level": 30,
+      "access_level_description": "Developer access"
+    }
+  ]
+}

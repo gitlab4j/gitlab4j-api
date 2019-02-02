@@ -9,15 +9,20 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.gitlab4j.api.Constants.IssueState;
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Issue {
 
     private Assignee assignee;
+    private List<Assignee> assignees;
     private Author author;
     private Boolean confidential;
     private Date createdAt;
+    private Date updatedAt;
+    private Date closedAt;
+    private User closedBy;
     private String description;
     private Date dueDate;
     private Integer id;
@@ -28,9 +33,10 @@ public class Issue {
     private IssueState state;
     private Boolean subscribed;
     private String title;
-    private Date updatedAt;
     private Integer userNotesCount;
     private String webUrl;
+    private Integer weight;
+    private Boolean discussionLocked;
     private TimeStats timeStats;
 
     public Assignee getAssignee() {
@@ -39,6 +45,14 @@ public class Issue {
 
     public void setAssignee(Assignee assignee) {
         this.assignee = assignee;
+    }
+
+    public List<Assignee> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(List<Assignee> assignees) {
+        this.assignees = assignees;
     }
 
     public Author getAuthor() {
@@ -153,6 +167,22 @@ public class Issue {
         this.updatedAt = updatedAt;
     }
 
+    public Date getClosedAt() {
+        return closedAt;
+    }
+
+    public void setClosedAt(Date closedAt) {
+        this.closedAt = closedAt;
+    }
+
+    public User getClosedBy() {
+        return closedBy;
+    }
+
+    public void setClosedBy(User closedBy) {
+        this.closedBy = closedBy;
+    }
+
     public Integer getUserNotesCount() {
         return userNotesCount;
     }
@@ -169,11 +199,32 @@ public class Issue {
         this.webUrl = webUrl;
     }
 
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Boolean getDiscussionLocked() {
+        return discussionLocked;
+    }
+
+    public void setDiscussionLocked(Boolean discussionLocked) {
+        this.discussionLocked = discussionLocked;
+    }
+
     public TimeStats getTimeStats() {
         return timeStats;
     }
 
     public void setTimeStats(TimeStats timeStats) {
         this.timeStats = timeStats;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

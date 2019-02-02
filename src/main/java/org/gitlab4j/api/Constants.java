@@ -1,5 +1,8 @@
 package org.gitlab4j.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -59,10 +62,57 @@ public interface Constants {
         }
     }
 
+
+    /** Enum to use for ordering the results of getEpics(). */
+    public enum EpicOrderBy {
+
+        CREATED_AT, UPDATED_AT;
+
+        private static JacksonJsonEnumHelper<EpicOrderBy> enumHelper = new JacksonJsonEnumHelper<>(EpicOrderBy.class);
+
+        @JsonCreator
+        public static EpicOrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for ordering the results of getIssues(). */
+    public enum IssueOrderBy {
+
+        CREATED_AT, UPDATED_AT;
+
+        private static JacksonJsonEnumHelper<IssueOrderBy> enumHelper = new JacksonJsonEnumHelper<>(IssueOrderBy.class);
+
+        @JsonCreator
+        public static IssueOrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for ordering the results of getProjects(). */
     public enum ProjectOrderBy {
 
-        ID, NAME, PATH, CREATED_AT, UPDATED_AT, LAST_ACTIVITY;
+        ID, NAME, PATH, CREATED_AT, UPDATED_AT, LAST_ACTIVITY_AT;
         private static JacksonJsonEnumHelper<ProjectOrderBy> enumHelper = new JacksonJsonEnumHelper<>(ProjectOrderBy.class);
 
         @JsonCreator
@@ -90,6 +140,29 @@ public interface Constants {
 
         @JsonCreator
         public static PipelineOrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for ordering the results of getMergeRequests(). */
+    public enum MergeRequestOrderBy {
+
+        CREATED_AT, UPDATED_AT;
+
+        private static JacksonJsonEnumHelper<MergeRequestOrderBy> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestOrderBy.class);
+
+        @JsonCreator
+        public static MergeRequestOrderBy forValue(String value) {
             return enumHelper.forValue(value);
         }
 
@@ -179,6 +252,27 @@ public interface Constants {
 
         @JsonCreator
         public static IssueScope forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the scope for getMergeRequests methods. */
+    public enum MergeRequestScope {
+
+        CREATED_BY_ME, ASSIGNED_TO_ME, ALL;
+
+        private static JacksonJsonEnumHelper<MergeRequestScope> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestScope.class);
+
+        @JsonCreator
+        public static MergeRequestScope forValue(String value) { return enumHelper.forValue(value); }
 
         @JsonValue
         public String toValue() {
@@ -282,7 +376,7 @@ public interface Constants {
     /** Enum to use for specifying the event action_type. */
     public enum ActionType {
 
-        CREATED, UPDATED, CLOSED, REOPENED, PUSHED, COMMENTED, MERGED, JOINED, LEFT, DESTROYED, EXPIRED;
+        CREATED, UPDATED, CLOSED, REOPENED, PUSHED, COMMENTED, MERGED, JOINED, LEFT, DESTROYED, EXPIRED, REMOVED;
 
         private static JacksonJsonEnumHelper<ActionType> enumHelper = new JacksonJsonEnumHelper<>(ActionType.class);
 
@@ -357,6 +451,68 @@ public interface Constants {
 
         @JsonCreator
         public static ImpersonationState forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to specify the format of a downloaded archive. */
+    public enum ArchiveFormat {
+
+        BZ2, TAR, TAR_BZ2, TAR_GZ, TB2, TBZ, TBZ2, ZIP;
+
+        private final String value;
+
+        ArchiveFormat() {
+            this.value = name().toLowerCase().replace('_', '.');
+        }
+
+        private static Map<String, ArchiveFormat> valuesMap = new HashMap<String, ArchiveFormat>(8);
+        static {
+            for (ArchiveFormat archiveFormat : ArchiveFormat.values())
+                valuesMap.put(archiveFormat.value, archiveFormat);
+        }
+
+        public static ArchiveFormat forValue(String value) throws GitLabApiException {
+
+            if (value == null || value.trim().isEmpty()) {
+                return (null);
+            }
+
+            ArchiveFormat archiveFormat = valuesMap.get(value);
+            if (archiveFormat != null) {
+                return (archiveFormat);
+            }
+
+            throw new GitLabApiException("Invalid format! Options are tar.gz, tar.bz2, tbz, tbz2, tb2, bz2, tar, and zip.");
+        }
+
+        @Override
+        public String toString() {
+            return (value);
+        }
+    }
+
+    /**
+     * Enum for the various Commit build status values.
+     */
+    public enum CommitBuildState {
+
+        PENDING, RUNNING, SUCCESS, FAILED, CANCELED;
+
+        private static JacksonJsonEnumHelper<CommitBuildState> enumHelper = new JacksonJsonEnumHelper<>(CommitBuildState.class);
+
+        @JsonCreator
+        public static CommitBuildState forValue(String value) {
             return enumHelper.forValue(value);
         }
 

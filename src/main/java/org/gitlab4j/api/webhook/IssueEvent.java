@@ -7,7 +7,7 @@ import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.models.User;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueEvent implements Event {
+public class IssueEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Issue Hook";
     public static final String OBJECT_KIND = "issue";

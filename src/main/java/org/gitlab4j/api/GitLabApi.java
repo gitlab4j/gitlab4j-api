@@ -4,7 +4,10 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.Constants.TokenType;
@@ -12,12 +15,16 @@ import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
+import org.gitlab4j.api.utils.Oauth2LoginStreamingOutput;
+import org.gitlab4j.api.utils.SecretString;
 
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
  * a separate API class for each concern.
  */
 public class GitLabApi {
+
+    private final static Logger LOGGER = Logger.getLogger(GitLabApi.class.getName());
 
     /** GitLab4J default per page.  GitLab will ignore anything over 100. */
     public static final int DEFAULT_PER_PAGE = 100;
@@ -31,7 +38,7 @@ public class GitLabApi {
         }
     }
 
-    // Used to keep track of GitLabApiExceptions on calls that return Optionsl<?>
+    // Used to keep track of GitLabApiExceptions on calls that return Optional<?>
     private static final Map<Optional<?>, GitLabApiException> optionalExceptionMap =
             Collections.synchronizedMap(new WeakHashMap<Optional<?>, GitLabApiException>());
 
@@ -42,26 +49,46 @@ public class GitLabApi {
     private int defaultPerPage = DEFAULT_PER_PAGE;
     private Session session;
 
+    private AwardEmojiApi awardEmojiApi;
     private CommitsApi commitsApi;
+    private DiscussionsApi discussionsApi;
     private DeployKeysApi deployKeysApi;
+    private EpicsApi epicsApi;
+    private EventsApi eventsApi;
     private GroupApi groupApi;
+    private HealthCheckApi healthCheckApi;
     private IssuesApi issuesApi;
+    private JobApi jobApi;
+    private LabelsApi labelsApi;
+    private LicensesApi licensesApi;
+    private MarkdownApi markdownApi;
     private MergeRequestApi mergeRequestApi;
     private MilestonesApi milestonesApi;
     private NamespaceApi namespaceApi;
+    private NotesApi notesApi;
     private NotificationSettingsApi notificationSettingsApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
+    private ProtectedBranchesApi protectedBranchesApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
+    private RunnersApi runnersApi;
     private ServicesApi servicesApi;
     private SessionApi sessionApi;
+    private SnippetsApi snippetsApi;
     private SystemHooksApi systemHooksApi;
+    private TagsApi tagsApi;
     private UserApi userApi;
-    private JobApi jobApi;
-    private LabelsApi labelsApi;
-    private NotesApi notesApi;
-    private EventsApi eventsApi;
+    private WikisApi wikisApi;
+
+    /**
+     * Get the GitLab4J shared Logger instance.
+     *
+     * @return the GitLab4J shared Logger instance
+     */
+    public static final Logger getLogger() {
+        return (LOGGER);
+    }
 
     /**
      * Create a new GitLabApi instance that is logically a duplicate of this instance, with the exception off sudo state.
@@ -91,11 +118,11 @@ public class GitLabApi {
      *
      * @param url GitLab URL
      * @param username user name for which private token should be obtained
-     * @param password password for a given {@code username}
+     * @param password a CharSequence containing the password for a given {@code username}
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public static GitLabApi oauth2Login(String url, String username, String password) throws GitLabApiException {
+    public static GitLabApi oauth2Login(String url, String username, CharSequence password) throws GitLabApiException {
         return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, password, null, null, false));
     }
 
@@ -105,12 +132,29 @@ public class GitLabApi {
      *
      * @param url GitLab URL
      * @param username user name for which private token should be obtained
-     * @param password password for a given {@code username}
+     * @param password a char array holding the password for a given {@code username}
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(String url, String username, char[] password) throws GitLabApiException {
+
+        try (SecretString secretPassword = new SecretString(password)) {
+            return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, secretPassword, null, null, false));
+        }
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password a CharSequence containing the password for a given {@code username}
      * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public static GitLabApi oauth2Login(String url, String username, String password, boolean ignoreCertificateErrors) throws GitLabApiException {
+    public static GitLabApi oauth2Login(String url, String username, CharSequence password, boolean ignoreCertificateErrors) throws GitLabApiException {
         return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, password, null, null, ignoreCertificateErrors));
     }
 
@@ -120,17 +164,79 @@ public class GitLabApi {
      *
      * @param url GitLab URL
      * @param username user name for which private token should be obtained
-     * @param password password for a given {@code username}
+     * @param password a char array holding the password for a given {@code username}
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(String url, String username, char[] password, boolean ignoreCertificateErrors) throws GitLabApiException {
+
+        try (SecretString secretPassword = new SecretString(password)) {
+            return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, secretPassword, null, null, ignoreCertificateErrors));
+        }
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password a CharSequence containing the password for a given {@code username}
      * @param secretToken use this token to validate received payloads
      * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
      * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public static GitLabApi oauth2Login(String url, String username, String password,
-            String secretToken, Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors)
-            throws GitLabApiException {
+    public static GitLabApi oauth2Login(String url, String username, CharSequence password, String secretToken,
+            Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
         return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, password, secretToken, clientConfigProperties, ignoreCertificateErrors));
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param username user name for which private token should be obtained
+     * @param password a char array holding the password for a given {@code username}
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(String url, String username, char[] password, String secretToken,
+            Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
+
+        try (SecretString secretPassword = new SecretString(password)) {
+            return (GitLabApi.oauth2Login(ApiVersion.V4, url, username, secretPassword,
+                secretToken, clientConfigProperties, ignoreCertificateErrors));
+        }
+    }
+
+    /**
+     * <p>Logs into GitLab using OAuth2 with the provided {@code username} and {@code password},
+     * and creates a new {@code GitLabApi} instance using returned access token.</p>
+     *
+     * @param url GitLab URL
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param username user name for which private token should be obtained
+     * @param password a char array holding the password for a given {@code username}
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+     * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
+     * @return new {@code GitLabApi} instance configured for a user-specific token
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public static GitLabApi oauth2Login(ApiVersion apiVersion, String url, String username, char[] password, String secretToken,
+            Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
+
+        try (SecretString secretPassword = new SecretString(password)) {
+            return (GitLabApi.oauth2Login(apiVersion, url, username, secretPassword,
+                secretToken, clientConfigProperties, ignoreCertificateErrors));
+        }
     }
 
     /**
@@ -147,9 +253,8 @@ public class GitLabApi {
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public static GitLabApi oauth2Login(ApiVersion apiVersion, String url, String username, String password, 
-            String secretToken, Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors)
-            throws GitLabApiException {
+    public static GitLabApi oauth2Login(ApiVersion apiVersion, String url, String username, CharSequence password,
+            String secretToken, Map<String, Object> clientConfigProperties, boolean ignoreCertificateErrors) throws GitLabApiException {
 
         if (username == null || username.trim().length() == 0) {
             throw new IllegalArgumentException("both username and email cannot be empty or null");
@@ -166,25 +271,23 @@ public class GitLabApi {
             }
         }
 
-        GitLabApiForm formData = new GitLabApiForm()
-            .withParam("grant_type", "password", true)
-            .withParam("username", username, true)
-            .withParam("password", password, true);
+        try (Oauth2LoginStreamingOutput stream = new Oauth2LoginStreamingOutput(username, password)) {
 
-        Response response = new Oauth2Api(gitLabApi).post(Response.Status.OK, formData, "oauth", "token");
-        OauthTokenResponse oauthToken = response.readEntity(OauthTokenResponse.class);
-        gitLabApi = new GitLabApi(apiVersion, url, TokenType.ACCESS, oauthToken.getAccessToken(), secretToken, clientConfigProperties);
-        if (ignoreCertificateErrors) {
-            gitLabApi.setIgnoreCertificateErrors(true);
+            Response response = new Oauth2Api(gitLabApi).post(Response.Status.OK, stream, MediaType.APPLICATION_JSON, "oauth", "token");
+            OauthTokenResponse oauthToken = response.readEntity(OauthTokenResponse.class);
+            gitLabApi = new GitLabApi(apiVersion, url, TokenType.ACCESS, oauthToken.getAccessToken(), secretToken, clientConfigProperties);
+            if (ignoreCertificateErrors) {
+                gitLabApi.setIgnoreCertificateErrors(true);
+            }
+
+            return (gitLabApi);
         }
-
-        return (gitLabApi);
     }
 
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and the specified GitLab API version.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -194,7 +297,9 @@ public class GitLabApi {
      * @param password password for a given {@code username}
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, will be removed in 4.9.0
      */
+    @Deprecated
     public static GitLabApi login(ApiVersion apiVersion, String url, String username, String password) throws GitLabApiException {
         return (GitLabApi.login(apiVersion, url, username, password, false));
     }
@@ -202,7 +307,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token using GitLab API version 4.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -211,7 +316,9 @@ public class GitLabApi {
      * @param password password for a given {@code username}
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, will be removed in 4.9.0
      */
+    @Deprecated
     public static GitLabApi login(String url, String username, String password) throws GitLabApiException {
         return (GitLabApi.login(ApiVersion.V4, url, username, password, false));
     }
@@ -219,7 +326,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token and the specified GitLab API version.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -230,7 +337,9 @@ public class GitLabApi {
      * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated As of release 4.8.7, will be removed in 4.9.0
      */
+    @Deprecated
     public static GitLabApi login(ApiVersion apiVersion, String url, String username, String password, boolean ignoreCertificateErrors) throws GitLabApiException {
 
         GitLabApi gitLabApi = new GitLabApi(apiVersion, url, (String)null);
@@ -262,7 +371,7 @@ public class GitLabApi {
     /**
      * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
      * using returned private token using GitLab API version 4.</p>
-     * 
+     *
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this will utilize OAUTH2 for login.  For GitLab servers prior to
      * 10.2, the Session API login is utilized.
      *
@@ -272,25 +381,11 @@ public class GitLabApi {
      * @param ignoreCertificateErrors if true will set up the Jersey system ignore SSL certificate errors
      * @return new {@code GitLabApi} instance configured for a user-specific token
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
-     */
-    public static GitLabApi login(String url, String username, String password, boolean ignoreCertificateErrors) throws GitLabApiException {
-        return (GitLabApi.login(ApiVersion.V4, url, username, password, ignoreCertificateErrors));
-    }
-
-    /**
-     * <p>Logs into GitLab using provided {@code username} and {@code password}, and creates a new {@code GitLabApi} instance
-     * using returned private token and specified GitLab API version.</p>
-     *
-     * @param url GitLab URL
-     * @param username user name for which private token should be obtained
-     * @param password password for a given {@code username}
-     * @return new {@code GitLabApi} instance configured for a user-specific token
-     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
-     * @deprecated  As of release 4.2.0, replaced by {@link #login(String, String, String)}, will be removed in 5.0.0
+     * @deprecated As of release 4.8.7, will be removed in 4.9.0
      */
     @Deprecated
-    public static GitLabApi create(String url, String username, String password) throws GitLabApiException {
-        return (GitLabApi.login(url, username, password));
+    public static GitLabApi login(String url, String username, String password, boolean ignoreCertificateErrors) throws GitLabApiException {
+        return (GitLabApi.login(ApiVersion.V4, url, username, password, ignoreCertificateErrors));
     }
 
     /**
@@ -300,8 +395,9 @@ public class GitLabApi {
      * <strong>NOTE</strong>: For GitLab servers 10.2 and above this method will always return null.
      *
      * @return the Session instance
-     * @deprecated  This method will be removed in Release 5.0.0
+     * @deprecated  This method will be removed in Release 4.9.0
      */
+    @Deprecated
     public Session getSession() {
         return session;
     }
@@ -473,6 +569,69 @@ public class GitLabApi {
         this.gitLabServerUrl = hostUrl;
         this.clientConfigProperties = clientConfigProperties;
         apiClient = new GitLabApiClient(apiVersion, hostUrl, tokenType, authToken, secretToken, clientConfigProperties);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API
+     * using the GitLab4J shared Logger instance and Level.FINE as the level.
+     *
+     * @return this GitLabApi instance
+     */
+    public GitLabApi withRequestResponseLogging() {
+        enableRequestResponseLogging();
+        return (this);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API
+     * using the GitLab4J shared Logger instance.
+     *
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @return this GitLabApi instance
+     */
+    public GitLabApi withRequestResponseLogging(Level level) {
+        enableRequestResponseLogging(level);
+        return (this);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API.
+     *
+     * @param logger the Logger instance to log to
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @return this GitLabApi instance
+     */
+    public GitLabApi withRequestResponseLogging(Logger logger, Level level) {
+        enableRequestResponseLogging(logger, level);
+        return (this);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API
+     * using the GitLab4J shared Logger instance and Level.FINE as the level.
+     */
+    public void enableRequestResponseLogging() {
+        enableRequestResponseLogging(LOGGER, Level.FINE);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API
+     * using the GitLab4J shared Logger instance.
+     *
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     */
+    public void enableRequestResponseLogging(Level level) {
+        enableRequestResponseLogging(LOGGER, level);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API.
+     *
+     * @param logger the Logger instance to log to
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     */
+    public void enableRequestResponseLogging(Logger logger, Level level) {
+        this.apiClient.enableRequestResponseLogging(logger, level);
     }
 
     /**
@@ -648,6 +807,25 @@ public class GitLabApi {
     }
 
     /**
+     * Gets the AwardEmojiApi instance owned by this GitLabApi instance. The AwardEmojiApi is used
+     * to perform all award emoji related API calls.
+     *
+     * @return the AwardEmojiApi instance owned by this GitLabApi instance
+     */
+    public AwardEmojiApi getAwardEmojiApi() {
+
+        if (awardEmojiApi == null) {
+            synchronized (this) {
+                if (awardEmojiApi == null) {
+                    awardEmojiApi = new AwardEmojiApi(this);
+                }
+            }
+        }
+
+        return (awardEmojiApi);
+    }
+
+    /**
      * Gets the CommitsApi instance owned by this GitLabApi instance. The CommitsApi is used
      * to perform all commit related API calls.
      *
@@ -670,7 +848,7 @@ public class GitLabApi {
      * Gets the DeployKeysApi instance owned by this GitLabApi instance. The DeployKeysApi is used
      * to perform all deploy key related API calls.
      *
-     * @return the CommitsApi instance owned by this GitLabApi instance
+     * @return the DeployKeysApi instance owned by this GitLabApi instance
      */
     public DeployKeysApi getDeployKeysApi() {
 
@@ -683,6 +861,44 @@ public class GitLabApi {
         }
 
         return (deployKeysApi);
+    }
+
+    /**
+     * Gets the DiscussionsApi instance owned by this GitLabApi instance. The DiscussionsApi is used
+     * to perform all discussion related API calls.
+     *
+     * @return the DiscussionsApi instance owned by this GitLabApi instance
+     */
+    public DiscussionsApi getDiscussionsApi() {
+
+        if (discussionsApi == null) {
+            synchronized (this) {
+                if (discussionsApi == null) {
+                    discussionsApi = new DiscussionsApi(this);
+                }
+            }
+        }
+
+        return (discussionsApi);
+    }
+
+    /**
+     * Gets the EpicsApi instance owned by this GitLabApi instance. The EpicsApi is used
+     * to perform all Epics and Epic Issues related API calls.
+     *
+     * @return the EpicsApi instance owned by this GitLabApi instance
+     */
+    public EpicsApi getEpicsApi() {
+
+        if (epicsApi == null) {
+            synchronized (this) {
+                if (epicsApi == null) {
+                    epicsApi = new EpicsApi(this);
+                }
+            }
+        }
+
+        return (epicsApi);
     }
 
     /**
@@ -721,6 +937,25 @@ public class GitLabApi {
         }
 
         return (groupApi);
+    }
+
+    /**
+     * Gets the HealthCheckApi instance owned by this GitLabApi instance. The HealthCheckApi is used
+     * to perform all admin level gitlab health monitoring.
+     *
+     * @return the HealthCheckApi instance owned by this GitLabApi instance
+     */
+    public HealthCheckApi getHealthCheckApi() {
+
+        if (healthCheckApi == null) {
+            synchronized (this) {
+                if (healthCheckApi == null) {
+                    healthCheckApi = new HealthCheckApi(this);
+                }
+            }
+        }
+
+        return (healthCheckApi);
     }
 
     /**
@@ -772,6 +1007,44 @@ public class GitLabApi {
         }
 
         return (labelsApi);
+    }
+
+    /**
+     * Gets the LicensesApi instance owned by this GitLabApi instance. The LicensesApi is used
+     * to perform all license related API calls.
+     *
+     * @return the LicensesApi instance owned by this GitLabApi instance
+     */
+    public LicensesApi getLicensesApi() {
+
+        if (licensesApi == null) {
+            synchronized (this) {
+                if (licensesApi == null) {
+                    licensesApi = new LicensesApi(this);
+                }
+            }
+        }
+
+        return (licensesApi);
+    }
+
+    /**
+     * Gets the MarkdownApi instance owned by this GitLabApi instance. The MarkdownApi is used
+     * to perform all markdown related API calls.
+     *
+     * @return the MarkdownApi instance owned by this GitLabApi instance
+     */
+    public MarkdownApi getMarkdownApi() {
+
+        if (markdownApi == null) {
+            synchronized (this) {
+                if (markdownApi == null) {
+                    markdownApi = new MarkdownApi(this);
+                }
+            }
+        }
+
+        return (markdownApi);
     }
 
     /**
@@ -907,6 +1180,25 @@ public class GitLabApi {
     }
 
     /**
+     * Gets the ProtectedBranchesApi instance owned by this GitLabApi instance. The ProtectedBranchesApi is used
+     * to perform all protection related actions on a branch of a project.
+     *
+     * @return the ProtectedBranchesApi instance owned by this GitLabApi instance
+     */
+    public ProtectedBranchesApi getProtectedBranchesApi() {
+
+        if (this.protectedBranchesApi == null) {
+            synchronized (this) {
+                if (this.protectedBranchesApi == null) {
+                    this.protectedBranchesApi = new ProtectedBranchesApi(this);
+                }
+            }
+        }
+
+        return (this.protectedBranchesApi);
+    }
+
+    /**
      * Gets the RepositoryApi instance owned by this GitLabApi instance. The RepositoryApi is used
      * to perform all repository related API calls.
      *
@@ -942,6 +1234,25 @@ public class GitLabApi {
         }
 
         return (repositoryFileApi);
+    }
+
+    /**
+     * Gets the RunnersApi instance owned by this GitLabApi instance. The RunnersApi is used
+     * to perform all Runner related API calls.
+     *
+     * @return the RunnerApi instance owned by this GitLabApi instance
+     */
+    public RunnersApi getRunnersApi() {
+
+        if (runnersApi == null) {
+            synchronized (this) {
+                if (runnersApi == null) {
+                    runnersApi = new RunnersApi(this);
+                }
+            }
+        }
+
+        return (runnersApi);
     }
 
     /**
@@ -983,7 +1294,7 @@ public class GitLabApi {
     }
 
     /**
-     * Gets the SystemHooksApi instance owned by this GitLabApi instance. All methods 
+     * Gets the SystemHooksApi instance owned by this GitLabApi instance. All methods
      * require administrator authorization.
      *
      * @return the SystemHooksApi instance owned by this GitLabApi instance
@@ -999,6 +1310,25 @@ public class GitLabApi {
         }
 
         return (systemHooksApi);
+    }
+
+    /**
+     * Gets the TagsApi instance owned by this GitLabApi instance. The TagsApi is used
+     * to perform all tag and release related API calls.
+     *
+     * @return the TagsApi instance owned by this GitLabApi instance
+     */
+    public TagsApi getTagsApi() {
+
+        if (tagsApi == null) {
+            synchronized (this) {
+                if (tagsApi == null) {
+                    tagsApi = new TagsApi(this);
+                }
+            }
+        }
+
+        return (tagsApi);
     }
 
     /**
@@ -1062,5 +1392,40 @@ public class GitLabApi {
         }
 
         return (optional.get());
+    }
+    
+    /**
+     * Gets the SnippetsApi instance owned by this GitLabApi instance. The SnippetsApi is used
+     * to perform all snippet related API calls.
+     *
+     * @return the SnippetsApi instance owned by this GitLabApi instance
+     */
+	public SnippetsApi getSnippetApi() {
+        if (snippetsApi == null) {
+            synchronized (this) {
+                if (snippetsApi == null) {
+                	snippetsApi = new SnippetsApi(this);
+                }
+            }
+        }
+
+        return snippetsApi;
+	}
+
+    /**
+     * Gets the WikisApi instance owned by this GitLabApi instance. The WikisApi is used to perform all wiki related API calls.
+     *
+     * @return the WikisApi instance owned by this GitLabApi instance
+     */
+    public WikisApi getWikisApi() {
+        if (wikisApi == null) {
+            synchronized (this) {
+                if (wikisApi == null) {
+                    wikisApi = new WikisApi(this);
+                }
+            }
+        }
+
+        return wikisApi;
     }
 }

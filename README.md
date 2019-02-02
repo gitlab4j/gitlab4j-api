@@ -11,23 +11,25 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.8.5'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.14'
 }
 ```
+
+**NOTE:** Pulling dependencies may fail when using Gradle prior to 4.5. See [Gradle issue 3065](https://github.com/gradle/gradle/issues/3065#issuecomment-364092456)
 
 **Maven: pom.xml**
 ```xml
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.8.5</version>
+    <version>4.9.14</version>
 </dependency>
 ```
 
 **Ivy and SBT**<br/>
 There have been reports of problems resolving some dependencies when using Ivy or SBT, for help resolving those issues see:<br/>
-<a href="https://github.com/jax-rs/api/issues/571">JAX-RS API Issue #571</a><br/>
-<a href="https://github.com/jax-rs/api/issues/572">JAX-RS API Issue #572</a>
+<a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/571">JAX-RS API Issue #571</a><br/>
+<a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/572">JAX-RS API Issue #572</a>
 
 ---
 
@@ -68,6 +70,7 @@ gitLabApi.sudo("johndoe")
 // To turn off sudo mode
 gitLabApi.unsudo();
 ```
+
 ---
 ## Connecting Through a Proxy Server
 As of GitLab4J-API 4.8.2 support has been added for connecting to the GitLab server using an HTTP proxy server:
@@ -92,6 +95,27 @@ you can still use GitLab4J-API by creating your GitLabApi instance as follows:
 GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
 ```
 
+**NOTICE**:  
+As of GitLab 11.0 support for the GitLab API v3 has been removed (see https://about.gitlab.com/2018/06/01/api-v3-removal-impending/). Support for GitLab API v3 will be removed from this library in January 2019. If you are utilizing the v3 support, please update your code before January 2019.
+  
+
+---
+## Logging of API Requests and Responses
+As of GitLab4J-API 4.8.39 support has been added to log the requests to and the responses from the
+GitLab API.  Enable logging using one of the following methods on the GitLabApi instance:
+```java
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
+
+// Log using the shared logger and default level of FINE
+gitLabApi.enableRequestResponseLogging();
+
+// Log using the shared logger and the INFO level
+gitLabApi.enableRequestResponseLogging(java.util.logging.Level.INFO);
+
+// Log using the specified logger and the INFO level
+gitLabApi.enableRequestResponseLogging(youtLoggerInstance, java.util.logging.Level.INFO);
+```
+
 ---
 ## Results Paging
 GitLab4J-API provides an easy to use paging mechanism to page through lists of results from the GitLab API.
@@ -107,6 +131,44 @@ while (projectsPager.hasNext())) {
     }
 }
 ```
+
+As of GitLab4J-API 4.9.2, you can also fetch all the items as a single list using a Pager instance:
+```java
+// Get a Pager instance so we can load all the projects into a single list, 10 items at a time:
+Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
+List<Project> allProjects = projectPager.all();
+```
+
+---
+## Java 8 Stream Support
+As of GitLab4J-API 4.9.2, you can also stream list based items in a Java 8 Stream using a Pager instance as follows:
+```java
+// Get a Pager instance to get a Stream<Project> instance.
+Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
+
+// Stream the Projects printing out the project name.
+projectPager.stream().map(Project::getName).forEach(name -> System.out.println(name));
+```
+The following API classes also include ```getXxxxxStream()``` methods which return a Java 8 Stream:
+```
+GroupApi
+IssuesApi
+NotesApi
+ProjectApi
+RepositoryApi
+TagsApi
+UserApi
+```
+Example usage:
+```java
+// Stream the visible Projects printing out the project name.
+gitlabApi.getProjectsApi().getProjectsStream().map(Project::getName).forEach(name -> System.out.println(name));
+
+// Operate on the stream in parallel, this example sorts User instances by username
+Stream<User> stream = new UserApi(gitLabApi).getUsersStream();
+List<User> sortedUsers = stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
+```
+
 ---
 ## Java 8 Optional&lt;T&gt; Support
 GitLab4J-API supports Java 8 Optional&lt;T&gt; for API calls that result in the return of a single item. Here is an example on how to use the Java 8 Optional&lt;T&gt; API calls:
@@ -117,6 +179,7 @@ if (optionalGroup.isPresent())
 
 return gitlabApi.getGroupApi().addGroup("my-group-name", "my-group-path");
 ```
+
 ---
 ## Issue Time Estimates
 GitLab issues allow for time tracking. The following time units are currently available:
@@ -131,14 +194,18 @@ Conversion rates are 1mo = 4w, 1w = 5d and 1d = 8h.
 
 ---
 ## Making API Calls
-The API has been broken up into sub APIs classes to make it easier to learn and to separate concerns.  Following is a list of the sub APIs along with a sample use of each API.  See the <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a> for a complete list of available methods for each sub API.
+The API has been broken up into sub API classes to make it easier to learn and to separate concerns.  Following is a list of the sub APIs along with a sample use of each API.  See the <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a> for a complete list of available methods for each sub API.
 
 ### Available Sub APIs
 ------------------
+&nbsp;&nbsp;[AwardEmojiApi](#awardemojiapi)<br/>
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
 &nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
+&nbsp;&nbsp;[DiscussionsApi](#discussionsapi)<br/>
+&nbsp;&nbsp;[EpicsApi](#epicsapi)<br/>
 &nbsp;&nbsp;[EventsApi](#eventsapi)<br/>
 &nbsp;&nbsp;[GroupApi](#groupapi)<br/>
+&nbsp;&nbsp;[HealthCheckApi](#healthcheckapi)<br/>
 &nbsp;&nbsp;[IssuesApi](#issuesapi)<br/>
 &nbsp;&nbsp;[JobApi](#jobapi)<br/>
 &nbsp;&nbsp;[LabelsApi](#labelsapi)<br/>
@@ -149,16 +216,26 @@ The API has been broken up into sub APIs classes to make it easier to learn and 
 &nbsp;&nbsp;[NotificationSettingsApi](#notificationsettingsapi)<br/>
 &nbsp;&nbsp;[PipelineApi](#pipelineapi)<br/>
 &nbsp;&nbsp;[ProjectApi](#projectapi)<br/>
+&nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi) <br/>
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
+&nbsp;&nbsp;[RunnersApi](#runnersapi) <br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
+&nbsp;&nbsp;[SnippetsApi](#snippetsapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)
+&nbsp;&nbsp;[WikisApi](#wikisapi)
 
 
 ### Sub API Examples
 ----------------
+
+#### AwardEmojiApi
+```java
+// Get a list of AwardEmoji belonging to the specified issue (group ID = 1, issues IID = 1)
+List<AwardEmoji> awardEmojis = gitLabApi.getAwardEmojiApi().getIssuAwardEmojis(1, 1);
+```
 
 #### CommitsApi
 ```java
@@ -175,10 +252,22 @@ List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature",
 List<DeployKey> deployKeys = gitLabApi.getDeployKeysApi().getDeployKeys();
 ```
 
+#### DiscussionsApi
+```java
+// Get a list of Discussions for the specified merge request
+List<DeployKey> deployKeys = gitLabApi.getDiscussionsApi().getMergeRequestDiscussions(projectId, mergeRequestIid);
+```
+
+#### EpicsApi
+```java
+// Get a list epics of the requested group and its subgroups.
+List<Epic> epics = gitLabApi.getEpicsApi().getEpics(1);
+```
+
 #### EventsApi
 ```java
 // Get a list of Events for the authenticated user
-Date after = new Date(0); // After Eposc
+Date after = new Date(0); // After Epoch
 Date before = new Date(); // Before now
 List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, before, after, DESC);
 ```
@@ -187,6 +276,13 @@ List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, n
 ```java
 // Get a list of groups that you have access to
 List<Group> groups = gitLabApi.getGroupApi().getGroups();
+```
+
+#### HealthCheckApi
+```java
+// Get the liveness endpoint health check results. Assumes ip_whitelisted per:
+// https://docs.gitlab.com/ee/administration/monitoring/ip_whitelist.html
+HealthCheckInfo healthCheck = gitLabApi.getHealthCheckApi().getLiveness();
 ```
 
 #### IssuesApi
@@ -207,7 +303,7 @@ List<Job> jobs = gitLabApi.getJobApi().getJobs(1234);
 List<Label> labels = gitLabApi.getLabelsApi().getLabels(1234);
 ```
 
-### MergeRequestApi
+#### MergeRequestApi
 ```java
 // Get a list of the merge requests for the specified project
 List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(1234);
@@ -261,6 +357,11 @@ Project projectSpec = new Project()
 Project newProject = gitLabApi.getProjectApi().createProject(projectSpec);
 ```
 
+#### ProtectedBranchesApi
+```java
+List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
+```
+
 #### RepositoryApi
 ```java
 // Get a list of repository branches from a project, sorted by name alphabetically
@@ -273,16 +374,32 @@ List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
 ```
 
+#### RunnersApi
+```java
+// Get All Runners.
+List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
+```
+
 #### ServicesApi
 ```java
-// Activates the gitlab-ci service.
-getLabApi.getServicesApi().setGitLabCI("project-name", "auth-token", "project-ci-url");
+// Activate/Update the Slack Notifications service
+SlackService slackService =  new SlackService()
+        .withMergeRequestsEvents(true)
+        .withWebhook("https://hooks.slack.com/services/ABCDEFGHI/KJLMNOPQR/wetrewq7897HKLH8998wfjjj")
+        .withUsername("GitLab4J");
+gitLabApi.getServicesApi().updateSlackService("project-path", slackService);
 ```
 
 #### SessionApi
 ```java
 // Log in to the GitLab server and get the session info
-getLabApi.getSessionApi().login("your-username", "your-email", "your-password");
+gitLabApi.getSessionApi().login("your-username", "your-email", "your-password");
+```
+
+#### SnippetsApi
+```java
+// Get a list of the authenticated user's snippets
+List<Snippet> snippets = gitLabApi.getSnippetsApi().getSnippets();
 ```
 
 #### SystemHooksApi
@@ -295,4 +412,19 @@ List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();
 ```java
 // Get the User info for user_id 1
 User user = gitLabApi.getUserApi().getUser(1);
+
+// Create a new user with no password who will recieve a reset password email
+User userConfig = new User()
+    .withEmail("jdoe@example.com")
+    .withName("Jane Doe")
+    .withUsername("jdoe");
+String password = null;
+boolean sendResetPasswordEmail = true;
+gitLabApi.getUserApi().createUser(userConfig, password, sendResetPasswordEmail);
+```
+
+#### WikisApi
+```java
+// Get a list of pages in project wiki
+List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages();
 ```

@@ -29,6 +29,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -38,6 +40,7 @@ import org.gitlab4j.api.Constants.IssueState;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.IssueFilter;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.TimeStats;
 import org.junit.AfterClass;
@@ -85,15 +88,15 @@ public class TestIssuesApi {
     public static void setup() {
 
         String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().length() == 0) {
+        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
             problems += "TEST_NAMESPACE cannot be empty\n";
         }
 
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().length() == 0) {
+        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
             problems += "TEST_HOST_URL cannot be empty\n";
         }
 
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().length() == 0) {
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
 
@@ -187,6 +190,13 @@ public class TestIssuesApi {
         assertEquals(title, issue.getTitle());
         assertEquals(ISSUE_DESCRIPTION, issue.getDescription());
         assertEquals(IssueState.OPENED, issue.getState());
+
+        List<Integer> assigneeIds = Arrays.asList(issue.getAuthor().getId());
+        issue = gitLabApi.getIssuesApi().createIssue(projectId, title, ISSUE_DESCRIPTION, null, assigneeIds, null, null, new Date(), null, null, null);
+        assertNotNull(issue);
+        assertEquals(title, issue.getTitle());
+        assertEquals(ISSUE_DESCRIPTION, issue.getDescription());
+        assertEquals(IssueState.OPENED, issue.getState());
     }
 
     @Test
@@ -200,6 +210,26 @@ public class TestIssuesApi {
         assertNotNull(closedIssue);
         assertEquals(IssueState.CLOSED, closedIssue.getState());
         assertEquals(issue.getId(), closedIssue.getId());
+    }
+
+    @Test
+    public void testCloseIssueClosedAt() throws GitLabApiException {
+
+        assertNotNull(testProject);
+        Integer projectId = testProject.getId();
+        Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        assertNull(issue.getClosedAt());
+        assertNull(issue.getClosedBy());
+
+        Issue closedIssue = gitLabApi.getIssuesApi().closeIssue(projectId, issue.getIid());
+        assertNotNull(closedIssue);
+        assertEquals(IssueState.CLOSED, closedIssue.getState());
+        assertEquals(issue.getId(), closedIssue.getId());
+
+        closedIssue = gitLabApi.getIssuesApi().getIssue(projectId, issue.getIid());
+        assertNotNull(closedIssue);
+        assertEquals(IssueState.CLOSED, closedIssue.getState());
+        assertNotNull(closedIssue.getClosedAt());
     }
 
     @Test
@@ -295,5 +325,28 @@ public class TestIssuesApi {
         TimeStats timeStats = gitLabApi.getIssuesApi().resetSpentTime(issue.getProjectId(), issue.getIid());
 
         assertTimeStats(timeStats, 0, 0);
+    }
+
+    @Test
+    public void testGetIssuesWithOptions() throws GitLabApiException {
+
+        assertNotNull(testProject);
+        Integer projectId = testProject.getId();
+
+        Issue issueOpen = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        Issue issueClose = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        issueClose = gitLabApi.getIssuesApi().closeIssue(projectId, issueClose.getIid());
+
+        final Integer openIid = issueOpen.getIid();
+        IssueFilter openFilter = new IssueFilter().withState(IssueState.OPENED);
+        List<Issue> opens = gitLabApi.getIssuesApi().getIssues(projectId, openFilter);
+        assertNotNull(opens);
+        assertTrue(opens.stream().map(Issue::getIid).anyMatch(iid -> iid.equals(openIid)));
+
+        final Integer closedIid = issueClose.getIid();
+        IssueFilter closeFilter = new IssueFilter().withState(IssueState.CLOSED);       
+        List<Issue> closes = gitLabApi.getIssuesApi().getIssues(projectId, closeFilter);
+        assertNotNull(closes);
+        assertTrue(closes.stream().map(Issue::getIid).anyMatch(iid -> iid.equals(closedIid)));
     }
 }

@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Namespace {
@@ -52,5 +54,35 @@ public class Namespace {
 
     public void setFullPath(String fullPath) {
         this.fullPath = fullPath;
+    }
+
+    public Namespace withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Namespace withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Namespace withPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public Namespace withKind(String kind) {
+        this.kind = kind;
+        return this;
+    }
+
+    public Namespace withFullPath(String fullPath) {
+        this.fullPath = fullPath;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
