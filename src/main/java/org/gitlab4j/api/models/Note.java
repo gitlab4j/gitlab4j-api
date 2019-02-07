@@ -105,6 +105,8 @@ public class Note {
     private Participant resolvedBy;
     private Type type;
 
+    private Position position;
+
     public String getAttachment() {
         return attachment;
     }
@@ -255,6 +257,14 @@ public class Note {
 
     public void setType(Type type) {
       this.type = type;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     @Override
