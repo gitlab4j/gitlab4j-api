@@ -224,7 +224,7 @@ The API has been broken up into sub API classes to make it easier to learn and t
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SnippetsApi](#snippetsapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
-&nbsp;&nbsp;[UserApi](#userapi)
+&nbsp;&nbsp;[UserApi](#userapi)<br/>
 &nbsp;&nbsp;[WikisApi](#wikisapi)
 
 
