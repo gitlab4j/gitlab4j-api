@@ -123,7 +123,6 @@ public class TestGitLabLogin {
 
     @Test
     public void testOauth2LoginWithStringPassword() throws GitLabApiException {
-        @SuppressWarnings("deprecation")
         GitLabApi gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, null, null, true);
         assertNotNull(gitLabApi);
         Version version = gitLabApi.getVersion();
