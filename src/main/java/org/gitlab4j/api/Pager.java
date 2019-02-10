@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -332,5 +333,13 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
     	}
 
     	return (streamBuilder.build());
+    }
+
+    public Stream<T> lazyStream() {
+        // Make sure that current page is 0, this will ensure the whole list is streamed
+        // regardless of what page the instance is currently on.
+        currentPage = 0;
+
+        return StreamSupport.stream(new PagerSpliterator<T>(this), false);
     }
 }
