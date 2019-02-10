@@ -85,4 +85,35 @@ public class TestStreams implements Constants {
             assertTrue(compareJson(sortedUsers.get(i), users.get(i)));
         }
     }
+
+    @Test
+    public void testLazyStream() throws Exception {
+
+        // Arrange
+        Pager<User> pager = new UserApi(gitLabApi).getUsers(10);
+        Stream<User> stream = pager.lazyStream();
+
+        // Assert
+        assertNotNull(stream);
+        List<String> usernames = stream.map(User::getUsername).collect(toList());
+        assertNotNull(usernames);
+
+        assertEquals(usernames.size(), sortedUsers.size());
+        for (int i = 0; i < sortedUsers.size(); i++) {
+            assertTrue(usernames.contains(sortedUsers.get(i).getUsername()));
+        }
+    }
+
+    @Test
+    public void testStreamLimit() throws Exception {
+
+        // Arrange
+        Stream<User> stream = new UserApi(gitLabApi).getUsersStream();
+
+        // Assert
+        assertNotNull(stream);
+        List<User> users = stream.limit(1).collect(toList());
+        assertNotNull(users);
+        assertEquals(1, users.size());
+    }
 }
