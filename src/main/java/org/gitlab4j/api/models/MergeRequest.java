@@ -1,16 +1,15 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.gitlab4j.api.utils.JacksonJson;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.gitlab4j.api.utils.JacksonJson;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.Date;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -47,6 +46,7 @@ public class MergeRequest {
     private Integer userNotesCount;
     private String webUrl;
     private Boolean workInProgress;
+    private DiffRef diffRefs;
 
     // The approval fields will only be available when listing approvals, approving  or unapproving a merge reuest.
     private Integer approvalsRequired;
@@ -368,6 +368,14 @@ public class MergeRequest {
      */
     public void setApprovedBy(List<User> approvedBy) {
         this.approvedBy = approvedBy;
+    }
+
+    public DiffRef getDiffRefs() {
+        return diffRefs;
+    }
+
+    public void setDiffRefs(final DiffRef diffRefs) {
+        this.diffRefs = diffRefs;
     }
 
     public static final boolean isValid(MergeRequest mergeRequest) {
