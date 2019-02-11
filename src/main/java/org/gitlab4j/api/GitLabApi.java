@@ -27,7 +27,7 @@ public class GitLabApi {
     private final static Logger LOGGER = Logger.getLogger(GitLabApi.class.getName());
 
     /** GitLab4J default per page.  GitLab will ignore anything over 100. */
-    public static final int DEFAULT_PER_PAGE = 100;
+    public static final int DEFAULT_PER_PAGE = 96;
 
     /** Specifies the version of the GitLab API to communicate with. */
     public enum ApiVersion {
@@ -1393,7 +1393,7 @@ public class GitLabApi {
 
         return (optional.get());
     }
-    
+
     /**
      * Gets the SnippetsApi instance owned by this GitLabApi instance. The SnippetsApi is used
      * to perform all snippet related API calls.

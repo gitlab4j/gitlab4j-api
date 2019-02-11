@@ -818,7 +818,7 @@ public class ProjectApi extends AbstractApi implements Constants {
         if (isApiVersion(ApiVersion.V3)) {
             boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
             formData.withParam("public", isPublic);
-            
+
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 throw new IllegalArgumentException("GitLab API v3 does not support tag lists when creating projects");
             }
@@ -826,7 +826,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
                 project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
             formData.withParam("visibility", visibility);
-            
+
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 formData.withParam("tag_list", String.join(",", project.getTagList()));
             }
@@ -1057,7 +1057,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             formData.withParam("visibility_level", project.getVisibilityLevel());
             boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
             formData.withParam("public", isPublic);
-            
+
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 throw new IllegalArgumentException("GitLab API v3 does not support tag lists when updating projects");
             }
@@ -1065,7 +1065,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
                 project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
             formData.withParam("visibility", visibility);
-            
+
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 formData.withParam("tag_list", String.join(",", project.getTagList()));
             }
@@ -1090,7 +1090,7 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Forks a project into the user namespace of the authenticated user or the one provided.
-     * The forking operation for a project is asynchronous and is completed in a background job. 
+     * The forking operation for a project is asynchronous and is completed in a background job.
      * The request will return immediately.
      *
      * <pre><code>POST /projects/:id/fork</code></pre>
@@ -1109,7 +1109,7 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Forks a project into the user namespace of the authenticated user or the one provided.
-     * The forking operation for a project is asynchronous and is completed in a background job. 
+     * The forking operation for a project is asynchronous and is completed in a background job.
      * The request will return immediately.
      *
      * <pre><code>POST /projects/:id/fork</code></pre>
@@ -1130,7 +1130,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * Create a forked from/to relation between existing projects.
      *
      * <pre><code>POST /projects/:id/fork/:forkFromId</code></pre>
-     * 
+     *
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param forkedFromId the ID of the project that was forked from
@@ -1455,7 +1455,7 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Get a Pager of project users matching the specified search string. This Pager includes 
+     * Get a Pager of project users matching the specified search string. This Pager includes
      * all project members and all users assigned to project parent groups.
      *
      * <pre><code>GET /projects/:id/users</code></pre>
@@ -1644,7 +1644,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @return the added ProjectHook instance
      * @throws GitLabApiException if any exception occurs
      */
-    public ProjectHook addHook(String projectName, String url, ProjectHook enabledHooks, boolean enableSslVerification, String secretToken) 
+    public ProjectHook addHook(String projectName, String url, ProjectHook enabledHooks, boolean enableSslVerification, String secretToken)
             throws GitLabApiException {
 
         if (projectName == null) {
@@ -2266,9 +2266,9 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Get a list of projects that were forked from the specified project.
-     * 
+     *
      * <pre><code>GET /projects/:id/forks</code></pre>
-     * 
+     *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @return a List of forked projects
      * @throws GitLabApiException if any exception occurs
@@ -2382,7 +2382,7 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Uploads and sets the project avatar for the specified project. 
+     * Uploads and sets the project avatar for the specified project.
      *
      * <pre><code>PUT /projects/:id/uploads</code></pre>
      *

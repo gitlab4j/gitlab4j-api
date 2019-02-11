@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.15'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.16'
 }
 ```
 
@@ -22,7 +22,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.9.15</version>
+    <version>4.9.16</version>
 </dependency>
 ```
 
@@ -141,33 +141,40 @@ List<Project> allProjects = projectPager.all();
 
 ---
 ## Java 8 Stream Support
-As of GitLab4J-API 4.9.2, you can also stream list based items in a Java 8 Stream using a Pager instance as follows:
-```java
-// Get a Pager instance to get a Stream<Project> instance.
-Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
+As of GitLab4J-API 4.9.2, all GitLabJ-API methods that return a List result also similarlly named method returns a Java 8 Stream.  The Stream returning methods use the following naming convention:  ```getXxxxxStream()```.
+  
 
-// Stream the Projects printing out the project name.
-projectPager.stream().map(Project::getName).forEach(name -> System.out.println(name));
-```
-The following API classes also include ```getXxxxxStream()``` methods which return a Java 8 Stream:
-```
-GroupApi
-IssuesApi
-NotesApi
-ProjectApi
-RepositoryApi
-TagsApi
-UserApi
-```
-Example usage:
+**IMPORTANT**  
+The built-in methods that return a Stream do so using ___eager evaluation___, meaning all items are pre-fetched from the GitLab server and a Stream is returned which will stream those items.  **Eager evaluation does NOT support paralell reading of data from ther server, it does however allow for paralell processing of the Stream post data fetch.**
+
+To stream using ___lazy evaluation___, use the GitLab4J-API methods that return a ```Pager``` instance, and then call the ```lazyStream()``` method on the ```Pager``` instance to create a lazy evaluation Stream. The Stream utilizes the ```Pager``` instance to page through the available items. **A lazy Stream does NOT support parallel operations or skipping.** 
+
+
+**Eager evaluation example usage:**
+
 ```java
-// Stream the visible Projects printing out the project name.
-gitlabApi.getProjectsApi().getProjectsStream().map(Project::getName).forEach(name -> System.out.println(name));
+// Stream the visible projects printing out the project name.
+Stream<Project> projectStream = gitlabApi.getProjectApi().getProjectsStream();
+projectStream.map(Project::getName).forEach(name -> System.out.println(name));
 
 // Operate on the stream in parallel, this example sorts User instances by username
+// NOTE: Fetching of the users is not done in paralell,
+// only the soprting of the users is a paralell operation.
 Stream<User> stream = new UserApi(gitLabApi).getUsersStream();
-List<User> sortedUsers = stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
+List<User> users = stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
 ```
+
+**Lazy evaluation example usage:**
+
+```java
+// Get a Pager instance to that will be used to lazily stream Project instances.
+// In this example, 10 Projects per page will be pre-fetched.
+Pager<Project> projectPager = gitlabApi.getProjectApi().getProjects(10);
+
+// Lazily stream the Projects, printing out each project name, limit the output to 5 project names
+projectPager.lazyStream().limit(5).map(Project::getName).forEach(name -> System.out.println(name));
+```
+
 
 ---
 ## Java 8 Optional&lt;T&gt; Support

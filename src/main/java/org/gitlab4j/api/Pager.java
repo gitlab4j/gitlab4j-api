@@ -18,12 +18,12 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * <p>This class defines an Iterator implementation that is used as a paging iterator for all API methods that 
+ * <p>This class defines an Iterator implementation that is used as a paging iterator for all API methods that
  * return a List of objects.  It hides the details of interacting with the GitLab API when paging is involved
  * simplifying accessing large lists of objects.</p>
- * 
+ *
  * <p>Example usage:</p>
- *  
+ *
  * <pre>
  *   // Get a Pager instance that will page through the projects with 10 projects per page
  *   Pager&lt;Project&gt; projectPager = gitlabApi.getProjectsApi().getProjectsPager(10);
@@ -35,8 +35,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *           System.out.println(project.getName() + " : " + project.getDescription());
  *       }
  *   }
- * </pre> 
- * 
+ * </pre>
+ *
  * @param <T> the GitLab4J type contained in the List.
  */
 public class Pager<T> implements Iterator<List<T>>, Constants {
@@ -48,6 +48,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
     private List<String> pageParam = new ArrayList<>(1);
     private List<T> currentItems;
+    private Stream<T> pagerStream = null;
 
     private AbstractApi api;
     private MultivaluedMap<String, String> queryParams;
@@ -59,7 +60,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
     /**
      * Creates a Pager instance to access the API through the specified path and query parameters.
-     * 
+     *
      * @param api the AbstractApi implementation to communicate through
      * @param type the GitLab4J type that will be contained in the List
      * @param itemsPerPage items per page
@@ -114,7 +115,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
     /**
      * Get the specified integer header value from the Response instance.
-     * 
+     *
      * @param response the Response instance to get the value from
      * @param key the HTTP header key to get the value for
      * @return the specified integer header value from the Response instance
@@ -136,7 +137,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
     /**
      * Sets the "page" query parameter.
-     * 
+     *
      * @param page the value for the "page" query parameter
      */
     private void setPageParam(int page) {
@@ -204,7 +205,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
     /**
      * This method is not implemented and will throw an UnsupportedOperationException if called.
-     * 
+     *
      * @throws UnsupportedOperationException when invoked
      */
     @Override
@@ -289,7 +290,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
             throw new RuntimeException(e);
         }
     }
- 
+
     /**
      * Gets all the items from each page as a single List instance.
      *
@@ -312,34 +313,62 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
     }
 
     /**
-     * Builds and returns a Stream instance for streaming all the items from each page.
+     * Builds and returns a Stream instance which is pre-populated with all items from all pages.
      *
-     * @return a Stream instance for streaming all the items from each pag
-     * @throws GitLabApiException if any error occurs
+     * @return a Stream instance which is pre-populated with all items from all pages
+     * @throws IllegalStateException if Stream has already been issued
+     * @throws GitLabApiException if any other error occurs
      */
-    public Stream<T> stream() throws GitLabApiException {
+    public Stream<T> stream() throws GitLabApiException, IllegalStateException {
 
-    	// Make sure that current page is 0, this will ensure the whole list is streamed
-    	// regardless of what page the instance is currently on.
-    	currentPage = 0;
+        if (pagerStream == null) {
+            synchronized (this) {
+                if (pagerStream == null) {
 
-        // Create a Stream.Builder to contain all the items.  This is more efficient than
-        // getting a List with all() and streaming that List
-    	Stream.Builder<T> streamBuilder = Stream.builder();
+                    // Make sure that current page is 0, this will ensure the whole list is streamed
+                    // regardless of what page the instance is currently on.
+                    currentPage = 0;
 
-    	// Iterate through the pages and append each page of items to the stream builder
-    	while (hasNext()) {
-    		next().forEach(streamBuilder);
-    	}
+                    // Create a Stream.Builder to contain all the items. This is more efficient than
+                    // getting a List with all() and streaming that List
+                    Stream.Builder<T> streamBuilder = Stream.builder();
 
-    	return (streamBuilder.build());
+                    // Iterate through the pages and append each page of items to the stream builder
+                    while (hasNext()) {
+                        next().forEach(streamBuilder);
+                    }
+
+                    pagerStream = streamBuilder.build();
+                    return (pagerStream);
+                }
+            }
+        }
+
+        throw new IllegalStateException("Stream already issued");
     }
 
-    public Stream<T> lazyStream() {
-        // Make sure that current page is 0, this will ensure the whole list is streamed
-        // regardless of what page the instance is currently on.
-        currentPage = 0;
+    /**
+     * Creates a Stream instance for lazily streaming items from the GitLab server.
+     *
+     * @return a Stream instance for lazily streaming items from the GitLab server
+     * @throws IllegalStateException if Stream has already been issued
+     */
+    public Stream<T> lazyStream() throws IllegalStateException {
 
-        return StreamSupport.stream(new PagerSpliterator<T>(this), false);
+        if (pagerStream == null) {
+            synchronized (this) {
+                if (pagerStream == null) {
+
+                    // Make sure that current page is 0, this will ensure the whole list is streamed
+                    // regardless of what page the instance is currently on.
+                    currentPage = 0;
+
+                    pagerStream = StreamSupport.stream(new PagerSpliterator<T>(this), false);
+                    return (pagerStream);
+                }
+            }
+        }
+
+        throw new IllegalStateException("Stream already issued");
     }
 }

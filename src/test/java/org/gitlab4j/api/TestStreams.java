@@ -5,6 +5,7 @@ import static org.gitlab4j.api.JsonUtils.compareJson;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -84,5 +85,37 @@ public class TestStreams implements Constants {
         for (int i = 0; i < users.size(); i++) {
             assertTrue(compareJson(sortedUsers.get(i), users.get(i)));
         }
+    }
+
+    @Test
+    public void testLazyStream() throws Exception {
+
+        // Arrange
+        Pager<User> pager = new UserApi(gitLabApi).getUsers(10);
+        Stream<User> stream = pager.lazyStream();
+
+        // Assert
+        assertNotNull(stream);
+        List<String> usernames = stream.map(User::getUsername).collect(toList());
+        assertNotNull(usernames);
+
+        assertEquals(usernames.size(), sortedUsers.size());
+        for (int i = 0; i < sortedUsers.size(); i++) {
+            assertTrue(usernames.contains(sortedUsers.get(i).getUsername()));
+        }
+    }
+
+    @Test
+    public void testStreamLazyLimit() throws Exception {
+
+        // Arrange and only continue if there are more than 3 users
+        Pager<User> pager = new UserApi(gitLabApi).getUsers(2);
+        assumeTrue(pager != null && pager.getTotalItems() > 3);
+        Stream<User> stream = pager.lazyStream();
+
+        // Assert
+        List<User> users = stream.limit(3).collect(toList());
+        assertNotNull(users);
+        assertEquals(3, users.size());
     }
 }
