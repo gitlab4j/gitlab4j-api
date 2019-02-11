@@ -359,13 +359,13 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
             synchronized (this) {
                 if (pagerStream == null) {
 
-                }
-                // Make sure that current page is 0, this will ensure the whole list is streamed
-                // regardless of what page the instance is currently on.
-                currentPage = 0;
+                    // Make sure that current page is 0, this will ensure the whole list is streamed
+                    // regardless of what page the instance is currently on.
+                    currentPage = 0;
 
-                pagerStream = StreamSupport.stream(new PagerSpliterator<T>(this), false);
-                return (pagerStream);
+                    pagerStream = StreamSupport.stream(new PagerSpliterator<T>(this), false);
+                    return (pagerStream);
+                }
             }
         }
 
