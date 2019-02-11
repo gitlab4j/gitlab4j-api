@@ -5,6 +5,7 @@ import static org.gitlab4j.api.JsonUtils.compareJson;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -105,15 +106,16 @@ public class TestStreams implements Constants {
     }
 
     @Test
-    public void testStreamLimit() throws Exception {
+    public void testStreamLazyLimit() throws Exception {
 
-        // Arrange
-        Stream<User> stream = new UserApi(gitLabApi).getUsersStream();
+        // Arrange and only continue if there are more than 3 users
+        Pager<User> pager = new UserApi(gitLabApi).getUsers(2);
+        assumeTrue(pager != null && pager.getTotalItems() > 3);
+        Stream<User> stream = pager.lazyStream();
 
         // Assert
-        assertNotNull(stream);
-        List<User> users = stream.limit(1).collect(toList());
+        List<User> users = stream.limit(3).collect(toList());
         assertNotNull(users);
-        assertEquals(1, users.size());
+        assertEquals(3, users.size());
     }
 }
