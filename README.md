@@ -148,15 +148,15 @@ As of GitLab4J-API 4.9.2, all GitLabJ-API methods that return a List result also
 List<Project> projects = gitlabApi.getProjectApi().getProjects();
 
 // Stream method
-Stream projectsStream<Project> = gitlabApi.getProjectApi().getProjectsStream();
+Stream<Project> projectStream = gitlabApi.getProjectApi().getProjectsStream();
 ```
 
 Example usage:
 
 ```java
-// Stream the visible Projects printing out the project name.
-Stream projectsStream<Project> = gitlabApi.getProjectApi().getProjectsStream();
-projectsStream.map(Project::getName).forEach(name -> System.out.println(name));
+// Stream the visible projects printing out the project name.
+Stream<Project> projectStream = gitlabApi.getProjectApi().getProjectsStream();
+projectStream.map(Project::getName).forEach(name -> System.out.println(name));
 
 // Operate on the stream in parallel, this example sorts User instances by username
 Stream<User> stream = new UserApi(gitLabApi).getUsersStream();
@@ -164,10 +164,10 @@ List<User> users = stream.parallel().sorted(comparing(User::getUsername)).collec
 ```
 
 **IMPORTANT**  
-The built-in methods that return a Stream do so using ___eager evaluation___, meaning all items are pre-fetched from the GitLab server and a Stream is returned which will stream those instances.  This allows for paralell processing of the Stream.
+The built-in methods that return a Stream do so using ___eager evaluation___, meaning all items are pre-fetched from the GitLab server and a Stream is returned which will stream those items.  This allows for paralell processing of the Stream.
 
-To stream using ___lazy evaluation___, utilize the GitLab4J-API methods that return a ```Pager``` instance, and then call the ```lazyStream()``` method on the ```Pager``` instance to create a lazy evaluation Stream.
-  
+To stream using ___lazy evaluation___, use the GitLab4J-API methods that return a ```Pager``` instance, and then call the ```lazyStream()``` method on the ```Pager``` instance to create a lazy evaluation Stream. The Stream utilizes the ```Pager``` instance to page through the available items. **A lazy Stream does not support parallel operations or skipping.** 
+
 Example usage:
 ```java
 // Get a Pager instance to that will be used to lazily stream Project instances.
