@@ -50,6 +50,7 @@
 		<systemRules.version>1.18.0</systemRules.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<changelog-lib.version>1.59</changelog-lib.version>
 	</properties>
 
 	<scm>
@@ -194,6 +195,25 @@
 						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
 					</systemPropertyVariables>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>se.bjurr.gitchangelog</groupId>
+				<artifactId>git-changelog-maven-plugin</artifactId>
+				<version>${changelog-lib.version}</version>
+				<executions>
+					<execution>
+						<id>GenerateGitChangelog</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>git-changelog</goal>
+						</goals>
+						<configuration>
+							<readableTagName>gitlab4j-api-(.*)</readableTagName>
+							<templateFile>CHANGELOG.mustache</templateFile>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
