@@ -4,6 +4,7 @@
     "project_id":16,
     "title":"10.0",
     "description":"Version",
+    "start_date":"2013-11-01T00:00:00Z",
     "due_date":"2013-11-29T00:00:00Z",
     "state":"active",
     "updated_at":"2013-10-02T09:24:18Z",

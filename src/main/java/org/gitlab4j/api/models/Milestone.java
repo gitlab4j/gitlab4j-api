@@ -14,6 +14,7 @@ public class Milestone {
 
     private Date createdAt;
     private String description;
+    private Date startDate;
     private Date dueDate;
     private Integer id;
     private Integer iid;
@@ -36,6 +37,14 @@ public class Milestone {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getDueDate() {
