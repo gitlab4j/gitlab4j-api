@@ -318,6 +318,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testGroupMilestone() throws Exception {
+        Milestone milestone = unmarshalResource(Milestone.class, "milestone-group.json");
+        assertTrue(compareJson(milestone, "milestone-group.json"));
+    }
+
+    @Test
     public void testNote() throws Exception {
         Note note = unmarshalResource(Note.class, "note.json");
         assertTrue(compareJson(note, "note.json"));

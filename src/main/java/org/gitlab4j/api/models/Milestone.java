@@ -19,6 +19,7 @@ public class Milestone {
     private Integer id;
     private Integer iid;
     private Integer projectId;
+    private Integer groupId;
     private String state;
     private String title;
     private Date updatedAt;
@@ -77,6 +78,14 @@ public class Milestone {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public String getState() {
