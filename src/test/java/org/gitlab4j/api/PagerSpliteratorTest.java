@@ -23,7 +23,7 @@ public class PagerSpliteratorTest {
 	PagerSpliterator<Integer> pagerSpliterator;
 
 	@Mock
-	Pager pager;
+	Pager<Integer> pager;
 
 	@Before
 	public void setUp() {
