@@ -14,10 +14,12 @@ public class Milestone {
 
     private Date createdAt;
     private String description;
+    private Date startDate;
     private Date dueDate;
     private Integer id;
     private Integer iid;
     private Integer projectId;
+    private Integer groupId;
     private String state;
     private String title;
     private Date updatedAt;
@@ -36,6 +38,14 @@ public class Milestone {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getDueDate() {
@@ -68,6 +78,14 @@ public class Milestone {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public String getState() {
