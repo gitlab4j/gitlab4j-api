@@ -1,7 +1,5 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class DiffRef {
     private String baseSha;
     private String headSha;
