@@ -128,7 +128,7 @@ public class MilestonesApi extends AbstractApi {
      * @return a Milestone instance for the specified IDs
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone getGroupMilestone(Object groupIdOrPath, int milestoneId) throws GitLabApiException {
+    public Milestone getGroupMilestone(Object groupIdOrPath, Integer milestoneId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
                 "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
