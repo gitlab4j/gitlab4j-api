@@ -204,8 +204,6 @@
 					<version>${changelog-lib.version}</version>
 					<executions>
 						<execution>
-							<id>GenerateGitChangelog</id>
-							<phase>generate-sources</phase>
 							<goals>
 								<goal>git-changelog</goal>
 							</goals>
