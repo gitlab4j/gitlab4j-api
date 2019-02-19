@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.GroupProjectsFilter;
@@ -126,6 +127,47 @@ public class GroupApi extends AbstractApi {
      */
     public Stream<Group> getGroupsStream(String search) throws GitLabApiException {
         return (getGroups(search, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of visible groups for the authenticated user using the provided filter.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups</code></pre>
+     *
+     * @param filter the GroupFilter to match against
+     * @return a List&lt;Group&gt; of the matching groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Group> getGroups(GroupFilter filter) throws GitLabApiException {
+        return (getGroups(filter, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of visible groups for the authenticated user using the provided filter.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups</code></pre>
+     *
+     * @param filter the GroupFilter to match against
+     * @param itemsPerPage the number of Group instances that will be fetched per page
+     * @return a Pager containing matching Group instances
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Group> getGroups(GroupFilter filter, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups"));
+    }
+
+    /**
+     * Get a Stream of visible groups for the authenticated user using the provided filter.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups</code></pre>
+     *
+     * @param filter the GroupFilter to match against
+     * @return a Stream&lt;Group&gt; of the matching groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Group> getGroupsStream(GroupFilter filter) throws GitLabApiException {
+        return (getGroups(filter, getDefaultPerPage()).stream());
     }
 
     /**
