@@ -160,7 +160,7 @@ projectStream.map(Project::getName).forEach(name -> System.out.println(name));
 // Operate on the stream in parallel, this example sorts User instances by username
 // NOTE: Fetching of the users is not done in paralell,
 // only the soprting of the users is a paralell operation.
-Stream<User> stream = new UserApi(gitLabApi).getUsersStream();
+Stream<User> stream = gitlabApi.getUserApi().getUsersStream();
 List<User> users = stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
 ```
 
