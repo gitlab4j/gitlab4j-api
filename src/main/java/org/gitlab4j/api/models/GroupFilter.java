@@ -136,7 +136,7 @@ public class GroupFilter {
             .withParam("statistics", statistics)
             .withParam("with_custom_attributes", withCustomAttributes)
             .withParam("owned", owned)  
-            .withParam("min_access_level ", accessLevel)
+            .withParam("min_access_level", accessLevel)
         );
     }
 }
