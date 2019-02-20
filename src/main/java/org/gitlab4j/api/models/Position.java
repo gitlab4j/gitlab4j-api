@@ -18,7 +18,7 @@ public class Position {
 
         TEXT, IMAGE;
         private static JacksonJsonEnumHelper<PositionType> enumHelper = new JacksonJsonEnumHelper<>(PositionType.class,
-                true, true);
+                false, false);
 
         @JsonCreator
         public static PositionType forValue(String value) {
