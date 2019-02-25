@@ -228,6 +228,19 @@ public class PipelineApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Delete a pipeline from a project.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/pipelines/:pipeline_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param pipelineId the pipeline ID to delete
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public void deletePipeline(Object projectIdOrPath, int pipelineId) throws GitLabApiException {
+       delete(Response.Status.ACCEPTED, null, "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId);
+    }
+
+    /**
      * Retry a job in specified pipelines in a project.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/pipelines/:pipeline_id/retry</code></pre>
