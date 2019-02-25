@@ -779,4 +779,18 @@ public class RepositoryApi extends AbstractApi {
             return (GitLabApi.createOptionalFromException(glae));
         }
     }
+
+    /**
+     * <p>Delete all branches that are merged into the project’s default branch.</p?
+     * NOTE: Protected branches will not be deleted as part of this operation.
+     *
+     * <pre><code>GitLab Endpoint: /projects/:id/repository/merged_branches</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteMergedBranches(Object projectIdOrPath) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "projects",
+                getProjectIdOrPath(projectIdOrPath), "repository", "merged_branches");
+    }
 }
