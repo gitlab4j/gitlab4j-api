@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.User;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -45,7 +46,8 @@ public class TestAvatarUpload {
         TEST_PROXY_USERNAME = TestUtils.getProperty("TEST_PROXY_USERNAME");
         TEST_PROXY_PASSWORD = TestUtils.getProperty("TEST_PROXY_PASSWORD");
     }
-
+    
+    
     private static final String AVATAR_FILENAME = "avatar.png";
 
     private static GitLabApi gitLabApi;
@@ -115,5 +117,17 @@ public class TestAvatarUpload {
         Project updatedProject = gitLabApi.getProjectApi().setProjectAvatar(project.getId(), avatarFile);
         assertNotNull(updatedProject);
         assertTrue(updatedProject.getAvatarUrl().endsWith(AVATAR_FILENAME));
+    }
+
+    @Test
+    public void testSetUserAvatar() throws GitLabApiException {
+
+        User user = gitLabApi.getUserApi().getCurrentUser();
+        assertNotNull(user);
+
+        File avatarFile = new File("src/test/resources/org/gitlab4j/api", AVATAR_FILENAME);
+        User updatedUser = gitLabApi.getUserApi().setUserAvatar(user, avatarFile);
+        assertNotNull(updatedUser);
+        assertTrue(updatedUser.getAvatarUrl().endsWith(AVATAR_FILENAME));
     }
 }

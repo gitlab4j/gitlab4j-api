@@ -3,6 +3,7 @@ package org.gitlab4j.api;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.ImpersonationToken;
+import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
@@ -10,6 +11,8 @@ import org.gitlab4j.api.models.User;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -994,5 +997,20 @@ public class UserApi extends AbstractApi {
     private GitLabApiForm createGitLabApiForm() {
         GitLabApiForm formData = new GitLabApiForm();
         return (customAttributesEnabled ? formData.withParam("with_custom_attributes", true) : formData);
+    }
+
+    /**
+     * Uploads and sets the user's avatar for the specified user.
+     *
+     * <pre><code>PUT /users/:id</code></pre>
+     *
+     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param avatarFile the File instance of the avatar file to upload
+     * @return the updated User instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public User setUserAvatar(final Object userIdOrUsername, File avatarFile) throws GitLabApiException {
+        Response response = putUpload(Response.Status.OK, "avatar", avatarFile,  "users", getUserIdOrUsername(userIdOrUsername));
+        return (response.readEntity(User.class));
     }
 }
