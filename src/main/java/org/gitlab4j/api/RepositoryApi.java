@@ -781,7 +781,7 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
-     * <p>Delete all branches that are merged into the project’s default branch.</p?
+     * <p>Delete all branches that are merged into the project’s default branch.</p>
      * NOTE: Protected branches will not be deleted as part of this operation.
      *
      * <pre><code>GitLab Endpoint: /projects/:id/repository/merged_branches</code></pre>
