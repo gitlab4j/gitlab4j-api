@@ -45,6 +45,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
     private int totalPages;
     private int totalItems;
     private int currentPage;
+    private int kaminariNextPage;
 
     private List<String> pageParam = new ArrayList<>(1);
     private List<T> currentItems;
@@ -92,25 +93,58 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
             throw new GitLabApiException(e);
         }
 
+        if (currentItems == null) {
+            throw new GitLabApiException("Invalid response from from GitLab server");
+        }
+
         this.api = api;
         this.queryParams = queryParams;
         this.pathArgs = pathArgs;
+        this.itemsPerPage = getIntHeaderValue(response, PER_PAGE);
 
-        try {
-            this.itemsPerPage = getHeaderValue(response, PER_PAGE);
-            totalPages = getHeaderValue(response, TOTAL_PAGES_HEADER);
-            totalItems = getHeaderValue(response, TOTAL_HEADER);
-        } catch (GitLabApiException glae) {
+        // Some API endpoints do not return the "X-Per-Page" header when there is only 1 page, check for that condition and act accordingly
+        if (this.itemsPerPage == -1) {
+            this.itemsPerPage = itemsPerPage;
+            totalPages = 1;
+            totalItems = currentItems.size();
+            return;
+        }
 
-            // Some API endpoints do not return the proper headers, check for that condition and act accordingly
-            if (currentItems != null && currentItems.size() < itemsPerPage) {
-                this.itemsPerPage = itemsPerPage;
+        totalPages = getIntHeaderValue(response, TOTAL_PAGES_HEADER);
+        totalItems = getIntHeaderValue(response, TOTAL_HEADER);
+
+        // Since GitLab 11.8 and behind the api_kaminari_count_with_limit feature flag,
+        // if the number of resources is more than 10,000, the X-Total and X-Total-Page
+        // headers as well as the rel="last" Link are not present in the response headers.
+        if (totalPages == -1 || totalItems == -1) {
+
+            int nextPage = getIntHeaderValue(response, NEXT_PAGE_HEADER);
+            if (nextPage < 2) {
                 totalPages = 1;
                 totalItems = currentItems.size();
             } else {
-                throw (glae);
+                kaminariNextPage = 2;
             }
         }
+     }
+
+    /**
+     * Get the specified header value from the Response instance.
+     *
+     * @param response the Response instance to get the value from
+     * @param key the HTTP header key to get the value for
+     * @return the specified header value from the Response instance, or null if the header is not present
+     * @throws GitLabApiException if any error occurs
+     */
+    private String getHeaderValue(Response response, String key) throws GitLabApiException {
+
+        String value = response.getHeaderString(key);
+        value = (value != null ? value.trim() : null);
+        if (value == null || value.length() == 0) {
+            return (null);
+        }
+
+        return (value);
     }
 
     /**
@@ -118,15 +152,15 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      *
      * @param response the Response instance to get the value from
      * @param key the HTTP header key to get the value for
-     * @return the specified integer header value from the Response instance
+     * @return the specified integer header value from the Response instance, or -1 if the header is not present
      * @throws GitLabApiException if any error occurs
      */
-    private int getHeaderValue(Response response, String key) throws GitLabApiException {
+    private int getIntHeaderValue(Response response, String key) throws GitLabApiException {
 
-        String value = response.getHeaderString(key);
-        value = (value != null ? value.trim() : null);
-        if (value == null || value.length() == 0)
-            throw new GitLabApiException("Missing '" + key + "' header from server");
+        String value = getHeaderValue(response, key);
+        if (value == null) {
+            return -1;
+        }
 
         try {
             return (Integer.parseInt(value));
@@ -157,7 +191,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
     /**
      * Get the total number of pages returned by the GitLab API.
      *
-     * @return the total number of pages returned by the GitLab API
+     * @return the total number of pages returned by the GitLab API, or -1 if the Kaminari limit of 10,000 has been exceeded
      */
     public int getTotalPages() {
         return (totalPages);
@@ -166,7 +200,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
     /**
      * Get the total number of items (T instances) returned by the GitLab API.
      *
-     * @return the total number of items (T instances) returned by the GitLab API
+     * @return the total number of items (T instances) returned by the GitLab API, or -1 if the Kaminari limit of 10,000 has been exceeded
      */
     public int getTotalItems() {
         return (totalItems);
@@ -188,7 +222,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      */
     @Override
     public boolean hasNext() {
-        return (currentPage < totalPages);
+        return (currentPage < totalPages || currentPage < kaminariNextPage);
     }
 
     /**
@@ -230,6 +264,11 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      * @throws GitLabApiException if any error occurs
      */
     public List<T> last() throws GitLabApiException {
+
+        if (kaminariNextPage != 0) {
+            throw new GitLabApiException("Kaminari count limit exceeded, unable to fetch last page");
+        }
+
         return (page(totalPages));
     }
 
@@ -263,7 +302,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      */
     public List<T> page(int pageNumber) {
 
-        if (pageNumber > totalPages) {
+        if (pageNumber > totalPages && pageNumber > kaminariNextPage) {
             throw new NoSuchElementException();
         } else if (pageNumber < 1) {
             throw new NoSuchElementException();
@@ -284,6 +323,11 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
             Response response = api.get(Response.Status.OK, queryParams, pathArgs);
             currentItems = mapper.readValue((InputStream) response.getEntity(), javaType);
             currentPage = pageNumber;
+
+            if (kaminariNextPage > 0) {
+                kaminariNextPage = getIntHeaderValue(response, NEXT_PAGE_HEADER);
+            }
+
             return (currentItems);
 
         } catch (GitLabApiException | IOException e) {
