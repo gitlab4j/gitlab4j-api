@@ -457,8 +457,7 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Runner enableRunner(Object projectIdOrPath, Integer runnerId) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("runner_id", runnerId, true);
+        GitLabApiForm formData = new GitLabApiForm().withParam("runner_id", runnerId, true);
         Response response = post(Response.Status.CREATED, formData.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "runners");
         return (response.readEntity(Runner.class));
@@ -476,9 +475,8 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Runner disableRunner(Object projectIdOrPath, Integer runnerId) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("runner_id", runnerId, true);
-        Response response = delete(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "runners");
+        Response response = delete(Response.Status.OK, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "runners", runnerId);
         return (response.readEntity(Runner.class));
     }
 
