@@ -1,11 +1,22 @@
-{
-    "diff": "--- a/doc/update/5.4-to-6.0.html\n+++ b/doc/update/5.4-to-6.0.html\n@@ -71,6 +71,8 @@\n sudo -u git -H bundle exec rake migrate_keys RAILS_ENV=production\n sudo -u git -H bundle exec rake migrate_inline_notes RAILS_ENV=production\n \n+sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production\n+\n ```\n \n ### 6. Update config files",
-    "new_path": "doc/update/5.4-to-6.0.html",
-    "old_path": "doc/update/5.4-to-6.0.html",
-    "a_mode": null,
-    "b_mode": "100644",
-    "new_file": false,
-    "renamed_file": false,
-    "deleted_file": false
-}
-
+[   
+    {    
+         "old_path":"core/src/main/java/codereview/service/data/XxxDAO.java",
+	     "new_path":"core/src/main/java/codereview/service/data/XxxDAO.java",
+	     "a_mode":"100644",
+	     "b_mode":"100644",
+	     "new_file":false,
+	     "renamed_file":false,
+	     "deleted_file":false,
+	     "diff":"@@ -114,5 +114,13 @@ diff content here \n"
+	},
+	
+	{   "old_path":"core/src/main/java/codereview/service/data/XxxService.java",
+	    "new_path":"core/src/main/java/codereview/service/data/XxxService.java",
+	    "a_mode":"100644",
+	    "b_mode":"100644",
+	    "new_file":false,
+	    "renamed_file":false,
+	    "deleted_file":false,
+	    "diff":"@@ -5,6 +5,7 @@ diff content here\n"
+	}
+]

@@ -127,8 +127,8 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testDiff() throws Exception {
-        Diff diff = unmarshalResource(Diff.class, "diff.json");
-        assertTrue(compareJson(diff, "diff.json"));
+        List<Diff> diffs = unmarshalResourceList(Diff.class, "diff.json");
+        assertTrue(compareJson(diffs, "diff.json"));
     }
 
     @Test
