@@ -1,23 +1,22 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.CustomAttribute;
-import org.gitlab4j.api.models.ImpersonationToken;
-import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.ImpersonationToken.Scope;
-import org.gitlab4j.api.models.SshKey;
-import org.gitlab4j.api.models.User;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.CustomAttribute;
+import org.gitlab4j.api.models.ImpersonationToken;
+import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.models.SshKey;
+import org.gitlab4j.api.models.User;
 
 /**
  * This class provides an entry point to all the GitLab API users calls.
