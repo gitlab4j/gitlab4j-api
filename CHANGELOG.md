@@ -1,8 +1,97 @@
 # Changelog
 Changelog of GitLab4J API.
 
-## Unreleased
+## gitlab4j-api-4.9.18
+### GitHub [#302](https://github.com/gmessner/gitlab4j-api/issues/302) Improvement: Add optional parameters to GroupsApi.getGroups    *enhancement*  
+
+**Removed space from min_access_level attribute name (#302).**
+
+
+[654cf80d04fcc73](https://github.com/gmessner/gitlab4j-api/commit/654cf80d04fcc73) Greg Messner *2019-02-20 04:06:05*
+
+
+### GitHub [#305](https://github.com/gmessner/gitlab4j-api/issues/305) A bug in projects API while getting all projects using getProjects()  
+
+**Added support for api_kaminari_count_with_limit (#305).**
+
+
+[68e98e6bb02006f](https://github.com/gmessner/gitlab4j-api/commit/68e98e6bb02006f) Greg Messner *2019-03-03 21:17:56*
+
+
+### GitHub [#308](https://github.com/gmessner/gitlab4j-api/issues/308) position[position_type] does not have a valid value  
+
+**Using lower case for Position #308 (#309)**
+
+
+[26437a492cdf536](https://github.com/gmessner/gitlab4j-api/commit/26437a492cdf536) Tomas Bjerre *2019-02-20 17:39:24*
+
+
+### GitHub [#309](https://github.com/gmessner/gitlab4j-api/pull/309) Using lower case for Position  
+
+**Using lower case for Position #308 (#309)**
+
+
+[26437a492cdf536](https://github.com/gmessner/gitlab4j-api/commit/26437a492cdf536) Tomas Bjerre *2019-02-20 17:39:24*
+
+
+### GitHub [#312](https://github.com/gmessner/gitlab4j-api/issues/312) Add Delete merged branches api    *enhancement*  
+
+**Fixed javadoc issue (#312).**
+
+
+[b0f40f9ff0c08d8](https://github.com/gmessner/gitlab4j-api/commit/b0f40f9ff0c08d8) Greg Messner *2019-03-03 21:22:29*
+
+**Added deleteMergedBranches() (#312).**
+
+
+[251de6b868299b2](https://github.com/gmessner/gitlab4j-api/commit/251de6b868299b2) Greg Messner *2019-02-25 08:38:30*
+
+
+### GitHub [#313](https://github.com/gmessner/gitlab4j-api/issues/313) Improvement: Add method to delete pipeline    *enhancement*  
+
+**Added deletePipeline() (#313).**
+
+
+[34a723b9c55a45c](https://github.com/gmessner/gitlab4j-api/commit/34a723b9c55a45c) Greg Messner *2019-02-25 08:31:29*
+
+
+### GitHub [#314](https://github.com/gmessner/gitlab4j-api/issues/314) Improvement: Add method setUserAvatar to UserApi    *enhancement*  
+
+**Cleaned up imports (#314).**
+
+
+[5dba51af16f9543](https://github.com/gmessner/gitlab4j-api/commit/5dba51af16f9543) Greg Messner *2019-03-03 21:11:58*
+
+**Added method to upload user avatar (#314).**
+
+
+[a28e1d88c423084](https://github.com/gmessner/gitlab4j-api/commit/a28e1d88c423084) Greg Messner *2019-03-03 17:47:32*
+
+
+### GitHub [#315](https://github.com/gmessner/gitlab4j-api/issues/315) Disable runner not correctly implemented    *bug*  
+
+**Fixed disableRunner() (#315).**
+
+
+[4dabe7113c12219](https://github.com/gmessner/gitlab4j-api/commit/4dabe7113c12219) Greg Messner *2019-03-03 17:53:47*
+
+
 ### No issue
+
+**Now tests Diff using an array.**
+
+
+[631db18c50a22dd](https://github.com/gmessner/gitlab4j-api/commit/631db18c50a22dd) Greg Messner *2019-03-03 21:10:52*
+
+**Bumped version to 4.9.18 in preparation for release.**
+
+
+[aeaee88894d6b57](https://github.com/gmessner/gitlab4j-api/commit/aeaee88894d6b57) Greg Messner *2019-03-03 17:49:13*
+
+**Generated latest changelog.**
+
+
+[0ae30f9e2a7ef1e](https://github.com/gmessner/gitlab4j-api/commit/0ae30f9e2a7ef1e) Greg Messner *2019-02-19 18:28:17*
 
 **Updated Stream support section.**
 
