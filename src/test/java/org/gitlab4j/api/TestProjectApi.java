@@ -267,55 +267,6 @@ public class TestProjectApi {
         assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
         assertEquals(TEST_PROJECT_NAME_1, projects.get(1).getName());
     }
-    
-    @Test
-    public void testCreateProjectPipeLineSchedule() throws GitLabApiException {
-        assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
-        assumeTrue(TEST_GROUP.trim().length() > 0 && TEST_GROUP_PROJECT.trim().length() > 0);
-
-        Integer testProjectId = gitLabApi.getProjectApi().getProject(TEST_GROUP, TEST_GROUP_PROJECT).getId();
-        PipelineSchedule newPipelineSchedule = new PipelineSchedule();
-        newPipelineSchedule.setDescription("test pipeline schedule");
-        newPipelineSchedule.setCron("0 4 * * *");
-        newPipelineSchedule.setRef("master");
-        PipelineSchedule createdPipelineSchedule = gitLabApi.getProjectApi().createPipelineSchedule(testProjectId,newPipelineSchedule);
-        assertNotNull(createdPipelineSchedule);
-        List<PipelineSchedule> pipelineSchedules = gitLabApi.getProjectApi().getPipelineSchedules(testProjectId);
-        assertFalse(pipelineSchedules.isEmpty());
-    }
-
-
-    @Test
-    public void testModifyProjectPipeLineSchedule() throws GitLabApiException {
-        assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
-        assumeTrue(TEST_GROUP.trim().length() > 0 && TEST_GROUP_PROJECT.trim().length() > 0);
-
-        Integer testProjectId = gitLabApi.getProjectApi().getProject(TEST_GROUP, TEST_GROUP_PROJECT).getId();
-        List<PipelineSchedule> pipelineSchedules = gitLabApi.getProjectApi().getPipelineSchedules(testProjectId);
-        assertTrue(pipelineSchedules.size()==1);
-        PipelineSchedule existingPipelineSchedule = pipelineSchedules.get(0);
-        assertTrue(existingPipelineSchedule.getDescription().equals("test pipeline schedule"));
-        existingPipelineSchedule.setDescription("new name");
-        gitLabApi.getProjectApi().modifyPipelineSchedule(testProjectId,existingPipelineSchedule);
-        pipelineSchedules = gitLabApi.getProjectApi().getPipelineSchedules(testProjectId);
-        PipelineSchedule newPipelineSchedule = pipelineSchedules.get(0);
-        assertTrue(pipelineSchedules.size()==1);
-        assertTrue(newPipelineSchedule.equals("new name"));
-    }
-
-
-    @Test
-    public void testDeleteProjectPipeLineSchedule() throws GitLabApiException {
-        assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
-        assumeTrue(TEST_GROUP.trim().length() > 0 && TEST_GROUP_PROJECT.trim().length() > 0);
-
-        Integer testProjectId = gitLabApi.getProjectApi().getProject(TEST_GROUP, TEST_GROUP_PROJECT).getId();
-        List<PipelineSchedule> pipelineSchedules = gitLabApi.getProjectApi().getPipelineSchedules(testProjectId);
-        assertFalse(pipelineSchedules.isEmpty());
-        gitLabApi.getProjectApi().deletePipelineSchedule(testProjectId,pipelineSchedules.get(0).getId());
-        pipelineSchedules = gitLabApi.getProjectApi().getPipelineSchedules(testProjectId);
-        assertTrue(pipelineSchedules.isEmpty());
-    }
 
     @Test
     public void testListProjectsWithParams() throws GitLabApiException {
