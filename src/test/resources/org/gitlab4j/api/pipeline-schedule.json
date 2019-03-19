@@ -1,0 +1,21 @@
+{
+  "id": 13,
+  "description": "Test schedule pipeline",
+  "ref": "master",
+  "cron": "* * * * *",
+  "cron_timezone": "Asia/Tokyo",
+  "next_run_at": "2017-05-19T13:41:00.121Z",
+  "active": true,
+  "created_at": "2017-05-19T13:31:08.849Z",
+  "updated_at": "2017-05-19T13:40:17.727Z",
+  "last_pipeline": {
+    "id": 332,
+    "sha": "0e788619d0b5ec17388dffb973ecd505946156db",
+    "ref": "master",
+    "status": "pending"
+  },
+  "owner": {
+    "name": "Administrator",
+    "id": 1
+  }
+}

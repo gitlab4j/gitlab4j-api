@@ -61,6 +61,7 @@ import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.NotificationSettings;
 import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.Pipeline;
+import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
@@ -213,6 +214,12 @@ public class TestGitLabApiBeans {
     public void testPipeline() throws Exception {
         Pipeline pipeline = unmarshalResource(Pipeline.class, "pipeline.json");
         assertTrue(compareJson(pipeline, "pipeline.json"));
+    }
+
+    @Test
+    public void testPipelineSchedule() throws Exception {
+        PipelineSchedule pipelineSchedule = unmarshalResource(PipelineSchedule.class, "pipeline-schedule.json");
+        assertTrue(compareJson(pipelineSchedule, "pipeline-schedule.json"));
     }
 
     @Test
