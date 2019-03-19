@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class IssueEvent extends AbstractEvent {
@@ -68,5 +69,10 @@ public class IssueEvent extends AbstractEvent {
     }
 
     public static class ObjectAttributes extends EventIssue {
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

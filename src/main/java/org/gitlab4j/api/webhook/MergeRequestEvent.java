@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MergeRequestEvent extends AbstractEvent {
@@ -59,5 +60,10 @@ public class MergeRequestEvent extends AbstractEvent {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class ObjectAttributes extends EventMergeRequest {
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

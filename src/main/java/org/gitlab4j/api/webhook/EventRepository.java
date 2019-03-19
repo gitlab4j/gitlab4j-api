@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.gitlab4j.api.models.AccessLevel;
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventRepository {
@@ -70,5 +71,10 @@ public class EventRepository {
 
     public void setVisibility_level(AccessLevel visibility_level) {
         this.visibility_level = visibility_level;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

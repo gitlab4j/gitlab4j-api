@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.webhook.EventProject;
 
 @XmlRootElement
@@ -96,5 +97,10 @@ public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
 
     public void setRefs(List<String> refs) {
         this.refs = refs;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.gitlab4j.api.models.Assignee;
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventMergeRequest {
@@ -262,5 +263,10 @@ public class EventMergeRequest {
 
     public void setAssignee(Assignee assignee) {
         this.assignee = assignee;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PipelineEvent extends AbstractEvent {
@@ -267,5 +268,10 @@ public class PipelineEvent extends AbstractEvent {
         public void setDuration(Integer duration) {
             this.duration = duration;
         }
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

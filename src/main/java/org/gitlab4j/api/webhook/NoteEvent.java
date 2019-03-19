@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -259,5 +260,10 @@ public class NoteEvent extends AbstractEvent {
         public void setUrl(String url) {
             this.url = url;
         }
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

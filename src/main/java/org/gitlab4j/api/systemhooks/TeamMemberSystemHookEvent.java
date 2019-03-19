@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.gitlab4j.api.models.Visibility;
+import org.gitlab4j.api.utils.JacksonJson;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -131,5 +132,10 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
 
     public void setProjectVisibility(Visibility projectVisibility) {
         this.projectVisibility = projectVisibility;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
