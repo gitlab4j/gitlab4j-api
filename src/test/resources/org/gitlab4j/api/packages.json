@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "com/mycompany/my-app",
+    "version": "1.0-SNAPSHOT",
+    "package_type": "maven"
+  },
+  {
+    "id": 2,
+    "name": "@foo/bar",
+    "version": "1.0.3",
+    "package_type": "npm"
+  }
+]
