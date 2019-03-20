@@ -2,6 +2,8 @@ package org.gitlab4j.api;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -128,6 +130,36 @@ public class GitLabApiForm extends Form {
         for (T value : values) {
             if (value != null) {
                 this.param(name + "[]", value.toString());
+            }
+        }
+
+        return (this);
+    }
+
+    /**
+     * Fluent method for adding an array of hash type query and form parameters to a get() or post() call.
+     *
+     * @param name the name of the field/attribute to add
+     * @param variables a Map containing array of hashes
+     * @param required the field is required flag
+     * @return this GitLabAPiForm instance
+     * @throws IllegalArgumentException if a required parameter is null or empty
+     */
+    public GitLabApiForm withParam(String name, Map<String, ?> variables, boolean required) throws IllegalArgumentException {
+
+        if (variables == null || variables.isEmpty()) {
+            if (required) {
+                throw new IllegalArgumentException(name + " cannot be empty or null");
+            }
+
+            return (this);
+        }
+
+        for (Entry<String, ?> variable : variables.entrySet()) {
+            Object value = variable.getValue();
+            if (value != null) {
+                this.param(name + "[][key]", variable.getKey());
+                this.param(name + "[][value]", value.toString());
             }
         }
 

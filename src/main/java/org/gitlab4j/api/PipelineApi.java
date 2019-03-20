@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -224,7 +225,25 @@ public class PipelineApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Pipeline createPipeline(Object projectIdOrPath, String ref) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("ref", ref);
+        return (createPipeline(projectIdOrPath, ref, null));
+    }
+
+    /**
+     * Create a pipelines in a project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/pipeline</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param ref reference to commit
+     * @param variables a Map containing the variables available in the pipeline
+     * @return a Pipeline instance with the newly created pipeline info
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Pipeline createPipeline(Object projectIdOrPath, String ref, Map<String, String> variables) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("ref", ref, true)
+                .withParam("variables", variables, false);
         Response response = post(Response.Status.CREATED, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "pipeline");
         return (response.readEntity(Pipeline.class));
     }
