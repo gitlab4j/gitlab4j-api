@@ -67,6 +67,7 @@ public class GitLabApi {
     private NamespaceApi namespaceApi;
     private NotesApi notesApi;
     private NotificationSettingsApi notificationSettingsApi;
+    private PackagesApi packagesApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
     private ProtectedBranchesApi protectedBranchesApi;
@@ -1139,6 +1140,25 @@ public class GitLabApi {
         }
 
         return (notificationSettingsApi);
+    }
+
+    /**
+     * Gets the PackagesApi instance owned by this GitLabApi instance. The PackagesApi is used
+     * to perform all Package related API calls.
+     *
+     * @return the PackagesApi instance owned by this GitLabApi instance
+     */
+    public PackagesApi getPackagesApi() {
+
+        if (packagesApi == null) {
+            synchronized (this) {
+                if (packagesApi == null) {
+                    packagesApi = new PackagesApi(this);
+                }
+            }
+        }
+
+        return (packagesApi);
     }
 
     /**

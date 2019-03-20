@@ -60,6 +60,8 @@ import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.NotificationSettings;
 import org.gitlab4j.api.models.OauthTokenResponse;
+import org.gitlab4j.api.models.Package;
+import org.gitlab4j.api.models.PackageFile;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
@@ -202,6 +204,18 @@ public class TestGitLabApiBeans {
     public void testMergeRequestDiscussions() throws Exception {
         List<Discussion> discussions = unmarshalResourceList(Discussion.class, "merge-request-discussions.json");
         assertTrue(compareJson(discussions, "merge-request-discussions.json"));
+    }
+
+    @Test
+    public void testPackages() throws Exception {
+        List<Package> packages = unmarshalResourceList(Package.class, "packages.json");
+        assertTrue(compareJson(packages, "packages.json"));
+    }
+
+    @Test
+    public void testPackageFiles() throws Exception {
+        List<PackageFile> packageFiles = unmarshalResourceList(PackageFile.class, "package-files.json");
+        assertTrue(compareJson(packageFiles, "package-files.json"));
     }
 
     @Test
