@@ -427,7 +427,7 @@ public class NotesApi extends AbstractApi {
         }
 
         Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, getDefaultPerPageParam(),
+        delete(expectedStatus, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "notes", noteId);
     }
 }
