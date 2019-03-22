@@ -1,6 +1,77 @@
 # Changelog
 Changelog of GitLab4J API.
 
+## gitlab4j-api-4.9.19
+### GitHub [#317](https://github.com/gmessner/gitlab4j-api/issues/317) Package API    *enhancement*  
+
+**Added support for the Packages API (#317).**
+
+
+[87ea8f6dc79d17a](https://github.com/gmessner/gitlab4j-api/commit/87ea8f6dc79d17a) Greg Messner *2019-03-20 06:44:55*
+
+**Initial commit (#317).**
+
+
+[4080db209da2d6c](https://github.com/gmessner/gitlab4j-api/commit/4080db209da2d6c) Greg Messner *2019-03-20 06:42:37*
+
+
+### GitHub [#318](https://github.com/gmessner/gitlab4j-api/issues/318) Pipeline schedules Api    *enhancement*  
+
+**Fixed tests so they would reliably execute (#318).**
+
+
+[85137e736c1ef58](https://github.com/gmessner/gitlab4j-api/commit/85137e736c1ef58) Greg Messner *2019-03-22 06:52:54*
+
+**Renamed modifyPipelineSchedule() to updatePipelineSchedule() to follow library naming conventions (#318).**
+
+
+[02c1995c9a32e70](https://github.com/gmessner/gitlab4j-api/commit/02c1995c9a32e70) Greg Messner *2019-03-22 06:51:10*
+
+
+### GitHub [#319](https://github.com/gmessner/gitlab4j-api/pull/319) Update with pipeline schedule support  
+
+**Update with pipeline schedule support (#319)**
+
+ * pipeline schedule support
+ * add test for json structure of pipeline-schedule
+
+[88ec32b9ab9f807](https://github.com/gmessner/gitlab4j-api/commit/88ec32b9ab9f807) lpiet *2019-03-19 05:21:11*
+
+
+### GitHub [#320](https://github.com/gmessner/gitlab4j-api/issues/320) could WebHook entity add toString ?    *enhancement*  
+
+**Implemented toString() (#320).**
+
+
+[2f2d2b45048c5f6](https://github.com/gmessner/gitlab4j-api/commit/2f2d2b45048c5f6) Greg Messner *2019-03-19 15:38:47*
+
+
+### GitHub [#321](https://github.com/gmessner/gitlab4j-api/issues/321) Support variables param in createPipeline    *enhancement*  
+
+**Added createPipeline() method that takes the variables param (#321).**
+
+
+[74588bc739c2507](https://github.com/gmessner/gitlab4j-api/commit/74588bc739c2507) Greg Messner *2019-03-20 06:46:17*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[e75749c918fdac3](https://github.com/gmessner/gitlab4j-api/commit/e75749c918fdac3) Greg Messner *2019-03-22 06:53:57*
+
+**Removed unused param in delete call.**
+
+
+[0e96088c0bc7366](https://github.com/gmessner/gitlab4j-api/commit/0e96088c0bc7366) Greg Messner *2019-03-20 06:43:45*
+
+**Generated latest changelog.**
+
+
+[fce0863f4d61f96](https://github.com/gmessner/gitlab4j-api/commit/fce0863f4d61f96) Greg Messner *2019-03-06 16:25:28*
+
+
 ## gitlab4j-api-4.9.18
 ### GitHub [#302](https://github.com/gmessner/gitlab4j-api/issues/302) Improvement: Add optional parameters to GroupsApi.getGroups    *enhancement*  
 
