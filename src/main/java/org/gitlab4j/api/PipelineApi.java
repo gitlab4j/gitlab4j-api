@@ -305,6 +305,7 @@ public class PipelineApi extends AbstractApi implements Constants {
     public List<PipelineSchedule> getPipelineSchedules(Object projectIdOrPath) throws GitLabApiException {
         return (getPipelineSchedules(projectIdOrPath, getDefaultPerPage()).all());
     }
+
     /**
      * Get list of project pipeline schedules in the specified page range.
      *
@@ -320,6 +321,7 @@ public class PipelineApi extends AbstractApi implements Constants {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", getProjectIdOrPath(projectIdOrPath), "pipeline_schedules");
         return (response.readEntity(new GenericType<List<PipelineSchedule>>() {}));
     }
+
     /**
      * Get Pager of project pipeline schedule.
      *
@@ -346,7 +348,6 @@ public class PipelineApi extends AbstractApi implements Constants {
     public Stream<PipelineSchedule> getPipelineSchedulesStream(Object projectIdOrPath) throws GitLabApiException {
         return (getPipelineSchedules(projectIdOrPath, getDefaultPerPage()).stream());
     }
-
 
     /**
      * Get a specific pipeline schedule for project.
@@ -427,7 +428,7 @@ public class PipelineApi extends AbstractApi implements Constants {
      * @return the modified project schedule
      * @throws GitLabApiException if any exception occurs
      */
-    public PipelineSchedule modifyPipelineSchedule(Object projectIdOrPath,PipelineSchedule pipelineSchedule) throws GitLabApiException {
+    public PipelineSchedule updatePipelineSchedule(Object projectIdOrPath,PipelineSchedule pipelineSchedule) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("description", pipelineSchedule.getDescription(), false)
