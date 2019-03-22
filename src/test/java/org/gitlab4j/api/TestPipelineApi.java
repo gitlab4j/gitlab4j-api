@@ -1,19 +1,21 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.PipelineSchedule;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.junit.Assume.assumeTrue;
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.PipelineSchedule;
+import org.gitlab4j.api.models.Project;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestPipelineApi {
     // The following needs to be set to your test repository
     private static final String TEST_NAMESPACE;
@@ -28,11 +30,36 @@ public class TestPipelineApi {
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
 
+    private static final String SCHEDULE_DESCRIPTION = "Test pipeline schedule - DELETE AFTER TEST";
 
     private static GitLabApi gitLabApi;
+    private static Project testProject;
 
     public TestPipelineApi() {
         super();
+    }
+
+    private static void deleteTestSchedules() {
+
+        if (testProject == null) {
+            return;
+        }
+
+        try {
+
+            List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
+            if (pipelineSchedules == null || pipelineSchedules.isEmpty()) {
+                return;
+            }
+
+            for (PipelineSchedule schedule : pipelineSchedules) {
+                if (schedule.getDescription().startsWith(SCHEDULE_DESCRIPTION)) {
+                    gitLabApi.getPipelineApi().deletePipelineSchedule(testProject, schedule.getId());
+                }
+            }
+
+        } catch (Exception ignore) {
+        }
     }
 
     @BeforeClass
@@ -50,8 +77,17 @@ public class TestPipelineApi {
         if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
+
         if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(GitLabApi.ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+
+            try {
+                testProject = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+            } catch (GitLabApiException gle) {
+            }
+
+            deleteTestSchedules();
+
         } else {
             System.err.print(problems);
         }
@@ -59,6 +95,7 @@ public class TestPipelineApi {
 
     @AfterClass
     public static void teardown() {
+        deleteTestSchedules();
     }
 
 
@@ -68,50 +105,56 @@ public class TestPipelineApi {
     }
 
     @Test
-    public void testCreateProjectPipeLineSchedule() throws GitLabApiException {
-        assumeTrue(TEST_NAMESPACE != null && TEST_PROJECT_NAME != null);
-        assumeTrue(TEST_NAMESPACE.trim().length() > 0 && TEST_PROJECT_NAME.trim().length() > 0);
+    public void testCreateAndUpdateProjectPipeLineSchedule() throws GitLabApiException {
 
-        Integer testProjectId = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME).getId();
+        assertNotNull(testProject);
+
+        String scheduleDescription = SCHEDULE_DESCRIPTION + " - test updatePipelineSchedule()";
         PipelineSchedule newPipelineSchedule = new PipelineSchedule();
-        newPipelineSchedule.setDescription("test pipeline schedule");
-        newPipelineSchedule.setCron("0 4 * * *");
+        newPipelineSchedule.setDescription(scheduleDescription);
+        newPipelineSchedule.setCron("2 4 * * *");
         newPipelineSchedule.setRef("master");
-        PipelineSchedule createdPipelineSchedule = gitLabApi.getPipelineApi().createPipelineSchedule(testProjectId,newPipelineSchedule);
+        PipelineSchedule createdPipelineSchedule = gitLabApi.getPipelineApi().createPipelineSchedule(testProject, newPipelineSchedule);
         assertNotNull(createdPipelineSchedule);
-        List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProjectId);
-        assertFalse(pipelineSchedules.isEmpty());
+
+        // Make sure the created schedule is present before updating
+        List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
+        assertNotNull(pipelineSchedules);
+        assertTrue(pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList()).contains(scheduleDescription));
+
+        String newScheduleDescription = scheduleDescription + " - updated";
+        createdPipelineSchedule.setDescription(newScheduleDescription);
+        gitLabApi.getPipelineApi().updatePipelineSchedule(testProject, createdPipelineSchedule);
+
+        pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
+        assertNotNull(pipelineSchedules);
+
+        List<String> scheduleDecriptions = pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList());
+        assertFalse(scheduleDecriptions.contains(scheduleDescription));
+        assertTrue(scheduleDecriptions.contains(newScheduleDescription));
     }
-
-    @Test
-    public void testModifyProjectPipeLineSchedule() throws GitLabApiException {
-        assumeTrue(TEST_NAMESPACE != null && TEST_PROJECT_NAME != null);
-        assumeTrue(TEST_NAMESPACE.trim().length() > 0 && TEST_PROJECT_NAME.trim().length() > 0);
-
-        Integer testProjectId = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME).getId();
-        List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProjectId);
-        assertTrue(pipelineSchedules.size()==1);
-        PipelineSchedule existingPipelineSchedule = pipelineSchedules.get(0);
-        assertTrue(existingPipelineSchedule.getDescription().equals("test pipeline schedule"));
-        existingPipelineSchedule.setDescription("new name");
-        gitLabApi.getPipelineApi().modifyPipelineSchedule(testProjectId,existingPipelineSchedule);
-        pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProjectId);
-        PipelineSchedule newPipelineSchedule = pipelineSchedules.get(0);
-        assertTrue(pipelineSchedules.size()==1);
-        assertTrue(newPipelineSchedule.equals("new name"));
-    }
-
 
     @Test
     public void testDeleteProjectPipeLineSchedule() throws GitLabApiException {
-        assumeTrue(TEST_NAMESPACE != null && TEST_PROJECT_NAME != null);
-        assumeTrue(TEST_NAMESPACE.trim().length() > 0 && TEST_PROJECT_NAME.trim().length() > 0);
 
-        Integer testProjectId = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME).getId();
-        List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProjectId);
-        assertFalse(pipelineSchedules.isEmpty());
-        gitLabApi.getPipelineApi().deletePipelineSchedule(testProjectId,pipelineSchedules.get(0).getId());
-        pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProjectId);
-        assertTrue(pipelineSchedules.isEmpty());
+        assertNotNull(testProject);
+
+        String scheduleDescription = SCHEDULE_DESCRIPTION + " - test deletePipelineSchedule()";
+        PipelineSchedule newPipelineSchedule = new PipelineSchedule();
+        newPipelineSchedule.setDescription(scheduleDescription);
+        newPipelineSchedule.setCron("1 4 * * *");
+        newPipelineSchedule.setRef("master");
+        PipelineSchedule createdPipelineSchedule = gitLabApi.getPipelineApi().createPipelineSchedule(testProject, newPipelineSchedule);
+        assertNotNull(createdPipelineSchedule);
+
+        // Make sure the created schedule is present before deleting
+        List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
+        assertNotNull(pipelineSchedules);
+        assertTrue(pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList()).contains(scheduleDescription));
+
+        gitLabApi.getPipelineApi().deletePipelineSchedule(testProject, createdPipelineSchedule.getId());
+        pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
+        assertNotNull(pipelineSchedules);
+        assertFalse(pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList()).contains(scheduleDescription));
     }
 }
