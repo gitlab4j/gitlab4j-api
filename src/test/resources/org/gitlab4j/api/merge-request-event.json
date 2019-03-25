@@ -40,6 +40,7 @@
     "merge_status": "unchecked",
     "target_project_id": 14,
     "iid": 1,
+    "merge_commit_sha": "5f72688f7af57df23ee7510cec59b909289964f1",
     "description": "",
     "source":{
       "name":"Awesome Project",
