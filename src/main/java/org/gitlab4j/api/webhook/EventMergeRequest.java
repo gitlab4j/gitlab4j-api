@@ -18,6 +18,7 @@ public class EventMergeRequest {
     private String description;
     private Integer id;
     private Integer iid;
+    private String mergeCommitSha;
     private String mergeStatus;
     private Integer milestoneId;
     private Integer position;
@@ -95,6 +96,14 @@ public class EventMergeRequest {
 
     public void setIid(Integer iid) {
         this.iid = iid;
+    }
+
+    public String getMergeCommitSha() {
+        return mergeCommitSha;
+    }
+
+    public void setMergeCommitSha(String mergeCommitSha) {
+        this.mergeCommitSha = mergeCommitSha;
     }
 
     public String getMergeStatus() {

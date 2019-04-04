@@ -1,10 +1,6 @@
 
 package org.gitlab4j.api.webhook;
 
-import org.gitlab4j.api.webhook.IssueEvent;
-import org.gitlab4j.api.webhook.MergeRequestEvent;
-import org.gitlab4j.api.webhook.PushEvent;
-
 /**
  * This interface defines an event listener for the event fired when
  * a WebHook notification has been received from a GitLab server.
