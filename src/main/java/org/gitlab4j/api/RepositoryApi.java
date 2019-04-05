@@ -676,14 +676,33 @@ public class RepositoryApi extends AbstractApi {
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param from the commit SHA or branch name
      * @param to the commit SHA or branch name
+     * @param straight specifies the comparison method, true for direct comparison between from and to (from..to),
+     *          false to compare using merge base (from…to)’.
+     * @return a CompareResults containing the results of the comparison
+     * @throws GitLabApiException if any exception occurs
+     */
+    public CompareResults compare(Object projectIdOrPath, String from, String to, boolean straight) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("from", from, true)
+                .withParam("to", to, true)
+                .withParam("straight", straight);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects",
+                getProjectIdOrPath(projectIdOrPath), "repository", "compare");
+        return (response.readEntity(CompareResults.class));
+    }
+
+    /**
+     * Compare branches, tags or commits. This can be accessed without authentication
+     * if the repository is publicly accessible.
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param from the commit SHA or branch name
+     * @param to the commit SHA or branch name
      * @return a CompareResults containing the results of the comparison
      * @throws GitLabApiException if any exception occurs
      */
     public CompareResults compare(Object projectIdOrPath, String from, String to) throws GitLabApiException {
-        Form formData = new GitLabApiForm().withParam("from", from, true).withParam("to", to, true);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects",
-                getProjectIdOrPath(projectIdOrPath), "repository", "compare");
-        return (response.readEntity(CompareResults.class));
+        return (compare(projectIdOrPath, from, to, false));
     }
 
     /**
