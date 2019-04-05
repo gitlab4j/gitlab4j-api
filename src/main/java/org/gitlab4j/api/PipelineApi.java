@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.PipelineStatus;
+import org.gitlab4j.api.models.Variable;
 
 /**
  * This class provides an entry point to all the GitLab API pipeline calls.
@@ -455,5 +456,65 @@ public class PipelineApi extends AbstractApi implements Constants {
 
         Response response = post(Response.Status.OK, "", "projects", getProjectIdOrPath(projectIdOrPath),  "pipeline_schedules", pipelineScheduleId, "take_ownership");
         return (response.readEntity(PipelineSchedule.class));
+    }
+
+    /**
+     * Create a pipeline schedule variable.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/pipeline_schedules/:pipeline_schedule_id/variables</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param pipelineScheduleId the pipelineSchedule ID
+     * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed
+     * @param value the value for the variable
+     * @return a Pipeline instance with the newly created pipeline schedule variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable createPipelineScheduleVariable(Object projectIdOrPath, Integer pipelineScheduleId,
+            String key, String value) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("key", key, true)
+                .withParam("value", value, true);
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "pipeline_schedules", pipelineScheduleId, "variables");
+        return (response.readEntity(Variable.class));
+    }
+
+    /**
+     * Update a pipeline schedule variable.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/pipeline_schedules/:pipeline_schedule_id/variables/:key</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param pipelineScheduleId the pipelineSchedule ID
+     * @param key the key of an existing pipeline schedule variable
+     * @param value the new value for the variable
+     * @return a Pipeline instance with the updated variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable updatePipelineScheduleVariable(Object projectIdOrPath, Integer pipelineScheduleId,
+            String key, String value) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("value", value, true);
+        Response response = this.putWithFormData(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "pipeline_schedules", pipelineScheduleId, "variables", key);
+        return (response.readEntity(Variable.class));
+    }
+
+    /**
+     * Deletes a pipeline schedule variable.
+     *
+     * <pre><code>DELETE /projects/:id/pipeline_schedules/:pipeline_schedule_id/variables/:key</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param pipelineScheduleId the pipeline schedule ID
+     * @param key the key of an existing pipeline schedule variable
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deletePipelineScheduleVariable(Object projectIdOrPath, Integer pipelineScheduleId, String key) throws GitLabApiException {
+        Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath),
+                "pipeline_schedules", pipelineScheduleId, "variables", key);
     }
 }
