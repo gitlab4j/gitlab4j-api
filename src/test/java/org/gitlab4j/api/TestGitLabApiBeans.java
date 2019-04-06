@@ -34,6 +34,7 @@ import java.util.Map;
 
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.AwardEmoji;
+import org.gitlab4j.api.models.Board;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
@@ -92,6 +93,12 @@ public class TestGitLabApiBeans {
     public void testAwardEmoji() throws Exception {
         AwardEmoji awardEmoji = unmarshalResource(AwardEmoji.class, "award-emoji.json");
         assertTrue(compareJson(awardEmoji, "award-emoji.json"));
+    }
+
+    @Test
+    public void testBoard() throws Exception {
+        List<Board> boards = unmarshalResourceList(Board.class, "project-board.json");
+        assertTrue(compareJson(boards, "project-board.json"));
     }
 
     @Test

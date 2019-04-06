@@ -50,6 +50,7 @@ public class GitLabApi {
     private Session session;
 
     private AwardEmojiApi awardEmojiApi;
+    private BoardsApi boardsApi;
     private CommitsApi commitsApi;
     private DiscussionsApi discussionsApi;
     private DeployKeysApi deployKeysApi;
@@ -824,6 +825,25 @@ public class GitLabApi {
         }
 
         return (awardEmojiApi);
+    }
+
+    /**
+     * Gets the BoardsApi instance owned by this GitLabApi instance. The BoardsApi is used
+     * to perform all Issue Boards related API calls.
+     *
+     * @return the BoardsApi instance owned by this GitLabApi instance
+     */
+    public BoardsApi getBoardsApi() {
+
+        if (boardsApi == null) {
+            synchronized (this) {
+                if (boardsApi == null) {
+                    boardsApi = new BoardsApi(this);
+                }
+            }
+        }
+
+        return (boardsApi);
     }
 
     /**

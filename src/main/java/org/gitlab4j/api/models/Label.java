@@ -17,7 +17,7 @@ public class Label {
     private Integer openIssuesCount;
     private Integer closedIssuesCount;
     private Integer openMergeRequestsCount;
-    private boolean subscribed;
+    private Boolean subscribed;
     private Integer priority;
 
     public Integer getId() {
@@ -76,11 +76,11 @@ public class Label {
         this.openMergeRequestsCount = openMergeRequestsCount;
     }
 
-    public boolean isSubscribed() {
+    public Boolean isSubscribed() {
         return subscribed;
     }
 
-    public void setSubscribed(boolean subscribed) {
+    public void setSubscribed(Boolean subscribed) {
         this.subscribed = subscribed;
     }
 

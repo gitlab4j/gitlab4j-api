@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.20'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.9.21'
 }
 ```
 
@@ -22,7 +22,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.9.20</version>
+    <version>4.9.21</version>
 </dependency>
 ```
 
@@ -206,6 +206,7 @@ The API has been broken up into sub API classes to make it easier to learn and t
 ### Available Sub APIs
 ------------------
 &nbsp;&nbsp;[AwardEmojiApi](#awardemojiapi)<br/>
+&nbsp;&nbsp;[BoardsApi](#boardsapi)<br/>
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
 &nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
 &nbsp;&nbsp;[DiscussionsApi](#discussionsapi)<br/>
@@ -242,6 +243,12 @@ The API has been broken up into sub API classes to make it easier to learn and t
 ```java
 // Get a list of AwardEmoji belonging to the specified issue (group ID = 1, issues IID = 1)
 List<AwardEmoji> awardEmojis = gitLabApi.getAwardEmojiApi().getIssuAwardEmojis(1, 1);
+```
+
+#### BoardsApi
+```java
+// Get a list of the Issue Boards belonging to the specified project
+List<Board> boards = gitLabApi.getBoardsApi().getBoards(projectId);
 ```
 
 #### CommitsApi

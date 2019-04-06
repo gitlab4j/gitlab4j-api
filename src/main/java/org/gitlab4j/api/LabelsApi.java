@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -50,6 +51,17 @@ public class LabelsApi extends AbstractApi {
     public Pager<Label> getLabels(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Label>(this, Label.class, itemsPerPage, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "labels"));
+    }
+
+    /**
+     * Get a Stream of all labels of the specified project.
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a Stream of project's labels
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Label> getLabelsStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getLabels(projectIdOrPath, getDefaultPerPage()).stream());
     }
 
     /**
