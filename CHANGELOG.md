@@ -1,6 +1,86 @@
 # Changelog
 Changelog of GitLab4J API.
 
+## gitlab4j-api-4.9.21
+### GitHub [#316](https://github.com/gmessner/gitlab4j-api/issues/316) Adding Issue Boards Api    *enhancement*  
+
+**Added support for Issue Boards API (#316).**
+
+
+[a49ba426e59269c](https://github.com/gmessner/gitlab4j-api/commit/a49ba426e59269c) Greg Messner *2019-04-06 19:44:49*
+
+**Initial commit (#316).**
+
+
+[0af6603e8e9e29a](https://github.com/gmessner/gitlab4j-api/commit/0af6603e8e9e29a) Greg Messner *2019-04-06 19:44:07*
+
+
+## gitlab4j-api-4.9.20
+### GitHub [#322](https://github.com/gmessner/gitlab4j-api/issues/322) Missing straight parameter for repositories&#39; compare method    *enhancement*  
+
+**Added compare() method that takes a straight parameter (#322).**
+
+
+[575045c536135ac](https://github.com/gmessner/gitlab4j-api/commit/575045c536135ac) Greg Messner *2019-04-05 00:15:50*
+
+
+### GitHub [#323](https://github.com/gmessner/gitlab4j-api/issues/323) merge_commit_sha field is missing in merge request event  
+
+**Fix #323 merge_commit_sha field is missing in merge request event (#324)**
+
+ * Added EventMergeRequest.mergeCommitSha field (#323)
+
+[9557858890f1f2b](https://github.com/gmessner/gitlab4j-api/commit/9557858890f1f2b) Adam Lesiak *2019-04-04 15:09:54*
+
+
+### GitHub [#324](https://github.com/gmessner/gitlab4j-api/pull/324) Fix #323 merge_commit_sha field is missing in merge request event  
+
+**Fix #323 merge_commit_sha field is missing in merge request event (#324)**
+
+ * Added EventMergeRequest.mergeCommitSha field (#323)
+
+[9557858890f1f2b](https://github.com/gmessner/gitlab4j-api/commit/9557858890f1f2b) Adam Lesiak *2019-04-04 15:09:54*
+
+
+### GitHub [#325](https://github.com/gmessner/gitlab4j-api/issues/325) Add labels support to IssueEvent returned via Webhook    *enhancement*  
+
+**Added support for labels in webhook events (#325).**
+
+
+[1ee472c25e109a3](https://github.com/gmessner/gitlab4j-api/commit/1ee472c25e109a3) Greg Messner *2019-04-06 04:18:42*
+
+**Initial commit (#325).**
+
+
+[5211cded8eedd3d](https://github.com/gmessner/gitlab4j-api/commit/5211cded8eedd3d) Greg Messner *2019-04-06 04:18:01*
+
+
+### GitHub [#326](https://github.com/gmessner/gitlab4j-api/issues/326) Support variables in PipelineSchedule    *enhancement*  
+
+**Added support for pipeline schedule variables (#326).**
+
+
+[ec84b49ebf375a2](https://github.com/gmessner/gitlab4j-api/commit/ec84b49ebf375a2) Greg Messner *2019-04-05 22:10:40*
+
+**Initial commit (#326).**
+
+
+[e82dfb0d40a4627](https://github.com/gmessner/gitlab4j-api/commit/e82dfb0d40a4627) Greg Messner *2019-04-05 21:59:59*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[13a1ad8a0272b36](https://github.com/gmessner/gitlab4j-api/commit/13a1ad8a0272b36) Greg Messner *2019-04-06 04:27:16*
+
+**Updated with latest release.**
+
+
+[537849206e38b20](https://github.com/gmessner/gitlab4j-api/commit/537849206e38b20) Greg Messner *2019-03-22 14:59:36*
+
+
 ## gitlab4j-api-4.9.19
 ### GitHub [#317](https://github.com/gmessner/gitlab4j-api/issues/317) Package API    *enhancement*  
 
