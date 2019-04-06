@@ -1,5 +1,7 @@
 package org.gitlab4j.api.webhook;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -16,6 +18,8 @@ public class MergeRequestEvent extends AbstractEvent {
     private EventProject project;
     private EventRepository repository;
     private ObjectAttributes objectAttributes;
+    private List<EventLabel> labels;
+    private EventChanges changes;
 
     public String getObjectKind() {
         return (OBJECT_KIND);
@@ -56,6 +60,22 @@ public class MergeRequestEvent extends AbstractEvent {
 
     public void setObjectAttributes(ObjectAttributes objectAttributes) {
         this.objectAttributes = objectAttributes;
+    }
+
+    public List<EventLabel> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<EventLabel> labels) {
+        this.labels = labels;
+    }
+
+    public EventChanges getChanges() {
+        return changes;
+    }
+
+    public void setChanges(EventChanges changes) {
+        this.changes = changes;
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)

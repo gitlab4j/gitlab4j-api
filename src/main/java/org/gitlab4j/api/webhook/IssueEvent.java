@@ -1,5 +1,7 @@
 package org.gitlab4j.api.webhook;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -17,7 +19,10 @@ public class IssueEvent extends AbstractEvent {
     private EventProject project;
     private EventRepository repository;
     private ObjectAttributes objectAttributes;
+    private List<Assignee> assignees;
     private Assignee assignee;
+    private List<EventLabel> labels;
+    private EventChanges changes;
 
     public String getObjectKind() {
         return (OBJECT_KIND);
@@ -52,12 +57,36 @@ public class IssueEvent extends AbstractEvent {
         this.repository = repository;
     }
 
+    public List<Assignee> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(List<Assignee> assignees) {
+        this.assignees = assignees;
+    }
+
     public Assignee getAssignee() {
         return assignee;
     }
 
     public void setAssignee(Assignee assignee) {
         this.assignee = assignee;
+    }
+
+    public List<EventLabel> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<EventLabel> labels) {
+        this.labels = labels;
+    }
+
+    public EventChanges getChanges() {
+        return changes;
+    }
+
+    public void setChanges(EventChanges changes) {
+        this.changes = changes;
     }
 
     public ObjectAttributes getObjectAttributes() {
