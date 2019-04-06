@@ -1,0 +1,47 @@
+[
+  {
+    "id" : 1,
+    "project": {
+      "id": 5,
+      "name": "Diaspora Project Site",
+      "name_with_namespace": "Diaspora / Diaspora Project Site",
+      "path": "diaspora-project-site",
+      "path_with_namespace": "diaspora/diaspora-project-site",
+      "http_url_to_repo": "http://example.com/diaspora/diaspora-project-site.git",
+      "web_url": "http://example.com/diaspora/diaspora-project-site"
+    },
+    "milestone":   {
+      "id": 12,
+      "title": "10.0"
+    },
+    "lists" : [
+      {
+        "id" : 1,
+        "label" : {
+          "name" : "Testing",
+          "color" : "#F0AD4E",
+          "description" : "Testing board"
+        },
+        "position" : 1
+      },
+      {
+        "id" : 2,
+        "label" : {
+          "name" : "Ready",
+          "color" : "#FF0000",
+          "description" : "Ready board"
+        },
+        "position" : 2
+      },
+      {
+        "id" : 3,
+        "label" : {
+          "name" : "Production",
+          "color" : "#FF5F00",
+          "description" : "Production board"
+        },
+        "position" : 3
+      }
+    ]
+  }
+]
