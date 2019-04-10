@@ -262,7 +262,7 @@ public class CommitsApi extends AbstractApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public Commit getCommit(Object projectIdOrPath, String sha) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha);
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", urlEncode(sha));
         return (response.readEntity(Commit.class));
     }
 
@@ -314,7 +314,7 @@ public class CommitsApi extends AbstractApi {
         Form form = new GitLabApiForm()
                 .withParam("type", refType)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, form.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "refs");
+        Response response = get(Response.Status.OK, form.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", urlEncode(sha), "refs");
         return (response.readEntity(new GenericType<List<CommitRef>>(){}));
     }
 
