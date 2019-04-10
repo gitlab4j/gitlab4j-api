@@ -144,4 +144,19 @@ public class HttpRequestUtils {
 
         return (out.toString());
     }
+
+    /**
+     * Masks the PRIVATE-TOKEN header value with "********".
+     * 
+     * @param s a String containing HTTP request info, usually logging info
+     * @return a String with the PRIVATE-TOKEN header value masked with asterisks
+     */
+    public static String maskPrivateToken(String s) {
+
+        if (s == null || s.isEmpty()) {
+            return (s);
+        }
+
+        return (s.replaceAll("PRIVATE\\-TOKEN\\: [\\S]*", "PRIVATE-TOKEN: ********"));
+    }
 }
