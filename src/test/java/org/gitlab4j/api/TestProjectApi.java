@@ -26,6 +26,7 @@ package org.gitlab4j.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
@@ -33,6 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
 
@@ -40,6 +42,7 @@ import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -87,6 +90,7 @@ public class TestProjectApi {
     private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
     private static final String TEST_PROJECT_NAME_UPDATE = "test-gitlab4j-create-project-update";
     private static final String TEST_XFER_PROJECT_NAME = "test-gitlab4j-xfer-project";
+    private static final String TEST_VARIABLE_KEY_PREFIX = "TEST_VARIABLE_KEY_";
     private static GitLabApi gitLabApi;
 
     public TestProjectApi() {
@@ -150,7 +154,18 @@ public class TestProjectApi {
                     Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
                     List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
                     gitLabApi.getProjectApi().unshareProject(project.getId(), groups.get(0).getId());
-                } catch (GitLabApiException ignore) {}
+
+                    List<Variable> variables = gitLabApi.getProjectApi().getVariables(project);
+                    if (variables != null) {
+
+                        for (Variable variable : variables) {
+                            if (variable.getKey().startsWith(TEST_VARIABLE_KEY_PREFIX)) {
+                                gitLabApi.getProjectApi().deleteVariable(project, variable.getKey());
+                            }
+                        }
+                    }
+                } catch (GitLabApiException ignore) {
+                }
             }
 
             if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
@@ -588,5 +603,45 @@ public class TestProjectApi {
 
         Project transferedProject = gitLabApi.getProjectApi().transferProject(projectToTransfer, TEST_XFER_NAMESPACE);
         assertNotNull(transferedProject);
+    }
+
+    @Test
+    public void testVariables() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        String key = TEST_VARIABLE_KEY_PREFIX + TestUtils.getRandomInt() + "_" +  TestUtils.getRandomInt();
+        String value = "TEST_VARIABLE_VALUE_" + TestUtils.getRandomInt() + "_" +  TestUtils.getRandomInt();
+        Variable variable = gitLabApi.getProjectApi().createVariable(project, key, value, null, null);
+
+        assertNotNull(variable);
+        assertEquals(key, variable.getKey());
+        assertEquals(value, variable.getValue());
+
+        Stream<Variable> variables = gitLabApi.getProjectApi().getVariablesStream(project);
+        assertNotNull(variables);
+
+        Variable matchingVariable = variables.filter(v -> v.getKey().equals(key)).findAny().orElse(null);
+        assertNotNull(matchingVariable);
+        assertEquals(key, matchingVariable.getKey());
+        assertEquals(value, matchingVariable.getValue());
+        assertFalse(matchingVariable.getProtected());
+        assertNull(matchingVariable.getEnvironmentScope());
+
+        gitLabApi.getProjectApi().updateVariable(project, key, "NONE", true, "DEV");
+        variable = gitLabApi.getProjectApi().getVariable(project, key);
+
+        assertNotNull(variable);
+        assertEquals(key, variable.getKey());
+        assertEquals("NONE", variable.getValue());
+        assertTrue(variable.getProtected());
+
+        gitLabApi.getProjectApi().deleteVariable(project, key);
+        variables = gitLabApi.getProjectApi().getVariablesStream(project);
+        assertNotNull(variables);
+
+        matchingVariable = variables.filter(v -> v.getKey().equals(key)).findAny().orElse(null);
+        assertNull(matchingVariable);
     }
 }

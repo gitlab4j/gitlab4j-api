@@ -13,9 +13,10 @@ import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupFilter;
+import org.gitlab4j.api.models.GroupProjectsFilter;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.GroupProjectsFilter;
+import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 
 /**
@@ -175,13 +176,13 @@ public class GroupApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/subgroups</code></pre>
      *
-     * @param groupId the group ID to get the sub groups for
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @return a List&lt;Group&gt; containing the group's sub-groups
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 10.3.0
      */
-    public List<Group> getSubGroups(Integer groupId) throws GitLabApiException {
-        return (getSubGroups(groupId, getDefaultPerPage()).all());
+    public List<Group> getSubGroups(Object groupIdOrPath) throws GitLabApiException {
+        return (getSubGroups(groupIdOrPath, getDefaultPerPage()).all());
     }
 
     /**
@@ -189,14 +190,14 @@ public class GroupApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/subgroups</code></pre>
      *
-     * @param groupId the group ID to get the sub groups for
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param itemsPerPage the number of Group instances that will be fetched per page
      * @return a Pager containing matching Group instances
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 10.3.0
      */
-    public Pager<Group> getSubGroups(Integer groupId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Group>(this, Group.class, itemsPerPage, null, "groups", groupId, "subgroups"));
+    public Pager<Group> getSubGroups(Object groupIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Group>(this, Group.class, itemsPerPage, null, "groups", getGroupIdOrPath(groupIdOrPath), "subgroups"));
     }
 
     /**
@@ -204,13 +205,13 @@ public class GroupApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/subgroups</code></pre>
      *
-     * @param groupId the group ID to get the sub groups for
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @return a Stream&lt;Group&gt; containing the group's sub-groups
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 10.3.0
      */
-    public Stream<Group> getSubGroupsStream(Integer groupId) throws GitLabApiException {
-        return (getSubGroups(groupId, getDefaultPerPage()).stream());
+    public Stream<Group> getSubGroupsStream(Object groupIdOrPath) throws GitLabApiException {
+        return (getSubGroups(groupIdOrPath, getDefaultPerPage()).stream());
     }
 
     /**
@@ -218,7 +219,7 @@ public class GroupApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/subgroups</code></pre>
      *
-     * @param groupId the group ID to get the sub groups for
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param skipGroups skip the group IDs passed
      * @param allAvailable show all the groups you have access to (defaults to false for authenticated users)
      * @param search return the list of authorized groups matching the search criteria
@@ -230,9 +231,9 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 10.3.0
      */
-    public List<Group> getSubGroups(Integer groupId, List<Integer> skipGroups, Boolean allAvailable, String search,
+    public List<Group> getSubGroups(Object groupIdOrPath, List<Integer> skipGroups, Boolean allAvailable, String search,
             GroupOrderBy orderBy, SortOrder sortOrder, Boolean statistics, Boolean owned) throws GitLabApiException {
-        return (getSubGroups(groupId, skipGroups, allAvailable, search, orderBy, sortOrder, statistics, owned, getDefaultPerPage()).all());
+        return (getSubGroups(groupIdOrPath, skipGroups, allAvailable, search, orderBy, sortOrder, statistics, owned, getDefaultPerPage()).all());
     }
 
     /**
@@ -240,7 +241,7 @@ public class GroupApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/subgroups</code></pre>
      *
-     * @param groupId the group ID to get the sub groups for
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param skipGroups skip the group IDs passed
      * @param allAvailable show all the groups you have access to (defaults to false for authenticated users)
      * @param search return the list of authorized groups matching the search criteria
@@ -254,7 +255,7 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 10.3.0
      */
-    public List<Group> getSubGroups(Integer groupId, List<Integer> skipGroups, Boolean allAvailable, String search,
+    public List<Group> getSubGroups(Object groupIdOrPath, List<Integer> skipGroups, Boolean allAvailable, String search,
             GroupOrderBy orderBy, SortOrder sortOrder, Boolean statistics, Boolean owned,  int page, int perPage)
             throws GitLabApiException {
         Form formData = new GitLabApiForm()
@@ -267,7 +268,7 @@ public class GroupApi extends AbstractApi {
                 .withParam("owned", owned)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "groups", groupId, "subgroups");
+        Response response = get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "subgroups");
         return (response.readEntity(new GenericType<List<Group>>() {}));
     }
 
@@ -276,7 +277,7 @@ public class GroupApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/subgroups</code></pre>
      *
-     * @param groupId the group ID to get the sub groups for
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param skipGroups skip the group IDs passed
      * @param allAvailable show all the groups you have access to (defaults to false for authenticated users)
      * @param search return the list of authorized groups matching the search criteria
@@ -289,7 +290,7 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 10.3.0
      */
-    public Pager<Group> getSubGroups(Integer groupId, List<Integer> skipGroups, Boolean allAvailable, String search,
+    public Pager<Group> getSubGroups(Object groupIdOrPath, List<Integer> skipGroups, Boolean allAvailable, String search,
             GroupOrderBy orderBy, SortOrder sortOrder, Boolean statistics, Boolean owned, int itemsPerPage) throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("skip_groups", skipGroups)
@@ -299,7 +300,7 @@ public class GroupApi extends AbstractApi {
                 .withParam("sort_order", sortOrder)
                 .withParam("statistics", statistics)
                 .withParam("owned", owned);
-        return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups", groupId, "subgroups"));
+        return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "subgroups"));
     }
 
     /**
@@ -307,7 +308,7 @@ public class GroupApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/subgroups</code></pre>
      *
-     * @param groupId the group ID to get the sub groups for
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param skipGroups skip the group IDs passed
      * @param allAvailable show all the groups you have access to (defaults to false for authenticated users)
      * @param search return the list of authorized groups matching the search criteria
@@ -319,9 +320,9 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 10.3.0
      */
-    public Stream<Group> getSubGroupsStream(Integer groupId, List<Integer> skipGroups, Boolean allAvailable, String search,
+    public Stream<Group> getSubGroupsStream(Object groupIdOrPath, List<Integer> skipGroups, Boolean allAvailable, String search,
             GroupOrderBy orderBy, SortOrder sortOrder, Boolean statistics, Boolean owned) throws GitLabApiException {
-        return (getSubGroups(groupId, skipGroups, allAvailable, search, orderBy, sortOrder, statistics, owned, getDefaultPerPage()).stream());
+        return (getSubGroups(groupIdOrPath, skipGroups, allAvailable, search, orderBy, sortOrder, statistics, owned, getDefaultPerPage()).stream());
     }
 
     /**
@@ -987,5 +988,149 @@ public class GroupApi extends AbstractApi {
         }
 
         delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links", provider, cn);
+    }
+
+    /**
+     * Get list of a group’s variables.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/variables</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a list of variables belonging to the specified group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Variable> getVariables(Object groupIdOrPath) throws GitLabApiException {
+        return (getVariables(groupIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of variables for the specified group in the specified page range.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/variables</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param page the page to get
+     * @param perPage the number of Variable instances per page
+     * @return a list of variables belonging to the specified group in the specified page range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Variable> getVariables(Object groupIdOrPath, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "groups", getGroupIdOrPath(groupIdOrPath), "variables");
+        return (response.readEntity(new GenericType<List<Variable>>() {}));
+    }
+
+    /**
+     * Get a Pager of variables belonging to the specified group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/variables</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param itemsPerPage the number of Variable instances that will be fetched per page
+     * @return a Pager of variables belonging to the specified group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Variable> getVariables(Object groupIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Variable>(this, Variable.class, itemsPerPage, null, "groups", getGroupIdOrPath(groupIdOrPath), "variables"));
+    }
+
+    /**
+     * Get a Stream of variables belonging to the specified group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/variables</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a Stream of variables belonging to the specified group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Variable> getVariablesStream(Object groupIdOrPath) throws GitLabApiException {
+        return (getVariables(groupIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get the details of a group variable.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/variables/:key</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param key the key of an existing variable, required
+     * @return the Variable instance for the specified group variable
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Variable getVariable(Object groupIdOrPath, String key) throws GitLabApiException {
+      Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "variables", key);
+      return (response.readEntity(Variable.class));
+    }
+
+    /**
+     * Get the details of a group variable as an Optional instance.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/variables/:key</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param key the key of an existing variable, required
+     * @return the Variable for the specified group variable as an Optional instance
+     */
+    public Optional<Variable> getOptionalVariable(Object groupIdOrPath, String key) {
+        try {
+            return (Optional.ofNullable(getVariable(groupIdOrPath, key)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
+     * Create a new group variable.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/variables</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @return a Variable instance with the newly created variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable createVariable(Object groupIdOrPath, String key, String value, Boolean isProtected) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("key", key, true)
+                .withParam("value", value, true)
+                .withParam("protected", isProtected);
+        Response response = post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "variables");
+        return (response.readEntity(Variable.class));
+    }
+
+    /**
+     * Update a group variable.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/variables/:key</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of an existing variable, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @return a Variable instance with the updated variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable updateVariable(Object groupIdOrPath, String key, String value, Boolean isProtected) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("value", value, true)
+                .withParam("protected", isProtected);
+        Response response = putWithFormData(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "variables", key);
+        return (response.readEntity(Variable.class));
+    }
+
+    /**
+     * Deletes a group variable.
+     *
+     * <pre><code>DELETE /groups/:id/variables/:key</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of an existing variable, required
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteVariable(Object groupIdOrPath, String key) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "groups", getGroupIdOrPath(groupIdOrPath), "variables", key);
     }
 }

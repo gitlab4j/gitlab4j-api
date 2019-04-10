@@ -49,6 +49,7 @@ import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.Snippet;
+import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 
 /**
@@ -2394,5 +2395,153 @@ public class ProjectApi extends AbstractApi implements Constants {
     public Project setProjectAvatar(Object projectIdOrPath, File avatarFile) throws GitLabApiException {
         Response response = putUpload(Response.Status.OK, "avatar", avatarFile, "projects", getProjectIdOrPath(projectIdOrPath));
         return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Get list of a project's variables.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/variables</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @return a list of variables belonging to the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Variable> getVariables(Object projectIdOrPath) throws GitLabApiException {
+        return (getVariables(projectIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of variables for the specified project in the specified page range.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/variables</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param page the page to get
+     * @param perPage the number of Variable instances per page
+     * @return a list of variables belonging to the specified project in the specified page range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Variable> getVariables(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", getProjectIdOrPath(projectIdOrPath), "variables");
+        return (response.readEntity(new GenericType<List<Variable>>() {}));
+    }
+
+    /**
+     * Get a Pager of variables belonging to the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/variables</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param itemsPerPage the number of Variable instances that will be fetched per page
+     * @return a Pager of variables belonging to the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Variable> getVariables(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Variable>(this, Variable.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "variables"));
+    }
+
+    /**
+     * Get a Stream of variables belonging to the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/variables</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @return a Stream of variables belonging to the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Variable> getVariablesStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getVariables(projectIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get the details of a project variable.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/variables/:key</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param key the key of an existing variable, required
+     * @return the Variable instance for the specified variable
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Variable getVariable(Object projectIdOrPath, String key) throws GitLabApiException {
+      Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "variables", key);
+      return (response.readEntity(Variable.class));
+    }
+
+    /**
+     * Get the details of a variable as an Optional instance.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/variables/:key</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param key the key of an existing variable, required
+     * @return the Variable for the specified variable as an Optional instance
+     */
+    public Optional<Variable> getOptionalVariable(Object projectIdOrPath, String key) {
+        try {
+            return (Optional.ofNullable(getVariable(projectIdOrPath, key)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
+     * Create a new project variable.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/variables</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param environmentScope the environment_scope of the variable, optional
+     * @return a Variable instance with the newly created variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable createVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, String environmentScope) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("key", key, true)
+                .withParam("value", value, true)
+                .withParam("protected", isProtected)
+                .withParam("environment_scope",  environmentScope);
+        Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "variables");
+        return (response.readEntity(Variable.class));
+    }
+
+    /**
+     * Update a project variable.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/variables/:key</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param key the key of an existing variable, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param environmentScope the environment_scope of the variable, optional
+     * @return a Variable instance with the updated variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable updateVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, String environmentScope) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("value", value, true)
+                .withParam("protected", isProtected)
+                .withParam("environment_scope",  environmentScope);
+        Response response = putWithFormData(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "variables", key);
+        return (response.readEntity(Variable.class));
+    }
+
+    /**
+     * Deletes a project variable.
+     *
+     * <pre><code>DELETE /projects/:id/variables/:key</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param key the key of an existing variable, required
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteVariable(Object projectIdOrPath, String key) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "variables", key);
     }
 }

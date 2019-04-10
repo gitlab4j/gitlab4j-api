@@ -62,4 +62,23 @@ public class TestUtils {
     public static final String getProperty(String key) {
         return (testProperties.getProperty(key));
     }
+
+    /**
+     * Get a random integer between 1 and the specified value (inclusive).
+     *
+     * @param maxValue the maximum value to return
+     * @return a random integer between 1 and the specified value (inclusive)
+     */
+    public static final int getRandomInt(int maxValue) {
+        return ((int)(Math.random() * maxValue + 1));
+    }
+
+    /**
+     * Get a random integer between 1 and Integer.MAX_VALUE (inclusive).
+     *
+     * @return a random integer between 1 and Integer.MAX_VALUE (inclusive)
+     */
+    public static final int getRandomInt() {
+        return (getRandomInt(Integer.MAX_VALUE));
+    }
 }

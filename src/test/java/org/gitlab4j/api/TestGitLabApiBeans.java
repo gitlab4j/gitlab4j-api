@@ -79,6 +79,7 @@ import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
 import org.gitlab4j.api.systemhooks.ProjectSystemHookEvent;
@@ -241,6 +242,12 @@ public class TestGitLabApiBeans {
     public void testPipelineSchedule() throws Exception {
         PipelineSchedule pipelineSchedule = unmarshalResource(PipelineSchedule.class, "pipeline-schedule.json");
         assertTrue(compareJson(pipelineSchedule, "pipeline-schedule.json"));
+    }
+
+    @Test
+    public void testProjectVariables() throws Exception {
+        List<Variable> variables = unmarshalResourceList(Variable.class, "project-variables.json");
+        assertTrue(compareJson(variables, "project-variables.json"));
     }
 
     @Test
