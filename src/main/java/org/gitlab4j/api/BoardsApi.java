@@ -116,6 +116,69 @@ public class BoardsApi extends AbstractApi {
     }
 
     /**
+     * Creates a new Issue Board.
+     *
+     * <p>NOTE: This is only available in GitLab EE</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/boards</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param name the name for the new board
+     * @return the created Board instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Board createBoard(Object projectIdOrPath, String name) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("name", name, true);
+        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "boards");
+        return (response.readEntity(Board.class));
+    }
+
+    /**
+     * Updates an existing Issue Board.
+     *
+     * <p>NOTE: This is only available in GitLab EE</p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/boards/:board_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param boardId the ID of the board, required
+     * @param name the new name of the board, optional (can be null)
+     * @param assigneeId the assignee the board should be scoped to, optional (can be null)
+     * @param milestoneId the milestone the board should be scoped to, optional (can be null)
+     * @param labels a comma-separated list of label names which the board should be scoped to, optional (can be null)
+     * @param weight the weight range from 0 to 9, to which the board should be scoped to, optional (can be null)
+     * @return the updated Board instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public BoardList updateBoard(Object projectIdOrPath, Integer boardId, String name, 
+            Integer assigneeId, Integer milestoneId, String labels, Integer weight) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name)
+                .withParam("assignee_id", assigneeId)
+                .withParam("milestone_id", milestoneId)
+                .withParam("labels", labels)
+                .withParam("weight", weight);
+        Response response = put(Response.Status.OK, formData.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId);
+        return (response.readEntity(BoardList.class));
+    }
+
+    /**
+     * Soft deletes an existing Issue Board.
+     *
+     * <p>NOTE: This is only available in GitLab EE</p>
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/boards/:board_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteBoard(Object projectIdOrPath, Integer boardId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId);
+    }
+
+    /**
      * Get a list of the board’s lists. Does not include open and closed lists.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/boards/:board_id/lists</code></pre>
