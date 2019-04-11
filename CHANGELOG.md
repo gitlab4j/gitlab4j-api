@@ -1,6 +1,54 @@
 # Changelog
 Changelog of GitLab4J API.
 
+## gitlab4j-api-4.9.22
+### GitHub [#316](https://github.com/gmessner/gitlab4j-api/issues/316) Adding Issue Boards Api    *enhancement*  
+
+**Added support for creating, updating, and deleting an issue board (#316).**
+
+
+[04561b0f4d50e4c](https://github.com/gmessner/gitlab4j-api/commit/04561b0f4d50e4c) Greg Messner *2019-04-11 01:34:17*
+
+
+### GitHub [#328](https://github.com/gmessner/gitlab4j-api/issues/328) commitsApi.getCommit(projectId, branchName) fails with 404 if slash in branch name    *bug*  
+
+**Now URL encodes the sha when fetching a single commit (#328).**
+
+
+[f6833a4b89619c4](https://github.com/gmessner/gitlab4j-api/commit/f6833a4b89619c4) Greg Messner *2019-04-10 04:51:58*
+
+
+### GitHub [#330](https://github.com/gmessner/gitlab4j-api/issues/330) Support Group-level and Project-level variables.    *enhancement*  
+
+**Added createVariable() and updateVariable() methods without the environmentScope param (#330).**
+
+
+[8deffb3ed63d0b3](https://github.com/gmessner/gitlab4j-api/commit/8deffb3ed63d0b3) Greg Messner *2019-04-11 01:36:23*
+
+**Added support for group and project variables (#330).**
+
+
+[97f457253248e2f](https://github.com/gmessner/gitlab4j-api/commit/97f457253248e2f) Greg Messner *2019-04-10 21:05:04*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[7a08a31ce39c277](https://github.com/gmessner/gitlab4j-api/commit/7a08a31ce39c277) Greg Messner *2019-04-10 21:04:06*
+
+**Added maskPrivateToken() method.**
+
+
+[0e6edfb4215e11e](https://github.com/gmessner/gitlab4j-api/commit/0e6edfb4215e11e) Greg Messner *2019-04-10 04:52:19*
+
+**Updated with latest commits.**
+
+
+[fa03dbd2964c492](https://github.com/gmessner/gitlab4j-api/commit/fa03dbd2964c492) Greg Messner *2019-04-06 19:58:56*
+
+
 ## gitlab4j-api-4.9.21
 ### GitHub [#316](https://github.com/gmessner/gitlab4j-api/issues/316) Adding Issue Boards Api    *enhancement*  
 
