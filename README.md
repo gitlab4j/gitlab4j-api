@@ -141,7 +141,7 @@ List<Project> allProjects = projectPager.all();
 
 ---
 ## Java 8 Stream Support
-As of GitLab4J-API 4.9.2, all GitLabJ-API methods that return a List result also similarlly named method returns a Java 8 Stream.  The Stream returning methods use the following naming convention:  ```getXxxxxStream()```.
+As of GitLab4J-API 4.9.2, all GitLabJ-API methods that return a List result have a similarlly named method that returns a Java 8 Stream.  The Stream returning methods use the following naming convention:  ```getXxxxxStream()```.
   
 
 **IMPORTANT**  
@@ -159,7 +159,7 @@ projectStream.map(Project::getName).forEach(name -> System.out.println(name));
 
 // Operate on the stream in parallel, this example sorts User instances by username
 // NOTE: Fetching of the users is not done in paralell,
-// only the soprting of the users is a paralell operation.
+// only the sorting of the users is a paralell operation.
 Stream<User> stream = gitlabApi.getUserApi().getUsersStream();
 List<User> users = stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
 ```
