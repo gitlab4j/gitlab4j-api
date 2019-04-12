@@ -104,8 +104,14 @@
     "group_id": 41
   }],
   "changes": {
-    "updated_by_id": [null, 1],
-    "updated_at": ["2017-09-15T16:50:55Z", "2017-09-15T16:52:00Z"],
+    "updated_at": {
+       "previous":"2019-04-12T01:10:28Z",
+       "current":"2019-04-12T01:11:33Z"
+    },
+    "updated_by_id": {
+       "previous": 2,
+       "current": 6
+    },
     "labels": {
       "previous": [{
         "id": 206,
