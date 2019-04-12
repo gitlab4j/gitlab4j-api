@@ -1,6 +1,46 @@
 # Changelog
 Changelog of GitLab4J API.
 
+## gitlab4j-api-4.9.23
+### GitHub [#325](https://github.com/gmessner/gitlab4j-api/issues/325) Add labels support to IssueEvent returned via Webhook    *enhancement*  
+
+**Fixed webhooks changes deserialization (#325, #331).**
+
+
+[2ce86a2fe5f8435](https://github.com/gmessner/gitlab4j-api/commit/2ce86a2fe5f8435) Greg Messner *2019-04-12 02:23:25*
+
+**Initial commit (#325, #331).**
+
+
+[01f1ed12ff9f415](https://github.com/gmessner/gitlab4j-api/commit/01f1ed12ff9f415) Greg Messner *2019-04-12 02:12:48*
+
+
+### GitHub [#331](https://github.com/gmessner/gitlab4j-api/issues/331) Cannot deserialize instance of java.util.ArrayList out of START_OBJECT token  
+
+**Fixed webhooks changes deserialization (#325, #331).**
+
+
+[2ce86a2fe5f8435](https://github.com/gmessner/gitlab4j-api/commit/2ce86a2fe5f8435) Greg Messner *2019-04-12 02:23:25*
+
+**Initial commit (#325, #331).**
+
+
+[01f1ed12ff9f415](https://github.com/gmessner/gitlab4j-api/commit/01f1ed12ff9f415) Greg Messner *2019-04-12 02:12:48*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[b8206c726f4b600](https://github.com/gmessner/gitlab4j-api/commit/b8206c726f4b600) Greg Messner *2019-04-12 02:23:08*
+
+**Generated latest changelog.**
+
+
+[35773f404a96981](https://github.com/gmessner/gitlab4j-api/commit/35773f404a96981) Greg Messner *2019-04-11 02:00:56*
+
+
 ## gitlab4j-api-4.9.22
 ### GitHub [#316](https://github.com/gmessner/gitlab4j-api/issues/316) Adding Issue Boards Api    *enhancement*  
 
