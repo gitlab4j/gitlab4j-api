@@ -1,11 +1,15 @@
 package org.gitlab4j.api;
 
+
+import static org.gitlab4j.api.JsonUtils.compareJson;
+import static org.gitlab4j.api.JsonUtils.unmarshalResource;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import org.gitlab4j.api.systemhooks.MergeRequestSystemHookEvent;
+import org.gitlab4j.api.systemhooks.ProjectSystemHookEvent;
+import org.gitlab4j.api.systemhooks.PushSystemHookEvent;
+import org.gitlab4j.api.systemhooks.SystemHookEvent;
+import org.gitlab4j.api.systemhooks.TeamMemberSystemHookEvent;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.webhook.BuildEvent;
 import org.gitlab4j.api.webhook.Event;
@@ -19,11 +23,6 @@ import org.gitlab4j.api.webhook.WikiPageEvent;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class TestGitLabApiEvents {
@@ -43,149 +42,205 @@ public class TestGitLabApiEvents {
     @Test
     public void testIssueEvent() throws Exception {
 
-        Event issueEvent = makeFakeApiCall(IssueEvent.class, "issue-event");
-        assertTrue(compareJson(issueEvent, "issue-event"));
+        Event issueEvent = unmarshalResource(IssueEvent.class, "issue-event.json");
+        assertTrue(compareJson(issueEvent, "issue-event.json"));
     }
 
     @Test
     public void testMergeRequestEvent() throws Exception {
 
-        Event mergeRequestEvent = makeFakeApiCall(MergeRequestEvent.class, "merge-request-event");
-        assertTrue(compareJson(mergeRequestEvent, "merge-request-event"));
-    }
-
-    @Test
-    public void testMergeRequestSystemHookEvent() throws Exception {
-
-        MergeRequestSystemHookEvent mergeRequestEvent = makeFakeApiCall(MergeRequestSystemHookEvent.class, "merge-request-system-hook-event");
-        assertTrue(compareJson(mergeRequestEvent, "merge-request-system-hook-event"));
+        Event mergeRequestEvent = unmarshalResource(MergeRequestEvent.class, "merge-request-event.json");
+        assertTrue(compareJson(mergeRequestEvent, "merge-request-event.json"));
     }
 
     @Test
     public void testPipelineEvent() throws Exception {
 
-        Event event = makeFakeApiCall(PipelineEvent.class, "pipeline-event");
-        assertTrue(compareJson(event, "pipeline-event"));
+        Event event = unmarshalResource(PipelineEvent.class, "pipeline-event.json");
+        assertTrue(compareJson(event, "pipeline-event.json"));
     }
 
     @Test
     public void testPushEvent() throws Exception {
 
-        Event pushEvent = makeFakeApiCall(PushEvent.class, "push-event");
-        assertTrue(compareJson(pushEvent, "push-event"));
+        Event pushEvent = unmarshalResource(PushEvent.class, "push-event.json");
+        assertTrue(compareJson(pushEvent, "push-event.json"));
     }
 
     @Test
     public void testTagPushEvent() throws Exception {
 
-        Event pushEvent = makeFakeApiCall(TagPushEvent.class, "tag-push-event");
-        assertTrue(compareJson(pushEvent, "tag-push-event"));
+        Event pushEvent = unmarshalResource(TagPushEvent.class, "tag-push-event.json");
+        assertTrue(compareJson(pushEvent, "tag-push-event.json"));
     }
 
     @Test
     public void testNoteCommitEvent() throws Exception {
 
-        Event noteEvent = makeFakeApiCall(NoteEvent.class, "note-commit-event");
-        assertTrue(compareJson(noteEvent, "note-commit-event"));
+        Event noteEvent = unmarshalResource(NoteEvent.class, "note-commit-event.json");
+        assertTrue(compareJson(noteEvent, "note-commit-event.json"));
     }
 
     @Test
     public void testNoteMergeRequestEvent() throws Exception {
 
-        Event noteEvent = makeFakeApiCall(NoteEvent.class, "note-merge-request-event");
-        assertTrue(compareJson(noteEvent, "note-merge-request-event"));
+        Event noteEvent = unmarshalResource(NoteEvent.class, "note-merge-request-event.json");
+        assertTrue(compareJson(noteEvent, "note-merge-request-event.json"));
     }
 
     @Test
     public void testNoteIssueEvent() throws Exception {
 
-        Event noteEvent = makeFakeApiCall(NoteEvent.class, "note-issue-event");
-        assertTrue(compareJson(noteEvent, "note-issue-event"));
+        Event noteEvent = unmarshalResource(NoteEvent.class, "note-issue-event.json");
+        assertTrue(compareJson(noteEvent, "note-issue-event.json"));
     }
 
     @Test
     public void testNoteSnippetEvent() throws Exception {
 
-        Event noteEvent = makeFakeApiCall(NoteEvent.class, "note-snippet-event");
-        assertTrue(compareJson(noteEvent, "note-snippet-event"));
+        Event noteEvent = unmarshalResource(NoteEvent.class, "note-snippet-event.json");
+        assertTrue(compareJson(noteEvent, "note-snippet-event.json"));
     }
 
     @Test
     public void testBuildEvent() throws Exception {
 
-        Event event = makeFakeApiCall(BuildEvent.class, "build-event");
-        assertTrue(compareJson(event, "build-event"));
+        Event event = unmarshalResource(BuildEvent.class, "build-event.json");
+        assertTrue(compareJson(event, "build-event.json"));
     }
 
     @Test
     public void testWikiPageEvent() throws Exception {
 
-        Event event = makeFakeApiCall(WikiPageEvent.class, "wiki-page-event");
-        assertTrue(compareJson(event, "wiki-page-event"));
+        Event event = unmarshalResource(WikiPageEvent.class, "wiki-page-event.json");
+        assertTrue(compareJson(event, "wiki-page-event.json"));
     }
 
     @Test
     public void testPolymorphicEvent() throws Exception {
 
-        Event event = makeFakeApiCall(Event.class, "build-event");
-        assertTrue(compareJson(event, "build-event"));
+        Event event = unmarshalResource(Event.class, "build-event.json");
+        assertTrue(compareJson(event, "build-event.json"));
 
-        event = makeFakeApiCall(Event.class, "issue-event");
-        assertTrue(compareJson(event, "issue-event"));
+        event = unmarshalResource(Event.class, "issue-event.json");
+        assertTrue(compareJson(event, "issue-event.json"));
 
-        event = makeFakeApiCall(Event.class, "merge-request-event");
-        assertTrue(compareJson(event, "merge-request-event"));
+        event = unmarshalResource(Event.class, "merge-request-event.json");
+        assertTrue(compareJson(event, "merge-request-event.json"));
 
-        event = makeFakeApiCall(Event.class, "note-commit-event");
-        assertTrue(compareJson(event, "note-commit-event"));
+        event = unmarshalResource(Event.class, "note-commit-event.json");
+        assertTrue(compareJson(event, "note-commit-event.json"));
 
-        event = makeFakeApiCall(Event.class, "note-issue-event");
-        assertTrue(compareJson(event, "note-issue-event"));
+        event = unmarshalResource(Event.class, "note-issue-event.json");
+        assertTrue(compareJson(event, "note-issue-event.json"));
 
-        event = makeFakeApiCall(Event.class, "note-merge-request-event");
-        assertTrue(compareJson(event, "note-merge-request-event"));
+        event = unmarshalResource(Event.class, "note-merge-request-event.json");
+        assertTrue(compareJson(event, "note-merge-request-event.json"));
 
-        event = makeFakeApiCall(Event.class, "note-snippet-event");
-        assertTrue(compareJson(event, "note-snippet-event"));
+        event = unmarshalResource(Event.class, "note-snippet-event.json");
+        assertTrue(compareJson(event, "note-snippet-event.json"));
 
-        event = makeFakeApiCall(Event.class, "pipeline-event");
-        assertTrue(compareJson(event, "pipeline-event"));
+        event = unmarshalResource(Event.class, "pipeline-event.json");
+        assertTrue(compareJson(event, "pipeline-event.json"));
 
-        event = makeFakeApiCall(Event.class, "push-event");
-        assertTrue(compareJson(event, "push-event"));
+        event = unmarshalResource(Event.class, "push-event.json");
+        assertTrue(compareJson(event, "push-event.json"));
 
-        event = makeFakeApiCall(Event.class, "tag-push-event");
-        assertTrue(compareJson(event, "tag-push-event"));
+        event = unmarshalResource(Event.class, "tag-push-event.json");
+        assertTrue(compareJson(event, "tag-push-event.json"));
 
-        event = makeFakeApiCall(Event.class, "wiki-page-event");
-        assertTrue(compareJson(event, "wiki-page-event"));
+        event = unmarshalResource(Event.class, "wiki-page-event.json");
+        assertTrue(compareJson(event, "wiki-page-event.json"));
     }
 
-    private <T> T makeFakeApiCall(Class<T> returnType, String file) throws JsonParseException, JsonMappingException, IOException {
 
-        InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(file + ".json"));
-        ObjectMapper objectMapper = jacksonJson.getContext(returnType);
-        return (objectMapper.readValue(reader, returnType));
+    @Test
+    public void testProjectSystemHookEvent() throws Exception {
+        ProjectSystemHookEvent event = unmarshalResource(ProjectSystemHookEvent.class,
+                "project-system-hook-event.json");
+        assertTrue(compareJson(event, "project-system-hook-event.json"));
     }
 
-    private <T> boolean compareJson(T apiObject, String file) throws IOException {
-
-        InputStreamReader reader = new InputStreamReader(GitLabApi.class.getResourceAsStream(file + ".json"));
-        String objectJson = jacksonJson.marshal(apiObject);
-        JsonNode tree1 = jacksonJson.getObjectMapper().readTree(objectJson.getBytes());
-        JsonNode tree2 = jacksonJson.getObjectMapper().readTree(reader);
-
-        boolean sameJson = tree1.equals(tree2);
-        if (!sameJson) {
-            System.out.println("JSON did not match:");
-            sortedDump(tree1);
-            sortedDump(tree2);
-        }
-        return (sameJson);
+    @Test
+    public void testTeamMemberSystemHookEvent() throws Exception {
+        TeamMemberSystemHookEvent event = unmarshalResource(TeamMemberSystemHookEvent.class,
+                "team-member-system-hook-event.json");
+        assertTrue(compareJson(event, "team-member-system-hook-event.json"));
     }
 
-    private void sortedDump(final JsonNode node) throws JsonProcessingException {
-        final Object obj = jacksonJson.getObjectMapper().treeToValue(node, Object.class);
-        System.out.println(jacksonJson.getObjectMapper().writeValueAsString(obj));
+    @Test
+    public void testPushSystemHookEvent() throws Exception {
+        PushSystemHookEvent event = unmarshalResource(PushSystemHookEvent.class, "push-system-hook-event.json");
+        assertTrue(compareJson(event, "push-system-hook-event.json"));
+    }
+
+    @Test
+    public void testUserSystemHookEvent() throws Exception {
+        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "user-system-hook-event.json");
+        assertTrue(compareJson(event, "user-system-hook-event.json"));
+    }
+
+    @Test
+    public void testGroupSystemHookEvent() throws Exception {
+        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "group-system-hook-event.json");
+        assertTrue(compareJson(event, "group-system-hook-event.json"));
+    }
+
+    @Test
+    public void testGroupMemberSystemHookEvent() throws Exception {
+        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "group-member-system-hook-event.json");
+        assertTrue(compareJson(event, "group-member-system-hook-event.json"));
+    }
+
+    @Test
+    public void testTagPushSystemHookEvent() throws Exception {
+        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "tag-push-system-hook-event.json");
+        assertTrue(compareJson(event, "tag-push-system-hook-event.json"));
+    }
+
+    @Test
+    public void testRepositorySystemHookEvent() throws Exception {
+        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "repository-system-hook-event.json");
+        assertTrue(compareJson(event, "repository-system-hook-event.json"));
+    }
+
+    @Test
+    public void testMergeRequestSystemHookEvent() throws Exception {
+        MergeRequestSystemHookEvent mergeRequestEvent = unmarshalResource(MergeRequestSystemHookEvent.class, "merge-request-system-hook-event.json");
+        assertTrue(compareJson(mergeRequestEvent, "merge-request-system-hook-event.json"));
+
+        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "merge-request-system-hook-event.json");
+        assertTrue(compareJson(event, "merge-request-system-hook-event.json"));
+    }
+
+    @Test
+    public void testPolymorphicSystemHookEvent() throws Exception {
+
+        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "project-system-hook-event.json");
+        assertTrue(compareJson(event, "project-system-hook-event.json"));
+
+        event = unmarshalResource(SystemHookEvent.class, "team-member-system-hook-event.json");
+        assertTrue(compareJson(event, "team-member-system-hook-event.json"));
+
+        event = unmarshalResource(PushSystemHookEvent.class, "push-system-hook-event.json");
+        assertTrue(compareJson(event, "push-system-hook-event.json"));
+
+        event = unmarshalResource(SystemHookEvent.class, "user-system-hook-event.json");
+        assertTrue(compareJson(event, "user-system-hook-event.json"));
+
+        event = unmarshalResource(SystemHookEvent.class, "group-system-hook-event.json");
+        assertTrue(compareJson(event, "group-system-hook-event.json"));
+
+        event = unmarshalResource(SystemHookEvent.class, "group-member-system-hook-event.json");
+        assertTrue(compareJson(event, "group-member-system-hook-event.json"));
+
+        event = unmarshalResource(SystemHookEvent.class, "tag-push-system-hook-event.json");
+        assertTrue(compareJson(event, "tag-push-system-hook-event.json"));
+
+        event = unmarshalResource(SystemHookEvent.class, "repository-system-hook-event.json");
+        assertTrue(compareJson(event, "repository-system-hook-event.json"));
+
+        event = unmarshalResource(SystemHookEvent.class, "merge-request-system-hook-event.json");
+        assertTrue(compareJson(event, "merge-request-system-hook-event.json"));
     }
 }

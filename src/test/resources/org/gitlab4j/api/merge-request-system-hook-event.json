@@ -1,5 +1,6 @@
 {
   "object_kind": "merge_request",
+  "event_name": "merge_request",
   "user": {
     "name": "Administrator",
     "username": "root",

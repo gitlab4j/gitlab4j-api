@@ -82,10 +82,6 @@ import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
-import org.gitlab4j.api.systemhooks.ProjectSystemHookEvent;
-import org.gitlab4j.api.systemhooks.PushSystemHookEvent;
-import org.gitlab4j.api.systemhooks.SystemHookEvent;
-import org.gitlab4j.api.systemhooks.TeamMemberSystemHookEvent;
 import org.junit.Test;
 
 public class TestGitLabApiBeans {
@@ -440,56 +436,6 @@ public class TestGitLabApiBeans {
     public void testOauthToken() throws Exception {
         OauthTokenResponse token = unmarshalResource(OauthTokenResponse.class, "oauth-token.json");
         assertTrue(compareJson(token, "oauth-token.json"));
-    }
-
-    @Test
-    public void testProjectSystemHookEvent() throws Exception {
-        ProjectSystemHookEvent event = unmarshalResource(ProjectSystemHookEvent.class,
-                "project-system-hook-event.json");
-        assertTrue(compareJson(event, "project-system-hook-event.json"));
-    }
-
-    @Test
-    public void testTeamMemberSystemHookEvent() throws Exception {
-        TeamMemberSystemHookEvent event = unmarshalResource(TeamMemberSystemHookEvent.class,
-                "team-member-system-hook-event.json");
-        assertTrue(compareJson(event, "team-member-system-hook-event.json"));
-    }
-
-    @Test
-    public void testPushSystemHookEvent() throws Exception {
-        PushSystemHookEvent event = unmarshalResource(PushSystemHookEvent.class, "push-system-hook-event.json");
-        assertTrue(compareJson(event, "push-system-hook-event.json"));
-    }
-
-    @Test
-    public void testUserSystemHookEvent() throws Exception {
-        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "user-system-hook-event.json");
-        assertTrue(compareJson(event, "user-system-hook-event.json"));
-    }
-
-    @Test
-    public void testGroupSystemHookEvent() throws Exception {
-        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "group-system-hook-event.json");
-        assertTrue(compareJson(event, "group-system-hook-event.json"));
-    }
-
-    @Test
-    public void testGroupMemberSystemHookEvent() throws Exception {
-        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "group-member-system-hook-event.json");
-        assertTrue(compareJson(event, "group-member-system-hook-event.json"));
-    }
-
-    @Test
-    public void testTagPushSystemHookEvent() throws Exception {
-        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "tag-push-system-hook-event.json");
-        assertTrue(compareJson(event, "tag-push-system-hook-event.json"));
-    }
-
-    @Test
-    public void testRepositorySystemHookEvent() throws Exception {
-        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "repository-system-hook-event.json");
-        assertTrue(compareJson(event, "repository-system-hook-event.json"));
     }
 
     @Test
