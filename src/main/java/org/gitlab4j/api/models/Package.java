@@ -1,10 +1,7 @@
 package org.gitlab4j.api.models;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlRootElement
 public class Package {
 
     private Integer id;

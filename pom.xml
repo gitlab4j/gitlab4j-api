@@ -43,7 +43,6 @@
 		<jersey.version>2.27</jersey.version>
 		<jackson.version>2.9.8</jackson.version>
 		<javaServlet.version>4.0.1</javaServlet.version>
-		<jaxbApi.version>2.3.1</jaxbApi.version>
 		<junit.version>4.12</junit.version>
 		<mockito.version>2.19.0</mockito.version>
 		<hamcrest.version>1.3</hamcrest.version>
@@ -221,17 +220,6 @@
 	</build>
 
 	<dependencies>
-		<!-- jaxb-api and javax.activation added for Java 9 compatibility -->
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>${jaxbApi.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.activation</groupId>
-			<artifactId>javax.activation</artifactId>
-			<version>1.2.0</version>
-		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.jaxrs</groupId>

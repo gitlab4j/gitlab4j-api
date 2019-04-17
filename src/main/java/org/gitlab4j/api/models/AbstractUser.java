@@ -3,14 +3,10 @@ package org.gitlab4j.api.models;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractUser<U extends AbstractUser<U>> {
 

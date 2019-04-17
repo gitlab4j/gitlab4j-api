@@ -3,15 +3,11 @@ package org.gitlab4j.api.models;
 
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class EpicIssue extends Issue {
 
     private Integer downvotes;

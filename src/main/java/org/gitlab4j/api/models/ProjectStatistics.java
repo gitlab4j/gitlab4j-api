@@ -1,9 +1,6 @@
 package org.gitlab4j.api.models;
 
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
 /**
@@ -11,7 +8,6 @@ import org.gitlab4j.api.utils.JacksonJson;
  * ProjectApi.getProject() has to be called with parameter statistics=true 
  * which is only allowed for GitLab admins.
  */
-@XmlAccessorType(XmlAccessType.FIELD)
 public class ProjectStatistics {
 
     long commitCount;

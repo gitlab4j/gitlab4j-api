@@ -2,15 +2,9 @@ package org.gitlab4j.api.systemhooks;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.webhook.EventProject;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
 
     public static final String REPOSITORY_UPDATE_EVENT = "repository_update";

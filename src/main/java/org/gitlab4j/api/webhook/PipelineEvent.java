@@ -3,14 +3,10 @@ package org.gitlab4j.api.webhook;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class PipelineEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Pipeline Hook";
@@ -71,7 +67,6 @@ public class PipelineEvent extends AbstractEvent {
         this.builds = builds;
     }
 
-    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Build {
 
         private Integer id;
@@ -175,7 +170,6 @@ public class PipelineEvent extends AbstractEvent {
         }
     }
 
-    @XmlAccessorType(XmlAccessType.FIELD)
     public static class ObjectAttributes {
 
         private Integer id;

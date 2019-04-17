@@ -1,12 +1,8 @@
 package org.gitlab4j.api.webhook;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class WikiPageEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Wiki Page Hook";
@@ -58,7 +54,6 @@ public class WikiPageEvent extends AbstractEvent {
         this.objectAttributes = objectAttributes;
     }
 
-    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Wiki {
 
         private String webUrl;
@@ -108,7 +103,6 @@ public class WikiPageEvent extends AbstractEvent {
         }
     }
 
-    @XmlAccessorType(XmlAccessType.FIELD)
     public static class ObjectAttributes {
 
         private String title;

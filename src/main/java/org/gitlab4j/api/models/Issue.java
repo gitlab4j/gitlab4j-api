@@ -4,15 +4,9 @@ package org.gitlab4j.api.models;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.gitlab4j.api.Constants.IssueState;
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Issue {
 
     private Assignee assignee;

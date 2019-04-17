@@ -1,14 +1,9 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+import org.gitlab4j.api.utils.JacksonJson;
+
 public class PipelineSchedule {
 
     private Integer id;

@@ -2,13 +2,9 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class BuildEvent extends AbstractEvent {
 
     /** X-Gitlab-Event header value pre GitLab v9.3.0 */

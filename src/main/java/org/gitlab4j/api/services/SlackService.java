@@ -1,13 +1,7 @@
 package org.gitlab4j.api.services;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SlackService extends NotificationService {
 
     public static final String WEBHOOK_PROP = "webhook";

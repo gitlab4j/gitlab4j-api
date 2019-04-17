@@ -2,12 +2,8 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class BuildEventCommit {
 
     private Integer id;

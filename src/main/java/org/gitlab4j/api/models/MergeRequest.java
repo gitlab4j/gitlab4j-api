@@ -3,17 +3,11 @@ package org.gitlab4j.api.models;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class MergeRequest {
 
     private Integer approvalsBeforeMerge;

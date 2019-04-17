@@ -3,16 +3,10 @@ package org.gitlab4j.api.models;
 
 import java.util.Base64;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class RepositoryFile {
 
     private String fileName; // file name only, Ex. class.rb

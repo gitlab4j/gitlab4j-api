@@ -78,4 +78,12 @@ public interface SystemHookListener extends java.util.EventListener {
      */
     default void onRepositoryEvent(RepositorySystemHookEvent event) {
     }
+
+    /**
+     * This method is called when a System Hook merge_request event has been received.
+     *
+     * @param event the MergeRequestSystemHookEvent instance containing info on the key event
+     */
+    default void onMergeRequestEvent(MergeRequestSystemHookEvent event) {
+    }
 }

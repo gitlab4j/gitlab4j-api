@@ -1,12 +1,8 @@
 
 package org.gitlab4j.api.webhook;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class PushEvent extends AbstractPushEvent implements Event {
 
     public static final String X_GITLAB_EVENT = "Push Hook";

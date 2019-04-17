@@ -2,14 +2,10 @@ package org.gitlab4j.api.webhook;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class IssueEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Issue Hook";

@@ -2,14 +2,8 @@ package org.gitlab4j.api.services;
 
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class JiraService extends NotificationService {
 
     public static final String URL_PROP = "url";

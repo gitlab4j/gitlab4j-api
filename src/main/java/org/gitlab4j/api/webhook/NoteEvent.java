@@ -2,9 +2,6 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
@@ -13,7 +10,6 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class NoteEvent extends AbstractEvent {
 
     public static final String X_GITLAB_EVENT = "Note Hook";
@@ -131,7 +127,6 @@ public class NoteEvent extends AbstractEvent {
         }
     }
 
-    @XmlAccessorType(XmlAccessType.FIELD)
     public static class ObjectAttributes {
 
         private Integer id;

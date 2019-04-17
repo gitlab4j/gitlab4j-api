@@ -2,12 +2,8 @@ package org.gitlab4j.api.webhook;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractPushEvent {
 
     private String eventName;

@@ -2,12 +2,8 @@ package org.gitlab4j.api.models;
 
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class HealthCheckItem {
     private HealthCheckStatus status;
     private Map<String, String> labels;

@@ -3,16 +3,12 @@ package org.gitlab4j.api.models;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class ImpersonationToken {
 
     /** Enum to specify the scope of an ImpersonationToken. */

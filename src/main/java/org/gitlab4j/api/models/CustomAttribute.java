@@ -1,9 +1,5 @@
 package org.gitlab4j.api.models;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
-@XmlAccessorType(XmlAccessType.FIELD)
 public class CustomAttribute {
     private String key;
     private String value;

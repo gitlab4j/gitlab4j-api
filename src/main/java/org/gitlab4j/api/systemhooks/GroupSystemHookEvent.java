@@ -2,14 +2,8 @@ package org.gitlab4j.api.systemhooks;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class GroupSystemHookEvent extends AbstractSystemHookEvent {
     
     public static final String GROUP_CREATE_EVENT = "group_create";

@@ -1,15 +1,9 @@
 package org.gitlab4j.api.models;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Variable {
 
     private String key;

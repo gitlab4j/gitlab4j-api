@@ -1,12 +1,8 @@
 package org.gitlab4j.api.webhook;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.utils.JacksonJson;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class EventRepository {
 
     private String name;

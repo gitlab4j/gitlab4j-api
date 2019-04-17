@@ -2,14 +2,10 @@ package org.gitlab4j.api.models;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SshKey {
     
     private Integer id;

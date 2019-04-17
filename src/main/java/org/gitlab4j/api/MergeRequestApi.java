@@ -376,7 +376,7 @@ public class MergeRequestApi extends AbstractApi {
     }
 
     /**
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * Creates a merge request and optionally assigns a reviewer to it.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests</code></pre>
      *
@@ -394,8 +394,7 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public MergeRequest createMergeRequest(Object projectIdOrPath, String sourceBranch, String targetBranch, String title, String description, Integer assigneeId,
-                                           Integer targetProjectId, String[] labels, Integer milestoneId, Boolean removeSourceBranch)
-            throws GitLabApiException {
+                Integer targetProjectId, String[] labels, Integer milestoneId, Boolean removeSourceBranch) throws GitLabApiException {
        return createMergeRequest(projectIdOrPath, sourceBranch, targetBranch, title, description, assigneeId, targetProjectId, labels, milestoneId, removeSourceBranch, null);
     }
 

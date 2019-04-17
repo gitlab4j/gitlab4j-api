@@ -2,18 +2,12 @@ package org.gitlab4j.api.models;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Note {
 
     /** Enum to use for ordering the results. */
