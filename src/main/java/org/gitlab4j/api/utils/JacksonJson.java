@@ -89,6 +89,48 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     }
 
     /**
+     * Reads and parses the String containing JSON data and returns a JsonNode tree representation.
+     *
+     * @param postData a String holding the POST data
+     * @return a JsonNode instance containing the parsed JSON
+     * @throws JsonParseException when an error occurs parsing the provided JSON
+     * @throws JsonMappingException if a JSON error occurs
+     * @throws IOException if an error occurs reading the JSON data
+     */
+    public JsonNode readTree(String postData) throws JsonParseException, JsonMappingException, IOException {
+        return (objectMapper.readTree(postData));
+    }
+
+    /**
+     * Reads and parses the JSON data on the specified Reader instance to a JsonNode tree representation.
+     *
+     * @param reader the Reader instance that contains the JSON data
+     * @return a JsonNode instance containing the parsed JSON
+     * @throws JsonParseException when an error occurs parsing the provided JSON
+     * @throws JsonMappingException if a JSON error occurs
+     * @throws IOException if an error occurs reading the JSON data
+     */
+    public JsonNode readTree(Reader reader) throws JsonParseException, JsonMappingException, IOException {
+        return (objectMapper.readTree(reader));
+    }
+
+    /**
+     * Unmarshal the JsonNode (tree) to an instance of the provided class.
+     *
+     * @param <T> the generics type for the return value
+     * @param returnType an instance of this type class will be returned
+     * @param tree the JsonNode instance that contains the JSON data
+     * @return an instance of the provided class containing the  data from the tree
+     * @throws JsonParseException when an error occurs parsing the provided JSON
+     * @throws JsonMappingException if a JSON error occurs
+     * @throws IOException if an error occurs reading the JSON data
+     */
+    public <T> T unmarshal(Class<T> returnType, JsonNode tree) throws JsonParseException, JsonMappingException, IOException {
+        ObjectMapper objectMapper = getContext(returnType);
+        return (objectMapper.treeToValue(tree, returnType));
+    }
+
+    /**
      * Unmarshal the JSON data on the specified Reader instance to an instance of the provided class.
      *
      * @param <T> the generics type for the return value
