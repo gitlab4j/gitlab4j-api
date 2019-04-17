@@ -15,6 +15,8 @@ import org.gitlab4j.api.HookManager;
 import org.gitlab4j.api.utils.HttpRequestUtils;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  * This class provides a handler for processing GitLab System Hook callouts.
  */
@@ -77,15 +79,36 @@ public class SystemHookManager extends HookManager {
         try {
 
             SystemHookEvent event;
+            JsonNode tree;
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine(HttpRequestUtils.getShortRequestDump("System Hook", true, request));
                 String postData = HttpRequestUtils.getPostDataAsString(request);
                 LOGGER.fine("Raw POST data:\n" + postData);
-                event = jacksonJson.unmarshal(SystemHookEvent.class, postData);
-                LOGGER.fine(event.getEventName() + "\n" + jacksonJson.marshal(event) + "\n");
+                tree = jacksonJson.readTree(postData);
             } else {
                 InputStreamReader reader = new InputStreamReader(request.getInputStream());
-                event = jacksonJson.unmarshal(SystemHookEvent.class, reader);
+                tree = jacksonJson.readTree(reader);
+            }
+
+            if (tree.has("object_kind")) {
+                String objectKind = tree.asText("object_kind");
+                switch (objectKind) {
+                    case MergeRequestSystemHookEvent.OBJECT_KIND:
+                        event = jacksonJson.unmarshal(MergeRequestSystemHookEvent.class, tree);
+                        break;
+
+                    default:
+                        String message = "Unsupported object_kind, object_kind=" + objectKind;
+                        LOGGER.warning(message);
+                        throw new GitLabApiException(message);
+                }
+
+            } else {
+                event = jacksonJson.unmarshal(SystemHookEvent.class, tree);
+            }
+
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine(event.getEventName() + "\n" + jacksonJson.marshal(event) + "\n");
             }
 
             event.setRequestUrl(request.getRequestURL().toString());
@@ -161,6 +184,8 @@ public class SystemHookManager extends HookManager {
             fireTagPushEvent((TagPushSystemHookEvent) event);
         } else if (event instanceof RepositorySystemHookEvent) {
             fireRepositoryEvent((RepositorySystemHookEvent) event);
+        } else if (event instanceof MergeRequestSystemHookEvent) {
+            fireMergeRequestEvent((MergeRequestSystemHookEvent) event);
         } else {
             String message = "Unsupported event, event_named=" + event.getEventName();
             LOGGER.warning(message);
@@ -219,6 +244,12 @@ public class SystemHookManager extends HookManager {
     protected void fireRepositoryEvent(RepositorySystemHookEvent event) {
         for (SystemHookListener listener : systemHookListeners) {
             listener.onRepositoryEvent(event);
+        }
+    }
+
+    protected void fireMergeRequestEvent(MergeRequestSystemHookEvent event) {
+        for (SystemHookListener listener : systemHookListeners) {
+            listener.onMergeRequestEvent(event);
         }
     }
 }

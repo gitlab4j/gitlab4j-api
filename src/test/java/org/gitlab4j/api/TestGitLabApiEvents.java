@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.gitlab4j.api.systemhooks.MergeRequestSystemHookEvent;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.webhook.BuildEvent;
 import org.gitlab4j.api.webhook.Event;
@@ -51,6 +52,13 @@ public class TestGitLabApiEvents {
 
         Event mergeRequestEvent = makeFakeApiCall(MergeRequestEvent.class, "merge-request-event");
         assertTrue(compareJson(mergeRequestEvent, "merge-request-event"));
+    }
+
+    @Test
+    public void testMergeRequestSystemHookEvent() throws Exception {
+
+        MergeRequestSystemHookEvent mergeRequestEvent = makeFakeApiCall(MergeRequestSystemHookEvent.class, "merge-request-system-hook-event");
+        assertTrue(compareJson(mergeRequestEvent, "merge-request-system-hook-event"));
     }
 
     @Test
