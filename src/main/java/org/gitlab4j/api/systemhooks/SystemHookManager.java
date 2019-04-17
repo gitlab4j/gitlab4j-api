@@ -16,6 +16,7 @@ import org.gitlab4j.api.utils.HttpRequestUtils;
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * This class provides a handler for processing GitLab System Hook callouts.
@@ -90,11 +91,14 @@ public class SystemHookManager extends HookManager {
                 tree = jacksonJson.readTree(reader);
             }
 
-            if (tree.has("object_kind")) {
+            // NOTE: This is a hack based on the GitLab documentation showing that the "event_name" property
+            // is missing from the merge_request system hook event
+            if (!tree.has("event_name") && tree.has("object_kind")) {
                 String objectKind = tree.asText("object_kind");
                 switch (objectKind) {
-                    case MergeRequestSystemHookEvent.OBJECT_KIND:
-                        event = jacksonJson.unmarshal(MergeRequestSystemHookEvent.class, tree);
+                    case MergeRequestSystemHookEvent.MERGE_REQUEST_EVENT:
+                        ObjectNode node = (ObjectNode)tree;
+                        node.put("event_name", MergeRequestSystemHookEvent.MERGE_REQUEST_EVENT);
                         break;
 
                     default:
@@ -102,10 +106,9 @@ public class SystemHookManager extends HookManager {
                         LOGGER.warning(message);
                         throw new GitLabApiException(message);
                 }
-
-            } else {
-                event = jacksonJson.unmarshal(SystemHookEvent.class, tree);
             }
+
+            event = jacksonJson.unmarshal(SystemHookEvent.class, tree);
 
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine(event.getEventName() + "\n" + jacksonJson.marshal(event) + "\n");
