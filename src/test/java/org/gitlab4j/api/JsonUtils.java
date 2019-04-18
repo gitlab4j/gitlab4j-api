@@ -25,7 +25,11 @@ public class JsonUtils {
         jacksonJson.getObjectMapper().configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
     }
 
-    
+    static JsonNode readTreeFromResource(String filename) throws JsonParseException, JsonMappingException, IOException {
+        InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
+        return (jacksonJson.readTree(reader));
+    }
+
     static <T> T unmarshalResource(Class<T> returnType, String filename) throws JsonParseException, JsonMappingException, IOException {
         InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
         return (jacksonJson.unmarshal(returnType, reader));
@@ -43,6 +47,10 @@ public class JsonUtils {
 
     static <T> T unmarshal(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
         return (jacksonJson.unmarshal(returnType, reader));
+    }
+
+    static <T> T unmarshal(Class<T> returnType, JsonNode tree) throws JsonParseException, JsonMappingException, IOException {
+        return (jacksonJson.unmarshal(returnType, tree));
     }
 
     static <T> T unmarshal(Class<T> returnType, String json) throws JsonParseException, JsonMappingException, IOException {
