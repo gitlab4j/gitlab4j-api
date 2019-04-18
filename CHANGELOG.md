@@ -1,6 +1,142 @@
 # Changelog
 Changelog of GitLab4J API.
 
+## gitlab4j-api-4.10.3
+### GitHub [#333](https://github.com/gmessner/gitlab4j-api/issues/333) Fix date parser in ISO8601  
+
+**Added tests for UTC zone name (#333).**
+
+
+[ac7392928c120a2](https://github.com/gmessner/gitlab4j-api/commit/ac7392928c120a2) Greg Messner *2019-04-18 12:36:47*
+
+**Now properly handles dates using UTC zone name (#333).**
+
+
+[0824d6c9b1b3411](https://github.com/gmessner/gitlab4j-api/commit/0824d6c9b1b3411) Greg Messner *2019-04-18 12:36:23*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[302d53b78dc7191](https://github.com/gmessner/gitlab4j-api/commit/302d53b78dc7191) Greg Messner *2019-04-18 12:37:19*
+
+
+## gitlab4j-api-4.10.2
+### GitHub [#332](https://github.com/gmessner/gitlab4j-api/issues/332) Does the system hook api support the merge request?    *enhancement*  
+
+**Added testing of SystemHookManager.handleEvent() (#332).**
+
+
+[cbd070d592c3d72](https://github.com/gmessner/gitlab4j-api/commit/cbd070d592c3d72) Greg Messner *2019-04-18 04:33:39*
+
+**Made handling of merge_request event more resilient (#332).**
+
+
+[afdd3ef30bb3d70](https://github.com/gmessner/gitlab4j-api/commit/afdd3ef30bb3d70) Greg Messner *2019-04-18 04:32:54*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[319527c8ffc62da](https://github.com/gmessner/gitlab4j-api/commit/319527c8ffc62da) Greg Messner *2019-04-18 04:34:19*
+
+**Added event_type property.**
+
+
+[74d939480966b81](https://github.com/gmessner/gitlab4j-api/commit/74d939480966b81) Greg Messner *2019-04-17 22:47:20*
+
+**Updated Jersey version to 2.28**
+
+
+[f985c6813011bbf](https://github.com/gmessner/gitlab4j-api/commit/f985c6813011bbf) Greg Messner *2019-04-17 19:35:43*
+
+
+## gitlab4j-api-4.10.1
+### GitHub [#332](https://github.com/gmessner/gitlab4j-api/issues/332) Does the system hook api support the merge request?    *enhancement*  
+
+**Fixed issue unmarhalling merge_request system hook events (#332).**
+
+
+[0c31bd4332db0f5](https://github.com/gmessner/gitlab4j-api/commit/0c31bd4332db0f5) Greg Messner *2019-04-17 15:20:46*
+
+**Reorganized and added new system hook event tests (#332).**
+
+
+[04a7698018dd839](https://github.com/gmessner/gitlab4j-api/commit/04a7698018dd839) Greg Messner *2019-04-17 15:19:50*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[9c9df1b7ec93d5e](https://github.com/gmessner/gitlab4j-api/commit/9c9df1b7ec93d5e) Greg Messner *2019-04-17 15:21:22*
+
+
+## gitlab4j-api-4.10.0
+### GitHub [#327](https://github.com/gmessner/gitlab4j-api/issues/327) Found banned dependency while wrapping api into a Jenkins plugin    *enhancement*  
+
+**Removed use of JAXB (#327).**
+
+
+[45ff580c7ddafb6](https://github.com/gmessner/gitlab4j-api/commit/45ff580c7ddafb6) Greg Messner *2019-04-17 05:54:37*
+
+**Removed use of JAXB DatatypeConverter (#327).**
+
+
+[994493d1b3c76e5](https://github.com/gmessner/gitlab4j-api/commit/994493d1b3c76e5) Greg Messner *2019-04-17 05:52:58*
+
+**Added testing of more variations of date formats (#327).**
+
+
+[202355e8c28f14a](https://github.com/gmessner/gitlab4j-api/commit/202355e8c28f14a) Greg Messner *2019-04-17 05:52:16*
+
+
+### GitHub [#332](https://github.com/gmessner/gitlab4j-api/issues/332) Does the system hook api support the merge request?    *enhancement*  
+
+**Added methods to unmarshal from JsonNode (#332).**
+
+
+[7a0906fdba89cfa](https://github.com/gmessner/gitlab4j-api/commit/7a0906fdba89cfa) Greg Messner *2019-04-17 05:53:54*
+
+**Added support for merge_request system hook (#332).**
+
+
+[82c1deea32983e6](https://github.com/gmessner/gitlab4j-api/commit/82c1deea32983e6) Greg Messner *2019-04-17 05:51:05*
+
+**Initial commit (#332).**
+
+
+[44b47f3ab9bab97](https://github.com/gmessner/gitlab4j-api/commit/44b47f3ab9bab97) Greg Messner *2019-04-17 05:46:00*
+
+
+### No issue
+
+**Bumped version to 4.10.0**
+
+
+[34ff9512b7aaac5](https://github.com/gmessner/gitlab4j-api/commit/34ff9512b7aaac5) Greg Messner *2019-04-17 05:57:01*
+
+**Bumped version to 4.10.0.**
+
+
+[4eb2c45eab3f106](https://github.com/gmessner/gitlab4j-api/commit/4eb2c45eab3f106) Greg Messner *2019-04-17 05:56:19*
+
+**Fixed grammar in Stream section.**
+
+
+[043521ac4a8c935](https://github.com/gmessner/gitlab4j-api/commit/043521ac4a8c935) Greg Messner *2019-04-12 18:24:30*
+
+**Generated latest changelog.**
+
+
+[b9728a35f57d939](https://github.com/gmessner/gitlab4j-api/commit/b9728a35f57d939) Greg Messner *2019-04-12 17:13:19*
+
+
 ## gitlab4j-api-4.9.23
 ### GitHub [#325](https://github.com/gmessner/gitlab4j-api/issues/325) Add labels support to IssueEvent returned via Webhook    *enhancement*  
 
