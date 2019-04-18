@@ -140,9 +140,15 @@ public class ISO8601 {
         }
 
         dateTimeString = dateTimeString.trim();
-        if (dateTimeString.endsWith("Z") || dateTimeString.endsWith("UTC")) {
+
+        if (dateTimeString.endsWith("Z")) {
             return (Instant.parse(dateTimeString));
         } else {
+
+            // Convert UTC zoned dates to 0 offset date
+            if (dateTimeString.endsWith("UTC")) {
+                dateTimeString = dateTimeString.replace("UTC", "+0000");
+            }
 
             OffsetDateTime odt = (dateTimeString.length() > 25 ?
                 OffsetDateTime.parse(dateTimeString, ODT_WITH_MSEC_PARSER) :
