@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class SystemHookManager extends HookManager {
 
     public static final String SYSTEM_HOOK_EVENT = "System Hook";
-
     private final static Logger LOGGER = GitLabApi.getLogger();
     private final JacksonJson jacksonJson = new JacksonJson();
 
@@ -77,10 +76,11 @@ public class SystemHookManager extends HookManager {
             throw new GitLabApiException(message);
         }
 
+        // Get the JSON as a JsonNode tree.  We do not directly unmarshal the input as special handling must
+        // be done for "merge_request" events.
+        JsonNode tree;
         try {
 
-            SystemHookEvent event;
-            JsonNode tree;
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine(HttpRequestUtils.getShortRequestDump("System Hook", true, request));
                 String postData = HttpRequestUtils.getPostDataAsString(request);
@@ -91,30 +91,39 @@ public class SystemHookManager extends HookManager {
                 tree = jacksonJson.readTree(reader);
             }
 
-            // NOTE: This is a hack based on the GitLab documentation showing that the "event_name" property
-            // is missing from the merge_request system hook event
-            if (!tree.has("event_name") && tree.has("object_kind")) {
-                String objectKind = tree.asText("object_kind");
-                switch (objectKind) {
-                    case MergeRequestSystemHookEvent.MERGE_REQUEST_EVENT:
-                        ObjectNode node = (ObjectNode)tree;
-                        node.put("event_name", MergeRequestSystemHookEvent.MERGE_REQUEST_EVENT);
-                        break;
+        } catch (Exception e) {
+            LOGGER.warning("Error reading JSON data, exception=" +
+                    e.getClass().getSimpleName() + ", error=" + e.getMessage());
+            throw new GitLabApiException(e);
+        }
 
-                    default:
-                        String message = "Unsupported object_kind, object_kind=" + objectKind;
-                        LOGGER.warning(message);
-                        throw new GitLabApiException(message);
-                }
+        // NOTE: This is a hack based on the GitLab documentation and actual content of the "merge_request" event
+        // showing that the "event_name" property is missing from the merge_request system hook event.  The hack is
+        // to inject the "event_name" node so that the polymorphic deserialization of a SystemHookEvent works correctly
+        // when the system hook event is a "merge_request" event.
+        if (!tree.has("event_name") && tree.has("object_kind")) {
+
+            String objectKind = tree.get("object_kind").asText();
+            if (MergeRequestSystemHookEvent.MERGE_REQUEST_EVENT.equals(objectKind)) {
+                ObjectNode node = (ObjectNode)tree;
+                node.put("event_name", MergeRequestSystemHookEvent.MERGE_REQUEST_EVENT);
+            } else {
+                String message = "Unsupported object_kind for system hook event, object_kind=" + objectKind;
+                LOGGER.warning(message);
+                throw new GitLabApiException(message);
             }
+        }
 
-            event = jacksonJson.unmarshal(SystemHookEvent.class, tree);
+        // Unmarshal the tree to a concrete instance of a SystemHookEvent and fire the event to any listeners
+        try {
 
+            SystemHookEvent event = jacksonJson.unmarshal(SystemHookEvent.class, tree);
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine(event.getEventName() + "\n" + jacksonJson.marshal(event) + "\n");
             }
 
-            event.setRequestUrl(request.getRequestURL().toString());
+            StringBuffer requestUrl = request.getRequestURL();
+            event.setRequestUrl(requestUrl != null ? requestUrl.toString() : null);
             event.setRequestQueryString(request.getQueryString());
             fireEvent(event);
 
