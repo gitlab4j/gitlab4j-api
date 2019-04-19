@@ -222,6 +222,7 @@ The API has been broken up into sub API classes to make it easier to learn and t
 &nbsp;&nbsp;[NamespaceApi](#namespaceapi)<br/>
 &nbsp;&nbsp;[NotesApi](#notesapi)<br/>
 &nbsp;&nbsp;[NotificationSettingsApi](#notificationsettingsapi)<br/>
+&nbsp;&nbsp;[PackagesApi](#packagesapi)<br/>
 &nbsp;&nbsp;[PipelineApi](#pipelineapi)<br/>
 &nbsp;&nbsp;[ProjectApi](#projectapi)<br/>
 &nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi) <br/>
@@ -340,10 +341,17 @@ List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces("foobar"
 // Get a list of the issues's notes for project ID 1234, issue IID 1
 List<Note> notes = gitLabApi.getNotesApi().getNotes(1234, 1);
 ```
+
 #### NotificationSettingsApi
 ```java
 // Get the current global notification settings
 NotificationSettings settings = gitLabApi.getNotificationSettingsApi().getGlobalNotificationSettings();
+```
+
+#### PackagesApi
+```java
+// Get all packages for the specified project ID
+List<Packages> packages = gitLabApi.getPackagesApi().getPackages(1234);
 ```
 
 #### PipelineApi
