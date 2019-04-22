@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
@@ -15,6 +16,7 @@ import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
+import org.gitlab4j.api.utils.MaskingLoggingFilter;
 import org.gitlab4j.api.utils.Oauth2LoginStreamingOutput;
 import org.gitlab4j.api.utils.SecretString;
 
@@ -618,22 +620,104 @@ public class GitLabApi {
 
     /**
      * Enable the logging of the requests to and the responses from the GitLab server API
-     * using the GitLab4J shared Logger instance.
+     * using the GitLab4J shared Logger instance. Logging will NOT include entity logging and
+     * will mask PRIVATE-TOKEN and Authorization headers.
      *
      * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
      */
     public void enableRequestResponseLogging(Level level) {
-        enableRequestResponseLogging(LOGGER, level);
+        enableRequestResponseLogging(LOGGER, level, 0);
     }
 
     /**
-     * Enable the logging of the requests to and the responses from the GitLab server API.
+     * Enable the logging of the requests to and the responses from the GitLab server API using the
+     * specified logger. Logging will NOT include entity logging and will mask PRIVATE-TOKEN 
+     * and Authorization headers..
      *
      * @param logger the Logger instance to log to
      * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
      */
     public void enableRequestResponseLogging(Logger logger, Level level) {
-        this.apiClient.enableRequestResponseLogging(logger, level);
+        enableRequestResponseLogging(logger, level, 0);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API using the
+     * GitLab4J shared Logger instance. Logging will mask PRIVATE-TOKEN and Authorization headers.
+     *
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @param maxEntitySize maximum number of entity bytes to be logged.  When logging if the maxEntitySize
+     * is reached, the entity logging  will be truncated at maxEntitySize and "...more..." will be added at
+     * the end of the log entry. If maxEntitySize is &lt;= 0, entity logging will be disabled
+     */
+    public void enableRequestResponseLogging(Level level, int maxEntitySize) {
+        enableRequestResponseLogging(LOGGER, level, maxEntitySize);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API using the
+     * specified logger. Logging will mask PRIVATE-TOKEN and Authorization headers.
+     *
+     * @param logger the Logger instance to log to
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @param maxEntitySize maximum number of entity bytes to be logged.  When logging if the maxEntitySize
+     * is reached, the entity logging  will be truncated at maxEntitySize and "...more..." will be added at
+     * the end of the log entry. If maxEntitySize is &lt;= 0, entity logging will be disabled
+     */
+    public void enableRequestResponseLogging(Logger logger, Level level, int maxEntitySize) {
+        enableRequestResponseLogging(logger, level, maxEntitySize, MaskingLoggingFilter.DEFAULT_MASKED_HEADER_NAMES);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API using the
+     * GitLab4J shared Logger instance.
+     *
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @param maskedHeaderNames a list of header names that should have the values masked
+     */
+    public void enableRequestResponseLogging(Level level, List<String> maskedHeaderNames) {
+        apiClient.enableRequestResponseLogging(LOGGER, level, 0, maskedHeaderNames);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API using the
+     * specified logger.
+     *
+     * @param logger the Logger instance to log to
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @param maskedHeaderNames a list of header names that should have the values masked
+     */
+    public void enableRequestResponseLogging(Logger logger, Level level, List<String> maskedHeaderNames) {
+        apiClient.enableRequestResponseLogging(logger, level, 0, maskedHeaderNames);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API using the
+     * GitLab4J shared Logger instance.
+     *
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @param maxEntitySize maximum number of entity bytes to be logged.  When logging if the maxEntitySize
+     * is reached, the entity logging  will be truncated at maxEntitySize and "...more..." will be added at
+     * the end of the log entry. If maxEntitySize is &lt;= 0, entity logging will be disabled
+     * @param maskedHeaderNames a list of header names that should have the values masked
+     */
+    public void enableRequestResponseLogging(Level level, int maxEntitySize, List<String> maskedHeaderNames) {
+        apiClient.enableRequestResponseLogging(LOGGER, level, maxEntitySize, maskedHeaderNames);
+    }
+
+    /**
+     * Enable the logging of the requests to and the responses from the GitLab server API using the
+     * specified logger.
+     *
+     * @param logger the Logger instance to log to
+     * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
+     * @param maxEntitySize maximum number of entity bytes to be logged.  When logging if the maxEntitySize
+     * is reached, the entity logging  will be truncated at maxEntitySize and "...more..." will be added at
+     * the end of the log entry. If maxEntitySize is &lt;= 0, entity logging will be disabled
+     * @param maskedHeaderNames a list of header names that should have the values masked
+     */
+    public void enableRequestResponseLogging(Logger logger, Level level, int maxEntitySize, List<String> maskedHeaderNames) {
+        apiClient.enableRequestResponseLogging(logger, level, maxEntitySize, maskedHeaderNames);
     }
 
     /**
