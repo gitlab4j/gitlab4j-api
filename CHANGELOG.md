@@ -1,8 +1,50 @@
 # Changelog
 Changelog of GitLab4J API.
 
+## gitlab4j-api-4.10.4
+### GitHub [#310](https://github.com/gmessner/gitlab4j-api/issues/310) Mask secrets    *enhancement*  
+
+**Mods to use new MaskingLoggingFilter (#310).**
+
+
+[bdbfe753a863efb](https://github.com/gmessner/gitlab4j-api/commit/bdbfe753a863efb) Greg Messner *2019-04-22 03:42:13*
+
+**Added tests for new logging mechanism which uses MaskingLoggingFilter (#310).**
+
+
+[2acc7984f25d1f8](https://github.com/gmessner/gitlab4j-api/commit/2acc7984f25d1f8) Greg Messner *2019-04-22 03:41:57*
+
+**Initial commit (#310).**
+
+
+[f027fd444037977](https://github.com/gmessner/gitlab4j-api/commit/f027fd444037977) Greg Messner *2019-04-22 03:39:56*
+
+
+### No issue
+
+**Remove code that disabled logging.**
+
+
+[05f056bb285da3f](https://github.com/gmessner/gitlab4j-api/commit/05f056bb285da3f) Greg Messner *2019-04-22 03:40:50*
+
+**Bumber version and added content for new logging.**
+
+
+[b66a0517929a0fd](https://github.com/gmessner/gitlab4j-api/commit/b66a0517929a0fd) Greg Messner *2019-04-22 03:40:21*
+
+**Added info on PackagesApi.**
+
+
+[77cd763f6fbd9b2](https://github.com/gmessner/gitlab4j-api/commit/77cd763f6fbd9b2) Greg Messner *2019-04-19 23:16:38*
+
+**Generated latest changelog.**
+
+
+[1e06a3ff086f04a](https://github.com/gmessner/gitlab4j-api/commit/1e06a3ff086f04a) Greg Messner *2019-04-18 12:53:00*
+
+
 ## gitlab4j-api-4.10.3
-### GitHub [#333](https://github.com/gmessner/gitlab4j-api/issues/333) Fix date parser in ISO8601  
+### GitHub [#333](https://github.com/gmessner/gitlab4j-api/issues/333) Fix date parser in ISO8601    *bug*  
 
 **Added tests for UTC zone name (#333).**
 
