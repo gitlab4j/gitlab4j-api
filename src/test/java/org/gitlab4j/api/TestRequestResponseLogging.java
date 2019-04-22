@@ -27,13 +27,24 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemErrRule;
+import org.junit.rules.TemporaryFolder;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -45,8 +56,12 @@ import org.junit.contrib.java.lang.system.SystemErrRule;
  */
 public class TestRequestResponseLogging {
 
-    @Rule
-    public final SystemErrRule systemErrorRule = new SystemErrRule().enableLog();
+    @ClassRule
+    public final static SystemErrRule systemErrorRule = new SystemErrRule().enableLog();
+
+    @ClassRule
+    public final static TemporaryFolder tempFolder = new TemporaryFolder();
+
 
     // The following needs to be set to your test repository
     private static final String TEST_HOST_URL;
@@ -56,11 +71,17 @@ public class TestRequestResponseLogging {
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
 
-    private static GitLabApi gitLabApi;
+    private static GitLabApi gitLabApiWithEntityLogging;
+    private static GitLabApi gitLabApiNoEntityLogging;
+    private static GitLabApi gitLabApiNoMaskingLogging;
     private static GitLabApi gitLabApiWithoutLogging;
 
+    private static Logger logger;
+    private static StreamHandler loggingHandler;
+    private static File tempLoggingFile;
+
     @BeforeClass
-    public static void setup() throws GitLabApiException {
+    public static void setup() throws Exception {
 
         String problems = "";
 
@@ -74,8 +95,23 @@ public class TestRequestResponseLogging {
 
         if (problems.isEmpty()) {
 
-            gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-            gitLabApi.enableRequestResponseLogging(Level.INFO);
+            tempLoggingFile = tempFolder.newFile("test-loging.log");
+
+            loggingHandler = new FileHandler(tempLoggingFile.getAbsolutePath());
+            loggingHandler.setFormatter(new SimpleFormatter());
+            logger = Logger.getLogger(TestRequestResponseLogging.class.getName());
+            logger.setUseParentHandlers(false);
+            logger.addHandler(loggingHandler);
+            loggingHandler.setLevel(Level.ALL);
+            logger.setLevel(Level.ALL);
+
+            gitLabApiWithEntityLogging = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            gitLabApiWithEntityLogging.enableRequestResponseLogging(logger, Level.INFO, 100);
+            gitLabApiNoEntityLogging = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            gitLabApiNoEntityLogging.enableRequestResponseLogging(logger, Level.INFO);
+            gitLabApiNoMaskingLogging = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+            gitLabApiNoMaskingLogging.enableRequestResponseLogging(logger, Level.INFO, 100, new ArrayList<String>());
+
             gitLabApiWithoutLogging = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
 
         } else {
@@ -83,25 +119,72 @@ public class TestRequestResponseLogging {
         }
     }
 
-    @Before
-    public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
-        assumeTrue(gitLabApiWithoutLogging != null);
+    @Test
+    public void shouldLogRequestsWithEntities() throws Exception {
+
+        assumeTrue(gitLabApiWithEntityLogging != null);
+        clearLogFile();
+        gitLabApiWithEntityLogging.getProjectApi().getProjects(1, 1);
+        String log = readLogFile();
+        System.out.println(log);
+
+        assertTrue("Request/response log information was missing.", log.contains("PRIVATE-TOKEN:"));
+        assertTrue("Request/response PRIVATE-TOKEN value was incorrectly present.", log.contains("PRIVATE-TOKEN: ********"));
+        assertTrue("Request/response log information was missing.", log.contains("/api/v4/projects"));
+        assertTrue("Request/response entity was missing.", log.contains("...more..."));
     }
 
     @Test
-    public void shouldLogRequests() throws GitLabApiException {
-        systemErrorRule.clearLog();
-        gitLabApi.getRunnersApi().getAllRunners();
-        String log = systemErrorRule.getLog();
-        assertTrue("Request/response log information was missing.", log.contains("/api/v4/runners"));
+    public void shouldLogRequestsWithoutEntities() throws Exception {
+
+        assumeTrue(gitLabApiNoEntityLogging != null);
+        clearLogFile();
+        gitLabApiNoEntityLogging.getProjectApi().getProjects(1, 1);
+        String log = readLogFile();
+        System.out.println(log);
+
+        assertTrue("Request/response log information was missing.", log.contains("PRIVATE-TOKEN:"));
+        assertTrue("Request/response PRIVATE-TOKEN value was incorrectly present.", log.contains("PRIVATE-TOKEN: ********"));
+        assertTrue("Request/response log information was missing.", log.contains("/api/v4/projects"));
+        assertFalse("Request/response entity was incorrectly present.", log.contains("...more..."));
+    }
+
+    @Test
+    public void shouldLogPrivateToken() throws Exception {
+
+        assumeTrue(gitLabApiNoMaskingLogging != null);
+        clearLogFile();
+        gitLabApiNoMaskingLogging.getProjectApi().getProjects(1, 1);
+        String log = readLogFile();
+        System.out.println(log);
+
+        assertTrue("Request/response log information was missing.", log.contains("PRIVATE-TOKEN:"));
+        assertFalse("Request/response PRIVATE-TOKEN value was missing.", log.contains("PRIVATE-TOKEN: ********"));
+        assertTrue("Request/response log information was missing.", log.contains("/api/v4/projects"));
+        assertTrue("Request/response entity was incorrectly present.", log.contains("...more..."));
     }
 
     @Test
     public void shouldNotLogRequests() throws GitLabApiException {
+
+        assumeTrue(gitLabApiWithoutLogging != null);
         systemErrorRule.clearLog();
-        gitLabApiWithoutLogging.getRunnersApi().getAllRunners();
+        gitLabApiWithoutLogging.getProjectApi().getProjects(1, 1);
         String log = systemErrorRule.getLog();
-        assertFalse("Request/response log information was incorrectly present.", log.contains("/api/v4/runners"));
+
+        assertFalse("Request/response log information was incorrectly present.", log.contains("PRIVATE-TOKEN:"));
+        assertFalse("Request/response log information was incorrectly present.", log.contains("/api/v4/projects"));
+        assertFalse("Request/response entity was incorrectly present.", log.contains("...more..."));
+    }
+
+    private static String readLogFile() throws IOException {
+        StringBuilder contentBuilder = new StringBuilder();
+        Files.lines(Paths.get(tempLoggingFile.getAbsolutePath()), StandardCharsets.UTF_8)
+            .forEach(s -> contentBuilder.append(s).append("\n"));
+        return contentBuilder.toString();
+    }
+
+    private static void clearLogFile() throws IOException {
+        new PrintWriter(tempLoggingFile.getAbsolutePath()).close();
     }
 }
