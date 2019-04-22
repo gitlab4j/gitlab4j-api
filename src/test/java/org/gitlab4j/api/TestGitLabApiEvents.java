@@ -269,9 +269,6 @@ public class TestGitLabApiEvents {
     @Test
     public void testSystemHookManagerHandleEvent() throws Exception {
 
-        // Turn off logging.  This is a hack as if we don't turn it off the logging tests ran later will fail
-        GitLabApi.getLogger().setLevel(Level.OFF);;
-
         // Arrange
         HttpServletRequest request = mock(HttpServletRequest.class);
         given(request.getHeader("X-Gitlab-Event")).willReturn(SystemHookManager.SYSTEM_HOOK_EVENT);
