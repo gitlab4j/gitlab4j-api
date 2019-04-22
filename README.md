@@ -11,7 +11,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.10.3'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.10.4'
 }
 ```
 
@@ -22,7 +22,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.10.3</version>
+    <version>4.10.4</version>
 </dependency>
 ```
 
@@ -114,6 +114,12 @@ gitLabApi.enableRequestResponseLogging(java.util.logging.Level.INFO);
 
 // Log using the specified logger and the INFO level
 gitLabApi.enableRequestResponseLogging(youtLoggerInstance, java.util.logging.Level.INFO);
+
+// Log using the shared logger, at the INFO level, and include up to 1024 bytes of entity logging
+gitLabApi.enableRequestResponseLogging(java.util.logging.Level.INFO, 1024);
+
+// Log using the specified logger, at the INFO level, and up to 1024 bytes of entity logging
+gitLabApi.enableRequestResponseLogging(youtLoggerInstance, java.util.logging.Level.INFO, 1024);
 ```
 
 ---
