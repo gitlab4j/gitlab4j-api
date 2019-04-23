@@ -175,7 +175,6 @@ public class TestGitLabApiEvents {
         assertTrue(compareJson(event, "wiki-page-event.json"));
     }
 
-
     @Test
     public void testProjectSystemHookEvent() throws Exception {
         ProjectSystemHookEvent event = unmarshalResource(ProjectSystemHookEvent.class,
@@ -200,6 +199,13 @@ public class TestGitLabApiEvents {
     public void testUserSystemHookEvent() throws Exception {
         SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "user-system-hook-event.json");
         assertTrue(compareJson(event, "user-system-hook-event.json"));
+    }
+
+    @Test
+    public void testUserFailedLoginSystemHookEvent() throws Exception {
+
+        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "user-failed-login-system-hook-event.json");
+        assertTrue(compareJson(event, "user-failed-login-system-hook-event.json"));
     }
 
     @Test
@@ -249,6 +255,9 @@ public class TestGitLabApiEvents {
 
         event = unmarshalResource(SystemHookEvent.class, "user-system-hook-event.json");
         assertTrue(compareJson(event, "user-system-hook-event.json"));
+
+        event = unmarshalResource(SystemHookEvent.class, "user-failed-login-system-hook-event.json");
+        assertTrue(compareJson(event, "user-failed-login-system-hook-event.json"));
 
         event = unmarshalResource(SystemHookEvent.class, "group-system-hook-event.json");
         assertTrue(compareJson(event, "group-system-hook-event.json"));

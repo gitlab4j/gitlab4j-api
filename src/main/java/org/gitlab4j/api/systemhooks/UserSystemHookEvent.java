@@ -9,6 +9,7 @@ public class UserSystemHookEvent extends AbstractSystemHookEvent {
     public static final String USER_CREATE_EVENT = "user_create";
     public static final String USER_DESTROY_EVENT = "user_destroy";
     public static final String USER_RENAME_EVENT = "user_rename";
+    public static final String USER_FAILED_LOGIN_EVENT = "user_failed_login";
 
     private String eventName;
     private Date createdAt;
@@ -18,6 +19,7 @@ public class UserSystemHookEvent extends AbstractSystemHookEvent {
     private String username;
     private Integer userId;
     private String oldUsername;
+    private String state;
 
     public String getEventName() {
         return this.eventName;
@@ -81,6 +83,14 @@ public class UserSystemHookEvent extends AbstractSystemHookEvent {
 
     public void setOldUsername(String oldUsername) {
         this.oldUsername = oldUsername;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     @Override

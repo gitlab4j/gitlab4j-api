@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = RemoveTeamMemberSystemHookEvent.class, name = TeamMemberSystemHookEvent.TEAM_MEMBER_REMOVED_EVENT),
     @JsonSubTypes.Type(value = CreateUserSystemHookEvent.class, name = UserSystemHookEvent.USER_CREATE_EVENT),
     @JsonSubTypes.Type(value = DestroyUserSystemHookEvent.class, name = UserSystemHookEvent.USER_DESTROY_EVENT),
+    @JsonSubTypes.Type(value = UserFailedLoginSystemHookEvent.class, name = UserSystemHookEvent.USER_FAILED_LOGIN_EVENT),
     @JsonSubTypes.Type(value = RenameUserSystemHookEvent.class, name = UserSystemHookEvent.USER_RENAME_EVENT),
     @JsonSubTypes.Type(value = CreateKeySystemHookEvent.class, name = KeySystemHookEvent.KEY_CREATE_EVENT),
     @JsonSubTypes.Type(value = DestroyKeySystemHookEvent.class, name = KeySystemHookEvent.KEY_DESTROY_EVENT),
@@ -54,6 +55,7 @@ class RemoveTeamMemberSystemHookEvent extends TeamMemberSystemHookEvent {}
 class CreateUserSystemHookEvent extends UserSystemHookEvent {}
 class DestroyUserSystemHookEvent extends UserSystemHookEvent {}
 class RenameUserSystemHookEvent extends UserSystemHookEvent {}
+class UserFailedLoginSystemHookEvent extends UserSystemHookEvent {}
 
 class CreateKeySystemHookEvent extends KeySystemHookEvent {}
 class DestroyKeySystemHookEvent extends KeySystemHookEvent {}
