@@ -6,6 +6,7 @@ import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitRef;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.utils.ISO8601;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -13,6 +14,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import javax.ws.rs.core.Response;
+
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -75,6 +78,7 @@ public class TestCommitsApi {
         }
 
         if (problems.isEmpty()) {
+            
             gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
 
             try {
@@ -112,11 +116,11 @@ public class TestCommitsApi {
     }
 
     @Test
-    public void testComments() throws GitLabApiException {
+    public void testComments() throws GitLabApiException, ParseException {
 
         assertNotNull(testProject);
 
-        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), new Date());
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, ISO8601.toDate("2000-01-01"), new Date());
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
@@ -131,19 +135,20 @@ public class TestCommitsApi {
     }
 
     @Test
-    public void testCommitsSince() throws GitLabApiException {
+    public void testCommitsSince() throws GitLabApiException, ParseException {
 
         assertNotNull(testProject);
+        Date since = ISO8601.toDate("2000-01-01");
 
         List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(), null);
         assertNotNull(commits);
         assertTrue(commits.isEmpty());
 
-        commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), new Date());
+        commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, since, new Date());
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
-        commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), new Date(), 1, 10);
+        commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, since, new Date(), 1, 10);
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
@@ -151,7 +156,7 @@ public class TestCommitsApi {
         assertNotNull(pager);
         assertTrue(pager.getTotalItems() == 0);
 
-        pager = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(0), null, 10);
+        pager = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, since, null, 10);
         assertNotNull(pager);
         assertTrue(pager.getTotalItems() > 0);
     }
@@ -170,12 +175,12 @@ public class TestCommitsApi {
     }
 
     @Test
-    public void testCommitsSinceWithPath() throws GitLabApiException {
+    public void testCommitsSinceWithPath() throws GitLabApiException, ParseException {
 
         assertNotNull(testProject);
 
         List<Commit> commits = gitLabApi.getCommitsApi().getCommits(
-                testProject.getId(), null, new Date(0), new Date(), TEST_PROJECT_SUBDIRECTORY_PATH);
+                testProject.getId(), null, ISO8601.toDate("2000-01-01"), new Date(), TEST_PROJECT_SUBDIRECTORY_PATH);
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
     }
