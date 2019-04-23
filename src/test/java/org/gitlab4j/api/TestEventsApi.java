@@ -96,7 +96,7 @@ public class TestEventsApi {
 
     @Test
     public void testGetAuthenticatedUserEvents() throws GitLabApiException {
-        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null);
+        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null, 1, 10);
         assertNotNull(events);
     }
 
@@ -104,7 +104,7 @@ public class TestEventsApi {
     public void testGetAuthenticatedUserEventsWithDates() throws GitLabApiException {
         Date after = new Date(0);
         Date now = new Date();
-        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, now, after, null);
+        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, now, after, null, 1, 10);
         assertNotNull(events);
 
         events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, after, null, null);
@@ -115,7 +115,7 @@ public class TestEventsApi {
     @Test
     public void testGetUserEvents() throws GitLabApiException {
         assertNotNull(testUser);
-        List<Event> events = gitLabApi.getEventsApi().getUserEvents(testUser.getId(), null, null, null, null, null);
+        List<Event> events = gitLabApi.getEventsApi().getUserEvents(testUser.getId(), null, null, null, null, null, 1, 10);
         assertNotNull(events);
     }
 
@@ -124,14 +124,15 @@ public class TestEventsApi {
         assertNotNull(testUser);
         Date before = ISO8601.toDate("2017-06-02");
         Date after = new Date();
-        List<Event> events = gitLabApi.getEventsApi().getUserEvents(testUser.getId(), Constants.ActionType.CREATED, Constants.TargetType.PROJECT, before, after, Constants.SortOrder.DESC);
+        List<Event> events = gitLabApi.getEventsApi().getUserEvents(
+                testUser.getId(), Constants.ActionType.CREATED, Constants.TargetType.PROJECT, before, after, Constants.SortOrder.DESC, 1, 10);
         assertNotNull(events);
     }
 
     @Test
     public void testGetProjectEvents() throws GitLabApiException {
         assertNotNull(testProject);
-        List<Event> events = gitLabApi.getEventsApi().getProjectEvents(testProject.getId(), null, null, null, null, null);
+        List<Event> events = gitLabApi.getEventsApi().getProjectEvents(testProject.getId(), null, null, null, null, null, 1, 10);
         assertNotNull(events);
     }
 
