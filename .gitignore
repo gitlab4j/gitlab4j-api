@@ -41,8 +41,10 @@ local.properties
  
 ### Maven ###
 target/
+!.mvn/wrapper/maven-wrapper.jar
 
 # Test properties file for gitlab4j
 test-gitlab4j.properties
 
+# git-changelog plugin #
 .okhttpcache
