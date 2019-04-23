@@ -1,6 +1,75 @@
 # Changelog
 Changelog of GitLab4J API.
 
+## gitlab4j-api-4.10.6
+### GitHub [#327](https://github.com/gmessner/gitlab4j-api/issues/327) Found banned dependency while wrapping api into a Jenkins plugin    *enhancement*  
+
+**Added javax.activation dependency for Java 9+ support and added maven enforcer plugin (#327).**
+
+
+[7b1e07758410dbf](https://github.com/gmessner/gitlab4j-api/commit/7b1e07758410dbf) Greg Messner *2019-04-23 20:21:20*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[ed81013247f0e3f](https://github.com/gmessner/gitlab4j-api/commit/ed81013247f0e3f) Greg Messner *2019-04-23 20:21:11*
+
+**Added mvn wrapper related entries.**
+
+
+[6e3bbb447a36a72](https://github.com/gmessner/gitlab4j-api/commit/6e3bbb447a36a72) Greg Messner *2019-04-23 19:50:59*
+
+**Added Proxy-Authorization to default masked header names.**
+
+
+[f9fc81d93dd5f67](https://github.com/gmessner/gitlab4j-api/commit/f9fc81d93dd5f67) Greg Messner *2019-04-23 19:50:17*
+
+**Initial commit.**
+
+
+[7122c0c004d6ec0](https://github.com/gmessner/gitlab4j-api/commit/7122c0c004d6ec0) Greg Messner *2019-04-23 19:49:40*
+
+**Now limits number of events read during testing.**
+
+
+[a6cdbbbc80cf3b7](https://github.com/gmessner/gitlab4j-api/commit/a6cdbbbc80cf3b7) Greg Messner *2019-04-23 19:48:32*
+
+
+## gitlab4j-api-4.10.5
+### GitHub [#334](https://github.com/gmessner/gitlab4j-api/issues/334) handle System Hook error `Could not resolve type id &#39;user_failed_login&#39; as a subtype of`    *bug*  *enhancement*  
+
+**Added support for user_failed_login system hook event (#334).**
+
+
+[4ce3487e9c786e1](https://github.com/gmessner/gitlab4j-api/commit/4ce3487e9c786e1) Greg Messner *2019-04-23 03:05:23*
+
+**Initial commit (#334).**
+
+
+[63587b4788042aa](https://github.com/gmessner/gitlab4j-api/commit/63587b4788042aa) Greg Messner *2019-04-23 03:03:47*
+
+
+### No issue
+
+**Fixed issue with since dates being too old.**
+
+
+[7268fef0bcb50aa](https://github.com/gmessner/gitlab4j-api/commit/7268fef0bcb50aa) Greg Messner *2019-04-23 03:53:42*
+
+**Bumped version.**
+
+
+[0cc484fb9309c87](https://github.com/gmessner/gitlab4j-api/commit/0cc484fb9309c87) Greg Messner *2019-04-23 03:05:56*
+
+**Generated latest changelog.**
+
+
+[51bd64302d3581b](https://github.com/gmessner/gitlab4j-api/commit/51bd64302d3581b) Greg Messner *2019-04-22 15:02:27*
+
+
 ## gitlab4j-api-4.10.4
 ### GitHub [#310](https://github.com/gmessner/gitlab4j-api/issues/310) Mask secrets    *enhancement*  
 
