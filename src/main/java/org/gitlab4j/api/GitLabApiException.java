@@ -170,4 +170,59 @@ public class GitLabApiException extends Exception {
     public Map<String, List<String>> getValidationErrors() {
         return (validationErrors);
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + httpStatus;
+        result = prime * result + ((message == null) ? 0 : message.hashCode());
+        result = prime * result + ((statusInfo == null) ? 0 : statusInfo.hashCode());
+        result = prime * result + ((validationErrors == null) ? 0 : validationErrors.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        GitLabApiException other = (GitLabApiException) obj;
+        if (httpStatus != other.httpStatus) {
+            return false;
+        }
+
+        if (message == null) {
+            if (other.message != null)
+                return false;
+        } else if (!message.equals(other.message)) {
+            return false;
+        }
+
+        if (statusInfo == null) {
+            if (other.statusInfo != null)
+                return false;
+        } else if (!statusInfo.equals(other.statusInfo)) {
+            return false;
+        }
+
+        if (validationErrors == null) {
+            if (other.validationErrors != null)
+                return false;
+        } else if (!validationErrors.equals(other.validationErrors)) {
+            return false;
+        }
+
+        return true;
+    }
 }
