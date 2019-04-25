@@ -282,14 +282,14 @@ public class UserApi extends AbstractApi {
     }
 
     /**
-     * Lookup a user by username.
+     * Lookup a user by username.  Returns null if not found.
      *
      * <p>NOTE: This is for admin users only.</p>
      *
      * <pre><code>GitLab Endpoint: GET /users?username=:username</code></pre>
      *
      * @param username the username of the user to get
-     * @return the User instance for the specified username
+     * @return the User instance for the specified username, or null if not found
      * @throws GitLabApiException if any exception occurs
      */
     public User getUser(String username) throws GitLabApiException {
