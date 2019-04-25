@@ -1917,7 +1917,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Snippet> getSnippets(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Snippet>(this, Snippet.class, itemsPerPage, null, "projects", projectIdOrPath, "snippets"));
+        return (new Pager<Snippet>(this, Snippet.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "snippets"));
     }
 
     /**
