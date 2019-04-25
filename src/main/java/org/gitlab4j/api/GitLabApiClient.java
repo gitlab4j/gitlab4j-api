@@ -37,6 +37,7 @@ import org.gitlab4j.api.utils.MaskingLoggingFilter;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.media.multipart.Boundary;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPart;
@@ -718,7 +719,9 @@ public class GitLabApiClient {
 
     protected Client createApiClient() {
 
-        ClientBuilder clientBuilder = ClientBuilder.newBuilder().withConfig(clientConfig);
+        // Explicitly use an instance of the JerseyClientBuilder, this allows this
+        // library to work when both Jersey and Resteasy are present
+        ClientBuilder clientBuilder = new JerseyClientBuilder().withConfig(clientConfig);
 
         if (ignoreCertificateErrors) {
             clientBuilder.sslContext(openSslContext).hostnameVerifier(openHostnameVerifier);
@@ -741,8 +744,8 @@ public class GitLabApiClient {
             }
         }
 
-        String authHeader = (tokenType == TokenType.ACCESS ? AUTHORIZATION_HEADER : PRIVATE_TOKEN_HEADER);
-        String authValue = (tokenType == TokenType.ACCESS ? "Bearer " + authToken : authToken);
+        String authHeader = (tokenType == TokenType.OAUTH2_ACCESS ? AUTHORIZATION_HEADER : PRIVATE_TOKEN_HEADER);
+        String authValue = (tokenType == TokenType.OAUTH2_ACCESS ? "Bearer " + authToken : authToken);
         Invocation.Builder builder = target.request();
         if (accept == null || accept.trim().length() == 0) {
             builder = builder.header(authHeader, authValue);
