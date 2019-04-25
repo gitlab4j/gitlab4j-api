@@ -41,8 +41,8 @@ public class GitLabApi {
     }
 
     // Used to keep track of GitLabApiExceptions on calls that return Optional<?>
-    private static final Map<Optional<?>, GitLabApiException> optionalExceptionMap =
-            Collections.synchronizedMap(new WeakHashMap<Optional<?>, GitLabApiException>());
+    private static final Map<Integer, GitLabApiException> optionalExceptionMap =
+            Collections.synchronizedMap(new WeakHashMap<Integer, GitLabApiException>());
 
     GitLabApiClient apiClient;
     private ApiVersion apiVersion;
@@ -279,7 +279,7 @@ public class GitLabApi {
 
             Response response = new Oauth2Api(gitLabApi).post(Response.Status.OK, stream, MediaType.APPLICATION_JSON, "oauth", "token");
             OauthTokenResponse oauthToken = response.readEntity(OauthTokenResponse.class);
-            gitLabApi = new GitLabApi(apiVersion, url, TokenType.ACCESS, oauthToken.getAccessToken(), secretToken, clientConfigProperties);
+            gitLabApi = new GitLabApi(apiVersion, url, TokenType.OAUTH2_ACCESS, oauthToken.getAccessToken(), secretToken, clientConfigProperties);
             if (ignoreCertificateErrors) {
                 gitLabApi.setIgnoreCertificateErrors(true);
             }
@@ -1477,13 +1477,13 @@ public class GitLabApi {
     /**
      * Create and return an Optional instance associated with a GitLabApiException.
      *
-     * @param <T> the type for the Optional parameter
+     * @param <T> the type of the Optional instance
      * @param glae the GitLabApiException that was the result of a call to the GitLab API
      * @return the created Optional instance
      */
     protected static final <T> Optional<T> createOptionalFromException(GitLabApiException glae) {
         Optional<T> optional = Optional.empty();
-        optionalExceptionMap.put(optional,  glae);
+        optionalExceptionMap.put(System.identityHashCode(optional),  glae);
         return (optional);
     }
 
@@ -1496,7 +1496,7 @@ public class GitLabApi {
      * associated with the Optional instance
      */
     public static final GitLabApiException getOptionalException(Optional<?> optional) {
-        return (optionalExceptionMap.get(optional));
+        return (optionalExceptionMap.get(System.identityHashCode(optional)));
     }
 
     /**
