@@ -36,7 +36,7 @@ public interface Constants {
 
     /** Used to specify the type of authentication token. */
     public enum TokenType {
-        ACCESS, PRIVATE;
+        ACCESS, OAUTH2_ACCESS, PRIVATE;
     }
 
     /** Enum to use for ordering the results of various API calls. */
