@@ -173,7 +173,6 @@ public class TestUserApi extends AbstractIntegrationTest  {
         optional = gitLabApi.getUserApi().getOptionalUser("this-username-does-not-exist");
         assertNotNull(optional);
         assertFalse(optional.isPresent());
-        assertNull(GitLabApi.getOptionalException(optional));
     }
 
     @Test
