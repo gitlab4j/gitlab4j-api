@@ -30,7 +30,6 @@ import static org.junit.Assume.assumeTrue;
 import java.util.Arrays;
 import java.util.List;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
@@ -38,6 +37,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 /**
@@ -51,19 +51,9 @@ import org.junit.runners.MethodSorters;
  * <p>
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that the tests are in the correct order
  */
+@Category(org.gitlab4j.api.IntegrationTest.class)
 @FixMethodOrder(MethodSorters.JVM)
-public class TestRunnersApi {
-
-    // The following needs to be set to your test repository
-    private static final String TEST_NAMESPACE;
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
-
-    static {
-        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
-    }
+public class TestRunnersApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
 
@@ -74,24 +64,8 @@ public class TestRunnersApi {
     @BeforeClass
     public static void setup() throws GitLabApiException {
 
-        String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
-            problems += "TEST_NAMESPACE cannot be empty\n";
-        }
-
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
-        if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-        } else {
-            System.err.print(problems);
-        }
+        // Must setup the connection to the GitLab test server
+        gitLabApi = baseTestSetup();
 
         List<Runner> allRunners = gitLabApi.getRunnersApi().getAllRunners();
 

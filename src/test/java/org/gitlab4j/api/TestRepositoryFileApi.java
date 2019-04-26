@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.Assume.assumeNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 /**
@@ -36,20 +37,9 @@ import org.junit.runners.MethodSorters;
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that testCreate() is executed first.
  */
+@Category(org.gitlab4j.api.IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestRepositoryFileApi {
-
-    // The following needs to be set to your test repository
-    private static final String TEST_PROJECT_NAME;
-    private static final String TEST_NAMESPACE;
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
-    static {
-        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
-    }
+public class TestRepositoryFileApi extends AbstractIntegrationTest {
 
     private static final String TEST_CONTENT = "This is some content to test file content 1234567890 !@#$%^&().";
     private static final String TEST_ADDITIONAL_CONTENT = "\n\nThis is an additional line";
@@ -65,29 +55,10 @@ public class TestRepositoryFileApi {
     @BeforeClass
     public static void setup() {
 
-        String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
-            problems += "TEST_NAMESPACE cannot be empty\n";
-        }
+        // Must setup the connection to the GitLab test server
+        gitLabApi = baseTestSetup();
 
-        if (TEST_PROJECT_NAME == null || TEST_PROJECT_NAME.trim().isEmpty()) {
-            problems += "TEST_PROJECT_NAME cannot be empty\n";
-        }
-
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
-        if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-            teardown();
-        } else {
-            System.err.print(problems);
-        }
+        teardown();
     }
 
     @AfterClass
@@ -114,7 +85,7 @@ public class TestRepositoryFileApi {
 
     @Before
     public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
+        assumeNotNull(gitLabApi);
     }
 
     @Test

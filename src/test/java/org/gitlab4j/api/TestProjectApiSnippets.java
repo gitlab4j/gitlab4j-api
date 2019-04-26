@@ -26,11 +26,10 @@ package org.gitlab4j.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.Assume.assumeNotNull;
 
 import java.util.List;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Visibility;
@@ -38,6 +37,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -49,24 +49,12 @@ import org.junit.Test;
  * 
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-public class TestProjectApiSnippets {
-
-    // The following needs to be set to your test repository
-    private static final String TEST_NAMESPACE;
-    private static final String TEST_PROJECT_NAME;
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
-
-    static {
-        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
-    }
+@Category(org.gitlab4j.api.IntegrationTest.class)
+public class TestProjectApiSnippets extends AbstractIntegrationTest {
 
     private static final String TEST_SNIPPET_TITLE_PREFIX = "Test Snippet: ";
     private static GitLabApi gitLabApi;
-    private static Integer testProjectId;
+    private static Project testProject;
 
     public TestProjectApiSnippets() {
         super();
@@ -75,34 +63,9 @@ public class TestProjectApiSnippets {
     @BeforeClass
     public static void setup() {
 
-        String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
-            problems += "TEST_NAMESPACE cannot be empty\n";
-        }
-
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
-        if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-        } else {
-            System.err.print(problems);
-        }
-
-        if (gitLabApi != null) {
-            try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-                testProjectId = project.getId();
-            } catch (Exception e) {
-                System.err.print(e.getMessage());
-                gitLabApi = null;
-            }
-        }
+        // Must setup the connection to the GitLab test server and get the test Project instance
+        gitLabApi = baseTestSetup();
+        testProject = getTestProject();
 
         deleteAllTestSnippets();
     }
@@ -115,11 +78,11 @@ public class TestProjectApiSnippets {
     private static void deleteAllTestSnippets() {
         if (gitLabApi != null) {
             try {
-                List<Snippet> snippets = gitLabApi.getProjectApi().getSnippets(testProjectId);
+                List<Snippet> snippets = gitLabApi.getProjectApi().getSnippets(testProject);
                 if (snippets != null) {
                     for (Snippet snippet : snippets) {
                         if (snippet.getTitle().startsWith(TEST_SNIPPET_TITLE_PREFIX)) {
-                            gitLabApi.getProjectApi().deleteSnippet(testProjectId, snippet.getId());
+                            gitLabApi.getProjectApi().deleteSnippet(testProject, snippet.getId());
                         }
                     }
                 }
@@ -130,12 +93,12 @@ public class TestProjectApiSnippets {
 
     @Before
     public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
+        assumeNotNull(gitLabApi);
     }
 
     private Snippet createSnippet(String title, String filename, String description, 
             String code, Visibility visibility) throws GitLabApiException {
-        return (gitLabApi.getProjectApi().createSnippet(testProjectId, title, filename, description, code, visibility));
+        return (gitLabApi.getProjectApi().createSnippet(testProject, title, filename, description, code, visibility));
     }
 
     @Test
@@ -155,6 +118,8 @@ public class TestProjectApiSnippets {
     @Test
     public void testUpdate() throws GitLabApiException {
 
+        assumeNotNull(testProject);
+
         String title = TEST_SNIPPET_TITLE_PREFIX + "Test createSnippet()";
         String filename = "test-update-snippet.js";
         String description = null;
@@ -164,13 +129,15 @@ public class TestProjectApiSnippets {
         assertNotNull(snippet);
 
         title = TEST_SNIPPET_TITLE_PREFIX + "Test updateSnippet()";
-        snippet = gitLabApi.getProjectApi().updateSnippet(testProjectId, snippet.getId(), title, null, null, null, null);
+        snippet = gitLabApi.getProjectApi().updateSnippet(testProject, snippet.getId(), title, null, null, null, null);
         assertEquals(title, snippet.getTitle());
         assertEquals(filename, snippet.getFileName());
     }
 
     @Test
     public void testListSnippets() throws GitLabApiException {
+
+        assumeNotNull(testProject);
 
         String title = TEST_SNIPPET_TITLE_PREFIX + "Test listSnippets()";
         String filename = "test-list-snippets.js";
@@ -181,7 +148,7 @@ public class TestProjectApiSnippets {
         assertNotNull(newSnippet);
 
         int snippetId = newSnippet.getId();
-        List<Snippet> snippets = gitLabApi.getProjectApi().getSnippets(testProjectId);
+        List<Snippet> snippets = gitLabApi.getProjectApi().getSnippets(testProject);
         assertNotNull(snippets);
         for (Snippet snippet : snippets) {
             if (snippet.getId() == snippetId) {
@@ -195,6 +162,8 @@ public class TestProjectApiSnippets {
     @Test
     public void testDeleteSnippet() throws GitLabApiException {
 
+        assumeNotNull(testProject);
+
         String title = TEST_SNIPPET_TITLE_PREFIX + "Test listSnippets()";
         String filename = "test-delete-snippet.js";
         String description = null;
@@ -204,8 +173,8 @@ public class TestProjectApiSnippets {
         assertNotNull(createdSnippet);
 
         int snippetId = createdSnippet.getId();
-        gitLabApi.getProjectApi().deleteSnippet(testProjectId, snippetId);
-        List<Snippet> snippets = gitLabApi.getProjectApi().getSnippets(testProjectId);
+        gitLabApi.getProjectApi().deleteSnippet(testProject, snippetId);
+        List<Snippet> snippets = gitLabApi.getProjectApi().getSnippets(testProject);
         if (snippets != null) {
             for (Snippet snippet : snippets) {
                 if (snippet.getId() == snippetId) {
@@ -218,6 +187,8 @@ public class TestProjectApiSnippets {
     @Test
     public void testSnippetContent() throws GitLabApiException {
 
+        assumeNotNull(testProject);
+
         String title = TEST_SNIPPET_TITLE_PREFIX + "Test getRawSnippetContent()";
         String filename = "test-raw-snippet.js";
         String description = null;
@@ -226,7 +197,7 @@ public class TestProjectApiSnippets {
         Snippet createdSnippet = createSnippet(title, filename, description, code, visibility);
         assertNotNull(createdSnippet);
 
-        String rawContent = gitLabApi.getProjectApi().getRawSnippetContent(testProjectId, createdSnippet.getId());
+        String rawContent = gitLabApi.getProjectApi().getRawSnippetContent(testProject.getId(), createdSnippet.getId());
         assertEquals(code, rawContent);
     }
 }

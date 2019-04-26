@@ -9,27 +9,34 @@ import static org.junit.Assume.assumeTrue;
 import java.util.List;
 import java.util.Optional;
 
+import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.Tag;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
-public class TestTagsApi extends AbstractBaseTest {
+@Category(org.gitlab4j.api.IntegrationTest.class)
+public class TestTagsApi extends AbstractIntegrationTest {
 
     private static final String TEST_TAG_NAME_1 = "test-tag-1";
     private static final String TEST_TAG_NAME_0 = "test-tag-0";
+
+    private static GitLabApi gitLabApi;
+    private static Project testProject;
 
     public TestTagsApi() {
         super();
     }
 
     @BeforeClass
-    public static void setup() {
+    public static void testSetup() {
 
-        // Must setup the connection to the GitLab test server
-        AbstractBaseTest.testSetup();
+        // Must setup the connection to the GitLab test server and get the test Project instance
+        gitLabApi = baseTestSetup();
+        testProject = getTestProject();
 
         if (testProject != null) {
             try {

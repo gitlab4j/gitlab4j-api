@@ -1,20 +1,24 @@
 package org.gitlab4j.api;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
+
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
 
 /**
- * In order for these tests to run you must set the following properties in
- * test-gitlab4j.properties
+ * In order for the integration tests to run you must set the following properties in test-gitlab4j.properties
+ * and the resources pointed to must exist.
  * 
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  */
-public class AbstractBaseTest {
+public class AbstractIntegrationTest {
 
-    // The following needs to be set to your test repository
+    // Get the values of the minimum required test properties.
     protected static final String TEST_PROJECT_NAME;
     protected static final String TEST_NAMESPACE;
     protected static final String TEST_HOST_URL;
@@ -26,14 +30,38 @@ public class AbstractBaseTest {
         TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
     }
 
-    protected static Project testProject;
-    protected static GitLabApi gitLabApi;
+    protected static class BaseTestResources {
+        protected GitLabApi gitLabApi;
+        protected Project testProject;
 
-    public AbstractBaseTest() {
+        protected BaseTestResources(GitLabApi gitLabApi) {
+            this.gitLabApi = gitLabApi;
+        }
+    }
+
+    // Used to keep track of GitLabApi and Project instances for each test class
+    private static final Map<String, BaseTestResources> baseTestResourcesMap =
+            Collections.synchronizedMap(new WeakHashMap<String, BaseTestResources>());
+
+    public AbstractIntegrationTest() {
         super();
     }
 
-    protected static void testSetup() {
+    /**
+     * Verifies that the required test properties are present and returns an instance of GitLabApi
+     * set up to use the TEST_PRIVATE_TOKEN property to authenticate.
+     *
+     * @return an instance of GitLabApi set up to use the TEST_PRIVATE_TOKEN property to authenticate
+     */
+    protected static GitLabApi baseTestSetup() {
+
+        Throwable t = new Throwable();
+        StackTraceElement directCaller = t.getStackTrace()[1];
+        String callingClassName = directCaller.getClassName();
+        BaseTestResources baseResources = baseTestResourcesMap.get(callingClassName);
+        if (baseResources != null && baseResources.gitLabApi != null) {
+            return (baseResources.gitLabApi);
+        }
 
         String problems = "";
         if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
@@ -54,15 +82,44 @@ public class AbstractBaseTest {
 
         if (problems.isEmpty()) {
             try {
-                gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-                testProject = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+                GitLabApi gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
+                baseResources = new BaseTestResources(gitLabApi);
+                baseTestResourcesMap.put(callingClassName, baseResources);
+                return (gitLabApi);
             } catch (Exception e) {
                 problems += e.getMessage() + "\n";
             }
         }
 
-        if (!problems.isEmpty()) {
-            System.err.print(problems);
+        System.err.print(problems);
+        return (null);
+    }
+
+    /**
+     * Get the test Project instance for the calling test class.
+     *
+     * @return the test Project instance for the calling test class
+     */
+    protected static Project getTestProject() {
+
+        Throwable t = new Throwable();
+        StackTraceElement directCaller = t.getStackTrace()[1];
+        String callingClassName = directCaller.getClassName();
+        BaseTestResources baseResources = baseTestResourcesMap.get(callingClassName);
+        if (baseResources == null || baseResources.gitLabApi == null) {
+            System.err.println("Problems fetching test Project instance: GitLabApi instance is null");
+            return (null);
+        } else if (baseResources.testProject != null) {
+            return (baseResources.testProject);
+        }
+
+        try {
+            Project testProject =  (baseResources.gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME));
+            baseResources.testProject = testProject;
+            return (testProject);
+        } catch (Exception e) {
+            System.err.println("Problems fetching test Project instance: " + e.getMessage());
+            return (null);
         }
     }
 }

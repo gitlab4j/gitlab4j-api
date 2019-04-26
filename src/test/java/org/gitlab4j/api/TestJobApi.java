@@ -24,7 +24,7 @@
 package org.gitlab4j.api;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.Assume.assumeNotNull;
 
 import java.util.List;
 
@@ -34,6 +34,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -45,22 +46,11 @@ import org.junit.Test;
  * <p>
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-public class TestJobApi {
+@Category(org.gitlab4j.api.IntegrationTest.class)
+public class TestJobApi extends AbstractIntegrationTest {
 
-    // The following needs to be set to your test repository
-    private static final String TEST_NAMESPACE;
-    private static final String TEST_PROJECT_NAME;
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
     private static GitLabApi gitLabApi;
-    private static Integer testProjectId;
-
-    static {
-        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
-    }
+    private static Project testProject;
 
     public TestJobApi() {
         super();
@@ -68,35 +58,9 @@ public class TestJobApi {
 
     @BeforeClass
     public static void setup() {
-
-        String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
-            problems += "TEST_NAMESPACE cannot be empty\n";
-        }
-
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
-        if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-        } else {
-            System.err.print(problems);
-        }
-
-        if (gitLabApi != null) {
-            try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-                testProjectId = project.getId();
-            } catch (Exception e) {
-                System.err.print(e.getMessage());
-                gitLabApi = null;
-            }
-        }
+        // Must setup the connection to the GitLab test server and get the test Project instance
+        gitLabApi = baseTestSetup();
+        testProject = getTestProject();
     }
 
     @AfterClass
@@ -105,12 +69,12 @@ public class TestJobApi {
 
     @Before
     public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
+        assumeNotNull(testProject);
     }
 
     @Test
     public void testGetJobs() throws GitLabApiException {
-        List<Job> jobs = gitLabApi.getJobApi().getJobs(testProjectId.intValue());
+        List<Job> jobs = gitLabApi.getJobApi().getJobs(testProject);
         assertNotNull(jobs);
     }
 }

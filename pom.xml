@@ -38,17 +38,22 @@
 	</developers>
 
 	<properties>
-        <java.source.version>1.8</java.source.version>
-        <java.target.version>1.8</java.target.version>
+		<java.level>8</java.level>
+		<java.source.version>1.8</java.source.version>
+		<java.target.version>1.8</java.target.version>
+
 		<jersey.version>2.28</jersey.version>
 		<jackson.version>2.9.8</jackson.version>
+
 		<javaServlet.version>4.0.1</javaServlet.version>
+
 		<junit.version>4.12</junit.version>
 		<mockito.version>2.19.0</mockito.version>
 		<hamcrest.version>1.3</hamcrest.version>
 		<systemRules.version>1.18.0</systemRules.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 		<changelog-lib.version>1.59</changelog-lib.version>
 	</properties>
 
@@ -62,6 +67,7 @@
 	<build>
 		<defaultGoal>package</defaultGoal>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -191,12 +197,33 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.0</version>
+				<version>3.0.0-M3</version>
 				<configuration>
+					<excludedGroups>org.gitlab4j.api.IntegrationTest</excludedGroups>
 					<systemPropertyVariables>
 						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
 					</systemPropertyVariables>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.0.0-M3</version>
+				<configuration>
+					<groups>org.gitlab4j.api.IntegrationTest</groups>
+					<includes>
+						<include>**/IntegrationTestSuite.java</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -206,7 +233,7 @@
 				<configuration>
 					<rules>
 						<enforceBytecodeVersion>
-							<maxJdkVersion>1.8</maxJdkVersion> 
+							<maxJdkVersion>1.8</maxJdkVersion>
 							<ignoreClasses>
 								<ignoreClass>module-info</ignoreClass>
 							</ignoreClasses>
@@ -230,10 +257,31 @@
 				</dependencies>
 			</plugin>
 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>animal-sniffer-maven-plugin</artifactId>
+				<version>1.17</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<id>check</id>
+					</execution>
+				</executions>
+				<configuration>
+					<signature>
+						<groupId>org.codehaus.mojo.signature</groupId>
+						<artifactId>java1${java.level}</artifactId>
+					</signature>
+				</configuration>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
 			<plugins>
+				<!-- The se.bjurr.gitchangelog:git-changelog-maven-plugin needs to be in -->
+				<!-- this section (pluginManagement) for it to work correctly. -->
 				<plugin>
 					<groupId>se.bjurr.gitchangelog</groupId>
 					<artifactId>git-changelog-maven-plugin</artifactId>
@@ -252,7 +300,6 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
 	</build>
 
 	<dependencies>
@@ -319,7 +366,24 @@
 			<version>${systemRules.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>com.googlecode.junit-toolbox</groupId>
+			<artifactId>junit-toolbox</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<!--  Needed for animal-sniffer -->
+			<dependency>
+				<groupId>org.codehaus.mojo.signature</groupId>
+				<artifactId>java18</artifactId>
+				<version>1.0</version>
+				<type>signature</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>

@@ -44,6 +44,7 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemErrRule;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.TemporaryFolder;
 
 /**
@@ -54,6 +55,7 @@ import org.junit.rules.TemporaryFolder;
  * <p>
  * If any of the above are NULL, all tests in this class will be skipped.
  */
+@Category(org.gitlab4j.api.IntegrationTest.class)
 public class TestRequestResponseLogging {
 
     @ClassRule

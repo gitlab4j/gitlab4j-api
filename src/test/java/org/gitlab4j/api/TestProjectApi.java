@@ -28,6 +28,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
 
 import java.util.Arrays;
@@ -38,7 +39,6 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
@@ -49,6 +49,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 /**
@@ -64,23 +65,15 @@ import org.junit.runners.MethodSorters;
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that the tests are in the correct order
  */
+@Category(org.gitlab4j.api.IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestProjectApi {
+public class TestProjectApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_NAMESPACE;
-    private static final String TEST_PROJECT_NAME;
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_GROUP;
     private static final String TEST_GROUP_PROJECT;
     private static final String TEST_XFER_NAMESPACE;
-
     static {
-        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_GROUP = TestUtils.getProperty("TEST_GROUP");
         TEST_GROUP_PROJECT = TestUtils.getProperty("TEST_GROUP_PROJECT");
         TEST_XFER_NAMESPACE = TestUtils.getProperty("TEST_XFER_NAMESPACE");
@@ -100,24 +93,8 @@ public class TestProjectApi {
     @BeforeClass
     public static void setup() {
 
-        String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
-            problems += "TEST_NAMESPACE cannot be empty\n";
-        }
-
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
-        if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-        } else {
-            System.err.print(problems);
-        }
+        // Must setup the connection to the GitLab test server
+        gitLabApi = baseTestSetup();
 
         deleteAllTestProjects();
     }
@@ -128,65 +105,67 @@ public class TestProjectApi {
     }
 
     private static void deleteAllTestProjects() {
-        if (gitLabApi != null) {
+        if (gitLabApi == null) {
+            return;
+        }
+
+        try {
+            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_1);
+            gitLabApi.getProjectApi().deleteProject(project);
+        } catch (GitLabApiException ignore) {}
+
+        try {
+            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
+            gitLabApi.getProjectApi().deleteProject(project);
+        } catch (GitLabApiException ignore) {}
+
+        try {
+            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE);
+            gitLabApi.getProjectApi().deleteProject(project);
+        } catch (GitLabApiException ignore) {}
+
+        try {
+            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_XFER_PROJECT_NAME);
+            gitLabApi.getProjectApi().deleteProject(project);
+        } catch (GitLabApiException ignore) {}
+
+        if (TEST_GROUP != null && TEST_PROJECT_NAME != null) {
             try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_1);
-                gitLabApi.getProjectApi().deleteProject(project);
-            } catch (GitLabApiException ignore) {}
+                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+                List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
+                gitLabApi.getProjectApi().unshareProject(project.getId(), groups.get(0).getId());
 
-            try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
-                gitLabApi.getProjectApi().deleteProject(project);
-            } catch (GitLabApiException ignore) {}
+                List<Variable> variables = gitLabApi.getProjectApi().getVariables(project);
+                if (variables != null) {
 
-            try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE);
-                gitLabApi.getProjectApi().deleteProject(project);
-            } catch (GitLabApiException ignore) {}
-            
-            try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_XFER_PROJECT_NAME);
-                gitLabApi.getProjectApi().deleteProject(project);
-            } catch (GitLabApiException ignore) {}
-
-            if (TEST_GROUP != null && TEST_PROJECT_NAME != null) {
-                try {
-                    Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-                    List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
-                    gitLabApi.getProjectApi().unshareProject(project.getId(), groups.get(0).getId());
-
-                    List<Variable> variables = gitLabApi.getProjectApi().getVariables(project);
-                    if (variables != null) {
-
-                        for (Variable variable : variables) {
-                            if (variable.getKey().startsWith(TEST_VARIABLE_KEY_PREFIX)) {
-                                gitLabApi.getProjectApi().deleteVariable(project, variable.getKey());
-                            }
+                    for (Variable variable : variables) {
+                        if (variable.getKey().startsWith(TEST_VARIABLE_KEY_PREFIX)) {
+                            gitLabApi.getProjectApi().deleteVariable(project, variable.getKey());
                         }
                     }
-                } catch (GitLabApiException ignore) {
                 }
+            } catch (GitLabApiException ignore) {
             }
+        }
 
-            if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
-                try {
-                    Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_GROUP_PROJECT);
-                    gitLabApi.getProjectApi().deleteProject(project);
-                } catch (GitLabApiException ignore) {}
-            }
+        if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
+            try {
+                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_GROUP_PROJECT);
+                gitLabApi.getProjectApi().deleteProject(project);
+            } catch (GitLabApiException ignore) {}
+        }
 
-            if (TEST_XFER_NAMESPACE != null) {
-                try {
-                    Project project = gitLabApi.getProjectApi().getProject(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME);
-                    gitLabApi.getProjectApi().deleteProject(project);
-                } catch (GitLabApiException ignore) {}
-            }
+        if (TEST_XFER_NAMESPACE != null) {
+            try {
+                Project project = gitLabApi.getProjectApi().getProject(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME);
+                gitLabApi.getProjectApi().deleteProject(project);
+            } catch (GitLabApiException ignore) {}
         }
     }
 
     @Before
     public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
+        assumeNotNull(gitLabApi);
     }
 
     @Test

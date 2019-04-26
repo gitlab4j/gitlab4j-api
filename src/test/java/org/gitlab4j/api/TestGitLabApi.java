@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
 
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.gitlab4j.api.models.Version;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -19,17 +21,14 @@ import org.junit.Test;
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
-public class TestGitLabApi {
+@Category(org.gitlab4j.api.IntegrationTest.class)
+public class TestGitLabApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_PROXY_URI;
     private static final String TEST_PROXY_USERNAME;
     private static final String TEST_PROXY_PASSWORD;
     static {
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_PROXY_URI = TestUtils.getProperty("TEST_PROXY_URI");
         TEST_PROXY_USERNAME = TestUtils.getProperty("TEST_PROXY_USERNAME");
         TEST_PROXY_PASSWORD = TestUtils.getProperty("TEST_PROXY_PASSWORD");
@@ -43,26 +42,13 @@ public class TestGitLabApi {
 
     @BeforeClass
     public static void setup() {
-
-        String problems = "";
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
-        if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-        } else {
-            System.err.print(problems);
-        }
+        // Must setup the connection to the GitLab test server
+        gitLabApi = baseTestSetup();
     }
 
     @Before
     public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
+        assumeNotNull(gitLabApi);
     }
 
     @Test

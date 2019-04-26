@@ -64,6 +64,20 @@ public class TestUtils {
     }
 
     /**
+     * Set a named property, this will amend and overwrite properties read from the test-gitlab4j.properties file.
+     *
+     * @param key the key of the property to get
+     * @return the named property from the test-gitlab4j.properties file
+     */
+    public static final void setProperty(String key, String value) {
+        if (value == null) {
+            testProperties.remove(key);
+        } else {
+            testProperties.setProperty(key, value);
+        }
+    }
+
+    /**
      * Get a random integer between 1 and the specified value (inclusive).
      *
      * @param maxValue the maximum value to return

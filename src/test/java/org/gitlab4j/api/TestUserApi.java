@@ -16,7 +16,6 @@ import java.util.Optional;
 
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
@@ -26,6 +25,7 @@ import org.gitlab4j.api.utils.ISO8601;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -45,18 +45,15 @@ import org.junit.Test;
  * If this is null the SSH key tests will be skipped.
  *
  */
-public class TestUserApi {
+@Category(org.gitlab4j.api.IntegrationTest.class)
+public class TestUserApi extends AbstractIntegrationTest  {
 
     // The following needs to be set to your test repository
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_USERNAME;
     private static final String TEST_BLOCK_USERNAME;
     private static final String TEST_SUDO_AS_USERNAME;
     private static final String TEST_SSH_KEY;
     static {
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_USERNAME = TestUtils.getProperty("TEST_USERNAME");
         TEST_BLOCK_USERNAME = TestUtils.getProperty("TEST_BLOCK_USERNAME");
         TEST_SUDO_AS_USERNAME = TestUtils.getProperty("TEST_SUDO_AS_USERNAME");
@@ -80,10 +77,6 @@ public class TestUserApi {
     public static void setup() {
 
         String problems = "";
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
         if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
@@ -93,28 +86,33 @@ public class TestUserApi {
         }
 
         if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
 
-            if (TEST_BLOCK_USERNAME != null) {
-                try {
-                    blockUser = gitLabApi.getUserApi().getUser(TEST_BLOCK_USERNAME);
-                    if (blockUser != null) {
-                        gitLabApi.getUserApi().unblockUser(blockUser.getId());
-                    }
-                } catch (Exception ignore) {}
-            }
+            // Must setup the connection to the GitLab test server
+            gitLabApi = baseTestSetup();
 
-            if (TEST_SSH_KEY != null) {
-                try {
-                    List<SshKey> sshKeys = gitLabApi.getUserApi().getSshKeys();
-                    if (sshKeys != null) {
-                        for (SshKey key : sshKeys) {
-                            if (TEST_SSH_KEY.equals(key.getKey())) {
-                                gitLabApi.getUserApi().deleteSshKey(key.getId());
+            if (gitLabApi != null) {
+
+                if (TEST_BLOCK_USERNAME != null) {
+                    try {
+                        blockUser = gitLabApi.getUserApi().getUser(TEST_BLOCK_USERNAME);
+                        if (blockUser != null) {
+                            gitLabApi.getUserApi().unblockUser(blockUser.getId());
+                        }
+                    } catch (Exception ignore) {}
+                }
+
+                if (TEST_SSH_KEY != null) {
+                    try {
+                        List<SshKey> sshKeys = gitLabApi.getUserApi().getSshKeys();
+                        if (sshKeys != null) {
+                            for (SshKey key : sshKeys) {
+                                if (TEST_SSH_KEY.equals(key.getKey())) {
+                                    gitLabApi.getUserApi().deleteSshKey(key.getId());
+                                }
                             }
                         }
-                    }
-                } catch (Exception ignore) {}
+                    } catch (Exception ignore) {}
+                }
             }
 
         } else {
@@ -124,7 +122,7 @@ public class TestUserApi {
 
     @Before
     public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
+        assumeNotNull(gitLabApi);
     }
 
     @Test
@@ -175,7 +173,7 @@ public class TestUserApi {
         optional = gitLabApi.getUserApi().getOptionalUser("this-username-does-not-exist");
         assertNotNull(optional);
         assertFalse(optional.isPresent());
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
+        assertNull(GitLabApi.getOptionalException(optional));
     }
 
     @Test

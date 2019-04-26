@@ -23,7 +23,14 @@
 
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeNotNull;
+
+import java.io.File;
+import java.util.List;
+
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.WikiAttachment;
 import org.gitlab4j.api.models.WikiPage;
@@ -31,12 +38,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.junit.Assume.assumeTrue;
+import org.junit.experimental.categories.Category;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -48,24 +50,13 @@ import static org.junit.Assume.assumeTrue;
  * <p>
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-public class TestWikisApi {
+@Category(org.gitlab4j.api.IntegrationTest.class)
+public class TestWikisApi extends AbstractIntegrationTest {
 
-    // The following needs to be set to your test repository
-    private static final String TEST_NAMESPACE;
-    private static final String TEST_PROJECT_NAME;
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_WIKI_TITLE_PREFIX = "Test Wiki: ";
     private static GitLabApi gitLabApi;
-    private static Integer testProjectId;
+    private static Project testProject;
     private static String testContent;
-
-    static {
-        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
-    }
 
     public TestWikisApi() {
         super();
@@ -74,37 +65,11 @@ public class TestWikisApi {
     @BeforeClass
     public static void setup() {
 
-        String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
-            problems += "TEST_NAMESPACE cannot be empty\n";
-        }
-
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
-        if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-        } else {
-            System.err.print(problems);
-        }
-
-        if (gitLabApi != null) {
-            try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-                testProjectId = project.getId();
-            } catch (Exception e) {
-                System.err.print(e.getMessage());
-                gitLabApi = null;
-            }
-        }
+        // Must setup the connection to the GitLab test server and get the test Project instance
+        gitLabApi = baseTestSetup();
+        testProject = getTestProject();
 
         testContent = "This is a test content and must be deleted after testing.";
-
         deleteAllTestWikiPages();
     }
 
@@ -114,12 +79,12 @@ public class TestWikisApi {
     }
 
     private static void deleteAllTestWikiPages() {
-        if (gitLabApi != null) {
+        if (testProject != null) {
             try {
-                List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProjectId);
+                List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProject);
                 wikiPages.stream().filter(wp -> wp.getTitle().startsWith(TEST_WIKI_TITLE_PREFIX)).map(WikiPage::getSlug).forEach(slug -> {
                     try {
-                        gitLabApi.getWikisApi().deletePage(testProjectId, slug);
+                        gitLabApi.getWikisApi().deletePage(testProject, slug);
                     } catch (GitLabApiException ignored) {
                     }
                 });
@@ -131,11 +96,11 @@ public class TestWikisApi {
 
     @Before
     public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
+        assumeNotNull(testProject);
     }
 
     private WikiPage createWikiPage(String title, String content) throws GitLabApiException {
-        return (gitLabApi.getWikisApi().createPage(testProjectId, title, content));
+        return (gitLabApi.getWikisApi().createPage(testProject.getId(), title, content));
     }
 
     @Test
@@ -154,7 +119,7 @@ public class TestWikisApi {
         assertNotNull(wikiPage);
 
         title = TEST_WIKI_TITLE_PREFIX + "Test updateWikiPage()";
-        wikiPage = gitLabApi.getWikisApi().updatePage(testProjectId, wikiPage.getSlug(), title, "some content");
+        wikiPage = gitLabApi.getWikisApi().updatePage(testProject, wikiPage.getSlug(), title, "some content");
         assertEquals(title, wikiPage.getTitle());
         assertEquals("some content", wikiPage.getContent());
     }
@@ -166,7 +131,7 @@ public class TestWikisApi {
         assertNotNull(newWikiPage);
 
         String wikiPageSlug = newWikiPage.getSlug();
-        List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProjectId);
+        List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProject);
         assertNotNull(wikiPages);
 
         wikiPages.stream().filter(wp -> wp.getSlug().equals(wikiPageSlug)).forEach(wp -> {
@@ -182,8 +147,8 @@ public class TestWikisApi {
         assertNotNull(createdWikiPage);
 
         String wikiPageSlug = createdWikiPage.getSlug();
-        gitLabApi.getWikisApi().deletePage(testProjectId, wikiPageSlug);
-        List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProjectId);
+        gitLabApi.getWikisApi().deletePage(testProject, wikiPageSlug);
+        List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProject);
         if (wikiPages.stream().anyMatch(wp -> wp.getSlug().equals(wikiPageSlug))) {
             fail("WikiPage was not deleted.");
         }
@@ -196,7 +161,7 @@ public class TestWikisApi {
         assertNotNull(wikiPage);
 
         File attachFile = new File("README.md");
-        WikiAttachment attachment = gitLabApi.getWikisApi().uploadAttachment(testProjectId, attachFile);
+        WikiAttachment attachment = gitLabApi.getWikisApi().uploadAttachment(testProject, attachFile);
         assertNotNull(attachment);
         assertEquals("README.md", attachment.getFileName());
     }
@@ -208,7 +173,7 @@ public class TestWikisApi {
         assertNotNull(wikiPage);
 
         File attachFile = new File("README.md");
-        WikiAttachment attachment = gitLabApi.getWikisApi().uploadAttachment(testProjectId, attachFile, "master");
+        WikiAttachment attachment = gitLabApi.getWikisApi().uploadAttachment(testProject, attachFile, "master");
         assertNotNull(attachment);
         assertEquals("README.md", attachment.getFileName());
         assertEquals("master", attachment.getBranch());

@@ -1,18 +1,19 @@
 package org.gitlab4j.api;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.util.Map;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Project;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 /**
@@ -25,22 +26,15 @@ import org.junit.runners.MethodSorters;
  * 
  * If any of the above are NULL, all tests in this class will be skipped.
  */
+@Category(org.gitlab4j.api.IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestFileUpload {
+public class TestFileUpload extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_PROJECT_NAME;
-    private static final String TEST_NAMESPACE;
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
     private static final String TEST_PROXY_URI;
     private static final String TEST_PROXY_USERNAME;
     private static final String TEST_PROXY_PASSWORD;
     static {
-        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
         TEST_PROXY_URI = TestUtils.getProperty("TEST_PROXY_URI");
         TEST_PROXY_USERNAME = TestUtils.getProperty("TEST_PROXY_USERNAME");
         TEST_PROXY_PASSWORD = TestUtils.getProperty("TEST_PROXY_PASSWORD");
@@ -54,34 +48,13 @@ public class TestFileUpload {
 
     @BeforeClass
     public static void setup() {
-
-        String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
-            problems += "TEST_NAMESPACE cannot be empty\n";
-        }
-
-        if (TEST_PROJECT_NAME == null || TEST_PROJECT_NAME.trim().isEmpty()) {
-            problems += "TEST_PROJECT_NAME cannot be empty\n";
-        }
-
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
-        if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-        } else {
-            System.err.print(problems);
-        }
+        // Must setup the connection to the GitLab test server and get the test Project instance
+        gitLabApi = baseTestSetup();
     }
 
     @Before
     public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
+        assumeNotNull(gitLabApi);
     }
 
     @Test

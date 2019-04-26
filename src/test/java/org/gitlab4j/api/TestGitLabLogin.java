@@ -1,6 +1,5 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
@@ -11,6 +10,7 @@ import org.gitlab4j.api.utils.SecretString;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -22,6 +22,7 @@ import org.junit.Test;
  * 
  * If any of the above are NULL, all tests in this class will be skipped.
  */
+@Category(org.gitlab4j.api.IntegrationTest.class)
 public class TestGitLabLogin {
 
     // The following needs to be set to your test repository
@@ -89,28 +90,6 @@ public class TestGitLabLogin {
         assumeTrue(problems != null && problems.isEmpty());
     }
 
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testSession() throws GitLabApiException {
-
-        assumeTrue(hasSession);
-        GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V4, TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD);
-        assertNotNull(gitLabApi);
-        assertNotNull(gitLabApi.getSession());
-        assertEquals(TEST_PRIVATE_TOKEN, gitLabApi.getSession().getPrivateToken());
-    }
-
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testSessionV3() throws GitLabApiException {
-
-        assumeTrue(hasSession);
-        GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V3, TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD);
-        assertNotNull(gitLabApi);
-        assertNotNull(gitLabApi.getSession());
-        assertEquals(TEST_PRIVATE_TOKEN, gitLabApi.getSession().getPrivateToken());
-    }
-
     @Test
     public void testSessionFallover() throws GitLabApiException {
         assumeFalse(hasSession);
@@ -126,6 +105,7 @@ public class TestGitLabLogin {
         GitLabApi gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, null, null, true);
         assertNotNull(gitLabApi);
         Version version = gitLabApi.getVersion();
+        System.out.println("ACCESS_TOKEN: " + gitLabApi.getAuthToken());
         assertNotNull(version);
     }
 

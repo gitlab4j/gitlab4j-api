@@ -10,6 +10,7 @@ import org.gitlab4j.api.models.Version;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -20,6 +21,7 @@ import org.junit.Test;
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
+@Category(org.gitlab4j.api.IntegrationTest.class)
 public class TestIgnoreCertificateErrors {
 
     // The following needs to be set to your test repository

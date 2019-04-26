@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
@@ -16,6 +15,7 @@ import org.gitlab4j.api.utils.ISO8601;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -27,19 +27,8 @@ import org.junit.Test;
  * 
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-public class TestEventsApi {
-
-    // The following needs to be set to your test repository
-    private static final String TEST_PROJECT_NAME;
-    private static final String TEST_NAMESPACE;
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
-    static {
-        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
-    }
+@Category(org.gitlab4j.api.IntegrationTest.class)
+public class TestEventsApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
@@ -52,40 +41,16 @@ public class TestEventsApi {
     @BeforeClass
     public static void setup() {
 
-        String problems = "";
-        if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
-            problems += "TEST_NAMESPACE cannot be empty\n";
-        }
+        // Must setup the connection to the GitLab test server and get the test Project instance
+        gitLabApi = baseTestSetup();
+        testProject = getTestProject();
 
-        if (TEST_PROJECT_NAME == null || TEST_PROJECT_NAME.trim().isEmpty()) {
-            problems += "TEST_PROJECT_NAME cannot be empty\n";
-        }
-
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
-        if (problems.isEmpty()) {
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-
-            try {
-                testProject = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-            } catch (GitLabApiException gle) {
-                System.err.print(gle.getMessage());
-            }
-
+        if (gitLabApi != null) {
             try {
                 testUser = gitLabApi.getUserApi().getCurrentUser();
             } catch (GitLabApiException gle) {
                 System.err.print(gle.getMessage());
             }
-
-        } else {
-            System.err.print(problems);
         }
     }
 
