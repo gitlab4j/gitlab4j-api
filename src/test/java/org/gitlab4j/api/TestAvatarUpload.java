@@ -26,7 +26,7 @@ import org.junit.runners.MethodSorters;
  * 
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAvatarUpload extends AbstractIntegrationTest {
 

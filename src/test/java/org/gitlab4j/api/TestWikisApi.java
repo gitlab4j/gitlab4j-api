@@ -50,7 +50,7 @@ import org.junit.experimental.categories.Category;
  * <p>
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 public class TestWikisApi extends AbstractIntegrationTest {
 
     private static final String TEST_WIKI_TITLE_PREFIX = "Test Wiki: ";

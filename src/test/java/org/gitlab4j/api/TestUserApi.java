@@ -45,7 +45,7 @@ import org.junit.experimental.categories.Category;
  * If this is null the SSH key tests will be skipped.
  *
  */
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 public class TestUserApi extends AbstractIntegrationTest  {
 
     // The following needs to be set to your test repository

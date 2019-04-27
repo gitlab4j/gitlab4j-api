@@ -18,7 +18,7 @@ import org.junit.experimental.categories.Category;
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 public class TestHealthCheckApi {
 
     // The following needs to be set to your test repository

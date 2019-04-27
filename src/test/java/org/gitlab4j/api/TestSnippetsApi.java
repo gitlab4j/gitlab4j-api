@@ -15,7 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 public class TestSnippetsApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;

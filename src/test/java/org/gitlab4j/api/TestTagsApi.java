@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 public class TestTagsApi extends AbstractIntegrationTest {
 
     private static final String TEST_TAG_NAME_1 = "test-tag-1";

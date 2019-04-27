@@ -32,7 +32,7 @@ public class TestSnippetDiscussionsApi implements Constants {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        response.init(Discussion.class,  null,  "snippet-discussions.json");        
+        response.init(Discussion.class,  null, "snippet-discussions.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
         when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);

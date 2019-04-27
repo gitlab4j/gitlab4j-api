@@ -51,7 +51,7 @@ import org.junit.runners.MethodSorters;
  * <p>
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that the tests are in the correct order
  */
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.JVM)
 public class TestRunnersApi extends AbstractIntegrationTest {
 

@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 public class TestPipelineApi extends AbstractIntegrationTest {
 
     private static final String SCHEDULE_DESCRIPTION = "Test pipeline schedule - DELETE AFTER TEST";

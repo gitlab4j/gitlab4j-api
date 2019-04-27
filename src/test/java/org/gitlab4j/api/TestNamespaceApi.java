@@ -23,7 +23,7 @@ import org.junit.experimental.categories.Category;
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 public class TestNamespaceApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;

@@ -21,7 +21,7 @@ import org.junit.experimental.categories.Category;
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
-@Category(org.gitlab4j.api.IntegrationTest.class)
+@Category(IntegrationTest.class)
 public class TestAccessToken extends AbstractIntegrationTest {
 
     // TEST_ACCESS_TOKEN must be defined to run this test
