@@ -1,5 +1,6 @@
 GitlLab API for Java (gitlab4j-api)
 ===================================
+[![Maven Central](https://img.shields.io/maven-central/v/org.gitlab4j/gitlab4j-api.svg)](http://mvnrepository.com/artifact/org.gitlab4j/gitlab4j-api)
 
 GitLab API for Java (gitlab4j-api) provides a full featured and easy to consume Java API for working with GitLab repositories via the GitLab REST API.  Additionally, full support for working with GitLab webhooks and system hooks is also provided.
 
@@ -207,7 +208,14 @@ Conversion rates are 1mo = 4w, 1w = 5d and 1d = 8h.
 
 ---
 ## Making API Calls
-The API has been broken up into sub API classes to make it easier to learn and to separate concerns.  Following is a list of the sub APIs along with a sample use of each API.  See the <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a> for a complete list of available methods for each sub API.
+The API has been broken up into sub API classes to make it easier to consume and to separate concerns. The GitLab4J sub API classes typically have a one-to-one relationship with the API documentation at [GitLab API](https://docs.gitlab.com/ce/api/). Following is a sample of the GitLab4J sub API class mapping to the GitLab API documentation:
+
+```org.gitlab4j.api.GroupApi``` -> https://docs.gitlab.com/ce/api/groups.html<br/>
+```org.gitlab4j.api.MergeRequestApi``` -> https://docs.gitlab.com/ce/api/merge_requests.html<br/>
+```org.gitlab4j.api.ProjectApi``` -> https://docs.gitlab.com/ce/api/projects.html<br/>
+```org.gitlab4j.api.UserApi``` -> https://docs.gitlab.com/ce/api/users.html<br/>
+
+The following is a list of the available sub APIs along with a sample use of each API. See the <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a> for a complete list of available methods for each sub API.
 
 ### Available Sub APIs
 ------------------
