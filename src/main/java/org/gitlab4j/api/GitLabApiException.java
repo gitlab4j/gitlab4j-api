@@ -38,6 +38,18 @@ public class GitLabApiException extends Exception {
     }
 
     /**
+     * Create a GitLabApiException instance with the specified message and HTTP status code.
+     *
+     * @param message the message for the exception
+     * @param httpStatus the HTTP status code for the exception
+     */
+    public GitLabApiException(String message, int httpStatus) {
+        super(message);
+        this.message = message;
+        this.httpStatus = httpStatus;
+    }
+
+    /**
      * Create a GitLabApiException instance based on the ClientResponse.
      *
      * @param response the JAX-RS response that caused the exception
