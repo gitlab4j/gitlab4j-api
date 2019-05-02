@@ -4,29 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.util.Properties;
 
-public class TestUtils {
-
-    /**
-     * Reads the content of a Reader instance and returns it as a String.
-     * 
-     * @param reader
-     * @return the content of a Reader instance as a String
-     * @throws IOException
-     */
-    public static String getReaderContentAsString(Reader reader) throws IOException {
-
-        int count;
-        final char[] buffer = new char[2048];
-        final StringBuilder out = new StringBuilder();
-        while ((count = reader.read(buffer, 0, buffer.length)) >= 0) {
-            out.append(buffer, 0, count);
-        }
-
-        return (out.toString());
-    }
+public class HelperUtils {
 
     private static Properties testProperties;
     static {
@@ -39,17 +19,23 @@ public class TestUtils {
             basedir = basedir.substring(0, basedir.length() - 15);
         }
 
-        File propertiesFile = new File(basedir, "test-gitlab4j.properties");
+        File propertiesFile = new File((String) System.getProperties().get("user.home"), "test-gitlab4j.properties");
         if (!propertiesFile.exists()) {
-            propertiesFile = new File((String) System.getProperties().get("user.home"), "test-gitlab4j.properties");
+            propertiesFile = new File(basedir, "src/test/gitlab/test-gitlab4j.properties");
         }
 
-        System.out.println("test-gitlab4j.properties location: " + propertiesFile.getAbsolutePath());
+        if (propertiesFile.exists()) {
 
-        testProperties = new Properties();
-        try (InputStream input = new FileInputStream(propertiesFile)) {
-            testProperties.load(input);
-        } catch (IOException ioe) {
+            System.out.println("test-gitlab4j.properties location: " + propertiesFile.getAbsolutePath());
+
+            testProperties = new Properties();
+            try (InputStream input = new FileInputStream(propertiesFile)) {
+                testProperties.load(input);
+            } catch (IOException ioe) {
+            }
+
+        } else {
+            System.out.println("No test-gitlab4j.properties file found");
         }
     }
 
