@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import java.util.Arrays;
 
 import org.gitlab4j.api.utils.AccessTokenUtils;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.experimental.categories.Categories.IncludeCategory;
 import org.junit.runner.RunWith;
@@ -26,8 +27,12 @@ public class IntegrationTestSuite implements PropertyConstants {
     protected static final String TEST_PROJECT_NAME = HelperUtils.getProperty(PROJECT_NAME_KEY);
     protected static final String TEST_NAMESPACE = HelperUtils.getProperty(NAMESPACE_KEY);
 
+    protected static final String TEST_PRIVATE_TOKEN_NAME = "GitLab4J Test Private Token - " + HelperUtils.getRandomInt(1000);
     protected static String TEST_PRIVATE_TOKEN;
+
+    protected static final String TEST_ACCESS_TOKEN_NAME = "GitLab4J Test Access Token - " + HelperUtils.getRandomInt(1000);
     protected static String TEST_ACCESS_TOKEN;
+
     private static String problems = "";
 
     @BeforeClass
@@ -55,19 +60,45 @@ public class IntegrationTestSuite implements PropertyConstants {
 
         // Create a new personal access token for both the private and access tokens
         TEST_PRIVATE_TOKEN = AccessTokenUtils.createPersonalAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, 
-                "GitLab4J Test Private Token", Arrays.asList("api", "sudo"));
+                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
+                TEST_PRIVATE_TOKEN_NAME, Arrays.asList("api", "sudo"));
         System.out.println("Created private token: " + TEST_PRIVATE_TOKEN);
         assertNotNull(TEST_PRIVATE_TOKEN);
         assertFalse(TEST_PRIVATE_TOKEN.trim().isEmpty());
         HelperUtils.setProperty(PRIVATE_TOKEN_KEY, TEST_PRIVATE_TOKEN);
 
         TEST_ACCESS_TOKEN = AccessTokenUtils.createPersonalAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, 
-                "GitLab4J Test Access Token", Arrays.asList("api", "sudo"));
-        System.out.println("Created private token: " + TEST_ACCESS_TOKEN);
+                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
+                TEST_ACCESS_TOKEN_NAME, Arrays.asList("api", "sudo"));
+        System.out.println("Created access token: " + TEST_ACCESS_TOKEN);
         assertNotNull(TEST_ACCESS_TOKEN);
         assertFalse(TEST_ACCESS_TOKEN.trim().isEmpty());
         HelperUtils.setProperty(ACCESS_TOKEN_KEY, TEST_ACCESS_TOKEN);        
+    }
+
+    @AfterClass
+    public static void suiteTeardown() throws GitLabApiException {
+
+        System.out.println("********************************************************");
+        System.out.println("*                 Test Suite Teardown                  *");
+        System.out.println("********************************************************");
+
+        if (TEST_PRIVATE_TOKEN != null) {
+            try {
+                AccessTokenUtils.revokePersonalAccessToken(
+                    TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
+                    TEST_PRIVATE_TOKEN_NAME, Arrays.asList("api", "sudo"));
+                System.out.format("Revoved '%s'%n", TEST_PRIVATE_TOKEN_NAME);
+            } catch (Exception ignore) {}
+        }
+
+        if (TEST_ACCESS_TOKEN != null) {
+            try {
+                AccessTokenUtils.revokePersonalAccessToken(
+                    TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
+                    TEST_ACCESS_TOKEN_NAME, Arrays.asList("api", "sudo"));
+                System.out.format("Revoved '%s'%n", TEST_ACCESS_TOKEN_NAME);
+            } catch (Exception ignore) {}
+        }
     }
 }
