@@ -34,7 +34,7 @@ import org.junit.runners.MethodSorters;
 public class TestNotificationSettingsApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_GROUP = TestUtils.getProperty("TEST_GROUP");
+    private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
 
     private static GitLabApi gitLabApi;
 

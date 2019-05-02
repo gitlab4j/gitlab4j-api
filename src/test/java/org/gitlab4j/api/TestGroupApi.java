@@ -38,14 +38,9 @@ import org.junit.experimental.categories.Category;
 public class TestGroupApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_USERNAME;
-    private static final String TEST_GROUP;
-    private static final String TEST_GROUP_MEMBER_USERNAME;
-    static {
-        TEST_USERNAME = TestUtils.getProperty("TEST_USERNAME");
-        TEST_GROUP = TestUtils.getProperty("TEST_GROUP");
-        TEST_GROUP_MEMBER_USERNAME = TestUtils.getProperty("TEST_GROUP_MEMBER_USERNAME");
-    }
+    private static final String TEST_USERNAME = HelperUtils.getProperty(USERNAME_KEY);
+    private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
+    private static final String TEST_GROUP_MEMBER_USERNAME = HelperUtils.getProperty(GROUP_MEMBER_USERNAME_KEY);
 
     private static GitLabApi gitLabApi;
     private static Group testGroup;

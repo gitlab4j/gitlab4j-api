@@ -46,25 +46,21 @@ import org.junit.experimental.categories.Category;
  *
  */
 @Category(IntegrationTest.class)
-public class TestUserApi extends AbstractIntegrationTest  {
+public class TestUserApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_USERNAME;
-    private static final String TEST_BLOCK_USERNAME;
-    private static final String TEST_SUDO_AS_USERNAME;
-    private static final String TEST_SSH_KEY;
-    static {
-        TEST_USERNAME = TestUtils.getProperty("TEST_USERNAME");
-        TEST_BLOCK_USERNAME = TestUtils.getProperty("TEST_BLOCK_USERNAME");
-        TEST_SUDO_AS_USERNAME = TestUtils.getProperty("TEST_SUDO_AS_USERNAME");
-        TEST_SSH_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvbkmGRaANy2nmLrfYa9LkjMqjs9twYZXQKUPK18j" +
-                "BWmNgnAm818IikxjfFit3Gqnnh9zdNzlzUYs2osmfdHwRLeFY3hKVR6WckGYVroQuV5ArUA4+oME+IIQ2soCv/" +
-                "vNWfEmp2N1mpBTwi2mIYKurCKv6UpIpGK9D+ezNk5H0waVTK8EvZ/ey69Nu7C7RsbTYeyi5WY/jaUG5JbsEeKY" +
-                "IW/2DIlUts7gcB2hzXtt7r7+6DLx82Vb+S2jPZu2JQaB4zfgS7LQgzHUy1aAAgUUpuAbvWzuGHKO0p551Ru4qi" +
-                "tyXN2+OUVXcYAsuIIdGGB0wLvTDgiOOSZWnSE+sg6XX user@example.com";
-    }
+    private static final String TEST_USERNAME = HelperUtils.getProperty(USERNAME_KEY);
+    private static final String TEST_BLOCK_USERNAME = HelperUtils.getProperty(BLOCK_USERNAME_KEY);
+    private static final String TEST_SUDO_AS_USERNAME = HelperUtils.getProperty(SUDO_AS_USERNAME_KEY);
 
     private static final String TEST_IMPERSONATION_TOKEN_NAME = "token1";
+    private static final String TEST_SSH_KEY =
+            "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvbkmGRaANy2nmLrfYa9LkjMqjs9twYZXQKUPK18j" +
+            "BWmNgnAm818IikxjfFit3Gqnnh9zdNzlzUYs2osmfdHwRLeFY3hKVR6WckGYVroQuV5ArUA4+oME+IIQ2soCv/" +
+            "vNWfEmp2N1mpBTwi2mIYKurCKv6UpIpGK9D+ezNk5H0waVTK8EvZ/ey69Nu7C7RsbTYeyi5WY/jaUG5JbsEeKY" +
+            "IW/2DIlUts7gcB2hzXtt7r7+6DLx82Vb+S2jPZu2JQaB4zfgS7LQgzHUy1aAAgUUpuAbvWzuGHKO0p551Ru4qi" +
+            "tyXN2+OUVXcYAsuIIdGGB0wLvTDgiOOSZWnSE+sg6XX user@example.com";
+    
 
     private static GitLabApi gitLabApi;
     private static User blockUser;

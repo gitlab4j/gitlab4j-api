@@ -20,7 +20,7 @@ import org.junit.experimental.categories.Category;
 public class TestDeployKeysApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_USERNAME = TestUtils.getProperty("TEST_USERNAME");
+    private static final String TEST_USERNAME = HelperUtils.getProperty(USERNAME_KEY);
 
     private static GitLabApi gitLabApi;
 

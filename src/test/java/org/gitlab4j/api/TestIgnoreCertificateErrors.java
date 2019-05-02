@@ -22,15 +22,11 @@ import org.junit.experimental.categories.Category;
  *
  */
 @Category(IntegrationTest.class)
-public class TestIgnoreCertificateErrors {
+public class TestIgnoreCertificateErrors implements PropertyConstants {
 
     // The following needs to be set to your test repository
-    private static final String TEST_HOST_URL;
-    private static final String TEST_PRIVATE_TOKEN;
-    static {
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
-    }
+    private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
+    private static final String TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
 
     private static boolean setupOk;
 

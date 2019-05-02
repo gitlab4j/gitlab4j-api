@@ -25,14 +25,9 @@ import org.junit.experimental.categories.Category;
 public class TestGitLabApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_PROXY_URI;
-    private static final String TEST_PROXY_USERNAME;
-    private static final String TEST_PROXY_PASSWORD;
-    static {
-        TEST_PROXY_URI = TestUtils.getProperty("TEST_PROXY_URI");
-        TEST_PROXY_USERNAME = TestUtils.getProperty("TEST_PROXY_USERNAME");
-        TEST_PROXY_PASSWORD = TestUtils.getProperty("TEST_PROXY_PASSWORD");
-    }
+    private static final String TEST_PROXY_URI = HelperUtils.getProperty(PROXY_URI_KEY);
+    private static final String TEST_PROXY_USERNAME = HelperUtils.getProperty(PROXY_USERNAME_KEY);
+    private static final String TEST_PROXY_PASSWORD = HelperUtils.getProperty(PROXY_PASSWORD_KEY);
 
     private static GitLabApi gitLabApi;
 

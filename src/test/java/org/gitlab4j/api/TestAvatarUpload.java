@@ -35,9 +35,9 @@ public class TestAvatarUpload extends AbstractIntegrationTest {
     private static final String TEST_PROXY_USERNAME;
     private static final String TEST_PROXY_PASSWORD;
     static {
-        TEST_PROXY_URI = TestUtils.getProperty("TEST_PROXY_URI");
-        TEST_PROXY_USERNAME = TestUtils.getProperty("TEST_PROXY_USERNAME");
-        TEST_PROXY_PASSWORD = TestUtils.getProperty("TEST_PROXY_PASSWORD");
+        TEST_PROXY_URI = HelperUtils.getProperty("TEST_PROXY_URI");
+        TEST_PROXY_USERNAME = HelperUtils.getProperty("TEST_PROXY_USERNAME");
+        TEST_PROXY_PASSWORD = HelperUtils.getProperty("TEST_PROXY_PASSWORD");
     }
     
     private static final String AVATAR_FILENAME = "avatar.png";

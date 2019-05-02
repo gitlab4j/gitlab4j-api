@@ -70,14 +70,9 @@ import org.junit.runners.MethodSorters;
 public class TestProjectApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_GROUP;
-    private static final String TEST_GROUP_PROJECT;
-    private static final String TEST_XFER_NAMESPACE;
-    static {
-        TEST_GROUP = TestUtils.getProperty("TEST_GROUP");
-        TEST_GROUP_PROJECT = TestUtils.getProperty("TEST_GROUP_PROJECT");
-        TEST_XFER_NAMESPACE = TestUtils.getProperty("TEST_XFER_NAMESPACE");
-    }
+    private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
+    private static final String TEST_GROUP_PROJECT = HelperUtils.getProperty(GROUP_PROJECT_KEY);
+    private static final String TEST_XFER_NAMESPACE = HelperUtils.getProperty(XFER_NAMESPACE_KEY);
 
     private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
     private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
@@ -590,8 +585,8 @@ public class TestProjectApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        String key = TEST_VARIABLE_KEY_PREFIX + TestUtils.getRandomInt() + "_" +  TestUtils.getRandomInt();
-        String value = "TEST_VARIABLE_VALUE_" + TestUtils.getRandomInt() + "_" +  TestUtils.getRandomInt();
+        String key = TEST_VARIABLE_KEY_PREFIX + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
+        String value = "TEST_VARIABLE_VALUE_" + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
         Variable variable = gitLabApi.getProjectApi().createVariable(project, key, value, null, null);
 
         assertNotNull(variable);

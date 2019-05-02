@@ -16,19 +16,13 @@ import org.gitlab4j.api.models.Project;
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  */
-public class AbstractIntegrationTest {
+public class AbstractIntegrationTest implements PropertyConstants {
 
     // Get the values of the minimum required test properties.
-    protected static final String TEST_PROJECT_NAME;
-    protected static final String TEST_NAMESPACE;
-    protected static final String TEST_HOST_URL;
-    protected static final String TEST_PRIVATE_TOKEN;
-    static {
-        TEST_NAMESPACE = TestUtils.getProperty("TEST_NAMESPACE");
-        TEST_PROJECT_NAME = TestUtils.getProperty("TEST_PROJECT_NAME");
-        TEST_HOST_URL = TestUtils.getProperty("TEST_HOST_URL");
-        TEST_PRIVATE_TOKEN = TestUtils.getProperty("TEST_PRIVATE_TOKEN");
-    }
+    protected static final String TEST_PROJECT_NAME = HelperUtils.getProperty(PROJECT_NAME_KEY);
+    protected static final String TEST_NAMESPACE = HelperUtils.getProperty(NAMESPACE_KEY);
+    protected static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
+    protected static String TEST_PRIVATE_TOKEN;
 
     protected static class BaseTestResources {
         protected GitLabApi gitLabApi;
@@ -74,6 +68,10 @@ public class AbstractIntegrationTest {
 
         if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
             problems += "TEST_HOST_URL cannot be empty\n";
+        }
+
+        if (TEST_PRIVATE_TOKEN == null) {
+            TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
         }
 
         if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {

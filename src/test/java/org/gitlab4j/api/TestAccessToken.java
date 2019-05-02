@@ -25,7 +25,7 @@ import org.junit.experimental.categories.Category;
 public class TestAccessToken extends AbstractIntegrationTest {
 
     // TEST_ACCESS_TOKEN must be defined to run this test
-    private static final String TEST_ACCESS_TOKEN = TestUtils.getProperty("TEST_ACCESS_TOKEN");
+    private static final String TEST_ACCESS_TOKEN = HelperUtils.getProperty("TEST_ACCESS_TOKEN");
     private static GitLabApi gitLabApi;
 
     public TestAccessToken() {
