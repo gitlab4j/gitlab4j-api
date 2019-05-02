@@ -80,9 +80,9 @@ public class FileUtils {
     /**
      * Reads the content of a Reader instance and returns it as a String.
      * 
-     * @param reader
+     * @param reader the Reader instance to read the content from
      * @return the content of a Reader instance as a String
-     * @throws IOException
+     * @throws IOException if any error occurs
      */
     public static String getReaderContentAsString(Reader reader) throws IOException {
 

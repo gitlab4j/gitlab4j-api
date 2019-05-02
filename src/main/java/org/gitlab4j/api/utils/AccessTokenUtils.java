@@ -441,6 +441,7 @@ public final class AccessTokenUtils {
      * @param baseUrl the GitLab server base URL
      * @param username the user name to to login for
      * @param password the password of the user to login for
+     * @return the GitLab seesion token as a cookie value
      * @throws GitLabApiException if any error occurs
      */
     protected static final String login(final String baseUrl, final String username,
@@ -549,8 +550,7 @@ public final class AccessTokenUtils {
      * Logs out the user associated with the GitLab session cookie.
      *
      * @param baseUrl the GitLab server base URL
-     * @param username the user name to to login for
-     * @param password the password of the user to login for
+     * @param cookies the GitLab session cookie to logout
      * @throws GitLabApiException if any error occurs
      */
     protected static final void logout(final String baseUrl, final String cookies) throws GitLabApiException {
