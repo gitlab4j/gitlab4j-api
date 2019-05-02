@@ -72,7 +72,7 @@ public class TestAccessTokenUtils {
         String accessToken = AccessTokenUtils.createPersonalAccessToken(
                 TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
                 tokenName, Arrays.asList("api", "sudo"));
-        System.out.println("Created personal access token: " + accessToken);
+        System.out.format("Created '%s' personal access token: %s%n", tokenName, accessToken);
 
         assertNotNull(accessToken);
         assertFalse(accessToken.trim().isEmpty());
@@ -82,7 +82,7 @@ public class TestAccessTokenUtils {
             AccessTokenUtils.revokePersonalAccessToken(
                 TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
                 tokenName, Arrays.asList("api", "sudo"));
-            System.out.println("Revoked personal access token: " + accessToken);
+            System.out.format("Revoked '%s' personal access token: %s%n", tokenName, accessToken);
         } catch (Exception ignore) {}
     }
 
@@ -107,14 +107,14 @@ public class TestAccessTokenUtils {
         String accessToken = AccessTokenUtils.createPersonalAccessToken(
                 TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
                 tokenName, Arrays.asList("api", "sudo"));
-        System.out.println("Created personal access token: " + accessToken);
+        System.out.format("Created '%s' personal access token: %s%n", tokenName, accessToken);
         assertNotNull(accessToken);
         assertFalse(accessToken.trim().isEmpty());
 
         AccessTokenUtils.revokePersonalAccessToken(
                 TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
                 tokenName, Arrays.asList("api", "sudo"));
-        System.out.println("Revoked personal access token: " + accessToken);
+        System.out.format("Revoked '%s' personal access token: %s%n", tokenName, accessToken);
     }
 
     @Test

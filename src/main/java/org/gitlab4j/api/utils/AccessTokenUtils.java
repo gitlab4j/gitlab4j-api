@@ -36,7 +36,8 @@ public final class AccessTokenUtils {
     protected static final String PERSONAL_ACCESS_TOKEN_REGEX = "name=\\\"created-personal-access-token\\\".*data-clipboard-text=\\\"([^\\\"]*)\\\".*\\/>";
     protected static final Pattern PERSONAL_ACCESS_TOKEN_PATTERN = Pattern.compile(PERSONAL_ACCESS_TOKEN_REGEX);
 
-    protected static final String REVOKE_PERSONAL_ACCESS_TOKEN_REGEX = "<td>%s<\\/td>.*<td>%s<\\/td>.*href=\\\"([^\\\"]*)\\\">Revoke";
+    protected static final String REVOKE_PERSONAL_ACCESS_TOKEN_REGEX = "href=\\\"([^\\\"]*)\\\"";
+    protected static final Pattern REVOKE_PERSONAL_ACCESS_TOKEN_PATTERN = Pattern.compile(REVOKE_PERSONAL_ACCESS_TOKEN_REGEX);
 
     protected static final String FEED_TOKEN_REGEX = "name=\\\"feed_token\\\".*value=\\\"([^\\\"]*)\\\".*\\/>";
     protected static final Pattern FEED_TOKEN_PATTERN = Pattern.compile(FEED_TOKEN_REGEX);
@@ -230,6 +231,18 @@ public final class AccessTokenUtils {
              * Step 3: Submit the /profile/personal_access_tokens page with the info to    *
              * revoke the first matching personal access token.                            *
              *******************************************************************************/
+            int indexOfTokenName = content.indexOf("<td>" + tokenName + "</td>");
+            if (indexOfTokenName == -1) {
+                throw new GitLabApiException("personal access token not found, aborting!");
+            }
+
+            content = content.substring(indexOfTokenName);
+            int indexOfLinkEnd = content.indexOf("</a>");
+            if (indexOfTokenName == -1) {
+                throw new GitLabApiException("personal access token not found, aborting!");
+            }
+
+            content = content.substring(0, indexOfLinkEnd);
             String scopesText = "";
             if (scopes != null && scopes.size() > 0) {
                 final StringJoiner joiner = new StringJoiner(", ");
@@ -237,9 +250,11 @@ public final class AccessTokenUtils {
                 scopesText = joiner.toString();
             }
 
-            String regex = String.format(REVOKE_PERSONAL_ACCESS_TOKEN_REGEX, tokenName, scopesText);
-            Pattern pattern = Pattern.compile(regex);
-            matcher = pattern.matcher(content);
+            if (content.indexOf(scopesText) == -1) {
+                throw new GitLabApiException("personal access token not found, aborting!");
+            }
+
+            matcher = REVOKE_PERSONAL_ACCESS_TOKEN_PATTERN.matcher(content);
             if (!matcher.find()) {
                 throw new GitLabApiException("personal access token not found, aborting!");
             }
