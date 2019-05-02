@@ -11,16 +11,17 @@ public class HelperUtils {
     private static Properties testProperties;
     static {
 
-        // Get the maven basedir, we use it to locate the properties for the unit tests
-        String basedir = (String) System.getProperties().get("basedir");
-
-        // If we are performing a release in target/checkout, trim off the target/checkout directory from basedir
-        if (basedir != null && (basedir.endsWith("target/checkout") || basedir.endsWith("target\\checkout"))) {
-            basedir = basedir.substring(0, basedir.length() - 15);
-        }
-
         File propertiesFile = new File((String) System.getProperties().get("user.home"), "test-gitlab4j.properties");
         if (!propertiesFile.exists()) {
+
+            // Get the maven basedir, we use it to locate the properties for the unit tests
+            String basedir = (String) System.getProperties().get("basedir");
+
+            // If we are performing a release in target/checkout, trim off the target/checkout directory from basedir
+            if (basedir != null && (basedir.endsWith("target/checkout") || basedir.endsWith("target\\checkout"))) {
+                basedir = basedir.substring(0, basedir.length() - 15);
+            }
+
             propertiesFile = new File(basedir, "src/test/gitlab/test-gitlab4j.properties");
         }
 
