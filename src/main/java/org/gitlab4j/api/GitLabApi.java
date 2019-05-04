@@ -51,6 +51,7 @@ public class GitLabApi {
     private int defaultPerPage = DEFAULT_PER_PAGE;
     private Session session;
 
+    private ApplicationsApi applicationsApi;
     private AwardEmojiApi awardEmojiApi;
     private BoardsApi boardsApi;
     private CommitsApi commitsApi;
@@ -890,6 +891,25 @@ public class GitLabApi {
 
         Response response = new VersionApi(this).get(Response.Status.OK, null, "version");
         return (response.readEntity(Version.class));
+    }
+
+    /**
+     * Gets the ApplicationsApi instance owned by this GitLabApi instance. The ApplicationsApi is used
+     * to perform all OAUTH application related API calls.
+     *
+     * @return the ApplicationsApi instance owned by this GitLabApi instance
+     */
+    public ApplicationsApi getApplicationsApi() {
+
+        if (applicationsApi == null) {
+            synchronized (this) {
+                if (applicationsApi == null) {
+                    applicationsApi = new ApplicationsApi(this);
+                }
+            }
+        }
+
+        return (applicationsApi);
     }
 
     /**

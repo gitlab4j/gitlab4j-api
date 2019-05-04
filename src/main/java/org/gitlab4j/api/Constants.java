@@ -526,4 +526,48 @@ public interface Constants {
             return (enumHelper.toString(this));
         }
     }
+
+    /**
+     * Enum for the various Application scope values.
+     */
+    public enum ApplicationScope {
+
+        /**  Access the authenticated user's API */
+        API,
+
+        /** Read the authenticated user's personal information */
+        READ_USER,
+
+        /**  Perform API actions as any user in the system */
+        SUDO,
+
+        /** Allows read-access to the repository */
+        READ_REPOSITORY,
+
+        /** Authenticate using OpenID Connect */
+        OPENID,
+
+        /** Allows read-only access to the user's personal information using OpenID Connect */
+        PROFILE,
+
+        /** Allows read-only access to the user's primary email address using OpenID Connect */
+        EMAIL;
+
+        private static JacksonJsonEnumHelper<ApplicationScope> enumHelper = new JacksonJsonEnumHelper<>(ApplicationScope.class);
+
+        @JsonCreator
+        public static ApplicationScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 }
