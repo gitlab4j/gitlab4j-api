@@ -12,7 +12,7 @@ To utilize the GitLab API for Java in your project, simply add the following dep
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.10.8'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.10.9'
 }
 ```
 
@@ -23,7 +23,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.10.8</version>
+    <version>4.10.9</version>
 </dependency>
 ```
 
