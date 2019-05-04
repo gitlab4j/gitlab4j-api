@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.CustomAttribute;
+import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
@@ -1011,5 +1012,106 @@ public class UserApi extends AbstractApi {
     public User setUserAvatar(final Object userIdOrUsername, File avatarFile) throws GitLabApiException {
         Response response = putUpload(Response.Status.OK, "avatar", avatarFile,  "users", getUserIdOrUsername(userIdOrUsername));
         return (response.readEntity(User.class));
+    }
+
+    /**
+     * Get a list of emails for the current user.
+     *
+     * <pre><code>GitLab Endpoint: GET /users/emails</code></pre>
+     *
+     * @return a List of Email instances for the current user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Email> getEmails() throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "user", "emails");
+        return (response.readEntity(new GenericType<List<Email>>() {}));
+    }
+
+    /**
+     * Get a list of a specified user’s emails. Available only for admin users.
+     *
+     * <pre><code>GitLab Endpoint: GET /user/:id/emails</code></pre>
+     *
+     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @return a List of Email instances for the specified user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Email> getEmails(final Object userIdOrUsername) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "users", getUserIdOrUsername(userIdOrUsername), "emails");
+        return (response.readEntity(new GenericType<List<Email>>() {}));
+    }
+
+    /**
+     * Add an email to the current user's emails.
+     *
+     * <pre><code>GitLab Endpoint: POST /user/:id/emails</code></pre>
+     *
+     * @param email the email address to add
+     * @return the Email instance for the added email
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Email addEmail(String email) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("email", email, true);
+        Response response = post(Response.Status.CREATED, formData, "user", "emails");
+        return (response.readEntity(Email.class));
+    }
+
+    /**
+     * Get a single Email instance specified by he email ID
+     *
+     * <pre><code>GitLab Endpoint: GET /user/emails/:emailId</code></pre>
+     *
+     * @param emailId the email ID to get
+     * @return the Email instance for the provided email ID
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Email getEmail(final Long emailId) throws GitLabApiException {
+        Response response = get(Response.Status.CREATED, null, "user", "emails", emailId);
+        return (response.readEntity(Email.class));
+    }
+
+    /**
+     * Add an email to the user's emails.
+     *
+     * <pre><code>GitLab Endpoint: POST /user/:id/emails</code></pre>
+     *
+     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param email the email address to add
+     * @param skipConfirmation skip confirmation and assume e-mail is verified - true or false (default)
+     * @return the Email instance for the added email
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Email addEmail(final Object userIdOrUsername, String email, Boolean skipConfirmation) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("email", email, true)
+                .withParam("skip_confirmation ", skipConfirmation);
+        Response response = post(Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), "emails");
+        return (response.readEntity(Email.class));
+    }
+
+    /**
+     * Deletes an email belonging to the current user.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /user/emails/:emailId</code></pre>
+     *
+     * @param emailId the email ID to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteEmail(final Long emailId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "user", "emails", emailId);
+    }
+
+    /**
+     * Deletes a user's email
+     *
+     * <pre><code>GitLab Endpoint: DELETE /user/:id/emails/:emailId</code></pre>
+     *
+     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param emailId the email ID to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteEmail(final Object userIdOrUsername, final Long emailId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "users", getUserIdOrUsername(userIdOrUsername), "emails", emailId);
     }
 }

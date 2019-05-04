@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
@@ -60,6 +61,7 @@ public class TestUserApi extends AbstractIntegrationTest {
             "vNWfEmp2N1mpBTwi2mIYKurCKv6UpIpGK9D+ezNk5H0waVTK8EvZ/ey69Nu7C7RsbTYeyi5WY/jaUG5JbsEeKY" +
             "IW/2DIlUts7gcB2hzXtt7r7+6DLx82Vb+S2jPZu2JQaB4zfgS7LQgzHUy1aAAgUUpuAbvWzuGHKO0p551Ru4qi" +
             "tyXN2+OUVXcYAsuIIdGGB0wLvTDgiOOSZWnSE+sg6XX user@example.com";
+    private static final String TEST_USER_EMAIL = "test-user-email123@gitlab4j.org";
     
 
     private static GitLabApi gitLabApi;
@@ -73,10 +75,6 @@ public class TestUserApi extends AbstractIntegrationTest {
     public static void setup() {
 
         String problems = "";
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
-        }
-
         if (TEST_USERNAME == null || TEST_USERNAME.trim().isEmpty()) {
             problems += "TEST_USER_NAME cannot be empty\n";
         }
@@ -109,6 +107,15 @@ public class TestUserApi extends AbstractIntegrationTest {
                         }
                     } catch (Exception ignore) {}
                 }
+
+                try {
+                    List<Email> emails = gitLabApi.getUserApi().getEmails();
+                    for (Email email : emails) {
+                        if (TEST_USER_EMAIL.equals(email.getEmail())) {
+                            gitLabApi.getUserApi().deleteEmail(email.getId());
+                        }
+                    }
+                }  catch (Exception ignore) {}
             }
 
         } else {
@@ -311,5 +318,51 @@ public class TestUserApi extends AbstractIntegrationTest {
         assertNotNull(optional);
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
+    }
+
+    @Test
+    public void testCurrentUserEmails() throws GitLabApiException {
+
+        List<Email> currentUserEmails = gitLabApi.getUserApi().getEmails();
+        assertNotNull(currentUserEmails);
+        int currentSize = currentUserEmails.size();
+
+        Email email = gitLabApi.getUserApi().addEmail(TEST_USER_EMAIL);
+        currentUserEmails = gitLabApi.getUserApi().getEmails();
+        assertTrue(currentUserEmails.size() == currentSize + 1);
+
+        Email found = currentUserEmails.stream().filter(e -> e.getEmail().equals(TEST_USER_EMAIL)).findAny().orElse(null);
+        assertNotNull(found);
+
+        Email email1 = gitLabApi.getUserApi().getEmail(email.getId());
+        assertEquals(email.getEmail(), email1.getEmail());
+
+        gitLabApi.getUserApi().deleteEmail(email.getId());
+        currentUserEmails = gitLabApi.getUserApi().getEmails();
+        assertEquals(currentSize, currentUserEmails.size());
+        found = currentUserEmails.stream().filter(e -> e.getEmail().equals(TEST_USER_EMAIL)).findAny().orElse(null);
+        assertNull(found);
+    }
+
+    @Test
+    public void testEmails() throws GitLabApiException {
+
+        User currentUser = gitLabApi.getUserApi().getCurrentUser();
+        assertNotNull(currentUser);
+        List<Email> emails = gitLabApi.getUserApi().getEmails(currentUser);
+        assertNotNull(emails);
+        int currentSize = emails.size();
+
+        Email email = gitLabApi.getUserApi().addEmail(currentUser, TEST_USER_EMAIL, true);
+        emails = gitLabApi.getUserApi().getEmails(currentUser);
+        assertTrue(emails.size() == currentSize + 1);
+        Email found = emails.stream().filter(e -> e.getEmail().equals(TEST_USER_EMAIL)).findAny().orElse(null);
+        assertNotNull(found);
+ 
+        gitLabApi.getUserApi().deleteEmail(currentUser, email.getId());
+        emails = gitLabApi.getUserApi().getEmails(currentUser);
+        assertEquals(currentSize, emails.size());
+        found = emails.stream().filter(e -> e.getEmail().equals(TEST_USER_EMAIL)).findAny().orElse(null);
+        assertNull(found);
     }
 }
