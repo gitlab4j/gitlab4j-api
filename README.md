@@ -1,13 +1,12 @@
-GitlLab API for Java (gitlab4j-api)
-===================================
+# GitlLab4J&trade; API (gitlab4j-api)<br />Java Client Library for the GitLab REST API
+
 [![Maven Central](https://img.shields.io/maven-central/v/org.gitlab4j/gitlab4j-api.svg)](http://mvnrepository.com/artifact/org.gitlab4j/gitlab4j-api)
 
-GitLab API for Java (gitlab4j-api) provides a full featured and easy to consume Java API for working with GitLab repositories via the GitLab REST API.  Additionally, full support for working with GitLab webhooks and system hooks is also provided.
+GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume Java library for working with GitLab repositories via the GitLab REST API.  Additionally, full support for working with GitLab webhooks and system hooks is also provided.
 
 ---
 
-To utilize the GitLab API for Java in your project, simply add the following dependency to your project's build file:
-
+To utilize GitLab4J&trade; API in your Java project, simply add the following dependency to your project's build file:<br /> 
 **Gradle: build.gradle**
 ```java
 dependencies {
