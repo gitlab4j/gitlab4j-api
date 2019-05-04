@@ -5,7 +5,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
+import java.util.Optional;
 
+import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.AccessTokenUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -15,17 +21,28 @@ import org.junit.runner.RunWith;
 import com.googlecode.junittoolbox.SuiteClasses;
 import com.googlecode.junittoolbox.WildcardPatternSuite;
 
+/**
+ * This test suite implementation will check for the users, projects, groups, and repo files needed for testing
+ * and create them if they do not exist.  It will also create temporary personal access tokens needed for testing.
+ *
+ * <p>NOTE: This class relies on a minimal amount of the GitLab4J-API library to set things up,
+ * so if there are any failures the test suite will fail.  Consider it the first integration tests
+ * that are being performed.</p>
+ */
 @RunWith(WildcardPatternSuite.class)
 @SuiteClasses({"**/Test*.class"})
 @IncludeCategory(IntegrationTest.class)
 public class IntegrationTestSuite implements PropertyConstants {
 
-    private static final String TEST_LOGIN_USERNAME = HelperUtils.getProperty(LOGIN_USERNAME_KEY);
-    private static final String TEST_LOGIN_PASSWORD = HelperUtils.getProperty(LOGIN_PASSWORD_KEY);
-    private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
+    private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY, "http://localhost:8090");
+    private static final String TEST_LOGIN_USERNAME = HelperUtils.getProperty(LOGIN_USERNAME_KEY, "gitlab4j");
+    private static final String TEST_LOGIN_PASSWORD = HelperUtils.getProperty(LOGIN_PASSWORD_KEY, "ChangeMeNow");
+
+    private static final String TEST_PROJECT_NAME = HelperUtils.getProperty(PROJECT_NAME_KEY, "test-project");
+    private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY, "test-group");
+    private static final String TEST_GROUP_PROJECT_NAME = HelperUtils.getProperty(GROUP_PROJECT_KEY, "test-group-project");
     
-    protected static final String TEST_PROJECT_NAME = HelperUtils.getProperty(PROJECT_NAME_KEY);
-    protected static final String TEST_NAMESPACE = HelperUtils.getProperty(NAMESPACE_KEY);
+    protected static final String TEST_NAMESPACE = HelperUtils.getProperty(NAMESPACE_KEY, TEST_LOGIN_USERNAME);
 
     protected static final String TEST_PRIVATE_TOKEN_NAME = "GitLab4J Test Private Token - " + HelperUtils.getRandomInt(1000);
     protected static String TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
@@ -60,6 +77,22 @@ public class IntegrationTestSuite implements PropertyConstants {
             fail(problems);
         }
 
+        seedData();
+        createAccessTokens();
+    }
+
+    @AfterClass
+    public static void suiteTeardown() throws GitLabApiException {
+
+        System.out.println("********************************************************");
+        System.out.println("*                 Test Suite Teardown                  *");
+        System.out.println("********************************************************");
+
+        revokeAccessTokens();
+    }
+
+    private static void createAccessTokens() throws GitLabApiException {
+
         // If the private token is not in the properties, create it
         if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
 
@@ -87,12 +120,7 @@ public class IntegrationTestSuite implements PropertyConstants {
         }
     }
 
-    @AfterClass
-    public static void suiteTeardown() throws GitLabApiException {
-
-        System.out.println("********************************************************");
-        System.out.println("*                 Test Suite Teardown                  *");
-        System.out.println("********************************************************");
+    private static void revokeAccessTokens() throws GitLabApiException {
 
         if (createdPrivateToken && TEST_PRIVATE_TOKEN != null) {
             try {
@@ -110,6 +138,152 @@ public class IntegrationTestSuite implements PropertyConstants {
                     TEST_ACCESS_TOKEN_NAME, Arrays.asList("api", "sudo"));
                 System.out.format("Revoved '%s'%n", TEST_ACCESS_TOKEN_NAME);
             } catch (Exception ignore) {}
+        }
+    }
+
+    /**
+     * This method will check for the users, prjects, groups, and repo files needed for testing
+     * and create them if they do not exist.
+     *
+     * @throws GitLabApiException if any error occurs
+     */
+    private static void seedData() throws GitLabApiException {
+
+        // Use OAUTH2 and the provided admin credentials to create the user to run the tests as if it doesn't exist
+        String username = HelperUtils.getProperty(ADMIN_USERNAME_KEY);
+        if (username == null || username.trim().isEmpty()) {
+            username = System.getProperty(ADMIN_USERNAME_KEY);
+            username = (username == null || username.trim().isEmpty() ? "root" : username);
+        }
+
+        String password = HelperUtils.getProperty(ADMIN_PASSWORD_KEY);
+        if (password == null || password.trim().isEmpty()) {
+            password = System.getProperty(ADMIN_PASSWORD_KEY);
+            password = (password == null || password.trim().isEmpty() ? "password" : password);
+        }
+
+        GitLabApi gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, username, password, null, null, true);
+
+        // If the tester user doen't exists, create it
+        Optional<User> optionalUser = gitLabApi.getUserApi().getOptionalUser(TEST_LOGIN_USERNAME);
+        if (!optionalUser.isPresent()) {
+            User userSettings = new User()
+                    .withUsername(TEST_LOGIN_USERNAME)
+                    .withEmail(TEST_LOGIN_USERNAME + "@gitlab4j.org")
+                    .withName("GitLab4J Tester")
+                    .withSkipConfirmation(true)
+                    .withIsAdmin(true);
+            gitLabApi.getUserApi().createUser(userSettings, TEST_LOGIN_PASSWORD, false);
+            System.out.format("Created %s user (%s)%n", userSettings.getName(), userSettings.getUsername());
+        }
+
+        // The reset of the operations will use the test user to do things,
+        // so use OAUTH2 to get the GitLabApi instance
+        gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, null, null, true);
+
+        // Create the sudo as user if it does not exists
+        username = HelperUtils.getProperty(SUDO_AS_USERNAME_KEY, "user1");
+        optionalUser = gitLabApi.getUserApi().getOptionalUser(username);
+        if (!optionalUser.isPresent()) {
+            User userSettings = new User()
+                    .withUsername(username)
+                    .withEmail(username + "@gitlab4j.org")
+                    .withName("Test User")
+                    .withSkipConfirmation(true)
+                    .withIsAdmin(false);
+            gitLabApi.getUserApi().createUser(userSettings, TEST_LOGIN_PASSWORD, false);
+            System.out.format("Created %s user (%s)%n", userSettings.getName(), userSettings.getUsername());
+        }
+
+        // Create the test project
+        Optional<Project> optionalProject = gitLabApi.getProjectApi().getOptionalProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        Project testProject = optionalProject.orElse(null);
+        if (testProject == null) {
+
+            Project projectSettings = new Project()
+                    .withName(TEST_PROJECT_NAME)
+                    .withDefaultBranch("master")
+                    .withPublic(true)
+                    .withInitializeWithReadme(true);
+            testProject = gitLabApi.getProjectApi().createProject(projectSettings);
+            System.out.format("Created %s project%n", projectSettings.getName());
+
+            // Update the contents of README.md, so we have at minimum 2 commits
+            RepositoryFile repoFile = new RepositoryFile();
+            repoFile.setFilePath("README.md");
+            repoFile.setContent("This is a test project used to test GitLab4J-API.");
+            gitLabApi.getRepositoryFileApi().updateFile(testProject, repoFile, "master", "Updated contents");
+            System.out.format("Updated content of %s repository file%n", repoFile.getFilePath());
+
+            // Create a file in a subdirectory
+            repoFile.setFilePath(TEST_PROJECT_SUBDIRECTORY_PATH);
+            gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, "master", "Initial commit.");
+            System.out.format("Created %s repository file%n", repoFile.getFilePath());
+
+        } else if (!gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, "README.md", "master").isPresent()) {
+
+            // Create the README.md file since it does not exists
+            RepositoryFile repoFile = new RepositoryFile();
+            repoFile.setFilePath("README.md");
+            repoFile.setContent("");
+            gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, "master", "Initial commit.");
+            System.out.format("Created %s repository file%n", repoFile.getFilePath());
+
+            // Update the contents so we have at minimum 2 commits
+            repoFile.encodeAndSetContent("This is a test project used to test GitLab4J-API.");
+            gitLabApi.getRepositoryFileApi().updateFile(testProject, repoFile, "master", "Updated contents");
+            System.out.format("Updated content of %s repository file%n", repoFile.getFilePath());
+        }
+
+        // Create the test group if it does not exist
+        Optional<Group> optionalGroup = gitLabApi.getGroupApi().getOptionalGroup(TEST_GROUP);
+        Group testGroup = optionalGroup.orElse(null);
+        if (testGroup == null) {
+            Group groupSettings = new Group()
+                    .withName("Test Group")
+                    .withPath(TEST_GROUP)
+                    .withDescription("Test Group")
+                    .withVisibility(Visibility.PUBLIC);
+            testGroup = gitLabApi.getGroupApi().addGroup(groupSettings);
+            System.out.format("Created %s group (%s)%n", groupSettings.getName(), groupSettings.getPath());
+        }
+
+        // Create the test project in the test group namespace if it does not exist
+        optionalProject = gitLabApi.getProjectApi().getOptionalProject(TEST_GROUP, TEST_GROUP_PROJECT_NAME);
+        testProject = optionalProject.orElse(null);
+        if (testProject == null) {
+
+            Project projectSettings = new Project()
+                    .withName(TEST_GROUP_PROJECT_NAME)
+                    .withDefaultBranch("master")
+                    .withPublic(true)
+                    .withInitializeWithReadme(true);
+            Project groupProject = gitLabApi.getProjectApi().createProject(projectSettings);    
+            System.out.format("Created %s project%n", projectSettings.getName());
+
+            // Update the contents of README.md, so we have at minimum 2 commits
+            RepositoryFile repoFile = new RepositoryFile();
+            repoFile.setFilePath("README.md");
+            repoFile.encodeAndSetContent("This is a test project used to test GitLab4J-API.");
+            gitLabApi.getRepositoryFileApi().updateFile(groupProject, repoFile, "master", "Updated contents");
+            System.out.format("Updated content of %s repository file%n", repoFile.getFilePath());
+
+            gitLabApi.getGroupApi().transferProject(testGroup, groupProject);
+            System.out.format("Transfered %s project to %s group%n", TEST_GROUP_PROJECT_NAME, TEST_GROUP);
+
+        }  else if (!gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, "README.md", "master").isPresent()) {
+
+            // Create the README.md file since it does not exists
+            RepositoryFile repoFile = new RepositoryFile();
+            repoFile.setFilePath("README.md");
+            repoFile.setContent("");
+            gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, "master", "Initial commit.");
+            System.out.format("Created %s repository file in %s%n", repoFile.getFilePath(), TEST_GROUP_PROJECT_NAME);
+
+            // Update the contents so we have at minimum 2 commits
+            repoFile.encodeAndSetContent("This is a test project used to test GitLab4J-API.");
+            gitLabApi.getRepositoryFileApi().updateFile(testProject, repoFile, "master", "Updated contents");
+            System.out.format("Updated %s repository file in %s%n", repoFile.getFilePath(), TEST_GROUP_PROJECT_NAME);
         }
     }
 }
