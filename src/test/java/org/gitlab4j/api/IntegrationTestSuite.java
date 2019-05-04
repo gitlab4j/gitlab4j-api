@@ -34,15 +34,13 @@ import com.googlecode.junittoolbox.WildcardPatternSuite;
 @IncludeCategory(IntegrationTest.class)
 public class IntegrationTestSuite implements PropertyConstants {
 
-    private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY, "http://localhost:8090");
-    private static final String TEST_LOGIN_USERNAME = HelperUtils.getProperty(LOGIN_USERNAME_KEY, "gitlab4j");
-    private static final String TEST_LOGIN_PASSWORD = HelperUtils.getProperty(LOGIN_PASSWORD_KEY, "ChangeMeNow");
-
-    private static final String TEST_PROJECT_NAME = HelperUtils.getProperty(PROJECT_NAME_KEY, "test-project");
-    private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY, "test-group");
-    private static final String TEST_GROUP_PROJECT_NAME = HelperUtils.getProperty(GROUP_PROJECT_KEY, "test-group-project");
-    
-    protected static final String TEST_NAMESPACE = HelperUtils.getProperty(NAMESPACE_KEY, TEST_LOGIN_USERNAME);
+    private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
+    private static final String TEST_LOGIN_USERNAME = HelperUtils.getProperty(LOGIN_USERNAME_KEY);
+    private static final String TEST_LOGIN_PASSWORD = HelperUtils.getProperty(LOGIN_PASSWORD_KEY);
+    private static final String TEST_NAMESPACE = HelperUtils.getProperty(NAMESPACE_KEY, TEST_LOGIN_USERNAME);
+    private static final String TEST_PROJECT_NAME = HelperUtils.getProperty(PROJECT_NAME_KEY);
+    private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
+    private static final String TEST_GROUP_PROJECT_NAME = HelperUtils.getProperty(GROUP_PROJECT_KEY);
 
     protected static final String TEST_PRIVATE_TOKEN_NAME = "GitLab4J Test Private Token - " + HelperUtils.getRandomInt(1000);
     protected static String TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);

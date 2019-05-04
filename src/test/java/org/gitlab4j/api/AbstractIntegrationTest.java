@@ -10,19 +10,23 @@ import org.gitlab4j.api.models.Project;
 /**
  * In order for the integration tests to run you must set the following properties in test-gitlab4j.properties
  * and the resources pointed to must exist.
- * 
- * TEST_NAMESPACE
- * TEST_PROJECT_NAME
+ *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
+ * TEST_NAMESPACE
+ * TEST_PROJECT_NAME
  */
 public class AbstractIntegrationTest implements PropertyConstants {
 
     // Get the values of the minimum required test properties.
-    protected static final String TEST_PROJECT_NAME = HelperUtils.getProperty(PROJECT_NAME_KEY);
-    protected static final String TEST_NAMESPACE = HelperUtils.getProperty(NAMESPACE_KEY);
     protected static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
-    protected static String TEST_PRIVATE_TOKEN;
+    protected static final String TEST_LOGIN_USERNAME = HelperUtils.getProperty(LOGIN_USERNAME_KEY);
+    protected static final String TEST_LOGIN_PASSWORD = HelperUtils.getProperty(LOGIN_PASSWORD_KEY);
+    protected static final String TEST_PROJECT_NAME = HelperUtils.getProperty(PROJECT_NAME_KEY);
+    protected static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
+    protected static final String TEST_GROUP_PROJECT_NAME = HelperUtils.getProperty(GROUP_PROJECT_KEY);
+    protected static final String TEST_NAMESPACE = HelperUtils.getProperty(NAMESPACE_KEY, TEST_LOGIN_USERNAME);
+    protected static final String TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
 
     protected static class BaseTestResources {
         protected GitLabApi gitLabApi;
@@ -58,24 +62,20 @@ public class AbstractIntegrationTest implements PropertyConstants {
         }
 
         String problems = "";
+        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
+            problems += "TEST_HOST_URL cannot be empty\n";
+        }
+
+        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
+            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
+        }
+
         if (TEST_NAMESPACE == null || TEST_NAMESPACE.trim().isEmpty()) {
             problems += "TEST_NAMESPACE cannot be empty\n";
         }
 
         if (TEST_PROJECT_NAME == null || TEST_PROJECT_NAME.trim().isEmpty()) {
             problems += "TEST_PROJECT_NAME cannot be empty\n";
-        }
-
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
-
-        if (TEST_PRIVATE_TOKEN == null) {
-            TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
-        }
-
-        if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
-            problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
 
         if (problems.isEmpty()) {
