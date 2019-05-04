@@ -1124,7 +1124,7 @@ public class GroupApi extends AbstractApi {
     /**
      * Deletes a group variable.
      *
-     * <pre><code>DELETE /groups/:id/variables/:key</code></pre>
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/variables/:key</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param key the key of an existing variable, required
@@ -1132,5 +1132,21 @@ public class GroupApi extends AbstractApi {
      */
     public void deleteVariable(Object groupIdOrPath, String key) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "groups", getGroupIdOrPath(groupIdOrPath), "variables", key);
+    }
+
+    /**
+     * Transfer a project to the Group namespace. Available only for admin users.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/projects/:project_id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @return the transfered Project instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Project transferProject(Object groupIdOrPath, Object projectIdOrPath) throws GitLabApiException {
+        Response response = post(Response.Status.CREATED, (Form)null, "groups",  getGroupIdOrPath(groupIdOrPath),
+                "projects", getProjectIdOrPath(projectIdOrPath));
+        return (response.readEntity(Project.class));
     }
 }
