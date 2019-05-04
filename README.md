@@ -11,7 +11,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.10.9'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.10.10'
 }
 ```
 
@@ -22,7 +22,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.10.9</version>
+    <version>4.10.10</version>
 </dependency>
 ```
 
@@ -218,6 +218,7 @@ The following is a list of the available sub APIs along with a sample use of eac
 
 ### Available Sub APIs
 ------------------
+&nbsp;&nbsp;[AoolicationsApi](#applicationsapi)<br/>
 &nbsp;&nbsp;[AwardEmojiApi](#awardemojiapi)<br/>
 &nbsp;&nbsp;[BoardsApi](#boardsapi)<br/>
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
@@ -252,6 +253,13 @@ The following is a list of the available sub APIs along with a sample use of eac
 
 ### Sub API Examples
 ----------------
+
+#### ApplicationsApi
+```java
+// Add an OAUTH Application to GitLab
+ApplicationScope[] scopes = {ApplicationScope.SUDO, ApplicationScope.PROFILE};
+gitLabApi.getApplicationsApi().createApplication("My OAUTH Application", "https//example.com/myapp/callback", scopes);
+```
 
 #### AwardEmojiApi
 ```java
