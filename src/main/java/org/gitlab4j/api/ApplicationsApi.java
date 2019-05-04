@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -61,6 +62,24 @@ public class ApplicationsApi extends AbstractApi {
      */
     public Stream<Application> getApplicationsStream() throws GitLabApiException {
         return (getApplications(getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Create an OAUTH Application.
+     *
+     * @param name the name for the OAUTH Application
+     * @param redirectUri the redirect URI for the OAUTH Application
+     * @param scopes the scopes of the application (api, read_user, sudo, read_repository, openid, profile, email)
+     * @return the created Application instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Application createApplication(String name, String redirectUri, ApplicationScope[] scopes) throws GitLabApiException {
+
+        if (scopes == null || scopes.length == 0) {
+            throw new GitLabApiException("scopes cannot be null or empty");
+        }
+
+        return (createApplication(name, redirectUri, Arrays.asList(scopes)));
     }
 
     /**

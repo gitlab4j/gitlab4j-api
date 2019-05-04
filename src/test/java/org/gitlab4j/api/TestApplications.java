@@ -28,7 +28,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.gitlab4j.api.Constants.ApplicationScope;
@@ -52,8 +51,8 @@ public class TestApplications extends AbstractIntegrationTest {
 
     private static final String TEST_APPLICATION_NAME = "Test Application for GitLab4J-API";
     private static final String TEST_APPLICATION_REDIRECT = "http://example.com/application";
-    private static final List<ApplicationScope> TEST_APPLICATION_SCOPES =
-            Arrays.asList(ApplicationScope.SUDO, ApplicationScope.EMAIL);
+    private static final ApplicationScope[] TEST_APPLICATION_SCOPES =
+            {ApplicationScope.SUDO, ApplicationScope.EMAIL};
 
     private static GitLabApi gitLabApi;
 
