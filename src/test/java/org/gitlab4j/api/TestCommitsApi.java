@@ -16,7 +16,9 @@ import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitRef;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.utils.ISO8601;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -38,10 +40,9 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestCommitsApi extends AbstractIntegrationTest {
 
-    private static final String TEST_PROJECT_SUBDIRECTORY_PATH = "src/main/docs/test-project.txt";
-
     private static GitLabApi gitLabApi;
     private static Project testProject;
+    private static boolean createdSubDirectoryPathFile = false;
 
     public TestCommitsApi() {
         super();
@@ -52,6 +53,25 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         // Must setup the connection to the GitLab test server and get the test Project instance
         gitLabApi = baseTestSetup();
         testProject = getTestProject();
+
+        if (!gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_PROJECT_SUBDIRECTORY_PATH, "master").isPresent()) {
+            try {
+                RepositoryFile repoFile = new RepositoryFile();
+                repoFile.setFilePath(TEST_PROJECT_SUBDIRECTORY_PATH);
+                repoFile.setContent("This is a test project used to test GitLab4J-API.");
+                gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, "master", "Initial commit.");
+                createdSubDirectoryPathFile = true;
+            } catch (GitLabApiException ignore) {}
+        }
+    }
+
+    @AfterClass
+    public static void teardown() {
+        if (createdSubDirectoryPathFile) {
+            try {
+                gitLabApi.getRepositoryFileApi().deleteFile(testProject, TEST_PROJECT_SUBDIRECTORY_PATH, "master", "No longer needed.");
+            } catch (Exception ignore) {}
+        }
     }
 
     @Before
@@ -155,16 +175,12 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         CommitsApi commitsApi = gitLabApi.getCommitsApi();
         List<Commit> commits = commitsApi.getCommits(testProject, "master", null);
         assertNotNull(commits);
-        assertTrue(commits.size() > 0);
-
-        commits = commitsApi.getCommits(testProject, "master", "README");
-        assertNotNull(commits);
-        assertTrue(commits.size() > 0);
+        assertTrue(commits.size() > 1);
 
         commitsApi = gitLabApi.getCommitsApi();
         commits = commitsApi.getCommits(testProject, "master", "README.md");
         assertNotNull(commits);
-        assertTrue(commits.size() > 0);
+        assertTrue(commits.size() > 1);
 
         commits = commitsApi.getCommits(testProject, "master", TEST_PROJECT_SUBDIRECTORY_PATH);
         assertNotNull(commits);

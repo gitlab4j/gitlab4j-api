@@ -2,10 +2,14 @@ package org.gitlab4j.api;
 
 public interface PropertyConstants {
 
+    public static final String TEST_PROJECT_SUBDIRECTORY_PATH = "src/main/docs/test-project.txt";
     public static final String TEST_PROPERTIES_FILENAME = "test-gitlab4j.properties";
 
+    // The following are keys used to look up values in the test propertiues file
+    public static final String ADMIN_PASSWORD_KEY = "TEST_ADMIN_PASSWORD";
+    public static final String ADMIN_USERNAME_KEY = "TEST_ADMIN_USERNAME";
     public static final String ACCESS_TOKEN_KEY = "TEST_ACCESS_TOKEN";
-    public static final String BLOCK_USERNAME_KEY = "TEST_BLOCK_USERNAM";
+    public static final String BLOCK_USERNAME_KEY = "TEST_BLOCK_USERNAME";
     public static final String GROUP_KEY = "TEST_GROUP";
     public static final String GROUP_MEMBER_USERNAME_KEY = "TEST_GROUP_MEMBER_USERNAME";
     public static final String GROUP_PROJECT_KEY = "TEST_GROUP_PROJECT";

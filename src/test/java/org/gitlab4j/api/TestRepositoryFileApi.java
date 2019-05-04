@@ -94,11 +94,8 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        File file = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README", null);
-        assertTrue(file.length() > 0);
-        file.delete();
-
-        file = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README", new File("."));
+        File tempDir = new File(System.getProperty("java.io.tmpdir"));
+        File file = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README.md", tempDir);
         assertTrue(file.length() > 0);
         file.delete();
     }
@@ -109,9 +106,9 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        InputStream in = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README");
+        InputStream in = gitLabApi.getRepositoryFileApi().getRawFile(project.getId(), "master", "README.md");
 
-        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-README", "");
+        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-README", "md");
         Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
 
         assertTrue(target.toFile().length() > 0);
@@ -124,7 +121,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        RepositoryFile fileInfo = gitLabApi.getRepositoryFileApi().getFileInfo(project.getId(), "README", "master");
+        RepositoryFile fileInfo = gitLabApi.getRepositoryFileApi().getFileInfo(project.getId(), "README.md", "master");
         assertNotNull(fileInfo);
     }
 
@@ -134,7 +131,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        Optional<RepositoryFile> fileInfo = gitLabApi.getRepositoryFileApi().getOptionalFileInfo(project.getId(), "README", "master");
+        Optional<RepositoryFile> fileInfo = gitLabApi.getRepositoryFileApi().getOptionalFileInfo(project.getId(), "README.md", "master");
         assertNotNull(fileInfo.get());
 
         fileInfo = gitLabApi.getRepositoryFileApi().getOptionalFileInfo(project.getId(), "I-DONT-EXIST", "master");
