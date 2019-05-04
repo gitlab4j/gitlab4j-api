@@ -32,6 +32,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import org.gitlab4j.api.models.Application;
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.AwardEmoji;
 import org.gitlab4j.api.models.Board;
@@ -44,6 +45,7 @@ import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Discussion;
+import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.Event;
@@ -85,6 +87,12 @@ import org.gitlab4j.api.services.SlackService;
 import org.junit.Test;
 
 public class TestGitLabApiBeans {
+
+    @Test
+    public void testApplications() throws Exception {
+        List<Application> applications = unmarshalResourceList(Application.class, "applications.json");
+        assertTrue(compareJson(applications, "applications.json"));
+    }
 
     @Test
     public void testAwardEmoji() throws Exception {
@@ -142,6 +150,12 @@ public class TestGitLabApiBeans {
     public void testComment() throws Exception {
         Comment comment = unmarshalResource(Comment.class, "comment.json");
         assertTrue(compareJson(comment, "comment.json"));
+    }
+
+    @Test
+    public void testEmails() throws Exception {
+        List<Email> emails = unmarshalResourceList(Email.class, "emails.json");
+        assertTrue(compareJson(emails, "emails.json"));
     }
 
     @Test
