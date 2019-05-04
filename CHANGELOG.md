@@ -1,6 +1,197 @@
 # Changelog
 Changelog of GitLab4J API.
 
+## Unreleased
+### No issue
+
+**Updated title.**
+
+
+[c86fb13fc4a8feb](https://github.com/gmessner/gitlab4j-api/commit/c86fb13fc4a8feb) Greg Messner *2019-05-04 01:44:16*
+
+
+## gitlab4j-api-4.10.9
+### GitHub [#311](https://github.com/gmessner/gitlab4j-api/issues/311) Automate the integration tests    *enhancement*  
+
+**Cleaned up log output (#311).**
+
+
+[7084df30de31ddc](https://github.com/gmessner/gitlab4j-api/commit/7084df30de31ddc) Greg Messner *2019-05-04 00:31:13*
+
+**Added seedData() to support integration testing using default gitlab-ce image (#311).**
+
+
+[31984c64810bdb4](https://github.com/gmessner/gitlab4j-api/commit/31984c64810bdb4) Greg Messner *2019-05-04 00:18:45*
+
+**Added transferProject() (#311).**
+
+
+[72472908d99dcca](https://github.com/gmessner/gitlab4j-api/commit/72472908d99dcca) Greg Messner *2019-05-04 00:17:16*
+
+**No longer needed (#311).**
+
+
+[0bba89b867b429e](https://github.com/gmessner/gitlab4j-api/commit/0bba89b867b429e) Greg Messner *2019-05-04 00:15:47*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[347809f609dc3b2](https://github.com/gmessner/gitlab4j-api/commit/347809f609dc3b2) Greg Messner *2019-05-04 00:20:43*
+
+**Mods to support integration testing using default gitlab-ce docker image.**
+
+
+[f8de66afb313c72](https://github.com/gmessner/gitlab4j-api/commit/f8de66afb313c72) Greg Messner *2019-05-04 00:19:54*
+
+**Cleaned up Javadocs.**
+
+
+[a34185c0f102b8f](https://github.com/gmessner/gitlab4j-api/commit/a34185c0f102b8f) Greg Messner *2019-05-04 00:16:25*
+
+**Added maven-central badge and clarified sub API info.**
+
+
+[25281b2d52c2409](https://github.com/gmessner/gitlab4j-api/commit/25281b2d52c2409) Greg Messner *2019-05-02 16:10:45*
+
+
+## gitlab4j-api-4.10.8
+### GitHub [#311](https://github.com/gmessner/gitlab4j-api/issues/311) Automate the integration tests    *enhancement*  
+
+**Now looks for properties file in home dir first and then project dir (#311).**
+
+
+[bd0bf8f44605a8d](https://github.com/gmessner/gitlab4j-api/commit/bd0bf8f44605a8d) Greg Messner *2019-05-02 04:35:01*
+
+**Now only creates personal access tokens if not in properties file (#311).**
+
+
+[a62fa83b41d7870](https://github.com/gmessner/gitlab4j-api/commit/a62fa83b41d7870) Greg Messner *2019-05-02 04:34:16*
+
+**Added suiteTeardown() to remove created personal access tokens (#311).**
+
+
+[03651d35b1636b3](https://github.com/gmessner/gitlab4j-api/commit/03651d35b1636b3) Greg Messner *2019-05-02 03:32:50*
+
+**Mods to support PropertyConstants and use of personal access tokens created by test setup (#311).**
+
+
+[cf5cb33a785a49c](https://github.com/gmessner/gitlab4j-api/commit/cf5cb33a785a49c) Greg Messner *2019-05-02 01:46:20*
+
+**Initial commit (#311).**
+
+
+[ea90e5653eaa1c5](https://github.com/gmessner/gitlab4j-api/commit/ea90e5653eaa1c5) Greg Messner *2019-05-02 01:44:57*
+
+
+### GitHub [#336](https://github.com/gmessner/gitlab4j-api/issues/336) Add support for creating and revoking personal access tokens and fetching health check tokens.    *enhancement*  
+
+**Fixed AccessTokenUtils.revokePersonalAccessToken() (#336).**
+
+
+[318b36117e597ac](https://github.com/gmessner/gitlab4j-api/commit/318b36117e597ac) Greg Messner *2019-05-02 03:30:35*
+
+**Added class to IntegrationTest Category (#336).**
+
+
+[91fd03a7d8b61a1](https://github.com/gmessner/gitlab4j-api/commit/91fd03a7d8b61a1) Greg Messner *2019-05-02 01:55:08*
+
+**Fixed Javadoc issues (#336).**
+
+
+[f67f9f110d37a9f](https://github.com/gmessner/gitlab4j-api/commit/f67f9f110d37a9f) Greg Messner *2019-05-02 01:54:23*
+
+**Added contructor that takes message and http status as params (#336).**
+
+
+[d3a8a9add1ce1de](https://github.com/gmessner/gitlab4j-api/commit/d3a8a9add1ce1de) Greg Messner *2019-05-02 01:43:57*
+
+**Initial commit (#336).**
+
+
+[75a24c23e749d6f](https://github.com/gmessner/gitlab4j-api/commit/75a24c23e749d6f) Greg Messner *2019-05-02 01:41:18*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[4017443c118676a](https://github.com/gmessner/gitlab4j-api/commit/4017443c118676a) Greg Messner *2019-05-02 05:19:41*
+
+**Renamed to remove Test from the class name.**
+
+
+[4f74251261b3f44](https://github.com/gmessner/gitlab4j-api/commit/4f74251261b3f44) Greg Messner *2019-05-02 01:41:38*
+
+**Minor code cleanup.**
+
+
+[ab045070abac0a8](https://github.com/gmessner/gitlab4j-api/commit/ab045070abac0a8) Greg Messner *2019-04-27 16:27:45*
+
+
+## gitlab4j-api-4.10.7
+### GitHub [#311](https://github.com/gmessner/gitlab4j-api/issues/311) Automate the integration tests    *enhancement*  
+
+**Mods to support split unit and integration tests (#311).**
+
+
+[798c1ef27a69f63](https://github.com/gmessner/gitlab4j-api/commit/798c1ef27a69f63) Greg Messner *2019-04-26 06:30:44*
+
+
+### GitHub [#335](https://github.com/gmessner/gitlab4j-api/issues/335) can&#39;t use login service  
+
+**Now explicity uses JerseyClientBuilder (#335).**
+
+
+[fb16e4acc8803c4](https://github.com/gmessner/gitlab4j-api/commit/fb16e4acc8803c4) Greg Messner *2019-04-25 20:29:20*
+
+
+### No issue
+
+**Fixed testGetOptionalUser().**
+
+
+[104f05f9ab33611](https://github.com/gmessner/gitlab4j-api/commit/104f05f9ab33611) Greg Messner *2019-04-26 06:50:46*
+
+**Bumped version.**
+
+
+[d2bba0116aeaee1](https://github.com/gmessner/gitlab4j-api/commit/d2bba0116aeaee1) Greg Messner *2019-04-26 06:31:46*
+
+**Fixed getSnippets() so it properly works with all project specifiers.**
+
+
+[053813a47b43d11](https://github.com/gmessner/gitlab4j-api/commit/053813a47b43d11) Greg Messner *2019-04-25 20:34:52*
+
+**Updated Javadocs for getUser(String username).**
+
+
+[f5dd485506e3759](https://github.com/gmessner/gitlab4j-api/commit/f5dd485506e3759) Greg Messner *2019-04-25 20:33:42*
+
+**Added OAUTH2_ACCESS TokenType.**
+
+
+[5efacf721aa5ee6](https://github.com/gmessner/gitlab4j-api/commit/5efacf721aa5ee6) Greg Messner *2019-04-25 20:32:29*
+
+**Added hashcode() and equals() implementations.**
+
+
+[9d1b383a044d7e3](https://github.com/gmessner/gitlab4j-api/commit/9d1b383a044d7e3) Greg Messner *2019-04-25 20:31:45*
+
+**Fixed issue looking up the exception associated with an empty Optional instance.**
+
+
+[1a457e1dac602c7](https://github.com/gmessner/gitlab4j-api/commit/1a457e1dac602c7) Greg Messner *2019-04-25 20:30:53*
+
+**Generated latest changelog.**
+
+
+[e56b6dd713a2db9](https://github.com/gmessner/gitlab4j-api/commit/e56b6dd713a2db9) Greg Messner *2019-04-23 21:45:12*
+
+
 ## gitlab4j-api-4.10.6
 ### GitHub [#327](https://github.com/gmessner/gitlab4j-api/issues/327) Found banned dependency while wrapping api into a Jenkins plugin    *enhancement*  
 
