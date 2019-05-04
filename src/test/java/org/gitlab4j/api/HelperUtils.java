@@ -27,7 +27,7 @@ public class HelperUtils {
         if (propertiesFile.exists()) {
             try (InputStream input = new FileInputStream(propertiesFile)) {
                 testProperties.load(input);
-                System.out.println("Loaded base test properties from: " + propertiesFile.getAbsolutePath());
+                System.out.format("Loaded base test properties from: %n%s%n", propertiesFile.getAbsolutePath());
                 propertiesLoaded = true;
             } catch (IOException ioe) {
                 System.err.println("Error loading base test properties, error=" + ioe.getMessage());
@@ -39,7 +39,7 @@ public class HelperUtils {
         if (propertiesFile.exists()) {
             try (InputStream input = new FileInputStream(propertiesFile)) {
                 testProperties.load(input);
-                System.out.println("Loaded overriding test properties from: " + propertiesFile.getAbsolutePath());
+                System.out.format("Loaded overriding test properties from: %n%s%n", propertiesFile.getAbsolutePath());
                 propertiesLoaded = true;
             } catch (IOException ioe) {
                 System.err.println("Error loading overriding test properties, error=" + ioe.getMessage());
