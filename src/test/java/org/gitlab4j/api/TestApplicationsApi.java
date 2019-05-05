@@ -32,7 +32,6 @@ import java.util.List;
 
 import org.gitlab4j.api.Constants.ApplicationScope;
 import org.gitlab4j.api.models.Application;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -47,7 +46,7 @@ import org.junit.experimental.categories.Category;
  * If any of the above are NULL, all tests in this class will be skipped.
  */
 @Category(IntegrationTest.class)
-public class TestApplications extends AbstractIntegrationTest {
+public class TestApplicationsApi extends AbstractIntegrationTest {
 
     private static final String TEST_APPLICATION_NAME = "Test Application for GitLab4J-API";
     private static final String TEST_APPLICATION_REDIRECT = "http://example.com/application";
@@ -56,7 +55,7 @@ public class TestApplications extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
 
-    public TestApplications() {
+    public TestApplicationsApi() {
         super();
     }
 
@@ -75,10 +74,6 @@ public class TestApplications extends AbstractIntegrationTest {
                 }
             }  catch (Exception ignore) {}
         }
-    }
-
-    @AfterClass
-    public static void teardown() throws GitLabApiException {
     }
 
     @Before
