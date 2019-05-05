@@ -6,7 +6,7 @@
 	<artifactId>gitlab4j-api</artifactId>
 	<packaging>jar</packaging>
 	<version>4.10.11-SNAPSHOT</version>
-	<name>GitLab API Java Client</name>
+	<name>GitLab4J-API - GitLab API Java Client</name>
 	<description>GitLab4J-API (gitlab4j-api) provides a full featured Java client library for working with GitLab repositories and servers via the GitLab REST API.</description>
 	<url>https://github.com/gmessner/gitlab4j-api</url>
 
