@@ -52,6 +52,7 @@ public class GitLabApi {
     private Session session;
 
     private ApplicationsApi applicationsApi;
+    private ApplicationSettingsApi applicationSettingsApi;
     private AwardEmojiApi awardEmojiApi;
     private BoardsApi boardsApi;
     private CommitsApi commitsApi;
@@ -910,6 +911,25 @@ public class GitLabApi {
         }
 
         return (applicationsApi);
+    }
+
+    /**
+     * Gets the ApplicationSettingsApi instance owned by this GitLabApi instance. The ApplicationSettingsApi is used
+     * to perform all application settingsrelated API calls.
+     *
+     * @return the ApplicationsApi instance owned by this GitLabApi instance
+     */
+    public ApplicationSettingsApi getApplicationSettingsApi() {
+
+        if (applicationSettingsApi == null) {
+            synchronized (this) {
+                if (applicationSettingsApi == null) {
+                    applicationSettingsApi = new ApplicationSettingsApi(this);
+                }
+            }
+        }
+
+        return (applicationSettingsApi);
     }
 
     /**
