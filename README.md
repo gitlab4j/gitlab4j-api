@@ -218,7 +218,8 @@ The following is a list of the available sub APIs along with a sample use of eac
 
 ### Available Sub APIs
 ------------------
-&nbsp;&nbsp;[AoolicationsApi](#applicationsapi)<br/>
+&nbsp;&nbsp;[ApplicationSettingsApi](#applicationSettingsapi)<br/>
+&nbsp;&nbsp;[ApplicationsApi](#applicationsapi)<br/>
 &nbsp;&nbsp;[AwardEmojiApi](#awardemojiapi)<br/>
 &nbsp;&nbsp;[BoardsApi](#boardsapi)<br/>
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
@@ -253,6 +254,12 @@ The following is a list of the available sub APIs along with a sample use of eac
 
 ### Sub API Examples
 ----------------
+
+#### ApplicationSettingsApi
+```java
+// Get the current GitLab server application settings
+ApplicationSettings appSettings = gitLabApi.getApplicationSettingsApi().getAppliationSettings();
+```
 
 #### ApplicationsApi
 ```java
