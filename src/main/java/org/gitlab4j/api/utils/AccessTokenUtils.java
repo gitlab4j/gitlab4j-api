@@ -84,6 +84,8 @@ public final class AccessTokenUtils {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestProperty("Cookie", cookies);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
             // Make sure the response code is 200, otherwise there is a failure
             int responseCode = connection.getResponseCode();
@@ -108,8 +110,8 @@ public final class AccessTokenUtils {
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("Charset", "utf-8");
             connection.setRequestProperty("Cookie", cookies);
-            connection.setReadTimeout(5000);
-            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.setDoOutput(true);
@@ -143,6 +145,8 @@ public final class AccessTokenUtils {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestProperty("Cookie", cookies);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
             // Make sure the response code is 200, otherwise there is a failure
             responseCode = connection.getResponseCode();
@@ -212,6 +216,8 @@ public final class AccessTokenUtils {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestProperty("Cookie", cookies);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
             // Make sure the response code is 200, otherwise there is a failure
             int responseCode = connection.getResponseCode();
@@ -266,8 +272,8 @@ public final class AccessTokenUtils {
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("Charset", "utf-8");
             connection.setRequestProperty("Cookie", cookies);
-            connection.setReadTimeout(5000);
-            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
             connection.setRequestMethod("PUT");
             connection.setDoInput(true);
             connection.setDoOutput(true);
@@ -293,6 +299,8 @@ public final class AccessTokenUtils {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestProperty("Cookie", cookies);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
             // Make sure the response code is 200, otherwise there is a failure
             responseCode = connection.getResponseCode();
@@ -351,6 +359,8 @@ public final class AccessTokenUtils {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestProperty("Cookie", cookies);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
             // Make sure the response code is 200, otherwise there is a failure
             int responseCode = connection.getResponseCode();
@@ -419,6 +429,8 @@ public final class AccessTokenUtils {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestProperty("Cookie", cookies);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
             // Make sure the response code is 200, otherwise there is a failure
             int responseCode = connection.getResponseCode();
@@ -480,6 +492,8 @@ public final class AccessTokenUtils {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.addRequestProperty("User-Agent", USER_AGENT);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
             // Make sure a redirect was provided, otherwise it is a login failure
             int responseCode = connection.getResponseCode();
@@ -511,8 +525,8 @@ public final class AccessTokenUtils {
             connection.setRequestProperty("Charset", "utf-8");
 
             connection.setRequestProperty("Cookie", cookies);
-            connection.setReadTimeout(5000);
-            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.setDoOutput(true);
@@ -543,6 +557,8 @@ public final class AccessTokenUtils {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestProperty("Cookie", cookies);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
             // The response code should be 200, otherwise something is wrong, consider it a login failure
             responseCode = connection.getResponseCode();
@@ -586,6 +602,8 @@ public final class AccessTokenUtils {
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestProperty("Cookie", cookies);
             connection.setRequestMethod("GET");
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
             // Make sure a redirect was provided, otherwise it is a logout failure
             int responseCode = connection.getResponseCode();
