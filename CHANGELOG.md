@@ -2,12 +2,113 @@
 Changelog of GitLab4J API.
 
 ## Unreleased
+### GitHub [#311](https://github.com/gmessner/gitlab4j-api/issues/311) Automate the integration tests    *enhancement*  
+
+**Now explicitly sets timeouts on connection (#311).**
+
+
+[4d322fda711d3a5](https://github.com/gmessner/gitlab4j-api/commit/4d322fda711d3a5) Greg Messner *2019-05-05 18:34:43*
+
+**Initial commit (#311).**
+
+
+[fea9f0a780ffe84](https://github.com/gmessner/gitlab4j-api/commit/fea9f0a780ffe84) Greg Messner *2019-05-05 18:21:43*
+
+
 ### No issue
+
+**Added execute perm.**
+
+
+[1db21d121100903](https://github.com/gmessner/gitlab4j-api/commit/1db21d121100903) Greg Messner *2019-05-05 18:18:26*
+
+
+## gitlab4j-api-4.10.10
+### GitHub [#338](https://github.com/gmessner/gitlab4j-api/issues/338) Add support for listing, adding, and deleting OAUTH applications.    *enhancement*  
+
+**General code clean-up (#338).**
+
+
+[160b12e72bbd73b](https://github.com/gmessner/gitlab4j-api/commit/160b12e72bbd73b) Greg Messner *2019-05-05 17:31:26*
+
+**Added support for specifying scopes as an array (#338).**
+
+
+[c2e8d576881d1ce](https://github.com/gmessner/gitlab4j-api/commit/c2e8d576881d1ce) Greg Messner *2019-05-04 21:56:40*
+
+**Added info on ApplicationsApi (#338).**
+
+
+[6db9b9f98421e27](https://github.com/gmessner/gitlab4j-api/commit/6db9b9f98421e27) Greg Messner *2019-05-04 21:55:55*
+
+**Added testing of Application and Email models (#338, #339).**
+
+
+[7107e9db098a963](https://github.com/gmessner/gitlab4j-api/commit/7107e9db098a963) Greg Messner *2019-05-04 21:44:41*
+
+**Added Applications API support (#338).**
+
+
+[3697df3d91d08a5](https://github.com/gmessner/gitlab4j-api/commit/3697df3d91d08a5) Greg Messner *2019-05-04 21:44:13*
+
+**Initial commit for support of the Applications API (#338).**
+
+
+[eac251a83b23c9c](https://github.com/gmessner/gitlab4j-api/commit/eac251a83b23c9c) Greg Messner *2019-05-04 21:43:09*
+
+
+### GitHub [#339](https://github.com/gmessner/gitlab4j-api/issues/339) Add support for managing user emails in the UserApi.    *enhancement*  
+
+**Added testing of Application and Email models (#338, #339).**
+
+
+[7107e9db098a963](https://github.com/gmessner/gitlab4j-api/commit/7107e9db098a963) Greg Messner *2019-05-04 21:44:41*
+
+**Added support and tests for User API email endpoints (#339).**
+
+
+[21689235d1b0899](https://github.com/gmessner/gitlab4j-api/commit/21689235d1b0899) Greg Messner *2019-05-04 19:57:34*
+
+**Initial commit. (#339).**
+
+
+[604f1e756ce8c92](https://github.com/gmessner/gitlab4j-api/commit/604f1e756ce8c92) Greg Messner *2019-05-04 19:56:07*
+
+
+### GitHub [#340](https://github.com/gmessner/gitlab4j-api/issues/340) Add support for the Application Settings API.    *enhancement*  
+
+**Added ApplicationSettingsApi (#340).**
+
+
+[98394f903332eb8](https://github.com/gmessner/gitlab4j-api/commit/98394f903332eb8) Greg Messner *2019-05-05 17:33:01*
+
+**Added info on ApplicationSettingsApi (#340).**
+
+
+[79f8d9e2209b451](https://github.com/gmessner/gitlab4j-api/commit/79f8d9e2209b451) Greg Messner *2019-05-05 17:30:45*
+
+**Initial commit (#340).**
+
+
+[8c0952a54ce1548](https://github.com/gmessner/gitlab4j-api/commit/8c0952a54ce1548) Greg Messner *2019-05-05 17:17:50*
+
+
+### No issue
+
+**Mods so tests can be run independent of the test suite.**
+
+
+[15e3818f23ee724](https://github.com/gmessner/gitlab4j-api/commit/15e3818f23ee724) Greg Messner *2019-05-04 19:58:31*
+
+**Generated latest changelog.**
+
+
+[e7c70b9eee89f66](https://github.com/gmessner/gitlab4j-api/commit/e7c70b9eee89f66) Greg Messner *2019-05-04 02:34:09*
 
 **Updated title.**
 
 
-[c86fb13fc4a8feb](https://github.com/gmessner/gitlab4j-api/commit/c86fb13fc4a8feb) Greg Messner *2019-05-04 01:44:16*
+[4374414031490ca](https://github.com/gmessner/gitlab4j-api/commit/4374414031490ca) Greg Messner *2019-05-04 02:34:02*
 
 
 ## gitlab4j-api-4.10.9
