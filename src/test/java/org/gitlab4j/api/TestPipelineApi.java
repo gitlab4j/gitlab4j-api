@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.Trigger;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -181,6 +182,13 @@ public class TestPipelineApi extends AbstractIntegrationTest {
     public void testTriggerAndCancelPipeline() throws GitLabApiException {
 
         assertNotNull(testProject);
+
+        // Skip this test if no .gitlab-ci.yml file is found in the test project
+        RepositoryFile fileInfo = null;
+        try {
+            fileInfo = gitLabApi.getRepositoryFileApi().getFileInfo(testProject, ".gitlab-ci.yml", "master");
+        } catch (GitLabApiException ignore) {}
+        assumeNotNull(fileInfo);
 
         String triggerDescription = TRIGGER_DESCRIPTION + " - test triggerPipeline() - " + HelperUtils.getRandomInt(1000);
         Trigger createdTrigger = gitLabApi.getPipelineApi().createPipelineTrigger(testProject, triggerDescription);
