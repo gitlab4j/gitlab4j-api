@@ -45,6 +45,7 @@ target/
 
 # Test properties file for gitlab4j
 test-gitlab4j.properties
+!src/test/resoures/test-gitlab4j.properties
 
 # git-changelog plugin #
 .okhttpcache
