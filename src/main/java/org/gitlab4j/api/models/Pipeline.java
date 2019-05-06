@@ -21,6 +21,8 @@ public class Pipeline {
     private Date committed_at;
     private String coverage;
     private Integer duration;
+    private String webUrl;
+    private DetailedStatus detailedStatus;
 
     public Integer getId() {
         return id;
@@ -140,6 +142,22 @@ public class Pipeline {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+    }
+
+    public DetailedStatus getDetailedStatus() {
+        return detailedStatus;
+    }
+
+    public void setDetailedStatus(DetailedStatus detailedStatus) {
+        this.detailedStatus = detailedStatus;
     }
 
     @Override

@@ -11,10 +11,16 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.PipelineStatus;
+import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.Variable;
 
 /**
- * This class provides an entry point to all the GitLab API pipeline calls.
+ * <p>This class provides an entry point to all the GitLab API pipeline related calls.
+ * For more information on the Pipeline APIs see:</p>
+ *
+ * <a href="https://docs.gitlab.com/ee/api/pipelines.html">Pipelines API</a>
+ * <a href="https://docs.gitlab.com/ee/api/pipeline_schedules.html">Pipeline Schedules API</a>
+ * <a href="https://docs.gitlab.com/ee/api/pipeline_triggers.html">Pipeline Triggers API</a>
  */
 public class PipelineApi extends AbstractApi implements Constants {
 
@@ -314,7 +320,7 @@ public class PipelineApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param page the page to get
-     * @param perPage the number of ProjectHook instances per page
+     * @param perPage the number of PipelineSchedule instances per page
      * @return a list of project pipeline_schedules for the specified project in the specified page range
      * @throws GitLabApiException if any exception occurs
      */
@@ -329,7 +335,7 @@ public class PipelineApi extends AbstractApi implements Constants {
      * <pre><code>GET /projects/:id/pipeline_schedule</code></pre>
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
-     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @param itemsPerPage the number of PipelineSchedule instances that will be fetched per page
      * @return a Pager of project pipeline_schedules for the specified project
      * @throws GitLabApiException if any exception occurs
      */
@@ -356,8 +362,8 @@ public class PipelineApi extends AbstractApi implements Constants {
      * <pre><code>GET /projects/:id/pipeline_schedules/:pipeline_schedule_id</code></pre>
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
-     * @param pipelineScheduleId the ID of the hook to get
-     * @return the project hook for the specified project ID/hook ID pair
+     * @param pipelineScheduleId the ID of the pipeline schedule to get
+     * @return the project PipelineSchedule
      * @throws GitLabApiException if any exception occurs
      */
     public PipelineSchedule getPipelineSchedule(Object projectIdOrPath, Integer pipelineScheduleId) throws GitLabApiException {
@@ -372,7 +378,7 @@ public class PipelineApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param pipelineScheduleId the ID of the hook to get
-     * @return the project hook for the specified project ID/hook ID pair as an Optional instance
+     * @return the project PipelineSchedule as an Optional instance
      */
     public Optional<PipelineSchedule> getOptionalPipelineSchedule (Object projectIdOrPath, Integer pipelineScheduleId) {
         try {
@@ -516,5 +522,198 @@ public class PipelineApi extends AbstractApi implements Constants {
         Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath),
                 "pipeline_schedules", pipelineScheduleId, "variables", key);
+    }
+
+    /**
+     * Get a list of the project pipeline triggers for the specified project.
+     *
+     * <pre><code>GET /projects/:id/triggers</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @return a list of pipeline triggers for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Trigger> getPipelineTriggers(Object projectIdOrPath) throws GitLabApiException {
+        return (getPipelineTriggers(projectIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get list of project pipeline triggers in the specified page range.
+     *
+     * <pre><code>GET /projects/:id/triggers</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param page the page to get
+     * @param perPage the number of Trigger instances per page
+     * @return a list of project pipeline triggers for the specified project in the specified page range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Trigger> getPipelineTriggerss(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", getProjectIdOrPath(projectIdOrPath), "triggers");
+        return (response.readEntity(new GenericType<List<Trigger>>() {}));
+    }
+
+    /**
+     * Get Pager of project pipeline triggers.
+     *
+     * <pre><code>GET /projects/:id/pipeline_schedule</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager of project pipeline triggers for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Trigger> getPipelineTriggers(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Trigger>(this, Trigger.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "triggers"));
+    }
+
+    /**
+     * Get a Stream of the project pipeline triggers for the specified project.
+     *
+     * <pre><code>GET /projects/:id/pipeline_schedule</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @return a Stream of project pipeline triggers for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Trigger> getPipelineTriggersStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getPipelineTriggers(projectIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a specific pipeline schedule for project.
+     *
+     * <pre><code>GET /projects/:id/triggers/:trigger_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param triggerId the ID of the trigger to get
+     * @return the project pipeline trigger
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Trigger getPipelineTrigger(Object projectIdOrPath, Integer triggerId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "triggers", triggerId);
+        return (response.readEntity(Trigger.class));
+    }
+
+    /**
+     * Get a specific pipeline trigger for project as an Optional instance.
+     *
+     * <pre><code>GET /projects/:id/triggers/:trigger_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param triggerId the ID of the trigger to get
+     * @return the project pipeline trigger as an Optional instance
+     */
+    public Optional<Trigger> getOptionalPipelineTrigger(Object projectIdOrPath, Integer triggerId) {
+        try {
+            return (Optional.ofNullable(getPipelineTrigger(projectIdOrPath, triggerId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
+     * Create a pipeline trigger for a project.
+     *
+     * <pre><code>POST /projects/:id/triggers</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param description the trigger description
+     * @return the created Trigger instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Trigger createPipelineTrigger(Object projectIdOrPath, String description) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("description", description, true);
+        Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "triggers");
+        return (response.readEntity(Trigger.class));
+    }
+
+    /**
+     * Updates a pipeline trigger for project.
+     *
+     * <pre><code>PUT /projects/:id/triggers/:trigger_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param triggerId the trigger ID to update
+     * @param description the new trigger description
+     * @return the updated Trigger instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Trigger updatePipelineTrigger(Object projectIdOrPath, Integer triggerId, String description) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("description", description, false);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "triggers", triggerId);
+        return (response.readEntity(Trigger.class));
+    }
+
+    /**
+     * Deletes a pipeline trigger from the project.
+     *
+     * <pre><code>DELETE /projects/:id/triggers/:trigger_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param triggerId the project trigger ID to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deletePipelineTrigger(Object projectIdOrPath, Integer triggerId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "triggers", triggerId);
+    }
+
+    /**
+     * Take ownership of a pipeline trigger for project.
+     *
+     * <pre><code>PUT /projects/:id/triggers/:trigger_id/take_ownership</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param triggerId the trigger ID to take opwnership of
+     * @return the updated Trigger instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Trigger takeOwnewrshipOfPipelineTrigger(Object projectIdOrPath, Integer triggerId) throws GitLabApiException {
+        Response response = put(Response.Status.OK, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "triggers", triggerId, "take_ownership");
+        return (response.readEntity(Trigger.class));
+    }
+
+    /**
+     * Trigger a pipeline for a project.
+     *
+     * <pre><code>POST /projects/:id/trigger/pipeline</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param trigger the Trigger instance holding the trigger token
+     * @param ref the ref that the pipeline is to be triggered for
+     * @param variables a List of variables to be passed with the trigger
+     * @return a Pipeline instance holding information on the triggered pipeline
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pipeline triggerPipeline(Object projectIdOrPath, Trigger trigger, String ref, List<Variable> variables) throws GitLabApiException {
+
+        if (trigger == null) {
+            throw new GitLabApiException("trigger cannot be null");
+        }
+
+        return (triggerPipeline(projectIdOrPath, trigger.getToken(), ref, variables));
+    }
+
+    /**
+     * Trigger a pipeline for a project.
+     *
+     * <pre><code>POST /projects/:id/trigger/pipeline</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param token the trigger token
+     * @param ref the ref that the pipeline is to be triggered for
+     * @param variables a List of variables to be passed with the trigger
+     * @return a Pipeline instance holding information on the triggered pipeline
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pipeline triggerPipeline(Object projectIdOrPath, String token, String ref, List<Variable> variables) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("token", token, true)
+                .withParam("ref",  ref, true)
+                .withParam(variables);
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "trigger", "pipeline");
+        return (response.readEntity(Pipeline.class));
     }
 }

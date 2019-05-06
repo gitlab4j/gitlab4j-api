@@ -80,6 +80,7 @@ import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.TreeItem;
+import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.services.JiraService;
@@ -432,6 +433,12 @@ public class TestGitLabApiBeans {
     public void testTree() throws Exception {
         List<TreeItem> tree = unmarshalResourceList(TreeItem.class, "tree.json");
         assertTrue(compareJson(tree, "tree.json"));
+    }
+
+    @Test
+    public void testTrigger() throws Exception {
+        Trigger trigger = unmarshalResource(Trigger.class, "trigger.json");
+        assertTrue(compareJson(trigger, "trigger.json"));
     }
 
     @Test

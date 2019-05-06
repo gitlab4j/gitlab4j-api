@@ -9,6 +9,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedHashMap;
 
 import org.gitlab4j.api.models.AccessLevel;
+import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.utils.ISO8601;
 
 /**
@@ -192,6 +193,28 @@ public class GitLabApiForm extends Form {
         }
 
         this.param(name, stringValue);
+        return (this);
+    }
+
+    /**
+     * Fluent method for adding a List&lt;Variable&gt; type query and form parameters to a get(), post(), or put() call.
+     *
+     * @param variables the List of Variable to add
+     * @return this GitLabAPiForm instance
+     */
+    public GitLabApiForm withParam(List<Variable> variables) {
+
+        if (variables == null || variables.isEmpty()) {
+            return (this);
+        }
+
+        variables.forEach(v -> {
+            String value = v.getValue();
+            if (value != null) {
+                this.param("variables[" + v.getKey() + "]", value);
+            }
+        });
+
         return (this);
     }
 }
