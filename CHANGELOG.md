@@ -2,6 +2,15 @@
 Changelog of GitLab4J API.
 
 ## Unreleased
+### No issue
+
+**Cleaned up comments.**
+
+
+[032446b1a6a46f9](https://github.com/gmessner/gitlab4j-api/commit/032446b1a6a46f9) Greg Messner *2019-05-06 19:28:42*
+
+
+## gitlab4j-api-4.10.11
 ### GitHub [#311](https://github.com/gmessner/gitlab4j-api/issues/311) Automate the integration tests    *enhancement*  
 
 **Now explicitly sets timeouts on connection (#311).**
@@ -15,7 +24,55 @@ Changelog of GitLab4J API.
 [fea9f0a780ffe84](https://github.com/gmessner/gitlab4j-api/commit/fea9f0a780ffe84) Greg Messner *2019-05-05 18:21:43*
 
 
+### GitHub [#341](https://github.com/gmessner/gitlab4j-api/issues/341) Add support for pipeline triggers.    *enhancement*  
+
+**Added skip of trigger test if no .gitlab-ci.yml file in test project (#341).**
+
+
+[9b72209f86b473d](https://github.com/gmessner/gitlab4j-api/commit/9b72209f86b473d) Greg Messner *2019-05-06 18:31:56*
+
+**Added support for Pipeline triggers (#341).**
+
+
+[10fd8a5f645d340](https://github.com/gmessner/gitlab4j-api/commit/10fd8a5f645d340) Greg Messner *2019-05-06 17:51:15*
+
+**Initial commit (#341).**
+
+
+[065dd386231c5dc](https://github.com/gmessner/gitlab4j-api/commit/065dd386231c5dc) Greg Messner *2019-05-06 17:50:49*
+
+
 ### No issue
+
+**Bumped version.**
+
+
+[1df3dd778ca38cd](https://github.com/gmessner/gitlab4j-api/commit/1df3dd778ca38cd) Greg Messner *2019-05-06 17:50:04*
+
+**Added entry for excluding src/test/resources/test-gitlab4j.properties.**
+
+
+[7e9c5765ab369aa](https://github.com/gmessner/gitlab4j-api/commit/7e9c5765ab369aa) Greg Messner *2019-05-06 17:42:21*
+
+**Sorted sub API list.**
+
+
+[660565c56fa9cf8](https://github.com/gmessner/gitlab4j-api/commit/660565c56fa9cf8) Greg Messner *2019-05-06 02:50:25*
+
+**Updated name to include GitLab4J-API.**
+
+
+[96db0cdd40237aa](https://github.com/gmessner/gitlab4j-api/commit/96db0cdd40237aa) Greg Messner *2019-05-05 19:29:07*
+
+**Updated description.**
+
+
+[7ce735f4ac91cca](https://github.com/gmessner/gitlab4j-api/commit/7ce735f4ac91cca) Greg Messner *2019-05-05 18:56:27*
+
+**Generated latest changelog.**
+
+
+[5624be514b87023](https://github.com/gmessner/gitlab4j-api/commit/5624be514b87023) Greg Messner *2019-05-05 18:52:01*
 
 **Added execute perm.**
 
