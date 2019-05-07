@@ -1,0 +1,16 @@
+language: java
+sudo: required
+services:
+  - docker
+jdk:
+  - openjdk8
+install:
+  - ./mvnw install -B -q -Dgpg.skip=true -DskipTests=true -Dmaven.javadoc.skip=true
+before_script:
+  - ./mvnw docker:start -B -Dgitlab.skip-docker-start=false
+script:
+  - ./mvnw integration-test -B -V -Dmaven.javadoc.skip=true
+after_script:
+  - ./mvnw docker:stop -B -Dgitlab.skip-docker-start=false
+after_failure:
+  - ./mvnw docker:stop -B -Dgitlab.skip-docker-start=false
