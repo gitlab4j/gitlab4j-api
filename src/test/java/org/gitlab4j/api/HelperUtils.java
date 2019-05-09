@@ -3,7 +3,7 @@ package org.gitlab4j.api;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 public class HelperUtils {
@@ -25,7 +25,7 @@ public class HelperUtils {
         // Load the base test properties from "src/test/resources/test-gitlab4j.properties"
         File propertiesFile = new File(basedir, "src/test/resources/test-gitlab4j.properties");
         if (propertiesFile.exists()) {
-            try (InputStream input = new FileInputStream(propertiesFile)) {
+            try (InputStreamReader input = new InputStreamReader(new FileInputStream(propertiesFile))) {
                 testProperties.load(input);
                 System.out.format("Loaded base test properties from: %n%s%n", propertiesFile.getAbsolutePath());
                 propertiesLoaded = true;
@@ -37,7 +37,7 @@ public class HelperUtils {
         // Now load the overriding test properties if found in the user's home directory
         propertiesFile = new File((String) System.getProperties().get("user.home"), "test-gitlab4j.properties");
         if (propertiesFile.exists()) {
-            try (InputStream input = new FileInputStream(propertiesFile)) {
+            try (InputStreamReader input = new InputStreamReader(new FileInputStream(propertiesFile))) {
                 testProperties.load(input);
                 System.out.format("Loaded overriding test properties from: %n%s%n", propertiesFile.getAbsolutePath());
                 propertiesLoaded = true;
