@@ -1,24 +1,29 @@
 package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.CommitAction;
+import org.gitlab4j.api.models.CommitAction.Action;
 import org.gitlab4j.api.models.CommitRef;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.utils.ISO8601;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -40,9 +45,9 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestCommitsApi extends AbstractIntegrationTest {
 
+    private static final String TEST_CREATE_COMMIT_FILEPATH = "gitlab4j-create-commit-test-file.txt";
     private static GitLabApi gitLabApi;
     private static Project testProject;
-    private static boolean createdSubDirectoryPathFile = false;
 
     public TestCommitsApi() {
         super();
@@ -60,17 +65,7 @@ public class TestCommitsApi extends AbstractIntegrationTest {
                 repoFile.setFilePath(TEST_PROJECT_SUBDIRECTORY_PATH);
                 repoFile.setContent("This is a test project used to test GitLab4J-API.");
                 gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, "master", "Initial commit.");
-                createdSubDirectoryPathFile = true;
             } catch (GitLabApiException ignore) {}
-        }
-    }
-
-    @AfterClass
-    public static void teardown() {
-        if (createdSubDirectoryPathFile) {
-            try {
-                gitLabApi.getRepositoryFileApi().deleteFile(testProject, TEST_PROJECT_SUBDIRECTORY_PATH, "master", "No longer needed.");
-            } catch (Exception ignore) {}
         }
     }
 
@@ -196,6 +191,100 @@ public class TestCommitsApi extends AbstractIntegrationTest {
             assertTrue(commits == null || commits.isEmpty());
         } catch (GitLabApiException gle) {
             assertEquals(Response.Status.NOT_FOUND, gle.getHttpStatus());
+        }
+    }
+
+    @Test
+    public void testCreateCommit() throws GitLabApiException {
+
+        // Make sure the file to create does not exist.
+        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master").isPresent()) {
+            gitLabApi.getRepositoryFileApi().deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master", "Deleted test file");
+        }
+
+        // Arrange
+        CommitAction commitAction = new CommitAction()
+                .withAction(Action.CREATE)
+                .withContent("This is the original data in the file")
+                .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
+
+        // Act
+        Commit commit = gitLabApi.getCommitsApi().createCommit(
+                testProject, "master", "Testing createCommit() create action", null, null, null, Arrays.asList(commitAction));
+
+        // Assert
+        assertNotNull(commit);
+
+        // Arrange
+        commitAction = new CommitAction()
+                .withAction(Action.DELETE)
+                .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
+
+        // Act
+        commit = gitLabApi.getCommitsApi().createCommit(
+                testProject, "master", "Testing createCommit() delete action", null, null, null, Arrays.asList(commitAction));
+
+        // Assert
+        assertNotNull(commit);
+
+        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master");
+        assertFalse(repoFile.isPresent());
+    }
+
+    @Test
+    public void testCreateCommitFromFile() throws GitLabApiException {
+
+        // Make sure the file to create does not exist.
+        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master").isPresent()) {
+            try {
+                gitLabApi.getRepositoryFileApi().deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master", "Deleted test file");
+            } catch (GitLabApiException ignore) {}
+        }
+
+        // Arrange
+        CommitAction commitAction = new CommitAction()
+                .withAction(Action.CREATE)
+                .withContent("This is the original data in the file")
+                .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
+
+        // Act
+        Commit commit = gitLabApi.getCommitsApi().createCommit(
+                testProject, "master", "Testing createCommit() create action", null, null, null, Arrays.asList(commitAction));
+
+        // Assert
+        assertNotNull(commit);
+
+        // Arrange
+        commitAction = new CommitAction()
+                .withAction(Action.DELETE)
+                .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
+
+        // Act
+        commit = gitLabApi.getCommitsApi().createCommit(
+                testProject, "master", "Testing createCommit() delete action", null, null, null, Arrays.asList(commitAction));
+
+        // Assert
+        assertNotNull(commit);
+
+        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master");
+        assertFalse(repoFile.isPresent());
+    }
+
+    @Test
+    public void testCreateCommitCreateWithNoContent() throws GitLabApiException {
+
+        // Arrange
+        CommitAction commitAction = new CommitAction()
+                .withAction(Action.CREATE)
+                .withContent(null)
+                .withFilePath(TEST_CREATE_COMMIT_FILEPATH + ".bk");
+
+        // Act - expecting exception
+        try {
+            gitLabApi.getCommitsApi().createCommit(testProject, "master", "Testing createCommit() create action",
+                    null, null, null, Arrays.asList(commitAction));
+            fail("Commit should have been rejected due to no content.");
+        } catch (GitLabApiException ignore) {
         }
     }
 }

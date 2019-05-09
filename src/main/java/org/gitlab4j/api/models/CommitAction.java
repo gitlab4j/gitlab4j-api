@@ -1,5 +1,11 @@
 package org.gitlab4j.api.models;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.gitlab4j.api.Constants.Encoding;
+import org.gitlab4j.api.GitLabApiException;
+import org.gitlab4j.api.utils.FileUtils;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
@@ -16,28 +22,6 @@ public class CommitAction {
 
         @JsonCreator
         public static Action forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
-
-    public enum Encoding {
-
-        BASE64, TEXT;
-
-        private static JacksonJsonEnumHelper<Encoding> enumHelper = new JacksonJsonEnumHelper<>(Encoding.class);
-
-        @JsonCreator
-        public static Encoding forValue(String value) {
             return enumHelper.forValue(value);
         }
 
@@ -149,6 +133,25 @@ public class CommitAction {
     public CommitAction withExecuteFilemode(Boolean executeFilemode) {
         this.executeFilemode = executeFilemode;
         return this;
+    }
+
+    public CommitAction withFileContent(String filePath, Encoding encoding) throws GitLabApiException {
+        File file = new File(filePath);
+        return (withFileContent(file, filePath, encoding));
+    }
+
+    public CommitAction withFileContent(File file, String filePath, Encoding encoding) throws GitLabApiException {
+
+        this.encoding = (encoding != null ? encoding : Encoding.TEXT); 
+        this.filePath = filePath;
+
+        try {
+            content = FileUtils.getFileContentAsString(file, this.encoding);
+        } catch (IOException e) {
+            throw new GitLabApiException(e);
+        }
+
+        return (this);
     }
 
     @Override
