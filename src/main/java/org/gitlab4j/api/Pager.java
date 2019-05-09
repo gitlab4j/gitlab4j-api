@@ -343,17 +343,17 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      */
     public List<T> all() throws GitLabApiException {
 
-    	// Make sure that current page is 0, this will ensure the whole list is fetched
-    	// regardless of what page the instance is currently on.
-    	currentPage = 0;
-    	List<T> allItems = new ArrayList<>(totalItems);
+        // Make sure that current page is 0, this will ensure the whole list is fetched
+        // regardless of what page the instance is currently on.
+        currentPage = 0;
+        List<T> allItems = new ArrayList<>(Math.max(totalItems, 0));
 
-    	// Iterate through the pages and append each page of items to the list
-    	while (hasNext()) {
-    		allItems.addAll(next());
-    	}
+        // Iterate through the pages and append each page of items to the list
+        while (hasNext()) {
+            allItems.addAll(next());
+        }
 
-    	return (allItems);
+        return (allItems);
     }
 
     /**
