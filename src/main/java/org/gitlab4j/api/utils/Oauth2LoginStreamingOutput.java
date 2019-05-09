@@ -1,8 +1,11 @@
 package org.gitlab4j.api.utils;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
@@ -30,7 +33,7 @@ public class Oauth2LoginStreamingOutput implements StreamingOutput, AutoCloseabl
     @Override
     public void write(OutputStream output) throws IOException, WebApplicationException {
 
-        PrintWriter writer = new PrintWriter(output);
+        Writer writer = new BufferedWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8));
         writer.write("{ ");
         writer.write("\"grant_type\": \"password\", ");
         writer.write("\"username\": \"" + username + "\", ");
@@ -39,8 +42,15 @@ public class Oauth2LoginStreamingOutput implements StreamingOutput, AutoCloseabl
         // Output the quoted password
         writer.write('"');
         for (int i = 0, length = password.length(); i < length; i++) {
-            writer.write(password.charAt(i));
-        }     
+
+            char c = password.charAt(i);
+            if (c == '"' || c == '\\') {
+                writer.write('\\');
+            }
+
+            writer.write(c);
+        }
+
         writer.write('"');
 
         writer.write(" }");
