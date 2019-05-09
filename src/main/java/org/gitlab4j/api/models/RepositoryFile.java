@@ -3,6 +3,7 @@ package org.gitlab4j.api.models;
 
 import java.util.Base64;
 
+import org.gitlab4j.api.Constants.Encoding;
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,7 +13,7 @@ public class RepositoryFile {
     private String fileName; // file name only, Ex. class.rb
     private String filePath; // full path to file. Ex. lib/class.rb
     private Integer size;
-    private String encoding;
+    private Encoding encoding;
     private String content;
     private String ref;
     private String blobId;
@@ -43,11 +44,11 @@ public class RepositoryFile {
         this.size = size;
     }
 
-    public String getEncoding() {
+    public Encoding getEncoding() {
         return encoding;
     }
 
-    public void setEncoding(String encoding) {
+    public void setEncoding(Encoding encoding) {
         this.encoding = encoding;
     }
 
@@ -104,7 +105,7 @@ public class RepositoryFile {
             return (null);
         }
 
-        if ("base64".equalsIgnoreCase(encoding)) {
+        if (Encoding.BASE64.equals(encoding)) {
             return (new String(Base64.getDecoder().decode(content)));
         }
 
@@ -124,7 +125,7 @@ public class RepositoryFile {
             return (null);
         }
 
-        if ("base64".equalsIgnoreCase(encoding)) {
+        if (encoding == Encoding.BASE64) {
             return (Base64.getDecoder().decode(content));
         }
 
@@ -157,7 +158,7 @@ public class RepositoryFile {
         }
 
         this.content = Base64.getEncoder().encodeToString(byteContent);
-        encoding = "base64";
+        encoding = Encoding.BASE64;
     }
 
     @Override
