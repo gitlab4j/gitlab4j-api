@@ -16,6 +16,7 @@ import org.gitlab4j.api.models.RepositoryFile;
 
 /**
  * This class provides an entry point to all the GitLab API repository files calls.
+ * See <a href="https://docs.gitlab.com/ce/api/repository_files.html">Repository Files API at GitLab</a> for more information.
  */
 public class RepositoryFileApi extends AbstractApi {
 
@@ -67,7 +68,10 @@ public class RepositoryFileApi extends AbstractApi {
         RepositoryFile file = new RepositoryFile();
         file.setBlobId(response.getHeaderString("X-Gitlab-Blob-Id"));
         file.setCommitId(response.getHeaderString("X-Gitlab-Commit-Id"));
-        file.setEncoding(response.getHeaderString("X-Gitlab-Encoding"));
+
+        String encoding = response.getHeaderString("X-Gitlab-Encoding");
+        file.setEncoding(Constants.Encoding.forValue(encoding));
+
         file.setFileName(response.getHeaderString("X-Gitlab-File-Name"));
         file.setFilePath(response.getHeaderString("X-Gitlab-File-Path"));
         file.setLastCommitId(response.getHeaderString("X-Gitlab-Last-Commit-Id"));

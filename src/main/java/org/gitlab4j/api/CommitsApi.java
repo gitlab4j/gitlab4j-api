@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitAction;
+import org.gitlab4j.api.models.CommitAction.Action;
 import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CommitRef;
 import org.gitlab4j.api.models.CommitRef.RefType;
@@ -23,6 +24,7 @@ import org.gitlab4j.api.utils.ISO8601;
 
 /**
  * This class implements the client side API for the GitLab commits calls.
+ * See <a href="https://docs.gitlab.com/ce/api/commits.html">Commits API at GitLab</a> for more information.
  */
 public class CommitsApi extends AbstractApi {
 
@@ -566,6 +568,23 @@ public class CommitsApi extends AbstractApi {
     public Commit createCommit(Object projectIdOrPath, String branch, String commitMessage, String startBranch,
             String authorEmail, String authorName, List<CommitAction> actions) throws GitLabApiException {
 
+        // Validate the actions
+        if (actions == null || actions.isEmpty()) {
+            throw new GitLabApiException("actions cannot be null or empty.");
+        }
+
+        for (CommitAction action : actions) {
+
+            // File content is required for create and update
+            Action actionType = action.getAction();
+            if (actionType == Action.CREATE || actionType == Action.UPDATE) {
+                String content = action.getContent();
+                if (content == null) {
+                    throw new GitLabApiException("Content cannot be null for create or update actions.");
+                }
+            }
+        }
+
         CommitPayload payload = new CommitPayload();
         payload.setBranch(branch);
         payload.setCommitMessage(commitMessage);
@@ -574,7 +593,8 @@ public class CommitsApi extends AbstractApi {
         payload.setAuthorName(authorName);
         payload.setActions(actions);
 
-        Response response = post(Response.Status.CREATED, payload, "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits");
+        Response response = post(Response.Status.CREATED, payload,
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits");
         return (response.readEntity(Commit.class));
     }
 }
