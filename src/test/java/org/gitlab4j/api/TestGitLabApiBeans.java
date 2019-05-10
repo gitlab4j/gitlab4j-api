@@ -42,6 +42,7 @@ import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CommitStatus;
 import org.gitlab4j.api.models.CompareResults;
+import org.gitlab4j.api.models.Contributor;
 import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Discussion;
@@ -139,6 +140,12 @@ public class TestGitLabApiBeans {
     public void testCompareResults() throws Exception {
         CompareResults compareResults = unmarshalResource(CompareResults.class, "compare-results.json");
         assertTrue(compareJson(compareResults, "compare-results.json"));
+    }
+
+    @Test
+    public void testContributors() throws Exception {
+        List<Contributor> contributors = unmarshalResourceList(Contributor.class, "contributors.json");
+        assertTrue(compareJson(contributors, "contributors.json"));
     }
 
     @Test
@@ -340,9 +347,9 @@ public class TestGitLabApiBeans {
     }
 
     @Test
-    public void testMember() throws Exception {
-        Member member = unmarshalResource(Member.class, "member.json");
-        assertTrue(compareJson(member, "member.json"));
+    public void testMembers() throws Exception {
+        List<Member> members = unmarshalResourceList(Member.class, "members.json");
+        assertTrue(compareJson(members, "members.json"));
     }
 
     @Test

@@ -115,6 +115,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         Member member = gitLabApi.getGroupApi().addMember(testGroup.getId(), testUser.getId(), AccessLevel.DEVELOPER);
         assertNotNull(member);
         assertEquals(testUser.getId(), member.getId());
+        assertEquals(AccessLevel.DEVELOPER, member.getAccessLevel());
 
         gitLabApi.getGroupApi().removeMember(testGroup.getId(), testUser.getId());
     }
