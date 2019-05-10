@@ -16,6 +16,10 @@
   },
   "owner": {
     "name": "Administrator",
-    "id": 1
+    "username": "root",
+    "id": 1,
+    "state": "active",
+    "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+    "web_url": "https://gitlab.example.com/root"
   }
 }
