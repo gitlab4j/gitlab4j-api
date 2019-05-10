@@ -47,7 +47,8 @@
 
 		<jersey.version>2.28</jersey.version>
 		<jackson.version>2.9.8</jackson.version>
-		<javaServlet.version>4.0.1</javaServlet.version>
+		<servlet.version>4.0.2</servlet.version>
+		<activation.version>1.2.1</activation.version>
 
 		<junit.version>4.12</junit.version>
 		<mockito.version>2.27.0</mockito.version>
@@ -356,9 +357,9 @@
 
 		<!-- javax.activation is present for Java 9+ compatibility -->
 		<dependency>
-			<groupId>com.sun.activation</groupId>
-			<artifactId>javax.activation</artifactId>
-			<version>1.2.0</version>
+			<groupId>jakarta.activation</groupId>
+			<artifactId>jakarta.activation-api</artifactId>
+			<version>${activation.version}</version>
 		</dependency>
 
 		<dependency>
@@ -387,9 +388,9 @@
 			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${javaServlet.version}</version>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>${servlet.version}</version>
 		</dependency>
 
 		<dependency>
