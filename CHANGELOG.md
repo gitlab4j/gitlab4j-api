@@ -1,6 +1,63 @@
 # Changelog
 Changelog of GitLab4J API.
 
+## Unreleased
+### GitHub [#348](https://github.com/gitlab4j/gitlab4j-api/issues/348) support access level for project user  
+
+**Feature-351: Add support for get all members to ProjectApi and GroupApi**
+
+ * Added getAllMembers() methods (#348).
+ * Added tests for getAllMembers() methods (#348).
+
+[d72fb68468bdeb7](https://github.com/gitlab4j/gitlab4j-api/commit/d72fb68468bdeb7) Greg Messner *2019-05-11 02:01:12*
+
+
+### GitHub [#349](https://github.com/gitlab4j/gitlab4j-api/issues/349) User related data models need to be verified and updated.    *enhancement*  
+
+**Audited and updated all user related data models (#349, #350)**
+
+ * Updated user related data models and tests to match latest GitLab API specs.
+
+[a6b7c78912d0555](https://github.com/gitlab4j/gitlab4j-api/commit/a6b7c78912d0555) Greg Messner *2019-05-10 22:55:43*
+
+
+### GitHub [#350](https://github.com/gitlab4j/gitlab4j-api/pull/350) Audited and updated all user related data models (#349).  
+
+**Audited and updated all user related data models (#349, #350)**
+
+ * Updated user related data models and tests to match latest GitLab API specs.
+
+[a6b7c78912d0555](https://github.com/gitlab4j/gitlab4j-api/commit/a6b7c78912d0555) Greg Messner *2019-05-10 22:55:43*
+
+
+### Jira Feature-351   
+
+**Feature-351: Add support for get all members to ProjectApi and GroupApi**
+
+ * Added getAllMembers() methods (#348).
+ * Added tests for getAllMembers() methods (#348).
+
+[d72fb68468bdeb7](https://github.com/gitlab4j/gitlab4j-api/commit/d72fb68468bdeb7) Greg Messner *2019-05-11 02:01:12*
+
+
+### No issue
+
+**Bumped version.**
+
+
+[aea14054daf6c21](https://github.com/gitlab4j/gitlab4j-api/commit/aea14054daf6c21) Greg Messner *2019-05-11 02:03:40*
+
+**Switched to the jakarta version of the activation and servlet dependencies.**
+
+
+[a285be4f68d6081](https://github.com/gitlab4j/gitlab4j-api/commit/a285be4f68d6081) Greg Messner *2019-05-10 04:14:59*
+
+**Generated latest changelog.**
+
+
+[76aa51905d58ec4](https://github.com/gitlab4j/gitlab4j-api/commit/76aa51905d58ec4) Greg Messner *2019-05-09 21:49:19*
+
+
 ## gitlab4j-api-4.10.14
 ### GitHub [#346](https://github.com/gitlab4j/gitlab4j-api/issues/346) ProjectApi#getProjects always result an exception    *bug*  
 
@@ -21,7 +78,7 @@ Changelog of GitLab4J API.
 
 
 ## gitlab4j-api-4.10.12
-### GitHub [#342](https://github.com/gitlab4j/gitlab4j-api/issues/342) How to push some local changes  
+### GitHub [#342](https://github.com/gitlab4j/gitlab4j-api/issues/342) How to push some local changes    *question*  
 
 **Add functionality to CommitAction to support fetching content from file. (#344)**
 
@@ -378,7 +435,7 @@ Changelog of GitLab4J API.
 [798c1ef27a69f63](https://github.com/gitlab4j/gitlab4j-api/commit/798c1ef27a69f63) Greg Messner *2019-04-26 06:30:44*
 
 
-### GitHub [#335](https://github.com/gitlab4j/gitlab4j-api/issues/335) can&#39;t use login service  
+### GitHub [#335](https://github.com/gitlab4j/gitlab4j-api/issues/335) can&#39;t use login service    *enhancement*  
 
 **Now explicity uses JerseyClientBuilder (#335).**
 
@@ -690,7 +747,7 @@ Changelog of GitLab4J API.
 [01f1ed12ff9f415](https://github.com/gitlab4j/gitlab4j-api/commit/01f1ed12ff9f415) Greg Messner *2019-04-12 02:12:48*
 
 
-### GitHub [#331](https://github.com/gitlab4j/gitlab4j-api/issues/331) Cannot deserialize instance of java.util.ArrayList out of START_OBJECT token  
+### GitHub [#331](https://github.com/gitlab4j/gitlab4j-api/issues/331) Cannot deserialize instance of java.util.ArrayList out of START_OBJECT token    *bug*  
 
 **Fixed webhooks changes deserialization (#325, #331).**
 
