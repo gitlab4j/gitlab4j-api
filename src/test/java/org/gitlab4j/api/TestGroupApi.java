@@ -112,10 +112,56 @@ public class TestGroupApi extends AbstractIntegrationTest {
     @Test
     public void testMemberOperations() throws GitLabApiException {
 
+        // Arrange and Act
         Member member = gitLabApi.getGroupApi().addMember(testGroup.getId(), testUser.getId(), AccessLevel.DEVELOPER);
+
+        // Assert
         assertNotNull(member);
         assertEquals(testUser.getId(), member.getId());
         assertEquals(AccessLevel.DEVELOPER, member.getAccessLevel());
+
+        // Act
+        Optional<Member> optionalMember = gitLabApi.getGroupApi().getOptionalMember(testGroup, testUser.getId());
+
+        // Assert
+        assertTrue(optionalMember.isPresent());
+
+        // Act
+        List<Member> members = gitLabApi.getGroupApi().getMembers(testGroup);
+
+        // Assert
+        assertNotNull(members);
+        Boolean found = (members.stream().filter(m -> m.getId().equals(member.getId())).findAny().orElse(null) != null);
+        assertTrue(found);
+
+        // Act
+        gitLabApi.getGroupApi().removeMember(testGroup.getId(), testUser.getId());
+
+        // Act
+        optionalMember = gitLabApi.getGroupApi().getOptionalMember(testGroup, testUser.getId());
+
+        // Assert
+        assertFalse(optionalMember.isPresent());
+    }
+
+    @Test
+    public void testAllMemberOperations() throws GitLabApiException {
+
+        // Arrange and Act
+        Member member = gitLabApi.getGroupApi().addMember(testGroup.getId(), testUser.getId(), AccessLevel.DEVELOPER);
+
+        // Assert
+        assertNotNull(member);
+        assertEquals(testUser.getId(), member.getId());
+        assertEquals(AccessLevel.DEVELOPER, member.getAccessLevel());
+
+        // Act
+        List<Member> members = gitLabApi.getGroupApi().getAllMembers(testGroup);
+
+        // Assert
+        assertNotNull(members);
+        Boolean found = (members.stream().filter(m -> m.getId().equals(member.getId())).findAny().orElse(null) != null);
+        assertTrue(found);
 
         gitLabApi.getGroupApi().removeMember(testGroup.getId(), testUser.getId());
     }

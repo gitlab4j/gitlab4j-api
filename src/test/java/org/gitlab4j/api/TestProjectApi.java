@@ -41,6 +41,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
@@ -79,7 +80,9 @@ public class TestProjectApi extends AbstractIntegrationTest {
     private static final String TEST_PROJECT_NAME_UPDATE = "test-gitlab4j-create-project-update";
     private static final String TEST_XFER_PROJECT_NAME = "test-gitlab4j-xfer-project";
     private static final String TEST_VARIABLE_KEY_PREFIX = "TEST_VARIABLE_KEY_";
+
     private static GitLabApi gitLabApi;
+    private static Project testProject;
 
     public TestProjectApi() {
         super();
@@ -90,6 +93,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         // Must setup the connection to the GitLab test server
         gitLabApi = baseTestSetup();
+        testProject = getTestProject();
 
         deleteAllTestProjects();
     }
@@ -126,16 +130,15 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         if (TEST_GROUP != null && TEST_PROJECT_NAME != null) {
             try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
                 List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
-                gitLabApi.getProjectApi().unshareProject(project.getId(), groups.get(0).getId());
+                gitLabApi.getProjectApi().unshareProject(testProject, groups.get(0).getId());
 
-                List<Variable> variables = gitLabApi.getProjectApi().getVariables(project);
+                List<Variable> variables = gitLabApi.getProjectApi().getVariables(testProject);
                 if (variables != null) {
 
                     for (Variable variable : variables) {
                         if (variable.getKey().startsWith(TEST_VARIABLE_KEY_PREFIX)) {
-                            gitLabApi.getProjectApi().deleteVariable(project, variable.getKey());
+                            gitLabApi.getProjectApi().deleteVariable(testProject, variable.getKey());
                         }
                     }
                 }
@@ -353,18 +356,17 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testListStarredProjects() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assumeNotNull(testProject);
 
         try {
-            gitLabApi.getProjectApi().starProject(project);
+            gitLabApi.getProjectApi().starProject(testProject);
         } catch (Exception ignore) {
         }
 
         List<Project> projects = gitLabApi.getProjectApi().getStarredProjects();
 
         try {
-            gitLabApi.getProjectApi().unstarProject(project);
+            gitLabApi.getProjectApi().unstarProject(testProject);
         } catch (Exception ignore) {
         }
 
@@ -377,11 +379,10 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testListStarredProjectsWithParams() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assumeNotNull(testProject);
 
         try {
-            gitLabApi.getProjectApi().starProject(project);
+            gitLabApi.getProjectApi().starProject(testProject);
         } catch (Exception ignore) {
         }
 
@@ -389,7 +390,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
                 Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, TEST_PROJECT_NAME, true, true, true, true, true);
 
         try {
-            gitLabApi.getProjectApi().unstarProject(project);
+            gitLabApi.getProjectApi().unstarProject(testProject);
         } catch (Exception ignore) {
         }
 
@@ -493,25 +494,21 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
         assumeTrue(TEST_GROUP.trim().length() > 0 && TEST_GROUP_PROJECT.trim().length() > 0);
-
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assumeNotNull(testProject);
 
         List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
         assertNotNull(groups);
 
         Group shareGroup = groups.get(0);
-        gitLabApi.getProjectApi().shareProject(project.getId(), shareGroup.getId(), AccessLevel.DEVELOPER, null);
-        gitLabApi.getProjectApi().unshareProject(project.getId(), shareGroup.getId());
+        gitLabApi.getProjectApi().shareProject(testProject, shareGroup.getId(), AccessLevel.DEVELOPER, null);
+        gitLabApi.getProjectApi().unshareProject(testProject, shareGroup.getId());
     }
 
     @Test
     public void testArchiveProject() throws GitLabApiException {
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        assertEquals(true, gitLabApi.getProjectApi().archiveProject(project.getId()).getArchived());
-        assertEquals(false, gitLabApi.getProjectApi().unarchiveProject(project.getId()).getArchived());
+        assertNotNull(testProject);
+        assertEquals(true, gitLabApi.getProjectApi().archiveProject(testProject.getId()).getArchived());
+        assertEquals(false, gitLabApi.getProjectApi().unarchiveProject(testProject).getArchived());
     }
 
     @Test
@@ -542,19 +539,18 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testStarAndUnstarProject() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assumeNotNull(testProject);
 
         try {
-            gitLabApi.getProjectApi().unstarProject(project);
+            gitLabApi.getProjectApi().unstarProject(testProject);
         } catch (Exception ignore) {
         }
 
-        Project starredProject = gitLabApi.getProjectApi().starProject(project);
+        Project starredProject = gitLabApi.getProjectApi().starProject(testProject);
         assertNotNull(starredProject);
         assertEquals(1, (int)starredProject.getStarCount());
 
-        Project unstarredProject = gitLabApi.getProjectApi().unstarProject(project);
+        Project unstarredProject = gitLabApi.getProjectApi().unstarProject(testProject);
         assertNotNull(unstarredProject);
         assertEquals(0, (int)unstarredProject.getStarCount());
     }
@@ -582,18 +578,17 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testVariables() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assumeNotNull(testProject);
 
         String key = TEST_VARIABLE_KEY_PREFIX + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
         String value = "TEST_VARIABLE_VALUE_" + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
-        Variable variable = gitLabApi.getProjectApi().createVariable(project, key, value, null, null);
+        Variable variable = gitLabApi.getProjectApi().createVariable(testProject, key, value, null, null);
 
         assertNotNull(variable);
         assertEquals(key, variable.getKey());
         assertEquals(value, variable.getValue());
 
-        Stream<Variable> variables = gitLabApi.getProjectApi().getVariablesStream(project);
+        Stream<Variable> variables = gitLabApi.getProjectApi().getVariablesStream(testProject);
         assertNotNull(variables);
 
         Variable matchingVariable = variables.filter(v -> v.getKey().equals(key)).findAny().orElse(null);
@@ -603,19 +598,43 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertFalse(matchingVariable.getProtected());
         assertNull(matchingVariable.getEnvironmentScope());
 
-        gitLabApi.getProjectApi().updateVariable(project, key, "NONE", true, "DEV");
-        variable = gitLabApi.getProjectApi().getVariable(project, key);
+        gitLabApi.getProjectApi().updateVariable(testProject, key, "NONE", true, "DEV");
+        variable = gitLabApi.getProjectApi().getVariable(testProject, key);
 
         assertNotNull(variable);
         assertEquals(key, variable.getKey());
         assertEquals("NONE", variable.getValue());
         assertTrue(variable.getProtected());
 
-        gitLabApi.getProjectApi().deleteVariable(project, key);
-        variables = gitLabApi.getProjectApi().getVariablesStream(project);
+        gitLabApi.getProjectApi().deleteVariable(testProject, key);
+        variables = gitLabApi.getProjectApi().getVariablesStream(testProject);
         assertNotNull(variables);
 
         matchingVariable = variables.filter(v -> v.getKey().equals(key)).findAny().orElse(null);
         assertNull(matchingVariable);
+    }
+
+    @Test
+    public void testGetMembers() throws GitLabApiException {
+
+        assumeNotNull(testProject);
+
+        // Act
+        List<Member> members = gitLabApi.getProjectApi().getMembers(testProject);
+
+        // Assert
+        assertNotNull(members);
+    }
+
+    @Test
+    public void testAllMemberOperations() throws GitLabApiException {
+
+        assumeNotNull(testProject);
+
+        // Act
+        List<Member> members = gitLabApi.getProjectApi().getAllMembers(testProject);
+
+        // Assert
+        assertNotNull(members);
     }
 }
