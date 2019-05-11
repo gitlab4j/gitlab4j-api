@@ -21,6 +21,8 @@ import org.gitlab4j.api.models.Visibility;
 
 /**
  * This class implements the client side API for the GitLab groups calls.
+ * @see <a href="https://docs.gitlab.com/ce/api/groups.html">Groups API at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ee/api/members.html">Group and project members API at GitLab</a>
  */
 public class GroupApi extends AbstractApi {
 
@@ -729,7 +731,8 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Member getMember(Object groupIdOrPath, int userId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "groups", getGroupIdOrPath(groupIdOrPath), "members", userId);
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
+                "groups", getGroupIdOrPath(groupIdOrPath), "members", userId);
         return (response.readEntity(new GenericType<Member>() {}));
     }
 
@@ -748,6 +751,75 @@ public class GroupApi extends AbstractApi {
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
+    }
+
+    /**
+     * Gets a list of group members viewable by the authenticated user, including inherited members
+     * through ancestor groups. Returns multiple times the same user (with different member attributes)
+     * when the user is a member of the group and of one or more ancestor group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/members/all</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a list of group members viewable by the authenticated user, including inherited members
+     * through ancestor groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Member> getAllMembers(Object groupIdOrPath) throws GitLabApiException {
+        return (getAllMembers(groupIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Gets a list of group members viewable by the authenticated user, including inherited members
+     * through ancestor groups. Returns multiple times the same user (with different member attributes)
+     * when the user is a member of the group and of one or more ancestor group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/members/all</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param page the page to get
+     * @param perPage the number of Member instances per page
+     * @return a list of group members viewable by the authenticated user, including inherited members
+     * through ancestor groups in the specified page range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Member> getAllMembers(Object groupIdOrPath, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
+                "groups", getGroupIdOrPath(groupIdOrPath), "members", "all");
+        return (response.readEntity(new GenericType<List<Member>>() {}));
+    }
+
+    /**
+     * Gets a Pager of group members viewable by the authenticated user, including inherited members
+     * through ancestor groups. Returns multiple times the same user (with different member attributes)
+     * when the user is a member of the group and of one or more ancestor group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/members/all</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param itemsPerPage the number of Member instances that will be fetched per page
+     * @return a Pager of group members viewable by the authenticated user, including inherited members
+     * through ancestor groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Member> getAllMembers(Object groupIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Member>(this, Member.class, itemsPerPage, null, "groups", getGroupIdOrPath(groupIdOrPath), "members", "all"));
+    }
+
+    /**
+     * Gets a Stream of group members viewable by the authenticated user, including inherited members
+     * through ancestor groups. Returns multiple times the same user (with different member attributes)
+     * when the user is a member of the group and of one or more ancestor group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/members/all</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a Stream of group members viewable by the authenticated user, including inherited members
+     * through ancestor groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Member> getAllMembersStream(Object groupIdOrPath) throws GitLabApiException {
+        return (getAllMembers(groupIdOrPath, getDefaultPerPage()).stream());
     }
 
     /**
