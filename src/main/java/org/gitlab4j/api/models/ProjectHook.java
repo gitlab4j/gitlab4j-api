@@ -25,7 +25,11 @@ public class ProjectHook {
     private Boolean wikiPageEvents;
     private String token;
 
-    
+    private Boolean repositoryUpdateEvents;
+    private Boolean confidentialIssuesEvents;
+    private Boolean confidentialNoteEvents;
+    private String pushEventsBranchFilter;
+
     public Boolean getBuildEvents() {
         return buildEvents;
     }
@@ -144,6 +148,38 @@ public class ProjectHook {
 
     public void setWikiPageEvents(Boolean wikiPageEvents) {
         this.wikiPageEvents = wikiPageEvents;
+    }
+
+    public Boolean getRepositoryUpdateEvents() {
+        return repositoryUpdateEvents;
+    }
+
+    public void setRepositoryUpdateEvents(Boolean repositoryUpdateEvents) {
+        this.repositoryUpdateEvents = repositoryUpdateEvents;
+    }
+
+    public Boolean getConfidentialIssuesEvents() {
+        return confidentialIssuesEvents;
+    }
+
+    public void setConfidentialIssuesEvents(Boolean confidentialIssuesEvents) {
+        this.confidentialIssuesEvents = confidentialIssuesEvents;
+    }
+
+    public Boolean getConfidentialNoteEvents() {
+        return confidentialNoteEvents;
+    }
+
+    public void setConfidentialNoteEvents(Boolean confidentialNoteEvents) {
+        this.confidentialNoteEvents = confidentialNoteEvents;
+    }
+
+    public String getPushEventsBranchFilter() {
+        return pushEventsBranchFilter;
+    }
+
+    public void setPushEventsBranchFilter(String pushEventsBranchFilter) {
+        this.pushEventsBranchFilter = pushEventsBranchFilter;
     }
 
     /**
