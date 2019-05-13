@@ -1711,42 +1711,6 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * <pre><code>POST /projects/:id/hooks</code></pre>
      *
-     * @param projectName the name of the project
-     * @param url the callback URL for the hook
-     * @param enabledHooks a ProjectHook instance specifying which hooks to enable
-     * @param enableSslVerification enable SSL verification
-     * @param secretToken the secret token to pass back to the hook
-     * @return the added ProjectHook instance
-     * @throws GitLabApiException if any exception occurs
-     */
-    public ProjectHook addHook(String projectName, String url, ProjectHook enabledHooks, boolean enableSslVerification, String secretToken)
-            throws GitLabApiException {
-
-        if (projectName == null) {
-            return (null);
-        }
-
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("url", url, true)
-                .withParam("push_events", enabledHooks.getPushEvents(), false)
-                .withParam("issues_events", enabledHooks.getIssuesEvents(), false)
-                .withParam("merge_requests_events", enabledHooks.getMergeRequestsEvents(), false)
-                .withParam("tag_push_events", enabledHooks.getTagPushEvents(), false)
-                .withParam("note_events", enabledHooks.getNoteEvents(), false)
-                .withParam("job_events", enabledHooks.getJobEvents(), false)
-                .withParam("pipeline_events", enabledHooks.getPipelineEvents(), false)
-                .withParam("wiki_events", enabledHooks.getWikiPageEvents(), false)
-                .withParam("enable_ssl_verification", enabledHooks.getEnableSslVerification())
-                .withParam("token", secretToken, false);
-        Response response = post(Response.Status.CREATED, formData, "projects", projectName, "hooks");
-        return (response.readEntity(ProjectHook.class));
-    }
-
-    /**
-     * Adds a hook to project.
-     *
-     * <pre><code>POST /projects/:id/hooks</code></pre>
-     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param url the callback URL for the hook
      * @param enabledHooks a ProjectHook instance specifying which hooks to enable
@@ -1755,20 +1719,24 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @return the added ProjectHook instance
      * @throws GitLabApiException if any exception occurs
      */
-    public ProjectHook addHook(Object projectIdOrPath, String url, ProjectHook enabledHooks, boolean enableSslVerification, String secretToken)
-            throws GitLabApiException {
+    public ProjectHook addHook(Object projectIdOrPath, String url, ProjectHook enabledHooks,
+            boolean enableSslVerification, String secretToken) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", url, true)
                 .withParam("push_events", enabledHooks.getPushEvents(), false)
+                .withParam("push_events_branch_filter", enabledHooks.getPushEventsBranchFilter(), false)
                 .withParam("issues_events", enabledHooks.getIssuesEvents(), false)
+                .withParam("confidential_issues_events", enabledHooks.getConfidentialIssuesEvents(), false)
                 .withParam("merge_requests_events", enabledHooks.getMergeRequestsEvents(), false)
                 .withParam("tag_push_events", enabledHooks.getTagPushEvents(), false)
                 .withParam("note_events", enabledHooks.getNoteEvents(), false)
+                .withParam("confidential_note_events", enabledHooks.getConfidentialNoteEvents(), false)
                 .withParam("job_events", enabledHooks.getJobEvents(), false)
                 .withParam("pipeline_events", enabledHooks.getPipelineEvents(), false)
                 .withParam("wiki_events", enabledHooks.getWikiPageEvents(), false)
-                .withParam("enable_ssl_verification", enabledHooks.getEnableSslVerification())
+                .withParam("enable_ssl_verification", enabledHooks.getEnableSslVerification(), false)
+                .withParam("repository_update_events", enabledHooks.getRepositoryUpdateEvents(), false)
                 .withParam("token", secretToken, false);
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
         return (response.readEntity(ProjectHook.class));
