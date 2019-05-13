@@ -4,37 +4,23 @@ package org.gitlab4j.api;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * This class provides a base class handler for processing GitLab Web Hook and System Hook callouts.
+ * This interface provides a base class handler for processing GitLab Web Hook and System Hook callouts.
  */
-public abstract class HookManager {
-
-    private String secretToken;
+public interface HookManager {
 
     /**
-     * Create a HookManager to handle GitLab hook events.
+     * Get the secret token that received hook events should be validated against.
+     *
+     * @return the secret token that received hook events should be validated against
      */
-    public HookManager() {
-        this.secretToken = null;
-    }
-
-    /**
-     * Create a HookManager to handle GitLab hook events which will be verified
-     * against the specified secretToken.
-     * 
-     * @param secretToken the secret token to verify against
-     */
-    public HookManager(String secretToken) {
-        this.secretToken = secretToken;
-    }
+    String getSecretToken();
 
     /**
      * Set the secret token that received hook events should be validated against.
      *
      * @param secretToken the secret token to verify against
      */
-    public void setSecretToken(String secretToken) {
-        this.secretToken = secretToken;
-    }
+    void setSecretToken(String secretToken);
 
     /**
      * Validate the provided secret token against the reference secret token. Returns true if
@@ -44,8 +30,11 @@ public abstract class HookManager {
      * @param secretToken the token to validate
      * @return true if the secret token is valid or there is no reference secret token to validate against
      */
-    public boolean isValidSecretToken(String secretToken) {
-        return (this.secretToken == null || this.secretToken.equals(secretToken) ? true : false);
+    default public boolean isValidSecretToken(String secretToken) {
+        String ourSecretToken = getSecretToken();
+        return (ourSecretToken == null ||
+                ourSecretToken.trim().isEmpty() ||
+                ourSecretToken.equals(secretToken) ? true : false);
     }
 
     /**
@@ -56,9 +45,9 @@ public abstract class HookManager {
      * @param request the HTTP request to verify the secret token
      * @return true if the secret token is valid or there is no reference secret token to validate against
      */
-    public boolean isValidSecretToken(HttpServletRequest request) {
+    default public boolean isValidSecretToken(HttpServletRequest request) {
 
-        if (this.secretToken != null) {
+        if (getSecretToken() != null) {
             String secretToken = request.getHeader("X-Gitlab-Token");
             return (isValidSecretToken(secretToken));
         }
@@ -73,5 +62,5 @@ public abstract class HookManager {
      * @param request the HttpServletRequest to read the Event instance from
      * @throws GitLabApiException if the parsed event is not supported
      */
-    public abstract void handleEvent(HttpServletRequest request) throws GitLabApiException;
+    public void handleEvent(HttpServletRequest request) throws GitLabApiException;
 }

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 /**
  * This class provides a handler for processing GitLab System Hook callouts.
  */
-public class SystemHookManager extends HookManager {
+public class SystemHookManager implements HookManager {
 
     public static final String SYSTEM_HOOK_EVENT = "System Hook";
     private final static Logger LOGGER = GitLabApi.getLogger();
@@ -30,37 +30,69 @@ public class SystemHookManager extends HookManager {
     // Collection of objects listening for System Hook events.
     private final List<SystemHookListener> systemHookListeners = new CopyOnWriteArrayList<SystemHookListener>();
 
+    private String secretToken;
+
     /**
      * Create a HookManager to handle GitLab system hook events.
      */
     public SystemHookManager() {
-        super();
     }
 
     /**
      * Create a HookManager to handle GitLab system hook events which will be verified
      * against the specified secretToken.
-     * 
+     *
      * @param secretToken the secret token to verify against
      */
     public SystemHookManager(String secretToken) {
-        super(secretToken);
+        this.secretToken = secretToken;
+     }
+
+     /**
+      * Get the secret token that received hook events should be validated against.
+      *
+      * @return the secret token that received hook events should be validated against
+      */
+     public String getSecretToken() {
+         return (secretToken);
+     }
+
+     /**
+      * Set the secret token that received hook events should be validated against.
+      *
+      * @param secretToken the secret token to verify against
+      */
+     public void setSecretToken(String secretToken) {
+         this.secretToken = secretToken;
+     }
+
+    /**
+     * Parses and verifies an SystemHookEvent instance from the HTTP request and
+     * fires it off to the registered listeners.
+     *
+     * @param request the HttpServletRequest to read the Event instance from
+     * @throws GitLabApiException if the parsed event is not supported
+     */
+    public void handleEvent(HttpServletRequest request) throws GitLabApiException {
+        handleRequest(request);
     }
 
     /**
      * Parses and verifies an SystemHookEvent instance from the HTTP request and
      * fires it off to the registered listeners.
-     * 
+     *
      * @param request the HttpServletRequest to read the Event instance from
+     * @return the processed SystemHookEvent instance read from the request,null if the request
+     * not contain a system hook event
      * @throws GitLabApiException if the parsed event is not supported
      */
-    public void handleEvent(HttpServletRequest request) throws GitLabApiException {
+    public SystemHookEvent handleRequest(HttpServletRequest request) throws GitLabApiException {
 
         String eventName = request.getHeader("X-Gitlab-Event");
         if (eventName == null || eventName.trim().isEmpty()) {
             String message = "X-Gitlab-Event header is missing!";
             LOGGER.warning(message);
-            return;
+            return (null);
         }
 
         if (!isValidSecretToken(request)) {
@@ -126,6 +158,7 @@ public class SystemHookManager extends HookManager {
             event.setRequestUrl(requestUrl != null ? requestUrl.toString() : null);
             event.setRequestQueryString(request.getQueryString());
             fireEvent(event);
+            return (event);
 
         } catch (Exception e) {
             LOGGER.warning("Error processing JSON data, exception=" +

@@ -18,7 +18,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 /**
  * This class provides a handler for processing GitLab WebHook callouts.
  */
-public class WebHookManager extends HookManager {
+public class WebHookManager implements HookManager {
 
     private final static Logger LOGGER = GitLabApi.getLogger();
     private final JacksonJson jacksonJson = new JacksonJson();
@@ -26,11 +26,12 @@ public class WebHookManager extends HookManager {
     // Collection of objects listening for WebHook events.
     private final List<WebHookListener> webhookListeners = new CopyOnWriteArrayList<WebHookListener>();
 
+    private String secretToken;
+
     /**
      * Create a HookManager to handle GitLab webhook events.
      */
     public WebHookManager() {
-        super();
     }
 
     /**
@@ -40,7 +41,25 @@ public class WebHookManager extends HookManager {
      * @param secretToken the secret token to verify against
      */
     public WebHookManager(String secretToken) {
-        super(secretToken);
+        this.secretToken = secretToken;
+    }
+
+    /**
+     * Get the secret token that received hook events should be validated against.
+     *
+     * @return the secret token that received hook events should be validated against
+     */
+    public String getSecretToken() {
+        return (secretToken);
+    }
+
+    /**
+     * Set the secret token that received hook events should be validated against.
+     *
+     * @param secretToken the secret token to verify against
+     */
+    public void setSecretToken(String secretToken) {
+        this.secretToken = secretToken;
     }
 
     /**
@@ -51,11 +70,24 @@ public class WebHookManager extends HookManager {
      * @throws GitLabApiException if the parsed event is not supported
      */
     public void handleEvent(HttpServletRequest request) throws GitLabApiException {
+        handleRequest(request);
+    }
+
+    /**
+     * Parses and verifies an Event instance from the HTTP request and
+     * fires it off to the registered listeners.
+     *
+     * @param request the HttpServletRequest to read the Event instance from
+     * @return the Event instance that was read from the request body, null if the request
+     * not contain a webhook event
+     * @throws GitLabApiException if the parsed event is not supported
+     */
+    public Event handleRequest(HttpServletRequest request) throws GitLabApiException {
 
         String eventName = request.getHeader("X-Gitlab-Event");
         if (eventName == null || eventName.trim().isEmpty()) {
             LOGGER.warning("X-Gitlab-Event header is missing!");
-            return;
+            return (null);
         }
 
         if (!isValidSecretToken(request)) {
@@ -101,6 +133,7 @@ public class WebHookManager extends HookManager {
             event.setRequestUrl(request.getRequestURL().toString());
             event.setRequestQueryString(request.getQueryString());
             fireEvent(event);
+            return (event);
 
         } catch (Exception e) {
             LOGGER.warning("Error parsing JSON data, exception=" + e.getClass().getSimpleName() + ", error=" + e.getMessage());
