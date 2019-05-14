@@ -147,9 +147,10 @@ public class SystemHookManager implements HookManager {
         }
 
         // Unmarshal the tree to a concrete instance of a SystemHookEvent and fire the event to any listeners
+        SystemHookEvent event;
         try {
 
-            SystemHookEvent event = jacksonJson.unmarshal(SystemHookEvent.class, tree);
+            event = jacksonJson.unmarshal(SystemHookEvent.class, tree);
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine(event.getEventName() + "\n" + jacksonJson.marshal(event) + "\n");
             }
@@ -157,12 +158,21 @@ public class SystemHookManager implements HookManager {
             StringBuffer requestUrl = request.getRequestURL();
             event.setRequestUrl(requestUrl != null ? requestUrl.toString() : null);
             event.setRequestQueryString(request.getQueryString());
+
+        } catch (Exception e) {
+            LOGGER.warning(String.format("Error processing JSON data, exception=%s, error=%s",
+                    e.getClass().getSimpleName(), e.getMessage()));
+            throw new GitLabApiException(e);
+        }
+
+        try {
+
             fireEvent(event);
             return (event);
 
         } catch (Exception e) {
-            LOGGER.warning("Error processing JSON data, exception=" +
-                    e.getClass().getSimpleName() + ", error=" + e.getMessage());
+            LOGGER.warning(String.format("Error processing event, exception=%s, error=%s",
+                    e.getClass().getSimpleName(), e.getMessage()));
             throw new GitLabApiException(e);
         }
     }

@@ -116,9 +116,9 @@ public class WebHookManager implements HookManager {
             throw new GitLabApiException(message);
         }
 
+        Event event;
         try {
 
-            Event event;
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine(HttpRequestUtils.getShortRequestDump(eventName + " webhook", true, request));
                 String postData = HttpRequestUtils.getPostDataAsString(request);
@@ -130,13 +130,22 @@ public class WebHookManager implements HookManager {
                 event = jacksonJson.unmarshal(Event.class, reader);
             }
 
+        } catch (Exception e) {
+            LOGGER.warning(String.format("Error processing JSON data, exception=%s, error=%s",
+                    e.getClass().getSimpleName(), e.getMessage()));
+            throw new GitLabApiException(e);
+        }
+
+        try {
+
             event.setRequestUrl(request.getRequestURL().toString());
             event.setRequestQueryString(request.getQueryString());
             fireEvent(event);
             return (event);
 
         } catch (Exception e) {
-            LOGGER.warning("Error parsing JSON data, exception=" + e.getClass().getSimpleName() + ", error=" + e.getMessage());
+            LOGGER.warning(String.format("Error processing event, exception=%s, error=%s",
+                    e.getClass().getSimpleName(), e.getMessage()));
             throw new GitLabApiException(e);
         }
     }
