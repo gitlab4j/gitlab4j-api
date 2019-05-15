@@ -260,7 +260,7 @@ public class UserApi extends AbstractApi {
      * @return the User instance for the specified user ID
      * @throws GitLabApiException if any exception occurs
      */
-    public User getUser(int userId) throws GitLabApiException {
+    public User getUser(Integer userId) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("with_custom_attributes", customAttributesEnabled);
         Response response = get(Response.Status.OK, formData.asMap(), "users", userId);
         return (response.readEntity(User.class));
@@ -274,7 +274,7 @@ public class UserApi extends AbstractApi {
      * @param userId the ID of the user to get
      * @return the User for the specified user ID as an Optional instance
      */
-    public Optional<User> getOptionalUser(int userId) {
+    public Optional<User> getOptionalUser(Integer userId) {
         try {
             return (Optional.ofNullable(getUser(userId)));
         } catch (GitLabApiException glae) {
