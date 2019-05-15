@@ -23,6 +23,9 @@ public class ProjectFilter {
     private Boolean withCustomAttributes;
     private Boolean withIssuesEnabled;
     private Boolean withMergeRequestsEnabled;
+    private String withProgrammingLanguage;
+    private Boolean wikiChecksumFailed;
+    private Boolean repositoryChecksumFailed;
     private AccessLevel minAccessLevel;
 
     /**
@@ -161,11 +164,46 @@ public class ProjectFilter {
     /**
      * Limit by enabled merge requests feature
      *
-     * @param withMergeRequestsEnabled if true, imit by enabled merge requests feature
+     * @param withMergeRequestsEnabled if true, limit by enabled merge requests feature
      * @return the reference to this ProjectFilter instance
      */
     public ProjectFilter withMergeRequestsEnabled(Boolean withMergeRequestsEnabled) {
         this.withMergeRequestsEnabled = withMergeRequestsEnabled;
+        return (this);
+    }
+
+    /**
+     * Limit by projects which use the given programming language.
+     *
+     * @param withProgrammingLanguage limit by projects which use the given programming language
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withProgrammingLanguage(String withProgrammingLanguage) {
+        this.withProgrammingLanguage = withProgrammingLanguage;
+        return (this);
+    }
+
+    /**
+     * Limit projects where the wiki checksum calculation has failed.
+     *
+     * @since GitLab 11.2
+     * @param wikiChecksumFailed if true, limit projects where the wiki checksum calculation has failed
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withWikiChecksumFailed(Boolean wikiChecksumFailed) {
+        this.wikiChecksumFailed = wikiChecksumFailed;
+        return (this);
+    }
+
+    /**
+     * Limit projects where the repository checksum calculation has failed.
+     *
+     * @since GitLab 11.2
+     * @param repositoryChecksumFailed if true, limit projects where the repository checksum calculation has failed
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withRepositoryChecksumFailed(Boolean repositoryChecksumFailed) {
+        this.repositoryChecksumFailed = repositoryChecksumFailed;
         return (this);
     }
 
@@ -213,6 +251,9 @@ public class ProjectFilter {
             .withParam("with_custom_attributes", withCustomAttributes)
             .withParam("with_issues_enabled", withIssuesEnabled)
             .withParam("with_merge_requests_enabled ", withMergeRequestsEnabled))
+            .withParam("with_programming_language", withProgrammingLanguage)
+            .withParam("wiki_checksum_failed", wikiChecksumFailed)
+            .withParam("repository_checksum_failed", repositoryChecksumFailed)
             .withParam("min_access_level ", (minAccessLevel != null ? minAccessLevel.toValue() : null)
         );
     }
