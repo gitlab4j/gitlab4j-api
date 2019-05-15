@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -551,6 +552,33 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
+     * Create a commit with single file and action.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param branch tame of the branch to commit into. To create a new branch, also provide startBranch
+     * @param commitMessage the commit message
+     * @param startBranch the name of the branch to start the new commit from
+     * @param authorEmail the commit author's email address
+     * @param authorName the commit author's name
+     * @param action the CommitAction to commit
+     * @return the created Commit instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Commit createCommit(Object projectIdOrPath, String branch, String commitMessage, String startBranch,
+            String authorEmail, String authorName, CommitAction action) throws GitLabApiException {
+
+        // Validate the action
+        if (action == null) {
+            throw new GitLabApiException("action cannot be null or empty.");
+        }
+
+        return (createCommit(projectIdOrPath, branch, commitMessage, startBranch,
+                authorEmail, authorName, Arrays.asList(action)));
+    }
+
+    /**
      * Create a commit with multiple files and actions.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits</code></pre>
@@ -562,7 +590,7 @@ public class CommitsApi extends AbstractApi {
      * @param authorEmail the commit author's email address
      * @param authorName the commit author's name
      * @param actions the array of CommitAction to commit as a batch
-     * @return the create Commit instance
+     * @return the created Commit instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Commit createCommit(Object projectIdOrPath, String branch, String commitMessage, String startBranch,
@@ -595,6 +623,25 @@ public class CommitsApi extends AbstractApi {
 
         Response response = post(Response.Status.CREATED, payload,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits");
+        return (response.readEntity(Commit.class));
+    }
+
+    /**
+     * Reverts a commit in a given branch.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits/:sha/revert</code></pre>
+     *
+     * @since GitLab 11.5
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha the commit SHA to revert
+     * @param branch the target branch to revert the commit on
+     * @return a Commit instance holding the reverted commit
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Commit revertCommit(Object projectIdOrPath, String sha, String branch) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("branch", branch, true);
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "revert");
         return (response.readEntity(Commit.class));
     }
 }
