@@ -1,5 +1,9 @@
 package org.gitlab4j.api.models;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +15,14 @@ public class Variable {
     @JsonProperty("protected")
     private Boolean isProtected;
     private String environmentScope;
+
+    public Variable() {
+    }
+
+    public Variable(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
 
     public String getKey() {
         return key;
@@ -47,5 +59,22 @@ public class Variable {
     @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
+    }
+
+    /**
+     * Create a List of Variable from the provided Map.
+     *
+     * @param variables the Map to convert to a List of Variable
+     * @return the List of Variable containing the keys and values from the Map, or null if the Map is null
+     */
+    public static final List<Variable> convertMapToList(Map<String, String> variables) {
+
+        if (variables == null) {
+            return null;
+        }
+
+        List<Variable> varList = new ArrayList<>(variables.size());
+        variables.forEach((k, v) -> varList.add(new Variable(k, v)));
+        return varList;
     }
 }

@@ -6,7 +6,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.gitlab4j.api.models.Pipeline;
@@ -14,6 +17,7 @@ import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.Trigger;
+import org.gitlab4j.api.models.Variable;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -204,5 +208,54 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         Stream<Trigger>pipelineTriggers = gitLabApi.getPipelineApi().getPipelineTriggersStream(testProject);
         assertNotNull(pipelineTriggers);
         assertFalse(pipelineTriggers.map(Trigger::getDescription).collect(toList()).contains(triggerDescription));
+    }
+
+    @Test
+    public void testCreatePipelineNoVariables() throws GitLabApiException {
+        assumeNotNull(testProject);
+
+        // Act
+        Pipeline pipeline = gitLabApi.getPipelineApi().createPipeline(testProject, "master");
+
+        // Assert
+        assertNotNull(pipeline);
+
+        gitLabApi.getPipelineApi().deletePipeline(testProject, pipeline.getId());
+    }
+
+    @Test
+    public void testCreatePipelineWithVariables() throws GitLabApiException {
+        assumeNotNull(testProject);
+
+        // Arrange
+        List<Variable> variableList = new ArrayList<>();
+        variableList.add(new Variable("VAR1", "value1"));
+        variableList.add(new Variable("VAR2", "value2"));
+
+        // Act
+        Pipeline pipeline = gitLabApi.getPipelineApi().createPipeline(testProject, "master", variableList);
+
+        // Assert
+        assertNotNull(pipeline);
+
+        gitLabApi.getPipelineApi().deletePipeline(testProject, pipeline.getId());
+    }
+
+    @Test
+    public void testCreatePipelineWithMapVariables() throws GitLabApiException {
+        assumeNotNull(testProject);
+
+        // Arrange
+        Map<String, String> variableMap = new HashMap<>();
+        variableMap.put("VAR1", "value1");
+        variableMap.put("VAR2", "value2");
+
+        // Act
+        Pipeline pipeline = gitLabApi.getPipelineApi().createPipeline(testProject, "master", variableMap);
+
+        // Assert
+        assertNotNull(pipeline);
+
+        gitLabApi.getPipelineApi().deletePipeline(testProject, pipeline.getId());
     }
 }

@@ -232,7 +232,7 @@ public class PipelineApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Pipeline createPipeline(Object projectIdOrPath, String ref) throws GitLabApiException {
-        return (createPipeline(projectIdOrPath, ref, null));
+        return (createPipeline(projectIdOrPath, ref, Variable.convertMapToList(null)));
     }
 
     /**
@@ -247,11 +247,47 @@ public class PipelineApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Pipeline createPipeline(Object projectIdOrPath, String ref, Map<String, String> variables) throws GitLabApiException {
+        return (createPipeline(projectIdOrPath, ref, Variable.convertMapToList(variables)));
+    }
 
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("ref", ref, true)
-                .withParam("variables", variables, false);
-        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "pipeline");
+    /**
+     * Create a pipelines in a project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/pipeline</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param ref reference to commit
+     * @param variables a Map containing the variables available in the pipeline
+     * @return a Pipeline instance with the newly created pipeline info
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Pipeline createPipeline(Object projectIdOrPath, String ref, List<Variable> variables) throws GitLabApiException {
+
+        if (ref == null || ref.trim().isEmpty()) {
+            throw new GitLabApiException("ref cannot be null or empty");
+        }
+
+        if (variables == null || variables.isEmpty()) {
+            GitLabApiForm formData = new GitLabApiForm().withParam("ref", ref, true);
+            Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "pipeline");
+            return (response.readEntity(Pipeline.class));
+        }
+
+        // The create pipeline REST API expects the variable data in an unusual format, this
+        // class is used to create the JSON for the POST data.
+        class CreatePipelineForm {
+            @SuppressWarnings("unused")
+            public String ref;
+            @SuppressWarnings("unused")
+            public List<Variable> variables;
+            CreatePipelineForm(String ref, List<Variable> variables) {
+                this.ref = ref;
+                this.variables = variables;
+            }
+        }
+
+        CreatePipelineForm pipelineForm = new CreatePipelineForm(ref, variables);
+        Response response = post(Response.Status.CREATED, pipelineForm, "projects", getProjectIdOrPath(projectIdOrPath), "pipeline");
         return (response.readEntity(Pipeline.class));
     }
 
