@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -286,5 +287,38 @@ public class TestCommitsApi extends AbstractIntegrationTest {
             fail("Commit should have been rejected due to no content.");
         } catch (GitLabApiException ignore) {
         }
+    }
+
+    @Test
+    public void testRevertCommit() throws GitLabApiException {
+
+        // Make sure the file to create does not exist.
+        String filePath = TEST_CREATE_COMMIT_FILEPATH + ".test";
+        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master").isPresent()) {
+            gitLabApi.getRepositoryFileApi().deleteFile(testProject, filePath, "master", "Deleted test file");
+        }
+
+        // Arrange
+        CommitAction commitAction = new CommitAction()
+                .withAction(Action.CREATE)
+                .withContent("This is the original data in the file")
+                .withFilePath(filePath);
+
+        // Act
+        Commit commit = gitLabApi.getCommitsApi().createCommit(
+                testProject, "master", "Testing createCommit() create action", null, null, null, commitAction);
+
+        // Assert
+        assertNotNull(commit);
+        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
+        assertTrue(repoFile.isPresent());
+
+        // Act
+        Commit revertedCommit = gitLabApi.getCommitsApi().revertCommit(testProject, commit.getId(), "master");
+
+        // Assert
+        assertNotEquals(commit.getId(), revertedCommit.getId());
+        repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
+        assertFalse(repoFile.isPresent());
     }
 }
