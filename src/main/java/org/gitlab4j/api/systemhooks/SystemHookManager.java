@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.HookManager;
 import org.gitlab4j.api.utils.HttpRequestUtils;
@@ -23,8 +22,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 public class SystemHookManager implements HookManager {
 
+    private final static Logger LOGGER = Logger.getLogger(SystemHookManager.class.getName());
     public static final String SYSTEM_HOOK_EVENT = "System Hook";
-    private final static Logger LOGGER = GitLabApi.getLogger();
     private final JacksonJson jacksonJson = new JacksonJson();
 
     // Collection of objects listening for System Hook events.

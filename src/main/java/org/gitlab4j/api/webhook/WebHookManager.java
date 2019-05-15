@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.HookManager;
 import org.gitlab4j.api.utils.HttpRequestUtils;
@@ -20,7 +19,7 @@ import org.gitlab4j.api.utils.JacksonJson;
  */
 public class WebHookManager implements HookManager {
 
-    private final static Logger LOGGER = GitLabApi.getLogger();
+    private final static Logger LOGGER = Logger.getLogger(WebHookManager.class.getName());
     private final JacksonJson jacksonJson = new JacksonJson();
 
     // Collection of objects listening for WebHook events.
