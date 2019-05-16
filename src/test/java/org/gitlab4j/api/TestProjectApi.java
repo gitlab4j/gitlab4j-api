@@ -75,6 +75,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
     private static final String TEST_GROUP_PROJECT = HelperUtils.getProperty(GROUP_PROJECT_KEY);
     private static final String TEST_XFER_NAMESPACE = HelperUtils.getProperty(XFER_NAMESPACE_KEY);
+    private static final String TEST_SUDO_AS_USERNAME = HelperUtils.getProperty(SUDO_AS_USERNAME_KEY);
 
     private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
     private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
@@ -449,6 +450,28 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertTrue(projects != null);
         assertTrue(projects.size() > 0);
         assertNotNull(projects.get(0).getStatistics());
+    }
+
+    @Test
+    public void testProjectsWithAccessLevelFilter() throws GitLabApiException {
+
+        ProjectFilter filter = new ProjectFilter().withMinAccessLevel(AccessLevel.GUEST);
+        List<Project> guestProjects = gitLabApi.getProjectApi().getProjects(filter);
+        assertTrue(guestProjects != null);
+        assertTrue(guestProjects.size() > 0);
+
+        // Use sudo to impersonate a non-admin user
+        try {
+
+            gitLabApi.sudo(TEST_SUDO_AS_USERNAME);
+            filter = new ProjectFilter().withMinAccessLevel(AccessLevel.OWNER);
+            List<Project> ownedProjects = gitLabApi.getProjectApi().getProjects(filter);
+            assertTrue(ownedProjects != null);
+            assertTrue(guestProjects.size() > ownedProjects.size());
+
+        } finally {
+            gitLabApi.unsudo();
+        }
     }
 
     @Test
