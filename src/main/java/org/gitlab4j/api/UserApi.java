@@ -21,6 +21,8 @@ import org.gitlab4j.api.models.User;
 
 /**
  * This class provides an entry point to all the GitLab API users calls.
+ *
+ * @see <a href="https://docs.gitlab.com/ce/api/users.html">Users API at GitLab</a>
  */
 public class UserApi extends AbstractApi {
 
