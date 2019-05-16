@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.gitlab4j.api.models.Pipeline;
@@ -29,9 +30,14 @@ public class TestPipelineApi extends AbstractIntegrationTest {
 
     private static final String SCHEDULE_DESCRIPTION = "Test pipeline schedule - DELETE AFTER TEST";
     private static final String TRIGGER_DESCRIPTION = "Test pipeline trigger - DELETE AFTER TEST";
+    private static final String TEST_GITLAB_CI_YML_CONTENT = "build:\n" +
+        "  stage: build\n  script:\n    - echo 'Empty build for testing variables with GitLab4J-API'";
+
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
+    private static RepositoryFile createdGitlabCiYml;
+    private static RepositoryFile gitlabCiYml;
 
     public TestPipelineApi() {
         super();
@@ -64,6 +70,13 @@ public class TestPipelineApi extends AbstractIntegrationTest {
             }
 
         } catch (Exception ignore) {}
+
+        if (createdGitlabCiYml != null) {
+            try {
+                gitLabApi.getRepositoryFileApi().deleteFile(
+                    testProject, ".gitlab-ci.yml", "master", "No longer needed.");
+            } catch (Exception ignore) {}
+        }
     }
 
     @BeforeClass
@@ -71,6 +84,23 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         // Must setup the connection to the GitLab test server and get the test Project instance
         gitLabApi = baseTestSetup();
         testProject = getTestProject();
+
+        Optional<RepositoryFile> fileInfo =
+                gitLabApi.getRepositoryFileApi().getOptionalFileInfo(testProject, ".gitlab-ci.yml", "master");
+        if (fileInfo.isPresent()) {
+            gitlabCiYml = fileInfo.get();
+        } else {
+
+            try {
+                RepositoryFile file = new RepositoryFile();
+                file.setFilePath(".gitlab-ci.yml");
+                file.setContent(TEST_GITLAB_CI_YML_CONTENT);
+                createdGitlabCiYml = gitLabApi.getRepositoryFileApi().createFile(
+                        testProject, file, "master", "Need for testing pipelines.");
+                gitlabCiYml = createdGitlabCiYml;
+                System.out.println("Created .gitlab-ci.yml file for testing purposes.");
+            } catch (Exception ignore) {}
+        }
     }
 
     @AfterClass
@@ -187,12 +217,8 @@ public class TestPipelineApi extends AbstractIntegrationTest {
 
         assertNotNull(testProject);
 
-        // Skip this test if no .gitlab-ci.yml file is found in the test project
-        RepositoryFile fileInfo = null;
-        try {
-            fileInfo = gitLabApi.getRepositoryFileApi().getFileInfo(testProject, ".gitlab-ci.yml", "master");
-        } catch (GitLabApiException ignore) {}
-        assumeNotNull(fileInfo);
+        // Skip this test if no .gitlab-ci.yml file is in the test project
+        assumeNotNull(gitlabCiYml);
 
         String triggerDescription = TRIGGER_DESCRIPTION + " - test triggerPipeline() - " + HelperUtils.getRandomInt(1000);
         Trigger createdTrigger = gitLabApi.getPipelineApi().createPipelineTrigger(testProject, triggerDescription);
@@ -212,7 +238,9 @@ public class TestPipelineApi extends AbstractIntegrationTest {
 
     @Test
     public void testCreatePipelineNoVariables() throws GitLabApiException {
-        assumeNotNull(testProject);
+
+        // Skip this test if no .gitlab-ci.yml file is in the test project
+        assumeNotNull(gitlabCiYml);
 
         // Act
         Pipeline pipeline = gitLabApi.getPipelineApi().createPipeline(testProject, "master");
@@ -225,7 +253,9 @@ public class TestPipelineApi extends AbstractIntegrationTest {
 
     @Test
     public void testCreatePipelineWithVariables() throws GitLabApiException {
-        assumeNotNull(testProject);
+
+        // Skip this test if no .gitlab-ci.yml file is in the test project
+        assumeNotNull(gitlabCiYml);
 
         // Arrange
         List<Variable> variableList = new ArrayList<>();
@@ -243,7 +273,9 @@ public class TestPipelineApi extends AbstractIntegrationTest {
 
     @Test
     public void testCreatePipelineWithMapVariables() throws GitLabApiException {
-        assumeNotNull(testProject);
+
+        // Skip this test if no .gitlab-ci.yml file is in the test project
+        assumeNotNull(gitlabCiYml);
 
         // Arrange
         Map<String, String> variableMap = new HashMap<>();
