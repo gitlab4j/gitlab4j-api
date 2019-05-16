@@ -192,7 +192,7 @@ public class GitLabApiForm extends Form {
             throw new IllegalArgumentException(name + " cannot be empty or null");
         }
 
-        this.param(name, stringValue);
+        this.param(name.trim(), stringValue);
         return (this);
     }
 
