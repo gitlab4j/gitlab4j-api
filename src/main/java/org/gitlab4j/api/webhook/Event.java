@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     include=JsonTypeInfo.As.PROPERTY,
     property="object_kind")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = BuildEvent.class, name = BuildEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = IssueEvent.class, name = IssueEvent.OBJECT_KIND),
+    @JsonSubTypes.Type(value = JobEvent.class, name = JobEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = MergeRequestEvent.class, name = MergeRequestEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = NoteEvent.class, name = NoteEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = PipelineEvent.class, name = PipelineEvent.OBJECT_KIND),

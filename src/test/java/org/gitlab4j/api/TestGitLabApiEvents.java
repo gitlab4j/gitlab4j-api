@@ -23,9 +23,9 @@ import org.gitlab4j.api.systemhooks.SystemHookListener;
 import org.gitlab4j.api.systemhooks.SystemHookManager;
 import org.gitlab4j.api.systemhooks.TeamMemberSystemHookEvent;
 import org.gitlab4j.api.utils.JacksonJson;
-import org.gitlab4j.api.webhook.BuildEvent;
 import org.gitlab4j.api.webhook.Event;
 import org.gitlab4j.api.webhook.IssueEvent;
+import org.gitlab4j.api.webhook.JobEvent;
 import org.gitlab4j.api.webhook.MergeRequestEvent;
 import org.gitlab4j.api.webhook.NoteEvent;
 import org.gitlab4j.api.webhook.PipelineEvent;
@@ -77,7 +77,6 @@ public class TestGitLabApiEvents {
 
     @Test
     public void testPipelineEvent() throws Exception {
-
         Event event = unmarshalResource(PipelineEvent.class, "pipeline-event.json");
         assertTrue(compareJson(event, "pipeline-event.json"));
     }
@@ -125,10 +124,10 @@ public class TestGitLabApiEvents {
     }
 
     @Test
-    public void testBuildEvent() throws Exception {
+    public void testJobEvent() throws Exception {
 
-        Event event = unmarshalResource(BuildEvent.class, "build-event.json");
-        assertTrue(compareJson(event, "build-event.json"));
+        Event event = unmarshalResource(JobEvent.class, "job-event.json");
+        assertTrue(compareJson(event, "job-event.json"));
     }
 
     @Test
@@ -141,8 +140,8 @@ public class TestGitLabApiEvents {
     @Test
     public void testPolymorphicEvent() throws Exception {
 
-        Event event = unmarshalResource(Event.class, "build-event.json");
-        assertTrue(compareJson(event, "build-event.json"));
+        Event event = unmarshalResource(Event.class, "job-event.json");
+        assertTrue(compareJson(event, "job-event.json"));
 
         event = unmarshalResource(Event.class, "issue-event.json");
         assertTrue(compareJson(event, "issue-event.json"));

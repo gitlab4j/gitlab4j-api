@@ -25,6 +25,8 @@ public class Job {
     private String webUrl;
     private String stage;
     private JobStatus status;
+    private String when;
+    private Boolean manual;
 
     public Integer getId() {
         return id;
@@ -170,6 +172,22 @@ public class Job {
         this.runner = runner;
     }
 
+    public String getWhen() {
+        return when;
+    }
+
+    public void setWhen(String when) {
+        this.when = when;
+    }
+
+    public Boolean getManual() {
+        return manual;
+    }
+
+    public void setManual(Boolean manual) {
+        this.manual = manual;
+    }
+
     public Job withId(Integer id) {
         this.id = id;
         return this;
@@ -242,6 +260,16 @@ public class Job {
 
     public Job withStatus(JobStatus status) {
         this.status = status;
+        return this;
+    }
+
+    public Job withWhen(String when) {
+        this.when = when;
+        return this;
+    }
+
+    public Job withManual(Boolean manual) {
+        this.manual = manual;
         return this;
     }
 
