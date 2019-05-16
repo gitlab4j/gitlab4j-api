@@ -43,6 +43,7 @@ import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectFilter;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 import org.junit.AfterClass;
@@ -430,6 +431,24 @@ public class TestProjectApi extends AbstractIntegrationTest {
     public void testProjects() throws GitLabApiException {
         List<Project> projects = gitLabApi.getProjectApi().getProjects();
         assertTrue(projects != null);
+    }
+
+    @Test
+    public void testProjectsWithFilter() throws GitLabApiException {
+        ProjectFilter filter = new ProjectFilter().withOwned(true).withStatistics(false);
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(filter);
+        assertTrue(projects != null);
+        assertTrue(projects.size() > 0);
+        assertNull(projects.get(0).getStatistics());
+    }
+
+    @Test
+    public void testProjectsWithFilterAndStatistics() throws GitLabApiException {
+        ProjectFilter filter = new ProjectFilter().withOwned(true).withStatistics(true);
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(filter);
+        assertTrue(projects != null);
+        assertTrue(projects.size() > 0);
+        assertNotNull(projects.get(0).getStatistics());
     }
 
     @Test

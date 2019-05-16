@@ -480,13 +480,72 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a list of all visible projects across GitLab for the authenticated user using the provided filter.
+     *
+     * <pre><code>GET /projects</code></pre>
+     *
+     * @param filter the ProjectFilter instance holding the filter values for the query
+     * @return a list of all visible projects across GitLab for the authenticated use
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getProjects(ProjectFilter filter) throws GitLabApiException {
+        return (getProjects(filter, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of all visible projects across GitLab for the authenticated user in the specified page range
+     * using the provided filter.
+     *
+     * <pre><code>GET /projects</code></pre>
+     *
+     * @param filter the ProjectFilter instance holding the filter values for the query
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @return a list of all visible projects across GitLab for the authenticated use
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Project> getProjects(ProjectFilter filter, int page, int perPage) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams(page, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "projects");
+        return (response.readEntity(new GenericType<List<Project>>() {}));
+    }
+
+    /**
+     * Get a Pager of all visible projects across GitLab for the authenticated user using the provided filter.
+     *
+     * <pre><code>GET /projects</code></pre>
+     *
+     * @param filter the ProjectFilter instance holding the filter values for the query
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager of all visible projects across GitLab for the authenticated use
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Project> getProjects(ProjectFilter filter, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        return (new Pager<Project>(this, Project.class, itemsPerPage, formData.asMap(), "projects"));
+    }
+
+    /**
+     * Get a Stream of all visible projects across GitLab for the authenticated user using the provided filter.
+     *
+     * <pre><code>GET /projects</code></pre>
+     *
+     * @param filter the ProjectFilter instance holding the filter values for the query
+     * @return a Stream of all visible projects across GitLab for the authenticated use
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Project> getProjectsStream(ProjectFilter filter) throws GitLabApiException {
+        return (getProjects(filter, getDefaultPerPage()).stream());
+    }
+
+    /**
      * Get a list of visible projects owned by the given user.
      *
      * <pre><code>GET /users/:user_id/projects</code></pre>
      *
      * @param userIdOrUsername the user ID, username of the user, or a User instance holding the user ID or username
      * @param filter the ProjectFilter instance holding the filter values for the query
-     * @return a list of visible projects owned by the given use
+     * @return a list of visible projects owned by the given user
      * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getUserProjects(Object userIdOrUsername, ProjectFilter filter) throws GitLabApiException {
@@ -502,7 +561,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param filter the ProjectFilter instance holding the filter values for the query
      * @param page the page to get
      * @param perPage the number of projects per page
-     * @return a list of visible projects owned by the given use
+     * @return a list of visible projects owned by the given user
      * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getUserProjects(Object userIdOrUsername, ProjectFilter filter, int page, int perPage) throws GitLabApiException {
@@ -520,7 +579,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param userIdOrUsername the user ID, username of the user, or a User instance holding the user ID or username
      * @param filter the ProjectFilter instance holding the filter values for the query
      * @param itemsPerPage the number of Project instances that will be fetched per page
-     * @return a Pager of visible projects owned by the given use
+     * @return a Pager of visible projects owned by the given user
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Project> getUserProjects(Object userIdOrUsername, ProjectFilter filter, int itemsPerPage) throws GitLabApiException {
@@ -536,7 +595,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param userIdOrUsername the user ID, username of the user, or a User instance holding the user ID or username
      * @param filter the ProjectFilter instance holding the filter values for the query
-     * @return a Stream of visible projects owned by the given use
+     * @return a Stream of visible projects owned by the given user
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<Project> getUserProjectsStream(Object userIdOrUsername, ProjectFilter filter) throws GitLabApiException {
