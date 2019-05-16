@@ -3,7 +3,6 @@ package org.gitlab4j.api.webhook;
 import java.util.Date;
 import java.util.List;
 
-import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
