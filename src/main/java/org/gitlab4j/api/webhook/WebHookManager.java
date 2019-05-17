@@ -98,8 +98,8 @@ public class WebHookManager implements HookManager {
         LOGGER.info("handleEvent: X-Gitlab-Event=" + eventName);
         switch (eventName) {
 
-        case JobEvent.JOB_HOOK_X_GITLAB_EVENT:
         case IssueEvent.X_GITLAB_EVENT:
+        case JobEvent.JOB_HOOK_X_GITLAB_EVENT:
         case MergeRequestEvent.X_GITLAB_EVENT:
         case NoteEvent.X_GITLAB_EVENT:
         case PipelineEvent.X_GITLAB_EVENT:
@@ -159,14 +159,16 @@ public class WebHookManager implements HookManager {
         LOGGER.info("handleEvent: object_kind=" + event.getObjectKind());
 
         switch (event.getObjectKind()) {
-        case JobEvent.OBJECT_KIND:
+        case BuildEvent.OBJECT_KIND:
         case IssueEvent.OBJECT_KIND:
+        case JobEvent.OBJECT_KIND:
         case MergeRequestEvent.OBJECT_KIND:
         case NoteEvent.OBJECT_KIND:
         case PipelineEvent.OBJECT_KIND:
         case PushEvent.OBJECT_KIND:
         case TagPushEvent.OBJECT_KIND:
         case WikiPageEvent.OBJECT_KIND:
+            fireEvent(event);
             break;
 
         default:
@@ -174,8 +176,6 @@ public class WebHookManager implements HookManager {
             LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
-
-        fireEvent(event);
     }
 
     /**
@@ -208,12 +208,16 @@ public class WebHookManager implements HookManager {
     public void fireEvent(Event event) throws GitLabApiException {
 
         switch (event.getObjectKind()) {
-        case JobEvent.OBJECT_KIND:
-            fireJobEvent((JobEvent) event);
+        case BuildEvent.OBJECT_KIND:
+            fireBuildEvent((BuildEvent) event);
             break;
 
         case IssueEvent.OBJECT_KIND:
             fireIssueEvent((IssueEvent) event);
+            break;
+
+        case JobEvent.OBJECT_KIND:
+            fireJobEvent((JobEvent) event);
             break;
 
         case MergeRequestEvent.OBJECT_KIND:
@@ -247,15 +251,21 @@ public class WebHookManager implements HookManager {
         }
     }
 
-    protected void fireJobEvent(JobEvent jobEvent) {
+    protected void fireBuildEvent(BuildEvent buildEvent) {
         for (WebHookListener listener : webhookListeners) {
-            listener.onJobEvent(jobEvent);
+            listener.onBuildEvent(buildEvent);
         }
     }
 
     protected void fireIssueEvent(IssueEvent issueEvent) {
         for (WebHookListener listener : webhookListeners) {
             listener.onIssueEvent(issueEvent);
+        }
+    }
+
+    protected void fireJobEvent(JobEvent jobEvent) {
+        for (WebHookListener listener : webhookListeners) {
+            listener.onJobEvent(jobEvent);
         }
     }
 

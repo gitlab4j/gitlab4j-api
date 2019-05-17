@@ -8,11 +8,11 @@ package org.gitlab4j.api.webhook;
 public interface WebHookListener extends java.util.EventListener {
 
     /**
-     * This method is called when a WebHook job event has been received.
+     * This method is called when a WebHook build event has been received.
      *
-     * @param jobEvent the JobEvent instance
+     * @param buildEvent the BuildEvent instance
      */
-    default void onJobEvent(JobEvent jobEvent) {
+    default void onBuildEvent(BuildEvent buildEvent) {
     }
 
     /**
@@ -21,6 +21,14 @@ public interface WebHookListener extends java.util.EventListener {
      * @param event the EventObject instance containing info on the issue
      */
     default void onIssueEvent(IssueEvent event) {
+    }
+
+    /**
+     * This method is called when a WebHook job event has been received.
+     *
+     * @param jobEvent the JobEvent instance
+     */
+    default void onJobEvent(JobEvent jobEvent) {
     }
 
     /**

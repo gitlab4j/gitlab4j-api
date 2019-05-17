@@ -26,7 +26,7 @@ public class JobEvent extends AbstractEvent {
     private Integer projectId;
     private String projectName;
     private User user;
-    private JobCommit commit;
+    private BuildCommit commit;
     private EventRepository repository;
 
     public String getObjectKind() {
@@ -166,11 +166,11 @@ public class JobEvent extends AbstractEvent {
         this.user = user;
     }
 
-    public JobCommit getCommit() {
+    public BuildCommit getCommit() {
         return commit;
     }
 
-    public void setCommit(JobCommit commit) {
+    public void setCommit(BuildCommit commit) {
         this.commit = commit;
     }
 
@@ -180,96 +180,6 @@ public class JobEvent extends AbstractEvent {
 
     public void setRepository(EventRepository repository) {
         this.repository = repository;
-    }
-
-    public class JobCommit {
-
-        private Integer id;
-        private String sha;
-        private String message;
-        private String authorName;
-        private String authorEmail;
-        private String status;
-        private Integer duration;
-        private Date startedAt;
-        private Date finishedAt;
-
-        public Integer getId() {
-            return id;
-        }
-
-        public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public String getSha() {
-            return sha;
-        }
-
-        public void setSha(String sha) {
-            this.sha = sha;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public String getAuthorName() {
-            return authorName;
-        }
-
-        public void setAuthorName(String authorName) {
-            this.authorName = authorName;
-        }
-
-        public String getAuthorEmail() {
-            return authorEmail;
-        }
-
-        public void setAuthorEmail(String authorEmail) {
-            this.authorEmail = authorEmail;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public Integer getDuration() {
-            return duration;
-        }
-
-        public void setDuration(Integer duration) {
-            this.duration = duration;
-        }
-
-        public Date getStartedAt() {
-            return startedAt;
-        }
-
-        public void setStartedAt(Date startedAt) {
-            this.startedAt = startedAt;
-        }
-
-        public Date getFinishedAt() {
-            return finishedAt;
-        }
-
-        public void setFinishedAt(Date finishedAt) {
-            this.finishedAt = finishedAt;
-        }
-
-        @Override
-        public String toString() {
-            return (JacksonJson.toJsonString(this));
-        }
     }
 
     @Override
