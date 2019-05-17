@@ -1,0 +1,40 @@
+{
+	"object_kind": "build",
+	"ref": "master",
+	"tag": false,
+	"before_sha": "8a49a94f1a7cd64985074cb11b1a42a7ab2d9b46",
+	"sha": "a890bee24574603c522c756b9346649fbec4c812",
+	"build_id": 214655258,
+	"build_name": "build1",
+	"build_stage": "build",
+	"build_status": "running",
+	"build_started_at": "2019-05-17T18:09:21Z",
+	"build_duration": 0.05880817,
+	"build_allow_failure": false,
+	"build_failure_reason": "unknown_failure",
+	"project_id": 3115610,
+	"project_name": "GitLab4J / test-project",
+	"user": {
+		"id": 20493,
+		"name": "GitLab4J Tester",
+		"email": "gitlab4j@gitlab4j.org"
+	},
+	"commit": {
+		"id": 61897408,
+		"sha": "a890bee24574603c522c756b9346649fbec4c812",
+		"message": "Add new file",
+		"author_name": "GitLab4J Tester",
+		"author_email": "gitlab4j@gitlab4j.org",
+		"author_url": "https://gitlab.com/gitlab4j",
+		"status": "pending"
+	},
+	"repository": {
+		"name": "test-project",
+		"url": "git@gitlab.com:gitlab4j/test-project.git",
+		"description": "This is a test project to be used for testing the GitLab4J-API",
+		"homepage": "https://gitlab.com/gitlab4j/test-project",
+		"git_http_url": "https://gitlab.com/gitlab4j/test-project.git",
+		"git_ssh_url": "git@gitlab.com:gitlab4j/test-project.git",
+		"visibility_level": 20
+	}
+}
