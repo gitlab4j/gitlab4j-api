@@ -2,12 +2,14 @@ package org.gitlab4j.api;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Discussion;
+import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.Position;
 
 /**
@@ -19,7 +21,6 @@ public class DiscussionsApi extends AbstractApi {
     public DiscussionsApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
-
 
     /**
      * Get a list of all discussions for the specified issue.
@@ -347,7 +348,7 @@ public class DiscussionsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Discussion resolveMergeRequestDiscussion(Object projectIdOrPath, Integer mergeRequestIid,
-            Integer discussionId, Boolean resolved)  throws GitLabApiException {
+            String discussionId, Boolean resolved)  throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("resolved", resolved, true);
         Response response = put(Response.Status.OK, formData.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "discussions");
@@ -366,7 +367,7 @@ public class DiscussionsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public void deleteMergeRequestDiscussionNote(Object projectIdOrPath, Integer mergeRequestIid,
-            Integer discussionId, Integer noteId)  throws GitLabApiException {
+            String discussionId, Integer noteId)  throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
                 "merge_requests", mergeRequestIid, "discussions", noteId);
     }
@@ -374,35 +375,35 @@ public class DiscussionsApi extends AbstractApi {
     /**
      * Get a list of all discussions for the specified commit.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/commits/:commit_id/discussions</code></pre>
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param commitId the internal ID of the commit
+     * @param commitSha the SHA of the commit to get discussions for
      * @return a list containing all the discussions for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getCommitDiscussions(Object projectIdOrPath, Integer commitId) throws GitLabApiException {
-        Pager<Discussion> pager = getCommitDiscussionsPager(projectIdOrPath, commitId, getDefaultPerPage());
+    public List<Discussion> getCommitDiscussions(Object projectIdOrPath, String commitSha) throws GitLabApiException {
+        Pager<Discussion> pager = getCommitDiscussionsPager(projectIdOrPath, commitSha, getDefaultPerPage());
         return (pager.all());
     }
  
     /**
      * Get a list of discussions for the specified commit.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/commits/:commit_id/discussions</code></pre>
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param commitId the internal ID of the commit
+     * @param commitSha the SHA of the commit to get discussions for
      * @param maxItems the maximum number of Discussion instances to get, if &lt; 1 will fetch all Discussion instances for the commit
      * @return a list containing the discussions for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getCommitDiscussions(Object projectIdOrPath, Integer commitId, int maxItems) throws GitLabApiException {
+    public List<Discussion> getCommitDiscussions(Object projectIdOrPath, String commitSha, int maxItems) throws GitLabApiException {
         if (maxItems < 1) {
-            return (getCommitDiscussions(projectIdOrPath, commitId));
+            return (getCommitDiscussions(projectIdOrPath, commitSha));
         } else {
             Response response = get(Response.Status.OK, getPerPageQueryParam(maxItems),
-                "projects", getProjectIdOrPath(projectIdOrPath), "commits", commitId, "discussions");
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", commitSha, "discussions");
             return (response.readEntity(new GenericType<List<Discussion>>() {}));
         }
     }
@@ -410,31 +411,199 @@ public class DiscussionsApi extends AbstractApi {
     /**
      * Get a Pager of Discussion instances for the specified commit.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/commits/:commit_id/discussions</code></pre>
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param commitId the internal ID of the commit
+     * @param commitSha the SHA of the commit to get discussions for
      * @param itemsPerPage the number of Discussion instances that will be fetched per page
      * @return a Pager containing the Discussion instances for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getCommitDiscussionsPager(Object projectIdOrPath, Integer commitId, int itemsPerPage) throws GitLabApiException {
+    public Pager<Discussion> getCommitDiscussionsPager(Object projectIdOrPath, String commitSha, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
-              "projects", getProjectIdOrPath(projectIdOrPath), "commits", commitId, "discussions"));
+              "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", commitSha, "discussions"));
     }
 
     /**
      * Get a Stream of Discussion instances for the specified commit.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/commits/:commit_id/discussions</code></pre>
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param commitId the internal ID of the commit
+     * @param commitSha the SHA of the commit to get discussions for
      * @return a Stream instance containing the Discussion instances for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Discussion> getCommitDiscussionsStream(Object projectIdOrPath, Integer commitId) throws GitLabApiException {
-        Pager<Discussion> pager = getCommitDiscussionsPager(projectIdOrPath, commitId, getDefaultPerPage());
+    public Stream<Discussion> getCommitDiscussionsStream(Object projectIdOrPath, String commitSha) throws GitLabApiException {
+        Pager<Discussion> pager = getCommitDiscussionsPager(projectIdOrPath, commitSha, getDefaultPerPage());
         return (pager.stream());
+    }
+
+    /**
+     * Get a single discussion for the specified commit.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param commitSha the SHA of the commit to get discussions for
+     * @param discussionId the ID of the discussion
+     * @return the Discussion instance specified by discussionId for the specified commit
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Discussion getCommitDiscussion(Object projectIdOrPath, String commitSha, String discussionId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null,
+            "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", commitSha, "discussions", discussionId);
+        return (response.readEntity(Discussion.class));
+    }
+
+    /**
+     * Get an Optional instance of a single discussion for the specified commit.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param commitSha the SHA of the commit to get discussions for
+     * @param discussionId the ID of the discussion
+     * @return an Optional instance with the specified Discussion instance as a value
+     */
+    public Optional<Discussion> getOptionalCommitDiscussion(Object projectIdOrPath, String commitSha, String discussionId) {
+        try {
+            return (Optional.ofNullable(getCommitDiscussion(projectIdOrPath, commitSha, discussionId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
+     * Creates a new discussion to a single project commit. This is similar to creating
+     * a note but other comments (replies) can be added to it later.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param commitSha the commit SHA to create the discussion for
+     * @param body the content of a discussion
+     * @param createdAt date the discussion was created (requires admin or project/group owner rights)
+     * @param positionHash position when creating a diff note
+     * @param position a Position instance holding the position attributes
+     * @return a Discussion instance containing the newly created discussion
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Discussion createCommitDiscussion(Object projectIdOrPath, String commitSha,
+            String body, Date createdAt, String positionHash, Position position) throws GitLabApiException {
+
+        if (position == null) {
+            throw new GitLabApiException("position instance can not be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("body", body, true)
+                .withParam("created_at", createdAt)
+                .withParam("position", positionHash)
+                .withParam("position[base_sha]", position.getBaseSha(), true)
+                .withParam("position[start_sha]", position.getStartSha(), true)
+                .withParam("position[head_sha]", position.getHeadSha(), true)
+                .withParam("position[position_type]", position.getPositionType(), true)
+                .withParam("position[new_path]", position.getNewPath())
+                .withParam("position[new_line]", position.getNewLine())
+                .withParam("position[old_path]", position.getOldPath())
+                .withParam("position[old_line]", position.getOldLine())
+                .withParam("position[width]", position.getWidth())
+                .withParam("position[height]", position.getHeight())
+                .withParam("position[x]", position.getX())
+                .withParam("position[y]", position.getY());
+
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", commitSha, "discussions");
+        return (response.readEntity(Discussion.class));
+    }
+
+    /**
+     * Adds a note to an existing commit discussion.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id/notes</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param commitSha the commit SHA to create the discussion for
+     * @param discussionId the ID of a discussion
+     * @param body the content of a discussion
+     * @param createdAt date the discussion was created (requires admin or project/group owner rights)
+     * @return a Note instance containing the newly created discussion note
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Note addCommitDiscussionNote(Object projectIdOrPath, String commitSha, String discussionId,
+            String body, Date createdAt) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("body", body, true)
+                .withParam("created_at", createdAt);
+
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath),
+                "repository", "commits", commitSha, "discussions", discussionId, "notes");
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Modify an existing discussion note of a commit.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id/notes</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param commitSha the commit SHA to delete the discussion from
+     * @param discussionId the ID of a discussion
+     * @param noteId the note ID to delete
+     * @param body the content of a discussion
+     * @return a Note instance containing the updated discussion note
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Note modifyCommitDiscussionNote(Object projectIdOrPath,
+            String commitSha, String discussionId, Integer noteId, String body) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
+        Response response = this.putWithFormData(Response.Status.OK, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), 
+                "repository", "commits", commitSha, "discussions", discussionId, "notes", noteId);
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     *Resolve or unresolve an existing discussion note of a commit.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id/notes</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param commitSha the commit SHA to delete the discussion from
+     * @param discussionId the ID of a discussion
+     * @param noteId the note ID to delete
+     * @param resolved if true will resolve the note, false will unresolve the note
+     * @return a Note instance containing the updated discussion note
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Note resolveCommitDiscussionNote(Object projectIdOrPath,
+            String commitSha, String discussionId, Integer noteId, Boolean resolved) throws GitLabApiException {
+
+        GitLabApiForm queryParams = new GitLabApiForm().withParam("resolved", resolved);
+        Response response = this.put(Response.Status.OK, queryParams.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath),
+                "repository", "commits", commitSha, "discussions", discussionId, "notes", noteId);
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Deletes an existing discussion note of a commit.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id/notes/:note_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param commitSha the commit SHA to delete the discussion from
+     * @param discussionId the ID of a discussion
+     * @param noteId the note ID to delete
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public void deleteCommitDiscussionNote(Object projectIdOrPath, String commitSha,
+            String discussionId, Integer noteId)  throws GitLabApiException {
+        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
+                "repository", commitSha, "discussions", discussionId, "notes", noteId);
     }
 }

@@ -24,6 +24,7 @@ import org.mockito.Spy;
 
 public class TestCommitDiscussionsApi implements Constants {
 
+    private static final String COMMIT_SHA = "abcdef1234567890";
     @Mock private GitLabApi gitLabApi;
     @Mock private GitLabApiClient gitLabApiClient;
     @Spy private FakeResponse response;
@@ -32,7 +33,7 @@ public class TestCommitDiscussionsApi implements Constants {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        response.init(Discussion.class,  null,  "commit-discussions.json");        
+        response.init(Discussion.class,  null,  "commit-discussions.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
         when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
@@ -40,28 +41,28 @@ public class TestCommitDiscussionsApi implements Constants {
 
     @Test
     public void testGetCommitDiscussionsByList() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, 1);        
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, COMMIT_SHA);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "commit-discussions.json"));
     }
 
     @Test
     public void testGetCommitDiscussionsByListWithMaxItems() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, 1, 20);        
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, COMMIT_SHA, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "commit-discussions.json"));
     }
 
     @Test
     public void testGetCommitDiscussionsByPager() throws Exception {
-        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussionsPager(1, 1, 20);
+        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussionsPager(1, COMMIT_SHA, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions.all(), "commit-discussions.json"));
     }
 
     @Test
     public void testGetCommitDiscussionsByStream() throws Exception {
-        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getCommitDiscussionsStream(1, 1);
+        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getCommitDiscussionsStream(1, COMMIT_SHA);
         assertNotNull(stream);
         List<Discussion> discussions = stream.collect(Collectors.toList());
         assertTrue(compareJson(discussions, "commit-discussions.json"));
