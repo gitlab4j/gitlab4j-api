@@ -8,6 +8,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class EventChanges {
 
+    private ChangeContainer<String> state;
     private ChangeContainer<Date> updatedAt;
     private ChangeContainer<Integer> updatedById;
     private ChangeContainer<Date> dueDate;
@@ -79,6 +80,14 @@ public class EventChanges {
 
     public void setConfidential(ChangeContainer<Boolean> confidential) {
         this.confidential = confidential;
+    }
+
+    public ChangeContainer<String> getState() {
+        return state;
+    }
+
+    public void setState(ChangeContainer<String> state) {
+        this.state = state;
     }
 
     @Override
