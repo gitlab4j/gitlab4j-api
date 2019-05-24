@@ -1,8 +1,12 @@
 package org.gitlab4j.api.webhook;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -17,6 +21,7 @@ public class EventChanges {
     private ChangeContainer<List<Assignee>> assignees;
     private ChangeContainer<Integer> totalTimeSpent;
     private ChangeContainer<Boolean> confidential;
+    private LinkedHashMap<String, ChangeContainer<Object>> otherProperties = new LinkedHashMap<>();
 
     public ChangeContainer<Date> getUpdatedAt() {
         return updatedAt;
@@ -88,6 +93,30 @@ public class EventChanges {
 
     public void setState(ChangeContainer<String> state) {
         this.state = state;
+    }
+
+    public <T> ChangeContainer<T> get(String property){
+        if(otherProperties.containsKey(property)){
+            try {
+                final ChangeContainer<Object> container = otherProperties.get(property);
+                //noinspection unchecked It's duty from caller to be sure to do that
+                return container != null ? (ChangeContainer<T>) container : null;
+            } catch (ClassCastException e) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @JsonAnyGetter
+    public Map<String, ChangeContainer<Object>> any() {
+        return this.otherProperties;
+    }
+
+    @JsonAnySetter
+    public void set(String name, ChangeContainer<Object> value) {
+        otherProperties.put(name, value);
     }
 
     @Override
