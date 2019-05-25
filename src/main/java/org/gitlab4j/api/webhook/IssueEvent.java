@@ -18,7 +18,7 @@ public class IssueEvent extends AbstractEvent {
     private List<Assignee> assignees;
     private Assignee assignee;
     private List<EventLabel> labels;
-    private EventChanges changes;
+    private IssueChanges changes;
 
     public String getObjectKind() {
         return (OBJECT_KIND);
@@ -77,11 +77,11 @@ public class IssueEvent extends AbstractEvent {
         this.labels = labels;
     }
 
-    public EventChanges getChanges() {
+    public IssueChanges getChanges() {
         return changes;
     }
 
-    public void setChanges(EventChanges changes) {
+    public void setChanges(IssueChanges changes) {
         this.changes = changes;
     }
 

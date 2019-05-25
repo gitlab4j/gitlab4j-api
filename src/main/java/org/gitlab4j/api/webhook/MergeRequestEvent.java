@@ -15,7 +15,7 @@ public class MergeRequestEvent extends AbstractEvent {
     private EventRepository repository;
     private ObjectAttributes objectAttributes;
     private List<EventLabel> labels;
-    private EventChanges changes;
+    private MergeRequestChanges changes;
 
     public String getObjectKind() {
         return (OBJECT_KIND);
@@ -66,11 +66,11 @@ public class MergeRequestEvent extends AbstractEvent {
         this.labels = labels;
     }
 
-    public EventChanges getChanges() {
+    public MergeRequestChanges getChanges() {
         return changes;
     }
 
-    public void setChanges(EventChanges changes) {
+    public void setChanges(MergeRequestChanges changes) {
         this.changes = changes;
     }
 

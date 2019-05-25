@@ -10,18 +10,36 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class EventChanges {
+public abstract class EventChanges {
 
-    private ChangeContainer<String> state;
+    private ChangeContainer<Integer> authorId;
+    private ChangeContainer<Date> createdAt;
     private ChangeContainer<Date> updatedAt;
     private ChangeContainer<Integer> updatedById;
-    private ChangeContainer<Date> dueDate;
+    private ChangeContainer<String> title;
+    private ChangeContainer<String> description;
+    private ChangeContainer<String> state;
     private ChangeContainer<Integer> milestoneId;
     private ChangeContainer<List<EventLabel>> labels;
     private ChangeContainer<List<Assignee>> assignees;
     private ChangeContainer<Integer> totalTimeSpent;
-    private ChangeContainer<Boolean> confidential;
-    private LinkedHashMap<String, ChangeContainer<Object>> otherProperties = new LinkedHashMap<>();
+    private Map<String, ChangeContainer<Object>> otherProperties = new LinkedHashMap<>();
+
+    public ChangeContainer<Integer> getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(ChangeContainer<Integer> authorId) {
+        this.authorId = authorId;
+    }
+
+    public ChangeContainer<Date> getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(ChangeContainer<Date> createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public ChangeContainer<Date> getUpdatedAt() {
         return updatedAt;
@@ -39,12 +57,28 @@ public class EventChanges {
         this.updatedById = updatedById;
     }
 
-    public ChangeContainer<Date> getDueDate() {
-        return dueDate;
+    public ChangeContainer<String> getTitle() {
+        return title;
     }
 
-    public void setDueDate(ChangeContainer<Date> dueDate) {
-        this.dueDate = dueDate;
+    public void setTitle(ChangeContainer<String> title) {
+        this.title = title;
+    }
+
+    public ChangeContainer<String> getDescription() {
+        return description;
+    }
+
+    public void setDescription(ChangeContainer<String> description) {
+        this.description = description;
+    }
+
+    public ChangeContainer<String> getState() {
+        return state;
+    }
+
+    public void setState(ChangeContainer<String> state) {
+        this.state = state;
     }
 
     public ChangeContainer<Integer> getMilestoneId() {
@@ -79,27 +113,13 @@ public class EventChanges {
         this.totalTimeSpent = totalTimeSpent;
     }
 
-    public ChangeContainer<Boolean> getConfidential() {
-        return confidential;
-    }
-
-    public void setConfidential(ChangeContainer<Boolean> confidential) {
-        this.confidential = confidential;
-    }
-
-    public ChangeContainer<String> getState() {
-        return state;
-    }
-
-    public void setState(ChangeContainer<String> state) {
-        this.state = state;
-    }
-
+    @SuppressWarnings("unchecked")
     public <T> ChangeContainer<T> get(String property){
+
         if(otherProperties.containsKey(property)){
             try {
                 final ChangeContainer<Object> container = otherProperties.get(property);
-                //noinspection unchecked It's duty from caller to be sure to do that
+                // noinspection unchecked :  It's duty from caller to be sure to do that
                 return container != null ? (ChangeContainer<T>) container : null;
             } catch (ClassCastException e) {
                 return null;
