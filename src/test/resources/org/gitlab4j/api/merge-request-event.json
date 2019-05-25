@@ -104,13 +104,30 @@
     "group_id": 41
   }],
   "changes": {
+    "author_id": {
+       "current":2
+    },
     "updated_at": {
-       "previous":"2019-04-12T01:10:28Z",
-       "current":"2019-04-12T01:11:33Z"
+       "current": "2013-12-03T17:23:34Z"
     },
     "updated_by_id": {
        "previous": 2,
        "current": 6
+    },
+    "id":{
+       "previous":123,
+       "current":456
+   	},
+    "iid":{
+       "previous":12,
+       "current":34
+    },
+    "merge_status": {
+       "current": "unchecked"
+    },
+    "milestone_id": {
+       "previous":0,
+       "current":1
     },
     "labels": {
       "previous": [{

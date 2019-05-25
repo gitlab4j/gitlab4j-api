@@ -57,6 +57,10 @@
        "previous": "2020-06-01T08:00:00Z",
        "current": "2020-02-04T08:00:00Z"
     },
+    "confidential": {
+       "previous": false,
+       "current": true
+    },
     "updated_at": {
        "previous":"2019-04-12T01:10:28Z",
        "current":"2019-04-12T01:11:33Z"
@@ -65,13 +69,21 @@
        "previous": 2,
        "current": 6
     },
+    "id":{
+       "previous":123,
+       "current":456
+   	},
+    "iid":{
+       "previous":12,
+       "current":34
+    },
     "milestone_id": {
        "previous":0,
        "current":1
     },
     "confidential": {
-       "previous":true,
-       "current":false
+       "previous":false,
+       "current":true
     },
     "labels": {
       "previous": [{

@@ -5,7 +5,9 @@ import static org.gitlab4j.api.JsonUtils.compareJson;
 import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
 import static org.gitlab4j.api.JsonUtils.unmarshalResource;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -23,7 +25,7 @@ import org.gitlab4j.api.systemhooks.SystemHookListener;
 import org.gitlab4j.api.systemhooks.SystemHookManager;
 import org.gitlab4j.api.systemhooks.TeamMemberSystemHookEvent;
 import org.gitlab4j.api.utils.JacksonJson;
-import org.gitlab4j.api.webhook.BuildEvent;
+import org.gitlab4j.api.webhook.*;
 import org.gitlab4j.api.webhook.Event;
 import org.gitlab4j.api.webhook.IssueEvent;
 import org.gitlab4j.api.webhook.JobEvent;
@@ -65,15 +67,54 @@ public class TestGitLabApiEvents {
     @Test
     public void testIssueEvent() throws Exception {
 
-        Event issueEvent = unmarshalResource(IssueEvent.class, "issue-event.json");
+        IssueEvent issueEvent = unmarshalResource(IssueEvent.class, "issue-event.json");
         assertTrue(compareJson(issueEvent, "issue-event.json"));
+
+        ChangeContainer<Integer> idChange = issueEvent.getChanges().get("id");
+        assertNotNull(idChange);
+        assertEquals(123, (int)idChange.getPrevious());
+        assertEquals(456, (int)idChange.getCurrent());
+    }
+
+    @Test
+    public void testIssueChanges() throws Exception {
+
+        IssueEvent issueEvent = unmarshalResource(IssueEvent.class, "issue-event.json");
+        assertNotNull(issueEvent);
+
+        ChangeContainer<Integer> idChange = issueEvent.getChanges().get("id");
+        assertNotNull(idChange);
+        assertEquals(123, (int)idChange.getPrevious());
+        assertEquals(456, (int)idChange.getCurrent());
+
+        ChangeContainer<Boolean> confidentialChange = issueEvent.getChanges().getConfidential();
+        assertNotNull(confidentialChange);
+        assertFalse(confidentialChange.getPrevious());
+        assertTrue(confidentialChange.getCurrent());
     }
 
     @Test
     public void testMergeRequestEvent() throws Exception {
 
-        Event mergeRequestEvent = unmarshalResource(MergeRequestEvent.class, "merge-request-event.json");
+        MergeRequestEvent mergeRequestEvent = unmarshalResource(MergeRequestEvent.class, "merge-request-event.json");
         assertTrue(compareJson(mergeRequestEvent, "merge-request-event.json"));
+    }
+
+    @Test
+    public void testMergeRequestEventChanges() throws Exception {
+
+        MergeRequestEvent mergeRequestEvent = unmarshalResource(MergeRequestEvent.class, "merge-request-event.json");
+        assertNotNull(mergeRequestEvent);
+
+        ChangeContainer<Integer> iidChange = mergeRequestEvent.getChanges().get("iid");
+        assertNotNull(iidChange);
+        assertEquals(12, (int)iidChange.getPrevious());
+        assertEquals(34, (int)iidChange.getCurrent());
+
+        ChangeContainer<String> mergeStatusChangeChange = mergeRequestEvent.getChanges().getMergeStatus();
+        assertNotNull(mergeStatusChangeChange);
+        assertNull(mergeStatusChangeChange.getPrevious());
+        assertEquals("unchecked", mergeStatusChangeChange.getCurrent());
     }
 
     @Test
