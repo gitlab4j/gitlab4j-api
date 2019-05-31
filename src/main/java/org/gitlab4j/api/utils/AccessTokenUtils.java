@@ -15,6 +15,9 @@ import java.util.regex.Pattern;
 
 import org.gitlab4j.api.GitLabApiException;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * This class uses HTML scraping to create and revoke GitLab personal access tokens,
  * the user's Feed token, and for fetching the current Health Check access token.
@@ -23,6 +26,57 @@ import org.gitlab4j.api.GitLabApiException;
  *          proper functionality.  It may not work on earlier or later versions.</p>
  */
 public final class AccessTokenUtils {
+
+    /**
+     * This enum defines the available scopes for a personal access token.
+     */
+    public enum Scope {
+
+        /**
+         * Grants complete access to the API and Container Registry (read/write) (introduced in GitLab 8.15).
+         */
+        API,
+
+        /**
+         * Allows to read (pull) container registry images if a project is private and
+         * authorization is required (introduced in GitLab 9.3).
+         */
+        READ_REGISTRY,
+
+        /**
+         * Allows read-only access (pull) to the repository through git clone.
+         */
+        READ_REPOSITORY,
+
+        /**
+         * Allows access to the read-only endpoints under /users. Essentially, any of the GET
+         * requests in the Users API are allowed (introduced in GitLab 8.15).
+         */
+        READ_USER,
+
+        /**
+         * Allows performing API actions as any user in the system,
+         * if the authenticated user is an admin (introduced in GitLab 10.2).
+         */
+        SUDO;
+
+        private static JacksonJsonEnumHelper<Scope> enumHelper = new JacksonJsonEnumHelper<>(Scope.class);
+
+        @JsonCreator
+        public static Scope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 
     protected static final String USER_AGENT = "GitLab4J Client";
     protected static final String COOKIES_HEADER = "Set-Cookie";
@@ -57,7 +111,7 @@ public final class AccessTokenUtils {
      * @throws GitLabApiException if any exception occurs
      */
     public static final String createPersonalAccessToken(final String baseUrl, final String username,
-            final String password, final String tokenName, final List<String> scopes) throws GitLabApiException {
+            final String password, final String tokenName, final List<Scope> scopes) throws GitLabApiException {
 
         // Save the follow redirect state so it can be restored later
         boolean savedFollowRedirects = HttpURLConnection.getFollowRedirects();
@@ -122,8 +176,8 @@ public final class AccessTokenUtils {
             addFormData(formData, "personal_access_token[expires_at]", "");
 
             if (scopes != null && scopes.size() > 0) {
-                for (String scope : scopes) {
-                    addFormData(formData, "personal_access_token[scopes][]", scope);
+                for (Scope scope : scopes) {
+                    addFormData(formData, "personal_access_token[scopes][]", scope.toString());
                 }
             }
 
@@ -189,7 +243,7 @@ public final class AccessTokenUtils {
      * @throws GitLabApiException if any exception occurs
      */
     public static final void revokePersonalAccessToken(final String baseUrl, final String username,
-            final String password, final String tokenName, final List<String> scopes) throws GitLabApiException {
+            final String password, final String tokenName, final List<Scope> scopes) throws GitLabApiException {
 
         // Save the follow redirect state so it can be restored later
         boolean savedFollowRedirects = HttpURLConnection.getFollowRedirects();
@@ -252,7 +306,7 @@ public final class AccessTokenUtils {
             String scopesText = "";
             if (scopes != null && scopes.size() > 0) {
                 final StringJoiner joiner = new StringJoiner(", ");
-                scopes.forEach(s -> joiner.add(s));
+                scopes.forEach(s -> joiner.add(s.toString()));
                 scopesText = joiner.toString();
             }
 
