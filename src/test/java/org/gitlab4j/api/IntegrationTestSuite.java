@@ -13,6 +13,7 @@ import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.AccessTokenUtils;
+import org.gitlab4j.api.utils.AccessTokenUtils.Scope;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.experimental.categories.Categories.IncludeCategory;
@@ -96,7 +97,7 @@ public class IntegrationTestSuite implements PropertyConstants {
 
             TEST_PRIVATE_TOKEN = AccessTokenUtils.createPersonalAccessToken(
                     TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                    TEST_PRIVATE_TOKEN_NAME, Arrays.asList("api", "sudo"));
+                    TEST_PRIVATE_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
             System.out.println("Created private token: " + TEST_PRIVATE_TOKEN);
             assertNotNull(TEST_PRIVATE_TOKEN);
             assertFalse(TEST_PRIVATE_TOKEN.trim().isEmpty());
@@ -109,7 +110,7 @@ public class IntegrationTestSuite implements PropertyConstants {
 
             TEST_ACCESS_TOKEN = AccessTokenUtils.createPersonalAccessToken(
                     TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                    TEST_ACCESS_TOKEN_NAME, Arrays.asList("api", "sudo"));
+                    TEST_ACCESS_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
             System.out.println("Created access token: " + TEST_ACCESS_TOKEN);
             assertNotNull(TEST_ACCESS_TOKEN);
             assertFalse(TEST_ACCESS_TOKEN.trim().isEmpty());
@@ -124,7 +125,7 @@ public class IntegrationTestSuite implements PropertyConstants {
             try {
                 AccessTokenUtils.revokePersonalAccessToken(
                     TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                    TEST_PRIVATE_TOKEN_NAME, Arrays.asList("api", "sudo"));
+                    TEST_PRIVATE_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
                 System.out.format("Revoved '%s'%n", TEST_PRIVATE_TOKEN_NAME);
             } catch (Exception ignore) {}
         }
@@ -133,7 +134,7 @@ public class IntegrationTestSuite implements PropertyConstants {
             try {
                 AccessTokenUtils.revokePersonalAccessToken(
                     TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                    TEST_ACCESS_TOKEN_NAME, Arrays.asList("api", "sudo"));
+                    TEST_ACCESS_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
                 System.out.format("Revoved '%s'%n", TEST_ACCESS_TOKEN_NAME);
             } catch (Exception ignore) {}
         }
@@ -202,7 +203,8 @@ public class IntegrationTestSuite implements PropertyConstants {
                     .withName(TEST_PROJECT_NAME)
                     .withDefaultBranch("master")
                     .withPublic(true)
-                    .withInitializeWithReadme(true);
+                    .withInitializeWithReadme(true)
+                    .withRequestAccessEnabled(true);
             testProject = gitLabApi.getProjectApi().createProject(projectSettings);
             System.out.format("Created %s project%n", projectSettings.getName());
 
@@ -241,7 +243,8 @@ public class IntegrationTestSuite implements PropertyConstants {
                     .withName("Test Group")
                     .withPath(TEST_GROUP)
                     .withDescription("Test Group")
-                    .withVisibility(Visibility.PUBLIC);
+                    .withVisibility(Visibility.PUBLIC)
+                    .withRequestAccessEnabled(true);
             testGroup = gitLabApi.getGroupApi().addGroup(groupSettings);
             System.out.format("Created %s group (%s)%n", groupSettings.getName(), groupSettings.getPath());
         }

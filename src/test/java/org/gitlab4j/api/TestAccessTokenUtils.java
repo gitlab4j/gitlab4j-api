@@ -9,6 +9,7 @@ import static org.junit.Assume.assumeTrue;
 import java.util.Arrays;
 
 import org.gitlab4j.api.utils.AccessTokenUtils;
+import org.gitlab4j.api.utils.AccessTokenUtils.Scope;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -71,7 +72,7 @@ public class TestAccessTokenUtils {
 
         String accessToken = AccessTokenUtils.createPersonalAccessToken(
                 TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                tokenName, Arrays.asList("api", "sudo"));
+                tokenName, Arrays.asList(Scope.API, Scope.SUDO));
         System.out.format("Created '%s' personal access token: %s%n", tokenName, accessToken);
 
         assertNotNull(accessToken);
@@ -81,7 +82,7 @@ public class TestAccessTokenUtils {
         try {
             AccessTokenUtils.revokePersonalAccessToken(
                 TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                tokenName, Arrays.asList("api", "sudo"));
+                tokenName, Arrays.asList(Scope.API, Scope.SUDO));
             System.out.format("Revoked '%s' personal access token: %s%n", tokenName, accessToken);
         } catch (Exception ignore) {}
     }
@@ -92,7 +93,7 @@ public class TestAccessTokenUtils {
         try {
             AccessTokenUtils.createPersonalAccessToken(
                 TEST_HOST_URL, TEST_LOGIN_USERNAME, "INVALID PASSWORD", 
-                "Testing Token Creation", Arrays.asList("api", "sudo"));
+                "Testing Token Creation", Arrays.asList(Scope.API, Scope.SUDO));
             fail("Expected a failure, but personal access token was created.");
         } catch (GitLabApiException glae) {
             assertEquals(401, glae.getHttpStatus());
@@ -106,14 +107,14 @@ public class TestAccessTokenUtils {
 
         String accessToken = AccessTokenUtils.createPersonalAccessToken(
                 TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                tokenName, Arrays.asList("api", "sudo"));
+                tokenName, Arrays.asList(Scope.API, Scope.SUDO));
         System.out.format("Created '%s' personal access token: %s%n", tokenName, accessToken);
         assertNotNull(accessToken);
         assertFalse(accessToken.trim().isEmpty());
 
         AccessTokenUtils.revokePersonalAccessToken(
                 TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                tokenName, Arrays.asList("api", "sudo"));
+                tokenName, Arrays.asList(Scope.API, Scope.SUDO));
         System.out.format("Revoked '%s' personal access token: %s%n", tokenName, accessToken);
     }
 

@@ -40,10 +40,12 @@ import java.util.stream.Stream;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.AccessLevel;
+import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectFilter;
+import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 import org.junit.AfterClass;
@@ -76,6 +78,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     private static final String TEST_GROUP_PROJECT = HelperUtils.getProperty(GROUP_PROJECT_KEY);
     private static final String TEST_XFER_NAMESPACE = HelperUtils.getProperty(XFER_NAMESPACE_KEY);
     private static final String TEST_SUDO_AS_USERNAME = HelperUtils.getProperty(SUDO_AS_USERNAME_KEY);
+    private static final String TEST_REQUEST_ACCESS_USERNAME = HelperUtils.getProperty(TEST_REQUEST_ACCESS_USERNAME_KEY);
 
     private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
     private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
@@ -160,6 +163,20 @@ public class TestProjectApi extends AbstractIntegrationTest {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME);
                 gitLabApi.getProjectApi().deleteProject(project);
             } catch (GitLabApiException ignore) {}
+        }
+
+        if (TEST_REQUEST_ACCESS_USERNAME != null) {
+            Optional<User> user = gitLabApi.getUserApi().getOptionalUser(TEST_REQUEST_ACCESS_USERNAME);
+            if (user.isPresent()) {
+                Integer userId = user.get().getId();
+                try {
+                    gitLabApi.getProjectApi().denyAccessRequest(testProject, userId);
+                } catch (Exception e) {
+                    try {
+                        gitLabApi.getProjectApi().removeMember(testProject, userId);
+                    } catch (Exception ignore) {}
+                }
+            }
         }
     }
 
@@ -678,5 +695,91 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         // Assert
         assertNotNull(members);
+    }
+
+    @Test
+    public void testRequestAccess() throws GitLabApiException {
+
+        assumeTrue(TEST_REQUEST_ACCESS_USERNAME != null && TEST_REQUEST_ACCESS_USERNAME.length() > 0);
+
+        gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
+        User user = gitLabApi.getUserApi().getCurrentUser();
+        assertNotNull(user);
+        final Integer userId = user.getId();
+
+        try {
+            try {
+
+                AccessRequest accessRequest = gitLabApi.getProjectApi().requestAccess(testProject);
+                assertNotNull(accessRequest);
+                assertEquals(userId, accessRequest.getId());
+
+            } finally {
+                gitLabApi.unsudo();
+            }
+
+            Stream<AccessRequest> requests = gitLabApi.getProjectApi().getAccessRequestsStream(testProject);
+            assertTrue(requests.anyMatch(r -> r.getId() == userId));
+
+            AccessRequest accessRequest = gitLabApi.getProjectApi().approveAccessRequest(testProject, user.getId(), AccessLevel.DEVELOPER);
+            assertNotNull(accessRequest);
+            assertEquals(user.getId(), accessRequest.getId());
+            assertEquals(AccessLevel.DEVELOPER, accessRequest.getAccessLevel());
+
+            user = null;
+
+            requests = gitLabApi.getProjectApi().getAccessRequestsStream(testProject);
+            assertFalse(requests.anyMatch(r -> r.getId() == userId));
+
+        } finally {
+            try {
+                if (user == null) {
+                    gitLabApi.getProjectApi().removeMember(testProject, userId);
+                } else {
+                    gitLabApi.getProjectApi().denyAccessRequest(testProject, userId);
+                }
+            } catch (Exception ignore) {}
+        }
+    }
+
+    @Test
+    public void testDenyRequestAccess() throws GitLabApiException {
+
+        assumeTrue(TEST_REQUEST_ACCESS_USERNAME != null && TEST_REQUEST_ACCESS_USERNAME.length() > 0);
+
+        gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
+        User user = gitLabApi.getUserApi().getCurrentUser();
+        assertNotNull(user);
+        final Integer userId = user.getId();
+
+        try {
+            try {
+
+                AccessRequest accessRequest = gitLabApi.getProjectApi().requestAccess(testProject);
+                assertNotNull(accessRequest);
+                assertEquals(userId, accessRequest.getId());
+
+            } finally {
+                gitLabApi.unsudo();
+            }
+
+            List<AccessRequest> requests = gitLabApi.getProjectApi().getAccessRequests(testProject);
+            assertTrue(requests.stream().anyMatch(r -> r.getId() == userId));
+
+            gitLabApi.getProjectApi().denyAccessRequest(testProject, userId);
+
+            requests = gitLabApi.getProjectApi().getAccessRequests(testProject);
+            assertFalse(requests.stream().anyMatch(r -> r.getId() == userId));
+
+            user = null;
+
+        } finally {
+            try {
+                if (user != null) {
+                    gitLabApi.getProjectApi().denyAccessRequest(testProject, userId);
+                }
+            } catch (Exception ignore) {
+            }
+        }
     }
 }

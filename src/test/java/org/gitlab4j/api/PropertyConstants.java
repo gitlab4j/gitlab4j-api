@@ -23,6 +23,7 @@ public interface PropertyConstants {
     public static final String PROXY_PASSWORD_KEY = "TEST_PROXY_PASSWORD";
     public static final String PROXY_URI_KEY = "TEST_PROXY_URI";
     public static final String PROXY_USERNAME_KEY = "TEST_PROXY_USERNAME";
+    public static final String TEST_REQUEST_ACCESS_USERNAME_KEY = "TEST_REQUEST_ACCESS_USERNAME";
     public static final String SUDO_AS_USERNAME_KEY = "TEST_SUDO_AS_USERNAME";
     public static final String USERNAME_KEY = "TEST_USERNAME";
     public static final String XFER_NAMESPACE_KEY = "TEST_XFER_NAMESPACE";

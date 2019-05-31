@@ -39,6 +39,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
+import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Issue;
@@ -56,6 +57,7 @@ import org.gitlab4j.api.models.Visibility;
  * This class provides an entry point to all the GitLab API project calls.
  * @see <a href="https://docs.gitlab.com/ce/api/projects.html">Projects API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ee/api/members.html">Group and project members API at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ee/api/access_requests.html#group-and-project-access-requests-api">Group and project access requests API</a>
  */
 public class ProjectApi extends AbstractApi implements Constants {
 
@@ -2680,5 +2682,91 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public void deleteVariable(Object projectIdOrPath, String key) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "variables", key);
+    }
+
+    /**
+     * Get a List of the project access requests viewable by the authenticated user.
+     *
+     * <pre><code>GET /projects/:id/access_requests</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a List of project AccessRequest instances accessible by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<AccessRequest> getAccessRequests(Object projectIdOrPath) throws GitLabApiException {
+        return (getAccessRequests(projectIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of the project access requests viewable by the authenticated user.
+     *
+     * <pre><code>GET /projects/:id/access_requests</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param itemsPerPage the number of AccessRequest instances that will be fetched per page
+     * @return a Pager of project AccessRequest instances accessible by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<AccessRequest> getAccessRequests(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<AccessRequest>(this, AccessRequest.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "access_requests"));
+    }
+
+    /**
+     * Get a Stream of the project access requests viewable by the authenticated user.
+     *
+     * <pre><code>GET /projects/:id/access_requests</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a Stream of project AccessRequest instances accessible by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<AccessRequest> getAccessRequestsStream(Object projectIdOrPath) throws GitLabApiException {
+       return (getAccessRequests(projectIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Requests access for the authenticated user to the specified project.
+     *
+     * <pre><code>POST /projects/:id/access_requests</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return the created AccessRequest instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public AccessRequest requestAccess(Object projectIdOrPath) throws GitLabApiException {
+        Response response = post(Response.Status.CREATED, (Form)null, "projects", getProjectIdOrPath(projectIdOrPath), "access_requests");
+        return (response.readEntity(AccessRequest.class));
+    }
+
+    /**
+     * Approve access for the specified user to the specified project.
+     *
+     * <pre><code>PUT /projects/:id/access_requests/:user_id/approve</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param userId the user ID to approve access for
+     * @param accessLevel the access level the user is approved for, if null will be developer (30)
+     * @return the approved AccessRequest instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public AccessRequest approveAccessRequest(Object projectIdOrPath, Integer userId, AccessLevel accessLevel) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("access_level", accessLevel);
+        Response response = this.putWithFormData(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "access_requests", userId, "approve");
+        return (response.readEntity(AccessRequest.class));
+    }
+
+    /**
+     * Deny access for the specified user to the specified project.
+     *
+     * <pre><code>DELETE /projects/:id/access_requests/:user_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param userId the user ID to deny access for
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void denyAccessRequest(Object projectIdOrPath, Integer userId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "access_requests", userId);
     }
 }

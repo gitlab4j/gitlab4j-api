@@ -5,14 +5,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
+import static org.junit.Assume.assumeTrue;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
+import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.User;
@@ -41,6 +44,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
     private static final String TEST_USERNAME = HelperUtils.getProperty(USERNAME_KEY);
     private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
     private static final String TEST_GROUP_MEMBER_USERNAME = HelperUtils.getProperty(GROUP_MEMBER_USERNAME_KEY);
+    private static final String TEST_REQUEST_ACCESS_USERNAME = HelperUtils.getProperty(TEST_REQUEST_ACCESS_USERNAME_KEY);
 
     private static GitLabApi gitLabApi;
     private static Group testGroup;
@@ -84,20 +88,34 @@ public class TestGroupApi extends AbstractIntegrationTest {
             System.err.print(problems);
         }
 
-        removeGroupMember();
+        removeGroupMembers();
     }
 
     @AfterClass
     public static void teardown() {
-        removeGroupMember();
+        removeGroupMembers();
     }
 
-    private static void removeGroupMember() {
+    private static void removeGroupMembers() {
 
         if (gitLabApi != null && testGroup != null && testUser != null) {
             try {
                 gitLabApi.getGroupApi().removeMember(testGroup.getId(), testUser.getId());
             } catch (GitLabApiException ignore) {
+            }
+        }
+
+        if (TEST_REQUEST_ACCESS_USERNAME != null) {
+            Optional<User> user = gitLabApi.getUserApi().getOptionalUser(TEST_REQUEST_ACCESS_USERNAME);
+            if (user.isPresent()) {
+                Integer userId = user.get().getId();
+                try {
+                    gitLabApi.getGroupApi().denyAccessRequest(testGroup, userId);
+                } catch (Exception e) {
+                    try {
+                        gitLabApi.getGroupApi().removeMember(testGroup, userId);
+                    } catch (Exception ignore) {}
+                }
             }
         }
     }
@@ -182,5 +200,92 @@ public class TestGroupApi extends AbstractIntegrationTest {
         assertNotNull(optional);
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
+    }
+
+
+    @Test
+    public void testRequestAccess() throws GitLabApiException {
+
+        assumeTrue(TEST_REQUEST_ACCESS_USERNAME != null && TEST_REQUEST_ACCESS_USERNAME.length() > 0);
+
+        gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
+        User user = gitLabApi.getUserApi().getCurrentUser();
+        assertNotNull(user);
+        final Integer userId = user.getId();
+
+        try {
+            try {
+
+                AccessRequest accessRequest = gitLabApi.getGroupApi().requestAccess(testGroup);
+                assertNotNull(accessRequest);
+                assertEquals(userId, accessRequest.getId());
+
+            } finally {
+                gitLabApi.unsudo();
+            }
+
+            Stream<AccessRequest> requests = gitLabApi.getGroupApi().getAccessRequestsStream(testGroup);
+            assertTrue(requests.anyMatch(r -> r.getId() == userId));
+
+            AccessRequest accessRequest = gitLabApi.getGroupApi().approveAccessRequest(testGroup, user.getId(), AccessLevel.DEVELOPER);
+            assertNotNull(accessRequest);
+            assertEquals(user.getId(), accessRequest.getId());
+            assertEquals(AccessLevel.DEVELOPER, accessRequest.getAccessLevel());
+
+            user = null;
+
+            requests = gitLabApi.getGroupApi().getAccessRequestsStream(testGroup);
+            assertFalse(requests.anyMatch(r -> r.getId() == userId));
+
+        } finally {
+            try {
+                if (user == null) {
+                    gitLabApi.getGroupApi().removeMember(testGroup, userId);
+                } else {
+                    gitLabApi.getGroupApi().denyAccessRequest(testGroup, userId);
+                }
+            } catch (Exception ignore) {}
+        }
+    }
+
+    @Test
+    public void testDenyRequestAccess() throws GitLabApiException {
+
+        assumeTrue(TEST_REQUEST_ACCESS_USERNAME != null && TEST_REQUEST_ACCESS_USERNAME.length() > 0);
+
+        gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
+        User user = gitLabApi.getUserApi().getCurrentUser();
+        assertNotNull(user);
+        final Integer userId = user.getId();
+
+        try {
+            try {
+
+                AccessRequest accessRequest = gitLabApi.getGroupApi().requestAccess(testGroup);
+                assertNotNull(accessRequest);
+                assertEquals(userId, accessRequest.getId());
+
+            } finally {
+                gitLabApi.unsudo();
+            }
+
+            List<AccessRequest> requests = gitLabApi.getGroupApi().getAccessRequests(testGroup);
+            assertTrue(requests.stream().anyMatch(r -> r.getId() == userId));
+
+            gitLabApi.getGroupApi().denyAccessRequest(testGroup, userId);
+
+            requests = gitLabApi.getGroupApi().getAccessRequests(testGroup);
+            assertFalse(requests.stream().anyMatch(r -> r.getId() == userId));
+
+            user = null;
+
+        } finally {
+            try {
+                if (user != null) {
+                    gitLabApi.getGroupApi().denyAccessRequest(testGroup, userId);
+                }
+            } catch (Exception ignore) {
+            }
+        }
     }
 }

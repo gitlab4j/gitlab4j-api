@@ -32,6 +32,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Application;
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.AwardEmoji;
@@ -89,6 +90,12 @@ import org.gitlab4j.api.services.SlackService;
 import org.junit.Test;
 
 public class TestGitLabApiBeans {
+
+    @Test
+    public void testAccessRequest() throws Exception {
+        AccessRequest accessRequest = unmarshalResource(AccessRequest.class, "access-request.json");
+        assertTrue(compareJson(accessRequest, "access-request.json"));
+    }
 
     @Test
     public void testApplications() throws Exception {

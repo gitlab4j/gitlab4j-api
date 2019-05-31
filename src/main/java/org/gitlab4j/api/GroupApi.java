@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
+import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupProjectsFilter;
@@ -23,6 +24,7 @@ import org.gitlab4j.api.models.Visibility;
  * This class implements the client side API for the GitLab groups calls.
  * @see <a href="https://docs.gitlab.com/ce/api/groups.html">Groups API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ee/api/members.html">Group and project members API at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ee/api/access_requests.html#group-and-project-access-requests-api">Group and project access requests API</a>
  */
 public class GroupApi extends AbstractApi {
 
@@ -1220,5 +1222,92 @@ public class GroupApi extends AbstractApi {
         Response response = post(Response.Status.CREATED, (Form)null, "groups",  getGroupIdOrPath(groupIdOrPath),
                 "projects", getProjectIdOrPath(projectIdOrPath));
         return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Get a List of the group access requests viewable by the authenticated user.
+     *
+     * <pre><code>GET /group/:id/access_requests</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a List of project AccessRequest instances accessible by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<AccessRequest> getAccessRequests(Object groupIdOrPath) throws GitLabApiException {
+        return (getAccessRequests(groupIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of the group access requests viewable by the authenticated user.
+     *
+     * <pre><code>GET /groups/:id/access_requests</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param itemsPerPage the number of AccessRequest instances that will be fetched per page
+     * @return a Pager of group AccessRequest instances accessible by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<AccessRequest> getAccessRequests(Object groupIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<AccessRequest>(this, AccessRequest.class, itemsPerPage, null,
+                "groups", getGroupIdOrPath(groupIdOrPath), "access_requests"));
+    }
+
+    /**
+     * Get a Stream of the group access requests viewable by the authenticated user.
+     *
+     * <pre><code>GET /groups/:id/access_requests</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a Stream of group AccessRequest instances accessible by the authenticated user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<AccessRequest> getAccessRequestsStream(Object groupIdOrPath) throws GitLabApiException {
+       return (getAccessRequests(groupIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Requests access for the authenticated user to the specified group.
+     *
+     * <pre><code>POST /groups/:id/access_requests</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return the created AccessRequest instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public AccessRequest requestAccess(Object groupIdOrPath) throws GitLabApiException {
+        Response response = post(Response.Status.CREATED, (Form)null, "groups", getGroupIdOrPath(groupIdOrPath), "access_requests");
+        return (response.readEntity(AccessRequest.class));
+    }
+
+    /**
+     * Approve access for the specified user to the specified group.
+     *
+     * <pre><code>PUT /groups/:id/access_requests/:user_id/approve</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param userId the user ID to approve access for
+     * @param accessLevel the access level the user is approved for, if null will be developer (30)
+     * @return the approved AccessRequest instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public AccessRequest approveAccessRequest(Object groupIdOrPath, Integer userId, AccessLevel accessLevel) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("access_level", accessLevel);
+        Response response = this.putWithFormData(Response.Status.CREATED, formData,
+                "groups", getGroupIdOrPath(groupIdOrPath), "access_requests", userId, "approve");
+        return (response.readEntity(AccessRequest.class));
+    }
+
+    /**
+     * Deny access for the specified user to the specified group.
+     *
+     * <pre><code>DELETE /groups/:id/access_requests/:user_id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param userId the user ID to deny access for
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void denyAccessRequest(Object groupIdOrPath, Integer userId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null,
+                "groups", getGroupIdOrPath(groupIdOrPath), "access_requests", userId);
     }
 }
