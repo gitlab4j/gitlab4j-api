@@ -25,6 +25,7 @@ package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
 import java.util.Arrays;
@@ -32,6 +33,8 @@ import java.util.List;
 
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Runner;
+import org.gitlab4j.api.models.Runner.RunnerStatus;
+import org.gitlab4j.api.models.Runner.RunnerType;
 import org.gitlab4j.api.models.RunnerDetail;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -111,7 +114,9 @@ public class TestRunnersApi extends AbstractIntegrationTest {
     @Test
     public void shouldHaveRunnerDetails() throws GitLabApiException {
 
-        assertNotNull("Runner was not created", createRunner());
+        // Arrange
+        Runner runner = createRunner();
+        assertNotNull("Failed to create test runner.", runner);
 
         List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
         assertEquals(1, runners.size());
@@ -121,19 +126,30 @@ public class TestRunnersApi extends AbstractIntegrationTest {
     @Test
     public void shouldDeleteRunner() throws GitLabApiException {
 
-        assertNotNull("Runner was not created", createRunner());
-        assertNotNull("Runner was not created", createRunner());
-        assertNotNull("Runner was not created", createRunner());
+        for (int i = 0; i < 3; i++) {
+            Runner runner = createRunner();
+            assertNotNull("Failed to create test runner.", runner);
+        }
 
         List<Runner> allRunners = gitLabApi.getRunnersApi().getAllRunners();
         assertEquals(3, allRunners.size());
 
-        for (Runner runner : allRunners) {
-            RunnerDetail runnerDetail = gitLabApi.getRunnersApi().getRunnerDetail(runner.getId());
+        for (Runner r : allRunners) {
+            RunnerDetail runnerDetail = gitLabApi.getRunnersApi().getRunnerDetail(r.getId());
             gitLabApi.getRunnersApi().deleteRunner(runnerDetail.getToken());
         }
 
         allRunners = gitLabApi.getRunnersApi().getAllRunners();
         assertEquals(0, allRunners.size());
+    }
+
+    @Test
+    public void shouldHavePausedRunner() throws GitLabApiException {
+
+        Runner runner = createRunner();
+        assertNotNull("Failed to create test runner.", runner);
+
+        List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners(RunnerType.GROUP_TYPE, RunnerStatus.PAUSED);
+        assertTrue(runners.isEmpty());
     }
 }

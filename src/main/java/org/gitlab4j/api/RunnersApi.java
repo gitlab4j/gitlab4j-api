@@ -1,14 +1,17 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.Job;
-import org.gitlab4j.api.models.JobStatus;
-import org.gitlab4j.api.models.Runner;
-import org.gitlab4j.api.models.RunnerDetail;
+import java.util.List;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.List;
-import java.util.stream.Stream;
+
+import org.gitlab4j.api.models.Job;
+import org.gitlab4j.api.models.JobStatus;
+import org.gitlab4j.api.models.Runner;
+import org.gitlab4j.api.models.Runner.RunnerStatus;
+import org.gitlab4j.api.models.Runner.RunnerType;
+import org.gitlab4j.api.models.RunnerDetail;
 
 /**
  * This class provides an entry point to all the GitLab API repository files calls.
@@ -28,45 +31,7 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getRunners() throws GitLabApiException {
-        return (getRunners(null, getDefaultPerPage()).all());
-    }
-
-    /**
-     * Get a Stream of all available runners available to the user.
-     *
-     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
-     *
-     * @return Stream of Runners
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Stream<Runner> getRunnersStream() throws GitLabApiException {
-        return (getRunners(null, getDefaultPerPage()).stream());
-    }
-
-    /**
-     * Get a list of all available runners available to the user with pagination support.
-     *
-     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
-     *
-     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
-     * @return List of Runners
-     * @throws GitLabApiException if any exception occurs
-     */
-    public List<Runner> getRunners(Runner.RunnerStatus scope) throws GitLabApiException {
-        return (getRunners(scope, getDefaultPerPage()).all());
-    }
-
-    /**
-     * Get a Stream of all available runners available to the user with pagination support.
-     *
-     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
-     *
-     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
-     * @return Stream of Runners
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Stream<Runner> getRunnersStream(Runner.RunnerStatus scope) throws GitLabApiException {
-        return (getRunners(scope, getDefaultPerPage()).stream());
+        return (getRunners(null, null, getDefaultPerPage()).all());
     }
 
     /**
@@ -80,28 +45,7 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getRunners(int page, int perPage) throws GitLabApiException {
-        return getRunners(null, page, perPage);
-    }
-
-    /**
-     * Get a list of specific runners available to the user.
-     *
-     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
-     *
-     * @param scope   The scope of specific runners to show, one of: active, paused, online; showing all runners null
-     * @param page    The page offset of runners
-     * @param perPage The number of runners to get after the page offset
-     * @return List of Runners
-     * @throws GitLabApiException if any exception occurs
-     */
-    public List<Runner> getRunners(Runner.RunnerStatus scope, Integer page, Integer perPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", scope, false)
-                .withParam("page", page, false)
-                .withParam("per_page", perPage, false);
-        Response response = get(Response.Status.OK, formData.asMap(), "runners");
-        return (response.readEntity(new GenericType<List<Runner>>() {
-        }));
+        return getRunners(null, null, page, perPage);
     }
 
     /**
@@ -114,7 +58,123 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Runner> getRunners(int itemsPerPage) throws GitLabApiException {
-        return (getRunners(null, itemsPerPage));
+        return (getRunners(null, null, itemsPerPage));
+    }
+
+    /**
+     * Get a Stream of all available runners available to the user.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @return Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Runner> getRunnersStream() throws GitLabApiException {
+        return (getRunners(null, null, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of all available runners available to the user with pagination support.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @param type the type of runners to show, one of: instance_type, group_type, project_type, or null
+     * @param status the status of runners to show, one of: active, paused, online, offline, or null
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Runner> getRunners(RunnerType type, RunnerStatus status) throws GitLabApiException {
+        return (getRunners(type, status, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of specific runners available to the user.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @param type the type of runners to show, one of: instance_type, group_type, project_type, or null
+     * @param status the status of runners to show, one of: active, paused, online, offline, or null
+     * @param page the page offset of runners
+     * @param perPage the number of runners to get after the page offset
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Runner> getRunners(RunnerType type, RunnerStatus status, int page, int perPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm(page, perPage)
+                .withParam("type", type, false)
+                .withParam("status", status, false);
+        Response response = get(Response.Status.OK, formData.asMap(), "runners");
+        return (response.readEntity(new GenericType<List<Runner>>() {}));
+    }
+
+    /**
+     * Get a list of specific runners available to the user.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @param type the type of runners to show, one of: instance_type, group_type, project_type, or null
+     * @param status the status of runners to show, one of: active, paused, online, offline, or null
+     * @param itemsPerPage The number of Runner instances that will be fetched per page
+     * @return a Pager containing the Runners for the user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Runner> getRunners(RunnerType type, RunnerStatus status, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("type", type, false)
+                .withParam("status", status, false);
+        return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
+    }
+
+    /**
+     * Get a Stream of all available runners available to the user with pagination support.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @param type the type of runners to show, one of: instance_type, group_type, project_type, or null
+     * @param status the status of runners to show, one of: active, paused, online, offline, or null
+     * @return Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Runner> getRunnersStream(RunnerType type, RunnerStatus status) throws GitLabApiException {
+        return (getRunners(type, status, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of all available runners available to the user with pagination support.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.11.5, replaced by {@link #getRunners(Runner.RunnerType, Runner.RunnerStatus)}
+     */
+    @Deprecated
+    public List<Runner> getRunners(RunnerStatus scope) throws GitLabApiException {
+        return (getRunners(scope, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of specific runners available to the user.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @param scope   The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @param page    The page offset of runners
+     * @param perPage The number of runners to get after the page offset
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.11.5, replaced by {@link #getRunners(Runner.RunnerType, Runner.RunnerStatus, int, int)}
+     */
+    @Deprecated
+    public List<Runner> getRunners(RunnerStatus scope, int page, int perPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("scope", scope, false)
+                .withParam("page", page, false)
+                .withParam("per_page", perPage, false);
+        Response response = get(Response.Status.OK, formData.asMap(), "runners");
+        return (response.readEntity(new GenericType<List<Runner>>() {
+        }));
     }
 
     /**
@@ -126,10 +186,27 @@ public class RunnersApi extends AbstractApi {
      * @param itemsPerPage The number of Runner instances that will be fetched per page
      * @return a Pager containing the Runners for the user
      * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.11.5, replaced by {@link #getRunners(Runner.RunnerType, Runner.RunnerStatus, int)}
      */
-    public Pager<Runner> getRunners(Runner.RunnerStatus scope, int itemsPerPage) throws GitLabApiException {
+    @Deprecated
+    public Pager<Runner> getRunners(RunnerStatus scope, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("scope", scope, false);
         return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
+    }
+
+    /**
+     * Get a Stream of all available runners available to the user with pagination support.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners</code></pre>
+     *
+     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @return Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.11.5, replaced by {@link #getRunnersStream(Runner.RunnerType, Runner.RunnerStatus)}
+     */
+    @Deprecated
+    public Stream<Runner> getRunnersStream(RunnerStatus scope) throws GitLabApiException {
+        return (getRunners(scope, getDefaultPerPage()).stream());
     }
 
     /**
@@ -141,45 +218,7 @@ public class RunnersApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Runner> getAllRunners() throws GitLabApiException {
-        return (getAllRunners(null, getDefaultPerPage()).all());
-    }
-
-    /**
-     * Get a Stream of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
-     *
-     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
-     *
-     * @return a Stream of Runners
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Stream<Runner> getAllRunnersStream() throws GitLabApiException {
-        return (getAllRunners(null, getDefaultPerPage()).stream());
-    }
-
-    /**
-     * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
-     *
-     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
-     *
-     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
-     * @return a List of Runners
-     * @throws GitLabApiException if any exception occurs
-     */
-    public List<Runner> getAllRunners(Runner.RunnerStatus scope) throws GitLabApiException {
-        return (getAllRunners(scope, getDefaultPerPage()).all());
-    }
-
-    /**
-     * Get a Stream of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
-     *
-     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
-     *
-     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
-     * @return a Stream of Runners
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Stream<Runner> getAllRunnersStream(Runner.RunnerStatus scope) throws GitLabApiException {
-        return (getAllRunners(scope, getDefaultPerPage()).stream());
+        return (getAllRunners(null, null, getDefaultPerPage()).all());
     }
 
     /**
@@ -201,17 +240,56 @@ public class RunnersApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
      *
-     * @param scope   The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @param itemsPerPage The number of Runner instances that will be fetched per page
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Runner> getAllRunners(int itemsPerPage) throws GitLabApiException {
+        return getAllRunners(null, null, itemsPerPage);
+    }
+
+    /**
+     * Get a Stream of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
+     *
+     * @return a Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Runner> getAllRunnersStream() throws GitLabApiException {
+        return (getAllRunners(null, null, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
+     *
+     * @param type the type of runners to show, one of: instance_type, group_type, project_type, or null
+     * @param status the status of runners to show, one of: active, paused, online, offline, or null
+     * @return a List of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Runner> getAllRunners(RunnerType type, RunnerStatus status) throws GitLabApiException {
+        return (getAllRunners(type, status, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
+     *
+     * @param type the type of runners to show, one of: instance_type, group_type, project_type, or null
+     * @param status the status of runners to show, one of: active, paused, online, offline, or null
      * @param page    The page offset of runners
      * @param perPage The number of runners to get after the page offset
      * @return List of Runners
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Runner> getAllRunners(Runner.RunnerStatus scope, Integer page, Integer perPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("scope", scope, false)
-                .withParam("page", page, false)
-                .withParam("per_page", perPage, false);
+    public List<Runner> getAllRunners(RunnerType type, RunnerStatus status, int page, int perPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm(page, perPage)
+                .withParam("type", type, false)
+                .withParam("status", status, false);
         Response response = get(Response.Status.OK, formData.asMap(), "runners", "all");
         return (response.readEntity(new GenericType<List<Runner>>() {}));
     }
@@ -221,12 +299,65 @@ public class RunnersApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
      *
+     * @param type the type of runners to show, one of: instance_type, group_type, project_type, or null
+     * @param status the status of runners to show, one of: active, paused, online, offline, or null
      * @param itemsPerPage The number of Runner instances that will be fetched per page
-     * @return List of Runners
+     * @return a Pager containing the Runners
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Runner> getAllRunners(int itemsPerPage) throws GitLabApiException {
-        return getAllRunners(null, itemsPerPage);
+    public Pager<Runner> getAllRunners(RunnerType type, RunnerStatus status, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("type", type, false)
+                .withParam("status", status, false);
+        return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners", "all"));
+    }
+
+    /**
+     * Get a Stream of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
+     *
+     * @param type the type of runners to show, one of: instance_type, group_type, project_type, or null
+     * @param status the status of runners to show, one of: active, paused, online, offline, or null
+     * @return a Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Runner> getAllRunnersStream(RunnerType type, RunnerStatus status) throws GitLabApiException {
+        return (getAllRunners(type, status, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
+     *
+     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @return a List of Runners
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.11.5, replaced by {@link #getAllRunners(Runner.RunnerType, Runner.RunnerStatus)}
+     */
+    @Deprecated
+    public List<Runner> getAllRunners(RunnerStatus scope) throws GitLabApiException {
+        return (getAllRunners(scope, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
+     *
+     * @param scope   The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @param page    The page offset of runners
+     * @param perPage The number of runners to get after the page offset
+     * @return List of Runners
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.11.5, replaced by {@link #getAllRunners(Runner.RunnerType, Runner.RunnerStatus, int, int)}
+     */
+    @Deprecated
+    public List<Runner> getAllRunners(RunnerStatus scope, int page, int perPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm(page, perPage).withParam("scope", scope, false);
+        Response response = get(Response.Status.OK, formData.asMap(), "runners", "all");
+        return (response.readEntity(new GenericType<List<Runner>>() {}));
     }
 
     /**
@@ -238,10 +369,27 @@ public class RunnersApi extends AbstractApi {
      * @param itemsPerPage The number of Runner instances that will be fetched per page
      * @return a Pager containing the Runners
      * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.11.5, replaced by {@link #getAllRunners(Runner.RunnerType, Runner.RunnerStatus, int)}
      */
-    public Pager<Runner> getAllRunners(Runner.RunnerStatus scope, int itemsPerPage) throws GitLabApiException {
+    @Deprecated
+    public Pager<Runner> getAllRunners(RunnerStatus scope, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("scope", scope, false);
-        return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners"));
+        return (new Pager<>(this, Runner.class, itemsPerPage, formData.asMap(), "runners", "all"));
+    }
+
+    /**
+     * Get a Stream of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges.
+     *
+     * <pre><code>GitLab Endpoint: GET /runners/all</code></pre>
+     *
+     * @param scope The scope of specific runners to show, one of: active, paused, online; showing all runners null
+     * @return a Stream of Runners
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated As of release 4.11.5, replaced by {@link #getAllRunnersStream(Runner.RunnerType, Runner.RunnerStatus)}
+     */
+    @Deprecated
+    public Stream<Runner> getAllRunnersStream(RunnerStatus scope) throws GitLabApiException {
+        return (getAllRunners(scope, getDefaultPerPage()).stream());
     }
 
     /**

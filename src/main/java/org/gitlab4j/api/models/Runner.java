@@ -18,7 +18,7 @@ public class Runner {
     private String ipAddress;
 
     /**
-     * Enum to use for RunnersApi filtering.
+     * Enum to use for RunnersApi filtering on status.
      */
     public enum RunnerStatus {
         SPECIFIC, SHARED, ACTIVE, ONLINE, PAUSED, OFFLINE;
@@ -41,6 +41,29 @@ public class Runner {
         }
     }
 
+    /**
+     * Enum to use for RunnersApi filtering on type.
+     */
+    public enum RunnerType {
+        INSTANCE_TYPE, GROUP_TYPE, PROJECT_TYPE;
+        private static JacksonJsonEnumHelper<RunnerType> enumHelper =
+                new JacksonJsonEnumHelper<>(RunnerType.class);
+
+        @JsonCreator
+        public static RunnerType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 
     public Integer getId() {
         return id;
