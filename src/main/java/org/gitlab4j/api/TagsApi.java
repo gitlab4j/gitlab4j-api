@@ -94,7 +94,7 @@ public class TagsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Tag getTag(Object projectIdOrPath, String tagName) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", getTagForPath(tagName));
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", urlEncode(tagName));
         return (response.readEntity(Tag.class));
     }
 
@@ -198,7 +198,7 @@ public class TagsApi extends AbstractApi {
      */
     public void deleteTag(Object projectIdOrPath, String tagName) throws GitLabApiException {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", getTagForPath(tagName));
+        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", urlEncode(tagName));
     }
 
     /**
@@ -215,7 +215,7 @@ public class TagsApi extends AbstractApi {
     public Release createRelease(Object projectIdOrPath, String tagName, String releaseNotes) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("description", releaseNotes);
         Response response = post(Response.Status.CREATED, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", getTagForPath(tagName), "release");
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", urlEncode(tagName), "release");
         return (response.readEntity(Release.class));
     }
 
@@ -233,11 +233,8 @@ public class TagsApi extends AbstractApi {
     public Release updateRelease(Object projectIdOrPath, String tagName, String releaseNotes) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("description", releaseNotes);
         Response response = put(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", getTagForPath(tagName), "release");
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", urlEncode(tagName), "release");
         return (response.readEntity(Release.class));
     }
 
-    private String getTagForPath(String tag) throws GitLabApiException {
-        return urlEncode(tag);
-    }
 }
