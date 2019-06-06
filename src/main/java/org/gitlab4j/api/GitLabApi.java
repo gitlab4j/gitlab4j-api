@@ -56,6 +56,7 @@ public class GitLabApi {
     private AwardEmojiApi awardEmojiApi;
     private BoardsApi boardsApi;
     private CommitsApi commitsApi;
+    private ContainerRegistryApi containerRegistryApi;
     private DiscussionsApi discussionsApi;
     private DeployKeysApi deployKeysApi;
     private EpicsApi epicsApi;
@@ -987,6 +988,25 @@ public class GitLabApi {
         }
 
         return (commitsApi);
+    }
+
+    /**
+     * Gets the ContainerRegistryApi instance owned by this GitLabApi instance. The ContainerRegistryApi is used
+     * to perform all Docker Registry related API calls.
+     *
+     * @return the ContainerRegistryApi instance owned by this GitLabApi instance
+     */
+    public ContainerRegistryApi getContainerRegistryApi() {
+
+        if (containerRegistryApi == null) {
+            synchronized (this) {
+                if (containerRegistryApi == null) {
+                    containerRegistryApi = new ContainerRegistryApi(this);
+                }
+            }
+        }
+
+        return (containerRegistryApi);
     }
 
     /**
