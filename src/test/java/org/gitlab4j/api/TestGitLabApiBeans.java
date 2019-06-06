@@ -74,6 +74,7 @@ import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.ProtectedBranch;
 import org.gitlab4j.api.models.PushRules;
+import org.gitlab4j.api.models.RegistryRepository;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
 import org.gitlab4j.api.models.Session;
@@ -327,6 +328,12 @@ public class TestGitLabApiBeans {
     public void testPushRule() throws Exception {
         PushRules pushRule = unmarshalResource(PushRules.class, "push-rule.json");
         assertTrue(compareJson(pushRule, "push-rule.json"));
+    }
+
+    @Test
+    public void testRegistryRepositories() throws Exception {
+        List<RegistryRepository> repos = unmarshalResourceList(RegistryRepository.class, "registry-repositories.json");
+        assertTrue(compareJson(repos, "registry-repositories.json"));
     }
 
     @Test
