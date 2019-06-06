@@ -56,5 +56,4 @@ public class RegistryRepository {
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }
-
 }
