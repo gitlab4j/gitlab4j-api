@@ -23,6 +23,7 @@ public class TestTagsApi extends AbstractIntegrationTest {
 
     private static final String TEST_TAG_NAME_1 = "test-tag-1";
     private static final String TEST_TAG_NAME_0 = "test-tag-0";
+    private static final String TEST_TAG_WITH_SLASH = "env/test-tag";
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
@@ -46,6 +47,10 @@ public class TestTagsApi extends AbstractIntegrationTest {
             try {
                 gitLabApi.getTagsApi().deleteTag(testProject, TEST_TAG_NAME_1);
             } catch (Exception ignore) {}
+
+            try {
+                gitLabApi.getTagsApi().deleteTag(testProject, TEST_TAG_WITH_SLASH);
+            } catch (Exception ignore) {}
         }
     }
 
@@ -58,6 +63,10 @@ public class TestTagsApi extends AbstractIntegrationTest {
 
             try {
                 gitLabApi.getTagsApi().deleteTag(testProject, TEST_TAG_NAME_1);
+            } catch (Exception ignore) {}
+
+            try {
+                gitLabApi.getTagsApi().deleteTag(testProject, TEST_TAG_WITH_SLASH);
             } catch (Exception ignore) {}
         }
     }
@@ -126,5 +135,16 @@ public class TestTagsApi extends AbstractIntegrationTest {
         assertNotNull(tags);
         assertTrue(tags.getTotalItems() > 0);
         assertTrue(tags.stream().map(Tag::getName).anyMatch(s -> TEST_TAG_NAME_0.equals(s)));
+    }
+
+    @Test
+    public void testGetTagWithSpecialCharacersInTagName() throws GitLabApiException {
+        Tag testTag = gitLabApi.getTagsApi().createTag(testProject, TEST_TAG_WITH_SLASH, "master");
+        assertNotNull(testTag);
+        assertEquals(TEST_TAG_WITH_SLASH, testTag.getName());
+
+        testTag = gitLabApi.getTagsApi().getTag(testProject, TEST_TAG_WITH_SLASH);
+        assertNotNull(testTag);
+        assertEquals(TEST_TAG_WITH_SLASH, testTag.getName());
     }
 }
