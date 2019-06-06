@@ -25,7 +25,6 @@ package org.gitlab4j.api;
 
 import org.gitlab4j.api.models.RegistryRepository;
 import org.gitlab4j.api.models.RegistryRepositoryTag;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -221,7 +220,7 @@ public class ContainerRegistryApi extends AbstractApi {
             This function is not implemented because we need the library to support FormData on DELETE requests.
             See: https://docs.gitlab.com/ee/api/container_registry.html#delete-repository-tags-in-bulk
          */
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 }
