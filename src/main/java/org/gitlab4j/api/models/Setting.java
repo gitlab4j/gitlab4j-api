@@ -118,6 +118,9 @@ public enum Setting {
     /** Disabled OAuth sign-in sources. */
     DISABLED_OAUTH_SIGN_IN_SOURCES(String[].class),
 
+    /** New as of 11.11.0 */
+    DNS_REBINDING_PROTECTION_ENABLED(Boolean.class),
+
     /**
      * required by: domain_blacklist_enabled Users with e-mail addresses that match
      * these domain(s) will NOT be able to sign-up. Wildcards allowed. Use separate
