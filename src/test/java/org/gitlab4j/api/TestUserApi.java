@@ -1,10 +1,12 @@
 package org.gitlab4j.api;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
@@ -214,15 +216,29 @@ public class TestUserApi extends AbstractIntegrationTest {
     public void testCreateImpersonationToken() throws GitLabApiException, ParseException {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
-        Scope[] scopes = {Scope.API, Scope.READ_USER, Scope.READ_REGISTRY, Scope.WRITE_REPOSITORY, Scope.SUDO};
-        Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
-        ImpersonationToken token = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
-        assertNotNull(token);
-        assertNotNull(token.getId());
-        assertEquals(TEST_IMPERSONATION_TOKEN_NAME, token.getName());
-        assertEquals(5, token.getScopes().size());
 
-        gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
+        // NOTE: READ_REGISTRY scope is left out because the GitLab server docker instance does not have the 
+        // registry configured and the test would thus fail.
+        Scope[] scopes = {Scope.API, Scope.READ_USER, Scope.READ_REPOSITORY, Scope.WRITE_REPOSITORY, Scope.SUDO};
+        Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
+
+        ImpersonationToken token = null;
+        try {
+
+            token = gitLabApi.getUserApi().createImpersonationToken(user, TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
+
+            assertNotNull(token);
+            assertNotNull(token.getId());
+            assertEquals(TEST_IMPERSONATION_TOKEN_NAME, token.getName());
+            assertEquals(scopes.length, token.getScopes().size());
+            assertEquals(expiresAt.getTime(), token.getExpiresAt().getTime());
+            assertThat(token.getScopes(), containsInAnyOrder(scopes));
+
+        } finally {
+            if (user != null && token != null) {
+                gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
+            }
+        }
     }
 
     @Test
@@ -231,17 +247,27 @@ public class TestUserApi extends AbstractIntegrationTest {
         User user = gitLabApi.getUserApi().getCurrentUser();
         Scope[] scopes = {Scope.API, Scope.READ_USER};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
-        ImpersonationToken token = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
-        assertNotNull(token);
 
-        Optional<ImpersonationToken> optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), token.getId());
-        assertTrue(optional.isPresent());
-        assertEquals(token.getId(), optional.get().getId());
-        gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
+        ImpersonationToken token = null;
+        try {
 
-        optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), 123456);
-        assertNotNull(optional);
-        assertFalse(optional.isPresent());
+            token = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
+            assertNotNull(token);
+
+            Optional<ImpersonationToken> optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), token.getId());
+            assertTrue(optional.isPresent());
+            assertEquals(token.getId(), optional.get().getId());
+            gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
+
+            optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), 123456);
+            assertNotNull(optional);
+            assertFalse(optional.isPresent());
+
+        } finally {
+            if (user != null && token != null) {
+                gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
+            }
+        }
     }
 
     @Test
