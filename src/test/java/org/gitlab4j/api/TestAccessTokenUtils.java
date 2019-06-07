@@ -70,9 +70,11 @@ public class TestAccessTokenUtils {
 
         final String tokenName = "Testing Token Creation-" + HelperUtils.getRandomInt(1000);
 
+        // NOTE: READ_REGISTRY scope is left out because the GitLab server docker instance does not have the
+        // registry configured and the test would thus fail.
+        Scope[] scopes = {Scope.API, Scope.READ_USER, Scope.READ_REPOSITORY, Scope.WRITE_REPOSITORY, Scope.SUDO};
         String accessToken = AccessTokenUtils.createPersonalAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                tokenName, Arrays.asList(Scope.API, Scope.SUDO));
+                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, tokenName, scopes);
         System.out.format("Created '%s' personal access token: %s%n", tokenName, accessToken);
 
         assertNotNull(accessToken);
@@ -81,8 +83,7 @@ public class TestAccessTokenUtils {
         // Go ahead and revoke (delete) the just created access token
         try {
             AccessTokenUtils.revokePersonalAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                tokenName, Arrays.asList(Scope.API, Scope.SUDO));
+                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, tokenName, scopes);
             System.out.format("Revoked '%s' personal access token: %s%n", tokenName, accessToken);
         } catch (Exception ignore) {}
     }

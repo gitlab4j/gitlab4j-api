@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.regex.Matcher;
@@ -39,7 +40,9 @@ public final class AccessTokenUtils {
 
         /**
          * Allows to read (pull) container registry images if a project is private and
-         * authorization is required (introduced in GitLab 9.3).
+         * authorization is required (introduced in GitLab 9.3).  If the GitLab server you
+         * are using does not have the Registry properly configured, using this scope will
+         * result in an exception.
          */
         READ_REGISTRY,
 
@@ -58,7 +61,12 @@ public final class AccessTokenUtils {
          * Allows performing API actions as any user in the system,
          * if the authenticated user is an admin (introduced in GitLab 10.2).
          */
-        SUDO;
+        SUDO,
+
+        /**
+         * Grants read-write access to repositories on private projects using Git-over-HTTP (not using the API).
+         */
+        WRITE_REPOSITORY;
 
         private static JacksonJsonEnumHelper<Scope> enumHelper = new JacksonJsonEnumHelper<>(Scope.class);
 
@@ -98,6 +106,27 @@ public final class AccessTokenUtils {
 
     protected static final String HEALTH_CHECK_ACCESS_TOKEN_REGEX = "id=\"health-check-token\">([^<]*)<\\/code>";
     protected static final Pattern HEALTH_CHECK_ACCESS_TOKEN_PATTERN = Pattern.compile(HEALTH_CHECK_ACCESS_TOKEN_REGEX);
+
+    /**
+     * Create a GitLab personal access token with the provided configuration.
+     *
+     * @param baseUrl the GitLab server base URL
+     * @param username the user name to create the personal access token for
+     * @param password the password of the user to create the personal access token for
+     * @param tokenName the name for the new personal access token
+     * @param scopes an array of scopes for the new personal access token
+     * @return the created personal access token
+     * @throws GitLabApiException if any exception occurs
+     */
+    public static final String createPersonalAccessToken(final String baseUrl, final String username,
+            final String password, final String tokenName, final Scope[] scopes) throws GitLabApiException {
+
+        if (scopes == null || scopes.length == 0) {
+            throw new RuntimeException("scopes cannot be null or empty");
+        }
+
+        return (createPersonalAccessToken(baseUrl, username, password, tokenName, Arrays.asList(scopes)));
+    }
 
     /**
      * Create a GitLab personal access token with the provided configuration.
@@ -230,6 +259,26 @@ public final class AccessTokenUtils {
                 HttpURLConnection.setFollowRedirects(true);
             }
         }
+    }
+
+    /**
+     * Revoke the first matching GitLab personal access token.
+     *
+     * @param baseUrl the GitLab server base URL
+     * @param username the user name to revoke the personal access token for
+     * @param password the password of the user to revoke the personal access token for
+     * @param tokenName the name of the personal access token to revoke
+     * @param scopes an array of scopes of the personal access token to revoke
+     * @throws GitLabApiException if any exception occurs
+     */
+    public static final void revokePersonalAccessToken(final String baseUrl, final String username,
+            final String password, final String tokenName, final Scope[] scopes) throws GitLabApiException {
+
+        if (scopes == null || scopes.length == 0) {
+            throw new RuntimeException("scopes cannot be null or empty");
+        }
+
+        revokePersonalAccessToken(baseUrl, username, password, tokenName, Arrays.asList(scopes));
     }
 
     /**
