@@ -21,7 +21,17 @@ public class Runner {
      * Enum to use for RunnersApi filtering on status.
      */
     public enum RunnerStatus {
-        SPECIFIC, SHARED, ACTIVE, ONLINE, PAUSED, OFFLINE;
+
+        /** @deprecated This RunnerStatus value is deprecated and will be removed in a future release. */
+        @Deprecated
+        SPECIFIC,
+
+        /** @deprecated This RunnerStatus value is deprecated and will be removed in a future release. */
+        @Deprecated
+        SHARED,
+
+        ACTIVE, ONLINE, PAUSED, OFFLINE;
+
         private static JacksonJsonEnumHelper<RunnerStatus> enumHelper =
                 new JacksonJsonEnumHelper<>(RunnerStatus.class);
 
