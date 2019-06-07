@@ -214,13 +214,13 @@ public class TestUserApi extends AbstractIntegrationTest {
     public void testCreateImpersonationToken() throws GitLabApiException, ParseException {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
-        Scope[] scopes = {Scope.API, Scope.READ_USER};
+        Scope[] scopes = {Scope.API, Scope.READ_USER, Scope.READ_REGISTRY, Scope.WRITE_REPOSITORY, Scope.SUDO};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
         ImpersonationToken token = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
         assertNotNull(token);
         assertNotNull(token.getId());
         assertEquals(TEST_IMPERSONATION_TOKEN_NAME, token.getName());
-        assertEquals(2, token.getScopes().size());
+        assertEquals(5, token.getScopes().size());
 
         gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
     }
