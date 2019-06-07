@@ -230,8 +230,8 @@ public class TestUserApi extends AbstractIntegrationTest {
             assertNotNull(token);
             assertNotNull(token.getId());
             assertEquals(TEST_IMPERSONATION_TOKEN_NAME, token.getName());
-            assertEquals(scopes.length, token.getScopes().size());
             assertEquals(expiresAt.getTime(), token.getExpiresAt().getTime());
+            assertEquals(scopes.length, token.getScopes().size());
             assertThat(token.getScopes(), containsInAnyOrder(scopes));
 
         } finally {
