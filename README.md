@@ -12,7 +12,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.11.5'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.11.6'
 }
 ```
 
@@ -23,7 +23,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.11.5</version>
+    <version>4.11.6</version>
 </dependency>
 ```
 
@@ -224,6 +224,7 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[AwardEmojiApi](#awardemojiapi)<br/>
 &nbsp;&nbsp;[BoardsApi](#boardsapi)<br/>
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
+&nbsp;&nbsp;[ContainerRegistryApi](#containerregistryapi)<br/>
 &nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
 &nbsp;&nbsp;[DiscussionsApi](#discussionsapi)<br/>
 &nbsp;&nbsp;[EpicsApi](#epicsapi)<br/>
@@ -287,6 +288,12 @@ List<Board> boards = gitLabApi.getBoardsApi().getBoards(projectId);
 Date since = ISO8601.toDate("2017-01-01T00:00:00Z");
 Date until = new Date(); // now
 List<Commit> commits = gitLabApi.getCommitsApi().getCommits(1234, "new-feature", since, until);
+```
+
+#### ContainerRegistryApi
+```java
+// Get a list of the registry repositories belonging to the specified project
+List<RegistryRepository> registryRepos = gitLabApi.ContainerRegistryApi().getRepositories(projectId);
 ```
 
 #### DeployKeysApi
