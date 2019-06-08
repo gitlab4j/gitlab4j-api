@@ -43,6 +43,7 @@ public class ImportStatus {
     private String pathWithNamespace;
     private Date createdAt;
     private Status importStatus;
+    private String importError;
 
     public Integer getId() {
         return id;
@@ -106,6 +107,14 @@ public class ImportStatus {
 
     public void setImportStatus(Status importStatus) {
         this.importStatus = importStatus;
+    }
+
+    public String getImportError() {
+        return importError;
+    }
+
+    public void setImportError(String importError) {
+        this.importError = importError;
     }
 
     @Override
