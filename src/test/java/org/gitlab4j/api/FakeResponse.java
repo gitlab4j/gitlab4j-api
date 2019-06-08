@@ -1,19 +1,31 @@
 package org.gitlab4j.api;
 
 import java.io.ByteArrayInputStream;
+import java.lang.annotation.Annotation;
+import java.net.URI;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
+import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Link;
+import javax.ws.rs.core.Link.Builder;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
 /**
- * This class can be used as a spy for Mockito to test the individual APIs
+ * This class can be used as a concrete mock to test the individual APIs
  * getXxxxx() methods without the need to have a GitLab server available.
  * 
  * Supports getXxxxx() methods that return a List of items, single items,
  * Optional items, and Pagers of items.
  */
-public abstract class FakeResponse extends Response {
+public class FakeResponse extends Response {
 
     private List<?> responseList;
     private Object responseItem;
@@ -51,8 +63,10 @@ public abstract class FakeResponse extends Response {
         this.perPage = perPage;
     }
 
-    // The below methods allow this abstract class to act as a fake Resource
-    // instance.
+
+    /******************************************************************************
+     * The following methods allow this class to act as a fake Resource instance.
+     ******************************************************************************/
 
     @SuppressWarnings("unchecked")
     @Override
@@ -92,5 +106,116 @@ public abstract class FakeResponse extends Response {
     @Override
     public int getStatus() {
         return (200);
+    }
+
+
+    /**************************************************************************************************
+     * The remaining methods are stubbed so we can create an instance of this class. They are simply
+     * stubs, but needed to do this because the Mockito Spy annotation does not work without JAXB
+     * on Java 11+ and did not wish to pull in the JAXB module even for testing. 
+     **************************************************************************************************/
+
+    @Override
+    public StatusType getStatusInfo() {
+        return null;
+    }
+
+    @Override
+    public <T> T readEntity(Class<T> entityType, Annotation[] annotations) {
+        return null;
+    }
+
+    @Override
+    public <T> T readEntity(GenericType<T> entityType, Annotation[] annotations) {
+        return null;
+    }
+
+    @Override
+    public boolean hasEntity() {
+        return false;
+    }
+
+    @Override
+    public boolean bufferEntity() {
+        return false;
+    }
+
+    @Override
+    public void close() {
+    }
+
+    @Override
+    public MediaType getMediaType() {
+        return null;
+    }
+
+    @Override
+    public Locale getLanguage() {
+        return null;
+    }
+
+    @Override
+    public int getLength() {
+        return 0;
+    }
+
+    @Override
+    public Set<String> getAllowedMethods() {
+        return null;
+    }
+
+    @Override
+    public Map<String, NewCookie> getCookies() {
+        return null;
+    }
+
+    @Override
+    public EntityTag getEntityTag() {
+        return null;
+    }
+
+    @Override
+    public Date getDate() {
+        return null;
+    }
+
+    @Override
+    public Date getLastModified() {
+        return null;
+    }
+
+    @Override
+    public URI getLocation() {
+        return null;
+    }
+
+    @Override
+    public Set<Link> getLinks() {
+        return null;
+    }
+
+    @Override
+    public boolean hasLink(String relation) {
+        return false;
+    }
+
+    @Override
+    public Link getLink(String relation) {
+        return null;
+    }
+
+    @Override
+    public Builder getLinkBuilder(String relation) {
+        return null;
+    }
+
+    @Override
+    public MultivaluedMap<String, Object> getMetadata() {
+        return null;
+    }
+
+    @Override
+    public MultivaluedMap<String, String> getStringHeaders() {
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 import static org.gitlab4j.api.JsonUtils.compareJson;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,8 +10,6 @@ import static org.junit.Assume.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-
-import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -25,14 +24,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 
 public class TestStreams implements Constants {
 
     @Mock private GitLabApi gitLabApi;
     @Mock private GitLabApiClient gitLabApiClient;
-    @Spy private FakeResponse response;
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    private FakeResponse response = new FakeResponse();
 
     static private List<User> sortedUsers;
 

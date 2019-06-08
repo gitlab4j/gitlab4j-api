@@ -1,5 +1,16 @@
 package org.gitlab4j.api;
 
+import static org.hamcrest.Matchers.hasEntry;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+
+import java.util.Collections;
+
+import javax.ws.rs.core.MultivaluedMap;
+
 import org.gitlab4j.api.models.MergeRequest;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,38 +19,23 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import java.util.Collections;
-
-import static org.hamcrest.Matchers.hasEntry;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-
 public class TestMergeRequestApi {
 
     @Mock private GitLabApi gitLabApi;
     @Mock private GitLabApiClient gitLabApiClient;
-    @Mock private Response response;
-
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    private FakeResponse response = new FakeResponse();
 
     @SuppressWarnings("deprecation")
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
+        response.init(MergeRequest.class, "merge-request.json", null);
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
 
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
         when(gitLabApiClient.put(attributeCaptor.capture(), Mockito.<Object>anyVararg()))
                 .thenReturn(response);
-
-        when(response.getStatus()).thenReturn(200);
-        when(response.getEntity()).thenReturn(new MergeRequest());
     }
 
     @Test

@@ -20,14 +20,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 
 public class TestSnippetDiscussionsApi implements Constants {
 
     @Mock private GitLabApi gitLabApi;
     @Mock private GitLabApiClient gitLabApiClient;
-    @Spy private FakeResponse response;
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    private FakeResponse response = new FakeResponse();
 
     @Before
     public void setUp() throws Exception {

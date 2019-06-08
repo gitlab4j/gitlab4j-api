@@ -20,15 +20,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 
 public class TestCommitDiscussionsApi implements Constants {
 
     private static final String COMMIT_SHA = "abcdef1234567890";
     @Mock private GitLabApi gitLabApi;
     @Mock private GitLabApiClient gitLabApiClient;
-    @Spy private FakeResponse response;
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    private FakeResponse response = new FakeResponse();
 
     @Before
     public void setUp() throws Exception {
