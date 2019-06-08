@@ -12,7 +12,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.11.6'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.11.7'
 }
 ```
 
@@ -23,7 +23,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.11.6</version>
+    <version>4.11.7</version>
 </dependency>
 ```
 
@@ -231,6 +231,7 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[EventsApi](#eventsapi)<br/>
 &nbsp;&nbsp;[GroupApi](#groupapi)<br/>
 &nbsp;&nbsp;[HealthCheckApi](#healthcheckapi)<br/>
+&nbsp;&nbsp;[ImportExportApi](#importexportapi)<br/>
 &nbsp;&nbsp;[IssuesApi](#issuesapi)<br/>
 &nbsp;&nbsp;[JobApi](#jobapi)<br/>
 &nbsp;&nbsp;[LabelsApi](#labelsapi)<br/>
@@ -333,6 +334,15 @@ List<Group> groups = gitLabApi.getGroupApi().getGroups();
 // Get the liveness endpoint health check results. Assumes ip_whitelisted per:
 // https://docs.gitlab.com/ee/administration/monitoring/ip_whitelist.html
 HealthCheckInfo healthCheck = gitLabApi.getHealthCheckApi().getLiveness();
+```
+
+#### ImportExportApi
+```java
+// Schedule a project export for the specified project ID
+gitLabApi.getImportExportApi().scheduleExport(projectId);
+
+// Get the project export status for the specified project ID
+ExportStatus exportStatus = gitLabApi.getImportExportApi().getExportStatus(projectId);
 ```
 
 #### IssuesApi
