@@ -63,6 +63,7 @@ public class GitLabApi {
     private EventsApi eventsApi;
     private GroupApi groupApi;
     private HealthCheckApi healthCheckApi;
+    private ImportExportApi importExportApi;
     private IssuesApi issuesApi;
     private JobApi jobApi;
     private LabelsApi labelsApi;
@@ -1124,10 +1125,29 @@ public class GitLabApi {
     }
 
     /**
-     * Gets the IssuesApi instance owned by this GitLabApi instance. The IssuesApi is used
-     * to perform all iossue related API calls.
+     * Gets the ImportExportApi instance owned by this GitLabApi instance. The ImportExportApi is used
+     * to perform all project import/export related API calls.
      *
-     * @return the CommitsApi instance owned by this GitLabApi instance
+     * @return the ImportExportApi instance owned by this GitLabApi instance
+     */
+    public ImportExportApi getImportExportApi() {
+
+        if (importExportApi == null) {
+            synchronized (this) {
+                if (importExportApi == null) {
+                    importExportApi = new ImportExportApi(this);
+                }
+            }
+        }
+
+        return (importExportApi);
+    }
+
+    /**
+     * Gets the IssuesApi instance owned by this GitLabApi instance. The IssuesApi is used
+     * to perform all issue related API calls.
+     *
+     * @return the IssuesApi instance owned by this GitLabApi instance
      */
     public IssuesApi getIssuesApi() {
 

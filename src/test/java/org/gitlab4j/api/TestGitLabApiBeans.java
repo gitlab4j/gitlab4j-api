@@ -51,10 +51,12 @@ import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.Event;
+import org.gitlab4j.api.models.ExportStatus;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.HealthCheckInfo;
 import org.gitlab4j.api.models.ImpersonationToken;
+import org.gitlab4j.api.models.ImportStatus;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
@@ -193,6 +195,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testExportStatus() throws Exception {
+        ExportStatus exportStatus = unmarshalResource(ExportStatus.class, "export-status.json");
+        assertTrue(compareJson(exportStatus, "export-status.json"));
+    }
+
+    @Test
     public void testFileUpload() throws Exception {
         FileUpload fileUpload = unmarshalResource(FileUpload.class, "file-upload.json");
         assertTrue(compareJson(fileUpload, "file-upload.json"));
@@ -208,6 +216,12 @@ public class TestGitLabApiBeans {
     public void testHealthCheckInfo() throws Exception {
         HealthCheckInfo healthCheck = unmarshalResource(HealthCheckInfo.class, "health-check.json");
         assertTrue(compareJson(healthCheck, "health-check.json"));
+    }
+
+    @Test
+    public void testImportStatus() throws Exception {
+        ImportStatus importStatus = unmarshalResource(ImportStatus.class, "import-status.json");
+        assertTrue(compareJson(importStatus, "import-status.json"));
     }
 
     @Test
