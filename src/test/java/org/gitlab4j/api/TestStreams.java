@@ -30,7 +30,7 @@ public class TestStreams implements Constants {
     @Mock private GitLabApi gitLabApi;
     @Mock private GitLabApiClient gitLabApiClient;
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
-    private FakeResponse response = new FakeResponse();
+    private MockResponse response;
 
     static private List<User> sortedUsers;
 
@@ -45,7 +45,7 @@ public class TestStreams implements Constants {
     @Before
     public void setup() throws Exception {
         initMocks(this);
-        response.init(User.class, null, "user-list.json");
+        response = new MockResponse(User.class, null, "user-list.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
         when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);

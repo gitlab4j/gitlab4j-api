@@ -24,13 +24,13 @@ public class TestMergeRequestApi {
     @Mock private GitLabApi gitLabApi;
     @Mock private GitLabApiClient gitLabApiClient;
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
-    private FakeResponse response = new FakeResponse();
+    private MockResponse response;
 
     @SuppressWarnings("deprecation")
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        response.init(MergeRequest.class, "merge-request.json", null);
+        response = new MockResponse(MergeRequest.class, "merge-request.json", null);
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
 
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);

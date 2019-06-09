@@ -26,12 +26,12 @@ public class TestMergeRequestDiscussionsApi implements Constants {
     @Mock private GitLabApi gitLabApi;
     @Mock private GitLabApiClient gitLabApiClient;
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
-    private FakeResponse response = new FakeResponse();
+    private MockResponse response;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        response.init(Discussion.class,  null,  "merge-request-discussions.json");
+        response = new MockResponse(Discussion.class,  null,  "merge-request-discussions.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
         when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);

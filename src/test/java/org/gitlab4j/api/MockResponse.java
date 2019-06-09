@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
  * Supports getXxxxx() methods that return a List of items, single items,
  * Optional items, and Pagers of items.
  */
-public class FakeResponse extends Response {
+public class MockResponse extends Response {
 
     private List<?> responseList;
     private Object responseItem;
@@ -33,6 +33,13 @@ public class FakeResponse extends Response {
 
     private String itemJson;
     private String listJson;
+
+    public MockResponse() {
+    }
+
+    public <T> MockResponse(Class<T> type, String itemFilename, String listFilename) throws Exception {
+        init(type, itemFilename, listFilename);
+    }
 
     public <T> void init(Class<T> type, String itemFilename, String listFilename) throws Exception {
 
