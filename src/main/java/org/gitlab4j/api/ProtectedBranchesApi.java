@@ -11,7 +11,7 @@ import org.gitlab4j.api.models.ProtectedBranch;
 
 /**
  * This class provides an entry point to all the Protected Branches API calls.
- * @see <a https://docs.gitlab.com/ee/api/protected_branches.html">Protected branches API at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ee/api/protected_branches.html">Protected branches API at GitLab</a>
  */
 public class ProtectedBranchesApi extends AbstractApi {
 
