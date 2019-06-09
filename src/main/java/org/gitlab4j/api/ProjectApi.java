@@ -825,7 +825,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * publicJobs (optional) - If true, jobs can be viewed by non-project-members
      * onlyAllowMergeIfPipelineSucceeds (optional) - Set whether merge requests can only be merged with successful jobs
      * onlyAllowMergeIfAllDiscussionsAreResolved (optional) - Set whether merge requests can only be merged when all the discussions are resolved
-     * lLfsEnabled (optional) - Enable LFS
+     * lfsEnabled (optional) - Enable LFS
      * requestAccessEnabled (optional) - Allow users to request member access
      * repositoryStorage (optional) - Which storage shard the repository is on. Available only to admins
      * approvalsBeforeMerge (optional) - How many approvers should approve merge request by default
@@ -1065,7 +1065,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * publicJobs (optional) - If true, jobs can be viewed by non-project-members
      * onlyAllowMergeIfPipelineSucceeds (optional) - Set whether merge requests can only be merged with successful jobs
      * onlyAllowMergeIfAllDiscussionsAreResolved (optional) - Set whether merge requests can only be merged when all the discussions are resolved
-     * lLfsEnabled (optional) - Enable LFS
+     * lfsEnabled (optional) - Enable LFS
      * requestAccessEnabled (optional) - Allow users to request member access
      * repositoryStorage (optional) - Which storage shard the repository is on. Available only to admins
      * approvalsBeforeMerge (optional) - How many approvers should approve merge request by default

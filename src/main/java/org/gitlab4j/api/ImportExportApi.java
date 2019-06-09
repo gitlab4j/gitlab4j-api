@@ -140,7 +140,7 @@ public class ImportExportApi extends AbstractApi {
      * <li>publicJobs (optional) - If true, jobs can be viewed by non-project-members</li>
      * <li>onlyAllowMergeIfPipelineSucceeds (optional) - Set whether merge requests can only be merged with successful jobs</li>
      * <li>onlyAllowMergeIfAllDiscussionsAreResolved (optional) - Set whether merge requests can only be merged when all the discussions are resolved</li>
-     * <li>lLfsEnabled (optional) - Enable LFS</li>
+     * <li>lfsEnabled (optional) - Enable LFS</li>
      * <li>requestAccessEnabled (optional) - Allow users to request member access</li>
      * <li>repositoryStorage (optional) - Which storage shard the repository is on. Available only to admins</li>
      * <li>approvalsBeforeMerge (optional) - How many approvers should approve merge request by default</li>

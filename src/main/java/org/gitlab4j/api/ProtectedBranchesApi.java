@@ -9,6 +9,10 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.ProtectedBranch;
 
+/**
+ * This class provides an entry point to all the Protected Branches API calls.
+ * @see <a https://docs.gitlab.com/ee/api/protected_branches.html">Protected branches API at GitLab</a>
+ */
 public class ProtectedBranchesApi extends AbstractApi {
 
     public ProtectedBranchesApi(GitLabApi gitLabApi) {
@@ -62,7 +66,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/protected_branches/:name</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param branchName the name of the branch to un-protect
+     * @param branchName the name of the branch to un-protect, can be a wildcard
      * @throws GitLabApiException if any exception occurs
      */
     public void unprotectBranch(Integer projectIdOrPath, String branchName) throws GitLabApiException {
@@ -75,7 +79,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: POST /projects/:id/protected_branches</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param branchName the name of the branch to protect
+     * @param branchName the name of the branch to protect, can be a wildcard
      * @return the branch info for the protected branch
      * @throws GitLabApiException if any exception occurs
      */
@@ -89,7 +93,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: POST /projects/:id/protected_branches</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param branchName the name of the branch to protect
+     * @param branchName the name of the branch to protect, can be a wildcard
      * @param pushAccessLevel Access levels allowed to push (defaults: 40, maintainer access level)
      * @param mergeAccessLevel Access levels allowed to merge (defaults: 40, maintainer access level)
      * @return the branch info for the protected branch
