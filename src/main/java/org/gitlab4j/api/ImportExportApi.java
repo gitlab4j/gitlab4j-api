@@ -113,7 +113,7 @@ public class ImportExportApi extends AbstractApi {
             if(disposition == null) {
                 // On GitLab.com the Content-Disposition returned is null
                 if(projectIdOrPath instanceof Project) {
-                    filename = ((Project) projectIdOrPath).getName();
+                    filename = ((Project) projectIdOrPath).getPath();
                 } else {
                     filename = String.valueOf(projectIdOrPath);
                 }
