@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.Map;
 
 import javax.ws.rs.core.Form;
@@ -100,6 +101,22 @@ public class ImportExportApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public File downloadExport(Object projectIdOrPath, File directory) throws GitLabApiException {
+        return downloadExport(projectIdOrPath, directory, null);
+    }
+
+    /**
+     * Download the finished export.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/export/download</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param directory the File instance of the directory to save the export file to, if null will use "java.io.tmpdir"
+     * @param filename Name to give to the downloaded file. If null then we try to get from Content-Disposition header
+     *                 or to compute one from parameters
+     * @return a File instance pointing to the download of the project export file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public File downloadExport(Object projectIdOrPath, File directory, String filename) throws GitLabApiException {
 
         Response response = getWithAccepts(Response.Status.OK, null, MediaType.MEDIA_TYPE_WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "export", "download");
@@ -108,18 +125,32 @@ public class ImportExportApi extends AbstractApi {
             if (directory == null)
                 directory = new File(System.getProperty("java.io.tmpdir"));
 
-            String disposition = response.getHeaderString("Content-Disposition");
-            String filename;
-            if(disposition == null) {
-                // On GitLab.com the Content-Disposition returned is null
-                if(projectIdOrPath instanceof Project) {
-                    filename = ((Project) projectIdOrPath).getPath();
+            if(filename == null) {
+                // No filename provided
+                String disposition = response.getHeaderString("Content-Disposition");
+                if (disposition == null) {
+                    // On GitLab.com the Content-Disposition returned is null
+                    if (projectIdOrPath instanceof Project) {
+                        String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS_%2$s_export.tar.gz";
+                        filename = String.format(template, new Date(), ((Project) projectIdOrPath).getPathWithNamespace().replace('/', '_'));
+                        // filename = "2019-06-10_10-28-52_namespace-group_test-project_export.tar.gz"
+                    } else if(projectIdOrPath instanceof String) {
+                        String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS_%2$s_export.tar.gz";
+                        filename = String.format(template, new Date(), projectIdOrPath);
+                        // filename = "2019-06-10_10-28-52_test-project_export.tar.gz"
+                    } else if(projectIdOrPath instanceof Integer) {
+                        String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1%tS_projectid-%2$d_export.tar.gz";
+                        filename = String.format(template, new Date(), projectIdOrPath);
+                        // filename = "2019-06-10_10-28-52_projectid_3115610_export.tar.gz"
+                    } else {
+                        // Fallback for strange types
+                        String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1%tS_project-%2$d_export.tar.gz";
+                        filename = String.format(template, new Date(), projectIdOrPath);
+                        // filename = "2019-06-10_10-28-52_project_3115610_export.tar.gz"
+                    }
                 } else {
-                    filename = String.valueOf(projectIdOrPath);
+                    filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
                 }
-                filename += ".tar.gz";
-            } else {
-                filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
             }
             File file = new File(directory, filename);
 
