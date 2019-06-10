@@ -142,11 +142,6 @@ public class ImportExportApi extends AbstractApi {
                         String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1%tS_projectid-%2$d_export.tar.gz";
                         filename = String.format(template, new Date(), projectIdOrPath);
                         // filename = "2019-06-10_10-28-52_projectid_3115610_export.tar.gz"
-                    } else {
-                        // Fallback for strange types
-                        String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1%tS_project-%2$d_export.tar.gz";
-                        filename = String.format(template, new Date(), projectIdOrPath);
-                        // filename = "2019-06-10_10-28-52_project_3115610_export.tar.gz"
                     }
                 } else {
                     filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
