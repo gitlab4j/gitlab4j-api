@@ -109,7 +109,18 @@ public class ImportExportApi extends AbstractApi {
                 directory = new File(System.getProperty("java.io.tmpdir"));
 
             String disposition = response.getHeaderString("Content-Disposition");
-            String filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
+            String filename;
+            if(disposition == null) {
+                // On GitLab.com the Content-Disposition returned is null
+                if(projectIdOrPath instanceof Project) {
+                    filename = ((Project) projectIdOrPath).getName();
+                } else {
+                    filename = String.valueOf(projectIdOrPath);
+                }
+                filename += ".tar.gz";
+            } else {
+                filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
+            }
             File file = new File(directory, filename);
 
             InputStream in = response.readEntity(InputStream.class);
