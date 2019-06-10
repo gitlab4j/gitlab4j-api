@@ -259,8 +259,8 @@ public class IntegrationTestSuite implements PropertyConstants {
                     .withDefaultBranch("master")
                     .withPublic(true)
                     .withInitializeWithReadme(true);
-            Project groupProject = gitLabApi.getProjectApi().createProject(projectSettings);    
-            System.out.format("Created %s project%n", projectSettings.getName());
+            Project groupProject = gitLabApi.getProjectApi().createProject(testGroup.getId(), projectSettings);
+            System.out.format("Created %s project%n", groupProject.getNameWithNamespace());
 
             // Update the contents of README.md, so we have at minimum 2 commits
             RepositoryFile repoFile = new RepositoryFile();
@@ -268,9 +268,6 @@ public class IntegrationTestSuite implements PropertyConstants {
             repoFile.encodeAndSetContent("This is a test project used to test GitLab4J-API.");
             gitLabApi.getRepositoryFileApi().updateFile(groupProject, repoFile, "master", "Updated contents");
             System.out.format("Updated content of %s repository file%n", repoFile.getFilePath());
-
-            gitLabApi.getGroupApi().transferProject(testGroup, groupProject);
-            System.out.format("Transfered %s project to %s group%n", TEST_GROUP_PROJECT_NAME, TEST_GROUP);
 
         }  else if (!gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, "README.md", "master").isPresent()) {
 

@@ -44,6 +44,7 @@ import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Member;
+import org.gitlab4j.api.models.Namespace;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectFilter;
 import org.gitlab4j.api.models.ProjectHook;
@@ -767,17 +768,36 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Create a new project in the specified group.
+     * Create a new project belonging to the namespace ID.  A namespace ID is either a user or group ID.
      *
-     * @param groupId the group ID to create the project under
+     * @param namespaceId the namespace ID to create the project under
      * @param projectName the name of the project top create
      * @return the created project
      * @throws GitLabApiException if any exception occurs
      */
-    public Project createProject(Integer groupId, String projectName) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("namespace_id", groupId).withParam("name", projectName, true);
+    public Project createProject(Integer namespaceId, String projectName) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("namespace_id", namespaceId).withParam("name", projectName, true);
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Create a new project belonging to the namespace ID and project configuration.  A namespace ID is either a user or group ID.
+     *
+     * @param namespaceId the namespace ID to create the project under
+     * @param project the Project instance holding the new project configuration
+     * @return the created project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project createProject(Integer namespaceId, Project project) throws GitLabApiException {
+
+        if (project == null) {
+            throw new RuntimeException("Project instance cannot be null.");
+        }
+
+        Namespace namespace = new Namespace().withId(namespaceId);
+        project.setNamespace(namespace);
+        return (createProject(project));
     }
 
     /**
@@ -878,6 +898,11 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
             .withParam("initialize_with_readme", project.getInitializeWithReadme())
             .withParam("packages_enabled", project.getPackagesEnabled());
+
+        Namespace namespace = project.getNamespace();
+        if (namespace != null && namespace.getId() != null) {
+            formData.withParam("namespace_id", namespace.getId());
+        }
 
         if (isApiVersion(ApiVersion.V3)) {
             boolean isPublic = (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);

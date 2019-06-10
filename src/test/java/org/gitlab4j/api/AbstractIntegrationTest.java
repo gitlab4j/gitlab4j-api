@@ -6,6 +6,7 @@ import java.util.WeakHashMap;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.User;
 
 /**
  * In order for the integration tests to run you must set the following properties in test-gitlab4j.properties
@@ -117,6 +118,30 @@ public class AbstractIntegrationTest implements PropertyConstants {
             return (testProject);
         } catch (Exception e) {
             System.err.println("Problems fetching test Project instance: " + e.getMessage());
+            return (null);
+        }
+    }
+
+    /**
+     * Get the current user (the testing user).
+     *
+     * @return the user that is being used for testing
+     */
+    protected static User getCurrentUser() {
+
+        Throwable t = new Throwable();
+        StackTraceElement directCaller = t.getStackTrace()[1];
+        String callingClassName = directCaller.getClassName();
+        BaseTestResources baseResources = baseTestResourcesMap.get(callingClassName);
+        if (baseResources == null || baseResources.gitLabApi == null) {
+            System.err.println("Problems fetching current user: GitLabApi instance is null");
+            return (null);
+        }
+
+        try {
+            return (baseResources.gitLabApi.getUserApi().getCurrentUser());
+        } catch (Exception e) {
+            System.err.println("Problems fetching current user: " + e.getMessage());
             return (null);
         }
     }

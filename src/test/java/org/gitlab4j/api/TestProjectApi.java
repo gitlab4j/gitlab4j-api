@@ -82,12 +82,14 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
     private static final String TEST_PROJECT_NAME_1 = "test-gitlab4j-create-project";
     private static final String TEST_PROJECT_NAME_2 = "test-gitlab4j-create-project-2";
+    private static final String TEST_NAMESPACE_PROJECT_NAME = "test-gitlab4j-create-namespace-project";
     private static final String TEST_PROJECT_NAME_UPDATE = "test-gitlab4j-create-project-update";
     private static final String TEST_XFER_PROJECT_NAME = "test-gitlab4j-xfer-project";
     private static final String TEST_VARIABLE_KEY_PREFIX = "TEST_VARIABLE_KEY_";
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
+    private static User currentUser;
 
     public TestProjectApi() {
         super();
@@ -99,6 +101,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         // Must setup the connection to the GitLab test server
         gitLabApi = baseTestSetup();
         testProject = getTestProject();
+        currentUser = getCurrentUser();
 
         deleteAllTestProjects();
     }
@@ -109,28 +112,29 @@ public class TestProjectApi extends AbstractIntegrationTest {
     }
 
     private static void deleteAllTestProjects() {
+
         if (gitLabApi == null) {
             return;
         }
 
         try {
-            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_1);
-            gitLabApi.getProjectApi().deleteProject(project);
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_PROJECT_NAME_1));
         } catch (GitLabApiException ignore) {}
 
         try {
-            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
-            gitLabApi.getProjectApi().deleteProject(project);
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_PROJECT_NAME_2));
         } catch (GitLabApiException ignore) {}
 
         try {
-            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE);
-            gitLabApi.getProjectApi().deleteProject(project);
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE));
         } catch (GitLabApiException ignore) {}
 
         try {
-            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_XFER_PROJECT_NAME);
-            gitLabApi.getProjectApi().deleteProject(project);
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_XFER_PROJECT_NAME));
+        } catch (GitLabApiException ignore) {}
+
+        try {
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_NAMESPACE_PROJECT_NAME));
         } catch (GitLabApiException ignore) {}
 
         if (TEST_GROUP != null && TEST_PROJECT_NAME != null) {
@@ -153,15 +157,13 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
             try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_GROUP_PROJECT);
-                gitLabApi.getProjectApi().deleteProject(project);
+                gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_GROUP_PROJECT));
             } catch (GitLabApiException ignore) {}
         }
 
         if (TEST_XFER_NAMESPACE != null) {
             try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME);
-                gitLabApi.getProjectApi().deleteProject(project);
+                gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME));
             } catch (GitLabApiException ignore) {}
         }
 
@@ -537,6 +539,24 @@ public class TestProjectApi extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testCreateProjectInNamespace() throws GitLabApiException {
+
+        assumeNotNull(currentUser);
+
+        Project namespaceProject = null;
+        try {
+            namespaceProject = gitLabApi.getProjectApi().createProject(currentUser.getId(), TEST_NAMESPACE_PROJECT_NAME);
+            assertNotNull(namespaceProject);
+        } finally {
+            if (namespaceProject != null) {
+                try {
+                    gitLabApi.getProjectApi().deleteProject(namespaceProject);
+                } catch (Exception ignore) {}
+            }
+        }
+    }
+
+    @Test
     public void testForkProject() throws GitLabApiException {
 
         assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
@@ -544,8 +564,18 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         Project project = gitLabApi.getProjectApi().getProject(TEST_GROUP, TEST_GROUP_PROJECT);
         assertNotNull(project);
-        Project forkedProject = gitLabApi.getProjectApi().forkProject(project.getId(), TEST_NAMESPACE);
-        assertNotNull(forkedProject);
+
+        Project forkedProject = null;
+        try {
+            forkedProject = gitLabApi.getProjectApi().forkProject(project.getId(), TEST_NAMESPACE);
+            assertNotNull(forkedProject);
+        } finally {
+            if (forkedProject != null) {
+                try {
+                    gitLabApi.getProjectApi().deleteProject(forkedProject);
+                } catch (Exception ignore) {}
+            }
+        }
     }
 
     @Test
