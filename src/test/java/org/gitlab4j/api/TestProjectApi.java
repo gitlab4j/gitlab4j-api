@@ -442,12 +442,6 @@ public class TestProjectApi extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testRemoveByDeleteParameterBased() throws GitLabApiException {
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_2);
-        gitLabApi.getProjectApi().deleteProject(project);
-    }
-
-    @Test
     public void testProjects() throws GitLabApiException {
         List<Project> projects = gitLabApi.getProjectApi().getProjects();
         assertTrue(projects != null);
