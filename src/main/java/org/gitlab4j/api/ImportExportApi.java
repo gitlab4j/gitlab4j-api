@@ -120,35 +120,39 @@ public class ImportExportApi extends AbstractApi {
 
         Response response = getWithAccepts(Response.Status.OK, null, MediaType.MEDIA_TYPE_WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "export", "download");
+
+        if (directory == null) {
+            directory = new File(System.getProperty("java.io.tmpdir"));
+        }
+
+        if (filename == null) {
+
+            // No filename provided
+            String disposition = response.getHeaderString("Content-Disposition");
+            if (disposition == null) {
+
+                // On GitLab.com the Content-Disposition returned is null
+                String name = null;
+                if (projectIdOrPath instanceof Project) {
+                    name = ((Project) projectIdOrPath).getPathWithNamespace().replace('/', '_');
+                } else if(projectIdOrPath instanceof String) {
+                    name = (String)projectIdOrPath;
+                } else if(projectIdOrPath instanceof Integer) {
+                    name = "projectid-" + projectIdOrPath;
+                }
+
+                // template = "YYYY-MM-DD_HH-MM-SS_{name}_export.tar.gz"
+                final String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS_%2$s_export.tar.gz";
+                filename = String.format(template,  new Date(), name);
+
+            } else {
+                filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
+            }
+        }
+
         try {
 
-            if (directory == null)
-                directory = new File(System.getProperty("java.io.tmpdir"));
-
-            if(filename == null) {
-                // No filename provided
-                String disposition = response.getHeaderString("Content-Disposition");
-                if (disposition == null) {
-                    // On GitLab.com the Content-Disposition returned is null
-                    if (projectIdOrPath instanceof Project) {
-                        String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS_%2$s_export.tar.gz";
-                        filename = String.format(template, new Date(), ((Project) projectIdOrPath).getPathWithNamespace().replace('/', '_'));
-                        // filename = "2019-06-10_10-28-52_namespace-group_test-project_export.tar.gz"
-                    } else if(projectIdOrPath instanceof String) {
-                        String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS_%2$s_export.tar.gz";
-                        filename = String.format(template, new Date(), projectIdOrPath);
-                        // filename = "2019-06-10_10-28-52_test-project_export.tar.gz"
-                    } else if(projectIdOrPath instanceof Integer) {
-                        String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1%tS_projectid-%2$d_export.tar.gz";
-                        filename = String.format(template, new Date(), projectIdOrPath);
-                        // filename = "2019-06-10_10-28-52_projectid_3115610_export.tar.gz"
-                    }
-                } else {
-                    filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
-                }
-            }
             File file = new File(directory, filename);
-
             InputStream in = response.readEntity(InputStream.class);
             Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             return (file);
