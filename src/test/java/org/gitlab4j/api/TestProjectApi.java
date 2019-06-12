@@ -39,6 +39,7 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
@@ -185,6 +186,13 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Before
     public void beforeMethod() {
         assumeNotNull(gitLabApi);
+    }
+
+    @Test
+    public void testProjectsNoAuth() throws GitLabApiException {
+        GitLabApi gitLabApi = new GitLabApi(TEST_HOST_URL, "");
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(1, 1);
+        assertTrue(projects != null);
     }
 
     @Test
