@@ -672,11 +672,12 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         String key = TEST_VARIABLE_KEY_PREFIX + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
         String value = "TEST_VARIABLE_VALUE_" + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
-        Variable variable = gitLabApi.getProjectApi().createVariable(testProject, key, value, null, null);
+        Variable variable = gitLabApi.getProjectApi().createVariable(testProject, key, value, null, null, null);
 
         assertNotNull(variable);
         assertEquals(key, variable.getKey());
         assertEquals(value, variable.getValue());
+        assertFalse(variable.getMasked());
 
         Stream<Variable> variables = gitLabApi.getProjectApi().getVariablesStream(testProject);
         assertNotNull(variables);
@@ -694,6 +695,15 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertNotNull(variable);
         assertEquals(key, variable.getKey());
         assertEquals("NONE", variable.getValue());
+        assertTrue(variable.getProtected());
+
+        gitLabApi.getProjectApi().updateVariable(testProject, key, value, true, true, "DEV");
+        variable = gitLabApi.getProjectApi().getVariable(testProject, key);
+
+        assertNotNull(variable);
+        assertEquals(key, variable.getKey());
+        assertEquals("NONE", variable.getValue());
+        assertTrue(variable.getMasked());
         assertTrue(variable.getProtected());
 
         gitLabApi.getProjectApi().deleteVariable(testProject, key);

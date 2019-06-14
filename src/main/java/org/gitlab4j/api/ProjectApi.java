@@ -2626,7 +2626,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Variable createVariable(Object projectIdOrPath, String key, String value, Boolean isProtected) throws GitLabApiException {
-        return (createVariable(projectIdOrPath, key, value, isProtected, null));
+        return (createVariable(projectIdOrPath, key, value, isProtected, (String) null));
     }
 
     /**
@@ -2645,11 +2645,51 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Variable createVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, String environmentScope) throws GitLabApiException {
+        return createVariable(projectIdOrPath, key, value, isProtected, null, environmentScope);
+    }
+
+    /**
+     * Create a new project variable.
+     *
+     * <p>NOTE: Setting the environmentScope is only available on GitLab EE.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/variables</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param isMasked whether the variable is masked, optional                   
+     * @return a Variable instance with the newly created variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable createVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, Boolean isMasked) throws GitLabApiException {
+        return createVariable(projectIdOrPath, key, value, isProtected, isMasked, null);
+    }
+
+    /**
+     * Create a new project variable.
+     *
+     * <p>NOTE: Setting the environmentScope is only available on GitLab EE.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/variables</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param isMasked whether the variable is masked, optional                   
+     * @param environmentScope the environment_scope of the variable, optional
+     * @return a Variable instance with the newly created variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable createVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, Boolean isMasked, String environmentScope) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("key", key, true)
                 .withParam("value", value, true)
                 .withParam("protected", isProtected)
+                .withParam("masked", isMasked)
                 .withParam("environment_scope",  environmentScope);
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "variables");
         return (response.readEntity(Variable.class));
@@ -2668,7 +2708,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Variable updateVariable(Object projectIdOrPath, String key, String value, Boolean isProtected) throws GitLabApiException {
-        return (updateVariable(projectIdOrPath, key, value, isProtected, null));
+        return (updateVariable(projectIdOrPath, key, value, isProtected, (String) null));
     }
 
     /**
@@ -2687,10 +2727,50 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Variable updateVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, String environmentScope) throws GitLabApiException {
+        return updateVariable(projectIdOrPath, key, value, isProtected, null, environmentScope);
+    }
+
+    /**
+     * Update a project variable.
+     *
+     * <p>NOTE: Updating the environmentScope is only available on GitLab EE.</p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/variables/:key</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param key the key of an existing variable, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param isMasked whether the variable is masked, optional    
+     * @return a Variable instance with the updated variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable updateVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, Boolean isMasked) throws GitLabApiException {
+        return updateVariable(projectIdOrPath, key, value, isProtected, isMasked, null);
+    }
+
+    /**
+     * Update a project variable.
+     *
+     * <p>NOTE: Updating the environmentScope is only available on GitLab EE.</p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/variables/:key</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param key the key of an existing variable, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param isMasked whether the variable is masked, optional    
+     * @param environmentScope the environment_scope of the variable, optional.
+     * @return a Variable instance with the updated variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable updateVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, Boolean isMasked, String environmentScope) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("value", value, true)
                 .withParam("protected", isProtected)
+                .withParam("masked", isMasked)
                 .withParam("environment_scope",  environmentScope);
         Response response = putWithFormData(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "variables", key);
         return (response.readEntity(Variable.class));
