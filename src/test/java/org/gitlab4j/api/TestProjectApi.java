@@ -677,7 +677,6 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertNotNull(variable);
         assertEquals(key, variable.getKey());
         assertEquals(value, variable.getValue());
-        assertFalse(variable.getMasked());
 
         Stream<Variable> variables = gitLabApi.getProjectApi().getVariablesStream(testProject);
         assertNotNull(variables);
