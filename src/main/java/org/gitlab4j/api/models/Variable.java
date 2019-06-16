@@ -14,6 +14,8 @@ public class Variable {
     private String value;
     @JsonProperty("protected")
     private Boolean isProtected;
+    @JsonProperty("masked")
+    private Boolean isMasked;
     private String environmentScope;
 
     public Variable() {
@@ -46,6 +48,14 @@ public class Variable {
 
     public void setProtected(Boolean isProtected) {
         this.isProtected = isProtected;
+    }
+
+    public Boolean getMasked() {
+        return isMasked;
+    }
+
+    public void setMasked(Boolean masked) {
+        isMasked = masked;
     }
 
     public String getEnvironmentScope() {
