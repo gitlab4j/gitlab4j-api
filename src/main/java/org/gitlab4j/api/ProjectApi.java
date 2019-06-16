@@ -2645,7 +2645,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Variable createVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, String environmentScope) throws GitLabApiException {
-        return createVariable(projectIdOrPath, key, value, isProtected, null, environmentScope);
+        return createVariable(projectIdOrPath, key, value, null, isProtected, null, environmentScope);
     }
 
     /**
@@ -2658,13 +2658,15 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
      * @param value the value for the variable, required
+     * @param variableType the type of variable. Available types are: env_var (default) and file
      * @param isProtected whether the variable is protected, optional
      * @param isMasked whether the variable is masked, optional                   
      * @return a Variable instance with the newly created variable
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Variable createVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, Boolean isMasked) throws GitLabApiException {
-        return createVariable(projectIdOrPath, key, value, isProtected, isMasked, null);
+    public Variable createVariable(Object projectIdOrPath, String key, String value, Variable.Type variableType,
+            Boolean isProtected, Boolean isMasked) throws GitLabApiException {
+        return createVariable(projectIdOrPath, key, value, variableType, isProtected, isMasked, null);
     }
 
     /**
@@ -2677,17 +2679,20 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
      * @param value the value for the variable, required
+     * @param variableType the type of variable. Available types are: env_var (default) and file
      * @param isProtected whether the variable is protected, optional
      * @param isMasked whether the variable is masked, optional                   
      * @param environmentScope the environment_scope of the variable, optional
      * @return a Variable instance with the newly created variable
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Variable createVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, Boolean isMasked, String environmentScope) throws GitLabApiException {
+    public Variable createVariable(Object projectIdOrPath, String key, String value, Variable.Type variableType,
+            Boolean isProtected, Boolean isMasked, String environmentScope) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("key", key, true)
                 .withParam("value", value, true)
+                .withParam("variable_type", variableType)
                 .withParam("protected", isProtected)
                 .withParam("masked", isMasked)
                 .withParam("environment_scope",  environmentScope);
@@ -2708,7 +2713,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Variable updateVariable(Object projectIdOrPath, String key, String value, Boolean isProtected) throws GitLabApiException {
-        return (updateVariable(projectIdOrPath, key, value, isProtected, (String) null));
+        return (updateVariable(projectIdOrPath, key, value, null, isProtected, null, null));
     }
 
     /**
@@ -2727,7 +2732,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Variable updateVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, String environmentScope) throws GitLabApiException {
-        return updateVariable(projectIdOrPath, key, value, isProtected, null, environmentScope);
+        return updateVariable(projectIdOrPath, key, value, null, isProtected, null, environmentScope);
     }
 
     /**
@@ -2740,13 +2745,15 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param key the key of an existing variable, required
      * @param value the value for the variable, required
+     * @param variableType the type of variable. Available types are: env_var (default) and file
      * @param isProtected whether the variable is protected, optional
-     * @param isMasked whether the variable is masked, optional    
+     * @param masked whether the variable is masked, optional
      * @return a Variable instance with the updated variable
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Variable updateVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, Boolean isMasked) throws GitLabApiException {
-        return updateVariable(projectIdOrPath, key, value, isProtected, isMasked, null);
+    public Variable updateVariable(Object projectIdOrPath, String key, String value, Variable.Type variableType,
+            Boolean isProtected, Boolean masked) throws GitLabApiException {
+        return updateVariable(projectIdOrPath, key, value, variableType, isProtected, masked, null);
     }
 
     /**
@@ -2759,19 +2766,22 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param key the key of an existing variable, required
      * @param value the value for the variable, required
+     * @param variableType the type of variable. Available types are: env_var (default) and file
      * @param isProtected whether the variable is protected, optional
-     * @param isMasked whether the variable is masked, optional    
+     * @param masked whether the variable is masked, optional
      * @param environmentScope the environment_scope of the variable, optional.
      * @return a Variable instance with the updated variable
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Variable updateVariable(Object projectIdOrPath, String key, String value, Boolean isProtected, Boolean isMasked, String environmentScope) throws GitLabApiException {
+    public Variable updateVariable(Object projectIdOrPath, String key, String value, Variable.Type variableType,
+            Boolean isProtected, Boolean masked, String environmentScope) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("value", value, true)
+                .withParam("variable_type", variableType)
                 .withParam("protected", isProtected)
-                .withParam("masked", isMasked)
-                .withParam("environment_scope",  environmentScope);
+                .withParam("masked", masked)
+                .withParam("environment_scope", environmentScope);
         Response response = putWithFormData(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "variables", key);
         return (response.readEntity(Variable.class));
     }

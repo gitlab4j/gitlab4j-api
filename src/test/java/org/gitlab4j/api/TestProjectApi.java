@@ -103,15 +103,15 @@ public class TestProjectApi extends AbstractIntegrationTest {
         testProject = getTestProject();
         currentUser = getCurrentUser();
 
-        deleteAllTestProjects();
+        deleteAllTransientTestData();
     }
 
     @AfterClass
     public static void teardown() throws GitLabApiException {
-        deleteAllTestProjects();
+        deleteAllTransientTestData();
     }
 
-    private static void deleteAllTestProjects() {
+    private static void deleteAllTransientTestData() {
 
         if (gitLabApi == null) {
             return;
@@ -147,6 +147,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
                     for (Variable variable : variables) {
                         if (variable.getKey().startsWith(TEST_VARIABLE_KEY_PREFIX)) {
+                            gitLabApi.getProjectApi().updateVariable(testProject, variable.getKey(), "EMPTY", false);
                             gitLabApi.getProjectApi().deleteVariable(testProject, variable.getKey());
                         }
                     }
@@ -671,8 +672,8 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assumeNotNull(testProject);
 
         String key = TEST_VARIABLE_KEY_PREFIX + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
-        String value = "TEST_VARIABLE_VALUE_" + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
-        Variable variable = gitLabApi.getProjectApi().createVariable(testProject, key, value, null, null, null);
+        String value = "ABCDEFG12345678" + HelperUtils.getRandomInt();
+        Variable variable = gitLabApi.getProjectApi().createVariable(testProject, key, value, null, null, true);
 
         assertNotNull(variable);
         assertEquals(key, variable.getKey());
@@ -696,20 +697,42 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertEquals("NONE", variable.getValue());
         assertTrue(variable.getProtected());
 
-        gitLabApi.getProjectApi().updateVariable(testProject, key, value, true, true, "DEV");
+        gitLabApi.getProjectApi().updateVariable(testProject, key, value, Variable.Type.ENV_VAR, false, true, "DEV");
         variable = gitLabApi.getProjectApi().getVariable(testProject, key);
 
         assertNotNull(variable);
         assertEquals(key, variable.getKey());
-        assertEquals("NONE", variable.getValue());
-        assertTrue(variable.getMasked());
-        assertTrue(variable.getProtected());
+        assertEquals(value, variable.getValue());
+        assertEquals(Variable.Type.ENV_VAR, variable.getVariableType());
+        assertFalse(variable.getProtected());
 
         gitLabApi.getProjectApi().deleteVariable(testProject, key);
         variables = gitLabApi.getProjectApi().getVariablesStream(testProject);
         assertNotNull(variables);
 
         matchingVariable = variables.filter(v -> v.getKey().equals(key)).findAny().orElse(null);
+        assertNull(matchingVariable);
+    }
+
+    @Test
+    public void testFileVariable() throws GitLabApiException {
+
+        assumeNotNull(testProject);
+
+        String key = TEST_VARIABLE_KEY_PREFIX + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
+        String value = "/tmp/test.txt";
+        Variable variable = gitLabApi.getProjectApi().createVariable(testProject, key, value, Variable.Type.FILE, null, false);
+
+        assertNotNull(variable);
+        assertEquals(key, variable.getKey());
+        assertEquals(value, variable.getValue());
+        assertEquals(Variable.Type.FILE, variable.getVariableType());
+
+        gitLabApi.getProjectApi().deleteVariable(testProject, key);
+        Stream<Variable> variables = gitLabApi.getProjectApi().getVariablesStream(testProject);
+        assertNotNull(variables);
+
+        Variable matchingVariable = variables.filter(v -> v.getKey().equals(key)).findAny().orElse(null);
         assertNull(matchingVariable);
     }
 
