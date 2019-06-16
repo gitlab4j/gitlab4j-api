@@ -334,6 +334,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testProjectVariableDetails() throws Exception {
+        Variable variable = unmarshalResource(Variable.class, "project-variable-details.json");
+        assertTrue(compareJson(variable, "project-variable-details.json"));
+    }
+
+    @Test
     public void testProtectedBranch() throws Exception {
         ProtectedBranch protectedBranch = unmarshalResource(ProtectedBranch.class, "protected-branch.json");
         assertTrue(compareJson(protectedBranch, "protected-branch.json"));
