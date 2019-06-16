@@ -28,6 +28,7 @@ public class AbstractIntegrationTest implements PropertyConstants {
     protected static final String TEST_GROUP_PROJECT_NAME = HelperUtils.getProperty(GROUP_PROJECT_KEY);
     protected static final String TEST_NAMESPACE = HelperUtils.getProperty(NAMESPACE_KEY, TEST_LOGIN_USERNAME);
     protected static final String TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
+    protected static final String TEST_SUB_GROUP = HelperUtils.getProperty(SUB_GROUP_KEY);
 
     protected static class BaseTestResources {
         protected GitLabApi gitLabApi;

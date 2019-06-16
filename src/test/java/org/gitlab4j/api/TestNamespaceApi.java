@@ -91,6 +91,13 @@ public class TestNamespaceApi extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testFindSubgroupNamespaces() throws GitLabApiException {
+        List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces(TEST_SUB_GROUP);
+        assertNotNull(namespaces);
+        assertEquals(TEST_SUB_GROUP, namespaces.get(0).getName());
+    }
+
+    @Test
     public void testFindNamespacesByPage() throws GitLabApiException {
         List<Namespace> namespaces = gitLabApi.getNamespaceApi().findNamespaces(TEST_NAMESPACE, 1, 10);
         assertNotNull(namespaces);

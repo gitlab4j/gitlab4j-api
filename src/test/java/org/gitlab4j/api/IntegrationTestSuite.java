@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.gitlab4j.api.models.Group;
@@ -42,6 +43,7 @@ public class IntegrationTestSuite implements PropertyConstants {
     private static final String TEST_PROJECT_NAME = HelperUtils.getProperty(PROJECT_NAME_KEY);
     private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
     private static final String TEST_GROUP_PROJECT_NAME = HelperUtils.getProperty(GROUP_PROJECT_KEY);
+    private static final String TEST_SUB_GROUP = HelperUtils.getProperty(SUB_GROUP_KEY);
 
     protected static final String TEST_PRIVATE_TOKEN_NAME = "GitLab4J Test Private Token - " + HelperUtils.getRandomInt(1000);
     protected static String TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
@@ -282,6 +284,20 @@ public class IntegrationTestSuite implements PropertyConstants {
             repoFile.encodeAndSetContent("This is a test project used to test GitLab4J-API.");
             gitLabApi.getRepositoryFileApi().updateFile(testProject, repoFile, "master", "Updated contents");
             System.out.format("Updated %s repository file in %s%n", repoFile.getFilePath(), TEST_GROUP_PROJECT_NAME);
+        }
+
+        // Create a subgroup
+        List<Group> subGroups = gitLabApi.getGroupApi().getSubGroups(TEST_GROUP, null, null, TEST_SUB_GROUP, null, null, null, null);
+        if (subGroups.isEmpty()) {
+            Group groupSettings = new Group()
+                    .withName(TEST_SUB_GROUP)
+                    .withPath(TEST_SUB_GROUP)
+                    .withDescription("Test Sub-Group")
+                    .withVisibility(Visibility.PUBLIC)
+                    .withRequestAccessEnabled(true)
+                    .withParentId(testGroup.getId());
+            Group testSubGroup = gitLabApi.getGroupApi().addGroup(groupSettings);
+            System.out.format("Created %s sub-group (%s)%n", testSubGroup.getName(), testSubGroup.getPath());
         }
     }
 }
