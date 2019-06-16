@@ -75,6 +75,7 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.ProtectedBranch;
+import org.gitlab4j.api.models.ProtectedTag;
 import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.RegistryRepository;
 import org.gitlab4j.api.models.Runner;
@@ -336,6 +337,12 @@ public class TestGitLabApiBeans {
     public void testProtectedBranch() throws Exception {
         ProtectedBranch protectedBranch = unmarshalResource(ProtectedBranch.class, "protected-branch.json");
         assertTrue(compareJson(protectedBranch, "protected-branch.json"));
+    }
+
+    @Test
+    public void testProtectedTags() throws Exception {
+        List<ProtectedTag> protectedTags = unmarshalResourceList(ProtectedTag.class, "protected-tags.json");
+        assertTrue(compareJson(protectedTags, "protected-tags.json"));
     }
 
     @Test
