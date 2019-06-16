@@ -480,8 +480,8 @@ public class GroupApi extends AbstractApi {
 
     public Group addGroup(Group group) throws GitLabApiException {
         Form formData = new GitLabApiForm()
-                .withParam("name", group.getName())
-                .withParam("path", group.getPath())
+                .withParam("name", group.getName(), true)
+                .withParam("path", group.getPath(), true)
                 .withParam("description", group.getDescription())
                 .withParam("visibility", group.getVisibility())
                 .withParam("lfs_enabled", group.getLfsEnabled())
@@ -510,8 +510,8 @@ public class GroupApi extends AbstractApi {
             Boolean lfsEnabled, Boolean requestAccessEnabled, Integer parentId) throws GitLabApiException {
 
         Form formData = new GitLabApiForm()
-                .withParam("name", name)
-                .withParam("path", path)
+                .withParam("name", name, true)
+                .withParam("path", path, true)
                 .withParam("description", description)
                 .withParam("visibility", visibility)
                 .withParam("lfs_enabled", lfsEnabled)
