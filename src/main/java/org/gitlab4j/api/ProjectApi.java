@@ -1847,7 +1847,7 @@ public class ProjectApi extends AbstractApi implements Constants {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", url)
                 .withParam("push_events", doPushEvents)
-                .withParam("issues_enabled", doIssuesEvents)
+                .withParam("issues_events", doIssuesEvents)
                 .withParam("merge_requests_events", doMergeRequestsEvents);
 
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
