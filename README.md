@@ -84,6 +84,11 @@ GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_PRIVATE_TOKE
 // Log in to the GitLab server using a proxy server (no auth on proxy)
 Map<String, Object> proxyConfig = ProxyClientConfig.createProxyClientConfig("http://your-proxy-server");
 GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_PRIVATE_TOKEN", null, proxyConfig);
+
+// Log in to the GitLab server using an NTLM (Windows DC) proxy
+Map<String, Object> ntlmProxyConfig = ProxyClientConfig.createNtlmProxyClientConfig(
+        "http://your-proxy-server", "windows-username", "windows-password", "windows-workstation", "windows-domain");
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_PRIVATE_TOKEN", null, ntlmProxyConfig);
 ```
 See the Javadoc on the GitLabApi class for a complete list of methods accepting the proxy configuration (clientConfiguration parameter)
 
