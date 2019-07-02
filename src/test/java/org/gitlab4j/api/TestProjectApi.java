@@ -140,7 +140,9 @@ public class TestProjectApi extends AbstractIntegrationTest {
         if (TEST_GROUP != null && TEST_PROJECT_NAME != null) {
             try {
                 List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
-                gitLabApi.getProjectApi().unshareProject(testProject, groups.get(0).getId());
+                if (groups != null && groups.size() > 0) {
+                    gitLabApi.getProjectApi().unshareProject(testProject, groups.get(0).getId());
+                }
 
                 List<Variable> variables = gitLabApi.getProjectApi().getVariables(testProject);
                 if (variables != null) {
