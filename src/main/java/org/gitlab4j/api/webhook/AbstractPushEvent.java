@@ -26,6 +26,7 @@ public abstract class AbstractPushEvent {
 
     private String requestUrl;
     private String requestQuesryString;
+    private String requestSecretToken;
 
     public String getEventName() {
         return (eventName);
@@ -155,6 +156,16 @@ public abstract class AbstractPushEvent {
     @JsonIgnore
     public String getRequestQueryString() {
         return (requestQuesryString);
+    }
+
+
+    public void setRequestSecretToken(String secretToken) {
+        this.requestSecretToken = secretToken;
+    }
+
+    @JsonIgnore
+    public String getRequestSecretToken() {
+        return (requestSecretToken);
     }
 
     /**

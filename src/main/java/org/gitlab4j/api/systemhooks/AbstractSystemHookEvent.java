@@ -6,6 +6,7 @@ public abstract class AbstractSystemHookEvent implements SystemHookEvent {
 
     private String requestUrl;
     private String requestQuesryString;
+    private String requestSecretToken;
 
     @Override
     public void setRequestUrl(String requestUrl) {
@@ -27,5 +28,16 @@ public abstract class AbstractSystemHookEvent implements SystemHookEvent {
     @JsonIgnore
     public String getRequestQueryString() {
         return (requestQuesryString);
+    }
+
+    @Override
+    public void setRequestSecretToken(String requestSecretToken) {
+        this.requestSecretToken = requestSecretToken;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getRequestSecretToken() {
+        return (requestSecretToken);
     }
 }

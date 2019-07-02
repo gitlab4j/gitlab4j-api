@@ -31,4 +31,9 @@ public interface Event {
 
     @JsonIgnore
     String getRequestQueryString();
+
+    void setRequestSecretToken(String secretToken);
+
+    @JsonIgnore
+    String getRequestSecretToken();
 }

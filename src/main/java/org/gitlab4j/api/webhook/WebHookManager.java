@@ -138,6 +138,10 @@ public class WebHookManager implements HookManager {
 
             event.setRequestUrl(request.getRequestURL().toString());
             event.setRequestQueryString(request.getQueryString());
+
+            String secretToken = request.getHeader("X-Gitlab-Token");
+            event.setRequestSecretToken(secretToken);
+
             fireEvent(event);
             return (event);
 

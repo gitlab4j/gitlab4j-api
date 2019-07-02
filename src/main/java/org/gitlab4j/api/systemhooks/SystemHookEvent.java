@@ -40,6 +40,9 @@ public interface SystemHookEvent {
 
     void setRequestQueryString(String requestQuesryString);
     @JsonIgnore String getRequestQueryString();
+
+    void setRequestSecretToken(String requestSecretToken);
+    @JsonIgnore String getRequestSecretToken();
 }
 
 // All of the following class definitions are needed to make the above work.

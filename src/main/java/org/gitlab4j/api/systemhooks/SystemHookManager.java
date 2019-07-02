@@ -158,6 +158,9 @@ public class SystemHookManager implements HookManager {
             event.setRequestUrl(requestUrl != null ? requestUrl.toString() : null);
             event.setRequestQueryString(request.getQueryString());
 
+            String secretToken = request.getHeader("X-Gitlab-Token");
+            event.setRequestSecretToken(secretToken);
+
         } catch (Exception e) {
             LOGGER.warning(String.format("Error processing JSON data, exception=%s, error=%s",
                     e.getClass().getSimpleName(), e.getMessage()));

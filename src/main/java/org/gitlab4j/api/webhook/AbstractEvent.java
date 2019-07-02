@@ -6,6 +6,7 @@ public abstract class AbstractEvent implements Event {
 
     private String requestUrl;
     private String requestQuesryString;
+    private String secretToken;
 
     @Override
     public void setRequestUrl(String requestUrl) {
@@ -27,5 +28,16 @@ public abstract class AbstractEvent implements Event {
     @JsonIgnore
     public String getRequestQueryString() {
         return (requestQuesryString);
+    }
+
+    @Override
+    public void setRequestSecretToken(String secretToken) {
+        this.secretToken = secretToken;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getRequestSecretToken() {
+        return (secretToken);
     }
 }
