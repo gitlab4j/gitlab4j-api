@@ -47,7 +47,11 @@ public class UserApi extends AbstractApi {
     }
 
     /**
-     * Get a list of users.
+     * <p>Get a list of users.</p>
+     *
+     * <strong>WARNING:</strong> Do not use this method to fetch users from https://gitlab.com,
+     * gitlab.com has many 1,000,000's of users and it will a long time to fetch all of them.
+     * Instead use {@link #getUsers(int itemsPerPage)} which will return a Pager of Group instances.
      *
      * <pre><code>GitLab Endpoint: GET /users</code></pre>
      *
@@ -55,6 +59,13 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getUsers() throws GitLabApiException {
+
+        String url = this.gitLabApi.getGitLabServerUrl();
+        if (url.startsWith("https://gitlab.com")) {
+            GitLabApi.getLogger().warning("Fetching all users from " + url +
+                    " may take many minutes to complete, use Pager<User> getUsers(int) instead.");
+        }
+
         return (getUsers(getDefaultPerPage()).all());
     }
 

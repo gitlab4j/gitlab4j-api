@@ -33,7 +33,11 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
-     * Get a list of groups. (As user: my groups, as admin: all groups)
+     * <p>Get a list of groups. (As user: my groups, as admin: all groups)</p>
+     *
+     * <strong>WARNING:</strong> Do not use this method to fetch groups from https://gitlab.com,
+     * gitlab.com has many 1,000's of public groups and it will a long time to fetch all of them.
+     * Instead use {@link #getGroups(int itemsPerPage)} which will return a Pager of Group instances.
      *
      * <pre><code>GitLab Endpoint: GET /groups</code></pre>
      *
@@ -41,6 +45,13 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Group> getGroups() throws GitLabApiException {
+
+        String url = this.gitLabApi.getGitLabServerUrl();
+        if (url.startsWith("https://gitlab.com")) {
+            GitLabApi.getLogger().warning("Fetching all groups from " + url +
+                    " may take many minutes to complete, use Pager<Group> getGroups(int) instead.");
+        }
+
         return (getGroups(getDefaultPerPage()).all());
     }
 

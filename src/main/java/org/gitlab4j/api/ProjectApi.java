@@ -67,7 +67,11 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Get a list of projects accessible by the authenticated user.
+     * <p>Get a list of projects accessible by the authenticated user.</p>
+     *
+     * <strong>WARNING:</strong> Do not use this method to fetch projects from https://gitlab.com,
+     * gitlab.com has many 100,000's of public projects and it will take hours to fetch all of them.
+     * Instead use {@link #getProjects(int itemsPerPage)} which will return a Pager of Project instances.
      *
      * <pre><code>GET /projects</code></pre>
      *
@@ -75,6 +79,13 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Project> getProjects() throws GitLabApiException {
+
+       String url = this.gitLabApi.getGitLabServerUrl();
+       if (url.startsWith("https://gitlab.com")) {
+           GitLabApi.getLogger().warning("Fetching all projects from " + url +
+                   " may take many hours to complete, use Pager<Project> getProjects(int) instead.");
+       }
+
        return (getProjects(getDefaultPerPage()).all());
     }
 
