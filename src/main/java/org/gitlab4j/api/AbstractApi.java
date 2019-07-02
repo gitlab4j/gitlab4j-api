@@ -21,7 +21,7 @@ import org.gitlab4j.api.models.User;
  */
 public abstract class AbstractApi implements Constants {
 
-    private final GitLabApi gitLabApi;
+    protected final GitLabApi gitLabApi;
 
     public AbstractApi(GitLabApi gitLabApi) {
         this.gitLabApi = gitLabApi;

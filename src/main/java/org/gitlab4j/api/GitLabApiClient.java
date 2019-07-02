@@ -210,9 +210,7 @@ public class GitLabApiClient {
         // Remove the trailing "/" from the hostUrl if present
         this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl);
         this.baseUrl = this.hostUrl;
-        if (ApiVersion.OAUTH2_CLIENT != apiVersion) {
-            this.hostUrl += apiVersion.getApiNamespace();
-        }
+        this.hostUrl += apiVersion.getApiNamespace();
 
         this.tokenType = tokenType;
         this.authToken = authToken;
@@ -758,6 +756,13 @@ public class GitLabApiClient {
             builder = builder.header(SUDO_HEADER,  sudoAsId);
 
         return (builder);
+    }
+
+    /**
+     * Used to set the host URL to be used by OAUTH2 login in GitLabApi.
+     */
+    void setHostUrlToBaseUrl() {
+        this.hostUrl = this.baseUrl;
     }
 
     /**

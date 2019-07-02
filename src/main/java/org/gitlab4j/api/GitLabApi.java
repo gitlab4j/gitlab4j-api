@@ -33,7 +33,7 @@ public class GitLabApi {
 
     /** Specifies the version of the GitLab API to communicate with. */
     public enum ApiVersion {
-        V3, V4, OAUTH2_CLIENT;
+        V3, V4;
 
         public String getApiNamespace() {
             return ("/api/" + name().toLowerCase());
@@ -268,7 +268,10 @@ public class GitLabApi {
             throw new IllegalArgumentException("both username and email cannot be empty or null");
         }
 
-        GitLabApi gitLabApi = new GitLabApi(ApiVersion.OAUTH2_CLIENT, url, (String)null);
+        // Create a GitLabApi instance set up to be used to do an OAUTH2 login.
+        GitLabApi gitLabApi = new GitLabApi(apiVersion, url, (String)null);
+        gitLabApi.apiClient.setHostUrlToBaseUrl();
+
         if (ignoreCertificateErrors) {
             gitLabApi.setIgnoreCertificateErrors(true);
         }
