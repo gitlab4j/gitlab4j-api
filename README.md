@@ -7,23 +7,23 @@ GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume 
 
 ---
 ## Table of Contents
-* [GitLab Server Version Support](#gitLab%20server%20version%20support)<br/>
-* [Using GitLab4J-API](#using%20gitlab4j-api)<br/>
-  * [Java 8 Requirement](#java%208%20requirement)<br/>
+* [GitLab Server Version Support](#gitLab-server-version-support)<br/>
+* [Using GitLab4J-API](#using-gitlab4j-api)<br/>
+  * [Java 8 Requirement](#java-8-requirement)<br/>
   * [Javadocs](#javadocs)<br/>
-  * [Project Set Up](#project%20set%20up)<br/>
-  * [Usage Examples](#usage%20examples)<br/>
-  * [Connecting Through a Proxy Server](#connecting%20through%20a%20proxy%20server)<br/>
-  * [GitLab API V3 and V4 Support](#gitLab%20api%20v3%20and%20v4%20support)<br/>
-  * [Logging of API Requests and Responses](#logging%20of%20api%20requests%20and%20responses)<br/>
-  * [Results Paging](#results%20paging)<br/>
-  * [Java 8 Stream Support](#java%208%20stream%20support)<br/>
-    * [Eager evaluation example usage](#eager%20evaluation%20example%20usage)<br/>
-    * [Lazy evaluation example usage](#lazy%20evaluation%20example%20usage)<br/>
-  * [Java 8 Optional&lt;T&gt; Support](#java%208%20optional&lt;T&gt;%20support)<br/>
-  * [Issue Time Estimates](#issue%20time%20estimates)<br/>
-* [Making API Calls](#making%20api%20calls)<br/>
-  * [Available Sub APIs](#available%20sub%20apis)
+  * [Project Set Up](#project-set-up)<br/>
+  * [Usage Examples](#usage-examples)<br/>
+  * [Connecting Through a Proxy Server](#connecting-through-a-proxy-server)<br/>
+  * [GitLab API V3 and V4 Support](#gitLab-api-v3-and-v4-support)<br/>
+  * [Logging of API Requests and Responses](#logging-of-api-requests-and-responses)<br/>
+  * [Results Paging](#results-paging)<br/>
+  * [Java 8 Stream Support](#java-8-stream-support)<br/>
+    * [Eager evaluation example usage](#eager-evaluation-example-usage)<br/>
+    * [Lazy evaluation example usage](#lazy%20evaluation-example-usage)<br/>
+  * [Java 8 Optional&lt;T&gt; Support](#java-8-optional-support)<br/>
+  * [Issue Time Estimates](#issue-time-estimates)<br/>
+* [Making API Calls](#making-pi-calls)<br/>
+  * [Available Sub APIs](#available-sub-apis)
 
 ---
 ## GitLab Server Version Support
@@ -216,7 +216,7 @@ projectPager.lazyStream().limit(5).map(Project::getName).forEach(name -> System.
 
 
 ---
-### **Java 8 Optional&lt;T&gt; Support**
+### **Java 8 Optional Support**
 GitLab4J-API supports Java 8 Optional&lt;T&gt; for API calls that result in the return of a single item. Here is an example on how to use the Java 8 Optional&lt;T&gt; API calls:
 ```java
 Optional<Group> optionalGroup =  gitlabApi.getGroupApi().getGroup("my-group-path");
