@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
 
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.services.BugzillaService;
+import org.gitlab4j.api.services.CustomIssueTrackerService;
 import org.gitlab4j.api.services.ExternalWikiService;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.MattermostService;
@@ -31,6 +33,8 @@ import org.junit.runners.MethodSorters;
 @Category(IntegrationTest.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestServicesApi extends AbstractIntegrationTest {
+
+    private static final String TEST_ENDPOINT = "https://foobar.com/gitlab_service/webhooks/";
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
@@ -206,6 +210,7 @@ public class TestServicesApi extends AbstractIntegrationTest {
                     .withUsername("GitLab4J");
             MattermostService updatedService =  gitLabApi.getServicesApi().updateMattermostService(testProject, service);
             assertNotNull(updatedService);
+            assertEquals(service.getWebhook(), updatedService.getWebhook());
         } finally {
             try { gitLabApi.getServicesApi().deleteMattermostService(testProject); } catch (Exception ignore) {}
         }
@@ -225,5 +230,91 @@ public class TestServicesApi extends AbstractIntegrationTest {
         MattermostService deleteMattermostService =  gitLabApi.getServicesApi().getMattermostService(testProject);
         assertNotNull(deleteMattermostService);
         assertFalse(deleteMattermostService.getActive());
+    }
+
+    @Test
+    public void testGetBugzillaService() throws GitLabApiException {
+        BugzillaService service =  gitLabApi.getServicesApi().getBugzillaService(testProject);
+        assertNotNull(service);
+    }
+
+    @Test
+    public void testUpdateBugzillaService() throws GitLabApiException {
+
+        try {
+
+            BugzillaService service =  new BugzillaService()
+                    .withIssuesUrl(TEST_ENDPOINT + "issues")
+                    .withNewIssueUrl(TEST_ENDPOINT + "new_issue")
+                    .withProjectUrl(TEST_ENDPOINT + "project");
+            BugzillaService updatedService =  gitLabApi.getServicesApi().updateBugzillaService(testProject, service);
+            assertNotNull(updatedService);
+            assertEquals(service.getIssuesUrl(), updatedService.getIssuesUrl());
+            assertEquals(service.getNewIssueUrl(), updatedService.getNewIssueUrl());
+            assertEquals(service.getProjectUrl(), updatedService.getProjectUrl());
+
+        } finally {
+            try { gitLabApi.getServicesApi().deleteBugzillaService(testProject); } catch (Exception ignore) {}
+        }
+    }
+
+    @Test
+    public void testDeleteBugzillaService() throws GitLabApiException {
+
+        BugzillaService service =  new BugzillaService()
+                .withIssuesUrl(TEST_ENDPOINT + "issues")
+                .withNewIssueUrl(TEST_ENDPOINT + "new_issue")
+                .withProjectUrl(TEST_ENDPOINT + "project");
+        BugzillaService updatedService =  gitLabApi.getServicesApi().updateBugzillaService(testProject, service);
+        assertNotNull(updatedService);
+        assertTrue(updatedService.getActive());
+
+        gitLabApi.getServicesApi().deleteBugzillaService(testProject);
+        BugzillaService deletedService =  gitLabApi.getServicesApi().getBugzillaService(testProject);
+        assertNotNull(deletedService);
+        assertFalse(deletedService.getActive());
+    }
+
+    @Test
+    public void testGetCustomIssueTrackerService() throws GitLabApiException {
+        CustomIssueTrackerService service =  gitLabApi.getServicesApi().getCustomIssueTrackerService(testProject);
+        assertNotNull(service);
+    }
+
+    @Test
+    public void testUpdateCustomIssueTrackerService() throws GitLabApiException {
+
+        try {
+
+            CustomIssueTrackerService service =  new CustomIssueTrackerService()
+                    .withIssuesUrl(TEST_ENDPOINT + "issues")
+                    .withNewIssueUrl(TEST_ENDPOINT + "new_issue")
+                    .withProjectUrl(TEST_ENDPOINT + "project");
+            CustomIssueTrackerService updatedService =  gitLabApi.getServicesApi().updateCustomIssueTrackerService(testProject, service);
+            assertNotNull(updatedService);
+            assertEquals(service.getIssuesUrl(), updatedService.getIssuesUrl());
+            assertEquals(service.getNewIssueUrl(), updatedService.getNewIssueUrl());
+            assertEquals(service.getProjectUrl(), updatedService.getProjectUrl());
+
+        } finally {
+            try { gitLabApi.getServicesApi().deleteCustomIssueTrackerService(testProject); } catch (Exception ignore) {}
+        }
+    }
+
+    @Test
+    public void testDeleteCustomIssueTrackerService() throws GitLabApiException {
+
+        CustomIssueTrackerService service =  new CustomIssueTrackerService()
+                .withIssuesUrl(TEST_ENDPOINT + "issues")
+                .withNewIssueUrl(TEST_ENDPOINT + "new_issue")
+                .withProjectUrl(TEST_ENDPOINT + "project");
+        CustomIssueTrackerService updatedService =  gitLabApi.getServicesApi().updateCustomIssueTrackerService(testProject, service);
+        assertNotNull(updatedService);
+        assertTrue(updatedService.getActive());
+
+        gitLabApi.getServicesApi().deleteCustomIssueTrackerService(testProject);
+        CustomIssueTrackerService deletedService =  gitLabApi.getServicesApi().getCustomIssueTrackerService(testProject);
+        assertNotNull(deletedService);
+        assertFalse(deletedService.getActive());
     }
 }
