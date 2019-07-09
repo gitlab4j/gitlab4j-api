@@ -4,6 +4,7 @@ import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.services.ExternalWikiService;
 import org.gitlab4j.api.services.HipChatService;
 import org.gitlab4j.api.services.JiraService;
+import org.gitlab4j.api.services.MattermostService;
 import org.gitlab4j.api.services.SlackService;
 
 import javax.ws.rs.core.Form;
@@ -315,7 +316,7 @@ public class ServicesApi extends AbstractApi {
     }
 
     /**
-     * Get the JIRA service settings for a project.
+     * Get the ExternalWiki service settings for a project.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/services/external-wiki</code></pre>
      *
@@ -361,5 +362,97 @@ public class ServicesApi extends AbstractApi {
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "external-wiki");
 
+    }
+
+    /**
+     * Get the Mattermost service settings for a project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/services/mattermost</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @return a MattermostService instance holding the Mattermost service settings
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MattermostService getMattermostService(Object projectIdOrPath) throws GitLabApiException {
+        Response response = this.get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "mattermost");
+        return (response.readEntity(MattermostService.class));
+    }
+
+    /**
+     * Updates the Mattermost service settings for a project.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/mattermost</code></pre>
+     *
+      * The following properties on the MattermostService instance are utilized in the update of the settings:
+     * <p>
+     * webhook (required) - https://hooks.slack.com/services/...
+     * username (optional) - username
+     * defaultChannel (optional) - Default channel to use if others are not configured
+     * notifyOnlyBrokenPipelines (optional) - Send notifications for broken pipelines
+     * notifyOnlyDefault_branch (optional) - Send notifications only for the default branch
+     * pushEvents (optional) - Enable notifications for push events
+     * issuesEvents (optional) - Enable notifications for issue events
+     * confidentialIssuesEvents (optional) - Enable notifications for confidential issue events
+     * mergeRequestsEvents (optional) - Enable notifications for merge request events
+     * tagPushEvents (optional) - Enable notifications for tag push events
+     * noteEvents (optional) - Enable notifications for note events
+     * confidentialNoteEvents (optional) - Enable notifications for confidential note events
+     * pipelineEvents (optional) - Enable notifications for pipeline events
+     * wikiPageEvents (optional) - Enable notifications for wiki page events
+     * pushChannel (optional) - The name of the channel to receive push events notifications
+     * issueChannel (optional) - The name of the channel to receive issues events notifications
+     * confidentialIssueChannel (optional) - The name of the channel to receive confidential issues events notifications
+     * mergeRequestChannel (optional) - The name of the channel to receive merge request events notifications
+     * noteChannel (optional) - The name of the channel to receive note events notifications
+     * confidentialNoteChannel (optional) - The name of the channel to receive confidential note events notifications
+     * tagPushChannel (optional) - The name of the channel to receive tag push events notifications
+     * pipelineChannel (optional) - The name of the channel to receive pipeline events notifications
+     * wikiPageChannel (optional) - The name of the channel to receive wiki page events notifications
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param mattermostNotifications the MattermostService instance holding the settings
+     * @return a MattermostService instance holding the newly updated settings
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MattermostService updateMattermostService(Object projectIdOrPath,  MattermostService mattermostNotifications) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("webhook", mattermostNotifications.getWebhook(), true)
+                .withParam("username", mattermostNotifications.getUsername())
+                .withParam("channel", mattermostNotifications.getDefaultChannel())
+                .withParam("notify_only_broken_pipelines", mattermostNotifications.getNotifyOnlyBrokenPipelines())
+                .withParam("notify_only_default_branch", mattermostNotifications.getNotifyOnlyDefaultBranch())
+                .withParam("push_events", mattermostNotifications.getPushEvents())
+                .withParam("issues_events", mattermostNotifications.getIssuesEvents())
+                .withParam("confidential_issues_events", mattermostNotifications.getConfidentialIssuesEvents())
+                .withParam("merge_requests_events", mattermostNotifications.getMergeRequestsEvents())
+                .withParam("tag_push_events", mattermostNotifications.getTagPushEvents())
+                .withParam("note_events", mattermostNotifications.getNoteEvents())
+                .withParam("confidential_note_events", mattermostNotifications.getConfidentialNoteEvents())
+                .withParam("pipeline_events", mattermostNotifications.getPipelineEvents())
+                .withParam("wiki_page_events", mattermostNotifications.getWikiPageEvents())
+                .withParam("push_channel", mattermostNotifications.getPushChannel())
+                .withParam("issue_channel", mattermostNotifications.getIssueChannel())
+                .withParam("confidential_issue_channel", mattermostNotifications.getConfidentialIssueChannel())
+                .withParam("merge_request_channel", mattermostNotifications.getMergeRequestChannel())
+                .withParam("note_channel", mattermostNotifications.getNoteChannel())
+                .withParam("confidential_note_channel", mattermostNotifications.getConfidentialNoteChannel())
+                .withParam("tag_push_channel", mattermostNotifications.getTagPushChannel())
+                .withParam("pipeline_channel", mattermostNotifications.getPipelineChannel())
+                .withParam("wiki_page_channel", mattermostNotifications.getWikiPageChannel());
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "services", "mattermost");
+        return (response.readEntity(MattermostService.class));
+    }
+
+    /**
+     * Deletes the Mattermost service for a project.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/external-wiki</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteMattermostService(Object projectIdOrPath) throws GitLabApiException {
+        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "mattermost");
     }
 }
