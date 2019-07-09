@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.ws.rs.core.Response;
+import org.gitlab4j.api.models.Branch;
 
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
@@ -320,5 +321,51 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         assertNotEquals(commit.getId(), revertedCommit.getId());
         repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
         assertFalse(repoFile.isPresent());
+    }
+    
+    @Test
+    public void testCherryPickCommit() throws GitLabApiException {
+        
+        // Make sure the branch to cherry pick does not exist
+        if(gitLabApi.getRepositoryApi().getOptionalBranch(testProject, "cherry-pick-branch").isPresent()) {
+           gitLabApi.getRepositoryApi().deleteBranch(testProject, "cherry-pick-branch");
+        }
+        
+        // Make sure the file to create does not exist.
+        String filePath = TEST_CREATE_COMMIT_FILEPATH + ".test";
+        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master").isPresent()) {
+            gitLabApi.getRepositoryFileApi().deleteFile(testProject, filePath, "master", "Deleted test file");
+        }
+
+        // Act
+        Branch branch = gitLabApi.getRepositoryApi().createBranch(testProject, "cherry-pick-branch", "master");
+        
+        // Assert
+        assertNotNull(branch);
+        Optional<RepositoryFile> repoFileBranch = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, branch.getName());
+        assertFalse(repoFileBranch.isPresent());
+        
+        // Arrange
+        CommitAction commitAction = new CommitAction()
+                .withAction(Action.CREATE)
+                .withContent("This is the original data in the file")
+                .withFilePath(filePath);
+
+        // Act
+        Commit commit = gitLabApi.getCommitsApi().createCommit(
+                testProject, "master", "Testing createCommit() create action", null, null, null, commitAction);
+
+        // Assert
+        assertNotNull(commit);
+        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
+        assertTrue(repoFile.isPresent());
+        
+        // Act
+        Commit cherryPickedCommit = gitLabApi.getCommitsApi().cherryPickCommit(testProject, commit.getId(), "cherry-pick-branch");
+        
+        // Assert
+        assertNotNull(cherryPickedCommit);
+        Optional<RepositoryFile> repoFileBranchCherryPicked = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, branch.getName());
+        assertTrue(repoFileBranchCherryPicked.isPresent());
     }
 }

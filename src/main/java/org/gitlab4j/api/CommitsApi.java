@@ -644,4 +644,23 @@ public class CommitsApi extends AbstractApi {
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "revert");
         return (response.readEntity(Commit.class));
     }
+    
+    /**
+     * Cherry picks a commit in a given branch.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits/:sha/cherry_pick</code></pre>
+     *
+     * @since GitLab 8.15
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha the commit SHA to cherry pick
+     * @param branch the target branch to cherry pick the commit on
+     * @return a Commit instance holding the cherry picked commit
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Commit cherryPickCommit(Object projectIdOrPath, String sha, String branch) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("branch", branch, true);
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "cherry_pick");
+        return (response.readEntity(Commit.class));
+    }
 }
