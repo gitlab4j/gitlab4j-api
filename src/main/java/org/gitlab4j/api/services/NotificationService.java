@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -278,5 +279,10 @@ public abstract class NotificationService {
         }
 
         properties.put(prop, value);
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
