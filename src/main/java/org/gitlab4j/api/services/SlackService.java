@@ -1,10 +1,46 @@
 package org.gitlab4j.api.services;
 
+import org.gitlab4j.api.GitLabApiForm;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class SlackService extends NotificationService {
     
     private String defaultChannel;
+
+    /**
+     * Get the form data for this service based on it's properties.
+     *
+     * @return the form data for this service based on it's properties
+     */
+    @Override
+    public GitLabApiForm servicePropertiesForm() {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("webhook", getWebhook(), true)
+            .withParam("username", getUsername())
+            .withParam("channel", getDefaultChannel())
+            .withParam("notify_only_broken_pipelines", getNotifyOnlyBrokenPipelines())
+            .withParam("notify_only_default_branch", getNotifyOnlyDefaultBranch())
+            .withParam("push_events", getPushEvents())
+            .withParam("issues_events", getIssuesEvents())
+            .withParam("confidential_issues_events", getConfidentialIssuesEvents())
+            .withParam("merge_requests_events", getMergeRequestsEvents())
+            .withParam("tag_push_events", getTagPushEvents())
+            .withParam("note_events", getNoteEvents())
+            .withParam("confidential_note_events", getConfidentialNoteEvents())
+            .withParam("pipeline_events", getPipelineEvents())
+            .withParam("wiki_page_events", getWikiPageEvents())
+            .withParam("push_channel", getPushChannel())
+            .withParam("issue_channel", getIssueChannel())
+            .withParam("confidential_issue_channel", getConfidentialIssueChannel())
+            .withParam("merge_request_channel", getMergeRequestChannel())
+            .withParam("note_channel", getNoteChannel())
+            .withParam("confidential_note_channel", getConfidentialNoteChannel())
+            .withParam("tag_push_channel", getTagPushChannel())
+            .withParam("pipeline_channel", getPipelineChannel())
+            .withParam("wiki_page_channel", getWikiPageChannel());
+        return formData;
+    }
 
     public SlackService withPushEvents(Boolean pushEvents) {
         return withPushEvents(pushEvents, this);

@@ -2,6 +2,8 @@ package org.gitlab4j.api.services;
 
 import java.util.Map;
 
+import org.gitlab4j.api.GitLabApiForm;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class JiraService extends NotificationService {
@@ -13,6 +15,25 @@ public class JiraService extends NotificationService {
     public static final String JIRA_ISSUE_TRANSITION_ID_PROP = "jira_issue_transition_id";
 
     private CharSequence password;
+
+    /**
+     * Get the form data for this service based on it's properties.
+     *
+     * @return the form data for this service based on it's properties
+     */
+    @Override
+    public GitLabApiForm servicePropertiesForm() {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("merge_requests_events", getMergeRequestsEvents())
+            .withParam("commit_events", getCommitEvents())
+            .withParam("url", getUrl(), true)
+            .withParam("api_url", getApiUrl())
+            .withParam("project_key", getProjectKey())
+            .withParam("username", getUsername(), true)
+            .withParam("password", getPassword(), true)
+            .withParam("jira_issue_transition_id", getJiraIssueTransitionId());
+        return formData;
+    }
 
     public JiraService withCommitEvents(Boolean commitEvents) {
         return withCommitEvents(commitEvents, this);

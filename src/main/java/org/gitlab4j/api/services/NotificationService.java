@@ -4,12 +4,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.gitlab4j.api.GitLabApiForm;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class NotificationService {
 
-    public static final String WEBHOOK_PROP = "webhook";
-    public static final String USERNAME_PROP = "username";
     public static final String NOTIFY_ONLY_BROKEN_PIPELINES_PROP = "notify_only_broken_pipelines";
     public static final String NOTIFY_ONLY_DEFAULT_BRANCH_PROP = "notify_only_default_branch";
     public static final String PUSH_CHANNEL_PROP = "push_channel";
@@ -21,6 +21,15 @@ public abstract class NotificationService {
     public static final String TAG_PUSH_CHANNEL_PROP = "tag_push_channel";
     public static final String PIPELINE_CHANNEL_PROP = "pipeline_channel";
     public static final String WIKI_PAGE_CHANNEL_PROP = "wiki_page_channel";
+
+    public static final String WEBHOOK_PROP = "webhook";
+    public static final String USERNAME_PROP = "username";
+    public static final String DESCRIPTION_PROP = "description";
+    public static final String TITLE_PROP = "title";
+    public static final String NEW_ISSUE_URL_PROP = "new_issue_url";
+    public static final String ISSUES_URL_PROP = "issues_url";
+    public static final String PROJECT_URL_PROP = "project_url";
+    public static final String PUSH_EVENTS_PROP = "push_events";
 
     private Integer id;
     private String title;
@@ -41,6 +50,8 @@ public abstract class NotificationService {
     private Boolean jobEvents;
 
     private Map<String, Object> properties;
+
+    public abstract GitLabApiForm servicePropertiesForm();
 
     public Integer getId() {
         return id;
