@@ -9,6 +9,7 @@ import static org.junit.Assume.assumeNotNull;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.services.ExternalWikiService;
 import org.gitlab4j.api.services.JiraService;
+import org.gitlab4j.api.services.MattermostService;
 import org.gitlab4j.api.services.SlackService;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -187,5 +188,42 @@ public class TestServicesApi extends AbstractIntegrationTest {
         ExternalWikiService deleteExternalWikiService =  gitLabApi.getServicesApi().getExternalWikiService(testProject);
         assertNotNull(deleteExternalWikiService);
         assertFalse(deleteExternalWikiService.getActive());
+    }
+
+    @Test
+    public void testGetMattermostService() throws GitLabApiException {
+        MattermostService service =  gitLabApi.getServicesApi().getMattermostService(testProject);
+        assertNotNull(service);
+    }
+
+    @Test
+    public void testUpdateMattermostService() throws GitLabApiException {
+
+        try {
+            MattermostService service =  new MattermostService()
+                    .withMergeRequestsEvents(true)
+                    .withWebhook("https://hooks.mattermost.com/services/ABCDEFGHI/KJLMNOPQR/wetrewq7897HKLH8998wfjjj")
+                    .withUsername("GitLab4J");
+            MattermostService updatedService =  gitLabApi.getServicesApi().updateMattermostService(testProject, service);
+            assertNotNull(updatedService);
+        } finally {
+            try { gitLabApi.getServicesApi().deleteMattermostService(testProject); } catch (Exception ignore) {}
+        }
+    }
+
+    @Test
+    public void testDeleteMattermostService() throws GitLabApiException {
+        MattermostService service =  new MattermostService()
+                .withMergeRequestsEvents(true)
+                .withWebhook("https://hooks.mattermost.com/services/ABCDEFGHI/KJLMNOPQR/wetrewq7897HKLH8998wfjjj")
+                .withUsername("GitLab4J");
+        MattermostService updatedService =  gitLabApi.getServicesApi().updateMattermostService(testProject, service);
+        assertNotNull(updatedService);
+        assertTrue(updatedService.getActive());
+
+        gitLabApi.getServicesApi().deleteMattermostService(testProject);
+        MattermostService deleteMattermostService =  gitLabApi.getServicesApi().getMattermostService(testProject);
+        assertNotNull(deleteMattermostService);
+        assertFalse(deleteMattermostService.getActive());
     }
 }
