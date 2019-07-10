@@ -84,12 +84,7 @@ public class TestGitLabApiException extends AbstractIntegrationTest {
         Project project = new Project()
                 .withName(TEST_PROJECT_NAME_DUPLICATE)
                 .withDescription("GitLab4J test project.")
-                .withIssuesEnabled(true)
-                .withMergeRequestsEnabled(true)
-                .withWikiEnabled(true)
-                .withSnippetsEnabled(true)
-                .withVisibility(Visibility.PUBLIC)
-                .withTagList(Arrays.asList("tag1", "tag2"));
+                .withVisibility(Visibility.PUBLIC);
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
