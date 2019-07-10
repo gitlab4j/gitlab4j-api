@@ -41,7 +41,6 @@ public abstract class NotificationService {
     private Boolean pushEvents;
     private Boolean issuesEvents;
     private Boolean confidentialIssuesEvents;
-    private Boolean commitEvents;
     private Boolean mergeRequestsEvents;
     private Boolean tagPushEvents;
     private Boolean noteEvents;
@@ -134,20 +133,6 @@ public abstract class NotificationService {
 
     protected <T> T withConfidentialIssuesEvents(Boolean confidentialIssuesEvents, T derivedInstance) {
         this.confidentialIssuesEvents = confidentialIssuesEvents;
-        return (derivedInstance);
-    }
-
-    @JsonIgnore
-    public Boolean getCommitEvents() {
-        return commitEvents;
-    }
-
-    public void setCommitEvents(Boolean commitEvents) {
-        this.commitEvents = commitEvents;
-    }
-
-    protected <T> T withCommitEvents(Boolean commitEvents, T derivedInstance) {
-        setCommitEvents(commitEvents);
         return (derivedInstance);
     }
 
