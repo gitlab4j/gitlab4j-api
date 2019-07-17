@@ -16,6 +16,7 @@ import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.utils.EmailChecker;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 
@@ -307,7 +308,10 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public User getUser(String username) throws GitLabApiException {
-        GitLabApiForm formData = createGitLabApiForm().withParam("username", username, true);
+        GitLabApiForm formData = createGitLabApiForm()
+                .withParam("username", username, true)
+                .withParam(PAGE_PARAM, 1)
+                .withParam(PER_PAGE_PARAM, 1);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
         List<User> users = response.readEntity(new GenericType<List<User>>() {});
         return (users.isEmpty() ? null : users.get(0));
@@ -326,6 +330,42 @@ public class UserApi extends AbstractApi {
     public Optional<User> getOptionalUser(String username) {
         try {
             return (Optional.ofNullable(getUser(username)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
+     * Lookup a user by email address.  Returns null if not found.
+     *
+     * <pre><code>GitLab Endpoint: GET /users?search=:email_or_username</code></pre>
+     *
+     * @param email the email of the user to get
+     * @return the User instance for the specified email, or null if not found
+     * @throws GitLabApiException if any exception occurs
+     * @throws IllegalArgumentException if email is not valid
+     */
+    public User getUserByEmail(String email) throws GitLabApiException {
+
+        if (!EmailChecker.isValidEmail(email)) {
+            throw new IllegalArgumentException("email is not valid");
+        }
+
+        List<User> users = findUsers(email, 1, 1);
+        return (users.isEmpty() ? null : users.get(0));
+    }
+
+    /**
+     * Lookup a user by email address and returns an Optional with the User instance as the value.
+     *
+     * <pre><code>GitLab Endpoint: GET /users?search=:email_or_username</code></pre>
+     *
+     * @param email the email of the user to get
+     * @return the User for the specified email as an Optional instance
+     */
+    public Optional<User> getOptionalUserByEmail(String email) {
+        try {
+            return (Optional.ofNullable(getUserByEmail(email)));
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
