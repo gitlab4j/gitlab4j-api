@@ -584,7 +584,7 @@ public class PipelineApi extends AbstractApi implements Constants {
      * @return a list of project pipeline triggers for the specified project in the specified page range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Trigger> getPipelineTriggerss(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
+    public List<Trigger> getPipelineTriggers(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", getProjectIdOrPath(projectIdOrPath), "triggers");
         return (response.readEntity(new GenericType<List<Trigger>>() {}));
     }
