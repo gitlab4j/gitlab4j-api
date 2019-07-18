@@ -20,6 +20,7 @@ public class GroupProjectsFilter {
     private Boolean withCustomAttributes;
     private Boolean withIssuesEnabled;
     private Boolean withMergeRequestsEnabled;
+    private Boolean includeSubGroups;
 
     /**
      * Limit by archived status.
@@ -144,6 +145,17 @@ public class GroupProjectsFilter {
     }
 
     /**
+     * Includes projects that are located in sub groups
+     *
+     * @param includeSubGroups if true, projects from sub groups will be included
+     * @return the reference to this ProjectFilter instance
+     */
+    public GroupProjectsFilter withIncludeSubGroups(Boolean includeSubGroups) {
+        this.includeSubGroups = includeSubGroups;
+        return (this);
+    }
+
+    /**
      * Get the query params specified by this filter.
      *
      * @return a GitLabApiForm instance holding the query parameters for this ProjectFilter instance
@@ -161,6 +173,7 @@ public class GroupProjectsFilter {
             .withParam("with_custom_attributes", withCustomAttributes)
             .withParam("with_issues_enabled", withIssuesEnabled)
             .withParam("with_merge_requests_enabled ", withMergeRequestsEnabled)
+            .withParam("include_subgroups", includeSubGroups)
         );
     }
 }
