@@ -22,14 +22,6 @@ public class Runner {
      */
     public enum RunnerStatus {
 
-        /** @deprecated This RunnerStatus value is deprecated and will be removed in a future release. */
-        @Deprecated
-        SPECIFIC,
-
-        /** @deprecated This RunnerStatus value is deprecated and will be removed in a future release. */
-        @Deprecated
-        SHARED,
-
         ACTIVE, ONLINE, PAUSED, OFFLINE;
 
         private static JacksonJsonEnumHelper<RunnerStatus> enumHelper =
