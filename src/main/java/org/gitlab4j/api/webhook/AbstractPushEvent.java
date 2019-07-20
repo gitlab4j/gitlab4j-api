@@ -25,7 +25,7 @@ public abstract class AbstractPushEvent {
     private Integer totalCommitsCount;
 
     private String requestUrl;
-    private String requestQuesryString;
+    private String requestQueryString;
     private String requestSecretToken;
 
     public String getEventName() {
@@ -149,13 +149,13 @@ public abstract class AbstractPushEvent {
         return (requestUrl);
     }
 
-    public void setRequestQueryString(String requestQuesryString) {
-        this.requestQuesryString = requestQuesryString;
+    public void setRequestQueryString(String requestQueryString) {
+        this.requestQueryString = requestQueryString;
     }
 
     @JsonIgnore
     public String getRequestQueryString() {
-        return (requestQuesryString);
+        return (requestQueryString);
     }
 
 
