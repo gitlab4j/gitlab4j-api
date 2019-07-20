@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public abstract class AbstractEvent implements Event {
 
     private String requestUrl;
-    private String requestQuesryString;
+    private String requestQueryString;
     private String secretToken;
 
     @Override
@@ -20,14 +20,14 @@ public abstract class AbstractEvent implements Event {
     }
 
     @Override
-    public void setRequestQueryString(String requestQuesryString) {
-        this.requestQuesryString = requestQuesryString;
+    public void setRequestQueryString(String requestQueryString) {
+        this.requestQueryString = requestQueryString;
     }
 
     @Override
     @JsonIgnore
     public String getRequestQueryString() {
-        return (requestQuesryString);
+        return (requestQueryString);
     }
 
     @Override
