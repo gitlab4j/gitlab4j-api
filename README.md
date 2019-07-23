@@ -22,7 +22,7 @@ GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume 
     * [Lazy evaluation example usage](#lazy%20evaluation-example-usage)<br/>
   * [Java 8 Optional&lt;T&gt; Support](#java-8-optional-support)<br/>
   * [Issue Time Estimates](#issue-time-estimates)<br/>
-* [Making API Calls](#making-pi-calls)<br/>
+* [Making API Calls](#making-api-calls)<br/>
   * [Available Sub APIs](#available-sub-apis)
 
 ---
