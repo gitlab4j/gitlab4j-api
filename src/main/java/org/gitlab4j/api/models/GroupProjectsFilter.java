@@ -146,9 +146,9 @@ public class GroupProjectsFilter {
     }
 
     /**
-     * Includes projects that are located in sub groups
+     * Include projects that are located in subgroups
      *
-     * @param includeSubGroups if true, projects from sub groups will be included
+     * @param includeSubGroups if true, projects from subgroups will be included
      * @return the reference to this ProjectFilter instance
      */
     public GroupProjectsFilter withIncludeSubGroups(Boolean includeSubGroups) {
@@ -157,9 +157,9 @@ public class GroupProjectsFilter {
     }
 
     /**
-     * Includes projects that are shared with this group
+     * Include projects that are shared with this group
      *
-     * @param withShared if true, projects that are shared with this groups will be included
+     * @param withShared if true, projects that are shared with this group will be included
      * @return the reference to this ProjectFilter instance
      */
     public GroupProjectsFilter withShared(Boolean withShared) {
