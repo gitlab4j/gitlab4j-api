@@ -20,6 +20,7 @@ public class GroupProjectsFilter {
     private Boolean withCustomAttributes;
     private Boolean withIssuesEnabled;
     private Boolean withMergeRequestsEnabled;
+    private Boolean withShared;
     private Boolean includeSubGroups;
 
     /**
@@ -156,6 +157,17 @@ public class GroupProjectsFilter {
     }
 
     /**
+     * Includes projects that are shared with this group
+     *
+     * @param withShared if true, projects that are shared with this groups will be included
+     * @return the reference to this ProjectFilter instance
+     */
+    public GroupProjectsFilter withShared(Boolean withShared) {
+        this.withShared = withShared;
+        return (this);
+    }
+
+    /**
      * Get the query params specified by this filter.
      *
      * @return a GitLabApiForm instance holding the query parameters for this ProjectFilter instance
@@ -173,6 +185,7 @@ public class GroupProjectsFilter {
             .withParam("with_custom_attributes", withCustomAttributes)
             .withParam("with_issues_enabled", withIssuesEnabled)
             .withParam("with_merge_requests_enabled ", withMergeRequestsEnabled)
+            .withParam("with_shared", withShared)
             .withParam("include_subgroups", includeSubGroups)
         );
     }
