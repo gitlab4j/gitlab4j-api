@@ -86,6 +86,89 @@ public class TagsApi extends AbstractApi {
     }
 
     /**
+     * Get a list of repository tags from a project, sorted by name in reverse alphabetical order.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param orderBy return tags ordered by name or updated fields. Default is updated
+     * @param sortOrder return tags sorted in asc or desc order. Default is desc
+     * @param search return list of tags matching the search criteria
+     * @return the list of tags for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 11.8
+     */
+    public List<Tag> getTags(Object projectIdOrPath, TagOrderBy orderBy, SortOrder sortOrder, String search) throws GitLabApiException {
+        return (getTags(projectIdOrPath, orderBy, sortOrder, search, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of repository tags from a project, sorted by name in reverse alphabetical order and in the specified page range.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param orderBy return tags ordered by name or updated fields. Default is updated
+     * @param sortOrder return tags sorted in asc or desc order. Default is desc
+     * @param search return list of tags matching the search criteria
+     * @param page the page to get
+     * @param perPage the number of Tag instances per page
+     * @return the list of tags for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 11.8
+     */
+    public List<Tag> getTags(Object projectIdOrPath, TagOrderBy orderBy, SortOrder sortOrder, String search, int page, int perPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("order_by", orderBy)
+                .withParam("sort", sortOrder)
+                .withParam("search", search)
+                .withParam(PAGE_PARAM,  page)
+                .withParam(PER_PAGE_PARAM, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags");
+        return (response.readEntity(new GenericType<List<Tag>>() { }));
+    }
+
+    /**
+     * Get a list of repository tags from a project, sorted by name in reverse alphabetical order.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param orderBy return tags ordered by name or updated fields. Default is updated
+     * @param sortOrder return tags sorted in asc or desc order. Default is desc
+     * @param search return list of tags matching the search criteria
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return the Pager of tags for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 11.8
+     */
+    public Pager<Tag> getTags(Object projectIdOrPath, TagOrderBy orderBy, SortOrder sortOrder, String search, int itemsPerPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("order_by", orderBy)
+                .withParam("sort", sortOrder)
+                .withParam("search", search);
+        return (new Pager<Tag>(this, Tag.class, itemsPerPage, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags"));
+    }
+
+    /**
+     * Get a Stream of repository tags from a project, sorted by name in reverse alphabetical order.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param orderBy return tags ordered by name or updated fields. Default is updated
+     * @param sortOrder return tags sorted in asc or desc order. Default is desc
+     * @param search return list of tags matching the search criteria
+     * @return a Stream of tags for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 11.8
+     */
+    public Stream<Tag> getTagsStream(Object projectIdOrPath, TagOrderBy orderBy, SortOrder sortOrder, String search) throws GitLabApiException {
+        return (getTags(projectIdOrPath, orderBy, sortOrder, search, getDefaultPerPage()).stream());
+    }
+
+    /**
      * Get a specific repository tag determined by its name.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tags/:tagName</code></pre>

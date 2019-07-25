@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -9,6 +10,7 @@ import static org.junit.Assume.assumeTrue;
 import java.util.List;
 import java.util.Optional;
 
+import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProtectedTag;
@@ -156,6 +158,35 @@ public class TestTagsApi extends AbstractIntegrationTest {
         testTag = gitLabApi.getTagsApi().getTag(testProject, TEST_TAG_WITH_SLASH);
         assertNotNull(testTag);
         assertEquals(TEST_TAG_WITH_SLASH, testTag.getName());
+    }
+
+    @Test
+    public void testGetTagsInAscOrder() throws GitLabApiException {
+        List<Tag> tags = gitLabApi.getTagsApi().getTags(testProject, null, SortOrder.ASC, null);
+        assertNotNull(tags);
+        assertTrue(tags.size() > 1);
+        assertTrue(tags.get(0).getName().compareTo(tags.get(1).getName()) < 0);
+    }
+
+    @Test
+    public void testGetTagsInDescOrder() throws GitLabApiException {
+        List<Tag> tags = gitLabApi.getTagsApi().getTags(testProject, null, SortOrder.DESC, null);
+        assertNotNull(tags);
+        assertTrue(tags.size() > 1);
+        assertTrue(tags.get(0).getName().compareTo(tags.get(1).getName()) > 0);
+    }
+
+    @Test
+    public void testGetTagsSearch() throws GitLabApiException {
+        List<Tag> tags = gitLabApi.getTagsApi().getTags(testProject);
+        assertNotNull(tags);
+        assertTrue(tags.size() > 0);
+
+        String tagName = tags.get(0).getName();
+        tags = gitLabApi.getTagsApi().getTags(testProject, null, null, tagName);
+        assertNotNull(tags);
+        assertTrue(tags.size() > 0);
+        assertEquals(tagName, tags.get(0).getName());
     }
 
     @Test
