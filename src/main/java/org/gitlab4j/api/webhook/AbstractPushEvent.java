@@ -15,6 +15,7 @@ public abstract class AbstractPushEvent {
 
     private Integer userId;
     private String userName;
+    private String userUsername;
     private String userEmail;
     private String userAvatar;
 
@@ -37,7 +38,7 @@ public abstract class AbstractPushEvent {
     }
 
     public String getAfter() {
-        return this.after;
+        return after;
     }
 
     public void setAfter(String after) {
@@ -45,7 +46,7 @@ public abstract class AbstractPushEvent {
     }
 
     public String getBefore() {
-        return this.before;
+        return before;
     }
 
     public void setBefore(String before) {
@@ -53,7 +54,7 @@ public abstract class AbstractPushEvent {
     }
 
     public String getRef() {
-        return this.ref;
+        return ref;
     }
 
     public void setRef(String ref) {
@@ -69,7 +70,7 @@ public abstract class AbstractPushEvent {
     }
 
     public Integer getUserId() {
-        return this.userId;
+        return userId;
     }
 
     public void setUserId(Integer userId) {
@@ -77,11 +78,19 @@ public abstract class AbstractPushEvent {
     }
 
     public String getUserName() {
-        return this.userName;
+        return userName;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getUserUsername() {
+        return userUsername;
+    }
+
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
     }
 
     public String getUserEmail() {
@@ -101,7 +110,7 @@ public abstract class AbstractPushEvent {
     }
 
     public Integer getProjectId() {
-        return this.projectId;
+        return projectId;
     }
 
     public void setProjectId(Integer projectId) {
@@ -117,7 +126,7 @@ public abstract class AbstractPushEvent {
     }
 
     public EventRepository getRepository() {
-        return this.repository;
+        return repository;
     }
 
     public void setRepository(EventRepository repository) {
@@ -125,7 +134,7 @@ public abstract class AbstractPushEvent {
     }
 
     public List<EventCommit> getCommits() {
-        return this.commits;
+        return commits;
     }
 
     public void setCommits(List<EventCommit> commits) {
@@ -133,7 +142,7 @@ public abstract class AbstractPushEvent {
     }
 
     public Integer getTotalCommitsCount() {
-        return this.totalCommitsCount;
+        return totalCommitsCount;
     }
 
     public void setTotalCommitsCount(Integer totalCommitsCount) {
