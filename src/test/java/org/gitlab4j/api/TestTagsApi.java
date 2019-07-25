@@ -1,6 +1,5 @@
 package org.gitlab4j.api;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -185,8 +184,12 @@ public class TestTagsApi extends AbstractIntegrationTest {
         String tagName = tags.get(0).getName();
         tags = gitLabApi.getTagsApi().getTags(testProject, null, null, tagName);
         assertNotNull(tags);
-        assertTrue(tags.size() > 0);
+        assertTrue(tags.size() == 1);
         assertEquals(tagName, tags.get(0).getName());
+
+        tags = gitLabApi.getTagsApi().getTags(testProject, null, null, "NOT_FOUND_TAG_NAME");
+        assertNotNull(tags);
+        assertTrue(tags.isEmpty());
     }
 
     @Test
