@@ -35,12 +35,15 @@ import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueFilter;
+import org.gitlab4j.api.models.IssueLink;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.TimeStats;
 import org.gitlab4j.api.utils.DurationUtils;
 
 /**
  * This class provides an entry point to all the GitLab API Issue calls.
+ * @see <a href="https://docs.gitlab.com/ce/api/issues.html">Issues API at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/issue_links.html">Issue Links API at GitLab</a>
  */
 public class IssuesApi extends AbstractApi implements Constants {
 
@@ -81,7 +84,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: GET /issues</code></pre>
      *r
      * @param itemsPerPage the number of issues per page
-     * @return the list of issues in the specified range
+     * @return the Pager of issues in the specified range
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Issue> getIssues(int itemsPerPage) throws GitLabApiException {
@@ -101,7 +104,7 @@ public class IssuesApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Get a list of project's issues. Only returns the first page
+     * Get a list of project's issues.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues</code></pre>
      *
@@ -136,7 +139,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param itemsPerPage the number of issues per page
-     * @return the list of issues in the specified range
+     * @return the Pager of issues in the specified range
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Issue> getIssues(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
@@ -196,7 +199,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
      * @param itemsPerPage the number of Project instances that will be fetched per page.
-     * @return the list of issues in the specified range.
+     * @return the Pager of issues in the specified range.
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Issue> getIssues(Object projectIdOrPath, IssueFilter filter, int itemsPerPage) throws GitLabApiException {
@@ -258,7 +261,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
      * @param itemsPerPage the number of Project instances that will be fetched per page.
-     * @return the list of issues in the specified range.
+     * @return the Pager of issues in the specified range.
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Issue> getIssues(IssueFilter filter, int itemsPerPage) throws GitLabApiException {
@@ -273,7 +276,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: GET /issues</code></pre>
      *
      * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings
-     * @return the list of issues in the specified range.
+     * @return the Stream of issues in the specified range.
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<Issue> getIssuesStream(IssueFilter filter) throws GitLabApiException {
@@ -697,5 +700,103 @@ public class IssuesApi extends AbstractApi implements Constants {
      */
     public Stream<MergeRequest> getClosedByMergeRequestsStream(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
         return (getClosedByMergeRequests(projectIdOrPath, issueIid, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of related issues of a given issue, sorted by the relationship creation datetime (ascending).
+     * Issues will be filtered according to the user authorizations.
+     *
+     * <p>NOTE: Only available in GitLab Starter, GitLab Bronze, and higher tiers.</p>
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/links</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid the internal ID of a project's issue
+     * @return a list of related issues of a given issue, sorted by the relationship creation datetime (ascending)
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Issue> getIssueLinks(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+        return (getIssueLinks(projectIdOrPath, issueIid, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of related issues of a given issue, sorted by the relationship creation datetime (ascending).
+     * Issues will be filtered according to the user authorizations.
+     *
+     * <p>NOTE: Only available in GitLab Starter, GitLab Bronze, and higher tiers.</p>
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/links</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid the internal ID of a project's issue
+     * @param itemsPerPage the number of issues per page
+     * @return a Pager of related issues of a given issue, sorted by the relationship creation datetime (ascending)
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Issue> getIssueLinks(Object projectIdOrPath, Integer issueIid, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Issue>(this, Issue.class, itemsPerPage, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "links"));
+    }
+
+    /**
+     * Get a Stream of related issues of a given issue, sorted by the relationship creation datetime (ascending).
+     * Issues will be filtered according to the user authorizations.
+     *
+     * <p>NOTE: Only available in GitLab Starter, GitLab Bronze, and higher tiers.</p>
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/links</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid the internal ID of a project's issue
+     * @return a Stream of related issues of a given issue, sorted by the relationship creation datetime (ascending)
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Issue> getIssueLinksStream(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+        return (getIssueLinks(projectIdOrPath, issueIid, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Creates a two-way relation between two issues. User must be allowed to update both issues in order to succeed.
+     *
+     * <p>NOTE: Only available in GitLab Starter, GitLab Bronze, and higher tiers.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/links</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid the internal ID of a project's issue
+     * @param targetProjectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance of the target project
+     * @param targetIssueIid the internal ID of a target project’s issue
+     * @return an instance of IssueLink holding the link relationship
+     * @throws GitLabApiException if any exception occurs
+     */
+    public IssueLink createIssueLink(Object projectIdOrPath, Integer issueIid,
+            Object targetProjectIdOrPath, Integer targetIssueIid) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("target_project_id", getProjectIdOrPath(targetProjectIdOrPath), true)
+                .withParam("target_issue_iid", targetIssueIid, true);
+
+        Response response = post(Response.Status.OK, formData.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "links");
+        return (response.readEntity(IssueLink.class));
+    }
+
+    /**
+     * Deletes an issue link, thus removes the two-way relationship.
+     *
+     * <p>NOTE: Only available in GitLab Starter, GitLab Bronze, and higher tiers.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/links/:issue_link_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid the internal ID of a project's issue, required
+     * @param issueLinkId the ID of an issue relationship, required
+     * @return an instance of IssueLink holding the deleted link relationship
+     * @throws GitLabApiException if any exception occurs
+     */
+    public IssueLink deleteIssueLink(Object projectIdOrPath, Integer issueIid, Integer issueLinkId) throws GitLabApiException {
+        Response response = delete(Response.Status.OK, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "links", issueLinkId);
+        return (response.readEntity(IssueLink.class));
     }
 }

@@ -21,6 +21,7 @@ public class Issue {
     private Date dueDate;
     private Integer id;
     private Integer iid;
+    private Integer issueLinkId;
     private List<String> labels;
     private Milestone milestone;
     private Integer projectId;
@@ -103,6 +104,14 @@ public class Issue {
 
     public void setIid(Integer iid) {
         this.iid = iid;
+    }
+
+    public Integer getIssueLinkId() {
+        return issueLinkId;
+    }
+
+    public void setIssueLinkId(Integer issueLinkId) {
+        this.issueLinkId = issueLinkId;
     }
 
     public List<String> getLabels() {

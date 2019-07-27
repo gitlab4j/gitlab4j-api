@@ -58,6 +58,7 @@ import org.gitlab4j.api.models.HealthCheckInfo;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImportStatus;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.IssueLink;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
 import org.gitlab4j.api.models.Label;
@@ -229,6 +230,18 @@ public class TestGitLabApiBeans {
     public void testIssue() throws Exception {
         Issue issue = unmarshalResource(Issue.class, "issue.json");
         assertTrue(compareJson(issue, "issue.json"));
+    }
+
+    @Test
+    public void testIssueLink() throws Exception {
+        IssueLink issueLink = unmarshalResource(IssueLink.class, "issue-link.json");
+        assertTrue(compareJson(issueLink, "issue-link.json"));
+    }
+
+    @Test
+    public void testLinkedIssues() throws Exception {
+        List<Issue> linkedIssues = unmarshalResourceList(Issue.class, "linked-issues.json");
+        assertTrue(compareJson(linkedIssues, "linked-issues.json"));
     }
 
     @Test
