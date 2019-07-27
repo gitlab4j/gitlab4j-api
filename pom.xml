@@ -5,7 +5,7 @@
 	<groupId>org.gitlab4j</groupId>
 	<artifactId>gitlab4j-api</artifactId>
 	<packaging>jar</packaging>
-	<version>4.11.20-SNAPSHOT</version>
+	<version>4.12.0-SNAPSHOT</version>
 	<name>GitLab4J-API - GitLab API Java Client</name>
 	<description>GitLab4J-API (gitlab4j-api) provides a full featured Java client library for working with GitLab repositories and servers via the GitLab REST API.</description>
 	<url>https://github.com/gitlab4j/gitlab4j-api</url>
@@ -57,7 +57,7 @@
 
 		<changelog-lib.version>1.59</changelog-lib.version>
 
-		<gitlab.version>11.11.2-ce.0</gitlab.version>
+		<gitlab.version>12.1.1-ce.0</gitlab.version>
 		<gitlab.autoremove-container>true</gitlab.autoremove-container>
 		<gitlab.skip-docker-start>true</gitlab.skip-docker-start>
 		<gitlab.port>8090</gitlab.port>
