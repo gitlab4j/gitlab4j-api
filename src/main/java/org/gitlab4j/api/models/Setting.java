@@ -300,6 +300,12 @@ public enum Setting {
      */
     GITALY_TIMEOUT_MEDIUM(Integer.class),
 
+    /** Undocumented setting. */
+    GRAFANA_ENABLED(Boolean.class),
+
+    /** Undocumented setting. */
+    GRAFANA_URL(String.class),
+
     /** Enable Gravatar. */
     GRAVATAR_ENABLED(Boolean.class),
 
@@ -684,6 +690,11 @@ public enum Setting {
      * required by: throttle_unauthenticated_enabled Max requests per period per IP.
      */
     THROTTLE_UNAUTHENTICATED_REQUESTS_PER_PERIOD(Integer.class),
+
+    /**
+     * Limit display of time tracking units to hours. Default is false.
+     */
+    TIME_TRACKING_LIMIT_TO_HOURS(Boolean.class),
 
     /**
      * required by: require_two_factor_authentication Amount of time (in hours) that

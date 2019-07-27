@@ -101,7 +101,7 @@ public class ApplicationSettingsApi extends AbstractApi {
     }
 
     /**
-     * Pareses the returned JSON and returns an ApplicationSettings instance.
+     * Parses the returned JSON and returns an ApplicationSettings instance.
      *
      * @param root the root JsonNode
      * @return the populated ApplicationSettings instance
