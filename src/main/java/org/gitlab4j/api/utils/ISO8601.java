@@ -28,7 +28,7 @@ public class ISO8601 {
     public static final String UTC_PATTERN = "yyyy-MM-dd HH:mm:ss 'UTC'";
 
     private static final DateTimeFormatter ODT_WITH_MSEC_PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd[['T'][ ]HH:mm:ss.SSS[ ][XXXXX][XXXX]]").toFormatter();
-    private static final DateTimeFormatter ODT_PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd[['T'][ ]HH:mm:ss[.SSS][ ][X][XXX]]")
+    private static final DateTimeFormatter ODT_PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd[['T'][ ]HH:mm:ss[.SSS][ ][XXX][X]]")
         .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
         .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
         .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)

@@ -20,8 +20,10 @@ public class TestISO8601 {
     private static final String SPACEY_GITLAB_DATE_WITH_MSEC = "2018-03-12 10:16:46.123 +0700";
     private static final String ISO8601_GITLAB_DATE_WITH_MSEC ="2018-03-12T10:16:46.123+0700";
 
+    private static final String ISO8601_DATE_OFFSET_COLON = "2018-03-12T10:16:46+07:00";
+
     private static final String ISO8601_DATE_MSEC = "2018-03-12T10:16:46.123Z";
-    private static final String ISO8601_DATE_OFFSET_COLON = "2018-03-12T10:16:46.123+00:00";
+    private static final String ISO8601_DATE_MSEC_OFFSET_COLON = "2018-03-12T10:16:46.123+00:00";
     private static final String ISO8601_GITLAB_DATE_MSEC = "2018-03-12T03:16:46.123-0700";
     private static final String SPACEY_GITLAB_UTC_DATE_MSEC = "2018-03-12 10:16:46.123 UTC";
 
@@ -69,8 +71,15 @@ public class TestISO8601 {
 
     @Test
     public void testOffsetColonDateParse() throws ParseException {
+        Date gitlabOffsetDate = ISO8601.toDate(ISO8601_DATE_OFFSET_COLON);
+        Date gitlabDate = ISO8601.toDate(ISO8601_GITLAB_DATE);
+        assertEquals(gitlabDate, gitlabOffsetDate);
+    }
+
+    @Test
+    public void testOffsetColonMsecDateParse() throws ParseException {
         Date msecDate = ISO8601.toDate(ISO8601_DATE_MSEC);
-        Date gitlabMsecDate = ISO8601.toDate(ISO8601_DATE_OFFSET_COLON);
+        Date gitlabMsecDate = ISO8601.toDate(ISO8601_DATE_MSEC_OFFSET_COLON);
         assertEquals(msecDate, gitlabMsecDate);
     }
 }
