@@ -64,7 +64,9 @@ public class TestUserApi extends AbstractIntegrationTest {
             "IW/2DIlUts7gcB2hzXtt7r7+6DLx82Vb+S2jPZu2JQaB4zfgS7LQgzHUy1aAAgUUpuAbvWzuGHKO0p551Ru4qi" +
             "tyXN2+OUVXcYAsuIIdGGB0wLvTDgiOOSZWnSE+sg6XX user@example.com";
     private static final String TEST_USER_EMAIL = "test-user-email123@gitlab4j.org";
-    
+
+    private static final String TEST_EXTERNAL_PROVIDER = HelperUtils.getProperty(EXTERNAL_PROVIDER_KEY);
+    private static final String TEST_EXTERNAL_UID = HelperUtils.getProperty(EXTERNAL_UID_KEY);
 
     private static GitLabApi gitLabApi;
     private static User blockUser;
@@ -176,6 +178,18 @@ public class TestUserApi extends AbstractIntegrationTest {
         assertEquals(TEST_USERNAME, optional.get().getUsername());
 
         optional = gitLabApi.getUserApi().getOptionalUser("this-username-does-not-exist");
+        assertNotNull(optional);
+        assertFalse(optional.isPresent());
+    }
+
+    @Test
+    public void testGetOptionalUserByExternalUid() throws GitLabApiException {
+
+        Optional<User> optional = gitLabApi.getUserApi().getOptionalUserByExternalUid(TEST_EXTERNAL_PROVIDER, TEST_EXTERNAL_UID);
+        assertNotNull(optional);
+        assertTrue(optional.isPresent());
+
+        optional = gitLabApi.getUserApi().getOptionalUserByExternalUid("unknown-provider", "unknown-uid");
         assertNotNull(optional);
         assertFalse(optional.isPresent());
     }
