@@ -2,7 +2,6 @@ package org.gitlab4j.api;
 
 import java.io.File;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Form;
@@ -14,6 +13,7 @@ import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.utils.UrlEncoder;
 
 /**
  * This class is the base class for all the sub API classes. It provides implementations of
@@ -162,18 +162,7 @@ public abstract class AbstractApi implements Constants {
      * @throws GitLabApiException if encoding throws an exception
      */
     protected String urlEncode(String s) throws GitLabApiException {
-        try {
-            String encoded = URLEncoder.encode(s, "UTF-8");
-            // Since the encode method encodes plus signs as %2B,
-            // we can simply replace the encoded spaces with the correct encoding here 
-            encoded = encoded.replace("+", "%20");
-            encoded = encoded.replace(".", "%2E");
-            encoded = encoded.replace("-", "%2D");
-            encoded = encoded.replace("_", "%5F");
-            return (encoded);
-        } catch (Exception e) {
-            throw new GitLabApiException(e);
-        }
+        return (UrlEncoder.urlEncode(s));
     }
 
     /**
