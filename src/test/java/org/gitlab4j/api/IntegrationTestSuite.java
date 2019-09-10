@@ -4,9 +4,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.AccessTokenUtils;
 import org.gitlab4j.api.utils.AccessTokenUtils.Scope;
 import org.junit.AfterClass;
@@ -38,8 +44,6 @@ public class IntegrationTestSuite implements PropertyConstants {
     private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
     private static final String TEST_GROUP_PROJECT_NAME = HelperUtils.getProperty(GROUP_PROJECT_KEY);
     private static final String TEST_SUB_GROUP = HelperUtils.getProperty(SUB_GROUP_KEY);
-    private static final String TEST_EXTERNAL_PROVIDER = HelperUtils.getProperty(EXTERNAL_PROVIDER_KEY);
-    private static final String TEST_EXTERNAL_UID = HelperUtils.getProperty(EXTERNAL_UID_KEY);
 
     protected static final String TEST_PRIVATE_TOKEN_NAME = "GitLab4J Test Private Token - " + HelperUtils.getRandomInt(1000);
     protected static String TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
@@ -164,18 +168,12 @@ public class IntegrationTestSuite implements PropertyConstants {
         // If the tester user doen't exists, create it
         Optional<User> optionalUser = gitLabApi.getUserApi().getOptionalUser(TEST_LOGIN_USERNAME);
         if (!optionalUser.isPresent()) {
-            Identity identity = new Identity();
-            identity.setExternUid(TEST_EXTERNAL_UID);
-            identity.setProvider(TEST_EXTERNAL_PROVIDER);
-
             User userSettings = new User()
                     .withUsername(TEST_LOGIN_USERNAME)
                     .withEmail(TEST_LOGIN_USERNAME + "@gitlab4j.org")
                     .withName("GitLab4J Tester")
                     .withSkipConfirmation(true)
-                    .withIsAdmin(true)
-                    .withIdentities(Collections.singletonList(identity));
-
+                    .withIsAdmin(true);
             gitLabApi.getUserApi().createUser(userSettings, TEST_LOGIN_PASSWORD, false);
             System.out.format("Created %s user (%s)%n", userSettings.getName(), userSettings.getUsername());
         }

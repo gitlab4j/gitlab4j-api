@@ -65,6 +65,7 @@ public class TestUserApi extends AbstractIntegrationTest {
             "tyXN2+OUVXcYAsuIIdGGB0wLvTDgiOOSZWnSE+sg6XX user@example.com";
     private static final String TEST_USER_EMAIL = "test-user-email123@gitlab4j.org";
 
+    private static final String TEST_EXTERNAL_USERNAME = HelperUtils.getProperty(EXTERNAL_USERNAME_KEY);
     private static final String TEST_EXTERNAL_PROVIDER = HelperUtils.getProperty(EXTERNAL_PROVIDER_KEY);
     private static final String TEST_EXTERNAL_UID = HelperUtils.getProperty(EXTERNAL_UID_KEY);
 
@@ -89,6 +90,15 @@ public class TestUserApi extends AbstractIntegrationTest {
             gitLabApi = baseTestSetup();
 
             if (gitLabApi != null) {
+
+                if (TEST_EXTERNAL_USERNAME != null) {
+                    Optional<User> optionalUser = gitLabApi.getUserApi().getOptionalUser(TEST_EXTERNAL_USERNAME);
+                    if (optionalUser.isPresent()) {
+                        try {
+                            gitLabApi.getUserApi().deleteUser(optionalUser.get());
+                        } catch (Exception ignore) {}
+                    }
+                }
 
                 if (TEST_BLOCK_USERNAME != null) {
                     try {
@@ -183,15 +193,42 @@ public class TestUserApi extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testGetOptionalUserByExternalUid() throws GitLabApiException {
+    public void testExternalUid() throws GitLabApiException {
 
-        Optional<User> optional = gitLabApi.getUserApi().getOptionalUserByExternalUid(TEST_EXTERNAL_PROVIDER, TEST_EXTERNAL_UID);
-        assertNotNull(optional);
-        assertTrue(optional.isPresent());
+        assumeNotNull(TEST_EXTERNAL_USERNAME);
+        assumeNotNull(TEST_EXTERNAL_PROVIDER);
+        assumeNotNull(TEST_EXTERNAL_UID);
 
-        optional = gitLabApi.getUserApi().getOptionalUserByExternalUid("unknown-provider", "unknown-uid");
-        assertNotNull(optional);
-        assertFalse(optional.isPresent());
+        User externalUser = null;
+        try {
+
+            User userSettings = new User()
+                    .withUsername(TEST_EXTERNAL_USERNAME)
+                    .withEmail(TEST_EXTERNAL_USERNAME + "@gitlab4j.org")
+                    .withName("GitLab4J External User")
+                    .withSkipConfirmation(true)
+                    .withIsAdmin(false)
+                    .withExternUid(TEST_EXTERNAL_UID)
+                    .withProvider(TEST_EXTERNAL_PROVIDER);
+            externalUser = gitLabApi.getUserApi().createUser(userSettings, TEST_LOGIN_PASSWORD, false);
+            assertNotNull(externalUser);
+
+            Optional<User> optionalUser = gitLabApi.getUserApi().getOptionalUserByExternalUid(TEST_EXTERNAL_PROVIDER, TEST_EXTERNAL_UID);
+            assertNotNull(optionalUser);
+            assertTrue(optionalUser.isPresent());
+            assertEquals(externalUser.getId(), optionalUser.get().getId());
+
+            optionalUser = gitLabApi.getUserApi().getOptionalUserByExternalUid("unknown-provider", "unknown-uid");
+            assertNotNull(optionalUser);
+            assertFalse(optionalUser.isPresent());
+
+        } finally {
+            if (externalUser != null) {
+                try {
+                    gitLabApi.getUserApi().deleteUser(externalUser);
+                } catch (Exception ignore) {}
+            }
+        }
     }
 
     @Test
