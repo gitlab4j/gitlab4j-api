@@ -376,7 +376,7 @@ public class UserApi extends AbstractApi {
      *
      * <p>NOTE: This is for admin users only.</p>
      *
-     * <pre><code>GitLab Endpoint: GET /users?extern_uid=:externalUid&provider=:provider</code></pre>
+     * <pre><code>GitLab Endpoint: GET /users?extern_uid=:externalUid&amp;provider=:provider</code></pre>
      *
      * @param provider the provider of the external uid
      * @param externalUid the external UID of the user
@@ -399,7 +399,7 @@ public class UserApi extends AbstractApi {
      *
      * <p>NOTE: This is for admin users only.</p>
      *
-     * <pre><code>GitLab Endpoint: GET /users?extern_uid=:externUid&provider=:provider</code></pre>
+     * <pre><code>GitLab Endpoint: GET /users?extern_uid=:externUid&amp;provider=:provider</code></pre>
      *
      * @param provider the provider of the external uid
      * @param externalUid the external UID of the user
