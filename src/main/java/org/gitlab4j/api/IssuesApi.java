@@ -1,26 +1,3 @@
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2017 Greg Messner <greg@messners.com>
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 package org.gitlab4j.api;
 
 import java.util.Date;
@@ -37,6 +14,7 @@ import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueFilter;
 import org.gitlab4j.api.models.IssueLink;
 import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.models.Participant;
 import org.gitlab4j.api.models.TimeStats;
 import org.gitlab4j.api.utils.DurationUtils;
 
@@ -798,5 +776,67 @@ public class IssuesApi extends AbstractApi implements Constants {
         Response response = delete(Response.Status.OK, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "links", issueLinkId);
         return (response.readEntity(IssueLink.class));
+    }
+
+    /**
+     * Get list of participants for an issue.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/participants</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid the IID of the issue to get the participants for
+     * @return a List containing all participants for the specified issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Participant> getParticipants(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+        return (getParticipants(projectIdOrPath, issueIid, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get list of participants for an issue and in the specified page range.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/participants</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid the IID of the issue to get the participants for
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @return a List containing all participants for the specified issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Participant> getParticipants(Object projectIdOrPath, Integer issueIid, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
+                    "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "participants");
+        return (response.readEntity(new GenericType<List<Participant>>() { }));
+    }
+
+    /**
+     * Get a Pager of the participants for an issue.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/participants</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid the IID of the issue to get the participants for
+     * @param itemsPerPage the number of Participant instances that will be fetched per page
+     * @return a Pager containing all participants for the specified issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Participant> getParticipants(Object projectIdOrPath, Integer issueIid, int itemsPerPage) throws GitLabApiException {
+        return new Pager<Participant>(this, Participant.class, itemsPerPage, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "participants");
+    }
+
+    /**
+     * Get Stream of participants for an issue.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/participants</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid the IID of the issue to get the participants for
+     * @return a Stream containing all participants for the specified issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Participant> getParticipantsStream(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+        return (getParticipants(projectIdOrPath, issueIid, getDefaultPerPage()).stream());
     }
 }
