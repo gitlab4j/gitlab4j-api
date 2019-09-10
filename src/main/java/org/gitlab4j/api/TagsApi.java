@@ -236,7 +236,7 @@ public class TagsApi extends AbstractApi {
                 .withParam("ref", ref, true)
                 .withParam("message", message)
                 .withParam("release_description", releaseNotes);
-        Response response = post(Response.Status.CREATED, formData.asMap(),
+        Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags");
         return (response.readEntity(Tag.class));
     }
@@ -299,7 +299,7 @@ public class TagsApi extends AbstractApi {
      */
     public Release createRelease(Object projectIdOrPath, String tagName, String releaseNotes) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("description", releaseNotes);
-        Response response = post(Response.Status.CREATED, formData.asMap(),
+        Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", urlEncode(tagName), "release");
         return (response.readEntity(Release.class));
     }
@@ -317,7 +317,7 @@ public class TagsApi extends AbstractApi {
      */
     public Release updateRelease(Object projectIdOrPath, String tagName, String releaseNotes) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("description", releaseNotes);
-        Response response = put(Response.Status.OK, formData.asMap(),
+        Response response = putWithFormData(Response.Status.OK, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "tags", urlEncode(tagName), "release");
         return (response.readEntity(Release.class));
     }
