@@ -28,4 +28,6 @@ public interface PropertyConstants {
     public static final String TEST_REQUEST_ACCESS_USERNAME_KEY = "TEST_REQUEST_ACCESS_USERNAME";
     public static final String USERNAME_KEY = "TEST_USERNAME";
     public static final String XFER_NAMESPACE_KEY = "TEST_XFER_NAMESPACE";
+    public static final String EXTERNAL_PROVIDER_KEY = "TEST_EXTERNAL_PROVIDER";
+    public static final String EXTERNAL_UID_KEY = "TEST_EXTERNAL_UID";
 }
