@@ -46,6 +46,7 @@ import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Namespace;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectFilter;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
@@ -57,13 +58,48 @@ import org.gitlab4j.api.models.Visibility;
 /**
  * This class provides an entry point to all the GitLab API project calls.
  * @see <a href="https://docs.gitlab.com/ce/api/projects.html">Projects API at GitLab</a>
- * @see <a href="https://docs.gitlab.com/ee/api/members.html">Group and project members API at GitLab</a>
- * @see <a href="https://docs.gitlab.com/ee/api/access_requests.html#group-and-project-access-requests-api">Group and project access requests API</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/project_statistics.html">Project statistics API</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/members.html">Group and project members API at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/access_requests.html#group-and-project-access-requests-api">Group and project access requests API</a>
  */
 public class ProjectApi extends AbstractApi implements Constants {
 
     public ProjectApi(GitLabApi gitLabApi) {
         super(gitLabApi);
+    }
+
+    /**
+     * Get the project fetch statistics for the last 30 days. Retrieving the statistics requires
+     * write access to the repository. Currently only HTTP fetches statistics are returned.
+     * Fetches statistics includes both clones and pulls count and are HTTP only,
+     * SSH fetches are not included.
+     *
+     * <pre><code>GitLab Endpoint: GET /project/:id/statistics</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @return a ProjectFetches instance with the project fetch statistics for the last 30 days
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public ProjectFetches getProjectStatistics(Object projectIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "statistics");
+        return (response.readEntity(ProjectFetches.class));
+    }
+
+    /**
+     * Get an Optional instance with the value for the project fetch statistics for the last 30 days.
+     *
+     * <pre><code>GitLab Endpoint: GET /project/:id/statistics</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @return an Optional instance with the value for the project fetch statistics for the last 30 day
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Optional<ProjectFetches> getOptionalProjectStatistics(Object projectIdOrPath) throws GitLabApiException {
+        try {
+            return (Optional.ofNullable(getProjectStatistics(projectIdOrPath)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**

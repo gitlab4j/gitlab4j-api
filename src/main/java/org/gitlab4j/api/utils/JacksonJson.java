@@ -258,6 +258,18 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     }
 
     /**
+     * JsonSerializer for serializing dates s yyyy-mm-dd in UTC timezone.
+     */
+    public static class DateOnlySerializer extends JsonSerializer<Date> {
+
+        @Override
+        public void serialize(Date date, JsonGenerator gen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            String dateString = ISO8601.dateOnly(date);
+            gen.writeString(dateString);
+        }
+    }
+
+    /**
      * JsonSerializer for serializing ISO8601 formatted dates.
      */
     public static class JsonDateSerializer extends JsonSerializer<Date> {

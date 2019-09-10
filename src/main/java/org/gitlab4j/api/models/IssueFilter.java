@@ -12,8 +12,6 @@ import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.ISO8601;
 
 /**
- * Created by zhengrenjie on 2018/09/11 12:31
- *
  *  This class is used to filter issues when getting lists of them.
  */
 public class IssueFilter {

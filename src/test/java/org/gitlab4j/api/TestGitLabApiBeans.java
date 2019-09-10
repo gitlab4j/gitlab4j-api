@@ -52,6 +52,7 @@ import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.ExportStatus;
+import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.HealthCheckInfo;
@@ -59,6 +60,7 @@ import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImportStatus;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueLink;
+import org.gitlab4j.api.models.IssuesStatistics;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
 import org.gitlab4j.api.models.Label;
@@ -206,6 +208,18 @@ public class TestGitLabApiBeans {
     public void testFileUpload() throws Exception {
         FileUpload fileUpload = unmarshalResource(FileUpload.class, "file-upload.json");
         assertTrue(compareJson(fileUpload, "file-upload.json"));
+    }
+
+    @Test
+    public void testIssuesStatistics() throws Exception {
+        IssuesStatistics statistics = unmarshalResource(IssuesStatistics.class, "issues-statistics.json");
+        assertTrue(compareJson(statistics, "issues-statistics.json"));
+    }
+
+    @Test
+    public void testProjectFetches() throws Exception {
+        ProjectFetches fetches = unmarshalResource(ProjectFetches.class, "project-fetches.json");
+        assertTrue(compareJson(fetches, "project-fetches.json"));
     }
 
     @Test

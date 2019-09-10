@@ -26,6 +26,7 @@ public class ISO8601 {
     public static final String OUTPUT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String OUTPUT_MSEC_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String UTC_PATTERN = "yyyy-MM-dd HH:mm:ss 'UTC'";
+    public static final String DATE_ONLY_PATTERN = "yyyy-MM-dd";
 
     private static final DateTimeFormatter ODT_WITH_MSEC_PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd[['T'][ ]HH:mm:ss.SSS[ ][XXXXX][XXXX]]").toFormatter();
     private static final DateTimeFormatter ODT_PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd[['T'][ ]HH:mm:ss[.SSS][ ][XXX][X]]")
@@ -114,6 +115,21 @@ public class ISO8601 {
         return (withMsec && time % 1000 != 0 ?
                 SafeDateFormatter.getDateFormat(OUTPUT_MSEC_PATTERN).format(date) :
                 SafeDateFormatter.getDateFormat(OUTPUT_PATTERN).format(date));
+    }
+
+    /**
+     * Get a string that includes the date only in yyyy-mm-ss format.
+     *
+     * @param date the Date instance to get the date only formatted string for
+     * @return a string that includes the date only in yyyy-mm-ss format, or null if date is null
+     */
+    public static String dateOnly(Date date) {
+
+        if (date == null) {
+            return (null);
+        }
+
+        return SafeDateFormatter.getDateFormat(DATE_ONLY_PATTERN).format(date);
     }
 
     /**

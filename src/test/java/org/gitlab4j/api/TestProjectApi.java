@@ -44,6 +44,7 @@ import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectFilter;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
@@ -846,5 +847,12 @@ public class TestProjectApi extends AbstractIntegrationTest {
             } catch (Exception ignore) {
             }
         }
+    }
+
+    @Test
+    public void testGetProjectStatistics() throws GitLabApiException {
+        assertNotNull(testProject);
+        Optional<ProjectFetches> statistics = gitLabApi.getProjectApi().getOptionalProjectStatistics(testProject);
+        assertTrue(statistics.isPresent());
     }
 }

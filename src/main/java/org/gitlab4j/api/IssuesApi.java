@@ -13,6 +13,8 @@ import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueFilter;
 import org.gitlab4j.api.models.IssueLink;
+import org.gitlab4j.api.models.IssuesStatistics;
+import org.gitlab4j.api.models.IssuesStatisticsFilter;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Participant;
 import org.gitlab4j.api.models.TimeStats;
@@ -22,6 +24,7 @@ import org.gitlab4j.api.utils.DurationUtils;
  * This class provides an entry point to all the GitLab API Issue calls.
  * @see <a href="https://docs.gitlab.com/ce/api/issues.html">Issues API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ce/api/issue_links.html">Issue Links API at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/issues_statistics.html">Issues Statistics API at GitLab</a>
  */
 public class IssuesApi extends AbstractApi implements Constants {
 
@@ -838,5 +841,53 @@ public class IssuesApi extends AbstractApi implements Constants {
      */
     public Stream<Participant> getParticipantsStream(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
         return (getParticipants(projectIdOrPath, issueIid, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Gets issues count statistics on all issues the authenticated user has access to. By default it returns
+     * only issues created by the current user. To get all issues, use parameter scope=all.
+     *
+     * <pre><code>GitLab Endpoint: GET /issues_statistics</code></pre>
+     *
+     * @param filter {@link IssuesStatisticsFilter} a IssuesStatisticsFilter instance with the filter settings.
+     * @return an IssuesStatistics instance with the statistics for the matched issues.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public IssuesStatistics getIssuesStatistics(IssuesStatisticsFilter filter) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        Response response = get(Response.Status.OK, formData.asMap(), "issues_statistics");
+        return (response.readEntity(IssuesStatistics.class));
+    }
+
+    /**
+     * Gets issues count statistics for given group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:groupId/issues_statistics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param filter {@link IssuesStatisticsFilter} a IssuesStatisticsFilter instance with the filter settings
+     * @return an IssuesStatistics instance with the statistics for the matched issues
+     * @throws GitLabApiException if any exception occurs
+     */
+    public IssuesStatistics getGroupIssuesStatistics(Object groupIdOrPath, IssuesStatisticsFilter filter) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        Response response = get(Response.Status.OK, formData.asMap(), "groups", this.getGroupIdOrPath(groupIdOrPath), "issues_statistics");
+        return (response.readEntity(IssuesStatistics.class));
+    }
+
+    /**
+     * Gets issues count statistics for given group.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:projectId/issues_statistics</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param filter {@link IssuesStatisticsFilter} a IssuesStatisticsFilter instance with the filter settings.
+     * @return an IssuesStatistics instance with the statistics for the matched issues
+     * @throws GitLabApiException if any exception occurs
+     */
+    public IssuesStatistics geProjectIssuesStatistics(Object projectIdOrPath, IssuesStatisticsFilter filter) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", this.getProjectIdOrPath(projectIdOrPath), "issues_statistics");
+        return (response.readEntity(IssuesStatistics.class));
     }
 }
