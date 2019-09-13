@@ -601,4 +601,15 @@ public class MilestonesApi extends AbstractApi {
                 "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
     }
+
+    /**
+     * Delete a project milestone.
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param milestoneId the milestone ID to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteMilestone(Object projectIdOrPath, Integer milestoneId) throws GitLabApiException {
+        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId);
+    }
 }
