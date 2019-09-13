@@ -614,4 +614,80 @@ public interface Constants {
             return (enumHelper.toString(this));
         }
     }
+
+    /**
+     * Enum for the search scope when doing a globalSearch() with the SearchApi.
+     */
+    public enum SearchScope {
+
+        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, SNIPPET_TITLES, SNIPPET_BLOBS, USERS,
+            BLOBS, COMMITS, WIKI_BLOBS;
+
+        private static JacksonJsonEnumHelper<SearchScope> enumHelper = new JacksonJsonEnumHelper<>(SearchScope.class);
+
+        @JsonCreator
+        public static SearchScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /**
+     * Enum for the search scope when doing a groupSearch() with the SearchApi.
+     */
+    public enum GroupSearchScope {
+
+        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, USERS;
+
+        private static JacksonJsonEnumHelper<GroupSearchScope> enumHelper = new JacksonJsonEnumHelper<>(GroupSearchScope.class);
+
+        @JsonCreator
+        public static GroupSearchScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /**
+     * Enum for the search scope when doing a projectSearch() with the SearchApi.
+     */
+    public enum ProjectSearchScope {
+
+        BLOBS, COMMITS, ISSUES, MERGE_REQUESTS, MILESTONES, NOTES, WIKI_BLOBS, USERS;
+
+        private static JacksonJsonEnumHelper<ProjectSearchScope> enumHelper = new JacksonJsonEnumHelper<>(ProjectSearchScope.class);
+
+        @JsonCreator
+        public static ProjectSearchScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 }
