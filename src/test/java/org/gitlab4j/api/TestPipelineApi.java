@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -289,5 +290,42 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         assertNotNull(pipeline);
 
         gitLabApi.getPipelineApi().deletePipeline(testProject, pipeline.getId());
+    }
+
+    @Test
+    public void testPipelineVariables() throws GitLabApiException {
+
+        // Skip this test if no .gitlab-ci.yml file is in the test project
+        assumeNotNull(gitlabCiYml);
+
+        // Arrange
+        Map<String, String> variableMap = new HashMap<>();
+        variableMap.put("VAR1", "value1");
+        variableMap.put("VAR2", "value2");
+
+        // Act
+        Pipeline pipeline = gitLabApi.getPipelineApi().createPipeline(testProject, "master", variableMap);
+
+        // Assert
+        assertNotNull(pipeline);
+
+        try {
+
+            Stream<Variable> stream = gitLabApi.getPipelineApi().getPipelineVariablesStream(testProject, pipeline.getId());
+            stream.forEach(v -> {
+                String value = variableMap.get(v.getKey());
+                assertEquals(value, v.getValue());
+            });
+
+            List<Variable> variables = gitLabApi.getPipelineApi().getPipelineVariables(testProject, pipeline.getId());
+            assertEquals(variableMap.size(), variables.size());
+            variables.forEach(v -> {
+                String value = variableMap.get(v.getKey());
+                assertEquals(value, v.getValue());
+            });
+
+        } finally {
+            gitLabApi.getPipelineApi().deletePipeline(testProject, pipeline.getId());
+        }
     }
 }

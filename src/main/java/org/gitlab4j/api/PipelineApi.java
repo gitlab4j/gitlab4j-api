@@ -752,4 +752,48 @@ public class PipelineApi extends AbstractApi implements Constants {
                 "projects", getProjectIdOrPath(projectIdOrPath), "trigger", "pipeline");
         return (response.readEntity(Pipeline.class));
     }
+
+    /**
+     * Get List of variables of a pipeline.
+     *
+     * <pre><code>GET /projects/:id/pipelines/:pipeline_id/variables</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param pipelineId the pipeline ID
+     * @return a List of pipeline variables
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Variable> getPipelineVariables(Object projectIdOrPath, Integer pipelineId) throws GitLabApiException {
+        return (getPipelineVariables(projectIdOrPath, pipelineId, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of variables of a pipeline.
+     *
+     * <pre><code>GET /projects/:id/pipelines/:pipeline_id/variables</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param pipelineId the pipeline ID
+     * @param itemsPerPage the number of Pipeline instances that will be fetched per page
+     * @return a Pager of pipeline variables
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Variable> getPipelineVariables(Object projectIdOrPath, Integer pipelineId, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Variable>(this, Variable.class, itemsPerPage, null, 
+                "projects",  getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "variables"));
+    }
+
+    /**
+     * Get a Stream of variables of a pipeline as a Stream.
+     *
+     * <pre><code>GET /projects/:id/pipelines/:pipeline_id/variables</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param pipelineId the pipeline ID
+     * @return a Stream of pipeline variables
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Variable> getPipelineVariablesStream(Object projectIdOrPath, Integer pipelineId) throws GitLabApiException {
+        return (getPipelineVariables(projectIdOrPath, pipelineId, getDefaultPerPage()).stream());
+    }
 }
