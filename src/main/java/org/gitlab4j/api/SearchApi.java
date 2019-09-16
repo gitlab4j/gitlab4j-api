@@ -26,7 +26,7 @@ public class SearchApi extends AbstractApi {
     /**
      * Search globally across the GitLab instance.
      *
-     * <pre><code>GitLab Endpoint: POST /search?scope=:scope&search=:search-query</code></pre>
+     * <pre><code>GitLab Endpoint: POST /search?scope=:scope&amp;search=:search-query</code></pre>
      *
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
      *              projects, issues, merge_requests, milestones, snippet_titles, snippet_blobs, users
@@ -42,7 +42,7 @@ public class SearchApi extends AbstractApi {
     /**
      * Search globally across the GitLab instance.
      *
-     * <pre><code>GitLab Endpoint: POST /search?scope=:scope&search=:search-query</code></pre>
+     * <pre><code>GitLab Endpoint: POST /search?scope=:scope&amp;search=:search-query</code></pre>
      *
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
      *              projects, issues, merge_requests, milestones, snippet_titles, snippet_blobs, users
@@ -58,7 +58,7 @@ public class SearchApi extends AbstractApi {
     /**
      * Search globally across the GitLab instance.
      *
-     * <pre><code>GitLab Endpoint: POST /search?scope=:scope&search=:search-query</code></pre>
+     * <pre><code>GitLab Endpoint: POST /search?scope=:scope&amp;search=:search-query</code></pre>
      *
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
      *              projects, issues, merge_requests, milestones, snippet_titles, snippet_blobs, users
@@ -114,7 +114,7 @@ public class SearchApi extends AbstractApi {
      * Search within the specified group.  If a user is not a member of a group and the group is private,
      * a request on that group will result to a 404 status code.
      *
-     * <pre><code>GitLab Endpoint: POST /groups/:groupId/search?scope=:scope&search=:search-query</code></pre>
+     * <pre><code>GitLab Endpoint: POST /groups/:groupId/search?scope=:scope&amp;search=:search-query</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
@@ -132,7 +132,7 @@ public class SearchApi extends AbstractApi {
      * Search within the specified group.  If a user is not a member of a group and the group is private,
      * a request on that group will result to a 404 status code.
      *
-     * <pre><code>GitLab Endpoint: POST /groups/:groupId/search?scope=:scope&search=:search-query</code></pre>
+     * <pre><code>GitLab Endpoint: POST /groups/:groupId/search?scope=:scope&amp;search=:search-query</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
@@ -150,7 +150,7 @@ public class SearchApi extends AbstractApi {
      * Search within the specified group.  If a user is not a member of a group and the group is private,
      * a request on that group will result to a 404 status code.
      *
-     * <pre><code>GitLab Endpoint: POST /groups/:groupId/search?scope=:scope&search=:search-query</code></pre>
+     * <pre><code>GitLab Endpoint: POST /groups/:groupId/search?scope=:scope&amp;search=:search-query</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
@@ -197,7 +197,7 @@ public class SearchApi extends AbstractApi {
      * Search within the specified project.  If a user is not a member of a project and the project is private,
      * a request on that project will result to a 404 status code.
      *
-     * <pre><code>GitLab Endpoint: POST /projects/:projectId/search?scope=:scope&search=:search-query</code></pre>
+     * <pre><code>GitLab Endpoint: POST /projects/:projectId/search?scope=:scope&amp;search=:search-query</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
@@ -215,7 +215,7 @@ public class SearchApi extends AbstractApi {
      * Search within the specified project.  If a user is not a member of a project and the project is private,
      * a request on that project will result to a 404 status code.
      *
-     * <pre><code>GitLab Endpoint: POST /projects/:projectId/search?scope=:scope&search=:search-query</code></pre>
+     * <pre><code>GitLab Endpoint: POST /projects/:projectId/search?scope=:scope&amp;search=:search-query</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
@@ -233,7 +233,7 @@ public class SearchApi extends AbstractApi {
      * Search within the specified project.  If a user is not a member of a project and the project is private,
      * a request on that project will result to a 404 status code.
      *
-     * <pre><code>GitLab Endpoint: POST /project/:projectId/search?scope=:scope&search=:search-query</code></pre>
+     * <pre><code>GitLab Endpoint: POST /project/:projectId/search?scope=:scope&amp;search=:search-query</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
