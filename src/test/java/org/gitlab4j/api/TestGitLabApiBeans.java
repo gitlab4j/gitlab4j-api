@@ -83,6 +83,7 @@ import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.RegistryRepository;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
+import org.gitlab4j.api.models.SearchBlob;
 import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.SshKey;
@@ -544,5 +545,11 @@ public class TestGitLabApiBeans {
     public void testLabels() throws Exception {
         List<Label> labels = unmarshalResourceList(Label.class, "labels.json");
         assertTrue(compareJson(labels, "labels.json"));
+    }
+
+    @Test
+    public void testSearchBlobs() throws Exception {
+        List<SearchBlob> searchResults = unmarshalResourceList(SearchBlob.class, "wiki-blobs.json");
+        assertTrue(compareJson(searchResults, "wiki-blobs.json"));
     }
 }
