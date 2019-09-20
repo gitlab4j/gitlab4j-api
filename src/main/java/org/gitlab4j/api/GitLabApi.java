@@ -81,6 +81,7 @@ public class GitLabApi {
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
     private RunnersApi runnersApi;
+    private SearchApi searchApi;
     private ServicesApi servicesApi;
     private SessionApi sessionApi;
     private SnippetsApi snippetsApi;
@@ -1460,6 +1461,25 @@ public class GitLabApi {
         }
 
         return (runnersApi);
+    }
+
+    /**
+     * Gets the SearchApi instance owned by this GitLabApi instance. The SearchApi is used
+     * to perform search related API calls.
+     *
+     * @return the SearchApi instance owned by this GitLabApi instance
+     */
+    public SearchApi getSearchApi() {
+
+        if (searchApi == null) {
+            synchronized (this) {
+                if (searchApi == null) {
+                    searchApi = new SearchApi(this);
+                }
+            }
+        }
+
+        return (searchApi);
     }
 
     /**
