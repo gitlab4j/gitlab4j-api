@@ -50,7 +50,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.12.3'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.12.4'
 }
 ```
 
@@ -61,7 +61,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.12.3</version>
+    <version>4.12.4</version>
 </dependency>
 ```
 
@@ -280,6 +280,7 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
 &nbsp;&nbsp;[RunnersApi](#runnersapi) <br/>
+&nbsp;&nbsp;[SearchApi](#searchapi)<br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SnippetsApi](#snippetsapi)<br/>
@@ -478,6 +479,12 @@ RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234
 ```java
 // Get All Runners.
 List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
+```
+
+#### SearchApi
+```java
+// Do a global search for Projects
+List<?> projects = gitLabApi.getSearchApi().globalSearch(SearchScope.PROJECTS, "text-to-search-for");
 ```
 
 #### ServicesApi
