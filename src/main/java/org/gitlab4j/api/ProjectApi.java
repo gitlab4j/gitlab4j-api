@@ -2932,18 +2932,15 @@ public class ProjectApi extends AbstractApi implements Constants {
                 "projects", getProjectIdOrPath(projectIdOrPath), "access_requests", userId);
     }
 
-  /**
-   * Start the Housekeeping task for a project.
-   *
-   * <pre>
-   * <code>GitLab Endpoint: POST /projects/:id/housekeeping</code>
-   * </pre>
-   *
-   * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-   * @throws GitLabApiException if any exception occurs
-   */
-  public void triggerHousekeeping(Object projectIdOrPath) throws GitLabApiException {
-    Form formData = null;
-    post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "housekeeping");
-  }
+    /**
+     * Start the Housekeeping task for a project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/housekeeping</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void triggerHousekeeping(Object projectIdOrPath) throws GitLabApiException {
+        post(Response.Status.OK, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "housekeeping");
+    }
 }
