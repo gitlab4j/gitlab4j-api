@@ -84,6 +84,7 @@ public class Project {
     private ProjectStatistics statistics;
     private Boolean initializeWithReadme;
     private Boolean packagesEnabled;
+    private Boolean emptyRepo;
 
     public Integer getApprovalsBeforeMerge() {
         return approvalsBeforeMerge;
@@ -636,6 +637,14 @@ public class Project {
 
     public void setStatistics(ProjectStatistics statistics) {
         this.statistics = statistics;
+    }
+
+    public Boolean getEmptyRepo() {
+        return emptyRepo;
+    }
+
+    public void setEmptyRepo(Boolean emptyRepo) {
+        this.emptyRepo = emptyRepo;
     }
 
     public static final boolean isValid(Project project) {

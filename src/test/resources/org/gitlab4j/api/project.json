@@ -44,6 +44,7 @@
       "notification_level": 3
     }
   },
+  "empty_repo": true,
   "archived": false,
   "avatar_url": "http://example.com/uploads/project/avatar/3/uploads/avatar.png",
   "shared_runners_enabled": true,
