@@ -101,10 +101,23 @@ public class GitLabApiException extends Exception {
 
                             if (buf.length() > 0) {
                                 this.message = "The following fields have validation errors: " + buf.toString();
-                            }    
+                            }
 
-                        } else {
+                        } else if (jsonMessage.isArray()) {
+
+                           List<String> values = new ArrayList<>();
+                           for (JsonNode value : jsonMessage) {
+                                values.add(value.asText());
+                           }
+
+                           if (values.size() > 0) {
+                               this.message = String.join("\n", values);
+                           }
+
+                        } else if (jsonMessage.isTextual()) {
                             this.message = jsonMessage.asText();
+                        } else {
+                            this.message = jsonMessage.toString();
                         }
 
                     } else {
