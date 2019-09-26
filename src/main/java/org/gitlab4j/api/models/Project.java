@@ -241,6 +241,11 @@ public class Project {
         this.lastActivityAt = lastActivityAt;
     }
 
+    public Project withLastActivityAt(Date lastActivityAt) {
+        this.lastActivityAt = lastActivityAt;
+        return (this);
+    }
+
     public Boolean getLfsEnabled() {
         return lfsEnabled;
     }
