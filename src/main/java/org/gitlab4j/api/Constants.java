@@ -690,4 +690,73 @@ public interface Constants {
             return (enumHelper.toString(this));
         }
     }
+
+    /** Enum to use for specifying the action when doing a getTodos() with the TodoApi. */
+    public enum TodoAction {
+
+        ASSIGNED, MENTIONED, BUILD_FAILED, MARKED, APPROVAL_REQUIRED, UNMERGEABLE, DIRECTLY_ADDRESSED;
+
+        private static JacksonJsonEnumHelper<TodoAction> enumHelper = new JacksonJsonEnumHelper<>(TodoAction.class);
+
+        @JsonCreator
+        public static TodoAction forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the state when doing a getTodos() with the TodoApi. */
+    public enum TodoState {
+
+        PENDING, DONE;
+
+        private static JacksonJsonEnumHelper<TodoState> enumHelper = new JacksonJsonEnumHelper<>(TodoState.class);
+
+        @JsonCreator
+        public static TodoState forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the type when doing a getTodos() with the TodoApi. */
+    public enum TodoType {
+
+        ISSUE, MERGEREQUEST;
+
+        private static JacksonJsonEnumHelper<TodoType> enumHelper = new JacksonJsonEnumHelper<>(TodoType.class);
+
+        @JsonCreator
+        public static TodoType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 }
