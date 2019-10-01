@@ -89,6 +89,7 @@ public class GitLabApi {
     private TagsApi tagsApi;
     private UserApi userApi;
     private WikisApi wikisApi;
+    private TodosApi todosApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -1654,5 +1655,22 @@ public class GitLabApi {
         }
 
         return wikisApi;
+    }
+
+    /**
+     * Gets the TodosApi instance owned by this GitLabApi instance. The TodosApi is used to perform all todo related API calls.
+     *
+     * @return the TodosApi instance owned by this GitLabApi instance
+     */
+    public TodosApi getTodosApi() {
+        if (todosApi == null) {
+            synchronized (this) {
+                if (todosApi == null) {
+                    todosApi = new TodosApi(this);
+                }
+            }
+        }
+
+        return todosApi;
     }
 }
