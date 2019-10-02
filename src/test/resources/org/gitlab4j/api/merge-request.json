@@ -19,6 +19,7 @@
         "avatar_url": "https://www.google.com/",
         "web_url": "https://www.google.com/"
     },
+    "merge_error": "Merge request is not mergeable",
     "author":{
         "id":1,
         "username": "admin",

@@ -31,6 +31,7 @@ public class MergeRequest {
     private Date mergedAt;
     private Participant mergedBy;
     private Boolean mergeWhenPipelineSucceeds;
+    private String mergeError;
     private Milestone milestone;
     private Integer projectId;
     private String sha;
@@ -226,6 +227,14 @@ public class MergeRequest {
 
     public void setMergeWhenPipelineSucceeds(Boolean mergeWhenPipelineSucceeds) {
         this.mergeWhenPipelineSucceeds = mergeWhenPipelineSucceeds;
+    }
+
+    public String getMergeError() {
+        return mergeError;
+    }
+
+    public void setMergeError(String mergeError) {
+        this.mergeError = mergeError;
     }
 
     public Milestone getMilestone() {
