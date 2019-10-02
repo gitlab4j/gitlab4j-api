@@ -10,8 +10,7 @@ import org.gitlab4j.api.models.LicenseTemplate;
 
 /**
  * This class provides an entry point to all the GitLab API licenses calls.
-  @see <a href="https://docs.gitlab.com/ce/api/templates/licenses.html">Licenses API</a>
-
+ * @see <a href="https://docs.gitlab.com/ce/api/templates/licenses.html">Licenses API</a>
  */
 public class LicenseTemplatesApi extends AbstractApi {
 
@@ -24,7 +23,7 @@ public class LicenseTemplatesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /templates/licenses</code></pre>
      *
-     * @return a list of LicenseTemplate instances
+     * @return a List of LicenseTemplate instances
      * @throws GitLabApiException if any exception occurs
      */
     public List<LicenseTemplate> getLicenseTemplates() throws GitLabApiException {
@@ -36,7 +35,7 @@ public class LicenseTemplatesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /templates/licenses</code></pre>
      *
-     * @return a list of LicenseTemplate instances
+     * @return a Stream of LicenseTemplate instances
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<LicenseTemplate> getLicenseTemplatesStream() throws GitLabApiException {
@@ -49,7 +48,7 @@ public class LicenseTemplatesApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: GET /templates/licenses</code></pre>
      *
      * @param itemsPerPage the number of LicenseTemplate instances that will be fetched per page
-     * @return a Pager of license template
+     * @return a Pager of LicenseTemplate instances
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<LicenseTemplate> getLicenseTemplates(int itemsPerPage) throws GitLabApiException {
@@ -61,7 +60,7 @@ public class LicenseTemplatesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /templates/licenses?popular=true</code></pre>
      *
-     * @return a list of popular LicenseTemplate instances
+     * @return a List of popular LicenseTemplate instances
      * @throws GitLabApiException if any exception occurs
      */
     public List<LicenseTemplate> getPopularLicenseTemplates() throws GitLabApiException {
@@ -87,7 +86,7 @@ public class LicenseTemplatesApi extends AbstractApi {
      *
      * @param popular if true, returns only popular licenses.
      * @param itemsPerPage the number of LicenseTemplate instances that will be fetched per page
-     * @return a Pager of license template
+     * @return a Pager of LicenseTemplate instances
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<LicenseTemplate> getLicenseTemplates(Boolean popular, int itemsPerPage) throws GitLabApiException {
@@ -116,7 +115,6 @@ public class LicenseTemplatesApi extends AbstractApi {
      *
      * @param key The key of the license template
      * @return a single license template as the value of an Optional.
-     * @throws GitLabApiException if any exception occurs
      */
     public Optional<LicenseTemplate> getOptionalLicenseTemplate(String key) {
         try {
