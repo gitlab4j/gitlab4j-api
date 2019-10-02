@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -410,6 +411,28 @@ public class IssuesApi extends AbstractApi implements Constants {
                 .withParam("due_date", dueDate);
         Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
         return (response.readEntity(Issue.class));        
+    }
+
+    /**
+     * Updates an existing project issue. This call can also be used to mark an issue as closed.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param issueIid the issue IID to update, required
+     * @param assigneeId the ID of the user to assign issue to, required
+     * @return an instance of the updated Issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Issue assignIssue(Object projectIdOrPath, Integer issueIid, Integer assigneeId) throws GitLabApiException {
+
+        if (issueIid == null) {
+            throw new RuntimeException("issue IID cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("assignee_ids", Collections.singletonList(assigneeId));
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
+        return (response.readEntity(Issue.class));
     }
 
     /**

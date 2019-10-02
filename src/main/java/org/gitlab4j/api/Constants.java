@@ -691,7 +691,7 @@ public interface Constants {
         }
     }
 
-    /** Enum to use for specifying the action when doing a getTodos() with the TodoApi. */
+    /** Enum to use for specifying the action when doing a getTodos() with the TodosApi. */
     public enum TodoAction {
 
         ASSIGNED, MENTIONED, BUILD_FAILED, MARKED, APPROVAL_REQUIRED, UNMERGEABLE, DIRECTLY_ADDRESSED;
@@ -714,7 +714,7 @@ public interface Constants {
         }
     }
 
-    /** Enum to use for specifying the state when doing a getTodos() with the TodoApi. */
+    /** Enum to use for specifying the state when doing a getTodos() with the TodosApi. */
     public enum TodoState {
 
         PENDING, DONE;
@@ -737,12 +737,12 @@ public interface Constants {
         }
     }
 
-    /** Enum to use for specifying the type when doing a getTodos() with the TodoApi. */
+    /** Enum to use for specifying the type when doing a getTodos() with the TodosApi. */
     public enum TodoType {
 
-        ISSUE, MERGEREQUEST;
+        ISSUE, MERGE_REQUEST;
 
-        private static JacksonJsonEnumHelper<TodoType> enumHelper = new JacksonJsonEnumHelper<>(TodoType.class);
+        private static JacksonJsonEnumHelper<TodoType> enumHelper = new JacksonJsonEnumHelper<>(TodoType.class, true, true);
 
         @JsonCreator
         public static TodoType forValue(String value) {
