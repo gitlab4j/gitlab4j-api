@@ -67,7 +67,8 @@ public class GitLabApi {
     private IssuesApi issuesApi;
     private JobApi jobApi;
     private LabelsApi labelsApi;
-    private LicensesApi licensesApi;
+    private LicenseApi licenseApi;
+    private LicenseTemplatesApi licenseTemplatesApi;
     private MarkdownApi markdownApi;
     private MergeRequestApi mergeRequestApi;
     private MilestonesApi milestonesApi;
@@ -87,9 +88,9 @@ public class GitLabApi {
     private SnippetsApi snippetsApi;
     private SystemHooksApi systemHooksApi;
     private TagsApi tagsApi;
+    private TodosApi todosApi;
     private UserApi userApi;
     private WikisApi wikisApi;
-    private TodosApi todosApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -1200,23 +1201,43 @@ public class GitLabApi {
     }
 
     /**
-     * Gets the LicensesApi instance owned by this GitLabApi instance. The LicensesApi is used
+     * Gets the LicenseApi instance owned by this GitLabApi instance. The LicenseApi is used
      * to perform all license related API calls.
      *
-     * @return the LicensesApi instance owned by this GitLabApi instance
+     * @return the LicenseApi instance owned by this GitLabApi instance
      */
-    public LicensesApi getLicensesApi() {
+    public LicenseApi getLicenseApi() {
 
-        if (licensesApi == null) {
+        if (licenseApi == null) {
             synchronized (this) {
-                if (licensesApi == null) {
-                    licensesApi = new LicensesApi(this);
+                if (licenseApi == null) {
+                    licenseApi = new LicenseApi(this);
                 }
             }
         }
 
-        return (licensesApi);
+        return (licenseApi);
     }
+
+    /**
+     * Gets the LicenseTemplatesApi instance owned by this GitLabApi instance. The LicenseTemplatesApi is used
+     * to perform all license template related API calls.
+     *
+     * @return the LicenseTemplatesApi instance owned by this GitLabApi instance
+     */
+    public LicenseTemplatesApi getLicenseTemplatesApi() {
+
+        if (licenseTemplatesApi == null) {
+            synchronized (this) {
+                if (licenseTemplatesApi == null) {
+                    licenseTemplatesApi = new LicenseTemplatesApi(this);
+                }
+            }
+        }
+
+        return (licenseTemplatesApi);
+    }
+
 
     /**
      * Gets the MarkdownApi instance owned by this GitLabApi instance. The MarkdownApi is used
@@ -1560,6 +1581,41 @@ public class GitLabApi {
     }
 
     /**
+     * Gets the SnippetsApi instance owned by this GitLabApi instance. The SnippetsApi is used
+     * to perform all snippet related API calls.
+     *
+     * @return the SnippetsApi instance owned by this GitLabApi instance
+     */
+    public SnippetsApi getSnippetApi() {
+        if (snippetsApi == null) {
+            synchronized (this) {
+                if (snippetsApi == null) {
+                    snippetsApi = new SnippetsApi(this);
+                }
+            }
+        }
+
+        return snippetsApi;
+    }
+
+    /**
+     * Gets the TodosApi instance owned by this GitLabApi instance. The TodosApi is used to perform all Todo related API calls.
+     *
+     * @return the TodosApi instance owned by this GitLabApi instance
+     */
+    public TodosApi getTodosApi() {
+        if (todosApi == null) {
+            synchronized (this) {
+                if (todosApi == null) {
+                    todosApi = new TodosApi(this);
+                }
+            }
+        }
+
+        return todosApi;
+    }
+
+    /**
      * Gets the UserApi instance owned by this GitLabApi instance. The UserApi is used
      * to perform all user related API calls.
      *
@@ -1576,6 +1632,23 @@ public class GitLabApi {
         }
 
         return (userApi);
+    }
+
+    /**
+     * Gets the WikisApi instance owned by this GitLabApi instance. The WikisApi is used to perform all wiki related API calls.
+     *
+     * @return the WikisApi instance owned by this GitLabApi instance
+     */
+    public WikisApi getWikisApi() {
+        if (wikisApi == null) {
+            synchronized (this) {
+                if (wikisApi == null) {
+                    wikisApi = new WikisApi(this);
+                }
+            }
+        }
+
+        return wikisApi;
     }
 
     /**
@@ -1620,57 +1693,5 @@ public class GitLabApi {
         }
 
         return (optional.get());
-    }
-
-    /**
-     * Gets the SnippetsApi instance owned by this GitLabApi instance. The SnippetsApi is used
-     * to perform all snippet related API calls.
-     *
-     * @return the SnippetsApi instance owned by this GitLabApi instance
-     */
-	public SnippetsApi getSnippetApi() {
-        if (snippetsApi == null) {
-            synchronized (this) {
-                if (snippetsApi == null) {
-                	snippetsApi = new SnippetsApi(this);
-                }
-            }
-        }
-
-        return snippetsApi;
-	}
-
-    /**
-     * Gets the WikisApi instance owned by this GitLabApi instance. The WikisApi is used to perform all wiki related API calls.
-     *
-     * @return the WikisApi instance owned by this GitLabApi instance
-     */
-    public WikisApi getWikisApi() {
-        if (wikisApi == null) {
-            synchronized (this) {
-                if (wikisApi == null) {
-                    wikisApi = new WikisApi(this);
-                }
-            }
-        }
-
-        return wikisApi;
-    }
-
-    /**
-     * Gets the TodosApi instance owned by this GitLabApi instance. The TodosApi is used to perform all todo related API calls.
-     *
-     * @return the TodosApi instance owned by this GitLabApi instance
-     */
-    public TodosApi getTodosApi() {
-        if (todosApi == null) {
-            synchronized (this) {
-                if (todosApi == null) {
-                    todosApi = new TodosApi(this);
-                }
-            }
-        }
-
-        return todosApi;
     }
 }
