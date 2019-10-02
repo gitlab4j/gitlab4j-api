@@ -410,7 +410,7 @@ License license = gitLabApi.getLicenseApi().getLicense();
 #### LicenseTemplatesApi
 ```java
 // Get a list of open sourcse license templates
-List<LicenseTemplate> licenses = gitLabApi.getLicenseTemplateApi().getLicenseTemplates();
+List<LicenseTemplate> licenses = gitLabApi.getLicenseTemplatesApi().getLicenseTemplates();
 ```
 
 #### MergeRequestApi
