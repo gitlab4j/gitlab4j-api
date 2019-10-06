@@ -127,10 +127,6 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
-        commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, since, new Date(), 1, 10);
-        assertNotNull(commits);
-        assertTrue(commits.size() > 0);
-
         Pager<Commit> pager = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, new Date(), null, 10);
         assertNotNull(pager);
         assertTrue(pager.getTotalItems() == 0);
