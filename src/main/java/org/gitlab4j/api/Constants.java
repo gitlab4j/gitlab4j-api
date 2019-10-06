@@ -350,6 +350,27 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for specifying the WIP status when calling getMergeRequests(). */
+    public enum MergeRequestFilterWIP {
+
+        YES, NO;
+
+        private static JacksonJsonEnumHelper<MergeRequestFilterWIP> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestFilterWIP.class);
+
+        @JsonCreator
+        public static MergeRequestFilterWIP forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for specifying the state of a merge request or issue update. */
     public enum StateEvent {
 

@@ -8,6 +8,7 @@ import org.gitlab4j.api.Constants.MergeRequestOrderBy;
 import org.gitlab4j.api.Constants.MergeRequestScope;
 import org.gitlab4j.api.Constants.MergeRequestState;
 import org.gitlab4j.api.Constants.SortOrder;
+import org.gitlab4j.api.Constants.MergeRequestFilterWIP;
 import org.gitlab4j.api.GitLabApiForm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -36,6 +37,8 @@ public class MergeRequestFilter {
     private String sourceBranch;
     private String targetBranch;
     private String search;
+    private String in;
+    private MergeRequestFilterWIP wip;
 
     public Integer getProjectId() {
         return projectId;
@@ -284,6 +287,32 @@ public class MergeRequestFilter {
         return (this);
     }
     
+    public String getIn() {
+        return in;
+    }
+
+    public void setIn(String in) {
+        this.in = in;
+    }
+
+    public MergeRequestFilter withIn(String in) {
+        this.in = in;
+        return (this);
+    }
+
+    public MergeRequestFilterWIP getWip() {
+        return wip;
+    }
+
+    public void setWip(MergeRequestFilterWIP wip) {
+        this.wip = wip;
+    }
+
+    public MergeRequestFilter withWip(MergeRequestFilterWIP wip) {
+        this.wip = wip;
+        return (this);
+    }
+
     @JsonIgnore
     public GitLabApiForm getQueryParams(int page, int perPage) {
         return (getQueryParams()
@@ -291,7 +320,7 @@ public class MergeRequestFilter {
             .withParam(Constants.PER_PAGE_PARAM, perPage));
     }
 
-    @JsonIgnore 
+    @JsonIgnore
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
             .withParam("iids", iids)
@@ -310,6 +339,8 @@ public class MergeRequestFilter {
             .withParam("my_reaction_emoji", myReactionEmoji)  
             .withParam("source_branch", sourceBranch)
             .withParam("target_branch", targetBranch)
-            .withParam("search", search));
+            .withParam("search", search)
+            .withParam("in", in)
+            .withParam("wip", wip));
     }
 }
