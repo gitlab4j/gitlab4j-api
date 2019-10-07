@@ -350,15 +350,15 @@ public interface Constants {
         }
     }
 
-    /** Enum to use for specifying the WIP status when calling getMergeRequests(). */
-    public enum MergeRequestFilterWIP {
+    /** Enum to use for specifying the scope of the search attribute when calling getMergeRequests(). */
+    public enum MergeRequestSearchIn {
 
-        YES, NO;
+        TITLE, DESCRIPTION;
 
-        private static JacksonJsonEnumHelper<MergeRequestFilterWIP> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestFilterWIP.class);
+        private static JacksonJsonEnumHelper<MergeRequestSearchIn> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestSearchIn.class);
 
         @JsonCreator
-        public static MergeRequestFilterWIP forValue(String value) { return enumHelper.forValue(value); }
+        public static MergeRequestSearchIn forValue(String value) { return enumHelper.forValue(value); }
 
         @JsonValue
         public String toValue() {
