@@ -350,6 +350,27 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for specifying the scope of the search attribute when calling getMergeRequests(). */
+    public enum MergeRequestSearchIn {
+
+        TITLE, DESCRIPTION;
+
+        private static JacksonJsonEnumHelper<MergeRequestSearchIn> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestSearchIn.class);
+
+        @JsonCreator
+        public static MergeRequestSearchIn forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for specifying the state of a merge request or issue update. */
     public enum StateEvent {
 

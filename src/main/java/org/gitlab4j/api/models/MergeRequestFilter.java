@@ -6,6 +6,7 @@ import java.util.List;
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.MergeRequestOrderBy;
 import org.gitlab4j.api.Constants.MergeRequestScope;
+import org.gitlab4j.api.Constants.MergeRequestSearchIn;
 import org.gitlab4j.api.Constants.MergeRequestState;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
@@ -36,6 +37,8 @@ public class MergeRequestFilter {
     private String sourceBranch;
     private String targetBranch;
     private String search;
+    private MergeRequestSearchIn in;
+    private Boolean wip;
 
     public Integer getProjectId() {
         return projectId;
@@ -284,6 +287,32 @@ public class MergeRequestFilter {
         return (this);
     }
     
+    public MergeRequestSearchIn getIn() {
+        return in;
+    }
+
+    public void setIn(MergeRequestSearchIn in) {
+        this.in = in;
+    }
+
+    public MergeRequestFilter withIn(MergeRequestSearchIn in) {
+        this.in = in;
+        return (this);
+    }
+
+    public Boolean getWip() {
+        return wip;
+    }
+
+    public void setWip(Boolean wip) {
+        this.wip = wip;
+    }
+
+    public MergeRequestFilter withWip(Boolean wip) {
+        this.wip = wip;
+        return (this);
+    }
+
     @JsonIgnore
     public GitLabApiForm getQueryParams(int page, int perPage) {
         return (getQueryParams()
@@ -291,7 +320,7 @@ public class MergeRequestFilter {
             .withParam(Constants.PER_PAGE_PARAM, perPage));
     }
 
-    @JsonIgnore 
+    @JsonIgnore
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
             .withParam("iids", iids)
@@ -310,6 +339,8 @@ public class MergeRequestFilter {
             .withParam("my_reaction_emoji", myReactionEmoji)  
             .withParam("source_branch", sourceBranch)
             .withParam("target_branch", targetBranch)
-            .withParam("search", search));
+            .withParam("search", search)
+            .withParam("in", in)
+            .withParam("wip", (wip == null ? null : wip ? "yes" : "no")));
     }
 }
