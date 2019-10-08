@@ -89,6 +89,7 @@ import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
+import org.gitlab4j.api.models.Todo;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.User;
@@ -509,6 +510,12 @@ public class TestGitLabApiBeans {
     public void testSshKey() throws Exception {
         SshKey sshKey = unmarshalResource(SshKey.class, "sshkey.json");
         assertTrue(compareJson(sshKey, "sshkey.json"));
+    }
+
+    @Test
+    public void testTodos() throws Exception {
+        List<Todo> todos = unmarshalResourceList(Todo.class, "todos.json");
+        assertTrue(compareJson(todos, "todos.json"));
     }
 
     @Test

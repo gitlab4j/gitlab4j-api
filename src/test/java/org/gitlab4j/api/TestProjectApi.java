@@ -855,4 +855,10 @@ public class TestProjectApi extends AbstractIntegrationTest {
         Optional<ProjectFetches> statistics = gitLabApi.getProjectApi().getOptionalProjectStatistics(testProject);
         assertTrue(statistics.isPresent());
     }
+
+    @Test
+    public void testTriggerHousekeeping() throws GitLabApiException {
+        assertNotNull(testProject);
+        gitLabApi.getProjectApi().triggerHousekeeping(testProject);
+    }
 }

@@ -34,11 +34,22 @@ public class MockResponse extends Response {
     private String itemJson;
     private String listJson;
 
+    private int status = 200;
+    private Status statusInfo = Status.OK;
+    private MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
+
     public MockResponse() {
     }
 
     public <T> MockResponse(Class<T> type, String itemFilename, String listFilename) throws Exception {
         init(type, itemFilename, listFilename);
+    }
+
+    public <T> MockResponse(Status statusInfo, String jsonString) {
+        this.statusInfo = statusInfo;
+        this.status = statusInfo.getStatusCode();
+        this.itemJson = jsonString;
+        this.responseItem = jsonString;
     }
 
     public <T> void init(Class<T> type, String itemFilename, String listFilename) throws Exception {
@@ -111,21 +122,30 @@ public class MockResponse extends Response {
     }
 
     @Override
-    public int getStatus() {
-        return (200);
+    public boolean hasEntity() {
+        return (itemJson != null || listJson != null);
     }
 
+    @Override
+    public int getStatus() {
+        return (status);
+    }
+
+    @Override
+    public StatusType getStatusInfo() {
+        return (statusInfo);
+    }
+
+    @Override
+    public MediaType getMediaType() {
+        return (mediaType);
+    }
 
     /**************************************************************************************************
      * The remaining methods are stubbed so we can create an instance of this class. They are simply
      * stubs, but needed to do this because the Mockito Spy annotation does not work without JAXB
      * on Java 11+ and did not wish to pull in the JAXB module even for testing. 
      **************************************************************************************************/
-
-    @Override
-    public StatusType getStatusInfo() {
-        return null;
-    }
 
     @Override
     public <T> T readEntity(Class<T> entityType, Annotation[] annotations) {
@@ -138,22 +158,12 @@ public class MockResponse extends Response {
     }
 
     @Override
-    public boolean hasEntity() {
-        return false;
-    }
-
-    @Override
     public boolean bufferEntity() {
         return false;
     }
 
     @Override
     public void close() {
-    }
-
-    @Override
-    public MediaType getMediaType() {
-        return null;
     }
 
     @Override

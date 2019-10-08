@@ -50,7 +50,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.12.3'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.12.10'
 }
 ```
 
@@ -61,7 +61,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.12.3</version>
+    <version>4.12.10</version>
 </dependency>
 ```
 
@@ -268,6 +268,9 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[IssuesApi](#issuesapi)<br/>
 &nbsp;&nbsp;[JobApi](#jobapi)<br/>
 &nbsp;&nbsp;[LabelsApi](#labelsapi)<br/>
+&nbsp;&nbsp;[LicenseApi](#licenseapi)<br/>
+&nbsp;&nbsp;[LicenseTemplatesApi](#licensetemplatesapi)<br/>
+&nbsp;&nbsp;[LabelsApi](#labelsapi)<br/>
 &nbsp;&nbsp;[MergeRequestApi](#mergerequestapi)<br/>
 &nbsp;&nbsp;[MilestonesApi](#milestonesapi)<br/>
 &nbsp;&nbsp;[NamespaceApi](#namespaceapi)<br/>
@@ -280,10 +283,12 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
 &nbsp;&nbsp;[RunnersApi](#runnersapi) <br/>
+&nbsp;&nbsp;[SearchApi](#searchapi)<br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SnippetsApi](#snippetsapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
+&nbsp;&nbsp;[TodosApi](#todosapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)<br/>
 &nbsp;&nbsp;[WikisApi](#wikisapi)
 
@@ -396,6 +401,18 @@ List<Job> jobs = gitLabApi.getJobApi().getJobs(1234);
 List<Label> labels = gitLabApi.getLabelsApi().getLabels(1234);
 ```
 
+#### LicenseApi
+```java
+// Retrieve information about the current license
+License license = gitLabApi.getLicenseApi().getLicense();
+```
+
+#### LicenseTemplatesApi
+```java
+// Get a list of open sourcse license templates
+List<LicenseTemplate> licenses = gitLabApi.getLicenseTemplatesApi().getLicenseTemplates();
+```
+
 #### MergeRequestApi
 ```java
 // Get a list of the merge requests for the specified project
@@ -480,6 +497,12 @@ RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234
 List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
 ```
 
+#### SearchApi
+```java
+// Do a global search for Projects
+List<?> projects = gitLabApi.getSearchApi().globalSearch(SearchScope.PROJECTS, "text-to-search-for");
+```
+
 #### ServicesApi
 ```java
 // Activate/Update the Slack Notifications service
@@ -506,6 +529,12 @@ List<Snippet> snippets = gitLabApi.getSnippetsApi().getSnippets();
 ```java
 // Get a list of installed system hooks
 List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();
+```
+
+#### TodosApi
+```java
+// Get a list of all pending todos for the current user
+List<Todo> todos = gitLabApi.getTodosApi().gePendingTodos();
 ```
 
 #### UserApi

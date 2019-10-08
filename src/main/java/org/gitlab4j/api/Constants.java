@@ -350,6 +350,27 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for specifying the scope of the search attribute when calling getMergeRequests(). */
+    public enum MergeRequestSearchIn {
+
+        TITLE, DESCRIPTION;
+
+        private static JacksonJsonEnumHelper<MergeRequestSearchIn> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestSearchIn.class);
+
+        @JsonCreator
+        public static MergeRequestSearchIn forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for specifying the state of a merge request or issue update. */
     public enum StateEvent {
 
@@ -677,6 +698,75 @@ public interface Constants {
 
         @JsonCreator
         public static ProjectSearchScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the action when doing a getTodos() with the TodosApi. */
+    public enum TodoAction {
+
+        ASSIGNED, MENTIONED, BUILD_FAILED, MARKED, APPROVAL_REQUIRED, UNMERGEABLE, DIRECTLY_ADDRESSED;
+
+        private static JacksonJsonEnumHelper<TodoAction> enumHelper = new JacksonJsonEnumHelper<>(TodoAction.class);
+
+        @JsonCreator
+        public static TodoAction forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the state when doing a getTodos() with the TodosApi. */
+    public enum TodoState {
+
+        PENDING, DONE;
+
+        private static JacksonJsonEnumHelper<TodoState> enumHelper = new JacksonJsonEnumHelper<>(TodoState.class);
+
+        @JsonCreator
+        public static TodoState forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the type when doing a getTodos() with the TodosApi. */
+    public enum TodoType {
+
+        ISSUE, MERGE_REQUEST;
+
+        private static JacksonJsonEnumHelper<TodoType> enumHelper = new JacksonJsonEnumHelper<>(TodoType.class, true, true);
+
+        @JsonCreator
+        public static TodoType forValue(String value) {
             return enumHelper.forValue(value);
         }
 

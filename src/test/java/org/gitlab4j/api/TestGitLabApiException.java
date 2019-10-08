@@ -10,6 +10,8 @@ import static org.junit.Assume.assumeNotNull;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.Response.Status;
+
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Visibility;
 import org.junit.AfterClass;
@@ -31,6 +33,12 @@ import org.junit.experimental.categories.Category;
 public class TestGitLabApiException extends AbstractIntegrationTest {
 
     private static final String TEST_PROJECT_NAME_DUPLICATE = "test-gitlab4j-create-project-duplicate";
+    private static final String TEST_ERROR_MESSAGE = "Another open merge request already exists for this source branch: !6";
+    private static final String TEST_RESPONSE_JSON_STRING = "{\"message\": \"" + TEST_ERROR_MESSAGE + "\"}";
+    private static final String TEST_RESPONSE_JSON_ARRAY = "{\"message\": [\"" + TEST_ERROR_MESSAGE + "\"]}";
+    private static final String TEST_RESPONSE_ERROR_JSON_STRING = "{\"error\": \"" + TEST_ERROR_MESSAGE + "\"}";
+
+
     private static GitLabApi gitLabApi;
 
     public TestGitLabApiException() {
@@ -97,5 +105,29 @@ public class TestGitLabApiException extends AbstractIntegrationTest {
             assertNotNull(validationErrors);
             assertFalse(validationErrors.isEmpty());
         }
+    }
+
+    @Test
+    public void testStringMessage() throws GitLabApiException {
+        final MockResponse response = new MockResponse(Status.BAD_REQUEST, TEST_RESPONSE_JSON_STRING);
+        GitLabApiException glae = new GitLabApiException(response);
+        assertEquals(Status.BAD_REQUEST.getStatusCode(), glae.getHttpStatus());
+        assertEquals(TEST_ERROR_MESSAGE, glae.getMessage());
+    }
+
+    @Test
+    public void testArrayMessage() throws GitLabApiException {
+        final MockResponse response = new MockResponse(Status.BAD_REQUEST, TEST_RESPONSE_JSON_ARRAY);
+        GitLabApiException glae = new GitLabApiException(response);
+        assertEquals(Status.BAD_REQUEST.getStatusCode(), glae.getHttpStatus());
+        assertEquals(TEST_ERROR_MESSAGE, glae.getMessage());
+    }
+
+    @Test
+    public void testError() throws GitLabApiException {
+        final MockResponse response = new MockResponse(Status.BAD_REQUEST, TEST_RESPONSE_ERROR_JSON_STRING);
+        GitLabApiException glae = new GitLabApiException(response);
+        assertEquals(Status.BAD_REQUEST.getStatusCode(), glae.getHttpStatus());
+        assertEquals(TEST_ERROR_MESSAGE, glae.getMessage());
     }
 }

@@ -42,17 +42,17 @@ public class NotificationSettingsApi extends AbstractApi {
         Events events = settings.getEvents();
         if (events != null) {
                 formData.withParam("new_note", events.getNewNote())
-                .withParam("new_issuee", events.getNewIssue())
-                .withParam("reopen_issuee", events.getReopenIssue())
-                .withParam("close_issuee", events.getCloseIssue())
-                .withParam("reassign_issuee", events.getReassignIssue())
-                .withParam("new_merge_requeste", events.getNewMergeRequest())
-                .withParam("reopen_merge_requeste", events.getReopenMergeRequest())
-                .withParam("close_merge_requeste", events.getCloseMergeRequest())
-                .withParam("reassign_merge_requeste", events.getReassignMergeRequest())
-                .withParam("merge_merge_requeste", events.getMergeMergeRequest())
-                .withParam("failed_pipelinee", events.getFailedPipeline())
-                .withParam("success_pipelinee", events.getSuccessPipeline());
+                .withParam("new_issue", events.getNewIssue())
+                .withParam("reopen_issue", events.getReopenIssue())
+                .withParam("close_issue", events.getCloseIssue())
+                .withParam("reassign_issue", events.getReassignIssue())
+                .withParam("new_merge_request", events.getNewMergeRequest())
+                .withParam("reopen_merge_request", events.getReopenMergeRequest())
+                .withParam("close_merge_request", events.getCloseMergeRequest())
+                .withParam("reassign_merge_request", events.getReassignMergeRequest())
+                .withParam("merge_merge_request", events.getMergeMergeRequest())
+                .withParam("failed_pipeline", events.getFailedPipeline())
+                .withParam("success_pipeline", events.getSuccessPipeline());
         }
 
         Response response = put(Response.Status.OK, formData.asMap(), "notification_settings");
@@ -92,17 +92,17 @@ public class NotificationSettingsApi extends AbstractApi {
         Events events = settings.getEvents();
         if (events != null) {
                 formData.withParam("new_note", events.getNewNote())
-                .withParam("new_issuee", events.getNewIssue())
-                .withParam("reopen_issuee", events.getReopenIssue())
-                .withParam("close_issuee", events.getCloseIssue())
-                .withParam("reassign_issuee", events.getReassignIssue())
-                .withParam("new_merge_requeste", events.getNewMergeRequest())
-                .withParam("reopen_merge_requeste", events.getReopenMergeRequest())
-                .withParam("close_merge_requeste", events.getCloseMergeRequest())
-                .withParam("reassign_merge_requeste", events.getReassignMergeRequest())
-                .withParam("merge_merge_requeste", events.getMergeMergeRequest())
-                .withParam("failed_pipelinee", events.getFailedPipeline())
-                .withParam("success_pipelinee", events.getSuccessPipeline());
+                .withParam("new_issue", events.getNewIssue())
+                .withParam("reopen_issue", events.getReopenIssue())
+                .withParam("close_issue", events.getCloseIssue())
+                .withParam("reassign_issue", events.getReassignIssue())
+                .withParam("new_merge_request", events.getNewMergeRequest())
+                .withParam("reopen_merge_request", events.getReopenMergeRequest())
+                .withParam("close_merge_request", events.getCloseMergeRequest())
+                .withParam("reassign_merge_request", events.getReassignMergeRequest())
+                .withParam("merge_merge_request", events.getMergeMergeRequest())
+                .withParam("failed_pipeline", events.getFailedPipeline())
+                .withParam("success_pipeline", events.getSuccessPipeline());
         }
 
         Response response = put(Response.Status.OK, formData.asMap(), "groups", groupId, "notification_settings");
@@ -142,17 +142,17 @@ public class NotificationSettingsApi extends AbstractApi {
         Events events = settings.getEvents();
         if (events != null) {
                 formData.withParam("new_note", events.getNewNote())
-                .withParam("new_issuee", events.getNewIssue())
-                .withParam("reopen_issuee", events.getReopenIssue())
-                .withParam("close_issuee", events.getCloseIssue())
-                .withParam("reassign_issuee", events.getReassignIssue())
-                .withParam("new_merge_requeste", events.getNewMergeRequest())
-                .withParam("reopen_merge_requeste", events.getReopenMergeRequest())
-                .withParam("close_merge_requeste", events.getCloseMergeRequest())
-                .withParam("reassign_merge_requeste", events.getReassignMergeRequest())
-                .withParam("merge_merge_requeste", events.getMergeMergeRequest())
-                .withParam("failed_pipelinee", events.getFailedPipeline())
-                .withParam("success_pipelinee", events.getSuccessPipeline());
+                .withParam("new_issue", events.getNewIssue())
+                .withParam("reopen_issue", events.getReopenIssue())
+                .withParam("close_issue", events.getCloseIssue())
+                .withParam("reassign_issue", events.getReassignIssue())
+                .withParam("new_merge_request", events.getNewMergeRequest())
+                .withParam("reopen_merge_request", events.getReopenMergeRequest())
+                .withParam("close_merge_request", events.getCloseMergeRequest())
+                .withParam("reassign_merge_request", events.getReassignMergeRequest())
+                .withParam("merge_merge_request", events.getMergeMergeRequest())
+                .withParam("failed_pipeline", events.getFailedPipeline())
+                .withParam("success_pipeline", events.getSuccessPipeline());
         }
 
         Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "notification_settings");
