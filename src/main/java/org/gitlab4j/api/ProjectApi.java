@@ -40,6 +40,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
+import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Issue;
@@ -57,10 +58,12 @@ import org.gitlab4j.api.models.Visibility;
 
 /**
  * This class provides an entry point to all the GitLab API project calls.
+ * 
  * @see <a href="https://docs.gitlab.com/ce/api/projects.html">Projects API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ce/api/project_statistics.html">Project statistics API</a>
  * @see <a href="https://docs.gitlab.com/ce/api/members.html">Group and project members API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ce/api/access_requests.html#group-and-project-access-requests-api">Group and project access requests API</a>
+ * @see <a href="https://docs.gitlab.com/ee/api/project_badges.html">Project badges API</a>
  */
 public class ProjectApi extends AbstractApi implements Constants {
 
@@ -2945,5 +2948,25 @@ public class ProjectApi extends AbstractApi implements Constants {
   public void triggerHousekeeping(Object projectIdOrPath) throws GitLabApiException {
     Form formData = null;
     post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "housekeeping");
+  }
+
+  /**
+   * Add a badge to a project.
+   *
+   * <pre>
+   * <code>GitLab Endpoint: POST /projects/:id/badges</code>
+   * </pre>
+   *
+   * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+   * @param badge the badge to add
+   * @throws GitLabApiException if any exception occurs
+   */
+  public void addBadge(Object projectIdOrPath, Badge badge) throws GitLabApiException {
+    Form formData = new Form();
+    formData.param("id", String.valueOf(getProjectIdOrPath(projectIdOrPath)));
+    formData.param("link_url", badge.getLink_url());
+    formData.param("image_url", badge.getImage_url());
+
+    post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "badges");
   }
 }
