@@ -2961,8 +2961,8 @@ public class ProjectApi extends AbstractApi implements Constants {
   public void addBadge(Object projectIdOrPath, Badge badge) throws GitLabApiException {
     Form formData = new Form();
     formData.param("id", String.valueOf(getProjectIdOrPath(projectIdOrPath)));
-    formData.param("link_url", badge.getLink_url());
-    formData.param("image_url", badge.getImage_url());
+    formData.param("link_url", badge.getLinkUrl());
+    formData.param("image_url", badge.getImageUrl());
 
     post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "badges");
   }

@@ -5,10 +5,10 @@ import org.gitlab4j.api.utils.JacksonJson;
 public class Badge {
 
   private Integer id;
-  private String link_url;
-  private String image_url;
-  private String rendered_link_url;
-  private String rendered_image_url;
+  private String linkUrl;
+  private String imageUrl;
+  private String renderedLinkUrl;
+  private String renderedImageUrl;
   private String kind;
 
   /**
@@ -28,45 +28,45 @@ public class Badge {
   /**
    * @return URL of the badge link
    */
-  public String getLink_url() {
-    return link_url;
+  public String getLinkUrl() {
+    return linkUrl;
   }
 
   /**
-   * @param link_url URL of the badge link
+   * @param linkUrl URL of the badge link
    */
-  public void setLink_url(String link_url) {
-    this.link_url = link_url;
+  public void setLinkUrl(String linkUrl) {
+    this.linkUrl = linkUrl;
   }
 
   /**
    * @return URL of the badge image
    */
-  public String getImage_url() {
-    return image_url;
+  public String getImageUrl() {
+    return imageUrl;
   }
 
   /**
-   * @param image_url URL of the badge image
+   * @param imageUrl URL of the badge image
    */
-  public void setImage_url(String image_url) {
-    this.image_url = image_url;
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 
-  public String getRendered_image_url() {
-    return rendered_image_url;
+  public String getRenderedImageUrl() {
+    return renderedImageUrl;
   }
 
-  public void setRendered_image_url(String rendered_image_url) {
-    this.rendered_image_url = rendered_image_url;
+  public void setRenderedImageUrl(String renderedImageUrl) {
+    this.renderedImageUrl = renderedImageUrl;
   }
 
-  public String getRendered_link_url() {
-    return rendered_link_url;
+  public String getRenderedLinkUrl() {
+    return renderedLinkUrl;
   }
 
-  public void setRendered_link_url(String rendered_link_url) {
-    this.rendered_link_url = rendered_link_url;
+  public void setRenderedLinkUrl(String renderedLinkUrl) {
+    this.renderedLinkUrl = renderedLinkUrl;
   }
 
   public String getKind() {
