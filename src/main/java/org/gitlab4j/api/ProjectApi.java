@@ -2965,40 +2965,6 @@ public class ProjectApi extends AbstractApi implements Constants {
     formData.param("image_url", badge.getImage_url());
 
     post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "badges");
-    }
-
-  /**
-   * Start the Housekeeping task for a project.
-   *
-   * <pre>
-   * <code>GitLab Endpoint: POST /projects/:id/housekeeping</code>
-   * </pre>
-   *
-   * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-   * @throws GitLabApiException if any exception occurs
-   */
-  public void triggerHousekeeping(Object projectIdOrPath) throws GitLabApiException {
-    Form formData = null;
-    post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "housekeeping");
   }
 
-  /**
-   * Add a badge to a project.
-   *
-   * <pre>
-   * <code>GitLab Endpoint: POST /projects/:id/badges</code>
-   * </pre>
-   *
-   * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-   * @param badge the badge to add
-   * @throws GitLabApiException if any exception occurs
-   */
-  public void addBadge(Object projectIdOrPath, Badge badge) throws GitLabApiException {
-    Form formData = new Form();
-    formData.param("id", String.valueOf(getProjectIdOrPath(projectIdOrPath)));
-    formData.param("link_url", badge.getLink_url());
-    formData.param("image_url", badge.getImage_url());
-
-    post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "badges");
-  }
 }
