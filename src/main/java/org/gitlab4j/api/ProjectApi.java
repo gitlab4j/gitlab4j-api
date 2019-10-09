@@ -2967,4 +2967,22 @@ public class ProjectApi extends AbstractApi implements Constants {
     post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "badges");
   }
 
+  /**
+   * List all badges of a project <br>
+   * Gets a list of a project’s badges and its group badges..
+   *
+   * <pre>
+   * <code>GitLab Endpoint: GET /projects/:id/badges</code>
+   * </pre>
+   *
+   * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+   * @throws GitLabApiException if any exception occurs
+   */
+  public List<Badge> getAllBadges(Object projectIdOrPath) throws GitLabApiException {
+    try (Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "badges")) {
+      return (response.readEntity(new GenericType<List<Badge>>() {
+      }));
+    }
+    }
+
 }
