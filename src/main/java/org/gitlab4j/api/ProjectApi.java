@@ -2952,8 +2952,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/badges</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID),
-     *                        String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a List of Badge instances for the specified project
      * @throws GitLabApiException if any exception occurs
      */
     public List<Badge> getBadges(Object projectIdOrPath) throws GitLabApiException {
@@ -2984,7 +2984,6 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param badgeId the ID of the badge to get
      * @return an Optional instance with the specified badge as the value
-     * @throws GitLabApiException if any exception occurs
      */
     public Optional<Badge> getOptionalBadge(Object projectIdOrPath, Integer badgeId) {
 	try {
@@ -3040,7 +3039,6 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param badgeId the ID of the badge to remove
-     * @return a Badge instance for the specified project/badge ID pair
      * @throws GitLabApiException if any exception occurs
      */
     public void removeBadge(Object projectIdOrPath, Integer badgeId) throws GitLabApiException {
