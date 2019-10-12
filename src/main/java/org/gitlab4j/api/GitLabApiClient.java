@@ -721,6 +721,9 @@ public class GitLabApiClient {
         // library to work when both Jersey and Resteasy are present
         ClientBuilder clientBuilder = new JerseyClientBuilder().withConfig(clientConfig);
 
+        // Register JacksonJson as the ObjectMapper provider.
+        clientBuilder.register(JacksonJson.class);
+
         if (ignoreCertificateErrors) {
             clientBuilder.sslContext(openSslContext).hostnameVerifier(openHostnameVerifier);
         }
