@@ -859,6 +859,12 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testTriggerHousekeeping() throws GitLabApiException {
         assertNotNull(testProject);
-        gitLabApi.getProjectApi().triggerHousekeeping(testProject);
+        try {
+            gitLabApi.getProjectApi().triggerHousekeeping(testProject);
+        } catch (GitLabApiException glae) {
+            if (!glae.getMessage().contains("already triggered")) {
+        	throw glae;
+            }
+        }
     }
 }
