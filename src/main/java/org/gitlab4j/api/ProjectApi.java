@@ -2945,7 +2945,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public void triggerHousekeeping(Object projectIdOrPath) throws GitLabApiException {
         post(Response.Status.OK, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "housekeeping");
-  }
+    }
 
     /**
      * Gets a list of a project’s badges and its group badges.
