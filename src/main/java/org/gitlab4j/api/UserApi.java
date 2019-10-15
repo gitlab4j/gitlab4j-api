@@ -29,7 +29,7 @@ public class UserApi extends AbstractApi {
 
     private boolean customAttributesEnabled = false;
 
-    UserApi(GitLabApi gitLabApi) {
+    public UserApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
