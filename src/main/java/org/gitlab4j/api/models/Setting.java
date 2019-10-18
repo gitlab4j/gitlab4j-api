@@ -40,6 +40,14 @@ public enum Setting {
     /** Allow requests to the local network from hooks and services. */
     ALLOW_LOCAL_REQUESTS_FROM_HOOKS_AND_SERVICES(Boolean.class),
 
+	/**
+	 * Set the duration for which the jobs will be considered as old and expired.
+	 * Once that time passes, the jobs will be archived and no longer able to be retried.
+	 * Make it empty to never expire jobs. It has to be no less than 1 day,
+	 * for example: 15 days, 1 month, 2 years.
+	 */
+	ARCHIVE_BUILDS_IN_HUMAN_READABLE(String.class),
+    
     /**
      * By default, we write to the authorized_keys file to support Git over SSH
      * without additional configuration. GitLab can be optimized to authenticate SSH
@@ -740,7 +748,6 @@ public enum Setting {
     VERSION_CHECK_ENABLED(Boolean.class),
 
 	/* The following settings are undocumented, but are returned from the server */
-    ARCHIVE_BUILDS_IN_HUMAN_READABLE(Boolean.class),
     DEFAULT_PROJECT_CREATION(Integer.class),
     DOMAIN_BLACKLIST_RAW(String.class),
     DOMAIN_WHITELIST_RAW(String.class),
