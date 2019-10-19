@@ -266,6 +266,40 @@ public class IssuesApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a list of groups's issues.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/issues</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
+     * @param itemsPerPage the number of Project instances that will be fetched per page.
+     * @return the Pager of issues in the specified range.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Issue> getGroupIssues(Object groupIdOrPath, IssueFilter filter, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        return (new Pager<Issue>(this, Issue.class, itemsPerPage, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "issues"));
+    }
+    
+    /**
+     * Get a list of project's issues.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
+     * @param page the page to get.
+     * @param perPage the number of projects per page.
+     * @return the list of issues in the specified range.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Issue> getGroupIssues(Object groupIdOrPath, IssueFilter filter, int page, int perPage) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams(page, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "issues");
+        return (response.readEntity(new GenericType<List<Issue>>() {}));
+    }
+    
+    /**
      * Get a single project issue.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid</code></pre>
