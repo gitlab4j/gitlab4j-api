@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
@@ -41,7 +40,6 @@ import org.junit.experimental.categories.Category;
 public class TestGroupApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
-    private static final String TEST_USERNAME = HelperUtils.getProperty(USERNAME_KEY);
     private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
     private static final String TEST_GROUP_MEMBER_USERNAME = HelperUtils.getProperty(GROUP_MEMBER_USERNAME_KEY);
     private static final String TEST_REQUEST_ACCESS_USERNAME = HelperUtils.getProperty(TEST_REQUEST_ACCESS_USERNAME_KEY);
@@ -61,18 +59,12 @@ public class TestGroupApi extends AbstractIntegrationTest {
         gitLabApi = baseTestSetup();
 
         String problems = "";
-        if (TEST_USERNAME == null || TEST_USERNAME.trim().isEmpty()) {
-            problems += "TEST_USER_NAME cannot be empty\n";
-        }
-
-        if (gitLabApi != null && problems.isEmpty()) {
-
-            gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-            try {
-                List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
-                testGroup = groups.get(0);
-            } catch (GitLabApiException gle) {
-                problems += "Problem fetching test group, error=" + gle.getMessage() + "\n";
+        if (gitLabApi != null) {
+            Optional<Group> group = gitLabApi.getGroupApi().getOptionalGroup(TEST_GROUP);
+            if (group.isPresent()) {
+        	testGroup = group.get();
+            } else {
+                problems += "Problem fetching test group\n";
             }
 
             if (TEST_GROUP_MEMBER_USERNAME != null && TEST_GROUP_MEMBER_USERNAME.length() > 0) {
