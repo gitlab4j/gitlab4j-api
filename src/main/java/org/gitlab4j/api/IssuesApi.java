@@ -266,39 +266,90 @@ public class IssuesApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a list of a group’s issues.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/issues</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @return a List of issues for the specified group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Issue> getGroupIssues(Object groupIdOrPath) throws GitLabApiException {
+	return (getGroupIssues(groupIdOrPath, null, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of groups's issues.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/issues</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param itemsPerPage the number of Issue instances that will be fetched per page.
+     * @return the Pager of issues for the specified group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Issue> getGroupIssues(Object groupIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (getGroupIssues(groupIdOrPath, null, itemsPerPage));
+    }
+
+    /**
+     * Get a Stream of a group’s issues.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/issues</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @return a Stream of issues for the specified group and filter
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Issue> getGroupIssuesStream(Object groupIdOrPath) throws GitLabApiException {
+	return (getGroupIssues(groupIdOrPath, null, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of a group’s issues.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/issues</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
+     * @return a List of issues for the specified group and filter
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Issue> getGroupIssues(Object groupIdOrPath, IssueFilter filter) throws GitLabApiException {
+	return (getGroupIssues(groupIdOrPath, filter, getDefaultPerPage()).all());
+    }
+
+    /**
      * Get a list of groups's issues.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/issues</code></pre>
      *
      * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
      * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
-     * @param itemsPerPage the number of Project instances that will be fetched per page.
-     * @return the Pager of issues in the specified range.
+     * @param itemsPerPage the number of Issue instances that will be fetched per page.
+     * @return the Pager of issues for the specified group and filter
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Issue> getGroupIssues(Object groupIdOrPath, IssueFilter filter, int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = filter.getQueryParams();
-        return (new Pager<Issue>(this, Issue.class, itemsPerPage, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "issues"));
+        GitLabApiForm formData = (filter != null ? filter.getQueryParams() : new GitLabApiForm());
+        return (new Pager<Issue>(this, Issue.class, itemsPerPage, formData.asMap(),
+                "groups", getGroupIdOrPath(groupIdOrPath), "issues"));
     }
-    
+
     /**
-     * Get a list of project's issues.
+     * Get a Stream of a group’s issues.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/issues</code></pre>
+     * <pre><code>GitLab Endpoint: GET /groups/:id/issues</code></pre>
      *
      * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
      * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
-     * @param page the page to get.
-     * @param perPage the number of projects per page.
-     * @return the list of issues in the specified range.
+     * @return a Stream of issues for the specified group and filter
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Issue> getGroupIssues(Object groupIdOrPath, IssueFilter filter, int page, int perPage) throws GitLabApiException {
-        GitLabApiForm formData = filter.getQueryParams(page, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "issues");
-        return (response.readEntity(new GenericType<List<Issue>>() {}));
+    public Stream<Issue> getGroupIssuesStream(Object groupIdOrPath, IssueFilter filter) throws GitLabApiException {
+	return (getGroupIssues(groupIdOrPath, filter, getDefaultPerPage()).stream());
     }
-    
+
     /**
      * Get a single project issue.
      *

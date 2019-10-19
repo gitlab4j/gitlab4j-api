@@ -32,12 +32,14 @@ import static org.junit.Assume.assumeNotNull;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.Constants.IssueState;
 import org.gitlab4j.api.models.Duration;
+import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueFilter;
 import org.gitlab4j.api.models.Project;
@@ -63,9 +65,11 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
+    private static Group testGroup;
 
     private static final String ISSUE_TITLE = "Test Issue Title";
     private static final String ISSUE_DESCRIPTION = "This is a really nice description, not.";
+    private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
     private static Random randomNumberGenerator = new Random();
 
     public TestIssuesApi() {
@@ -78,6 +82,11 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         // Must setup the connection to the GitLab test server and get the test Project instance
         gitLabApi = baseTestSetup();
         testProject = getTestProject();
+
+        if (gitLabApi != null) {
+            Optional<Group> group = gitLabApi.getGroupApi().getOptionalGroup(TEST_GROUP);
+            testGroup = group.get();
+        }
 
         deleteAllTestIssues();
     }
@@ -144,6 +153,13 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         }
 
         assertTrue(found);
+    }
+
+    @Test
+    public void testGetGroupIssues() throws GitLabApiException {
+        assumeNotNull(testGroup);
+        List<Issue> issues = gitLabApi.getIssuesApi().getGroupIssues(testGroup);
+        assertNotNull(issues);
     }
 
     @Test
