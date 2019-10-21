@@ -700,6 +700,78 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
+     * Create a commit with single file and action.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param branch tame of the branch to commit into. To create a new branch, also provide startBranch
+     * @param commitMessage the commit message
+     * @param authorEmail the commit author's email address
+     * @param authorName the commit author's name
+     * @param action the CommitAction to commit
+     * @return the created Commit instance
+     * @throws GitLabApiException if any exc     * @param startBranch the name of the branch to start the new commit from
+eption occurs during execution
+     */
+    public Commit createCommit(Object projectIdOrPath, String branch, String commitMessage, String authorEmail,
+                               String authorName, CommitAction action) throws GitLabApiException {
+
+        // Validate the action
+        if (action == null) {
+            throw new GitLabApiException("action cannot be null or empty.");
+        }
+
+        return (createCommit(projectIdOrPath, branch, commitMessage, authorEmail, authorName, Arrays.asList(action)));
+    }
+
+    /**
+     * Create a commit with multiple files and actions.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param branch tame of the branch to commit into. To create a new branch, also provide startBranch
+     * @param commitMessage the commit message
+     * @param authorEmail the commit author's email address
+     * @param authorName the commit author's name
+     * @param actions the array of CommitAction to commit as a batch
+     * @return the created Commit instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Commit createCommit(Object projectIdOrPath, String branch, String commitMessage, String authorEmail,
+                               String authorName, List<CommitAction> actions) throws GitLabApiException {
+
+        // Validate the actions
+        if (actions == null || actions.isEmpty()) {
+            throw new GitLabApiException("actions cannot be null or empty.");
+        }
+
+        for (CommitAction action : actions) {
+
+            // File content is required for create and update
+            Action actionType = action.getAction();
+            if (actionType == Action.CREATE || actionType == Action.UPDATE) {
+                String content = action.getContent();
+                if (content == null) {
+                    throw new GitLabApiException("Content cannot be null for create or update actions.");
+                }
+            }
+        }
+
+        CommitPayload payload = new CommitPayload();
+        payload.setBranch(branch);
+        payload.setCommitMessage(commitMessage);
+        payload.setAuthorEmail(authorEmail);
+        payload.setAuthorName(authorName);
+        payload.setActions(actions);
+
+        Response response = post(Response.Status.CREATED, payload,
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits");
+        return (response.readEntity(Commit.class));
+    }
+
+    /**
      * Reverts a commit in a given branch.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits/:sha/revert</code></pre>

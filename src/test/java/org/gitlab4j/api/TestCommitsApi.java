@@ -287,6 +287,46 @@ public class TestCommitsApi extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testCreateCommitOnExistingBranch() throws GitLabApiException {
+
+        String TEST_BRANCH = "test_branch";
+
+        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master").isPresent()) {
+            try {
+                gitLabApi.getRepositoryFileApi().deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master", "Deleted test file");
+            } catch (GitLabApiException ignore) {}
+        }
+
+        // Arrange
+        CommitAction commitAction = new CommitAction()
+                .withAction(Action.CREATE)
+                .withContent("This is the original data in the file")
+                .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
+
+        // Act
+        Commit creationCommit = gitLabApi.getCommitsApi().createCommit(
+                testProject, TEST_BRANCH, "Testing createCommit() create action", "master", null, null, Arrays.asList(commitAction));
+
+        // Assert
+        assertNotNull(creationCommit);
+
+        // Arrange
+        CommitAction deleteCommitAction = new CommitAction()
+                .withAction(Action.DELETE)
+                .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
+
+        // Act
+        Commit deleteCommit = gitLabApi.getCommitsApi().createCommit(
+                testProject, TEST_BRANCH, "Testing createCommit() delete action", null, null, Arrays.asList(deleteCommitAction));
+
+        // Assert
+        assertNotNull(deleteCommit);
+
+        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH);
+        assertFalse(repoFile.isPresent());
+    }
+
+    @Test
     public void testRevertCommit() throws GitLabApiException {
 
         // Make sure the file to create does not exist.
