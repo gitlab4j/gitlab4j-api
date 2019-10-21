@@ -700,7 +700,7 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
-     * Create a commit with single file and action.
+     * Create a commit with single file and action, on a existing branch.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits</code></pre>
      *
@@ -717,16 +717,11 @@ eption occurs during execution
     public Commit createCommit(Object projectIdOrPath, String branch, String commitMessage, String authorEmail,
                                String authorName, CommitAction action) throws GitLabApiException {
 
-        // Validate the action
-        if (action == null) {
-            throw new GitLabApiException("action cannot be null or empty.");
-        }
-
         return (createCommit(projectIdOrPath, branch, commitMessage, authorEmail, authorName, Arrays.asList(action)));
     }
 
     /**
-     * Create a commit with multiple files and actions.
+     * Create a commit with multiple files and actions, on a existing branch.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits</code></pre>
      *
@@ -742,33 +737,7 @@ eption occurs during execution
     public Commit createCommit(Object projectIdOrPath, String branch, String commitMessage, String authorEmail,
                                String authorName, List<CommitAction> actions) throws GitLabApiException {
 
-        // Validate the actions
-        if (actions == null || actions.isEmpty()) {
-            throw new GitLabApiException("actions cannot be null or empty.");
-        }
-
-        for (CommitAction action : actions) {
-
-            // File content is required for create and update
-            Action actionType = action.getAction();
-            if (actionType == Action.CREATE || actionType == Action.UPDATE) {
-                String content = action.getContent();
-                if (content == null) {
-                    throw new GitLabApiException("Content cannot be null for create or update actions.");
-                }
-            }
-        }
-
-        CommitPayload payload = new CommitPayload();
-        payload.setBranch(branch);
-        payload.setCommitMessage(commitMessage);
-        payload.setAuthorEmail(authorEmail);
-        payload.setAuthorName(authorName);
-        payload.setActions(actions);
-
-        Response response = post(Response.Status.CREATED, payload,
-                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits");
-        return (response.readEntity(Commit.class));
+        return createCommit(projectIdOrPath, branch, commitMessage, null, authorEmail, authorName, actions);
     }
 
     /**
