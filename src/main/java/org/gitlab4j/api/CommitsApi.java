@@ -700,7 +700,7 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
-     * Create a commit with single file and action, on a existing branch.
+     * Create a commit with single file and action, on an existing branch.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits</code></pre>
      *
@@ -721,7 +721,7 @@ eption occurs during execution
     }
 
     /**
-     * Create a commit with multiple files and actions, on a existing branch.
+     * Create a commit with multiple files and actions, on an existing branch.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits</code></pre>
      *
