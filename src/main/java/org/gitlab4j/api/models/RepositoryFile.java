@@ -15,6 +15,7 @@ public class RepositoryFile {
     private Integer size;
     private Encoding encoding;
     private String content;
+    private String contentSha256;
     private String ref;
     private String blobId;
     private String commitId;
@@ -58,6 +59,14 @@ public class RepositoryFile {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getContentSha256() {
+        return contentSha256;
+    }
+
+    public void setContentSha256(String contentSha256) {
+        this.contentSha256 = contentSha256;
     }
 
     public String getRef() {
