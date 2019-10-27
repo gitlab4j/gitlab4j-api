@@ -50,7 +50,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.12.124'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.12.14'
 }
 ```
 
