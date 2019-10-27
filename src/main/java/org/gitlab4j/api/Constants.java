@@ -332,7 +332,7 @@ public interface Constants {
     /** Enum to use for querying the state of a MergeRequest */
     public enum MergeRequestState {
 
-        OPENED, CLOSED, MERGED, ALL;
+        OPENED, CLOSED, LOCKED, MERGED, ALL;
 
         private static JacksonJsonEnumHelper<MergeRequestState> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestState.class);
 
