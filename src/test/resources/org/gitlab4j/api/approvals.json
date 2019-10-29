@@ -9,7 +9,7 @@
   "updated_at": "2016-06-08T21:20:42.470Z",
   "merge_status": "can_be_merged",
   "approvals_required": 2,
-  "approvals_missing": 1,
+  "approvals_left": 1,
   "approved_by": [
     {
       "user": {
