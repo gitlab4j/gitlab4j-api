@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
+import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupProjectsFilter;
@@ -23,8 +24,9 @@ import org.gitlab4j.api.models.Visibility;
 /**
  * This class implements the client side API for the GitLab groups calls.
  * @see <a href="https://docs.gitlab.com/ce/api/groups.html">Groups API at GitLab</a>
- * @see <a href="https://docs.gitlab.com/ee/api/members.html">Group and project members API at GitLab</a>
- * @see <a href="https://docs.gitlab.com/ee/api/access_requests.html#group-and-project-access-requests-api">Group and project access requests API</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/members.html">Group and project members API at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/access_requests.html">Group and project access requests API</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/group_badges.html">Group badges API</a>
  */
 public class GroupApi extends AbstractApi {
 
@@ -1320,5 +1322,122 @@ public class GroupApi extends AbstractApi {
     public void denyAccessRequest(Object groupIdOrPath, Integer userId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null,
                 "groups", getGroupIdOrPath(groupIdOrPath), "access_requests", userId);
+    }
+
+    /**
+     * Gets a list of a group’s badges and its group badges.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/badges</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a List of Badge instances for the specified group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Badge> getBadges(Object groupIdOrPath) throws GitLabApiException {
+	Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "badges");
+	return (response.readEntity(new GenericType<List<Badge>>() {}));
+    }
+
+    /**
+     * Gets a badge of a group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/badges/:badge_id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param badgeId the ID of the badge to get
+     * @return a Badge instance for the specified group/badge ID pair
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Badge getBadge(Object groupIdOrPath, Integer badgeId) throws GitLabApiException {
+	Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "badges", badgeId);
+	return (response.readEntity(Badge.class));
+    }
+
+    /**
+     * Get an Optional instance with the value for the specified badge.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/badges/:badge_id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param badgeId the ID of the badge to get
+     * @return an Optional instance with the specified badge as the value
+     */
+    public Optional<Badge> getOptionalBadge(Object groupIdOrPath, Integer badgeId) {
+	try {
+	    return (Optional.ofNullable(getBadge(groupIdOrPath, badgeId)));
+	} catch (GitLabApiException glae) {
+	    return (GitLabApi.createOptionalFromException(glae));
+	}
+    }
+
+    /**
+     * Add a badge to a group.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/badges</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param linkUrl the URL of the badge link
+     * @param imageUrl the URL of the image link
+     * @return a Badge instance for the added badge
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Badge addBadge(Object groupIdOrPath, String linkUrl, String imageUrl) throws GitLabApiException {
+	GitLabApiForm formData = new GitLabApiForm()
+		.withParam("link_url", linkUrl, true)
+		.withParam("image_url", imageUrl, true);
+	Response response = post(Response.Status.OK, formData, "groups", getGroupIdOrPath(groupIdOrPath), "badges");
+	return (response.readEntity(Badge.class));
+    }
+
+    /**
+     * Edit a badge of a group.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/badges</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param badgeId the ID of the badge to get
+     * @param linkUrl the URL of the badge link
+     * @param imageUrl the URL of the image link
+     * @return a Badge instance for the editted badge
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Badge editBadge(Object groupIdOrPath, Integer badgeId, String linkUrl, String imageUrl) throws GitLabApiException {
+	GitLabApiForm formData = new GitLabApiForm()
+		.withParam("link_url", linkUrl, false)
+		.withParam("image_url", imageUrl, false);
+	Response response = putWithFormData(Response.Status.OK, formData, "groups", getGroupIdOrPath(groupIdOrPath), "badges", badgeId);
+	return (response.readEntity(Badge.class));
+    }
+
+    /**
+     * Remove a badge from a group.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/badges/:badge_id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param badgeId the ID of the badge to remove
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void removeBadge(Object groupIdOrPath, Integer badgeId) throws GitLabApiException {
+	delete(Response.Status.NO_CONTENT, null, "groups", getGroupIdOrPath(groupIdOrPath), "badges", badgeId);
+    }
+
+    /**
+     * Returns how the link_url and image_url final URLs would be after resolving the placeholder interpolation.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/badges/render</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param linkUrl the URL of the badge link
+     * @param imageUrl the URL of the image link
+     * @return a Badge instance for the rendered badge
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Badge previewBadge(Object groupIdOrPath,  String linkUrl, String imageUrl) throws GitLabApiException {
+	GitLabApiForm formData = new GitLabApiForm()
+		.withParam("link_url", linkUrl, true)
+		.withParam("image_url", imageUrl, true);
+	Response response = get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "badges", "render");
+	return (response.readEntity(Badge.class));
     }
 }
