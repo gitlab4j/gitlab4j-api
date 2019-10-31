@@ -69,7 +69,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @param branchName the name of the branch to un-protect, can be a wildcard
      * @throws GitLabApiException if any exception occurs
      */
-    public void unprotectBranch(Integer projectIdOrPath, String branchName) throws GitLabApiException {
+    public void unprotectBranch(Object projectIdOrPath, String branchName) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "protected_branches", urlEncode(branchName));
     }
 
@@ -83,7 +83,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @return the branch info for the protected branch
      * @throws GitLabApiException if any exception occurs
      */
-    public ProtectedBranch protectBranch(Integer projectIdOrPath, String branchName) throws GitLabApiException {
+    public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName) throws GitLabApiException {
         return protectBranch(projectIdOrPath, branchName, AccessLevel.MAINTAINER, AccessLevel.MAINTAINER);
     }
 
@@ -99,7 +99,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @return the branch info for the protected branch
      * @throws GitLabApiException if any exception occurs
      */
-    public ProtectedBranch protectBranch(Integer projectIdOrPath, String branchName, AccessLevel pushAccessLevel, AccessLevel mergeAccessLevel) throws GitLabApiException {
+    public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName, AccessLevel pushAccessLevel, AccessLevel mergeAccessLevel) throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("name", branchName, true)
                 .withParam("push_access_level", pushAccessLevel.toValue(), false)
