@@ -19,40 +19,81 @@ public enum Setting {
      */
     ADMIN_NOTIFICATION_EMAIL(String.class),
 
-    /** Where to redirect users after logout. */
+    /**
+     * Where to redirect users after logout.
+     */
     AFTER_SIGN_OUT_PATH(String.class),
 
-    /** Text shown to the user after signing up */
+    /**
+     * Text shown to the user after signing up
+     */
     AFTER_SIGN_UP_TEXT(String.class),
 
-    /** required by: akismet_enabled API key for akismet spam protection. */
+    /**
+     * required by: {@link #AKISMET_ENABLED} API key for Akismet spam protection.
+     */
     AKISMET_API_KEY(String.class),
 
     /**
-     * (If enabled, requires: akismet_api_key) Enable or disable akismet spam
+     * (<strong>If enabled, requires:</strong> {@link #AKISMET_API_KEY}) Enable or disable Akismet spam
      * protection.
      */
     AKISMET_ENABLED(Boolean.class),
 
-    /** (Premium) Set to true to allow group owners to manage LDAP */
+    /**
+     * (PREMIUM | SILVER) Set to true to allow group owners to manage LDAP
+     */
     ALLOW_GROUP_OWNERS_TO_MANAGE_LDAP(Boolean.class),
 
-    /** Allow requests to the local network from hooks and services. */
+    /**
+     * Allow requests to the local network from hooks and services.
+     * @deprecated Use allow_local_requests_from_web_hooks_and_services instead
+     */
+    @Deprecated
     ALLOW_LOCAL_REQUESTS_FROM_HOOKS_AND_SERVICES(Boolean.class),
 
-	/**
-	 * Set the duration for which the jobs will be considered as old and expired.
-	 * Once that time passes, the jobs will be archived and no longer able to be retried.
-	 * Make it empty to never expire jobs. It has to be no less than 1 day,
-	 * for example: 15 days, 1 month, 2 years.
-	 */
-	ARCHIVE_BUILDS_IN_HUMAN_READABLE(String.class),
+    /**
+     * Allow requests to the local network from system hooks.
+     */
+    ALLOW_LOCAL_REQUESTS_FROM_SYSTEM_HOOKS(Boolean.class),
     
     /**
+     * Allow requests to the local network from web hooks and services.
+     */
+    ALLOW_LOCAL_REQUESTS_FROM_WEB_HOOKS_AND_SERVICES(Boolean.class),
+
+    /**
+     * Set the duration for which the jobs will be considered as old and expired. 
+     * Once that time passes, the jobs will be archived and no longer able to be 
+     * retried. Make it empty to never expire jobs. It has to be no less than 
+     * 1 day, for example: 15 days, 1 month, 2 years.
+     */
+    ARCHIVE_BUILDS_IN_HUMAN_READABLE(String.class),
+
+    /**
+     * (<strong>If enabled, requires:</strong> {@link #ASSET_PROXY_URL})
+     * Enable proxying of assets. GitLab restart is required to apply changes.
+     */
+    ASSET_PROXY_ENABLED(Boolean.class),
+
+    /**
+     * URL of the asset proxy server. GitLab restart is required to apply changes.
+     */
+    ASSET_PROXY_URL(String.class),
+
+    /**
+     * Assets that match these domain(s) will NOT be proxied. Wildcards allowed.
+     * Your GitLab installation URL is automatically whitelisted. GitLab restart
+     * is required to apply changes.
+     * TODO according to documentation : string or array of strings => How to do this?
+     */
+    ASSET_PROXY_WHITELIST(String.class), 
+
+    /**
      * By default, we write to the authorized_keys file to support Git over SSH
-     * without additional configuration. GitLab can be optimized to authenticate SSH
-     * keys via the database file. Only disable this if you have configured your
-     * OpenSSH server to use the AuthorizedKeysCommand.
+     * without additional configuration. GitLab can be optimized to authenticate
+     * SSH keys via the database file. Only disable this if you have configured
+     * your OpenSSH server to use the AuthorizedKeysCommand.
      */
     AUTHORIZED_KEYS_ENABLED(Boolean.class),
 
@@ -67,46 +108,50 @@ public enum Setting {
      * test, and deploy applications based on a predefined CI/CD configuration.
      */
     AUTO_DEVOPS_ENABLED(Boolean.class),
-
+    
     /**
-     * (Premium) Enabling this will make only licensed EE features available to
-     * projects if the project namespace’s plan includes the feature or if the
-     * project is public.
+     * (PREMIUM | SILVER) Enabling this will make only licensed EE features
+     * available to projects if the project namespace’s plan includes the feature
+     * or if the project is public.
      */
     CHECK_NAMESPACE_PLAN(Boolean.class),
 
     /**
-     * required by: clientside_sentry_enabled Clientside Sentry Data Source Name.
+     * Custom hostname (for private commit emails).
      */
-    CLIENTSIDE_SENTRY_DSN(String.class),
-
+    COMMIT_EMAIL_HOSTNAME(String.class),
+    
     /**
-     * (If enabled, requires: clientside_sentry_dsn) Enable Sentry error reporting
-     * for the client side.
+     * Container Registry token duration in minutes.
      */
-    CLIENTSIDE_SENTRY_ENABLED(Boolean.class),
-
-    /** Container Registry token duration in minutes. */
     CONTAINER_REGISTRY_TOKEN_EXPIRE_DELAY(Integer.class),
 
-    /** Set the default expiration time for each job’s artifacts. */
+    /**
+     * Set the default expiration time for each job’s artifacts.
+     */
     DEFAULT_ARTIFACTS_EXPIRE_IN(String.class),
 
     /**
-     * Determine if developers can push to master. Can take: 0 (not protected, both
-     * developers and maintainers can push new commits, force push, or delete the
-     * branch), 1 (partially protected, developers and maintainers can push new
-     * commits, but cannot force push or delete the branch) or 2 (fully protected,
-     * developers cannot push new commits, but maintainers can; no-one can force
-     * push or delete the branch) as a parameter. Default is 2.
+     * Determine if developers can push to master. Can take: 0 (not protected,
+     * both developers and maintainers can push new commits, force push, or delete
+     * the branch), 1 (partially protected, developers and maintainers can push
+     * new commits, but cannot force push or delete the branch) or 2 (fully
+     * protected, developers cannot push new commits, but maintainers can; no-one
+     * can force push or delete the branch) as a parameter. Default is 2.
      */
     DEFAULT_BRANCH_PROTECTION(Integer.class),
 
     /**
-     * What visibility level new groups receive. Can take private, internal and
-     * public as a parameter. Default is private.
+     * What visibility level new groups receive. Can take private, internal
+     * and public as a parameter. Default is private.
      */
     DEFAULT_GROUP_VISIBILITY(String.class),
+
+    /**
+     * Default project creation protection. Can take: 0 (No one), 1 (Maintainers)
+     * or 2 (Developers + Maintainers)
+     */
+    DEFAULT_PROJECT_CREATION(String.class),
 
     /**
      * What visibility level new projects receive. Can take private, internal and
@@ -114,7 +159,9 @@ public enum Setting {
      */
     DEFAULT_PROJECT_VISIBILITY(String.class),
 
-    /** Project limit per user. Default is 100000. */
+    /**
+     * Project limit per user. Default is 100000.
+     */
     DEFAULT_PROJECTS_LIMIT(Integer.class),
 
     /**
@@ -123,30 +170,49 @@ public enum Setting {
      */
     DEFAULT_SNIPPET_VISIBILITY(String.class),
 
-    /** Disabled OAuth sign-in sources. */
+    /**
+     * Maximum diff patch size (Bytes).
+     */
+    DIFF_MAX_PATCH_BYTES(Integer.class),
+
+    /**
+     * Disabled OAuth sign-in sources.
+     */
     DISABLED_OAUTH_SIGN_IN_SOURCES(String[].class),
 
-    /** New as of 11.11.0 */
+    /**
+     * Enforce DNS rebinding attack protection.
+     */
     DNS_REBINDING_PROTECTION_ENABLED(Boolean.class),
 
     /**
-     * required by: domain_blacklist_enabled Users with e-mail addresses that match
+     * required by: {@link #DOMAIN_BLACKLIST_ENABLED} Users with e-mail addresses that match
      * these domain(s) will NOT be able to sign-up. Wildcards allowed. Use separate
      * lines for multiple entries. Ex: domain.com, *.domain.com.
      */
     DOMAIN_BLACKLIST(String[].class),
 
     /**
-     * (If enabled, requires: domain_blacklist) Allows blocking sign-ups from emails
-     * from specific domains.
+     * (<strong>If enabled, requires:</strong>  {@link #DOMAIN_BLACKLIST}) Allows 
+     * blocking sign-ups from emails from specific domains.
      */
     DOMAIN_BLACKLIST_ENABLED(Boolean.class),
+
+    /**
+     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     */
+    DOMAIN_BLACKLIST_RAW(String.class),
 
     /**
      * Force people to use only corporate emails for sign-up. Default is null,
      * meaning there is no restriction.
      */
     DOMAIN_WHITELIST(String[].class),
+
+    /**
+     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     */
+    DOMAIN_WHITELIST_RAW(String.class),
 
     /**
      * The minimum allowed bit length of an uploaded DSA key. Default is 0 (no
@@ -166,40 +232,64 @@ public enum Setting {
      */
     ED25519_KEY_RESTRICTION(Integer.class),
 
-    /** (Premium) Enable the use of AWS hosted Elasticsearch */
-    ELASTICSEARCH_AWS(Boolean.class),
-
-    /** (Premium) AWS IAM access key */
+    /**
+     * (PREMIUM | SILVER) AWS IAM access key
+     */
     ELASTICSEARCH_AWS_ACCESS_KEY(String.class),
 
-    /** (Premium) The AWS region the elasticsearch domain is configured */
+    /**
+     * (PREMIUM | SILVER) Enable the use of AWS hosted Elasticsearch
+     */    
+    ELASTICSEARCH_AWS(Boolean.class),
+
+    /**
+     * (PREMIUM | SILVER) The AWS region the Elasticsearch domain is configured
+     */
     ELASTICSEARCH_AWS_REGION(String.class),
 
-    /** (Premium) AWS IAM secret access key */
+    /**
+     * (PREMIUM | SILVER) AWS IAM secret access key
+     */
     ELASTICSEARCH_AWS_SECRET_ACCESS_KEY(String.class),
 
     /**
-     * (Premium) Use the experimental elasticsearch indexer. More info:
-     * https://gitlab.com/gitlab-org/gitlab-elasticsearch-indexer
+     * (PREMIUM | SILVER) Enable Elasticsearch indexing
      */
-    ELASTICSEARCH_EXPERIMENTAL_INDEXER(Boolean.class),
-
-    /** (Premium) Enable Elasticsearch indexing */
     ELASTICSEARCH_INDEXING(Boolean.class),
 
-    /** (Premium) Enable Elasticsearch search */
+    /**
+     * (PREMIUM | SILVER) Limit Elasticsearch to index certain namespaces and
+     * projects
+     */
+    ELASTICSEARCH_LIMIT_INDEXING(Boolean.class),
+
+    /**
+     * (PREMIUM | SILVER) The namespaces to index via Elasticsearch if 
+     * {@link #ELASTICSEARCH_LIMIT_INDEXING} is enabled.
+     */
+    ELASTICSEARCH_NAMESPACE_IDS(Integer[].class),
+
+    /**
+     * (PREMIUM | SILVER) The projects to index via Elasticsearch if
+     * {@link #ELASTICSEARCH_LIMIT_INDEXING} is enabled.
+     */
+    ELASTICSEARCH_PROJECT_IDS(Integer[].class),
+
+    /**
+     * (PREMIUM | SILVER) Enable Elasticsearch search
+     */
     ELASTICSEARCH_SEARCH(Boolean.class),
 
     /**
-     * (Premium) The url to use for connecting to Elasticsearch. Use a
-     * comma-separated list to support cluster (e.g., “http://localhost:9200,
+     * (PREMIUM | SILVER) The url to use for connecting to Elasticsearch.
+     * Use a comma-separated list to support cluster (e.g., http://localhost:9200,
      * http://localhost:9201"). If your Elasticsearch instance is password
-     * protected, pass the username:password in the URL,
+     * protected, pass the username:password in the URL (e.g., http://<username>:<password>@<elastic_host>:9200/).
      */
     ELASTICSEARCH_URL(String.class),
 
     /**
-     * (Premium) Additional text added to the bottom of every email for
+     * (PREMIUM | SILVER) Additional text added to the bottom of every email for
      * legal/auditing/compliance reasons
      */
     EMAIL_ADDITIONAL_TEXT(String.class),
@@ -217,420 +307,569 @@ public enum Setting {
      */
     ENABLED_GIT_ACCESS_PROTOCOL(String.class),
 
-    /** (If enabled, requires: terms) Enforce application ToS to all users. */
+    /**
+     * (<strong>If enabled, requires:</strong> {@link #TERMS}) Enforce application
+     * ToS to all users.
+     */
     ENFORCE_TERMS(Boolean.class),
 
     /**
-     * (Premium) (If enabled, requires: external_auth_client_key) The certificate to
-     * use to authenticate with the external authorization service
+     * (<strong>If enabled, requires:</strong> {@link #EXTERNAL_AUTH_CLIENT_KEY}) The
+     * certificate to use to authenticate with the external authorization service
      */
     EXTERNAL_AUTH_CLIENT_CERT(String.class),
-
+    
     /**
-     * required by: external_auth_client_cert (Premium) Private key for the
-     * certificate when authentication is required for the external authorization
-     * service, this is encrypted when stored
+     * required by: {@link #EXTERNAL_AUTH_CLIENT_CERT} Private key for the certificate
+     * when authentication is required for the external authorization service, this is
+     * encrypted when stored
      */
     EXTERNAL_AUTH_CLIENT_KEY(String.class),
 
     /**
-     * (Premium) Passphrase to use for the private key when authenticating with the
-     * external service this is encrypted when stored
+     * Passphrase to use for the private key when authenticating with the external
+     * service this is encrypted when stored
      */
     EXTERNAL_AUTH_CLIENT_KEY_PASS(String.class),
 
     /**
-     * required by: external_authorization_service_enabled (Premium) The default
-     * classification label to use when requesting authorization and no
-     * classification label has been specified on the project
+     * required by: {@link #EXTERNAL_AUTHORIZATION_SERVICE_ENABLED} The default
+     * classification label to use when requesting authorization and no classification
+     * label has been specified on the project
      */
     EXTERNAL_AUTHORIZATION_SERVICE_DEFAULT_LABEL(String.class),
 
     /**
-     * (Premium) (If enabled, requires:
-     * external_authorization_service_default_label,
-     * external_authorization_service_timeout and external_authorization_service_url
-     * ) Enable using an external authorization service for accessing projects
+     * (<strong>If enabled, requires:</strong> {@link #EXTERNAL_AUTHORIZATION_SERVICE_DEFAULT_LABEL},
+     * {@link #EXTERNAL_AUTHORIZATION_SERVICE_TIMEOUT} and {@link #EXTERNAL_AUTHORIZATION_SERVICE_URL})
+     * Enable using an external authorization service for accessing projects
      */
     EXTERNAL_AUTHORIZATION_SERVICE_ENABLED(Boolean.class),
 
     /**
-     * required by: external_authorization_service_enabled (Premium) The timeout
-     * after which an authorization request is aborted, in seconds. When a request
-     * times out, access is denied to the user. (min: 0.001, max: 10, step: 0.001)
+     * required by: {@link #EXTERNAL_AUTHORIZATION_SERVICE_ENABLED} The timeout after which an
+     * authorization request is aborted, in seconds. When a request times out, access is denied
+     * to the user. (min: 0.001, max: 10, step: 0.001)
      */
     EXTERNAL_AUTHORIZATION_SERVICE_TIMEOUT(Float.class),
 
     /**
-     * required by: external_authorization_service_enabled (Premium) URL to which
-     * authorization requests will be directed
+     * required by: {@link #EXTERNAL_AUTHORIZATION_SERVICE_ENABLED} URL to which authorization
+     * requests will be directed
      */
     EXTERNAL_AUTHORIZATION_SERVICE_URL(String.class),
 
-    /** (Premium) The ID of a project to load custom file templates from */
+    /**
+     * (PREMIUM | SILVER) The ID of a project to load custom file templates from
+     */
     FILE_TEMPLATE_PROJECT_ID(Integer.class),
 
     /**
-     * Start day of the week for calendar views and date pickers. Valid values are 0
-     * (default) for Sunday, 1 for Monday, and 6 for Saturday.
+     * Start day of the week for calendar views and date pickers. Valid values are 0 (default)
+     * for Sunday, 1 for Monday, and 6 for Saturday.
      */
     FIRST_DAY_OF_WEEK(Integer.class),
 
     /**
-     * (Premium) Comma-separated list of IPs and CIDRs of allowed secondary nodes.
+     * (PREMIUM | SILVER) Comma-separated list of IPs and CIDRs of allowed secondary nodes.
      * For example, 1.1.1.1, 2.2.2.0/24.
      */
     GEO_NODE_ALLOWED_IPS(String.class),
-
+    
     /**
-     * (Premium) The amount of seconds after which a request to get a secondary node
+     * (PREMIUM | SILVER) The amount of seconds after which a request to get a secondary node
      * status will time out.
      */
     GEO_STATUS_TIMEOUT(Integer.class),
 
     /**
-     * Default Gitaly timeout, in seconds. This timeout is not enforced for git
-     * fetch/push operations or Sidekiq jobs. Set to 0 to disable timeouts.
+     * Default Gitaly timeout, in seconds. This timeout is not enforced for Git fetch/push
+     * operations or Sidekiq jobs. Set to 0 to disable timeouts.
      */
     GITALY_TIMEOUT_DEFAULT(Integer.class),
 
     /**
-     * Gitaly fast operation timeout, in seconds. Some Gitaly operations are
-     * expected to be fast. If they exceed this threshold, there may be a problem
-     * with a storage shard and ‘failing fast’ can help maintain the stability of
-     * the GitLab instance. Set to 0 to disable timeouts.
+     * Gitaly fast operation timeout, in seconds. Some Gitaly operations are expected to be
+     * fast. If they exceed this threshold, there may be a problem with a storage shard and
+     * ‘failing fast’ can help maintain the stability of the GitLab instance. Set to 0 to
+     * disable timeouts.
      */
     GITALY_TIMEOUT_FAST(Integer.class),
 
     /**
-     * Medium Gitaly timeout, in seconds. This should be a value between the Fast
-     * and the Default timeout. Set to 0 to disable timeouts.
+     * Medium Gitaly timeout, in seconds. This should be a value between the Fast and the
+     * Default timeout. Set to 0 to disable timeouts.
      */
     GITALY_TIMEOUT_MEDIUM(Integer.class),
 
-    /** Undocumented setting. */
+    /**
+     * Enable Grafana.
+     */
     GRAFANA_ENABLED(Boolean.class),
 
-    /** Undocumented setting. */
+    /**
+     * Grafana URL.
+     */
     GRAFANA_URL(String.class),
 
-    /** Enable Gravatar. */
+    /**
+     * Enable Gravatar.
+     */
     GRAVATAR_ENABLED(Boolean.class),
 
     /**
-     * Create new projects using hashed storage paths: Enable immutable, hash-based
-     * paths and repository names to store repositories on disk. This prevents
-     * repositories from having to be moved or renamed when the Project URL changes
-     * and may improve disk I/O performance. (EXPERIMENTAL)
+     * Create new projects using hashed storage paths: Enable immutable, hash-based paths
+     * and repository names to store repositories on disk. This prevents repositories from
+     * having to be moved or renamed when the Project URL changes and may improve disk I/O
+     * performance. (EXPERIMENTAL)
      */
     HASHED_STORAGE_ENABLED(Boolean.class),
 
-    /** Hide marketing-related entries from help. */
+    /**
+     * Hide marketing-related entries from help.
+     */
     HELP_PAGE_HIDE_COMMERCIAL_CONTENT(Boolean.class),
 
-    /** Alternate support URL for help page. */
+    /**
+     * Alternate support URL for help page and help dropdown.
+     */
     HELP_PAGE_SUPPORT_URL(String.class),
 
-    /** Custom text displayed on the help page. */
+    /**
+     * Custom text displayed on the help page.
+     */
     HELP_PAGE_TEXT(String.class),
 
-    /** (Premium) GitLab server administrator information */
+    /**
+     * (PREMIUM | SILVER) GitLab server administrator information
+     */
     HELP_TEXT(String.class),
 
-    /** Do not display offers from third parties within GitLab. */
+    /**
+     * Do not display offers from third parties within GitLab.
+     */
     HIDE_THIRD_PARTY_OFFERS(Boolean.class),
 
-    /** Redirect to this URL when not logged in. */
+    /**
+     * Redirect to this URL when not logged in.
+     */
     HOME_PAGE_URL(String.class),
 
-    /** required by: housekeeping_enabled Enable Git pack file bitmap creation. */
+    /**
+     * required by: {@link #HOUSEKEEPING_ENABLED} Enable Git pack file bitmap creation.
+     */
     HOUSEKEEPING_BITMAPS_ENABLED(Boolean.class),
 
     /**
-     * (If enabled, requires: housekeeping_bitmaps_enabled,
-     * housekeeping_full_repack_period, housekeeping_gc_period, and
-     * housekeeping_incremental_repack_period) Enable or disable git housekeeping.
+     * (<strong>If enabled, requires:</strong> {@link #HOUSEKEEPING_BITMAPS_ENABLED}, 
+     * {@link #HOUSEKEEPING_FULL_REPACK_PERIOD}, {@link #HOUSEKEEPING_GC_PERIOD}, and
+     * {@link #HOUSEKEEPING_INCREMENTAL_REPACK_PERIOD}) Enable or disable Git housekeeping.
      */
     HOUSEKEEPING_ENABLED(Boolean.class),
 
     /**
-     * required by: housekeeping_enabled Number of Git pushes after which an
+     * required by: {@link #HOUSEKEEPING_ENABLED} Number of Git pushes after which an
      * incremental git repack is run.
      */
     HOUSEKEEPING_FULL_REPACK_PERIOD(Integer.class),
 
     /**
-     * required by: housekeeping_enabled Number of Git pushes after which git gc is
-     * run.
+     * required by: {@link #HOUSEKEEPING_ENABLED} Number of Git pushes after which git
+     * gc is run.
      */
     HOUSEKEEPING_GC_PERIOD(Integer.class),
 
     /**
-     * required by: housekeeping_enabled Number of Git pushes after which an
+     * required by: {@link #HOUSEKEEPING_ENABLED} Number of Git pushes after which an
      * incremental git repack is run.
      */
     HOUSEKEEPING_INCREMENTAL_REPACK_PERIOD(Integer.class),
 
-    /** Enable HTML emails. */
+    /**
+     * Enable HTML emails.
+     */
     HTML_EMAILS_ENABLED(Boolean.class),
 
     /**
      * Sources to allow project import from, possible values: github, bitbucket,
-     * gitlab, google_code, fogbugz, git, and gitlab_project.
+     * bitbucket_server, gitlab, google_code, fogbugz, git, gitlab_project, gitea,
+     * manifest, and phabricator.
      */
     IMPORT_SOURCES(String[].class),
 
-    /** When set to true Instance statistics will only be available to admins. */
+    /**
+     * When set to true Instance statistics will only be available to admins.
+     */
     INSTANCE_STATISTICS_VISIBILITY_PRIVATE(Boolean.class),
 
-    /** Increase this value when any cached markdown should be invalidated. */
+    /**
+     * Increase this value when any cached markdown should be invalidated.
+     */
     LOCAL_MARKDOWN_VERSION(Integer.class),
 
-    /** Maximum artifacts size in MB */
+    /**
+     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     */
+    LOGIN_RECAPTCHA_PROTECTION_ENABLED(Boolean.class),
+
+    /**
+     * Maximum artifacts size in MB
+     */
     MAX_ARTIFACTS_SIZE(Integer.class),
 
-    /** Limit attachment size in MB */
+    /**
+     * Limit attachment size in MB
+     */
     MAX_ATTACHMENT_SIZE(Integer.class),
 
-    /** Maximum size of pages repositories in MB */
+    /**
+     * Maximum size of pages repositories in MB
+     */
     MAX_PAGES_SIZE(Integer.class),
 
     /**
-     * (If enabled, requires: metrics_host, metrics_method_call_threshold,
-     * metrics_packet_size, metrics_pool_size, metrics_port, metrics_sample_interval
-     * and metrics_timeout) Enable influxDB metrics.
+     * (<strong>If enabled, requires:</strong> {@link #METRICS_HOST}, 
+     * {@link #METRICS_METHOD_CALL_THRESHOLD}, {@link #METRICS_PACKET_SIZE}, 
+     * {@link #METRICS_POOL_SIZE}, {@link #METRICS_PORT}, {@link #METRICS_SAMPLE_INTERVAL} and
+     * {@link #METRICS_TIMEOUT}) Enable influxDB metrics.
      */
     METRICS_ENABLED(Boolean.class),
 
-    /** required by: metrics_enabled InfluxDB host. */
+    /**
+     * required by: {@link #METRICS_ENABLED} InfluxDB host.
+     */
     METRICS_HOST(String.class),
 
     /**
-     * required by: metrics_enabled A method call is only tracked when it takes
-     * longer than the given amount of milliseconds.
+     * required by: {@link #METRICS_ENABLED} A method call is only tracked when it takes longer
+     * than the given amount of milliseconds.
      */
     METRICS_METHOD_CALL_THRESHOLD(Integer.class),
 
     /**
-     * required by: metrics_enabled The amount of datapoints to send in a single UDP
+     * required by: {@link #METRICS_ENABLED} The amount of datapoints to send in a single UDP
      * packet.
      */
     METRICS_PACKET_SIZE(Integer.class),
 
     /**
-     * required by: metrics_enabled The amount of InfluxDB connections to keep open.
+     * required by: {@link #METRICS_ENABLED} The amount of InfluxDB connections to keep open.
      */
     METRICS_POOL_SIZE(Integer.class),
 
     /**
-     * required by: metrics_enabled The UDP port to use for connecting to InfluxDB.
+     * required by: {@link #METRICS_ENABLED} The UDP port to use for connecting to InfluxDB.
      */
     METRICS_PORT(Integer.class),
 
-    /** required by: metrics_enabled The sampling interval in seconds. */
+    /**
+     * required by: {@link #METRICS_ENABLED} The sampling interval in seconds.
+     */
     METRICS_SAMPLE_INTERVAL(Integer.class),
 
     /**
-     * required by: metrics_enabled The amount of seconds after which InfluxDB will
+     * required by: {@link #METRICS_ENABLED} The amount of seconds after which InfluxDB will
      * time out.
      */
     METRICS_TIMEOUT(Integer.class),
 
     /**
-     * Allow mirrors to be set up for projects. If disabled, only admins will be
-     * able to set up mirrors in projects.
+     * Allow repository mirroring to configured by project Maintainers. If disabled, only
+     * Admins will be able to configure repository mirroring.
      */
     MIRROR_AVAILABLE(Boolean.class),
 
     /**
-     * (Premium) Minimum capacity to be available before scheduling more mirrors
+     * (PREMIUM | SILVER) Minimum capacity to be available before scheduling more mirrors
      * preemptively
      */
     MIRROR_CAPACITY_THRESHOLD(Integer.class),
-
+    
     /**
-     * (Premium) Maximum number of mirrors that can be synchronizing at the same
-     * time.
+     * (PREMIUM | SILVER) Maximum number of mirrors that can be synchronizing at the same time.
      */
     MIRROR_MAX_CAPACITY(Integer.class),
-
+    
     /**
-     * (Premium) Maximum time (in minutes) between updates that a mirror can have
-     * when scheduled to synchronize.
+     * (PREMIUM | SILVER) Maximum time (in minutes) between updates that a mirror can have when
+     * scheduled to synchronize.
      */
     MIRROR_MAX_DELAY(Integer.class),
 
     /**
-     * Require users to prove ownership of custom domains. Domain verification is an
-     * essential security measure for public GitLab sites. Users are required to
-     * demonstrate they control a domain before it is enabled.
+     * Define a list of trusted domains or ip addresses to which local requests are allowed when
+     * local requests for hooks and services are disabled.
+     */
+    OUTBOUND_LOCAL_REQUESTS_WHITELIST(String[].class),
+    
+    /**
+     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     */
+    OUTBOUND_LOCAL_REQUESTS_WHITELIST_RAW(String.class),
+
+    /**
+     * Require users to prove ownership of custom domains. Domain verification is an essential
+     * security measure for public GitLab sites. Users are required to demonstrate they control a
+     * domain before it is enabled.
      */
     PAGES_DOMAIN_VERIFICATION_ENABLED(Boolean.class),
 
     /**
-     * Enable authentication for Git over HTTP(S) via a GitLab account password.
-     * Default is true.
+     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * TODO verify if it was present in a old version and if it's available for retro-compatibility.
+     */
+    PASSWORD_AUTHENTICATION_ENABLED(Boolean.class),
+
+    /**
+     * Enable authentication for Git over HTTP(S) via a GitLab account password. Default is true.
      */
     PASSWORD_AUTHENTICATION_ENABLED_FOR_GIT(Boolean.class),
 
     /**
-     * Enable authentication for the web interface via a GitLab account password.
-     * Default is true.
+     * Enable authentication for the web interface via a GitLab account password. Default is true.
      */
     PASSWORD_AUTHENTICATION_ENABLED_FOR_WEB(Boolean.class),
 
     /**
-     * (Deprecated: Use performance_bar_allowed_group_path instead) Path of the
-     * group that is allowed to toggle the performance bar.
+     * Path of the group that is allowed to toggle the performance bar.
+     * @deprecated Use {@link #PERFORMANCE_BAR_ALLOWED_GROUP_PATH} instead 
      */
+    @Deprecated
     PERFORMANCE_BAR_ALLOWED_GROUP_ID(String.class),
 
-    /** Path of the group that is allowed to toggle the performance bar. */
-    PERFORMANCE_BAR_ALLOWED_GROUP_PATH(String.class),
-
     /**
-     * (Deprecated: Pass performance_bar_allowed_group_path: nil instead) Allow
-     * enabling the performance bar.
+     * Path of the group that is allowed to toggle the performance bar.
      */
+    PERFORMANCE_BAR_ALLOWED_GROUP_PATH(String.class),
+    
+    /**
+     * Allow enabling the performance bar.
+     * @deprecated Pass performance_bar_allowed_group_path: nil instead
+     */
+    @Deprecated
     PERFORMANCE_BAR_ENABLED(Boolean.class),
 
     /**
-     * (If enabled, requires: plantuml_url) Enable PlantUML integration. Default is
-     * false.
+     * (<strong>If enabled, requires:</strong> {@link #PLANTUML_URL}) Enable PlantUML integration.
+     * Default is false.
      */
-    PLANTUML_ENABLED(Boolean.class), // Decimal
+    PLANTUML_ENABLED(Boolean.class),
 
-    /** required by: plantuml_enabled The PlantUML instance URL for integration. */
+    /**
+     * required by: {@link #PLANTUML_ENABLED} The PlantUML instance URL for integration.
+     */
     PLANTUML_URL(String.class),
 
     /**
-     * Interval multiplier used by endpoints that perform polling. Set to 0 to disable polling.
-     * The documentation liusts this as a decimal, but it is a String in the JSON.
+     * Interval multiplier used by endpoints that perform polling. Set to 0 to disable
+     * polling.
+     * TODO verify type of {@link #POLLING_INTERVAL_MULTIPLIER}
      */
     POLLING_INTERVAL_MULTIPLIER(String.class),
 
-    /** Enable project export. */
+    /**
+     * Enable project export.
+     */
     PROJECT_EXPORT_ENABLED(Boolean.class),
 
-    /** Enable prometheus metrics. */
+    /**
+     * Enable Prometheus metrics.
+     */
     PROMETHEUS_METRICS_ENABLED(Boolean.class),
 
     /**
-     * (Premium) When enabled, GitLab will run a background job that will produce
-     * pseudonymized CSVs of the GitLab database that will be uploaded to your
-     * configured object storage directory.
+     * Environment variables are protected by default.
      */
-    PSEUDONYMIZER_ENABLED(Boolean.class),
+    PROTECTED_CI_VARIABLES(Boolean.class),
 
     /**
-     * (If enabled, requires: recaptcha_private_key and recaptcha_site_key) Enable
-     * recaptcha.
+     * (PREMIUM | SILVER) When enabled, GitLab will run a background job that will produce
+     * pseudonymized CSVs of the GitLab database that will be uploaded to your configured
+     * object storage directory.
+     */
+    PSEUDONYMIZER_ENABLED(Boolean.class),
+    
+    /**
+     * Number of changes (branches or tags) in a single push to determine whether webhooks
+     * and services will be fired or not. Webhooks and services won’t be submitted if it
+     * surpasses that value.
+     */
+    PUSH_EVENT_HOOKS_LIMIT(Integer.class),
+    
+    /**
+     * Number of changes (branches or tags) in a single push to determine whether individual
+     * push events or bulk push events will be created. 
+     * <a href="https://docs.gitlab.com/ee/user/admin_area/settings/push_event_activities_limit.html">
+     * Bulk push events will be created</a> if it surpasses that value.
+     */
+    PUSH_EVENT_ACTIVITIES_LIMIT(Integer.class),
+
+    /**
+     * (<strong>If enabled, requires:</strong> {@link #RECAPTCHA_PRIVATE_KEY} and 
+     * {@link #RECAPTCHA_SITE_KEY}) Enable reCAPTCHA.
      */
     RECAPTCHA_ENABLED(Boolean.class),
 
-    /** required by: recaptcha_enabled Private key for recaptcha. */
+    /**
+     * required by: {@link #RECAPTCHA_ENABLED} Private key for reCAPTCHA.
+     */
     RECAPTCHA_PRIVATE_KEY(String.class),
 
-    /** required by: recaptcha_enabled Site key for recaptcha. */
+    /**
+     * required by: {@link #RECAPTCHA_ENABLED} Site key for reCAPTCHA.
+     */
     RECAPTCHA_SITE_KEY(String.class),
 
     /**
-     * GitLab will periodically run git fsck in all project and wiki repositories to
-     * look for silent disk corruption issues.
+     * Maximum push size (MB).
+     */
+    RECEIVE_MAX_INPUT_SIZE(Integer.class),
+
+    /**
+     * GitLab will periodically run git fsck in all project and wiki repositories to look for
+     * silent disk corruption issues.
      */
     REPOSITORY_CHECKS_ENABLED(Boolean.class),
 
-    /** (Premium) Size limit per repository (MB) */
-    REPOSITORY_SIZE_LIMIT(Integer.class),
-
     /**
-     * A list of names of enabled storage paths, taken from gitlab.yml. New projects
-     * will be created in one of these stores, chosen at random.
+     * (PREMIUM | SILVER) Size limit per repository (MB)
+     */
+    REPOSITORY_SIZE_LIMIT(Integer.class),
+    
+    /**
+     * A list of names of enabled storage paths, taken from gitlab.yml. New projects will be
+     * created in one of these stores, chosen at random.
      */
     REPOSITORY_STORAGES(String[].class),
 
     /**
-     * (If enabled, requires: two_factor_grace_period) Require all users to set up
-     * Two-factor authentication.
+     * (<strong>If enabled, requires:</strong> {@link #TWO_FACTOR_GRACE_PERIOD}) Require all
+     * users to set up Two-factor authentication.
      */
     REQUIRE_TWO_FACTOR_AUTHENTICATION(Boolean.class),
 
     /**
-     * Selected levels cannot be used by non-admin users for groups, projects or
-     * snippets. Can take private, internal and public as a parameter. Default is
-     * null which means there is no restriction.
+     * Selected levels cannot be used by non-admin users for groups, projects or snippets. Can
+     * take private, internal and public as a parameter. Default is null which means there is
+     * no restriction.
      */
     RESTRICTED_VISIBILITY_LEVELS(String[].class),
 
     /**
-     * The minimum allowed bit length of an uploaded RSA key. Default is 0 (no
-     * restriction). -1 disables RSA keys.
+     * The minimum allowed bit length of an uploaded RSA key. Default is 0 (no restriction).
+     * -1 disables RSA keys.
      */
-    RSA_KEY_RESTRICTION(Integer.class),
-
-    /** Send confirmation email on sign-up. */
-    SEND_USER_CONFIRMATION_EMAIL(Boolean.class),
-
-    /** required by: sentry_enabled Sentry Data Source Name. */
-    SENTRY_DSN(String.class),
+    RSA_KEY_RESTRICTION(Boolean.class),
 
     /**
-     * (If enabled, requires: sentry_dsn) Sentry is an error reporting and logging
-     * tool which is currently not shipped with GitLab, available at
-     * https://sentry.io.
+     * Send confirmation email on sign-up.
      */
-    SENTRY_ENABLED(Boolean.class),
+    SEND_USER_CONFIRMATION_EMAIL(Boolean.class),
 
-    /** Session duration in minutes. GitLab restart is required to apply changes */
+    /**
+     * Session duration in minutes. GitLab restart is required to apply changes
+     */
     SESSION_EXPIRE_DELAY(Integer.class),
 
-	/**
-     * (If enabled, requires: shared_runners_text and shared_runners_minutes)
-     * Enable shared runners for new projects.
+    /**
+     * (<strong>If enabled, requires:</strong> {@link #SHARED_RUNNERS_TEXT} and
+     * {@link #SHARED_RUNNERS_MINUTES}) Enable shared runners for new projects.
      */
     SHARED_RUNNERS_ENABLED(Boolean.class),
 
     /**
-     * required by: shared_runners_enabled (Premium) Set the maximum number of
-     * pipeline minutes that a group can use on shared Runners per month.
+     * required by: {@link #SHARED_RUNNERS_ENABLED} (PREMIUM | SILVER) Set the maximum number
+     * of pipeline minutes that a group can use on shared Runners per month.
      */
-    SHARED_RUNNERS_MINUTES(Integer.class),
-
-    /** required by: shared_runners_enabled Shared runners text. */
+    SHARED_RUNNERS_MINUTES(Integer.class), 
+    
+    /**
+     * required by: {@link #SHARED_RUNNERS_ENABLED} Shared runners text.
+     */
     SHARED_RUNNERS_TEXT(String.class),
-
-    /** Text on the login page. */
+    
+    /**
+     * Text on the login page.
+     */
     SIGN_IN_TEXT(String.class),
 
     /**
-     * (Deprecated: Use password_authentication_enabled_for_web instead) Flag
-     * indicating if password authentication is enabled for the web interface.
-     * Documentation lists this as a String, but it s a Boolean
+     * Flag indicating if password authentication is enabled for the web interface.
+     * @deprecated Use {@link #PASSWORD_AUTHENTICATION_ENABLED_FOR_WEB} instead
      */
-    SIGNIN_ENABLED(Boolean.class),
+    @Deprecated
+    SIGNIN_ENABLED(String.class),
 
-    /** Enable registration. Default is true. */
+    /**
+     * Enable registration. Default is true.
+     */
     SIGNUP_ENABLED(Boolean.class),
 
     /**
-     * (Premium) (If enabled, requires: slack_app_id, slack_app_secret and
-     * slack_app_secret) Enable Slack app.
+     * (PREMIUM | SILVER) (<strong>If enabled, requires:</strong> {@link #SLACK_APP_ID},
+     * {@link #SLACK_APP_SECRET} and {@link #SLACK_APP_VERIFICATION_TOKEN}) Enable Slack app.
+     * TODO : fix documentation on gitlab https://docs.gitlab.com/ee/api/settings.html
      */
     SLACK_APP_ENABLED(Boolean.class),
-
+    
     /**
-     * string required by: slack_app_enabled (Premium) The app id of the Slack-app.
+     * (PREMIUM | SILVER) required by: {@link #SLACK_APP_ENABLED} The app id of the Slack-app.
      */
     SLACK_APP_ID(String.class),
-
-    /** required by: slack_app_enabled (Premium) The app secret of the Slack-app. */
-    SLACK_APP_SECRET(String.class),
-
+    
     /**
-     * required by: slack_app_enabled (Premium) The verification token of the
+     * (PREMIUM | SILVER) required by: {@link #SLACK_APP_ENABLED} The app secret of the
      * Slack-app.
      */
+    SLACK_APP_SECRET(String.class),
+    
+    /**
+     * (PREMIUM | SILVER) required by: {@link #SLACK_APP_ENABLED}  The verification token of
+     * the Slack-app.
+     */
     SLACK_APP_VERIFICATION_TOKEN(String.class),
+
+    /**
+     * required by: {@link #SNOWPLOW_ENABLED} The Snowplow collector hostname. (e.g. 
+     * snowplow.trx.gitlab.net)
+     */
+    SNOWPLOW_COLLECTOR_HOSTNAME(String.class),
+
+    /**
+     * The Snowplow cookie domain. (e.g. .gitlab.com)
+     */
+    SNOWPLOW_COOKIE_DOMAIN(String.class),
+
+    /**
+     * Enable snowplow tracking.
+     */
+    SNOWPLOW_ENABLED(Boolean.class),
+
+    /**
+     * The Snowplow site name / application id. (e.g. gitlab)
+     */
+    SNOWPLOW_SITE_ID(String.class),
+
+    /**
+     * required by: {@link #PENDO_ENABLED} The Pendo endpoint url with js snippet. 
+     * (e.g. https://cdn.pendo.io/agent/static/your-api-key/pendo.js)
+     */
+    PENDO_URL(String.class),
+    
+    /**
+     * Enable pendo tracking.
+     */
+    PENDO_ENABLED(Boolean.class),
+
+    /**
+     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     */
+    STATIC_OBJECTS_EXTERNAL_STORAGE_AUTH_TOKEN(Boolean.class),
+
+    /**
+     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     */
+    STATIC_OBJECTS_EXTERNAL_STORAGE_URL(Boolean.class),
 
     /**
      * Maximum time for web terminal websocket connection (in seconds). Set to 0 for
@@ -639,63 +878,58 @@ public enum Setting {
     TERMINAL_MAX_SESSION_TIME(Integer.class),
 
     /**
-     * required by: enforce_terms (Required by: enforce_terms) Markdown content for
-     * the ToS.
+     * required by: {@link #ENFORCE_TERMS} Markdown content for the ToS.
      */
     TERMS(String.class),
 
     /**
-     * (If enabled, requires: throttle_authenticated_api_period_in_seconds and
-     * throttle_authenticated_api_requests_per_period) Enable authenticated API
-     * request rate limit. Helps reduce request volume (e.g. from crawlers or
-     * abusive bots).
+     * (<strong>If enabled, requires:</strong> {@link #THROTTLE_AUTHENTICATED_API_PERIOD_IN_SECONDS}
+     * and {@link #THROTTLE_AUTHENTICATED_API_REQUESTS_PER_PERIOD}) Enable authenticated API
+     * request rate limit. Helps reduce request volume (e.g. from crawlers or abusive bots).
      */
     THROTTLE_AUTHENTICATED_API_ENABLED(Boolean.class),
 
     /**
-     * required by: throttle_authenticated_api_enabled Rate limit period in seconds.
+     * required by: {@link #THROTTLE_AUTHENTICATED_API_ENABLED} Rate limit period in seconds.
      */
     THROTTLE_AUTHENTICATED_API_PERIOD_IN_SECONDS(Integer.class),
 
     /**
-     * required by: throttle_authenticated_api_enabled Max requests per period per
-     * user.
+     * required by: {@link #THROTTLE_AUTHENTICATED_API_ENABLED} Max requests per period per user.
      */
     THROTTLE_AUTHENTICATED_API_REQUESTS_PER_PERIOD(Integer.class),
 
     /**
-     * (If enabled, requires: throttle_authenticated_web_period_in_seconds and
-     * throttle_authenticated_web_requests_per_period) Enable authenticated web
-     * request rate limit. Helps reduce request volume (e.g. from crawlers or
-     * abusive bots).
+     * (<strong>If enabled, requires:</strong> {@link #THROTTLE_AUTHENTICATED_WEB_PERIOD_IN_SECONDS}
+     * and {@link #THROTTLE_AUTHENTICATED_WEB_REQUESTS_PER_PERIOD}) Enable authenticated web
+     * request rate limit. Helps reduce request volume (e.g. from crawlers or abusive bots).
      */
     THROTTLE_AUTHENTICATED_WEB_ENABLED(Boolean.class),
 
     /**
-     * required by: throttle_authenticated_web_enabled Rate limit period in seconds.
+     * required by: {@link #THROTTLE_AUTHENTICATED_WEB_ENABLED}	Rate limit period in seconds.
      */
     THROTTLE_AUTHENTICATED_WEB_PERIOD_IN_SECONDS(Integer.class),
 
     /**
-     * required by: throttle_authenticated_web_enabled Max requests per period per
-     * user.
+     * required by: {@link #THROTTLE_AUTHENTICATED_WEB_ENABLED} Max requests per period per user.
      */
     THROTTLE_AUTHENTICATED_WEB_REQUESTS_PER_PERIOD(Integer.class),
 
     /**
-     * (If enabled, requires: throttle_unauthenticated_period_in_seconds and
-     * throttle_unauthenticated_requests_per_period) Enable unauthenticated request
+     * (<strong>If enabled, requires:</strong> {@link #THROTTLE_UNAUTHENTICATED_PERIOD_IN_SECONDS}
+     * and {@link #THROTTLE_UNAUTHENTICATED_REQUESTS_PER_PERIOD}) Enable unauthenticated request
      * rate limit. Helps reduce request volume (e.g. from crawlers or abusive bots).
      */
     THROTTLE_UNAUTHENTICATED_ENABLED(Boolean.class),
 
     /**
-     * required by: throttle_unauthenticated_enabled Rate limit period in seconds.
+     * required by: {@link #THROTTLE_UNAUTHENTICATED_ENABLED} Rate limit period in seconds.
      */
     THROTTLE_UNAUTHENTICATED_PERIOD_IN_SECONDS(Integer.class),
 
     /**
-     * required by: throttle_unauthenticated_enabled Max requests per period per IP.
+     * required by: {@link #THROTTLE_UNAUTHENTICATED_ENABLED} Max requests per period per IP.
      */
     THROTTLE_UNAUTHENTICATED_REQUESTS_PER_PERIOD(Integer.class),
 
@@ -705,33 +939,42 @@ public enum Setting {
     TIME_TRACKING_LIMIT_TO_HOURS(Boolean.class),
 
     /**
-     * required by: require_two_factor_authentication Amount of time (in hours) that
-     * users are allowed to skip forced configuration of two-factor authentication.
+     * required by: {@link #REQUIRE_TWO_FACTOR_AUTHENTICATION} Amount of time (in hours)
+     * that users are allowed to skip forced configuration of two-factor authentication.
      */
     TWO_FACTOR_GRACE_PERIOD(Integer.class),
 
     /**
-     * (If enabled, requires: unique_ips_limit_per_user and
-     * unique_ips_limit_time_window) Limit sign in from multiple ips.
+     * (<strong>If enabled, requires:</strong> {@link #UNIQUE_IPS_LIMIT_PER_USER} and
+     * {@link #UNIQUE_IPS_LIMIT_TIME_WINDOW}) Limit sign in from multiple ips.
      */
     UNIQUE_IPS_LIMIT_ENABLED(Boolean.class),
 
     /**
-     * integer required by: unique_ips_limit_enabled Maximum number of ips per user.
+     * required by: {@link #UNIQUE_IPS_LIMIT_ENABLED} Maximum number of ips per user.
      */
     UNIQUE_IPS_LIMIT_PER_USER(Integer.class),
 
     /**
-     * required by: unique_ips_limit_enabled How many seconds an IP will be counted
-     * towards the limit.
+     * required by: {@link #UNIQUE_IPS_LIMIT_ENABLED} How many seconds an IP will be
+     * counted towards the limit.
      */
     UNIQUE_IPS_LIMIT_TIME_WINDOW(Integer.class),
 
-    /** Every week GitLab will report license usage back to GitLab, Inc. */
+    /**
+     * Every week GitLab will report license usage back to GitLab, Inc.
+     */
     USAGE_PING_ENABLED(Boolean.class),
 
-    /** Newly registered users will be external by default. */
+    /**
+     * Newly registered users will be external by default.
+     */
     USER_DEFAULT_EXTERNAL(Boolean.class),
+
+    /**
+     * Specify an e-mail address regex pattern to identify default internal users.
+     */
+    USER_DEFAULT_INTERNAL_REGEX(String.class),
 
     /**
      * Allow users to register any application to use GitLab as an OAuth provider.
@@ -739,26 +982,22 @@ public enum Setting {
     USER_OAUTH_APPLICATIONS(Boolean.class),
 
     /**
-     * When set to false disable the “You won’t be able to pull or push project code
-     * via SSH” warning shown to users with no uploaded SSH key.
+     * When set to false disable the “You won’t be able to pull or push project code via SSH”
+     * warning shown to users with no uploaded SSH key.
      */
     USER_SHOW_ADD_SSH_KEY_MESSAGE(Boolean.class),
 
-    /** Let GitLab inform you when an update is available. */
+    /**
+     * Let GitLab inform you when an update is available.
+     */
     VERSION_CHECK_ENABLED(Boolean.class),
 
-	/* The following settings are undocumented, but are returned from the server */
-    DEFAULT_PROJECT_CREATION(Integer.class),
-    DOMAIN_BLACKLIST_RAW(String.class),
-    DOMAIN_WHITELIST_RAW(String.class),
-    RECEIVE_MAX_INPUT_SIZE(Integer.class),
-    USER_DEFAULT_INTERNAL_REGEX(String.class),
-    WEB_IDE_CLIENTSIDE_PREVIEW_ENABLED(Boolean.class),
-    DIFF_MAX_PATCH_BYTES(Integer.class),
-    COMMIT_EMAIL_HOSTNAME(String.class),
-    PROTECTED_CI_VARIABLES(Boolean.class),
-    PASSWORD_AUTHENTICATION_ENABLED(Boolean.class);
-
+    /**
+     * Client side evaluation (allow live previews of JavaScript projects in the Web IDE
+     * using CodeSandbox client side evaluation).
+     */
+    WEB_IDE_CLIENTSIDE_PREVIEW_ENABLED(Boolean.class);
+    
     private static JacksonJsonEnumHelper<Setting> enumHelper = new JacksonJsonEnumHelper<>(Setting.class);
 
     private Class<?> type;
