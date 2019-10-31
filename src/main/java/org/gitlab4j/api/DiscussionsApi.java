@@ -309,15 +309,13 @@ public class DiscussionsApi extends AbstractApi {
     public Discussion createMergeRequestDiscussion(Object projectIdOrPath, Integer mergeRequestIid,
             String body, Date createdAt, String positionHash, Position position) throws GitLabApiException {
 
-        if (position == null) {
-            throw new GitLabApiException("position instance can not be null");
-        }
-
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true)
                 .withParam("created_at", createdAt)
-                .withParam("position", positionHash)
-                .withParam("position[base_sha]", position.getBaseSha(), true)
+                .withParam("position", positionHash);
+
+        if (position != null) {
+            formData.withParam("position[base_sha]", position.getBaseSha(), true)
                 .withParam("position[start_sha]", position.getStartSha(), true)
                 .withParam("position[head_sha]", position.getHeadSha(), true)
                 .withParam("position[position_type]", position.getPositionType(), true)
@@ -329,6 +327,7 @@ public class DiscussionsApi extends AbstractApi {
                 .withParam("position[height]", position.getHeight())
                 .withParam("position[x]", position.getX())
                 .withParam("position[y]", position.getY());
+        }
 
         Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "discussions");
