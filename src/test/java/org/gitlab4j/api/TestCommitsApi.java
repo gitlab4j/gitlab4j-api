@@ -21,6 +21,7 @@ import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitAction;
 import org.gitlab4j.api.models.CommitAction.Action;
+import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CommitRef;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Project;
@@ -284,6 +285,50 @@ public class TestCommitsApi extends AbstractIntegrationTest {
             fail("Commit should have been rejected due to no content.");
         } catch (GitLabApiException ignore) {
         }
+    }
+
+    @Test
+    public void testCreateCommitWithPayload() throws GitLabApiException {
+
+        String TEST_BRANCH = "create_commit_from_payload";
+
+        Optional<Branch> testBranch = gitLabApi.getRepositoryApi().getOptionalBranch(testProject, TEST_BRANCH);
+        if (!testBranch.isPresent()) {
+            gitLabApi.getRepositoryApi().createBranch(testProject, TEST_BRANCH, "master");
+        }
+
+        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH).isPresent()) {
+            try {
+                gitLabApi.getRepositoryFileApi().deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH, "Deleted test file");
+            } catch (GitLabApiException ignore) {}
+        }
+
+        // Arrange
+        CommitPayload commitPayload = new CommitPayload()
+                .withBranch(TEST_BRANCH)
+                .withCommitMessage("Testing createCommit() create action")
+                .withAction(Action.CREATE, "This is the original data in the file", TEST_CREATE_COMMIT_FILEPATH);
+
+        // Act
+        Commit commit = gitLabApi.getCommitsApi().createCommit(testProject, commitPayload);
+
+        // Assert
+        assertNotNull(commit);
+
+        // Arrange
+        commitPayload = new CommitPayload()
+                .withBranch(TEST_BRANCH)
+                .withCommitMessage("Testing createCommit() delete action")
+                .withAction(Action.DELETE, TEST_CREATE_COMMIT_FILEPATH);
+
+        // Act
+        commit = gitLabApi.getCommitsApi().createCommit(testProject, commitPayload);
+
+        // Assert
+        assertNotNull(commit);
+
+        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH);
+        assertFalse(repoFile.isPresent());
     }
 
     @Test

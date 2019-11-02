@@ -669,7 +669,30 @@ public class CommitsApi extends AbstractApi {
     public Commit createCommit(Object projectIdOrPath, String branch, String commitMessage, String startBranch,
             String authorEmail, String authorName, List<CommitAction> actions) throws GitLabApiException {
 
+        CommitPayload payload = new CommitPayload()
+                .withBranch(branch)
+                .withStartBranch(startBranch)
+                .withCommitMessage(commitMessage)
+                .withAuthorEmail(authorEmail)
+                .withAuthorName(authorName)
+                .withActions(actions);
+        return (createCommit(projectIdOrPath, payload));
+    }
+
+    /**
+     * Create a commit with multiple files and actions.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param payload a CommitPayload instance holding the parameters for the commit
+     * @return the created Commit instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Commit createCommit(Object projectIdOrPath, CommitPayload payload) throws GitLabApiException {
+
         // Validate the actions
+	List<CommitAction> actions = payload.getActions();
         if (actions == null || actions.isEmpty()) {
             throw new GitLabApiException("actions cannot be null or empty.");
         }
@@ -686,13 +709,9 @@ public class CommitsApi extends AbstractApi {
             }
         }
 
-        CommitPayload payload = new CommitPayload();
-        payload.setBranch(branch);
-        payload.setCommitMessage(commitMessage);
-        payload.setStartBranch(startBranch);
-        payload.setAuthorEmail(authorEmail);
-        payload.setAuthorName(authorName);
-        payload.setActions(actions);
+        if (payload.getStartProject() != null) {
+            payload.setStartProject(getProjectIdOrPath(payload.getStartProject()));
+        }
 
         Response response = post(Response.Status.CREATED, payload,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits");
