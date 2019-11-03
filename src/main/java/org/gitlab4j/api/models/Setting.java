@@ -64,9 +64,9 @@ public enum Setting {
 
     /**
      * Set the duration for which the jobs will be considered as old and expired. 
-     * Once that time passes, the jobs will be archived and no longer able to be 
-     * retried. Make it empty to never expire jobs. It has to be no less than 
-     * 1 day, for example: 15 days, 1 month, 2 years.
+     * Once that time passes, the jobs will be archived and no longer able to be  retried.
+     * Make it empty to never expire jobs. It has to be no less than 1 day,
+     * for example: 15 days, 1 month, 2 years.
      */
     ARCHIVE_BUILDS_IN_HUMAN_READABLE(String.class),
 
@@ -91,9 +91,9 @@ public enum Setting {
 
     /**
      * By default, we write to the authorized_keys file to support Git over SSH
-     * without additional configuration. GitLab can be optimized to authenticate
-     * SSH keys via the database file. Only disable this if you have configured
-     * your OpenSSH server to use the AuthorizedKeysCommand.
+     * without additional configuration. GitLab can be optimized to authenticate SSH
+     * keys via the database file. Only disable this if you have configured your
+     * OpenSSH server to use the AuthorizedKeysCommand.
      */
     AUTHORIZED_KEYS_ENABLED(Boolean.class),
 
@@ -117,10 +117,25 @@ public enum Setting {
     CHECK_NAMESPACE_PLAN(Boolean.class),
 
     /**
+     * required by: {@link #CLIENTSIDE_SENTRY_DSN} Clientside Sentry Data Source Name.
+     * removed by the following commit https://gitlab.com/gitlab-org/gitlab/commit/31c8ca6defd36bd08209ecc8c5913631c316ce37
+     * @deprecated Will be removed in a future version of gitlab4j-api
+     */
+    @Deprecated
+    CLIENTSIDE_SENTRY_DSN(String.class),
+    
+    /**
+     * (<strong>If enabled, requires:</strong> {@link #CLIENTSIDE_SENTRY_DSN}) Enable Sentry error reporting for the client side.
+     * @deprecated Will be removed in a future version of gitlab4j-api
+     */
+    @Deprecated
+    CLIENTSIDE_SENTRY_ENABLED(Boolean.class),
+    
+    /**
      * Custom hostname (for private commit emails).
      */
     COMMIT_EMAIL_HOSTNAME(String.class),
-    
+
     /**
      * Container Registry token duration in minutes.
      */
@@ -132,18 +147,18 @@ public enum Setting {
     DEFAULT_ARTIFACTS_EXPIRE_IN(String.class),
 
     /**
-     * Determine if developers can push to master. Can take: 0 (not protected,
-     * both developers and maintainers can push new commits, force push, or delete
-     * the branch), 1 (partially protected, developers and maintainers can push
-     * new commits, but cannot force push or delete the branch) or 2 (fully
-     * protected, developers cannot push new commits, but maintainers can; no-one
-     * can force push or delete the branch) as a parameter. Default is 2.
+     * Determine if developers can push to master. Can take: 0 (not protected, both
+     * developers and maintainers can push new commits, force push, or delete the
+     * branch), 1 (partially protected, developers and maintainers can push new
+     * commits, but cannot force push or delete the branch) or 2 (fully protected,
+     * developers cannot push new commits, but maintainers can; no-one can force
+     * push or delete the branch) as a parameter. Default is 2.
      */
     DEFAULT_BRANCH_PROTECTION(Integer.class),
 
     /**
-     * What visibility level new groups receive. Can take private, internal
-     * and public as a parameter. Default is private.
+     * What visibility level new groups receive. Can take private, internal and
+     * public as a parameter. Default is private.
      */
     DEFAULT_GROUP_VISIBILITY(String.class),
 
@@ -199,8 +214,11 @@ public enum Setting {
     DOMAIN_BLACKLIST_ENABLED(Boolean.class),
 
     /**
-     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * @deprecated Use {@link Setting#DOMAIN_BLACKLIST} instead. Will be removed in API v5
+     * see https://gitlab.com/gitlab-org/gitlab/commit/85776fa3ffba6f641cf981cb0107f0e4ba882f3e#40f8529fa8ed874d8e312edb04db18420bf06d31_185_185
      */
+    @Deprecated
     DOMAIN_BLACKLIST_RAW(String.class),
 
     /**
@@ -210,8 +228,11 @@ public enum Setting {
     DOMAIN_WHITELIST(String[].class),
 
     /**
-     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * @deprecated Use {@link #DOMAIN_WHITELIST} instead. Will be removed in API v5
+     * see https://gitlab.com/gitlab-org/gitlab/commit/85776fa3ffba6f641cf981cb0107f0e4ba882f3e#40f8529fa8ed874d8e312edb04db18420bf06d31_185_185
      */
+    @Deprecated
     DOMAIN_WHITELIST_RAW(String.class),
 
     /**
@@ -233,14 +254,14 @@ public enum Setting {
     ED25519_KEY_RESTRICTION(Integer.class),
 
     /**
-     * (PREMIUM | SILVER) AWS IAM access key
-     */
-    ELASTICSEARCH_AWS_ACCESS_KEY(String.class),
-
-    /**
      * (PREMIUM | SILVER) Enable the use of AWS hosted Elasticsearch
      */    
     ELASTICSEARCH_AWS(Boolean.class),
+
+    /**
+     * (PREMIUM | SILVER) AWS IAM access key
+     */
+    ELASTICSEARCH_AWS_ACCESS_KEY(String.class),
 
     /**
      * (PREMIUM | SILVER) The AWS region the Elasticsearch domain is configured
@@ -252,6 +273,15 @@ public enum Setting {
      */
     ELASTICSEARCH_AWS_SECRET_ACCESS_KEY(String.class),
 
+    /**
+     * (PREMIUM | SILVER) Use the experimental elasticsearch indexer. More info: 
+     * https://gitlab.com/gitlab-org/gitlab-elasticsearch-indexer
+     * Ruby indexer was removed and go indexer is no more experimental.
+     * @deprecated removed in Gitlab 12.3. see https://gitlab.com/gitlab-org/gitlab/commit/82ba4a6a5c78501413012a9f2a918aa7353917a0?view=parallel#fbf64e6b8170f05f1b940fb05902d29f9eba3633_223_223
+     */
+    @Deprecated
+    ELASTICSEARCH_EXPERIMENTAL_INDEXER(Boolean.class),
+    
     /**
      * (PREMIUM | SILVER) Enable Elasticsearch indexing
      */
@@ -318,7 +348,7 @@ public enum Setting {
      * certificate to use to authenticate with the external authorization service
      */
     EXTERNAL_AUTH_CLIENT_CERT(String.class),
-    
+
     /**
      * required by: {@link #EXTERNAL_AUTH_CLIENT_CERT} Private key for the certificate
      * when authentication is required for the external authorization service, this is
@@ -327,15 +357,15 @@ public enum Setting {
     EXTERNAL_AUTH_CLIENT_KEY(String.class),
 
     /**
-     * Passphrase to use for the private key when authenticating with the external
-     * service this is encrypted when stored
+     * Passphrase to use for the private key when authenticating with the
+     * external service this is encrypted when stored
      */
     EXTERNAL_AUTH_CLIENT_KEY_PASS(String.class),
 
     /**
      * required by: {@link #EXTERNAL_AUTHORIZATION_SERVICE_ENABLED} The default
-     * classification label to use when requesting authorization and no classification
-     * label has been specified on the project
+     * classification label to use when requesting authorization and no
+     * classification label has been specified on the project
      */
     EXTERNAL_AUTHORIZATION_SERVICE_DEFAULT_LABEL(String.class),
 
@@ -365,8 +395,8 @@ public enum Setting {
     FILE_TEMPLATE_PROJECT_ID(Integer.class),
 
     /**
-     * Start day of the week for calendar views and date pickers. Valid values are 0 (default)
-     * for Sunday, 1 for Monday, and 6 for Saturday.
+     * Start day of the week for calendar views and date pickers. Valid values are 0
+     * (default) for Sunday, 1 for Monday, and 6 for Saturday.
      */
     FIRST_DAY_OF_WEEK(Integer.class),
 
@@ -375,7 +405,7 @@ public enum Setting {
      * For example, 1.1.1.1, 2.2.2.0/24.
      */
     GEO_NODE_ALLOWED_IPS(String.class),
-    
+
     /**
      * (PREMIUM | SILVER) The amount of seconds after which a request to get a secondary node
      * status will time out.
@@ -383,22 +413,22 @@ public enum Setting {
     GEO_STATUS_TIMEOUT(Integer.class),
 
     /**
-     * Default Gitaly timeout, in seconds. This timeout is not enforced for Git fetch/push
-     * operations or Sidekiq jobs. Set to 0 to disable timeouts.
+     * Default Gitaly timeout, in seconds. This timeout is not enforced for Git
+     * fetch/push operations or Sidekiq jobs. Set to 0 to disable timeouts.
      */
     GITALY_TIMEOUT_DEFAULT(Integer.class),
 
     /**
-     * Gitaly fast operation timeout, in seconds. Some Gitaly operations are expected to be
-     * fast. If they exceed this threshold, there may be a problem with a storage shard and
-     * ‘failing fast’ can help maintain the stability of the GitLab instance. Set to 0 to
-     * disable timeouts.
+     * Gitaly fast operation timeout, in seconds. Some Gitaly operations are
+     * expected to be fast. If they exceed this threshold, there may be a problem
+     * with a storage shard and ‘failing fast’ can help maintain the stability of
+     * the GitLab instance. Set to 0 to disable timeouts.
      */
     GITALY_TIMEOUT_FAST(Integer.class),
 
     /**
-     * Medium Gitaly timeout, in seconds. This should be a value between the Fast and the
-     * Default timeout. Set to 0 to disable timeouts.
+     * Medium Gitaly timeout, in seconds. This should be a value between the Fast
+     * and the Default timeout. Set to 0 to disable timeouts.
      */
     GITALY_TIMEOUT_MEDIUM(Integer.class),
 
@@ -508,7 +538,9 @@ public enum Setting {
     LOCAL_MARKDOWN_VERSION(Integer.class),
 
     /**
-     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * Was added with this commit https://gitlab.com/gitlab-org/gitlab/commit/30e7f01877fd436e21efdf0974d42d8fc83f4883
+     * @since 2019-07-18
      */
     LOGIN_RECAPTCHA_PROTECTION_ENABLED(Boolean.class),
 
@@ -541,8 +573,8 @@ public enum Setting {
     METRICS_HOST(String.class),
 
     /**
-     * required by: {@link #METRICS_ENABLED} A method call is only tracked when it takes longer
-     * than the given amount of milliseconds.
+     * required by: {@link #METRICS_ENABLED} A method call is only tracked when it takes
+     * longer than the given amount of milliseconds.
      */
     METRICS_METHOD_CALL_THRESHOLD(Integer.class),
 
@@ -584,15 +616,15 @@ public enum Setting {
      * preemptively
      */
     MIRROR_CAPACITY_THRESHOLD(Integer.class),
-    
+
     /**
      * (PREMIUM | SILVER) Maximum number of mirrors that can be synchronizing at the same time.
      */
     MIRROR_MAX_CAPACITY(Integer.class),
-    
+
     /**
-     * (PREMIUM | SILVER) Maximum time (in minutes) between updates that a mirror can have when
-     * scheduled to synchronize.
+     * (PREMIUM | SILVER) Maximum time (in minutes) between updates that a mirror can have
+     * when scheduled to synchronize.
      */
     MIRROR_MAX_DELAY(Integer.class),
 
@@ -603,21 +635,24 @@ public enum Setting {
     OUTBOUND_LOCAL_REQUESTS_WHITELIST(String[].class),
     
     /**
-     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * Added with this commit https://gitlab.com/gitlab-org/gitlab/commit/336046254cfe69d795bc8ea454daaf5a35b60eac
      */
     OUTBOUND_LOCAL_REQUESTS_WHITELIST_RAW(String.class),
 
     /**
-     * Require users to prove ownership of custom domains. Domain verification is an essential
-     * security measure for public GitLab sites. Users are required to demonstrate they control a
-     * domain before it is enabled.
+     * Require users to prove ownership of custom domains. Domain verification is an
+     * essential security measure for public GitLab sites. Users are required to
+     * demonstrate they control a domain before it is enabled.
      */
     PAGES_DOMAIN_VERIFICATION_ENABLED(Boolean.class),
 
     /**
-     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
-     * TODO verify if it was present in a old version and if it's available for retro-compatibility.
+     * NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * Present for retro-compatibility purpose. See https://gitlab.com/gitlab-org/gitlab/commit/63b2082979efe182daf78e8269b252ccc73f93fc#958cb0573403da359fda7dac60baf49147a5c538_166_181
+     * @deprecated Use {@link #PASSWORD_AUTHENTICATION_ENABLED_FOR_WEB} instead.
      */
+    @Deprecated
     PASSWORD_AUTHENTICATION_ENABLED(Boolean.class),
 
     /**
@@ -632,7 +667,7 @@ public enum Setting {
 
     /**
      * Path of the group that is allowed to toggle the performance bar.
-     * @deprecated Use {@link #PERFORMANCE_BAR_ALLOWED_GROUP_PATH} instead 
+     * @deprecated Use {@link #PERFORMANCE_BAR_ALLOWED_GROUP_PATH} instead.
      */
     @Deprecated
     PERFORMANCE_BAR_ALLOWED_GROUP_ID(String.class),
@@ -661,9 +696,8 @@ public enum Setting {
     PLANTUML_URL(String.class),
 
     /**
-     * Interval multiplier used by endpoints that perform polling. Set to 0 to disable
-     * polling.
-     * TODO verify type of {@link #POLLING_INTERVAL_MULTIPLIER}
+     * Interval multiplier used by endpoints that perform polling. Set to 0 to disable polling.
+     * The documentation liusts this as a decimal, but it is a String in the JSON.
      */
     POLLING_INTERVAL_MULTIPLIER(String.class),
 
@@ -726,8 +760,8 @@ public enum Setting {
     RECEIVE_MAX_INPUT_SIZE(Integer.class),
 
     /**
-     * GitLab will periodically run git fsck in all project and wiki repositories to look for
-     * silent disk corruption issues.
+     * GitLab will periodically run git fsck in all project and wiki repositories to
+     * look for silent disk corruption issues.
      */
     REPOSITORY_CHECKS_ENABLED(Boolean.class),
 
@@ -735,10 +769,10 @@ public enum Setting {
      * (PREMIUM | SILVER) Size limit per repository (MB)
      */
     REPOSITORY_SIZE_LIMIT(Integer.class),
-    
+
     /**
-     * A list of names of enabled storage paths, taken from gitlab.yml. New projects will be
-     * created in one of these stores, chosen at random.
+     * A list of names of enabled storage paths, taken from gitlab.yml. New projects
+     * will be created in one of these stores, chosen at random.
      */
     REPOSITORY_STORAGES(String[].class),
 
@@ -749,17 +783,17 @@ public enum Setting {
     REQUIRE_TWO_FACTOR_AUTHENTICATION(Boolean.class),
 
     /**
-     * Selected levels cannot be used by non-admin users for groups, projects or snippets. Can
-     * take private, internal and public as a parameter. Default is null which means there is
-     * no restriction.
+     * Selected levels cannot be used by non-admin users for groups, projects or
+     * snippets. Can take private, internal and public as a parameter. Default is
+     * null which means there is no restriction.
      */
     RESTRICTED_VISIBILITY_LEVELS(String[].class),
 
     /**
-     * The minimum allowed bit length of an uploaded RSA key. Default is 0 (no restriction).
-     * -1 disables RSA keys.
+     * The minimum allowed bit length of an uploaded RSA key. Default is 0 (no
+     * restriction). -1 disables RSA keys.
      */
-    RSA_KEY_RESTRICTION(Boolean.class),
+    RSA_KEY_RESTRICTION(Integer.class),
 
     /**
      * Send confirmation email on sign-up.
@@ -778,7 +812,7 @@ public enum Setting {
     SHARED_RUNNERS_ENABLED(Boolean.class),
 
     /**
-     * required by: {@link #SHARED_RUNNERS_ENABLED} (PREMIUM | SILVER) Set the maximum number
+     * (PREMIUM | SILVER) required by: {@link #SHARED_RUNNERS_ENABLED} Set the maximum number
      * of pipeline minutes that a group can use on shared Runners per month.
      */
     SHARED_RUNNERS_MINUTES(Integer.class), 
@@ -795,10 +829,11 @@ public enum Setting {
 
     /**
      * Flag indicating if password authentication is enabled for the web interface.
+     * Documentation lists this as a String, but it s a Boolean.
      * @deprecated Use {@link #PASSWORD_AUTHENTICATION_ENABLED_FOR_WEB} instead
      */
     @Deprecated
-    SIGNIN_ENABLED(String.class),
+    SIGNIN_ENABLED(Boolean.class),
 
     /**
      * Enable registration. Default is true.
@@ -808,10 +843,9 @@ public enum Setting {
     /**
      * (PREMIUM | SILVER) (<strong>If enabled, requires:</strong> {@link #SLACK_APP_ID},
      * {@link #SLACK_APP_SECRET} and {@link #SLACK_APP_VERIFICATION_TOKEN}) Enable Slack app.
-     * TODO : fix documentation on gitlab https://docs.gitlab.com/ee/api/settings.html
      */
     SLACK_APP_ENABLED(Boolean.class),
-    
+
     /**
      * (PREMIUM | SILVER) required by: {@link #SLACK_APP_ENABLED} The app id of the Slack-app.
      */
@@ -841,6 +875,7 @@ public enum Setting {
     SNOWPLOW_COOKIE_DOMAIN(String.class),
 
     /**
+     * (<strong>If enabled, requires:</strong> {@link #SNOWPLOW_COLLECTOR_HOSTNAME}) 
      * Enable snowplow tracking.
      */
     SNOWPLOW_ENABLED(Boolean.class),
@@ -857,19 +892,21 @@ public enum Setting {
     PENDO_URL(String.class),
     
     /**
-     * Enable pendo tracking.
+     * (<strong>If enabled, requires:</strong> {@link #PENDO_URL}) Enable pendo tracking.
      */
     PENDO_ENABLED(Boolean.class),
 
     /**
-     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * https://gitlab.com/gitlab-org/gitlab/commit/85975447a2b70d1654f2f8163f55d369e130ef2b
      */
-    STATIC_OBJECTS_EXTERNAL_STORAGE_AUTH_TOKEN(Boolean.class),
+    STATIC_OBJECTS_EXTERNAL_STORAGE_AUTH_TOKEN(String.class),
 
     /**
-     * TODO NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
+     * https://gitlab.com/gitlab-org/gitlab/commit/85975447a2b70d1654f2f8163f55d369e130ef2b
      */
-    STATIC_OBJECTS_EXTERNAL_STORAGE_URL(Boolean.class),
+    STATIC_OBJECTS_EXTERNAL_STORAGE_URL(String.class),
 
     /**
      * Maximum time for web terminal websocket connection (in seconds). Set to 0 for
@@ -939,8 +976,8 @@ public enum Setting {
     TIME_TRACKING_LIMIT_TO_HOURS(Boolean.class),
 
     /**
-     * required by: {@link #REQUIRE_TWO_FACTOR_AUTHENTICATION} Amount of time (in hours)
-     * that users are allowed to skip forced configuration of two-factor authentication.
+     * required by: {@link #REQUIRE_TWO_FACTOR_AUTHENTICATION} Amount of time (in hours) that
+     * users are allowed to skip forced configuration of two-factor authentication.
      */
     TWO_FACTOR_GRACE_PERIOD(Integer.class),
 
@@ -982,8 +1019,8 @@ public enum Setting {
     USER_OAUTH_APPLICATIONS(Boolean.class),
 
     /**
-     * When set to false disable the “You won’t be able to pull or push project code via SSH”
-     * warning shown to users with no uploaded SSH key.
+     * When set to false disable the “You won’t be able to pull or push project code
+     * via SSH” warning shown to users with no uploaded SSH key.
      */
     USER_SHOW_ADD_SSH_KEY_MESSAGE(Boolean.class),
 
