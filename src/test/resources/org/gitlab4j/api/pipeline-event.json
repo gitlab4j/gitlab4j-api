@@ -6,6 +6,7 @@
       "tag": false,
       "sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
       "before_sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+      "source": "merge_request_event",
       "status": "success",
       "stages":[
          "build",

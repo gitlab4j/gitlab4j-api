@@ -75,6 +75,7 @@ public class PipelineEvent extends AbstractEvent {
         private Boolean tag;
         private String sha;
         private String beforeSha;
+        private String source;
         private String status;
         private List<String> stages;
         private Date createdAt;
@@ -120,6 +121,14 @@ public class PipelineEvent extends AbstractEvent {
 
         public void setBeforeSha(String beforeSha) {
             this.beforeSha = beforeSha;
+        }
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
         }
 
         public String getStatus() {
