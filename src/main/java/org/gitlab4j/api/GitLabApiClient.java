@@ -234,6 +234,11 @@ public class GitLabApiClient {
             }
         }
 
+        // Disable auto-discovery of feature and services lookup, this will force Jersey
+        // to use the features and services explicitly configured by gitlab4j
+        clientConfig.property(ClientProperties.FEATURE_AUTO_DISCOVERY_DISABLE, true);
+        clientConfig.property(ClientProperties.METAINF_SERVICES_LOOKUP_DISABLE, true);
+
         clientConfig.register(JacksonJson.class);
         clientConfig.register(MultiPartFeature.class);
     }
