@@ -85,8 +85,8 @@ public enum Setting {
      * Assets that match these domain(s) will NOT be proxied. Wildcards allowed.
      * Your GitLab installation URL is automatically whitelisted. GitLab restart
      * is required to apply changes.
-     * TODO according to documentation : string or array of strings => How to do this?
      */
+    //TODO according to documentation : string or array of strings => How to do this?
     ASSET_PROXY_WHITELIST(String.class), 
 
     /**
@@ -314,7 +314,7 @@ public enum Setting {
      * (PREMIUM | SILVER) The url to use for connecting to Elasticsearch.
      * Use a comma-separated list to support cluster (e.g., http://localhost:9200,
      * http://localhost:9201"). If your Elasticsearch instance is password
-     * protected, pass the username:password in the URL (e.g., http://<username>:<password>@<elastic_host>:9200/).
+     * protected, pass the username:password in the URL (e.g., http://username:password@elastic_host:9200/).
      */
     ELASTICSEARCH_URL(String.class),
 
