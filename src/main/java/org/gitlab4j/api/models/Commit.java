@@ -163,9 +163,13 @@ public class Commit {
         this.url = url;
     }
 
-    public Pipeline getLastPipeline() { return lastPipeline; }
+    public Pipeline getLastPipeline() {
+	return lastPipeline;
+    }
 
-    public void setLastPipeline(Pipeline lastPipeline) { this.lastPipeline = lastPipeline; }
+    public void setLastPipeline(Pipeline lastPipeline) {
+	this.lastPipeline = lastPipeline;
+    }
 
     public Commit withAuthor(Author author) {
         this.author = author;
