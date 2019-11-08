@@ -25,6 +25,7 @@ public class Commit {
     private Date timestamp;
     private String title;
     private String url;
+    private String ref;
 
     public Author getAuthor() {
         return author;
@@ -162,6 +163,9 @@ public class Commit {
         this.url = url;
     }
 
+    public String getRef() { return ref; }
+
+    public void setRef() { this.ref = ref; }
 
     public Commit withAuthor(Author author) {
         this.author = author;
