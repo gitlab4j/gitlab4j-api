@@ -25,6 +25,7 @@ public class Commit {
     private Date timestamp;
     private String title;
     private String url;
+    private Pipeline lastPipeline;
 
     public Author getAuthor() {
         return author;
@@ -162,6 +163,9 @@ public class Commit {
         this.url = url;
     }
 
+    public Pipeline getLastPipeline() { return lastPipeline; }
+
+    public void setLastPipeline(Pipeline lastPipeline) { this.lastPipeline = lastPipeline; }
 
     public Commit withAuthor(Author author) {
         this.author = author;
