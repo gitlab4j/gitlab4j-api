@@ -59,6 +59,7 @@ public class GitLabApi {
     private ContainerRegistryApi containerRegistryApi;
     private DiscussionsApi discussionsApi;
     private DeployKeysApi deployKeysApi;
+    private EnvironmentsApi environmentsApi;
     private EpicsApi epicsApi;
     private EventsApi eventsApi;
     private GroupApi groupApi;
@@ -1052,6 +1053,25 @@ public class GitLabApi {
         }
 
         return (discussionsApi);
+    }
+
+    /**
+     * Gets the EnvironmentsApi instance owned by this GitLabApi instance. The EnvironmentsApi is used
+     * to perform all environment related API calls.
+     *
+     * @return the EnvironmentsApi instance owned by this GitLabApi instance
+     */
+    public EnvironmentsApi getEnvironmentsApi() {
+
+        if (environmentsApi == null) {
+            synchronized (this) {
+                if (environmentsApi == null) {
+                    environmentsApi = new EnvironmentsApi(this);
+                }
+            }
+        }
+
+        return (environmentsApi);
     }
 
     /**

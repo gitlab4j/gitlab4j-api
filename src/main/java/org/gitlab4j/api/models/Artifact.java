@@ -11,7 +11,7 @@ public class Artifact {
     public enum FileType {
         ARCHIVE, METADATA, TRACE, JUNIT;
 
-        private static JacksonJsonEnumHelper<FileType> enumHelper = new JacksonJsonEnumHelper<>(FileType.class, true);
+        private static JacksonJsonEnumHelper<FileType> enumHelper = new JacksonJsonEnumHelper<>(FileType.class);
 
         @JsonCreator
         public static FileType forValue(String value) {

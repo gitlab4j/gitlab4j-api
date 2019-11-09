@@ -48,9 +48,11 @@ import org.gitlab4j.api.models.CommitStatus;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Contributor;
 import org.gitlab4j.api.models.DeployKey;
+import org.gitlab4j.api.models.Deployment;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Discussion;
 import org.gitlab4j.api.models.Email;
+import org.gitlab4j.api.models.Environment;
 import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.Event;
@@ -189,9 +191,21 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testDeployment() throws Exception {
+	Deployment deployment = unmarshalResource(Deployment.class, "deployment.json");
+        assertTrue(compareJson(deployment, "deployment.json"));
+    }
+
+    @Test
     public void testEmails() throws Exception {
         List<Email> emails = unmarshalResourceList(Email.class, "emails.json");
         assertTrue(compareJson(emails, "emails.json"));
+    }
+
+    @Test
+    public void testEnvironment() throws Exception {
+        Environment environment = unmarshalResource(Environment.class, "environment.json");
+        assertTrue(compareJson(environment, "environment.json"));
     }
 
     @Test
