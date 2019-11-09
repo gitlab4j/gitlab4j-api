@@ -25,6 +25,11 @@ public class JsonUtils {
         jacksonJson.getObjectMapper().configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
     }
 
+    static JsonNode readTreeFromMap(Map<String, Object> map) throws JsonParseException, JsonMappingException, IOException {
+	String jsonString = jacksonJson.getObjectMapper().writeValueAsString(map);
+        return (jacksonJson.readTree(jsonString));
+    }
+    
     static JsonNode readTreeFromString(String jsonString) throws JsonParseException, JsonMappingException, IOException {
         return (jacksonJson.readTree(jsonString));
     }
@@ -116,9 +121,13 @@ public class JsonUtils {
     }
 
     static void sortedDump(final JsonNode node) throws JsonProcessingException {
-        final Object obj = jacksonJson.getObjectMapper().treeToValue(node, Object.class);
-        System.err.println(jacksonJson.getObjectMapper().writeValueAsString(obj));
+        System.err.println(sortedJsonString(node));
         System.err.flush();
+    }
+
+    static String sortedJsonString(final JsonNode node) throws JsonProcessingException {
+        final Object obj = jacksonJson.getObjectMapper().treeToValue(node, Object.class);
+        return (jacksonJson.getObjectMapper().writeValueAsString(obj));
     }
 
     static String readResource(String filename) throws IOException {

@@ -6,6 +6,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+
 /**
  * This enum provides constants and value validation for the available GitLab application settings.
  * See <a href="https://docs.gitlab.com/ce/api/settings.html#list-of-settings-that-can-be-accessed-via-api-calls">
@@ -87,7 +88,7 @@ public enum Setting {
      * is required to apply changes.
      */
     //TODO according to documentation : string or array of strings => How to do this?
-    ASSET_PROXY_WHITELIST(String.class), 
+    ASSET_PROXY_WHITELIST(new Class<?>[]{String.class, String[].class}), 
 
     /**
      * By default, we write to the authorized_keys file to support Git over SSH
@@ -166,7 +167,7 @@ public enum Setting {
      * Default project creation protection. Can take: 0 (No one), 1 (Maintainers)
      * or 2 (Developers + Maintainers)
      */
-    DEFAULT_PROJECT_CREATION(String.class),
+    DEFAULT_PROJECT_CREATION(Integer.class),
 
     /**
      * What visibility level new projects receive. Can take private, internal and
@@ -666,11 +667,11 @@ public enum Setting {
     PASSWORD_AUTHENTICATION_ENABLED_FOR_WEB(Boolean.class),
 
     /**
-     * Path of the group that is allowed to toggle the performance bar.
+     * ID of the group that is allowed to toggle the performance bar.
      * @deprecated Use {@link #PERFORMANCE_BAR_ALLOWED_GROUP_PATH} instead.
      */
     @Deprecated
-    PERFORMANCE_BAR_ALLOWED_GROUP_ID(String.class),
+    PERFORMANCE_BAR_ALLOWED_GROUP_ID(Integer.class),
 
     /**
      * Path of the group that is allowed to toggle the performance bar.
@@ -697,7 +698,7 @@ public enum Setting {
 
     /**
      * Interval multiplier used by endpoints that perform polling. Set to 0 to disable polling.
-     * The documentation liusts this as a decimal, but it is a String in the JSON.
+     * The documentation lists this as a decimal, but it is a String in the JSON.
      */
     POLLING_INTERVAL_MULTIPLIER(String.class),
 
@@ -1038,12 +1039,13 @@ public enum Setting {
     private static JacksonJsonEnumHelper<Setting> enumHelper = new JacksonJsonEnumHelper<>(Setting.class);
 
     private Class<?> type;
+    private Class<?>[] types;
     private Setting(Class<?> type) {
         this.type = type;
     }
 
-    public final Class<?> getType() {
-        return (type);
+    private Setting(Class<?>[] types) {
+        this.types = types;
     }
 
     @JsonCreator
@@ -1068,8 +1070,24 @@ public enum Setting {
      * @param value the value to validate
      * @return true if the value is of the correct type or null
      */
-    public boolean isValid(Object value) {
-        return (value == null || value.getClass() == type);
+    public final boolean isValid(Object value) {
+
+	if (value == null) {
+	    return (true);
+	}
+
+	Class<?> valueType = value.getClass();
+	if (type != null) {
+	    return (valueType == type);
+	}
+	
+	for (Class<?> type : types) {
+	    if (valueType == type) {
+		return (true);
+	    }
+	}
+
+	return (false);
     }
 
     /**
@@ -1085,8 +1103,13 @@ public enum Setting {
             return;
         }
 
+        StringBuilder shouldBe = new StringBuilder(types[0].getSimpleName());
+        for (int i = 1; i < types.length; i++) {
+            shouldBe.append(" | ").append(types[i].getSimpleName());
+        }
+
         String errorMsg = String.format("'%s' value is of incorrect type, is %s, should be %s",
-                toValue(), value.getClass().getSimpleName(), getType().getSimpleName());
+                toValue(), value.getClass().getSimpleName(), shouldBe.toString());
         throw new GitLabApiException(errorMsg);
     }
 }
