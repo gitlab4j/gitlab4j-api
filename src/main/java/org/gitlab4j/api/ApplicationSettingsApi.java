@@ -107,7 +107,7 @@ public class ApplicationSettingsApi extends AbstractApi {
      * @return the populated ApplicationSettings instance
      * @throws GitLabApiException if any error occurs
      */
-    private final ApplicationSettings parseApplicationSettings(JsonNode root) throws GitLabApiException {
+    public static final ApplicationSettings parseApplicationSettings(JsonNode root) throws GitLabApiException {
 
         ApplicationSettings appSettings = new ApplicationSettings();
 
@@ -122,7 +122,8 @@ public class ApplicationSettingsApi extends AbstractApi {
 
             case "created_at":
                 try {
-                    appSettings.setCreatedAt(ISO8601.toDate(root.path(fieldName).asText()));
+                    String value = root.path(fieldName).asText();
+                    appSettings.setCreatedAt(ISO8601.toDate(value));
                 } catch (ParseException pe) {
                     throw new GitLabApiException(pe);
                 }
@@ -130,7 +131,8 @@ public class ApplicationSettingsApi extends AbstractApi {
 
             case "updated_at":
                 try {
-                    appSettings.setUpdatedAt(ISO8601.toDate(root.path(fieldName).asText()));
+                    String value = root.path(fieldName).asText();
+                    appSettings.setUpdatedAt(ISO8601.toDate(value));
                 } catch (ParseException pe) {
                     throw new GitLabApiException(pe);
                 }

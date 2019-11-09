@@ -24,6 +24,7 @@
 package org.gitlab4j.api;
 
 import static org.gitlab4j.api.JsonUtils.compareJson;
+import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
 import static org.gitlab4j.api.JsonUtils.unmarshalResource;
 import static org.gitlab4j.api.JsonUtils.unmarshalResourceList;
 import static org.gitlab4j.api.JsonUtils.unmarshalResourceMap;
@@ -34,6 +35,7 @@ import java.util.Map;
 
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Application;
+import org.gitlab4j.api.models.ApplicationSettings;
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.AwardEmoji;
 import org.gitlab4j.api.models.Badge;
@@ -53,7 +55,6 @@ import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.ExportStatus;
-import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.HealthCheckInfo;
@@ -76,6 +77,7 @@ import org.gitlab4j.api.models.PackageFile;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.ProtectedBranch;
@@ -99,6 +101,8 @@ import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class TestGitLabApiBeans {
 
@@ -416,6 +420,13 @@ public class TestGitLabApiBeans {
     public void testRunnerDetail() throws Exception {
         RunnerDetail runnerDetail = unmarshalResource(RunnerDetail.class, "runner-detail.json");
         assertTrue(compareJson(runnerDetail, "runner-detail.json"));
+    }
+
+    @Test
+    public void testSettings() throws Exception {
+	JsonNode json = readTreeFromResource("application-settings.json");
+        ApplicationSettings applicationSettings = ApplicationSettingsApi.parseApplicationSettings(json);
+        assertTrue(compareJson(applicationSettings.getSettings(), "application-settings.json"));
     }
 
     @Test
