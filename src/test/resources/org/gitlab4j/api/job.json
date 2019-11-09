@@ -30,7 +30,6 @@
       "status": "pending"
     },
     "ref": "master",
-    "artifacts": [],
     "stage": "test",
     "started_at": "2015-12-24T17:54:27.722Z",
     "status": "failed",
