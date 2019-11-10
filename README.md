@@ -50,7 +50,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.12.17'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.12.18'
 }
 ```
 
@@ -61,7 +61,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.12.17</version>
+    <version>4.12.18</version>
 </dependency>
 ```
 
@@ -260,6 +260,7 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[ContainerRegistryApi](#containerregistryapi)<br/>
 &nbsp;&nbsp;[DeployKeysApi](#deploykeysapi)<br/>
 &nbsp;&nbsp;[DiscussionsApi](#discussionsapi)<br/>
+&nbsp;&nbsp;[EnvironmentsApi](#environmentsapi)<br/>
 &nbsp;&nbsp;[EpicsApi](#epicsapi)<br/>
 &nbsp;&nbsp;[EventsApi](#eventsapi)<br/>
 &nbsp;&nbsp;[GroupApi](#groupapi)<br/>
@@ -341,10 +342,17 @@ List<RegistryRepository> registryRepos = gitLabApi.ContainerRegistryApi().getRep
 List<DeployKey> deployKeys = gitLabApi.getDeployKeysApi().getDeployKeys();
 ```
 
+A
 #### DiscussionsApi
 ```java
 // Get a list of Discussions for the specified merge request
-List<DeployKey> deployKeys = gitLabApi.getDiscussionsApi().getMergeRequestDiscussions(projectId, mergeRequestIid);
+List<Discussion> discussions = gitLabApi.getDiscussionsApi().getMergeRequestDiscussions(projectId, mergeRequestIid);
+```
+
+#### EnvironmentsApi
+```java
+// Get a list of Environments for the specified project
+List<Environment> environments = gitLabApi.getEnvironmentsApi().getEnvironments(projectId);
 ```
 
 #### EpicsApi
