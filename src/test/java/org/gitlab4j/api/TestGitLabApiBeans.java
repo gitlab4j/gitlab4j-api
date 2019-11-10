@@ -263,6 +263,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testHealthCheckInfoNew() throws Exception {
+        HealthCheckInfo healthCheck = unmarshalResource(HealthCheckInfo.class, "health-check-new.json");
+        assertTrue(compareJson(healthCheck, "health-check.json"));
+    }
+
+    @Test
     public void testImportStatus() throws Exception {
         ImportStatus importStatus = unmarshalResource(ImportStatus.class, "import-status.json");
         assertTrue(compareJson(importStatus, "import-status.json"));
