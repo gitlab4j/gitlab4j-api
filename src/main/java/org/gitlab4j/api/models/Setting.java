@@ -87,7 +87,6 @@ public enum Setting {
      * Your GitLab installation URL is automatically whitelisted. GitLab restart
      * is required to apply changes.
      */
-    //TODO according to documentation : string or array of strings => How to do this?
     ASSET_PROXY_WHITELIST(new Class<?>[]{String.class, String[].class}), 
 
     /**
@@ -1034,8 +1033,19 @@ public enum Setting {
      * Client side evaluation (allow live previews of JavaScript projects in the Web IDE
      * using CodeSandbox client side evaluation).
      */
-    WEB_IDE_CLIENTSIDE_PREVIEW_ENABLED(Boolean.class);
-    
+    WEB_IDE_CLIENTSIDE_PREVIEW_ENABLED(Boolean.class),
+
+    /*
+     * Undocumented settings as of GitLab 12.4
+     * These are reported but not documented.
+     */
+    CUSTOM_HTTP_CLONE_URL_ROOT(String.class),
+    PROTECTED_PATHS_RAW(String.class),
+    THROTTLE_PROTECTED_PATHS_ENABLED(Boolean.class),
+    THROTTLE_PROTECTED_PATHS_PERIOD_IN_SECONDS(Integer.class),
+    THROTTLE_PROTECTED_PATHS_REQUESTS_PER_PERIOD(Integer.class);
+
+
     private static JacksonJsonEnumHelper<Setting> enumHelper = new JacksonJsonEnumHelper<>(Setting.class);
 
     private Class<?> type;
