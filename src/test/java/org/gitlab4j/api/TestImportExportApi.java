@@ -123,7 +123,7 @@ public class TestImportExportApi extends AbstractIntegrationTest {
         // Act
         gitLabApi.getImportExportApi().scheduleExport(testProject);
 
-        // Wait up to 20 seconds for the export to complete
+        // Wait up to 40 seconds for the export to complete
         System.out.print("Waiting for export to complete");
         int retries = 0;
         while (true) {
@@ -135,7 +135,7 @@ public class TestImportExportApi extends AbstractIntegrationTest {
                 break;
             }
 
-            if (retries >= 20) {
+            if (retries >= 40) {
                 System.out.println("aborting!");
                 fail("Project export is taking too long, failing test.");
             }
@@ -161,7 +161,7 @@ public class TestImportExportApi extends AbstractIntegrationTest {
             assertNotNull(importStatus);
             Integer newProjectId = importStatus.getId();
 
-            // Wait up to 20 seconds for the import to complete
+            // Wait up to 40 seconds for the import to complete
             System.out.print("Waiting for import to complete");
             retries = 0;
             while (true) {
@@ -173,7 +173,7 @@ public class TestImportExportApi extends AbstractIntegrationTest {
                     break;
                 }
 
-                if (retries >= 20) {
+                if (retries >= 40) {
                     System.out.println("aborting!");
                     fail("Project import is taking too long, failing test.");
                 }
