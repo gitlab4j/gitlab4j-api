@@ -2,6 +2,8 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/org.gitlab4j/gitlab4j-api.svg)](http://mvnrepository.com/artifact/org.gitlab4j/gitlab4j-api)
 [![Build Status](https://travis-ci.org/gitlab4j/gitlab4j-api.svg?branch=master)](https://travis-ci.org/gitlab4j/gitlab4j-api)
+[![javadoc.io](https://javadoc.io/badge2/org.gitlab4j/gitlab4j-api/javadoc.io.svg)](https://javadoc.io/doc/org.gitlab4j/gitlab4j-api)
+
 
 GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume Java library for working with GitLab repositories via the GitLab REST API.  Additionally, full support for working with GitLab webhooks and system hooks is also provided.
 
@@ -42,7 +44,8 @@ As of GitLab 11.0 support for the GitLab API v3 has been removed from the GitLab
 As of GitLab4J-API 4.8.0, Java 8+ is now required to use GitLab4J-API.
 
 ### **Javadocs**
-Javadocs are available here: <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?overview-summary.html"  target="_top">Javadocs</a>
+Javadocs are available here: [![javadoc.io](https://javadoc.io/badge2/org.gitlab4j/gitlab4j-api/javadoc.io.svg)](https://javadoc.io/doc/org.gitlab4j/gitlab4j-api)
+
 
 ### **Project Set Up**
 To utilize GitLab4J&trade; API in your Java project, simply add the following dependency to your project's build file:<br /> 
