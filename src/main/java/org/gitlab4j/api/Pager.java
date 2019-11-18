@@ -73,6 +73,10 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
         javaType = mapper.getTypeFactory().constructCollectionType(List.class, type);
 
+        if (itemsPerPage < 1) {
+            itemsPerPage = api.getDefaultPerPage();
+        }
+
         // Make sure the per_page parameter is present
         if (queryParams == null) {
             queryParams = new GitLabApiForm().withParam(PER_PAGE_PARAM, itemsPerPage).asMap();

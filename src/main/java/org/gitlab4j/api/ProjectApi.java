@@ -40,6 +40,8 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
+import org.gitlab4j.api.models.ApprovalRule;
+import org.gitlab4j.api.models.ApprovalRuleParams;
 import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
@@ -47,6 +49,7 @@ import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Namespace;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectFilter;
 import org.gitlab4j.api.models.ProjectHook;
@@ -64,6 +67,8 @@ import org.gitlab4j.api.models.Visibility;
  * @see <a href="https://docs.gitlab.com/ce/api/members.html">Group and project members API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ce/api/access_requests.html#group-and-project-access-requests-api">Group and project access requests API</a>
  * @see <a href="https://docs.gitlab.com/ee/api/project_badges.html">Project badges API</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/merge_request_approvals.html">
+ * Merge request approvals API (Project-level) at GitLab</a>
  */
 public class ProjectApi extends AbstractApi implements Constants {
 
@@ -3062,5 +3067,143 @@ public class ProjectApi extends AbstractApi implements Constants {
 		.withParam("image_url", imageUrl, true);
 	Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "badges", "render");
 	return (response.readEntity(Badge.class));
+    }
+
+    /**
+     * Get the project's approval information.
+     * Note: This API endpoint is only available on 10.6 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/approvals</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a ProjectApprovalsConfig instance with the project's approvals configuration
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectApprovalsConfig getApprovalsConfiguration(Object projectIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "approvals");
+        return (response.readEntity(ProjectApprovalsConfig.class));
+    }
+
+    /**
+     * Set the project's approvals configuration.
+     * Note: This API endpoint is only available on 10.6 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/approvals</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param config a ProjectApprovalsConfig instance with the approval configuration
+     * @return a ProjectApprovalsConfig instance with the project's approvals configuration
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectApprovalsConfig getApprovalsConfiguration(Object projectIdOrPath, ProjectApprovalsConfig config) throws GitLabApiException {
+	GitLabApiForm formData = config.getForm();
+        Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "approvals");
+        return (response.readEntity(ProjectApprovalsConfig.class));
+    }
+
+    /**
+     * Get a list of the project-level approval rules.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/approval_rules</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a List of ApprovalRuke instances for the specified project.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ApprovalRule> getApprovalRules(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+        return (getApprovalRules(projectIdOrPath, -1).all());
+    }
+
+    /**
+     * Get a Pager of the project-level approval rules.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/approval_rules</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param itemsPerPage the number of ApprovalRule instances that will be fetched per page
+     * @return a Pager of ApprovalRuke instances for the specified project.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<ApprovalRule> getApprovalRules(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+
+	return (new Pager<ApprovalRule>(this, ApprovalRule.class, itemsPerPage, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "approval_rules"));
+    }
+
+    /**
+     * Get a Stream of the project-level approval rules.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/approval_rules</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a Stream of ApprovalRule instances for the specified project.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<ApprovalRule> getApprovalRulesStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getApprovalRules(projectIdOrPath, -1).stream());
+    }
+
+    /**
+     * Create a project-level approval rule.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/approval_rules</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param params the ApprovalRuleParams instance holding the parameters for the approval rule
+     * @return a ApprovalRule instance with approval configuration
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ApprovalRule createApprovalRule(Object projectIdOrPath, ApprovalRuleParams params) throws GitLabApiException {
+        GitLabApiForm formData = params.getForm();
+        Response response = post(Response.Status.OK, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "approval_rules");
+        return (response.readEntity(ApprovalRule.class));
+    }
+
+    /**
+     * Update the specified the project-level approval rule.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/approval_rules/:approval_rule_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param approvalRuleId the ID of the approval rule
+     * @param params the ApprovalRuleParams instance holding the parameters for the approval rule update
+     * @return a ApprovalRule instance with approval configuration
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ApprovalRule updateApprovalRule(Object projectIdOrPath, Integer approvalRuleId, ApprovalRuleParams params) throws GitLabApiException {
+
+        if (approvalRuleId == null) {
+            throw new RuntimeException("approvalRuleId cannot be null");
+        }
+
+        GitLabApiForm formData = params.getForm();
+        Response response = putWithFormData(Response.Status.OK, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "approval_rules", approvalRuleId);
+        return (response.readEntity(ApprovalRule.class));
+    }
+
+    /**
+     * Delete the specified the project-level approval rule.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/approval_rules/:approval_rule_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param approvalRuleId the ID of the approval rule
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteApprovalRule(Object projectIdOrPath, Integer approvalRuleId) throws GitLabApiException {
+
+        if (approvalRuleId == null) {
+            throw new RuntimeException("approvalRuleId cannot be null");
+        }
+
+        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "approval_rules", approvalRuleId);
     }
 }

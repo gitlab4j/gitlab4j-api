@@ -36,6 +36,7 @@ import java.util.Map;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Application;
 import org.gitlab4j.api.models.ApplicationSettings;
+import org.gitlab4j.api.models.ApprovalRule;
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.AwardEmoji;
 import org.gitlab4j.api.models.Badge;
@@ -79,6 +80,7 @@ import org.gitlab4j.api.models.PackageFile;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
@@ -407,6 +409,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testProjectApprovalsCofig() throws Exception {
+	ProjectApprovalsConfig approvalsConfig = unmarshalResource(ProjectApprovalsConfig.class, "project-approvals-config.json");
+        assertTrue(compareJson(approvalsConfig, "project-approvals-config.json"));
+    }
+
+    @Test
     public void testProtectedBranch() throws Exception {
         ProtectedBranch protectedBranch = unmarshalResource(ProtectedBranch.class, "protected-branch.json");
         assertTrue(compareJson(protectedBranch, "protected-branch.json"));
@@ -477,6 +485,12 @@ public class TestGitLabApiBeans {
     public void testMergeRequestApprovals() throws Exception {
         MergeRequest mergeRequestApprovals = unmarshalResource(MergeRequest.class, "approvals.json");
         assertTrue(compareJson(mergeRequestApprovals, "approvals.json"));
+    }
+
+    @Test
+    public void testMergeRequestApprovalRule() throws Exception {
+	ApprovalRule approvalRule = unmarshalResource(ApprovalRule.class, "approval-rule.json");
+        assertTrue(compareJson(approvalRule, "approval-rule.json"));
     }
 
     @Test
