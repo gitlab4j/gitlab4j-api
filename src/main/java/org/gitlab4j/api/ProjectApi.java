@@ -3111,7 +3111,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @return a List of ApprovalRuke instances for the specified project.
      * @throws GitLabApiException if any exception occurs
      */
-    public List<ApprovalRule> getApprovalRules(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+    public List<ApprovalRule> getApprovalRules(Object projectIdOrPath) throws GitLabApiException {
         return (getApprovalRules(projectIdOrPath, -1).all());
     }
 
