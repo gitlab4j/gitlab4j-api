@@ -10,6 +10,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.ApprovalRule;
+import org.gitlab4j.api.models.ApprovalRuleParams;
+import org.gitlab4j.api.models.ApprovalState;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.MergeRequest;
@@ -19,6 +22,8 @@ import org.gitlab4j.api.models.Participant;
 
 /**
  * This class implements the client side API for the GitLab merge request calls.
+ * @see <a href="https://docs.gitlab.com/ce/api/merge_requests.html">Merge requests API at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/merge_request_approvals.html">Merge request approvals API at GitLab</a>
  */
 public class MergeRequestApi extends AbstractApi {
 
@@ -664,7 +669,7 @@ public class MergeRequestApi extends AbstractApi {
     /**
      * Get the merge request with approval information.
      *
-     * Note: This API endpoint is only available on 8.9 EE and above.
+     * Note: This API endpoint is only available on 8.9 Starter and above.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/approvals</code></pre>
      *
@@ -674,6 +679,22 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public MergeRequest getMergeRequestApprovals(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+        return (getApprovals(projectIdOrPath, mergeRequestIid));
+    }
+
+    /**
+     * Get the merge request with approval information.
+     *
+     * Note: This API endpoint is only available on 8.9 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/approvals</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a MergeRequest instance with approval information included
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest getApprovals(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
 
         if (mergeRequestIid == null) {
             throw new RuntimeException("mergeRequestIid cannot be null");
@@ -681,6 +702,162 @@ public class MergeRequestApi extends AbstractApi {
 
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "approvals");
         return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Get the approval state of a merge request.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/approval_state</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a ApprovalState instance with approval state
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ApprovalState getApprovalState(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
+        }
+
+        Response response = get(Response.Status.OK, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "approval_state");
+        return (response.readEntity(ApprovalState.class));
+    }
+
+    /**
+     * Get a list of the merge request level approval rules.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/approval_rules</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a List of ApprovalRule instances for the specified merge request.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ApprovalRule> getApprovalRules(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+        return (getApprovalRules(projectIdOrPath, mergeRequestIid, -1).all());
+    }
+
+    /**
+     * Get a Pager of the merge request level approval rules.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/approval_rules</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param itemsPerPage the number of ApprovalRule instances that will be fetched per page
+     * @return a Pager of ApprovalRule instances for the specified merge request.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<ApprovalRule> getApprovalRules(Object projectIdOrPath, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+
+	if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
+	}
+
+	return (new Pager<ApprovalRule>(this, ApprovalRule.class, itemsPerPage, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "approval_rules"));
+    }
+
+    /**
+     * Get a Stream of the merge request level approval rules.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/approval_rules</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a Stream of ApprovalRule instances for the specified merge request.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<ApprovalRule> getApprovalRulesStream(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+        return (getApprovalRules(projectIdOrPath, mergeRequestIid, -1).stream());
+    }
+
+    /**
+     * Create a merge request level approval rule.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/approval_rules</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param projectRuleId the ID of a project-level approval rule
+     * @param params the ApprovalRuleParams instance holding the parameters for the approval rule
+     * @return a ApprovalRule instance with approval configuration
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ApprovalRule createApprovalRule(Object projectIdOrPath, Integer mergeRequestIid, 
+	    Integer projectRuleId, ApprovalRuleParams params) throws GitLabApiException {
+
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
+        }
+
+        GitLabApiForm formData = params.getForm();
+        formData.withParam("approval_project_rule_id", projectRuleId);
+        Response response = post(Response.Status.OK, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "approval_rules");
+        return (response.readEntity(ApprovalRule.class));
+    }
+
+    /**
+     * Update the specified the merge request level approval rule.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/merge_requests/:merge_request_iid/approval_rules/:approval_rule_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param approvalRuleId the ID of the approval rule
+     * @param params the ApprovalRuleParams instance holding the parameters for the approval rule update
+     * @return a ApprovalRule instance with approval configuration
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ApprovalRule updateApprovalRule(Object projectIdOrPath, Integer mergeRequestIid,
+            Integer approvalRuleId, ApprovalRuleParams params) throws GitLabApiException {
+
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
+        }
+
+        if (approvalRuleId == null) {
+            throw new RuntimeException("approvalRuleId cannot be null");
+        }
+
+        GitLabApiForm formData = params.getForm();
+        Response response = putWithFormData(Response.Status.OK, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "approval_rules", approvalRuleId);
+        return (response.readEntity(ApprovalRule.class));
+    }
+
+    /**
+     * Delete the specified the merge request level approval rule.
+     * Note: This API endpoint is only available on 12.3 Starter and above.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/merge_requests/:merge_request_iid/approval_rules/:approval_rule_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param approvalRuleId the ID of the approval rule
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteApprovalRule(Object projectIdOrPath, Integer mergeRequestIid, Integer approvalRuleId) throws GitLabApiException {
+
+        if (mergeRequestIid == null) {
+            throw new RuntimeException("mergeRequestIid cannot be null");
+        }
+
+        if (approvalRuleId == null) {
+            throw new RuntimeException("approvalRuleId cannot be null");
+        }
+
+        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
+                "merge_requests", mergeRequestIid, "approval_rules", approvalRuleId);
     }
 
     /**
@@ -866,5 +1043,19 @@ public class MergeRequestApi extends AbstractApi {
      */
     public Stream<Issue> getClosesIssuesStream(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
         return (getClosesIssues(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get list containing all the issues that would be closed by merging the provided merge request.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/closes_issues</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param mergeRequestIid the IID of the merge request to get the closes issues for
+     * @return a List containing all the issues that would be closed by merging the provided merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Issue> getApprovalStatus(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+        return (getClosesIssues(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).all());
     }
 }

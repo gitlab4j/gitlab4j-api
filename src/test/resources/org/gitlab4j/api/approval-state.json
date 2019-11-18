@@ -1,0 +1,44 @@
+{
+  "approval_rules_overwritten": true,
+  "rules": [
+    {
+      "id": 1,
+      "name": "Ruby",
+      "rule_type": "regular",
+      "eligible_approvers": [
+        {
+          "id": 4,
+          "name": "John Doe",
+          "username": "jdoe",
+          "state": "active",
+          "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+          "web_url": "http://localhost/jdoe"
+        }
+      ],
+      "approvals_required": 2,
+      "users": [
+        {
+          "id": 4,
+          "name": "John Doe",
+          "username": "jdoe",
+          "state": "active",
+          "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+          "web_url": "http://localhost/jdoe"
+        }
+      ],
+      "groups": [],
+      "contains_hidden_groups": false,
+      "approved_by": [
+        {
+          "id": 4,
+          "name": "John Doe",
+          "username": "jdoe",
+          "state": "active",
+          "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+          "web_url": "http://localhost/jdoe"
+        }
+      ],
+      "approved": true
+    }
+  ]
+}
