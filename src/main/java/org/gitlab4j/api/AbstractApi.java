@@ -11,6 +11,7 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Label;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.UrlEncoder;
@@ -57,7 +58,6 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or path from provided Project instance"));
 
         } else {
-
             throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
                     " instance, must be Integer, String, or a Project instance"));
         }
@@ -93,7 +93,6 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or path from provided Group instance"));
 
         } else {
-
             throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
                     " instance, must be Integer, String, or a Group instance"));
         }
@@ -129,9 +128,43 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or username from provided User instance"));
 
         } else {
-
             throw (new RuntimeException("Cannot determine ID or username from provided " + obj.getClass().getSimpleName() +
                     " instance, must be Integer, String, or a User instance"));
+        }
+    }
+
+    /**
+     * Returns the label ID or name from the provided Integer, String, or Label instance.
+     *
+     * @param obj the object to determine the ID or name from
+     * @return the user ID or name from the provided Integer, String, or Label instance
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Object getLabelIdOrName(Object obj) throws GitLabApiException {
+
+        if (obj == null) {
+            throw (new RuntimeException("Cannot determine ID or name from null object"));
+        } else if (obj instanceof Integer) {
+            return (obj);
+        } else if (obj instanceof String) {
+            return (urlEncode(((String) obj).trim()));
+        } else if (obj instanceof Label) {
+
+            Integer id = ((Label) obj).getId();
+            if (id != null && id.intValue() > 0) {
+                return (id);
+            }
+
+            String name = ((User) obj).getName();
+            if (name != null && name.trim().length() > 0) {
+                return (urlEncode(name.trim()));
+            }
+
+            throw (new RuntimeException("Cannot determine ID or name from provided Label instance"));
+
+        } else {
+            throw (new RuntimeException("Cannot determine ID or name from provided " + obj.getClass().getSimpleName() +
+                    " instance, must be Integer, String, or a Label instance"));
         }
     }
 
