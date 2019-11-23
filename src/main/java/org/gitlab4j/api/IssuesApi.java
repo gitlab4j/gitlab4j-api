@@ -984,18 +984,25 @@ public class IssuesApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Gets issues count statistics for given group.
+     * <p>Moves an issue to a different project. If the target project equals the source project or
+     * the user has insufficient permissions to move an issue, error 400 together with an 
+     * explaining error message is returned.</p>
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:projectId/issues_statistics</code></pre>
+     * <p>If a given label and/or milestone with the same name also exists in the target project,
+     * it will then be assigned to the issue that is being moved.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:projectId/issues/:issue_iid/move</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
-     * @param filter {@link IssuesStatisticsFilter} a IssuesStatisticsFilter instance with the filter settings.
-     * @return an IssuesStatistics instance with the statistics for the matched issues
+     * @param issueIid the IID of the issue to move
+     * @paream toProjectId the ID of the project to move the issue to
+     * @return an Issue instance for the moved issue
      * @throws GitLabApiException if any exception occurs
      */
-    public IssuesStatistics geProjectIssuesStatistics(Object projectIdOrPath, IssuesStatisticsFilter filter) throws GitLabApiException {
-        GitLabApiForm formData = filter.getQueryParams();
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", this.getProjectIdOrPath(projectIdOrPath), "issues_statistics");
-        return (response.readEntity(IssuesStatistics.class));
-    }
+    public Issue moveIssue(Object projectIdOrPath, Integer issueIid, Object toProjectId) throws GitLabApiException {
+	GitLabApiForm formData = new GitLabApiForm().withParam("to_project_id", toProjectId, true);
+        Response response = post(Response.Status.OK, formData,
+        	"projects", this.getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "move");
+        return (response.readEntity(Issue.class));
+    }  
 }
