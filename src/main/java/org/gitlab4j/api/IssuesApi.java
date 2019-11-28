@@ -995,7 +995,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param issueIid the IID of the issue to move
-     * @paream toProjectId the ID of the project to move the issue to
+     * @param toProjectId the ID of the project to move the issue to
      * @return an Issue instance for the moved issue
      * @throws GitLabApiException if any exception occurs
      */
