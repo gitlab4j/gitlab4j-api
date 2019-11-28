@@ -10,6 +10,8 @@ public class ProtectedBranch {
     private String name;
     private List<BranchAccessLevel> pushAccessLevels;
     private List<BranchAccessLevel> mergeAccessLevels;
+    private List<BranchAccessLevel> unprotectAccessLevels;
+    private Boolean codeOwnerApprovalRequired;
 
     public String getName() {
         return this.name;
@@ -35,6 +37,14 @@ public class ProtectedBranch {
         this.mergeAccessLevels = mergeAccessLevels;
     }
 
+    public List<BranchAccessLevel> getUnprotectAccessLevels() {
+        return unprotectAccessLevels;
+    }
+
+    public void setUnprotectAccessLevels(List<BranchAccessLevel> unprotectAccessLevels) {
+        this.unprotectAccessLevels = unprotectAccessLevels;
+    }
+
     public static final boolean isValid(ProtectedBranch branch) {
         return (branch != null && branch.getName() != null);
     }
@@ -51,6 +61,19 @@ public class ProtectedBranch {
 
     public ProtectedBranch withMergeAccessLevels(List<BranchAccessLevel> mergeAccessLevels) {
         this.mergeAccessLevels = mergeAccessLevels;
+        return this;
+    }
+
+    public Boolean getCodeOwnerApprovalRequired() {
+        return codeOwnerApprovalRequired;
+    }
+
+    public void setCodeOwnerApprovalRequired(Boolean codeOwnerApprovalRequired) {
+        this.codeOwnerApprovalRequired = codeOwnerApprovalRequired;
+    }
+
+    public ProtectedBranch withCodeOwnerApprovalRequired(Boolean codeOwnerApprovalRequired) {
+        this.codeOwnerApprovalRequired = codeOwnerApprovalRequired;
         return this;
     }
 

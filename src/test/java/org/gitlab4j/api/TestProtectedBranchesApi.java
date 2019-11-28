@@ -35,6 +35,7 @@ import org.junit.runners.MethodSorters;
 public class TestProtectedBranchesApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
+    private static Project testProject;
 
     private static final String TEST_BRANCH_REF = "master";
     private static final String TEST_BRANCH_NAME = "feature/test_branch";
@@ -42,28 +43,23 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
 
     @BeforeClass
     public static void setup() {
-        // Must setup the connection to the GitLab test server
+	// Must setup the connection to the GitLab test server and get the test Project instance
         gitLabApi = baseTestSetup();
+        testProject = getTestProject();
     }
 
     @AfterClass
     public static void teardown() {
-        if (gitLabApi != null) {
+        if (testProject != null) {
+            try {
+                gitLabApi.getProtectedBranchesApi().unprotectBranch(testProject.getId(), TEST_BRANCH_NAME);
+                gitLabApi.getRepositoryApi().deleteBranch(testProject.getId(), TEST_BRANCH_NAME);
+            } catch (GitLabApiException ignore) {
+            }
 
             try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-
-                try {
-                    gitLabApi.getProtectedBranchesApi().unprotectBranch(project.getId(), TEST_BRANCH_NAME);
-                    gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
-                } catch (GitLabApiException ignore) {
-                }
-
-                try {
-                    gitLabApi.getProtectedBranchesApi().unprotectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
-                    gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
-                } catch (GitLabApiException ignore) {
-                }
+                gitLabApi.getProtectedBranchesApi().unprotectBranch(testProject.getId(), TEST_PROTECT_BRANCH_NAME);
+                gitLabApi.getRepositoryApi().deleteBranch(testProject.getId(), TEST_PROTECT_BRANCH_NAME);
             } catch (GitLabApiException ignore) {
             }
         }
@@ -71,22 +67,22 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
 
     @Before
     public void beforeMethod() throws GitLabApiException {
-        assumeNotNull(gitLabApi);
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assumeNotNull(testProject);
+
         Branch protectedBranch;
         try {
-            protectedBranch = gitLabApi.getRepositoryApi().getBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
+            protectedBranch = gitLabApi.getRepositoryApi().getBranch(testProject, TEST_PROTECT_BRANCH_NAME);
         } catch (GitLabApiException e) {
-            protectedBranch = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_PROTECT_BRANCH_NAME, TEST_BRANCH_REF);
+            protectedBranch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_PROTECT_BRANCH_NAME, TEST_BRANCH_REF);
         }
         assertNotNull(protectedBranch);
-        gitLabApi.getRepositoryApi().protectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
+        gitLabApi.getRepositoryApi().protectBranch(testProject, TEST_PROTECT_BRANCH_NAME);
 
         Branch branch;
         try {
-            branch = gitLabApi.getRepositoryApi().getBranch(project.getId(), TEST_BRANCH_NAME);
+            branch = gitLabApi.getRepositoryApi().getBranch(testProject, TEST_BRANCH_NAME);
         } catch (GitLabApiException e) {
-            branch = gitLabApi.getRepositoryApi().createBranch(project.getId(), TEST_BRANCH_NAME, TEST_BRANCH_REF);
+            branch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_BRANCH_NAME, TEST_BRANCH_REF);
         }
         assertNotNull(branch);
     }
@@ -94,10 +90,8 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
     @Test
     public void testGetProtectedBranches() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
+        assumeNotNull(testProject);
+        List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(testProject);
         assertNotNull(branches);
         assertTrue(branches.stream()
                 .anyMatch((branch) -> branch.getName().equals(TEST_PROTECT_BRANCH_NAME)));
@@ -106,11 +100,9 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
     @Test
     public void testUnprotectBranch() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        gitLabApi.getProtectedBranchesApi().unprotectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
-        List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
+        assumeNotNull(testProject);
+        gitLabApi.getProtectedBranchesApi().unprotectBranch(testProject, TEST_PROTECT_BRANCH_NAME);
+        List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(testProject);
         assertNotNull(branches);
         assertTrue(branches.stream()
                 .noneMatch((branch) -> branch.getName().equals(TEST_PROTECT_BRANCH_NAME)));
@@ -119,14 +111,13 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
     @Test
     public void testProtectBranch() throws GitLabApiException {
 
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
+        assumeNotNull(testProject);
 
-        ProtectedBranch branch = gitLabApi.getProtectedBranchesApi().protectBranch(project.getId(), TEST_BRANCH_NAME);
+        ProtectedBranch branch = gitLabApi.getProtectedBranchesApi().protectBranch(testProject, TEST_BRANCH_NAME);
         assertNotNull(branch);
         assertEquals(TEST_BRANCH_NAME, branch.getName());
 
-        List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
+        List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(testProject);
         assertNotNull(branches);
         assertTrue(branches.stream()
                 .anyMatch((protectedBranch) -> protectedBranch.getName().equals(TEST_BRANCH_NAME)));

@@ -6,8 +6,7 @@
       "access_level_description": "Masters"
     },
     {
-      "access_level": 30,
-      "access_level_description": "Developer access"
+      "user_id": 1
     }
   ],
   "merge_access_levels": [
@@ -16,8 +15,7 @@
       "access_level_description": "Masters"
     },
     {
-      "access_level": 30,
-      "access_level_description": "Developer access"
+      "group_id": 2
     }
   ]
 }
