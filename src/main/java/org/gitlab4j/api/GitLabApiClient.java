@@ -480,10 +480,13 @@ public class GitLabApiClient {
      * @return a ClientResponse instance with the data returned from the endpoint
      */
     protected Response post(Form formData, URL url) {
-        if (formData instanceof GitLabApiForm)
+        if (formData instanceof GitLabApiForm) {
             return (invocation(url, null).post(Entity.entity(formData.asMap(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
-        else
+        } else if (formData != null) {
             return (invocation(url, null).post(Entity.entity(formData, MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+        } else {
+            return (invocation(url, null).post(Entity.entity(new Form(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+        }
     }
 
     /**
@@ -495,7 +498,7 @@ public class GitLabApiClient {
      * @return a ClientResponse instance with the data returned from the endpoint
      */
     protected Response post(MultivaluedMap<String, String> queryParams, URL url) {
-        return (invocation(url, queryParams).post(null));
+        return (invocation(url, queryParams).post(Entity.entity(new Form(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
     }
 
     /**
