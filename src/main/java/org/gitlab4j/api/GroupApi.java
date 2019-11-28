@@ -15,6 +15,7 @@ import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupFilter;
+import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.GroupProjectsFilter;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
@@ -470,6 +471,36 @@ public class GroupApi extends AbstractApi {
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
+    }
+
+    /**
+     * Creates a new project group. Available only for users who can create groups.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups</code></pre>
+     *
+     * @param params a GroupParams instance holding the parameters for the group creation
+     * @return the created Group instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Group createGroup(GroupParams params) throws GitLabApiException {
+        Response response = post(Response.Status.CREATED, params.getForm(true), "groups");
+        return (response.readEntity(Group.class));
+    }
+
+    /**
+     * Updates the project group. Only available to group owners and administrators.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param params the GroupParams instance holding the properties to update
+     * @return updated Group instance
+     * @throws GitLabApiException at any exception
+     */
+    public Group updateGroup(Object groupIdOrPath, GroupParams params) throws GitLabApiException {
+        Response response = putWithFormData(Response.Status.OK,
+                params.getForm(false), "groups",  getGroupIdOrPath(groupIdOrPath));
+        return (response.readEntity(Group.class));
     }
 
     /**

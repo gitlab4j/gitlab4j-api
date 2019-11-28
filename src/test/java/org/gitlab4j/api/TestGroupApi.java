@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.User;
 import org.junit.AfterClass;
@@ -279,5 +280,20 @@ public class TestGroupApi extends AbstractIntegrationTest {
             } catch (Exception ignore) {
             }
         }
+    }
+
+    @Test
+    public void updateGroup() throws GitLabApiException {
+
+        String description = "Test Group (" + HelperUtils.getRandomInt(1000) + ")";
+        GroupParams params = new GroupParams().withDescription(description);
+
+        Group updatedGroup = gitLabApi.getGroupApi().updateGroup(testGroup, params);
+        assertEquals(description, updatedGroup.getDescription());
+
+        Optional<Group> optional = gitLabApi.getGroupApi().getOptionalGroup(TEST_GROUP);
+        assertTrue(optional.isPresent());
+        assertEquals(testGroup.getId(), optional.get().getId());
+        assertEquals(description, optional.get().getDescription());
     }
 }
