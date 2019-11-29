@@ -2,7 +2,32 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.GitLabApiForm;
 
+/**
+ * This class is utilized by the {@link org.gitlab4j.api.GroupApi#createGroup(GroupParams)}
+ * and {@link org.gitlab4j.api.GroupApi#updateGroup(Object, GroupParams)} methods to set
+ * the parameters for the call to the GitLab API.
+ */
 public class GroupParams {
+
+    /**
+     * Constant to specify the project_creation_level for the group.
+     */
+    public enum ProjectCreationLevel {
+        NOONE, DEVELOPER, MAINTAINER;
+        public String toString() {
+            return (name().toLowerCase());
+        }
+    }
+
+    /**
+     * Constant to specify the subgroup_creation_level for the group.
+     */
+    public enum SubgroupCreationLevel {
+        OWNER, MAINTAINER;
+        public String toString() {
+            return (name().toLowerCase());
+        }
+    }
 
     private String name;
     private String path;
@@ -11,9 +36,9 @@ public class GroupParams {
     private Boolean shareWithGroupLock;
     private Boolean requireTwoFactorAuthentication;
     private Integer twoFactorGracePeriod;
-    private AccessLevel projectCreationLevel;
+    private ProjectCreationLevel projectCreationLevel;
     private Boolean autoDevopsEnabled;
-    private AccessLevel subgroupCreationLevel;
+    private SubgroupCreationLevel subgroupCreationLevel;
     private Boolean emailsDisabled;
     private Boolean lfsEnabled;
     private Boolean requestAccessEnabled;
@@ -92,7 +117,7 @@ public class GroupParams {
 	return (this);
     }
 
-    public GroupParams withProjectCreationLevel(AccessLevel projectCreationLevel) {
+    public GroupParams withProjectCreationLevel(ProjectCreationLevel projectCreationLevel) {
 	this.projectCreationLevel = projectCreationLevel;
 	return (this);
     }
@@ -102,7 +127,7 @@ public class GroupParams {
 	return (this);
     }
 
-    public GroupParams withSubgroupCreationLevel(AccessLevel subgroupCreationLevel) {
+    public GroupParams withSubgroupCreationLevel(SubgroupCreationLevel subgroupCreationLevel) {
 	this.subgroupCreationLevel = subgroupCreationLevel;
 	return (this);
     }
@@ -149,9 +174,9 @@ public class GroupParams {
             .withParam("share_with_group_lock", shareWithGroupLock)
             .withParam("require_two_factor_authentication", requireTwoFactorAuthentication)
             .withParam("two_factor_grace_period", twoFactorGracePeriod)
-            .withParam("project_creation_level", getAccessLevelString(projectCreationLevel))
+            .withParam("project_creation_level", projectCreationLevel)
             .withParam("auto_devops_enabled", autoDevopsEnabled)
-            .withParam("subgroup_creation_level", getAccessLevelString(subgroupCreationLevel))
+            .withParam("subgroup_creation_level", subgroupCreationLevel)
             .withParam("emails_disabled", emailsDisabled)
             .withParam("lfs_enabled", lfsEnabled)
             .withParam("request_access_enabled", requestAccessEnabled)
@@ -166,27 +191,5 @@ public class GroupParams {
         }
 
         return (form);
-    }
-
-    private String getAccessLevelString(AccessLevel level) {
-
-	if (level == null) {
-	    return null;
-	}
-
-	switch(level) {
-
-	case NONE:
-	    return "noone";
-
-	case DEVELOPER:
-	    return "developer";
-
-	case MAINTAINER:
-	    return "maintainer";
-
-	default:
-	    throw new RuntimeException("Invalid access level");
-	}
     }
 }
