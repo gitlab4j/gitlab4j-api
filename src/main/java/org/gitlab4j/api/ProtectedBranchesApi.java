@@ -176,22 +176,22 @@ public class ProtectedBranchesApi extends AbstractApi {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param branchName the name of the branch to protect, can be a wildcard
-     * @param allowedToPush user ID allowed to push, can be null
-     * @param allowedToMerge user ID allowed to merge, can be null
-     * @param allowedToUnprotect user ID allowed to unprotect, can be null
+     * @param allowedToPushUserId user ID allowed to push, can be null
+     * @param allowedToMergeUserId user ID allowed to merge, can be null
+     * @param allowedToUnprotectUserId user ID allowed to unprotect, can be null
      * @param codeOwnerApprovalRequired prevent pushes to this branch if it matches an item in the CODEOWNERS file. (defaults: false)
      * @return the branch info for the protected branch
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
-	    Integer allowedToPush, Integer allowedToMerge, Integer allowedToUnprotect,
+	    Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
 	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
 
 	Form formData = new GitLabApiForm()
                 .withParam("name", branchName, true)
-                .withParam("allowed_to_push[][user_id]", allowedToPush)
-                .withParam("allowed_to_merge[][user_id]", allowedToMerge)
-                .withParam("allowed_to_merge[][user_id]", allowedToUnprotect)
+                .withParam("allowed_to_push[][user_id]", allowedToPushUserId)
+                .withParam("allowed_to_merge[][user_id]", allowedToMergeUserId)
+                .withParam("allowed_to_unprotect[][user_id]", allowedToUnprotectUserId)
                 .withParam("code_owner_approval_required", codeOwnerApprovalRequired);
         Response response = post(Response.Status.CREATED, formData.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "protected_branches");
