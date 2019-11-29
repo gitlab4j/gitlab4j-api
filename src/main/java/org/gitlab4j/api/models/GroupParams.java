@@ -149,9 +149,9 @@ public class GroupParams {
             .withParam("share_with_group_lock", shareWithGroupLock)
             .withParam("require_two_factor_authentication", requireTwoFactorAuthentication)
             .withParam("two_factor_grace_period", twoFactorGracePeriod)
-            .withParam("project_creation_level", projectCreationLevel)
+            .withParam("project_creation_level", getAccessLevelString(projectCreationLevel))
             .withParam("auto_devops_enabled", autoDevopsEnabled)
-            .withParam("subgroup_creation_level", subgroupCreationLevel)
+            .withParam("subgroup_creation_level", getAccessLevelString(subgroupCreationLevel))
             .withParam("emails_disabled", emailsDisabled)
             .withParam("lfs_enabled", lfsEnabled)
             .withParam("request_access_enabled", requestAccessEnabled)
@@ -166,5 +166,27 @@ public class GroupParams {
         }
 
         return (form);
+    }
+
+    private String getAccessLevelString(AccessLevel level) {
+
+	if (level == null) {
+	    return null;
+	}
+
+	switch(level) {
+
+	case NONE:
+	    return "noone";
+
+	case DEVELOPER:
+	    return "developer";
+
+	case MAINTAINER:
+	    return "maintainer";
+
+	default:
+	    throw new RuntimeException("Invalid access level");
+	}
     }
 }
