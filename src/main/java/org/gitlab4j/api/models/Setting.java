@@ -156,6 +156,9 @@ public enum Setting {
      */
     DEFAULT_BRANCH_PROTECTION(Integer.class),
 
+    DEFAULT_CI_CONFIG_PATH(String.class),
+
+
     /**
      * What visibility level new groups receive. Can take private, internal and
      * public as a parameter. Default is private.
@@ -272,6 +275,26 @@ public enum Setting {
      * (PREMIUM | SILVER) AWS IAM secret access key
      */
     ELASTICSEARCH_AWS_SECRET_ACCESS_KEY(String.class),
+
+    /**
+     * Amazon Access Key.
+     */
+    EKS_ACCESS_KEY_ID(String.class),
+
+    /**
+     * Amazon account ID
+     */
+    EKS_ACCOUNT_ID(String.class),
+
+    /**
+     * Enable integration with Amazon EKS.
+     */
+    EKS_INTEGRATION_ENABLED(Boolean.class),
+
+    /**
+     * AWS IAM secret access key
+     */
+    EKS_SECRET_ACCESS_KEY(String.class),
 
     /**
      * (PREMIUM | SILVER) Use the experimental elasticsearch indexer. More info: 
@@ -864,8 +887,13 @@ public enum Setting {
     SLACK_APP_VERIFICATION_TOKEN(String.class),
 
     /**
-     * required by: {@link #SNOWPLOW_ENABLED} The Snowplow collector hostname. (e.g. 
-     * snowplow.trx.gitlab.net)
+     * The Snowplow site name / application id. (e.g. gitlab)
+     */
+    SNOWPLOW_APP_ID(String.class),
+
+    /**
+     * required by: {@link #SNOWPLOW_ENABLED} The Snowplow collector hostname.
+     * (e.g. snowplow.trx.gitlab.net)
      */
     SNOWPLOW_COLLECTOR_HOSTNAME(String.class),
 
@@ -881,16 +909,36 @@ public enum Setting {
     SNOWPLOW_ENABLED(Boolean.class),
 
     /**
+     * The Snowplow base Iglu Schema Registry URL to use for custom context and self describing events.
+     */
+    SNOWPLOW_IGLU_REGISTRY_URL(String.class),
+
+    /**
      * The Snowplow site name / application id. (e.g. gitlab)
      */
     SNOWPLOW_SITE_ID(String.class),
+
+    /**
+     * Enables Sourcegraph integration. Default is false. If enabled, requires sourcegraph_url.
+     */
+    SOURCEGRAPH_ENABLED(Boolean.class),
+
+    /**
+     * Blocks Sourcegraph from being loaded on private and internal projects. Defaul is true.
+     */
+    SOURCEGRAPH_PUBLIC_ONLY(Boolean.class),
+
+    /**
+     * The Sourcegraph instance URL for integration.
+     */
+    SOURCEGRAPH_URL(String.class),
 
     /**
      * required by: {@link #PENDO_ENABLED} The Pendo endpoint url with js snippet. 
      * (e.g. https://cdn.pendo.io/agent/static/your-api-key/pendo.js)
      */
     PENDO_URL(String.class),
-    
+
     /**
      * (<strong>If enabled, requires:</strong> {@link #PENDO_URL}) Enable pendo tracking.
      */
