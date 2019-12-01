@@ -283,10 +283,10 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[PackagesApi](#packagesapi)<br/>
 &nbsp;&nbsp;[PipelineApi](#pipelineapi)<br/>
 &nbsp;&nbsp;[ProjectApi](#projectapi)<br/>
-&nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi) <br/>
+&nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi)<br/>
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
-&nbsp;&nbsp;[RunnersApi](#runnersapi) <br/>
+&nbsp;&nbsp;[RunnersApi](#runnersapi)<br/>
 &nbsp;&nbsp;[SearchApi](#searchapi)<br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
@@ -345,7 +345,6 @@ List<RegistryRepository> registryRepos = gitLabApi.ContainerRegistryApi().getRep
 List<DeployKey> deployKeys = gitLabApi.getDeployKeysApi().getDeployKeys();
 ```
 
-A
 #### DiscussionsApi
 ```java
 // Get a list of Discussions for the specified merge request
