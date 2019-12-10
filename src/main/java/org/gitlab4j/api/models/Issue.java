@@ -9,6 +9,33 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Issue {
 
+    public static class TaskCompletionStatus {
+
+        private Integer count;
+        private Integer completedCount;
+
+        public Integer getCount() {
+            return count;
+        }
+
+        public void setCount(Integer count) {
+            this.count = count;
+        }
+
+        public Integer getCompletedCount() {
+            return completedCount;
+        }
+
+        public void setCompletedCount(Integer completedCount) {
+            this.completedCount = completedCount;
+        }
+
+        @Override
+        public String toString() {
+            return (JacksonJson.toJsonString(this));
+        }
+    }
+
     private Assignee assignee;
     private List<Assignee> assignees;
     private Author author;
@@ -33,6 +60,13 @@ public class Issue {
     private Integer weight;
     private Boolean discussionLocked;
     private TimeStats timeStats;
+
+    private Integer upvotes;
+    private Integer downvotes;
+    private Integer mergeRequestsCount;
+    private Boolean hasTasks;
+    private String taskStatus;
+    private TaskCompletionStatus taskCompletionStatus;
 
     public Assignee getAssignee() {
         return assignee;
@@ -224,6 +258,54 @@ public class Issue {
 
     public void setTimeStats(TimeStats timeStats) {
         this.timeStats = timeStats;
+    }
+
+    public Integer getUpvotes() {
+        return upvotes;
+    }
+
+    public void setUpvotes(Integer upvotes) {
+        this.upvotes = upvotes;
+    }
+
+    public Integer getDownvotes() {
+        return downvotes;
+    }
+
+    public void setDownvotes(Integer downvotes) {
+        this.downvotes = downvotes;
+    }
+
+    public Integer getMergeRequestsCount() {
+        return mergeRequestsCount;
+    }
+
+    public void setMergeRequestsCount(Integer mergeRequestsCount) {
+        this.mergeRequestsCount = mergeRequestsCount;
+    }
+
+    public Boolean getHasTasks() {
+        return hasTasks;
+    }
+
+    public void setHasTasks(Boolean hasTasks) {
+        this.hasTasks = hasTasks;
+    }
+
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+
+    public TaskCompletionStatus getTaskCompletionStatus() {
+        return taskCompletionStatus;
+    }
+
+    public void setTaskCompletionStatus(TaskCompletionStatus taskCompletionStatus) {
+        this.taskCompletionStatus = taskCompletionStatus;
     }
 
     @Override

@@ -49,5 +49,14 @@
       "total_time_spent": 0,
       "human_time_estimate": "3h30m",
       "human_total_time_spent": "0m"
+   },
+   "upvotes": 4,
+   "downvotes": 2,
+   "merge_requests_count": 0,
+   "has_tasks": true,
+   "task_status": "10 of 15 tasks completed",
+   "task_completion_status":{
+      "count": 0,
+      "completed_count": 0
    }
 }
