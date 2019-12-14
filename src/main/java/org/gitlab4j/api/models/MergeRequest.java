@@ -52,6 +52,7 @@ public class MergeRequest {
     private String webUrl;
     private Boolean workInProgress;
     private DiffRef diffRefs;
+    private Boolean rebaseInProgress;
 
     // The approval fields will only be available when listing approvals, approving  or unapproving a merge reuest.
     private Integer approvalsRequired;
@@ -461,6 +462,14 @@ public class MergeRequest {
 
     public void setDiffRefs(final DiffRef diffRefs) {
         this.diffRefs = diffRefs;
+    }
+
+    public Boolean getRebaseInProgress() {
+        return rebaseInProgress;
+    }
+
+    public void setRebaseInProgress(Boolean rebaseInProgress) {
+        this.rebaseInProgress = rebaseInProgress;
     }
 
     public static final boolean isValid(MergeRequest mergeRequest) {

@@ -3,10 +3,11 @@ package org.gitlab4j.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeNotNull;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.MergeRequest;
@@ -41,6 +42,8 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
     private static final String TEST_BRANCH_NAME = "feature/gitlab4j-merge-request-test";
     private static final String TEST_MR_TITLE = "Merge Request test: gitlab4j-merge-request-test";
     private static final String TEST_DESCRIPTION = "Description for Merge Request test";
+    private static final String TEST_REBASE_BRANCH_NAME = "feature/gitlab4j-merge-request-rebase-test";
+    private static final String TEST_REBASE_MR_TITLE = "Merge Request test: gitlab4j-merge-request-rebase-test";
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
@@ -70,11 +73,17 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
 
 	try {
 
-	    Stream<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequestsStream(testProject);
-	    MergeRequest mergeRequest = mergeRequests.filter(
-		    m -> TEST_MR_TITLE.equals(m.getTitle())).findFirst().orElse(null);
+	    List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(testProject);
+	    MergeRequest mergeRequest = mergeRequests.stream().filter(
+                m -> TEST_MR_TITLE.equals(m.getTitle())).findFirst().orElse(null);
 	    if (mergeRequest != null) {
-		gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mergeRequest.getIid());
+                gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mergeRequest.getIid());
+	    }
+
+	    mergeRequest = mergeRequests.stream().filter(
+                m -> TEST_REBASE_MR_TITLE.equals(m.getTitle())).findFirst().orElse(null);
+	    if (mergeRequest != null) {
+                gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mergeRequest.getIid());
 	    }
 
 	} catch (GitLabApiException ignore) {
@@ -140,6 +149,79 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
 
             try {
                 gitLabApi.getRepositoryApi().deleteBranch(testProject, TEST_BRANCH_NAME);
+            } catch (GitLabApiException ignore) {
+            }
+        }
+    }
+
+    @Test
+    public void testRebaseMergeRequest() throws GitLabApiException {
+
+	// Create a test branch
+        Branch branch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_REBASE_BRANCH_NAME, "master");
+        assertNotNull(branch);
+
+        // Create a new file in the test branch
+        RepositoryFile repoFile = new RepositoryFile();
+        repoFile.setFilePath("README-FOR-TESTING-REBASE-MERGE-REQUEST.md");
+        repoFile.setContent("This is content");
+        gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, TEST_REBASE_BRANCH_NAME, "Initial commit.");
+
+        MergeRequest mr = null;
+        try {
+
+            MergeRequestParams params = new MergeRequestParams()
+                .withSourceBranch(TEST_REBASE_BRANCH_NAME)
+                .withTargetBranch("master")
+                .withTitle(TEST_REBASE_MR_TITLE);
+            mr = gitLabApi.getMergeRequestApi().createMergeRequest(testProject, params);
+            assertEquals(TEST_REBASE_MR_TITLE, mr.getTitle());
+
+            MergeRequest rebaseMr = gitLabApi.getMergeRequestApi().rebaseMergeRequest(testProject, mr.getIid());
+            assertEquals(true, rebaseMr.getRebaseInProgress());
+
+            // Wait up to 10 seconds for the rebase to complete
+            System.out.print("Waiting for rebase to complete");
+            int retries = 0;
+            while (true) {
+
+                System.out.print(".");
+                rebaseMr = gitLabApi.getMergeRequestApi().getRebaseStatus(testProject, mr.getId());
+                if (!rebaseMr.getRebaseInProgress()) {
+                    System.out.println("done");
+                    break;
+                }
+
+                if (retries >= 10) {
+                    System.out.println("aborting!");
+                    fail("Merge request rebase is taking too long, failing test.");
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                }
+
+                retries++;
+            }
+
+            gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
+            Optional<MergeRequest> deletedMr =
+                gitLabApi.getMergeRequestApi().getOptionalMergeRequest(testProject, mr.getIid());
+            mr = null;
+            assertFalse(deletedMr.isPresent());
+
+        } finally {
+
+            if (mr != null) {
+                try {
+                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
+                } catch (Exception ignore) {
+                }
+            }
+
+            try {
+                gitLabApi.getRepositoryApi().deleteBranch(testProject, TEST_REBASE_BRANCH_NAME);
             } catch (GitLabApiException ignore) {
             }
         }

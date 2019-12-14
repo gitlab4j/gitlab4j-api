@@ -38,7 +38,7 @@ public class MergeRequestApi extends AbstractApi {
      *
      * @param filter a MergeRequestFilter instance with the filter settings
      * @return all merge requests for the specified project matching the filter
-     * @throws GitLabApiException if any exception occurs
+     * @throws GitLabApiException if any exception occursput
      */
     public List<MergeRequest> getMergeRequests(MergeRequestFilter filter) throws GitLabApiException {
         return (getMergeRequests(filter, getDefaultPerPage()).all());
@@ -1057,5 +1057,41 @@ public class MergeRequestApi extends AbstractApi {
      */
     public List<Issue> getApprovalStatus(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
         return (getClosesIssues(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Automatically rebase the source_branch of the merge request against its target_branch.
+     *
+     * This is an asynchronous request. The API will return a 202 Accepted response if the
+     * request is enqueued successfully
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/merge_requests/:merge_request_iid/rebase</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request to rebase
+     * @return the merge request info containing the status of a merge request rebase
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest rebaseMergeRequest(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+	Response response = put(Response.Status.ACCEPTED, null,
+		"projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "rebase");
+	 return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Get the merge request info containing the status of a merge request rebase.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request being rebased
+     * @return the merge request info containing the status of a merge request rebase
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest getRebaseStatus(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+        GitLabApiForm queryParams = new GitLabApiForm().withParam("include_rebase_in_progress", true);
+        Response response = get(Response.Status.OK, queryParams.asMap(),
+		"projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid);
+        return (response.readEntity(MergeRequest.class));
     }
 }
