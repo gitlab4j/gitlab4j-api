@@ -53,7 +53,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.14.7'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.14.8'
 }
 ```
 
@@ -64,7 +64,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.14.7</version>
+    <version>4.14.8</version>
 </dependency>
 ```
 
@@ -284,6 +284,7 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[PipelineApi](#pipelineapi)<br/>
 &nbsp;&nbsp;[ProjectApi](#projectapi)<br/>
 &nbsp;&nbsp;[ProtectedBranchesApi](#protectedbranchesapi)<br/>
+&nbsp;&nbsp;[ReleasesApi](#releasesapi)<br/>
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
 &nbsp;&nbsp;[RunnersApi](#runnersapi)<br/>
@@ -487,6 +488,12 @@ Project newProject = gitLabApi.getProjectApi().createProject(projectSpec);
 #### ProtectedBranchesApi
 ```java
 List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(project.getId());
+```
+
+#### ReleasesApi
+```java
+// Get a list of releases for the specified project
+List<Release> releases = gitLabApi.getReleasesApi().getReleases(projectId);
 ```
 
 #### RepositoryApi
