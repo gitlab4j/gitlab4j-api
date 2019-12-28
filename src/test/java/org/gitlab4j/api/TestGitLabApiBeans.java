@@ -88,6 +88,7 @@ import org.gitlab4j.api.models.ProtectedBranch;
 import org.gitlab4j.api.models.ProtectedTag;
 import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.RegistryRepository;
+import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
@@ -436,6 +437,12 @@ public class TestGitLabApiBeans {
     public void testRegistryRepositories() throws Exception {
         List<RegistryRepository> repos = unmarshalResourceList(RegistryRepository.class, "registry-repositories.json");
         assertTrue(compareJson(repos, "registry-repositories.json"));
+    }
+
+    @Test
+    public void testReleases() throws Exception {
+        List<Release> releases = unmarshalResourceList(Release.class, "releases.json");
+        assertTrue(compareJson(releases, "releases.json"));
     }
 
     @Test

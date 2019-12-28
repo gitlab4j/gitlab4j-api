@@ -80,6 +80,7 @@ public class GitLabApi {
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
     private ProtectedBranchesApi protectedBranchesApi;
+    private ReleasesApi releasesApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
     private RunnersApi runnersApi;
@@ -1446,6 +1447,25 @@ public class GitLabApi {
         }
 
         return (this.protectedBranchesApi);
+    }
+
+    /**
+     * Gets the ReleasesApi instance owned by this GitLabApi instance. The ReleasesApi is used
+     * to perform all release related API calls.
+     *
+     * @return the ReleasesApi instance owned by this GitLabApi instance
+     */
+    public ReleasesApi getReleasesApi() {
+
+        if (releasesApi == null) {
+            synchronized (this) {
+                if (releasesApi == null) {
+                    releasesApi = new ReleasesApi(this);
+                }
+            }
+        }
+
+        return (releasesApi);
     }
 
     /**
