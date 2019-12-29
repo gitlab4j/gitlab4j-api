@@ -127,7 +127,7 @@ public class ReleasesApi extends AbstractApi {
 	}
 
         Response response = put(Response.Status.OK, params,
-                "projects", getProjectIdOrPath(projectIdOrPath), "releases", tagName);
+                "projects", getProjectIdOrPath(projectIdOrPath), "releases", urlEncode(tagName));
         return (response.readEntity(Release.class));
     }
 
@@ -141,6 +141,6 @@ public class ReleasesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteRelease(Object projectIdOrPath, String tagName) throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "releases", tagName);
+        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "releases", urlEncode(tagName));
     }
  }

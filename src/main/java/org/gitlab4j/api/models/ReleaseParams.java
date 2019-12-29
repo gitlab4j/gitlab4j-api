@@ -11,7 +11,7 @@ public class ReleaseParams {
     private String tagName;
     private String description;
     private String ref;
-    private List<Milestone> milestones;
+    private List<String> milestones;
     private Assets assets;
     private Date releasedAt;
 
@@ -54,15 +54,15 @@ public class ReleaseParams {
         return (this);
     }
 
-    public List<Milestone> getMilestones() {
+    public List<String> getMilestones() {
         return milestones;
     }
 
-    public void setMilestones(List<Milestone> milestones) {
+    public void setMilestones(List<String> milestones) {
         this.milestones = milestones;
     }
 
-    public ReleaseParams withMilestones(List<Milestone> milestones) {
+    public ReleaseParams withMilestones(List<String> milestones) {
         this.milestones = milestones;
         return (this);
     }
