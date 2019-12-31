@@ -636,8 +636,8 @@ public class MergeRequestApi extends AbstractApi {
                         "merge_when_build_succeeds" : "merge_when_pipeline_succeeds"),
                         mergeWhenPipelineSucceeds)
                 .withParam("sha", sha);
-
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "merge");
+        // GitLab V3 API using 'merge_request' path arg.
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), isApiVersion(ApiVersion.V3) ? "merge_request": "merge_requests", mergeRequestIid, "merge");
         return (response.readEntity(MergeRequest.class));
     }
 
