@@ -627,7 +627,7 @@ public class DiscussionsApi extends AbstractApi {
                 .withParam("created_at", createdAt);
         Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath),
-                "mege_requests", mergeRequestIid, "discussions", discussionId, "notes");
+                "merge_requests", mergeRequestIid, "discussions", discussionId, "notes");
         return (response.readEntity(Note.class));
     }
 
@@ -651,7 +651,7 @@ public class DiscussionsApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body).withParam("resolved", resolved);
         Response response = this.putWithFormData(Response.Status.OK, formData,
                "projects", getProjectIdOrPath(projectIdOrPath),
-               "mege_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
+               "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -669,6 +669,6 @@ public class DiscussionsApi extends AbstractApi {
     public void deleteMergeRequestThreadNote(Object projectIdOrPath, Integer mergeRequestIid,
 	    String discussionId, Integer noteId)  throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
-                "mege_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
+                "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
     }
 }
