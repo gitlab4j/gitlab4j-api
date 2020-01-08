@@ -495,7 +495,7 @@ public class JobApi extends AbstractApi implements Constants {
     /**
      * Prevents artifacts from being deleted when expiration is set.
      *
-     * <pre><code>GitLab Endpoint: DELETE /projects/:id/jobs/:job_id/artifacts</code></pre>
+     * <pre><code>GitLab Endpoint: POST /projects/:id/jobs/:job_id/keep</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param jobId the ID to keep artifacts for
@@ -504,7 +504,7 @@ public class JobApi extends AbstractApi implements Constants {
      */
     public Job keepArtifacts(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
 	GitLabApiForm formData = null;
-        Response response = post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "keep");
+        Response response = post(Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "keep");
         return (response.readEntity(Job.class));
     }
 
