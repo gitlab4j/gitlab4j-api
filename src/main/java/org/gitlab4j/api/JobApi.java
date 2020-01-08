@@ -172,7 +172,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a single job for the specified project ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Job getJob(Object projectIdOrPath, int jobId) throws GitLabApiException {
+    public Job getJob(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId);
         return (response.readEntity(Job.class));
     }
@@ -186,7 +186,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @param jobId the job ID to get
      * @return a single job for the specified project ID as an Optional intance
      */
-    public Optional<Job> getOptionalJob(Object projectIdOrPath, int jobId) {
+    public Optional<Job> getOptionalJob(Object projectIdOrPath, Integer jobId) {
         try {
             return (Optional.ofNullable(getJob(projectIdOrPath, jobId)));
         } catch (GitLabApiException glae) {
@@ -422,7 +422,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a String containing the specified job's trace
      * @throws GitLabApiException if any exception occurs during execution
      */
-     public String getTrace(Object projectIdOrPath, int jobId) throws GitLabApiException {
+     public String getTrace(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "trace");
         return (response.readEntity(String.class));
@@ -438,7 +438,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @return job instance which just canceled
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Job cancleJob(Object projectIdOrPath, int jobId) throws GitLabApiException {
+    public Job cancleJob(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
         GitLabApiForm formData = null;
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "cancel");
         return (response.readEntity(Job.class));
@@ -454,7 +454,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @return job instance which just retried
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Job retryJob(Object projectIdOrPath, int jobId) throws GitLabApiException {
+    public Job retryJob(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
         GitLabApiForm formData = null;
         Response response = post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "retry");
         return (response.readEntity(Job.class));
@@ -470,7 +470,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @return job instance which just erased
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Job eraseJob(Object projectIdOrPath, int jobId) throws GitLabApiException {
+    public Job eraseJob(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
         GitLabApiForm formData = null;
         Response response = post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "erase");
         return (response.readEntity(Job.class));
@@ -486,9 +486,38 @@ public class JobApi extends AbstractApi implements Constants {
      * @return job instance which just played
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Job playJob(Object projectIdOrPath, int jobId) throws GitLabApiException {
+    public Job playJob(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
         GitLabApiForm formData = null;
         Response response = post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "play");
         return (response.readEntity(Job.class));
+    }
+
+    /**
+     * Prevents artifacts from being deleted when expiration is set.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/jobs/:job_id/artifacts</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param jobId the ID to keep artifacts for
+     * @return the Job instance that was just modified
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Job keepArtifacts(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
+	GitLabApiForm formData = null;
+        Response response = post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "keep");
+        return (response.readEntity(Job.class));
+    }
+
+    /**
+     * Delete artifacts of a job.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/jobs/:job_id/artifacts</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param jobId the ID to delete artifacts for
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public void deleteArtifacts(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
+        delete(Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts");
     }
 }

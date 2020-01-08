@@ -27,6 +27,8 @@ public class Job {
     private JobStatus status;
     private String when;
     private Boolean manual;
+    private Boolean allowFailure;
+    private Float duration;
 
     public Integer getId() {
         return id;
@@ -188,6 +190,22 @@ public class Job {
         this.manual = manual;
     }
 
+    public Boolean getAllowFailure() {
+        return allowFailure;
+    }
+
+    public void setAllowFailure(Boolean allowFailure) {
+        this.allowFailure = allowFailure;
+    }
+
+    public Float getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Float duration) {
+        this.duration = duration;
+    }
+
     public Job withId(Integer id) {
         this.id = id;
         return this;
@@ -270,6 +288,11 @@ public class Job {
 
     public Job withManual(Boolean manual) {
         this.manual = manual;
+        return this;
+    }
+
+    public Job allowFailureManual(Boolean allowFailure) {
+        this.allowFailure = allowFailure;
         return this;
     }
 
