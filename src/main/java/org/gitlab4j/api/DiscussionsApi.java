@@ -337,7 +337,7 @@ public class DiscussionsApi extends AbstractApi {
     /**
      * Resolve or unresolve whole discussion of a merge request.
      *
-     * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/discussions</code></pre>
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/merge_requests/:merge_request_iid/discussions/:discussion_id</code></pre>
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param mergeRequestIid mergeRequestIid the internal ID of the merge request
@@ -350,7 +350,7 @@ public class DiscussionsApi extends AbstractApi {
             String discussionId, Boolean resolved)  throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("resolved", resolved, true);
         Response response = put(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "discussions");
+                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "discussions", discussionId);
         return (response.readEntity(Discussion.class));
     }
 
