@@ -537,8 +537,46 @@ public class CommitsApi extends AbstractApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public List<Diff> getDiff(Object projectIdOrPath, String sha) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "diff");
-        return (response.readEntity(new GenericType<List<Diff>>() {}));
+        return (getDiff(projectIdOrPath, sha, getDefaultPerPage()).all());
+    }
+
+    /**
+      * Get the Pager of diffs of a commit in a project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/diff</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha a commit hash or name of a branch or tag
+     * @param itemsPerPage the number of Diff instances that will be fetched per page
+     * @return a Pager of Diff instances for the specified project ID/sha pair
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Pager<Diff> getDiff(Object projectIdOrPath, String sha, int itemsPerPage) throws GitLabApiException {
+
+        if (projectIdOrPath == null) {
+            throw new RuntimeException("projectIdOrPath cannot be null");
+        }
+
+        if (sha == null || sha.trim().isEmpty()) {
+            throw new RuntimeException("sha cannot be null");
+        }
+
+        return (new Pager<Diff>(this, Diff.class, itemsPerPage, null,
+            "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "diff"));
+    }
+
+    /**
+      * Get the Diff of diffs of a commit in a project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/diff</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha a commit hash or name of a branch or tag
+     * @return a Stream of Diff instances for the specified project ID/sha pair
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Stream<Diff> getDiffStream(Object projectIdOrPath, String sha) throws GitLabApiException {
+        return (getDiff(projectIdOrPath, sha, getDefaultPerPage()).stream());
     }
 
     /**

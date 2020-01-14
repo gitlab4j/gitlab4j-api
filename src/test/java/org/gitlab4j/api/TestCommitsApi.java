@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Branch;
@@ -93,6 +94,18 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         diffs = gitLabApi.getCommitsApi().getDiff(TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(0).getId());
         assertNotNull(diffs);
         assertTrue(diffs.size() > 0);
+    }
+
+    @Test
+    public void testDiffStream() throws GitLabApiException {
+
+        assertNotNull(testProject);
+
+        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId());
+        assertTrue(commits.size() > 0);
+
+        Stream<Diff> diffs = gitLabApi.getCommitsApi().getDiffStream(testProject.getId(), commits.get(0).getId());
+        assertTrue(diffs.count() > 0);
     }
 
     @Test
