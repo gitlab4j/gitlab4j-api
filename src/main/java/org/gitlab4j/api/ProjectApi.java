@@ -3095,7 +3095,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @return a ProjectApprovalsConfig instance with the project's approvals configuration
      * @throws GitLabApiException if any exception occurs
      */
-    public ProjectApprovalsConfig getApprovalsConfiguration(Object projectIdOrPath, ProjectApprovalsConfig config) throws GitLabApiException {
+    public ProjectApprovalsConfig setApprovalsConfiguration(Object projectIdOrPath, ProjectApprovalsConfig config) throws GitLabApiException {
 	GitLabApiForm formData = config.getForm();
         Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "approvals");
         return (response.readEntity(ProjectApprovalsConfig.class));
