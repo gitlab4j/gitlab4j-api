@@ -72,7 +72,7 @@ public class WikisApi extends AbstractApi {
      */
     public List<WikiPage> getPages(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
-                "projects", getProjectIdOrPath(projectIdOrPath), "wikis");
+                "projects", getProjectIdOrPath(projectIdOrPath), "wikis",,"?with_content=1");
         return response.readEntity(new GenericType<List<WikiPage>>() {});
     }
 
