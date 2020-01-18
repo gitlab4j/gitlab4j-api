@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -40,7 +41,6 @@ import org.gitlab4j.api.models.WikiPage;
  * See <a href="https://docs.gitlab.com/ce/api/wikis.html">Wikis API at GitLab</a> for more information.
  */
 public class WikisApi extends AbstractApi {
-
 
     public WikisApi(GitLabApi gitLabApi) {
         super(gitLabApi);
@@ -56,7 +56,34 @@ public class WikisApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<WikiPage> getPages(Object projectIdOrPath) throws GitLabApiException {
-        return (getPages(projectIdOrPath, 1, getDefaultPerPage()));
+        return (getPages(projectIdOrPath, false, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of pages in project wiki.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param itemsPerPage the number of WikiPage instances that will be fetched per page
+     * @return a Pager of pages in project's wiki for the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<WikiPage> getPages(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+	return (getPages(projectIdOrPath, false, itemsPerPage));
+    }
+
+    /**
+     * Get a Stream of pages in project wiki.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a Pager of pages in project's wiki for the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<WikiPage> getPagesStream(Object projectIdOrPath) throws GitLabApiException {
+	return (getPages(projectIdOrPath, false, getDefaultPerPage()).stream());
     }
 
     /**
@@ -69,11 +96,57 @@ public class WikisApi extends AbstractApi {
      * @param perPage the number of wiki-pages per page
      * @return a list of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Will be removed in a future release, use {@link #getPages(Object, boolean, int)}
      */
     public List<WikiPage> getPages(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
                 "projects", getProjectIdOrPath(projectIdOrPath), "wikis");
         return response.readEntity(new GenericType<List<WikiPage>>() {});
+    }
+
+    /**
+     * Get a List of pages in project wiki.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param withContent if true the results will include the pages content
+     * @return a List of pages in project's wiki for the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<WikiPage> getPages(Object projectIdOrPath, boolean withContent) throws GitLabApiException {
+	return (getPages(projectIdOrPath, withContent, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of pages in project wiki.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param withContent if true the results will include the pages content
+     * @param itemsPerPage the number of WikiPage instances that will be fetched per page
+     * @return a Pager of pages in project's wiki for the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<WikiPage> getPages(Object projectIdOrPath, boolean withContent, int itemsPerPage) throws GitLabApiException {
+	GitLabApiForm formData = new GitLabApiForm().withParam("with_content", (withContent ? 1 : 0));
+	return (new Pager<WikiPage>(this, WikiPage.class, itemsPerPage, formData.asMap(), 
+            "projects", getProjectIdOrPath(projectIdOrPath), "wikis"));
+    }
+
+    /**
+     * Get a Stream of pages in project wiki.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param withContent if true the results will include the pages content
+     * @return a Stream of pages in project's wiki for the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<WikiPage> getPagesStream(Object projectIdOrPath, boolean withContent) throws GitLabApiException {
+	return (getPages(projectIdOrPath, withContent, getDefaultPerPage()).stream());
     }
 
     /**
