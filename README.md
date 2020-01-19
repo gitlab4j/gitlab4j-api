@@ -252,7 +252,7 @@ The API has been broken up into sub API classes to make it easier to consume and
 
 ### **Available Sub APIs**
 
-The following is a list of the available sub APIs along with a sample use of each API. See the <a href="http://www.messners.com/gitlab4j-api/javadocs/index.html?org/gitlab4j/api/package-summary.html" target="_top">Javadocs</a> for a complete list of available methods for each sub API.
+The following is a list of the available sub APIs along with a sample use of each API. See the <a href="https://javadoc.io/doc/org.gitlab4j/gitlab4j-api" target="_top">Javadocs</a> for a complete list of available methods for each sub API.
 
 ---
 &nbsp;&nbsp;[ApplicationsApi](#applicationsapi)<br/>
