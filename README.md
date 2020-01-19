@@ -509,7 +509,7 @@ List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
 ```
 
-#### ResouceLabelEventsApi
+#### ResourceLabelEventsApi
 ```java
 // Get the label events for the specified merge request
 List<LabelEvent> labelEvents = gitLabApi.getResourceLabelEventsApi()
