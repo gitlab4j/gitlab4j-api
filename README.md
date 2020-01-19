@@ -53,7 +53,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.14.11'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.14.12'
 }
 ```
 
@@ -64,7 +64,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.14.11</version>
+    <version>4.14.12</version>
 </dependency>
 ```
 
@@ -287,6 +287,7 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[ReleasesApi](#releasesapi)<br/>
 &nbsp;&nbsp;[RepositoryApi](#repositoryapi)<br/>
 &nbsp;&nbsp;[RepositoryFileApi](#repositoryfileapi)<br/>
+&nbsp;&nbsp;[ReourceLabelEventsApi](#resourcelabeleventsapi)<br/>
 &nbsp;&nbsp;[RunnersApi](#runnersapi)<br/>
 &nbsp;&nbsp;[SearchApi](#searchapi)<br/>
 &nbsp;&nbsp;[ServicesApi](#servicesapi)<br/>
@@ -506,6 +507,13 @@ List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
 ```java
 // Get info (name, size, ...) and the content from a file in repository
 RepositoryFile file = gitLabApi.getRepositoryFileApi().getFile("file-path", 1234, "ref");   
+```
+
+#### ResouceLabelEventsApi
+```java
+// Get the label events for the specified merge request
+List<LabelEvent> labelEvents = gitLabApi.getResourceLabelEventsApi()
+        .getMergeRequestLabelEvents(projectId, mergeRequestIid);
 ```
 
 #### RunnersApi

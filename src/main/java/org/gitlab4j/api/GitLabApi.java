@@ -83,6 +83,7 @@ public class GitLabApi {
     private ReleasesApi releasesApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
+    private ResourceLabelEventsApi resourceLabelEventsApi;
     private RunnersApi runnersApi;
     private SearchApi searchApi;
     private ServicesApi servicesApi;
@@ -1504,6 +1505,25 @@ public class GitLabApi {
         }
 
         return (repositoryFileApi);
+    }
+
+    /**
+     * Gets the ResourceLabelEventsApi instance owned by this GitLabApi instance. The ResourceLabelEventsApi
+     * is used to perform all Resource Label Events related API calls.
+     *
+     * @return the ResourceLabelEventsApi instance owned by this GitLabApi instance
+     */
+    public ResourceLabelEventsApi getResourceLabelEventsApi() {
+
+        if (resourceLabelEventsApi == null) {
+            synchronized (this) {
+                if (resourceLabelEventsApi == null) {
+                    resourceLabelEventsApi = new ResourceLabelEventsApi(this);
+                }
+            }
+        }
+
+        return (resourceLabelEventsApi);
     }
 
     /**

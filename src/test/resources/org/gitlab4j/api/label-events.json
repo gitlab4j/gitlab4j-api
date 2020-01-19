@@ -1,0 +1,128 @@
+[
+ {
+    "id": 142,
+    "user": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://gitlab.example.com/root"
+    },
+    "created_at": "2018-08-20T13:38:20.077Z",
+    "resource_type": "Issue",
+    "resource_id": 253,
+    "label": {
+      "id": 73,
+      "name": "a1",
+      "color": "#34495E",
+      "description": ""
+    },
+    "action": "add"
+  },
+  {
+    "id": 143,
+    "user": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://gitlab.example.com/root"
+    },
+    "created_at": "2018-08-20T13:38:20.077Z",
+    "resource_type": "Issue",
+    "resource_id": 253,
+    "label": {
+      "id": 74,
+      "name": "p1",
+      "color": "#0033CC",
+      "description": ""
+    },
+    "action": "remove"
+  },
+  {
+    "id": 106,
+    "user": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://gitlab.example.com/root"
+    },
+    "created_at": "2018-08-19T11:43:01.746Z",
+    "resource_type": "Epic",
+    "resource_id": 33,
+    "label": {
+      "id": 73,
+      "name": "a1",
+      "color": "#34495E",
+      "description": ""
+    },
+    "action": "add"
+  },
+  {
+    "id": 107,
+    "user": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://gitlab.example.com/root"
+    },
+    "created_at": "2018-08-19T11:43:01.746Z",
+    "resource_type": "Epic",
+    "resource_id": 33,
+    "label": {
+      "id": 37,
+      "name": "glabel2",
+      "color": "#A8D695",
+      "description": ""
+    },
+    "action": "add"
+  },
+  {
+    "id": 119,
+    "user": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://gitlab.example.com/root"
+    },
+    "created_at": "2018-08-20T06:17:28.394Z",
+    "resource_type": "MergeRequest",
+    "resource_id": 28,
+    "label": {
+      "id": 74,
+      "name": "p1",
+      "color": "#0033CC",
+      "description": ""
+    },
+    "action": "add"
+  },
+  {
+    "id": 120,
+    "user": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://gitlab.example.com/root"
+    },
+    "created_at": "2018-08-20T06:17:28.394Z",
+    "resource_type": "MergeRequest",
+    "resource_id": 28,
+    "label": {
+      "id": 41,
+      "name": "project",
+      "color": "#D1D100",
+      "description": ""
+    },
+    "action": "add"
+  }
+]

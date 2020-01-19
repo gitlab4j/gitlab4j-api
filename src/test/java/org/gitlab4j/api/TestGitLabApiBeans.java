@@ -69,6 +69,7 @@ import org.gitlab4j.api.models.IssuesStatistics;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
 import org.gitlab4j.api.models.Label;
+import org.gitlab4j.api.models.LabelEvent;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Milestone;
@@ -287,6 +288,12 @@ public class TestGitLabApiBeans {
     public void testIssueLink() throws Exception {
         IssueLink issueLink = unmarshalResource(IssueLink.class, "issue-link.json");
         assertTrue(compareJson(issueLink, "issue-link.json"));
+    }
+
+    @Test
+    public void testLabelEvents() throws Exception {
+        List<LabelEvent> events = unmarshalResourceList(LabelEvent.class, "label-events.json");
+        assertTrue(compareJson(events, "label-events.json"));
     }
 
     @Test
