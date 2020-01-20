@@ -149,13 +149,13 @@ gitLabApi.enableRequestResponseLogging();
 gitLabApi.enableRequestResponseLogging(java.util.logging.Level.INFO);
 
 // Log using the specified logger and the INFO level
-gitLabApi.enableRequestResponseLogging(youtLoggerInstance, java.util.logging.Level.INFO);
+gitLabApi.enableRequestResponseLogging(yourLoggerInstance, java.util.logging.Level.INFO);
 
 // Log using the shared logger, at the INFO level, and include up to 1024 bytes of entity logging
 gitLabApi.enableRequestResponseLogging(java.util.logging.Level.INFO, 1024);
 
 // Log using the specified logger, at the INFO level, and up to 1024 bytes of entity logging
-gitLabApi.enableRequestResponseLogging(youtLoggerInstance, java.util.logging.Level.INFO, 1024);
+gitLabApi.enableRequestResponseLogging(yourLoggerInstance, java.util.logging.Level.INFO, 1024);
 ```
 
 ---
