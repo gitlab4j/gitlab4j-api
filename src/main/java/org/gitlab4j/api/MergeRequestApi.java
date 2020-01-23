@@ -19,6 +19,7 @@ import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestFilter;
 import org.gitlab4j.api.models.MergeRequestParams;
 import org.gitlab4j.api.models.Participant;
+import org.gitlab4j.api.models.Pipeline;
 
 /**
  * This class implements the client side API for the GitLab merge request calls.
@@ -1093,5 +1094,71 @@ public class MergeRequestApi extends AbstractApi {
         Response response = get(Response.Status.OK, queryParams.asMap(),
 		"projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid);
         return (response.readEntity(MergeRequest.class));
+    }
+
+    /**
+     * Get a list of pipelines for a merge request.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/pipelines</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a list containing the pipelines for the specified merge request
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public List<Pipeline> getMergeRequestPipelines(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+        return (getMergeRequestPipelines(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of pipelines for a merge request.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/pipelines</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param itemsPerPage the number of Pipeline instances that will be fetched per page
+     * @return a Pager containing the pipelines for the specified merge request
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Pager<Pipeline> getMergeRequestPipelines(Object projectIdOrPath, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Pipeline>(this, Pipeline.class, itemsPerPage, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "pipelines"));
+    }
+
+    /**
+     * Get a Stream of pipelines for a merge request.
+     *
+    * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/pipelines</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a Stream containing the pipelines for the specified merge request
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Stream<Pipeline> getMergeRequestPipelinesStream(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+        return (getMergeRequestPipelines(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * <p>Create a new pipeline for a merge request. A pipeline created via this endpoint will not run
+     * a regular branch/tag pipeline, it requires .gitlab-ci.yml to be configured with only:
+     * [merge_requests] to create jobs.</p>
+     *
+     * The new pipeline can be:
+     *    A detached merge request pipeline.
+     *    A pipeline for merged results if the project setting is enabled.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/pipelines</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a Pipeline instance with the newly created pipeline info
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Pipeline createMergeRequestPipeline(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+	Response response = post(Response.Status.CREATED, (Form)null,
+            "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "pipelines");
+        return (response.readEntity(Pipeline.class));
     }
 }
