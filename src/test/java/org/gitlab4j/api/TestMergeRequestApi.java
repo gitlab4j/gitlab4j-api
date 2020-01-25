@@ -8,10 +8,12 @@ import static org.junit.Assume.assumeNotNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestParams;
+import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.User;
@@ -224,6 +226,49 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
                 gitLabApi.getRepositoryApi().deleteBranch(testProject, TEST_REBASE_BRANCH_NAME);
             } catch (GitLabApiException ignore) {
             }
+        }
+    }
+
+    @Test
+    public void testGetMergeRequestPipelines() throws GitLabApiException {
+
+	// Create a test branch
+        Branch branch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_BRANCH_NAME, "master");
+        assertNotNull(branch);
+
+        // Create a new file in the test branch
+        RepositoryFile repoFile = new RepositoryFile();
+        repoFile.setFilePath("README-FOR-TESTING-MERGE-REQUEST-PIPELINES.md");
+        repoFile.setContent("This is content");
+        gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, TEST_BRANCH_NAME, "Initial commit.");
+
+        MergeRequest mr = null;
+        try {
+
+            MergeRequestParams params = new MergeRequestParams()
+                .withSourceBranch(TEST_BRANCH_NAME)
+                .withTargetBranch("master")
+                .withTitle(TEST_MR_TITLE);
+            mr = gitLabApi.getMergeRequestApi().createMergeRequest(testProject, params);
+            assertNotNull(mr);
+
+            List<Pipeline> pipelines = gitLabApi.getMergeRequestApi().getMergeRequestPipelines(testProject, mr.getIid());
+            assertNotNull(pipelines);
+
+            Stream<Pipeline> pipelineStream = gitLabApi.getMergeRequestApi().getMergeRequestPipelinesStream(testProject, mr.getIid());
+            assertNotNull(pipelineStream);
+
+        } finally {
+
+            if (mr != null) {
+                try {
+                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
+                } catch (Exception ignore) {}
+            }
+
+            try {
+                gitLabApi.getRepositoryApi().deleteBranch(testProject, TEST_BRANCH_NAME);
+            } catch (GitLabApiException ignore) {}
         }
     }
 }
