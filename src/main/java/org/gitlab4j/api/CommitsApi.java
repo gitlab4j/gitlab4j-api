@@ -21,6 +21,8 @@ import org.gitlab4j.api.models.CommitRef.RefType;
 import org.gitlab4j.api.models.CommitStatus;
 import org.gitlab4j.api.models.CommitStatusFilter;
 import org.gitlab4j.api.models.Diff;
+import org.gitlab4j.api.models.GpgSignature;
+import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.utils.ISO8601;
 
 /**
@@ -792,5 +794,82 @@ public class CommitsApi extends AbstractApi {
         Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "cherry_pick");
         return (response.readEntity(Commit.class));
+    }
+
+    /**
+     * Get a list of Merge Requests related to the specified commit.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/merge_requests</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha the commit SHA to get merge requests for
+     * @return a list containing the MergeRequest instances for the specified project/SHA
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public List<MergeRequest> getMergeRequests(Object projectIdOrPath, String sha) throws GitLabApiException {
+        return (getMergeRequests(projectIdOrPath, sha, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of Merge Requests related to the specified commit.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/merge_requests</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha the commit SHA to get merge requests for
+     * @param itemsPerPage the number of Commit instances that will be fetched per page
+     * @return a Pager containing the MergeRequest instances for the specified project/SHA
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Pager<MergeRequest> getMergeRequests(Object projectIdOrPath, String sha, int itemsPerPage) throws GitLabApiException {
+	return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", urlEncode(sha), "merge_requests"));
+    }
+
+    /**
+     * Get a Stream of Merge Requests related to the specified commit.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/merge_requests</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha the commit SHA to get merge requests for
+     * @return a Stream containing the MergeRequest instances for the specified project/SHA
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public Stream<MergeRequest> getMergeRequestsStream(Object projectIdOrPath, String sha) throws GitLabApiException {
+        return (getMergeRequests(projectIdOrPath, sha, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get the GPG signature from a commit, if it is signed. For unsigned commits, it results in a 404 response.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/signature</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha a commit hash or name of a branch or tag
+     * @return the GpgSignature instance for the specified project ID/sha pair
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public GpgSignature getGpgSignature(Object projectIdOrPath, String sha) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
+        	"projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", urlEncode(sha), "signature");
+        return (response.readEntity(GpgSignature.class));
+    }
+
+    /**
+     * Get the GPG signature from a commit as an Optional instance
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/signature</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha a commit hash or name of a branch or tag
+     * @return the GpgSignature for the specified project ID/sha pair as an Optional instance
+     */
+    public Optional<GpgSignature> getOptionalGpgSignature(Object projectIdOrPath, String sha) {
+        try {
+            return (Optional.ofNullable(getGpgSignature(projectIdOrPath, sha)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 }

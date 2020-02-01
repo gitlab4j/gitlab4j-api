@@ -59,6 +59,7 @@ import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.ExportStatus;
 import org.gitlab4j.api.models.FileUpload;
+import org.gitlab4j.api.models.GpgSignature;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.HealthCheckInfo;
 import org.gitlab4j.api.models.ImpersonationToken;
@@ -240,6 +241,12 @@ public class TestGitLabApiBeans {
     public void testFileUpload() throws Exception {
         FileUpload fileUpload = unmarshalResource(FileUpload.class, "file-upload.json");
         assertTrue(compareJson(fileUpload, "file-upload.json"));
+    }
+
+    @Test
+    public void testGpgSignature() throws Exception {
+	GpgSignature gpgSignature = unmarshalResource(GpgSignature.class, "gpg-signature.json");
+        assertTrue(compareJson(gpgSignature, "gpg-signature.json"));
     }
 
     @Test
