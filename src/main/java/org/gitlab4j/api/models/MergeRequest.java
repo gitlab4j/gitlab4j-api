@@ -14,6 +14,7 @@ public class MergeRequest {
     private Boolean allowMaintainerToPush;
     private Integer approvalsBeforeMerge;
     private Assignee assignee;
+    private List<Assignee> assignees;
     private Author author;
     private List<Diff> changes;
     private Date closedAt;
@@ -84,6 +85,14 @@ public class MergeRequest {
 
     public void setApprovalsBeforeMerge(Integer approvalsBeforeMerge) {
         this.approvalsBeforeMerge = approvalsBeforeMerge;
+    }
+
+    public List<Assignee> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(List<Assignee> assignees) {
+        this.assignees = assignees;
     }
 
     public Assignee getAssignee() {
