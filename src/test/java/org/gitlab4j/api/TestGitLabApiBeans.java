@@ -95,7 +95,6 @@ import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
 import org.gitlab4j.api.models.SearchBlob;
-import org.gitlab4j.api.models.Session;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.SystemHook;
@@ -560,12 +559,6 @@ public class TestGitLabApiBeans {
     public void testProjectSnippet() throws Exception {
         Snippet snippet = unmarshalResource(Snippet.class, "snippet.json");
         assertTrue(compareJson(snippet, "snippet.json"));
-    }
-
-    @Test
-    public void testSession() throws Exception {
-        Session session = unmarshalResource(Session.class, "session.json");
-        assertTrue(compareJson(session, "session.json"));
     }
 
     @Test

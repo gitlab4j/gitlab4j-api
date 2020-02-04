@@ -1,10 +1,8 @@
 package org.gitlab4j.api;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Version;
 import org.gitlab4j.api.utils.SecretString;
 import org.junit.Before;
@@ -32,7 +30,6 @@ public class TestGitLabLogin implements PropertyConstants {
     private static final String TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
 
     private static String problems = "";
-    private static boolean hasSession;
 
     public TestGitLabLogin() {
         super();
@@ -59,21 +56,6 @@ public class TestGitLabLogin implements PropertyConstants {
             problems += "TEST_PRIVATE_TOKEN cannot be empty\n";
         }
 
-        if (problems.isEmpty()) {
-            try {
-                GitLabApi gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
-                Version version = gitLabApi.getVersion();
-                String[] parts = version.getVersion().split(".", -1);
-                if (parts.length == 3) {
-                    if (Integer.parseInt(parts[0]) < 10 || 
-                            (Integer.parseInt(parts[0]) == 10 && Integer.parseInt(parts[1]) < 2)) {
-                        hasSession = true;
-                    }
-                }
-            } catch (Exception e) {                
-            }
-        }
-
         if (!problems.isEmpty()) {
             System.err.print(problems);
         }
@@ -82,16 +64,6 @@ public class TestGitLabLogin implements PropertyConstants {
     @Before
     public void beforeMethod() {
         assumeTrue(problems != null && problems.isEmpty());
-    }
-
-    @Test
-    public void testSessionFallover() throws GitLabApiException {
-        assumeFalse(hasSession);
-        @SuppressWarnings("deprecation")
-        GitLabApi gitLabApi = GitLabApi.login(ApiVersion.V4, TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD);
-        assertNotNull(gitLabApi);
-        Version version = gitLabApi.getVersion();
-        assertNotNull(version);
     }
 
     @Test

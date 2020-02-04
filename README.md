@@ -80,7 +80,7 @@ There have been reports of problems resolving some dependencies when using Ivy o
 GitLab4J-API is quite simple to use, all you need is the URL to your GitLab server and the Personal Access Token from your GitLab Account Settings page.  Once you have that info it is as simple as:
 ```java
 // Create a GitLabApi instance to communicate with your GitLab server
-GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_ACCESS_TOKEN");
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PERSONAL_ACCESS_TOKEN");
 
 // Get the list of projects your account has access to
 List<Project> projects = gitLabApi.getProjectApi().getProjects();
@@ -89,12 +89,12 @@ List<Project> projects = gitLabApi.getProjectApi().getProjects();
 You can also login to your GitLab server with username, and password:
 ```java
 // Log in to the GitLab server using a username and password
-GitLabApi gitLabApi = GitLabApi.login("http://your.gitlab.server.com", "your-username", "your-password");
+GitLabApi gitLabApi = GitLabApi.oauth2Login("http://your.gitlab.server.com", "username", "password");
 ```
 As of GitLab4J-API 4.6.6, all API requests support performing the API call as if you were another user, provided you are authenticated as an administrator:
 ```java
 // Create a GitLabApi instance to communicate with your GitLab server (must be an administrator)
-GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_ACCESS_TOKEN");
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PERSONAL_ACCESS_TOKEN");
 
 // sudo as as a different user, in this case the user named "johndoe", all future calls will be done as "johndoe"
 gitLabApi.sudo("johndoe")
@@ -110,16 +110,16 @@ As of GitLab4J-API 4.8.2 support has been added for connecting to the GitLab ser
 // Log in to the GitLab server using a proxy server (with basic auth on proxy)
 Map<String, Object> proxyConfig = ProxyClientConfig.createProxyClientConfig(
         "http://your-proxy-server", "proxy-username", "proxy-password");
-GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_ACCESS_TOKEN", null, proxyConfig);
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_PERSONAL_ACCESS_TOKEN", null, proxyConfig);
 
 // Log in to the GitLab server using a proxy server (no auth on proxy)
 Map<String, Object> proxyConfig = ProxyClientConfig.createProxyClientConfig("http://your-proxy-server");
-GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_ACCESS_TOKEN", null, proxyConfig);
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_PERSONAL_ACCESS_TOKEN", null, proxyConfig);
 
 // Log in to the GitLab server using an NTLM (Windows DC) proxy
 Map<String, Object> ntlmProxyConfig = ProxyClientConfig.createNtlmProxyClientConfig(
         "http://your-proxy-server", "windows-username", "windows-password", "windows-workstation", "windows-domain");
-GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_ACCESS_TOKEN", null, ntlmProxyConfig);
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_PERSONAL_ACCESS_TOKEN", null, ntlmProxyConfig);
 ```
 See the Javadoc on the GitLabApi class for a complete list of methods accepting the proxy configuration (clientConfiguration parameter)
 
@@ -129,7 +129,7 @@ As of GitLab4J-API 4.2.0 support has been added for GitLab API V4. If your appli
 you can still use GitLab4J-API by creating your GitLabApi instance as follows:
 ```java
 // Create a GitLabApi instance to communicate with your GitLab server using GitLab API V3
-GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.com", "YOUR_ACCESS_TOKEN");
+GitLabApi gitLabApi = new GitLabApi(ApiVersion.V3, "http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
 ```
 
 **NOTICE**:  
@@ -140,7 +140,7 @@ As of GitLab 11.0 support for the GitLab API v3 has been removed from the GitLab
 As of GitLab4J-API 4.8.39 support has been added to log the requests to and the responses from the
 GitLab API.  Enable logging using one of the following methods on the GitLabApi instance:
 ```java
-GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PRIVATE_TOKEN");
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.server.com", "YOUR_PERSONAL_ACCESS_TOKEN");
 
 // Log using the shared logger and default level of FINE
 gitLabApi.enableRequestResponseLogging();
