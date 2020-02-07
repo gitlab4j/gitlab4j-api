@@ -160,6 +160,9 @@ public class TestCommitsApi extends AbstractIntegrationTest {
 
         List<CommitRef> commitRefs = gitLabApi.getCommitsApi().getCommitRefs(testProject.getId(), commits.get(0).getId());
         assertNotNull(commitRefs);
+ 
+        Stream<CommitRef> commitRefsStream = gitLabApi.getCommitsApi().getCommitRefsStream(testProject.getId(), commits.get(0).getId());
+        assertNotNull(commitRefsStream);
     }
 
     @Test

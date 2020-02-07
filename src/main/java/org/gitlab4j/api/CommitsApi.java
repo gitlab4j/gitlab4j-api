@@ -362,29 +362,29 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
-     * Get all references (from branches or tags) a commit is pushed to
+     * Get a List of all references (from branches or tags) a commit is pushed to.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/refs</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha a commit hash or name of a branch or tag
-     * @return Get all references (from branches or tags) a commit is pushed to
+     * @return a List of all references (from branches or tags) a commit is pushed to
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      * @since Gitlab 10.6
      */
     public List<CommitRef> getCommitRefs(Object projectIdOrPath, String sha) throws GitLabApiException {
-        return (getCommitRefs(projectIdOrPath, sha, RefType.ALL));
+        return (getCommitRefs(projectIdOrPath, sha, RefType.ALL, getDefaultPerPage()).all());
     }
 
     /**
-     * Get all references (from branches or tags) a commit is pushed to
+     * Get a Pager of references (from branches or tags) a commit is pushed to.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/refs?type=:refType</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha a commit hash or name of a branch or tag
      * @param itemsPerPage the number of Commit instances that will be fetched per page
-     * @return Get all references (from branches or tags) a commit is pushed to
+     * @return a Pager of references (from branches or tags) a commit is pushed to
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      * @since Gitlab 10.6
      */
@@ -393,27 +393,38 @@ public class CommitsApi extends AbstractApi {
     }
 
     /**
-     * Get all references (from branches or tags) a commit is pushed to
+     * Get a Stream of all references (from branches or tags) a commit is pushed to.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/refs</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha a commit hash or name of a branch or tag
+     * @return a Stream of all references (from branches or tags) a commit is pushed to
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @since Gitlab 10.6
+     */
+    public Stream<CommitRef> getCommitRefsStream(Object projectIdOrPath, String sha) throws GitLabApiException {
+        return (getCommitRefs(projectIdOrPath, sha, RefType.ALL, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a List of all references (from branches or tags) a commit is pushed to.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/refs?type=:refType</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param sha a commit hash or name of a branch or tag
      * @param refType the scope of commits. Possible values branch, tag, all. Default is all.
-     * @return Get all references (from branches or tags) a commit is pushed to
+     * @return a List of all references (from branches or tags) a commit is pushed to
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      * @since Gitlab 10.6
      */
-    public List<CommitRef> getCommitRefs(Object projectIdOrPath, String sha, CommitRef.RefType refType) throws GitLabApiException {
-        Form form = new GitLabApiForm()
-                .withParam("type", refType)
-                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, form.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", urlEncode(sha), "refs");
-        return (response.readEntity(new GenericType<List<CommitRef>>(){}));
+    public List<CommitRef> getCommitRefs(Object projectIdOrPath, String sha, RefType refType) throws GitLabApiException {
+        return (getCommitRefs(projectIdOrPath, sha, refType, getDefaultPerPage()).all());
     }
 
     /**
-     * Get all references (from branches or tags) a commit is pushed to
+     * Get a Pager of references (from branches or tags) a commit is pushed to.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/refs?type=:refType</code></pre>
      *
@@ -421,13 +432,29 @@ public class CommitsApi extends AbstractApi {
      * @param sha a commit hash or name of a branch or tag
      * @param refType the scope of commits. Possible values branch, tag, all. Default is all.
      * @param itemsPerPage the number of Commit instances that will be fetched per page
-     * @return Get all references (from branches or tags) a commit is pushed to
+     * @return a Pager of references (from branches or tags) a commit is pushed to
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      * @since Gitlab 10.6
      */
     public Pager<CommitRef> getCommitRefs(Object projectIdOrPath, String sha, CommitRef.RefType refType, int itemsPerPage) throws GitLabApiException {
         Form form = new GitLabApiForm().withParam("type", refType);
         return (new Pager<CommitRef>(this, CommitRef.class, itemsPerPage, form.asMap(),  "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", urlEncode(sha), "refs"));
+    }
+
+    /**
+     * Get a Stream of all references (from branches or tags) a commit is pushed to.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:sha/refs?type=:refType</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param sha a commit hash or name of a branch or tag
+     * @param refType the scope of commits. Possible values branch, tag, all. Default is all.
+     * @return a Stream of all references (from branches or tags) a commit is pushed to
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @since Gitlab 10.6
+     */
+    public Stream<CommitRef> getCommitRefsStream(Object projectIdOrPath, String sha, RefType refType) throws GitLabApiException {
+        return (getCommitRefs(projectIdOrPath, sha, refType, getDefaultPerPage()).stream());
     }
 
     /**
