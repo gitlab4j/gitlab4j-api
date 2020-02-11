@@ -28,6 +28,7 @@ public class MergeRequest {
     private Integer iid;
     private List<String> labels;
     private String mergeCommitSha;
+    private String squashCommitSha;
     private String mergeStatus;
     private Date mergedAt;
     private Participant mergedBy;
@@ -205,6 +206,14 @@ public class MergeRequest {
 
     public void setMergeCommitSha(String mergeCommitSha) {
         this.mergeCommitSha = mergeCommitSha;
+    }
+
+    public String getSquashCommitSha() {
+        return squashCommitSha;
+    }
+
+    public void setSquashCommitSha(String squashCommitSha) {
+        this.squashCommitSha = squashCommitSha;
     }
 
     public String getMergeStatus() {
