@@ -28,6 +28,7 @@ public class MergeRequest {
     private Integer iid;
     private List<String> labels;
     private String mergeCommitSha;
+    private String squashCommitSha;
     private String mergeStatus;
     private Date mergedAt;
     private Participant mergedBy;
@@ -45,6 +46,7 @@ public class MergeRequest {
     private String targetBranch;
     private Integer targetProjectId;
     private TaskCompletionStatus taskCompletionStatus;
+    private References references;
     private TimeStats timeStats;
     private String title;
     private Date updatedAt;
@@ -207,6 +209,14 @@ public class MergeRequest {
         this.mergeCommitSha = mergeCommitSha;
     }
 
+    public String getSquashCommitSha() {
+        return squashCommitSha;
+    }
+
+    public void setSquashCommitSha(String squashCommitSha) {
+        this.squashCommitSha = squashCommitSha;
+    }
+
     public String getMergeStatus() {
         return mergeStatus;
     }
@@ -341,6 +351,14 @@ public class MergeRequest {
 
     public void setTaskCompletionStatus(TaskCompletionStatus taskCompletionStatus) {
         this.taskCompletionStatus = taskCompletionStatus;
+    }
+
+    public References getReferences() {
+        return references;
+    }
+
+    public void setReferences(References references) {
+        this.references = references;
     }
 
     public TimeStats getTimeStats() {
