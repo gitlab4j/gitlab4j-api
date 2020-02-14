@@ -46,6 +46,7 @@ public class MergeRequest {
     private String targetBranch;
     private Integer targetProjectId;
     private TaskCompletionStatus taskCompletionStatus;
+    private References references;
     private TimeStats timeStats;
     private String title;
     private Date updatedAt;
@@ -350,6 +351,14 @@ public class MergeRequest {
 
     public void setTaskCompletionStatus(TaskCompletionStatus taskCompletionStatus) {
         this.taskCompletionStatus = taskCompletionStatus;
+    }
+
+    public References getReferences() {
+        return references;
+    }
+
+    public void setReferences(References references) {
+        this.references = references;
     }
 
     public TimeStats getTimeStats() {
