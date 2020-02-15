@@ -16,6 +16,7 @@ public class MergeRequest {
     private Assignee assignee;
     private List<Assignee> assignees;
     private Author author;
+    private Boolean blockingDiscussionsResolved;
     private List<Diff> changes;
     private Date closedAt;
     private Participant closedBy;
@@ -24,6 +25,7 @@ public class MergeRequest {
     private Boolean discussionLocked;
     private Integer downvotes;
     private Boolean forceRemoveSourceBranch;
+    private Boolean hasConflicts;
     private Integer id;
     private Integer iid;
     private List<String> labels;
@@ -113,6 +115,14 @@ public class MergeRequest {
         this.author = author;
     }
 
+    public Boolean getBlockingDiscussionsResolved() {
+        return blockingDiscussionsResolved;
+    }
+
+    public void setBlockingDiscussionsResolved(Boolean blockingDiscussionsResolved) {
+        this.blockingDiscussionsResolved = blockingDiscussionsResolved;
+    }
+
     public List<Diff> getChanges() {
         return changes;
     }
@@ -175,6 +185,14 @@ public class MergeRequest {
 
     public void setForceRemoveSourceBranch(Boolean forceRemoveSourceBranch) {
         this.forceRemoveSourceBranch = forceRemoveSourceBranch;
+    }
+
+    public Boolean getHasConflicts() {
+        return hasConflicts;
+    }
+
+    public void setHasConflicts(Boolean hasConflicts) {
+        this.hasConflicts = hasConflicts;
     }
 
     public Integer getId() {

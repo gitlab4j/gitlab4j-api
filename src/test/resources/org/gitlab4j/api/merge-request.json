@@ -60,5 +60,7 @@
         "base_sha": "c380d3acebd181f13629a25d2e2acca46ffe1e00",
         "head_sha": "2be7ddb704c7b6b83732fdd5b9f09d5a397b5f8f",
         "start_sha": "c380d3acebd181f13629a25d2e2acca46ffe1e00"
-    }
+    },
+    "has_conflicts": false,
+    "blocking_discussions_resolved": true
 }
