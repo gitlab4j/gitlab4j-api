@@ -250,7 +250,32 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public MergeRequest getMergeRequest(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid);
+        return getMergeRequest(projectIdOrPath, mergeRequestIid, null, null, null);
+    }
+
+    /**
+     * Get information about a single merge request.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param renderHtml if true response includes rendered HTML for title and description, can be null
+     * @param includeDivergedCommitCount if true response includes the commits behind the target branch, can be null
+     * @param includeRebaseInProgress if true response includes whether a rebase operation is in progress, can be null
+     * @return a MergeRequest instance as specified by the parameters
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest getMergeRequest(Object projectIdOrPath, Integer mergeRequestIid,
+                                        Boolean renderHtml, Boolean includeDivergedCommitCount, Boolean includeRebaseInProgress) throws GitLabApiException {
+
+        GitLabApiForm queryParams = new GitLabApiForm()
+                .withParam("render_html", renderHtml)
+                .withParam("include_diverged_commits_count", includeDivergedCommitCount)
+                .withParam("include_rebase_in_progress", includeRebaseInProgress);
+
+        Response response = get(Response.Status.OK, queryParams.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid);
         return (response.readEntity(MergeRequest.class));
     }
 
@@ -266,8 +291,27 @@ public class MergeRequestApi extends AbstractApi {
      * @return the specified MergeRequest as an Optional instance instance
      */
     public Optional<MergeRequest> getOptionalMergeRequest(Object projectIdOrPath, Integer mergeRequestIid) {
+        return getOptionalMergeRequest(projectIdOrPath, mergeRequestIid, null, null, null);
+    }
+
+    /**
+     * Get information about a single merge request as an Optional instance.
+     *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param renderHtml if true response includes rendered HTML for title and description, can be null
+     * @param includeDivergedCommitCount if true response includes the commits behind the target branch, can be null
+     * @param includeRebaseInProgress if true response includes whether a rebase operation is in progress, can be null
+     * @return the specified MergeRequest as an Optional instance instance
+     */
+    public Optional<MergeRequest> getOptionalMergeRequest(Object projectIdOrPath, Integer mergeRequestIid,
+                                                          Boolean renderHtml, Boolean includeDivergedCommitCount , Boolean includeRebaseInProgress) {
         try {
-            return (Optional.ofNullable(getMergeRequest(projectIdOrPath, mergeRequestIid)));
+            return (Optional.ofNullable(getMergeRequest(projectIdOrPath, mergeRequestIid, renderHtml, includeDivergedCommitCount, includeRebaseInProgress)));
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
@@ -1090,10 +1134,7 @@ public class MergeRequestApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public MergeRequest getRebaseStatus(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
-        GitLabApiForm queryParams = new GitLabApiForm().withParam("include_rebase_in_progress", true);
-        Response response = get(Response.Status.OK, queryParams.asMap(),
-		"projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid);
-        return (response.readEntity(MergeRequest.class));
+        return getMergeRequest(projectIdOrPath, mergeRequestIid, null, null, true);
     }
 
     /**
