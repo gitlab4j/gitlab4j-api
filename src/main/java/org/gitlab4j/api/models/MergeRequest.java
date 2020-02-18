@@ -23,6 +23,7 @@ public class MergeRequest {
     private Date createdAt;
     private String description;
     private Boolean discussionLocked;
+    private Integer divergedCommitsCount;
     private Integer downvotes;
     private Boolean forceRemoveSourceBranch;
     private Boolean hasConflicts;
@@ -169,6 +170,14 @@ public class MergeRequest {
 
     public void setDiscussionLocked(Boolean discussionLocked) {
         this.discussionLocked = discussionLocked;
+    }
+
+    public Integer getDivergedCommitsCount() {
+        return divergedCommitsCount;
+    }
+
+    public void setDivergedCommitsCount(Integer divergedCommitsCount) {
+        this.divergedCommitsCount = divergedCommitsCount;
     }
 
     public Integer getDownvotes() {
