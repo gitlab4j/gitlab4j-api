@@ -44,6 +44,7 @@ import org.junit.runners.MethodSorters;
 public class TestRepositoryApi extends AbstractIntegrationTest {
 
     private static final String TEST_BRANCH_NAME = "feature/test_branch";
+    private static final String TEST_BRANCH_SEARCH_TERM = "test";
     private static final String TEST_BRANCH1 = "feature/test_branch1";
     private static final String TEST_BRANCH2 = "feature/test_branch2";
     private static final String TEST_PROTECT_BRANCH_NAME = "feature/protect_branch";
@@ -108,6 +109,16 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         assertNotNull(fetchedBranch);
 
         assertEquals(branch.getName(), fetchedBranch.getName());
+    }
+
+    @Test
+    public void testCreateBranchAndAfterSearch() throws GitLabApiException {
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        List<Branch> searchBranch = gitLabApi.getRepositoryApi().searchBranch(project.getId(), TEST_BRANCH_SEARCH_TERM);
+
+        assertEquals(searchBranch.size(),1);
     }
 
     @Test

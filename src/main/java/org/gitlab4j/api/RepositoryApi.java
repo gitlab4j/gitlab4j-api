@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -104,6 +105,26 @@ public class RepositoryApi extends AbstractApi {
         Response response = get(Response.Status.OK, null, "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "branches", urlEncode(branchName));
         return (response.readEntity(Branch.class));
+    }
+
+    /**
+     * Search a single project repository branch by term.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches?search=:term</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param term the branch name search term
+     * @return the branches matching the saerch term by name for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Branch> searchBranch(Object projectIdOrPath, String term) throws GitLabApiException {
+        MultivaluedMap<String, String> queryParams =
+            new GitLabApiForm().withParam("search", urlEncode(term)).asMap();
+
+        Response response = get(Response.Status.OK, queryParams, "projects",
+                getProjectIdOrPath(projectIdOrPath), "repository", "branches");
+        return (response.readEntity(new GenericType<List<Branch>>() {}));
+
     }
 
     /**
