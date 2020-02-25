@@ -10,6 +10,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.AcceptMergeRequestParams;
 import org.gitlab4j.api.models.ApprovalRule;
 import org.gitlab4j.api.models.ApprovalRuleParams;
 import org.gitlab4j.api.models.ApprovalState;
@@ -593,6 +594,41 @@ public class MergeRequestApi extends AbstractApi {
 
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid);
+    }
+
+    /**
+     * Merge changes to the merge request. If the MR has any conflicts and can not be merged,
+     * you'll get a 405 and the error message 'Branch cannot be merged'. If merge request is
+     * already merged or closed, you'll get a 406 and the error message 'Method Not Allowed'.
+     * If the sha parameter is passed and does not match the HEAD of the source, you'll get
+     * a 409 and the error message 'SHA does not match HEAD of source branch'.  If you don't
+     * have permissions to accept this merge request, you'll get a 401.
+     *
+     * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/merge_requests/:merge_request_iid/merge</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param params the MergeRequest instance holding the parameters for accepting the merge request
+     * @return the merged merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequest acceptMergeRequest(
+            Object projectIdOrPath,
+            Integer mergeRequestIid,
+            AcceptMergeRequestParams params
+    ) throws GitLabApiException {
+        Response response = put(
+                Response.Status.OK,
+                params.getForm(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "merge"
+        );
+        return (response.readEntity(MergeRequest.class));
     }
 
     /**
