@@ -108,17 +108,13 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         Branch fetchedBranch = gitLabApi.getRepositoryApi().getBranch(project.getId(), TEST_BRANCH_NAME);
         assertNotNull(fetchedBranch);
 
+        List<Branch> searchBranches = gitLabApi.getRepositoryApi().getBranches(project.getId(), TEST_BRANCH_SEARCH_TERM);
+        assertEquals(searchBranches.size(), 1);
+
+        searchBranches = gitLabApi.getRepositoryApi().getBranches(project.getId());
+        assertTrue(searchBranches.size() > 1);
+
         assertEquals(branch.getName(), fetchedBranch.getName());
-    }
-
-    @Test
-    public void testCreateBranchAndAfterSearch() throws GitLabApiException {
-        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
-        assertNotNull(project);
-
-        List<Branch> searchBranch = gitLabApi.getRepositoryApi().searchBranch(project.getId(), TEST_BRANCH_SEARCH_TERM);
-
-        assertEquals(searchBranch.size(),1);
     }
 
     @Test
