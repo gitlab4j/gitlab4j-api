@@ -504,7 +504,7 @@ List<Branch> branches = gitLabApi.getRepositoryApi().getBranches(projectId);
 ```
 ```java
 // Search repository branches from a project, by name
-List<Branch> branches = gitLabApi.getRepositoryApi().searchBranch(projectId, searchTerm);
+List<Branch> branches = gitLabApi.getRepositoryApi().getBranches(projectId, searchTerm);
 ```
 
 #### RepositoryFileApi
