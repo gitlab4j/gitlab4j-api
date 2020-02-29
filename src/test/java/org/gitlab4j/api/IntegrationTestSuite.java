@@ -128,7 +128,7 @@ public class IntegrationTestSuite implements PropertyConstants {
                 AccessTokenUtils.revokePersonalAccessToken(
                     TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
                     TEST_PRIVATE_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
-                System.out.format("Revoved '%s'%n", TEST_PRIVATE_TOKEN_NAME);
+                System.out.format("Revoked '%s'%n", TEST_PRIVATE_TOKEN_NAME);
             } catch (Exception ignore) {}
         }
 
@@ -137,7 +137,7 @@ public class IntegrationTestSuite implements PropertyConstants {
                 AccessTokenUtils.revokePersonalAccessToken(
                     TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
                     TEST_ACCESS_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
-                System.out.format("Revoved '%s'%n", TEST_ACCESS_TOKEN_NAME);
+                System.out.format("Revoked '%s'%n", TEST_ACCESS_TOKEN_NAME);
             } catch (Exception ignore) {}
         }
     }

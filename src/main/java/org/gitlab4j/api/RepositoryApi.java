@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -41,7 +42,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Branch> getBranches(Object projectIdOrPath) throws GitLabApiException {
-        return (getBranches(projectIdOrPath, getDefaultPerPage()).all());
+        return getBranches(projectIdOrPath, null);
     }
 
     /**
@@ -73,8 +74,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Branch> getBranches(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Branch>(this, Branch.class, itemsPerPage, null, "projects",
-                getProjectIdOrPath(projectIdOrPath), "repository", "branches"));
+        return getBranches(projectIdOrPath, null, itemsPerPage);
     }
 
     /**
@@ -87,7 +87,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<Branch> getBranchesStream(Object projectIdOrPath) throws GitLabApiException {
-        return (getBranches(projectIdOrPath, getDefaultPerPage()).stream());
+        return getBranchesStream(projectIdOrPath, null);
     }
 
     /**
@@ -104,6 +104,55 @@ public class RepositoryApi extends AbstractApi {
         Response response = get(Response.Status.OK, null, "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "branches", urlEncode(branchName));
         return (response.readEntity(Branch.class));
+    }
+
+    /**
+     * Get a List of repository branches from a project, sorted by name alphabetically, filter by the search term.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches?search=:search</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param search the branch name search term
+     * @return the List of repository branches for the specified project ID and search term
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Branch> getBranches(Object projectIdOrPath, String search) throws GitLabApiException {
+        return (getBranches(projectIdOrPath, search, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Stream of repository branches from a project, sorted by name alphabetically, filter by the search term.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches?search=:search</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param search the branch name search term
+     * @return the Stream of repository branches for the specified project ID and search term
+     *
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Branch> getBranchesStream(Object projectIdOrPath, String search) throws GitLabApiException {
+        return (getBranches(projectIdOrPath, search, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a Pager of repository branches from a project, sorted by name alphabetically, filter by the search term.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches?search=:search</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param search the branch name search term
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return the list of repository branches for the specified project ID and search term
+     *
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Branch> getBranches(Object projectIdOrPath, String search, int itemsPerPage) throws GitLabApiException {
+        MultivaluedMap<String, String> queryParams = ( search == null ? null :
+            new GitLabApiForm().withParam("search", urlEncode(search)).asMap() );
+
+        return (new Pager<Branch>(this, Branch.class, itemsPerPage, queryParams, "projects",
+                getProjectIdOrPath(projectIdOrPath), "repository", "branches"));
     }
 
     /**
@@ -222,7 +271,7 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
-     * Get a list of repository files and directories in a project.
+     * Get a Stream of repository files and directories in a project.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/tree</code></pre>
      *

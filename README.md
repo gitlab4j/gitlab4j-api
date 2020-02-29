@@ -500,7 +500,11 @@ List<Release> releases = gitLabApi.getReleasesApi().getReleases(projectId);
 #### RepositoryApi
 ```java
 // Get a list of repository branches from a project, sorted by name alphabetically
-List<Branch> branches = gitLabApi.getRepositoryApi().getBranches();
+List<Branch> branches = gitLabApi.getRepositoryApi().getBranches(projectId);
+```
+```java
+// Search repository branches from a project, by name
+List<Branch> branches = gitLabApi.getRepositoryApi().getBranches(projectId, searchTerm);
 ```
 
 #### RepositoryFileApi
