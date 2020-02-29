@@ -614,20 +614,10 @@ public class MergeRequestApi extends AbstractApi {
      * @return the merged merge request
      * @throws GitLabApiException if any exception occurs
      */
-    public MergeRequest acceptMergeRequest(
-            Object projectIdOrPath,
-            Integer mergeRequestIid,
-            AcceptMergeRequestParams params
-    ) throws GitLabApiException {
-        Response response = put(
-                Response.Status.OK,
-                params.getForm(),
-                "projects",
-                getProjectIdOrPath(projectIdOrPath),
-                "merge_requests",
-                mergeRequestIid,
-                "merge"
-        );
+    public MergeRequest acceptMergeRequest(Object projectIdOrPath, Integer mergeRequestIid,
+            AcceptMergeRequestParams params) throws GitLabApiException {
+        Response response = put(Response.Status.OK, params.getForm(), "projects",
+        	getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "merge");
         return (response.readEntity(MergeRequest.class));
     }
 
