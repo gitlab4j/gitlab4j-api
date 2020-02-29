@@ -42,7 +42,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Branch> getBranches(Object projectIdOrPath) throws GitLabApiException {
-        return getBranches(projectIdOrPath, null);
+        return getBranches(projectIdOrPath, null, getDefaultPerPage()).all();
     }
 
     /**
@@ -87,7 +87,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<Branch> getBranchesStream(Object projectIdOrPath) throws GitLabApiException {
-        return getBranchesStream(projectIdOrPath, null);
+        return getBranches(projectIdOrPath, null, getDefaultPerPage()).stream();
     }
 
     /**
@@ -121,21 +121,6 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
-     * Get a Stream of repository branches from a project, sorted by name alphabetically, filter by the search term.
-     *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches?search=:search</code></pre>
-     *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param search the branch name search term
-     * @return the Stream of repository branches for the specified project ID and search term
-     *
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Stream<Branch> getBranchesStream(Object projectIdOrPath, String search) throws GitLabApiException {
-        return (getBranches(projectIdOrPath, search, getDefaultPerPage()).stream());
-    }
-
-    /**
      * Get a Pager of repository branches from a project, sorted by name alphabetically, filter by the search term.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches?search=:search</code></pre>
@@ -153,6 +138,21 @@ public class RepositoryApi extends AbstractApi {
 
         return (new Pager<Branch>(this, Branch.class, itemsPerPage, queryParams, "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "branches"));
+    }
+
+    /**
+     * Get a Stream of repository branches from a project, sorted by name alphabetically, filter by the search term.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/branches?search=:search</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param search the branch name search term
+     * @return the Stream of repository branches for the specified project ID and search term
+     *
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Branch> getBranchesStream(Object projectIdOrPath, String search) throws GitLabApiException {
+        return (getBranches(projectIdOrPath, search, getDefaultPerPage()).stream());
     }
 
     /**
