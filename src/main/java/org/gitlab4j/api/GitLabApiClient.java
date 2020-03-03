@@ -48,7 +48,7 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 /**
  * This class utilizes the Jersey client package to communicate with a GitLab API endpoint.
  */
-public class GitLabApiClient {
+public class GitLabApiClient implements AutoCloseable {
 
     protected static final String PRIVATE_TOKEN_HEADER  = "PRIVATE-TOKEN";
     protected static final String SUDO_HEADER           = "Sudo";
@@ -241,6 +241,16 @@ public class GitLabApiClient {
 
         clientConfig.register(JacksonJson.class);
         clientConfig.register(MultiPartFeature.class);
+    }
+
+    /**
+     * Close the underlying {@link Client} and its associated resources.
+     */
+    @Override
+    public void close() {
+        if (apiClient != null) {
+            apiClient.close();
+        }
     }
 
     /**
