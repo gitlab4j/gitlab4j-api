@@ -30,6 +30,8 @@ public class MergeRequest {
     private Integer id;
     private Integer iid;
     private List<String> labels;
+    private Date latestBuildFinishedAt;
+    private Date latestBuildStartedAt;
     private String mergeCommitSha;
     private String squashCommitSha;
     private String mergeStatus;
@@ -226,6 +228,22 @@ public class MergeRequest {
 
     public void setLabels(List<String> labels) {
         this.labels = labels;
+    }
+
+    public Date getLatestBuildFinishedAt() {
+        return latestBuildFinishedAt;
+    }
+
+    public void setLatestBuildFinishedAt(Date latestBuildFinishedAt) {
+        this.latestBuildFinishedAt = latestBuildFinishedAt;
+    }
+
+    public Date getLatestBuildStartedAt() {
+        return latestBuildStartedAt;
+    }
+
+    public void setLatestBuildStartedAt(Date latestBuildStartedAt) {
+        this.latestBuildStartedAt = latestBuildStartedAt;
     }
 
     public String getMergeCommitSha() {
