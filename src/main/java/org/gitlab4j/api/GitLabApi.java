@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.io.Closeable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ import org.gitlab4j.api.utils.SecretString;
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
  * a separate API class for each concern.
  */
-public class GitLabApi {
+public class GitLabApi implements AutoCloseable {
 
     private final static Logger LOGGER = Logger.getLogger(GitLabApi.class.getName());
 
@@ -480,6 +481,17 @@ public class GitLabApi {
     public GitLabApi withRequestResponseLogging(Logger logger, Level level) {
         enableRequestResponseLogging(logger, level);
         return (this);
+    }
+
+
+    /**
+     * Close the underlying {@link javax.ws.rs.client.Client} and its associated resources.
+     */
+    @Override
+    public void close() {
+        if (apiClient != null) {
+            apiClient.close();
+        }
     }
 
     /**
