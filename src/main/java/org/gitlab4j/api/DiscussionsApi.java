@@ -671,4 +671,26 @@ public class DiscussionsApi extends AbstractApi {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
                 "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
     }
+
+    /**
+     * Creates a new thread to a single project issue. This is similar to creating a note but other comments (replies) can be added to it later.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/discussions</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid The IID of an issue
+     * @param body the content of the discussion
+     * @param createdAt (optional) date the discussion was created (requires admin or project/group owner rights)
+     * @return a Discussion instance containing the newly created discussion
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Discussion createIssueDiscussion(Object projectIdOrPath, Integer issueIid, String body, Date createdAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("body", body, true)
+                .withParam("created_at", createdAt);
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions");
+        return (response.readEntity(Discussion.class));
+    }
+
 }
