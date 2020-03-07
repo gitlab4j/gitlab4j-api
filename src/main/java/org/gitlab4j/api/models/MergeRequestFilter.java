@@ -1,6 +1,11 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import static org.gitlab4j.api.Constants.MergeRequestScope.ALL;
+import static org.gitlab4j.api.Constants.MergeRequestScope.ASSIGNED_TO_ME;
+
+import java.util.Date;
+import java.util.List;
+
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.MergeRequestOrderBy;
 import org.gitlab4j.api.Constants.MergeRequestScope;
@@ -9,11 +14,7 @@ import org.gitlab4j.api.Constants.MergeRequestState;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
 
-import java.util.Date;
-import java.util.List;
-
-import static org.gitlab4j.api.Constants.MergeRequestScope.ALL;
-import static org.gitlab4j.api.Constants.MergeRequestScope.ASSIGNED_TO_ME;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * This class is used to filter merge requests when getting lists of them.
