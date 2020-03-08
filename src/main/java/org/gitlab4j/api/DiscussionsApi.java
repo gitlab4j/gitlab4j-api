@@ -694,7 +694,7 @@ public class DiscussionsApi extends AbstractApi {
     }
 
     /**
-     * Adds a new note to the discussion.
+     * Adds a new note to the thread.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes</code></pre>
      *
@@ -706,7 +706,7 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the newly created note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note addIssueDiscussionNote(Object projectIdOrPath, Integer issueIid,
+    public Note addIssueThreadNote(Object projectIdOrPath, Integer issueIid,
                                    String discussionId, String body, Date createdAt) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true)
@@ -717,7 +717,7 @@ public class DiscussionsApi extends AbstractApi {
     }
 
     /**
-     * Modify existing discussion note of an issue.
+     * Modify existing thread note of an issue.
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes/:note_id</code></pre>
      *
@@ -729,7 +729,7 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the modified note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note modifyIssueDiscussionNote(Object projectIdOrPath, Integer issueIid,
+    public Note modifyIssueThreadNote(Object projectIdOrPath, Integer issueIid,
                                       String discussionId, Integer noteId, String body) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true);
@@ -739,7 +739,7 @@ public class DiscussionsApi extends AbstractApi {
     }
 
     /**
-     * Deletes an existing discussion note of an issue.
+     * Deletes an existing thread note of an issue.
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes/:note_id</code></pre>
      *
@@ -748,7 +748,7 @@ public class DiscussionsApi extends AbstractApi {
      * @param discussionId the id of discussion
      * @param noteId the id of the note
      */
-    public void deleteIssueDiscussionNote(Object projectIdOrPath, Integer issueIid,
+    public void deleteIssueThreadNote(Object projectIdOrPath, Integer issueIid,
                                       String discussionId, Integer noteId) throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions", discussionId, "notes", noteId);
     }
