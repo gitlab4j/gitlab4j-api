@@ -747,6 +747,7 @@ public class DiscussionsApi extends AbstractApi {
      * @param issueIid The IID of an issue
      * @param discussionId the id of discussion
      * @param noteId the id of the note
+     * @throws GitLabApiException if any exception occurs during execution
      */
     public void deleteIssueThreadNote(Object projectIdOrPath, Integer issueIid,
                                       String discussionId, Integer noteId) throws GitLabApiException {
