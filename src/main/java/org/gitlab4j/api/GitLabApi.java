@@ -1,6 +1,5 @@
 package org.gitlab4j.api;
 
-import java.io.Closeable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;

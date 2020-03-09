@@ -69,5 +69,7 @@ public class TestGitLabApi extends AbstractIntegrationTest {
         System.out.format("version=%s, revision=%s%n", version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
+
+        gitLabApi.close();
     }
 }

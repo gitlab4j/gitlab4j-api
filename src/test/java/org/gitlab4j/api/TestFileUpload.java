@@ -90,5 +90,7 @@ public class TestFileUpload extends AbstractIntegrationTest {
         File fileToUpload = new File("README.md");
         FileUpload fileUpload = gitLabApi.getProjectApi().uploadFile(project.getId(), fileToUpload, null);
         assertNotNull(fileUpload);
+
+        gitLabApi.close();
     }
 }

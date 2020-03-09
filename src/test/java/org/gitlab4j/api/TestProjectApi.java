@@ -196,6 +196,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         GitLabApi gitLabApi = new GitLabApi(TEST_HOST_URL, "");
         List<Project> projects = gitLabApi.getProjectApi().getProjects(1, 1);
         assertTrue(projects != null);
+        gitLabApi.close();
     }
 
     @Test
