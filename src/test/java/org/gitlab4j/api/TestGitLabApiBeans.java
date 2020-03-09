@@ -297,6 +297,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testIssuesClosedBy() throws Exception {
+        List<Issue> issues = unmarshalResourceList(Issue.class, "issues-closed-by-mr.json");
+        assertTrue(compareJson(issues, "issues-closed-by-mr.json"));
+    }
+
+    @Test
     public void testLabelEvents() throws Exception {
         List<LabelEvent> events = unmarshalResourceList(LabelEvent.class, "label-events.json");
         assertTrue(compareJson(events, "label-events.json"));
