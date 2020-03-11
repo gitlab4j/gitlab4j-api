@@ -61,7 +61,7 @@ public class RepositoryFileApi extends AbstractApi {
     public RepositoryFile getFileInfo(Object projectIdOrPath, String filePath, String ref) throws GitLabApiException {
 
         Form form = new Form();
-        addFormParam(form, "ref", ref, true);
+        addFormParam(form, "ref", (ref != null ? urlEncode(ref) : null), true);
         Response response = head(Response.Status.OK, form.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(filePath));
 
@@ -162,7 +162,7 @@ public class RepositoryFileApi extends AbstractApi {
         }
 
         Form form = new Form();
-        addFormParam(form, "ref", ref, true);
+        addFormParam(form, "ref", (ref != null ? urlEncode(ref) : null), true);
         Response response = get(Response.Status.OK, form.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(filePath));
         return (response.readEntity(RepositoryFile.class));
     }
@@ -325,7 +325,8 @@ public class RepositoryFileApi extends AbstractApi {
         }
 
         Form form = new Form();
-        addFormParam(form, isApiVersion(ApiVersion.V3) ? "branch_name" : "branch", branchName, true);
+        addFormParam(form, isApiVersion(ApiVersion.V3) ? "branch_name" : "branch",
+                (branchName != null ? urlEncode(branchName) : null), true);
         addFormParam(form, "commit_message", commitMessage, true);
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
 
