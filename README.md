@@ -187,7 +187,7 @@ As of GitLab4J-API 4.9.2, all GitLabJ-API methods that return a List result have
   
 
 **IMPORTANT**  
-The built-in methods that return a Stream do so using ___eager evaluation___, meaning all items are pre-fetched from the GitLab server and a Stream is returned which will stream those items.  **Eager evaluation does NOT support paralell reading of data from ther server, it does however allow for paralell processing of the Stream post data fetch.**
+The built-in methods that return a Stream do so using ___eager evaluation___, meaning all items are pre-fetched from the GitLab server and a Stream is returned which will stream those items.  **Eager evaluation does NOT support parallel reading of data from ther server, it does however allow for parallel processing of the Stream post data fetch.**
 
 To stream using ___lazy evaluation___, use the GitLab4J-API methods that return a ```Pager``` instance, and then call the ```lazyStream()``` method on the ```Pager``` instance to create a lazy evaluation Stream. The Stream utilizes the ```Pager``` instance to page through the available items. **A lazy Stream does NOT support parallel operations or skipping.** 
 
@@ -200,8 +200,8 @@ Stream<Project> projectStream = gitlabApi.getProjectApi().getProjectsStream();
 projectStream.map(Project::getName).forEach(name -> System.out.println(name));
 
 // Operate on the stream in parallel, this example sorts User instances by username
-// NOTE: Fetching of the users is not done in paralell,
-// only the sorting of the users is a paralell operation.
+// NOTE: Fetching of the users is not done in parallel,
+// only the sorting of the users is a parallel operation.
 Stream<User> stream = gitlabApi.getUserApi().getUsersStream();
 List<User> users = stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
 ```
