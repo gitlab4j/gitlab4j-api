@@ -66,6 +66,8 @@ public class GitLabApiClient implements AutoCloseable {
     private SSLContext openSslContext;
     private HostnameVerifier openHostnameVerifier;
     private Integer sudoAsId;
+    private Integer connectTimeout;
+    private Integer readTimeout;
 
     /**
      * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
@@ -272,6 +274,17 @@ public class GitLabApiClient implements AutoCloseable {
         if (apiClient != null) {
             createApiClient();
         }
+    }
+
+    /**
+     * Sets the per request connect and read timeout.
+     *
+     * @param connectTimeout the per request connect timeout in milliseconds, can be null to use default
+     * @param readTimeout the per request read timeout in milliseconds, can be null to use default
+     */
+    void setRequestTimeout(Integer connectTimeout, Integer readTimeout) {
+	this.connectTimeout = connectTimeout;
+	this.readTimeout = readTimeout;
     }
 
     /**
@@ -790,6 +803,16 @@ public class GitLabApiClient implements AutoCloseable {
         // If sudo as ID is set add the Sudo header
         if (sudoAsId != null && sudoAsId.intValue() > 0)
             builder = builder.header(SUDO_HEADER,  sudoAsId);
+
+        // Set the per request connect timeout
+        if (connectTimeout != null) {
+            builder.property(ClientProperties.CONNECT_TIMEOUT, connectTimeout);
+        }
+
+        // Set the per request read timeout
+        if (readTimeout != null) {
+            builder.property(ClientProperties.READ_TIMEOUT, readTimeout);
+        }
 
         return (builder);
     }

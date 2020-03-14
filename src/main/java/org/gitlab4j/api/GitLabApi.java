@@ -409,6 +409,17 @@ public class GitLabApi implements AutoCloseable {
     }
 
     /**
+      *  Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
+      *
+      * @param hostUrl the URL of the GitLab server
+      * @param personalAccessToken the private token to use for access to the API
+      * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+      */
+     public GitLabApi(String hostUrl, String personalAccessToken, Map<String, Object> clientConfigProperties) {
+         this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, personalAccessToken, null, clientConfigProperties);
+     }
+
+    /**
      *  Constructs a GitLabApi instance set up to interact with the GitLab server specified by GitLab API version.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
@@ -448,6 +459,38 @@ public class GitLabApi implements AutoCloseable {
     }
 
     /**
+     * Close the underlying {@link javax.ws.rs.client.Client} and its associated resources.
+     */
+    @Override
+    public void close() {
+        if (apiClient != null) {
+            apiClient.close();
+        }
+    }
+
+    /**
+     * Sets the per request connect and read timeout.
+     *
+     * @param connectTimeout the per request connect timeout in milliseconds, can be null to use default
+     * @param readTimeout the per request read timeout in milliseconds, can be null to use default
+     */
+    public void setRequestTimeout(Integer connectTimeout, Integer readTimeout) {
+	apiClient.setRequestTimeout(connectTimeout, readTimeout);
+    }
+
+    /**
+     * Fluent method that sets the per request connect and read timeout.
+     *
+     * @param connectTimeout the per request connect timeout in milliseconds, can be null to use default
+     * @param readTimeout the per request read timeout in milliseconds, can be null to use default
+     * @return this GitLabApi instance
+     */
+    public GitLabApi withRequestTimeout(Integer connectTimeout, Integer readTimeout) {
+	apiClient.setRequestTimeout(connectTimeout, readTimeout);
+	return (this);
+    }
+
+    /**
      * Enable the logging of the requests to and the responses from the GitLab server API
      * using the GitLab4J shared Logger instance and Level.FINE as the level.
      *
@@ -480,17 +523,6 @@ public class GitLabApi implements AutoCloseable {
     public GitLabApi withRequestResponseLogging(Logger logger, Level level) {
         enableRequestResponseLogging(logger, level);
         return (this);
-    }
-
-
-    /**
-     * Close the underlying {@link javax.ws.rs.client.Client} and its associated resources.
-     */
-    @Override
-    public void close() {
-        if (apiClient != null) {
-            apiClient.close();
-        }
     }
 
     /**

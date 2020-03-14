@@ -15,6 +15,7 @@ GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume 
   * [Javadocs](#javadocs)<br/>
   * [Project Set Up](#project-set-up)<br/>
   * [Usage Examples](#usage-examples)<br/>
+  * [Setting Request Timeouts](#setting-reuest-timeouts)<br/>
   * [Connecting Through a Proxy Server](#connecting-through-a-proxy-server)<br/>
   * [GitLab API V3 and V4 Support](#gitLab-api-v3-and-v4-support)<br/>
   * [Logging of API Requests and Responses](#logging-of-api-requests-and-responses)<br/>
@@ -101,6 +102,16 @@ gitLabApi.sudo("johndoe")
 
 // To turn off sudo mode
 gitLabApi.unsudo();
+```
+
+---
+### **Setting Request Timeouts**
+As of GitLab4J-API 4.14.21 support has been added for setting the conect and read timeouts for the API client:
+```java
+GitLabApi gitLabApi = new GitLabApi("http://your.gitlab.com", "YOUR_PERSONAL_ACCESS_TOKEN", proxyConfig);
+
+// Set the connect timeout to 1 second and the read timeout to 5 seconds
+gitLabApi.setRequestTimeout(1000, 5000);
 ```
 
 ---
