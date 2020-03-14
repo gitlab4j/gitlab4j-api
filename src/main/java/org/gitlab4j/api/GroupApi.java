@@ -1,5 +1,6 @@
 package org.gitlab4j.api;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -1470,5 +1471,21 @@ public class GroupApi extends AbstractApi {
 		.withParam("image_url", imageUrl, true);
 	Response response = get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "badges", "render");
 	return (response.readEntity(Badge.class));
+    }
+
+    /**
+     * Uploads and sets the project avatar for the specified group.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param avatarFile the File instance of the avatar file to upload
+     * @return the updated Group instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Group setGroupAvatar(Object groupIdOrPath, File avatarFile) throws GitLabApiException {
+        Response response = putUpload(Response.Status.OK,
+                "avatar", avatarFile, "groups", getGroupIdOrPath(groupIdOrPath));
+        return (response.readEntity(Group.class));
     }
 }
