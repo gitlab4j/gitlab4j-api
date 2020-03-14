@@ -1,12 +1,12 @@
 package org.gitlab4j.api;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
@@ -283,7 +283,7 @@ public class TestUserApi extends AbstractIntegrationTest {
             assertEquals(TEST_IMPERSONATION_TOKEN_NAME, token.getName());
             assertEquals(expiresAt.getTime(), token.getExpiresAt().getTime());
             assertEquals(scopes.length, token.getScopes().size());
-            assertThat(token.getScopes(), containsInAnyOrder(scopes));
+            assertThat(token.getScopes(), contains(scopes));
 
         } finally {
             if (user != null && token != null) {
