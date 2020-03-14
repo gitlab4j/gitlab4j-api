@@ -15,7 +15,7 @@ GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume 
   * [Javadocs](#javadocs)<br/>
   * [Project Set Up](#project-set-up)<br/>
   * [Usage Examples](#usage-examples)<br/>
-  * [Setting Request Timeouts](#setting-reuest-timeouts)<br/>
+  * [Setting Request Timeouts](#setting-request-timeouts)<br/>
   * [Connecting Through a Proxy Server](#connecting-through-a-proxy-server)<br/>
   * [GitLab API V3 and V4 Support](#gitLab-api-v3-and-v4-support)<br/>
   * [Logging of API Requests and Responses](#logging-of-api-requests-and-responses)<br/>
