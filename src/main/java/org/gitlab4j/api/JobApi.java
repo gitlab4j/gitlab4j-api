@@ -212,7 +212,7 @@ public class JobApi extends AbstractApi implements Constants {
 
         Form formData = new GitLabApiForm().withParam("job", jobName, true);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", ref, "download");
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", urlEncode(ref), "download");
 
         try {
 
@@ -247,7 +247,7 @@ public class JobApi extends AbstractApi implements Constants {
     public InputStream downloadArtifactsFile(Object projectIdOrPath, String ref, String jobName) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("job", jobName, true);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", ref, "download");
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", urlEncode(ref), "download");
         return (response.readEntity(InputStream.class));
     }
 

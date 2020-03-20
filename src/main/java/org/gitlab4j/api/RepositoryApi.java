@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -384,7 +385,7 @@ public class RepositoryApi extends AbstractApi {
         Form formData = new GitLabApiForm()
                 .withParam("id", getProjectIdOrPath(projectIdOrPath), true)
                 .withParam("path", filePath, false)
-                .withParam(isApiVersion(ApiVersion.V3) ? "ref_name" : "ref", refName, false)
+                .withParam(isApiVersion(ApiVersion.V3) ? "ref_name" : "ref", (refName != null ? urlEncode(refName) : null), false)
                 .withParam("recursive", recursive, false);
         return (new Pager<TreeItem>(this, TreeItem.class, itemsPerPage, formData.asMap(), "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "tree"));
@@ -696,7 +697,17 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Commit getMergeBase(Object projectIdOrPath, List<String> refs) throws GitLabApiException {
-        GitLabApiForm queryParams = new GitLabApiForm().withParam("refs", refs, true);
+
+	if (refs == null || refs.size() < 2) {
+	    throw new RuntimeException("refs must conatin at least 2 refs");
+	}
+
+	List<String> encodedRefs = new ArrayList<>(refs.size());
+	for (String ref : refs) {
+	    encodedRefs.add(urlEncode(ref));
+	}
+
+        GitLabApiForm queryParams = new GitLabApiForm().withParam("refs", encodedRefs, true);
         Response response = get(Response.Status.OK, queryParams.asMap(), "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "merge_base");
         return (response.readEntity(Commit.class));
