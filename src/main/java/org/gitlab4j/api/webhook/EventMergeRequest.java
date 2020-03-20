@@ -1,6 +1,7 @@
 package org.gitlab4j.api.webhook;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.api.models.Assignee;
@@ -58,6 +59,7 @@ public class EventMergeRequest {
     private Duration humanTotalTimeSpent;
     private Integer timeEstimate;
     private Duration humanTimeEstimate;
+    private List<Integer> assigneeIds;
 
     public Integer getAssigneeId() {
         return this.assigneeId;
@@ -425,6 +427,14 @@ public class EventMergeRequest {
 
     public void setHumanTimeEstimate(Duration humanTimeEstimate) {
         this.humanTimeEstimate = humanTimeEstimate;
+    }
+
+    public List<Integer> getAssigneeIds() {
+        return assigneeIds;
+    }
+
+    public void setAssigneeIds(List<Integer> assigneeIds) {
+        this.assigneeIds = assigneeIds;
     }
 
     @Override
