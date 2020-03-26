@@ -6,6 +6,7 @@ public class Identity {
 
     private String provider;
     private String externUid;
+    private Integer samlProviderId;
 
     public String getProvider() {
         return provider;
@@ -21,6 +22,14 @@ public class Identity {
 
     public void setExternUid(String externUid) {
         this.externUid = externUid;
+    }
+
+    public Integer getSamlProviderId() {
+	return samlProviderId;
+    }
+
+    public void setSamlProviderId(Integer samlProviderId) {
+	this.samlProviderId = samlProviderId;
     }
 
     @Override

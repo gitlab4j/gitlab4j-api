@@ -9,6 +9,7 @@ public class Member extends AbstractUser<Member> {
 
     private AccessLevel accessLevel;
     private Date expiresAt;
+    private Identity groupSamlIdentity;
 
     public AccessLevel getAccessLevel() {
         return this.accessLevel;
@@ -26,6 +27,14 @@ public class Member extends AbstractUser<Member> {
         this.expiresAt = expiresAt;
     }
 
+    public Identity getGroupSamlIdentity() {
+        return groupSamlIdentity;
+    }
+
+    public void setGroupSamlIdentity(Identity groupSamlIdentity) {
+        this.groupSamlIdentity = groupSamlIdentity;
+    }
+
     public Member withAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
         return this;
@@ -33,6 +42,11 @@ public class Member extends AbstractUser<Member> {
 
     public Member withExpiresAt(Date expiresAt) {
         this.expiresAt = expiresAt;
+        return this;
+    }
+
+    public Member withGroupSamlIdentity(Identity groupSamlIdentity) {
+        this.groupSamlIdentity = groupSamlIdentity;
         return this;
     }
 
