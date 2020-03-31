@@ -441,7 +441,7 @@ public class RepositoryApi extends AbstractApi {
      */
     public InputStream getRepositoryArchive(Object projectIdOrPath, String sha) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive");
         return (response.readEntity(InputStream.class));
     }
@@ -487,7 +487,7 @@ public class RepositoryApi extends AbstractApi {
          *         https://gitlab.com/gitlab-com/support-forum/issues/3067
          */
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive" + "." + format.toString());
         return (response.readEntity(InputStream.class));
     }
@@ -507,7 +507,7 @@ public class RepositoryApi extends AbstractApi {
     public File getRepositoryArchive(Object projectIdOrPath, String sha, File directory) throws GitLabApiException {
 
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive");
 
         try {
@@ -572,7 +572,7 @@ public class RepositoryApi extends AbstractApi {
          *         https://gitlab.com/gitlab-com/support-forum/issues/3067
          */
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive" + "." + format.toString());
 
         try {
