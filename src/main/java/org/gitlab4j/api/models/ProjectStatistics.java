@@ -14,7 +14,7 @@ public class ProjectStatistics {
     long storageSize;
     long repositorySize;
     long wikiSize;
-    long lfsObjectSize;
+    long lfsObjectsSize;
     long jobArtifactsSize;
 
     public long getCommitCount() {
@@ -25,8 +25,8 @@ public class ProjectStatistics {
         return jobArtifactsSize;
     }
 
-    public long getLfsObjectSize() {
-        return lfsObjectSize;
+    public long getLfsObjectsSize() {
+        return lfsObjectsSize;
     }
 
     public long getStorageSize() {
@@ -49,8 +49,8 @@ public class ProjectStatistics {
         this.jobArtifactsSize = jobArtifactsSize;
     }
 
-    public void setLfsObjectSize(long lfsObjectSize) {
-        this.lfsObjectSize = lfsObjectSize;
+    public void setLfsObjectsSize(long lfsObjectsSize) {
+        this.lfsObjectsSize = lfsObjectsSize;
     }
 
     public void setStorageSize(long storageSize) {
