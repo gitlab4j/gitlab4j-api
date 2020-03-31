@@ -12,6 +12,8 @@ public class ProjectStatistics {
 
     long commitCount;
     long storageSize;
+    long repositorySize;
+    long wikiSize;
     long lfsObjectSize;
     long jobArtifactsSize;
 
@@ -31,6 +33,14 @@ public class ProjectStatistics {
         return storageSize;
     }
 
+    public long getRepositorySize() {
+        return repositorySize;
+    }
+
+    public long getWikiSize() {
+        return wikiSize;
+    }
+
     public void setCommitCount(long commitCount) {
         this.commitCount = commitCount;
     }
@@ -46,6 +56,15 @@ public class ProjectStatistics {
     public void setStorageSize(long storageSize) {
         this.storageSize = storageSize;
     }
+
+    public void setRepositorySize(long repositorySize) {
+        this.repositorySize = repositorySize;
+    }
+
+    public void setWikiSize(long wikiSize) {
+        this.wikiSize = wikiSize;
+    }
+
 
     @Override
     public String toString() {
