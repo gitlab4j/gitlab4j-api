@@ -328,11 +328,12 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertTrue(projects.size() >= 2);
 
         assertNotNull(projects.get(0).getStatistics());
-        assertNotNull(projects.get(0).getStatistics().getLfsObjectSize());
+        assertNotNull(projects.get(0).getStatistics().getLfsObjectsSize());
         assertNotNull(projects.get(0).getStatistics().getCommitCount());
         assertNotNull(projects.get(0).getStatistics().getJobArtifactsSize());
         assertNotNull(projects.get(0).getStatistics().getStorageSize());
-
+        assertNotNull(projects.get(0).getStatistics().getRepositorySize());
+        assertNotNull(projects.get(0).getStatistics().getWikiSize());
     }
 
     @Test
