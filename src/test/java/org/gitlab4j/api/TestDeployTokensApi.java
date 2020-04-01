@@ -1,14 +1,8 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.DeployToken;
-import org.gitlab4j.api.models.DeployTokenScope;
-import org.gitlab4j.api.models.Group;
-import org.gitlab4j.api.models.Project;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeTrue;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -18,10 +12,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import org.gitlab4j.api.Constants.DeployTokenScope;
+import org.gitlab4j.api.models.DeployToken;
+import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.Project;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
