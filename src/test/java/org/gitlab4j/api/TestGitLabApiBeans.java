@@ -49,6 +49,7 @@ import org.gitlab4j.api.models.CommitStatus;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Contributor;
 import org.gitlab4j.api.models.DeployKey;
+import org.gitlab4j.api.models.DeployToken;
 import org.gitlab4j.api.models.Deployment;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Discussion;
@@ -198,6 +199,12 @@ public class TestGitLabApiBeans {
     public void testDeployment() throws Exception {
 	Deployment deployment = unmarshalResource(Deployment.class, "deployment.json");
         assertTrue(compareJson(deployment, "deployment.json"));
+    }
+
+    @Test
+    public void testDeployTokens() throws Exception {
+        List<DeployToken> deployTokens = unmarshalResourceList(DeployToken.class, "deploy-tokens.json");
+        assertTrue(compareJson(deployTokens, "deploy-tokens.json"));
     }
 
     @Test
