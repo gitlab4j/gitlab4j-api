@@ -803,4 +803,27 @@ public interface Constants {
             return (enumHelper.toString(this));
         }
     }
+
+    /** Enum to use for specifying the deploy token scope. */
+    public enum DeployTokenScope {
+        READ_REPOSITORY, READ_REGISTRY;
+
+        private static JacksonJsonEnumHelper<DeployTokenScope> enumHelper = new JacksonJsonEnumHelper<>(DeployTokenScope.class);
+
+        @JsonCreator
+        public static DeployTokenScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 }
+
