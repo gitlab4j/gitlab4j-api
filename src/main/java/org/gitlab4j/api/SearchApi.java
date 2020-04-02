@@ -269,6 +269,27 @@ public class SearchApi extends AbstractApi {
         return (projectSearch(projectIdOrPath, scope, search, ref, getDefaultPerPage()).stream());
     }
 
+
+    /**
+     * Search within the specified project.  If a user is not a member of a project and the project is private,
+     * a request on that project will result to a 404 status code.
+     *
+     * <pre><code>GitLab Endpoint: POST /project/:projectId/search?scope=:scope&amp;search=:search-query</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param scope search the expression within the specified scope. Currently these scopes are supported:
+     *               issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users
+     * @param search the search query
+     * @param itemsPerPage the number of items that will be fetched per page
+     * @return a Pager containing the object type specified by the scope
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 10.5
+     */
+    public Pager<?> projectSearch(Object projectIdOrPath, ProjectSearchScope scope, String search, int itemsPerPage) throws GitLabApiException {
+        return projectSearch(projectIdOrPath, scope, search, null, itemsPerPage);
+    }
+
+    
     /**
      * Search within the specified project.  If a user is not a member of a project and the project is private,
      * a request on that project will result to a 404 status code.
