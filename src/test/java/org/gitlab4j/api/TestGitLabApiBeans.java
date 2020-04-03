@@ -238,6 +238,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testEvents() throws Exception {
+        List<Event> events = unmarshalResourceList(Event.class, "events.json");
+        assertTrue(compareJson(events, "events.json"));
+    }
+
+    @Test
     public void testExportStatus() throws Exception {
         ExportStatus exportStatus = unmarshalResource(ExportStatus.class, "export-status.json");
         assertTrue(compareJson(exportStatus, "export-status.json"));
