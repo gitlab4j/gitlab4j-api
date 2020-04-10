@@ -25,7 +25,7 @@ import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.utils.FileUtils;
 
 /**
- * This class provides an entry point to all the GitLab API repository calls.
+ * <p>This class provides an entry point to all the GitLab API repository calls.
  * For more information on the repository APIs see:</p>
  *
  * <a href="https://docs.gitlab.com/ce/api/repositories.html">Repositories API</a>
