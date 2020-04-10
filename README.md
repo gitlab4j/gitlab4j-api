@@ -65,7 +65,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.14.25</version>
+    <version>4.14.26</version>
 </dependency>
 ```
 
