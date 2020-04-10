@@ -1099,7 +1099,15 @@ public enum Setting {
      */
     FORCE_PAGES_ACCESS_CONTROL(Boolean.class),
     MINIMUM_PASSWORD_LENGTH(Integer.class),
-    SNIPPET_SIZE_LIMIT(Integer.class);
+    SNIPPET_SIZE_LIMIT(Integer.class),
+
+    /*
+     * Undocumented settings as of GitLab 12.9
+     * These are reported but not documented.
+     */
+    EMAIL_RESTRICTIONS_ENABLED(Boolean.class),
+    EMAIL_RESTRICTIONS(String.class);
+
 
 
     private static JacksonJsonEnumHelper<Setting> enumHelper = new JacksonJsonEnumHelper<>(Setting.class);
