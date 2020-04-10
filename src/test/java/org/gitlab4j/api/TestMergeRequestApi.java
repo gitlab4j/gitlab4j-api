@@ -1,8 +1,10 @@
 package org.gitlab4j.api;
 
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeNotNull;
 
@@ -10,8 +12,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.gitlab4j.api.Constants.MergeRequestSearchIn;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.models.MergeRequestFilter;
 import org.gitlab4j.api.models.MergeRequestParams;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.Project;
@@ -155,6 +159,60 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
             }
         }
     }
+
+    @Test
+    public void testMergeRequestFilter() throws GitLabApiException {
+
+	// Create a test branch
+        Branch branch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_BRANCH_NAME, "master");
+        assertNotNull(branch);
+
+        // Create a new file in the test branch
+        RepositoryFile repoFile = new RepositoryFile();
+        repoFile.setFilePath("README-FOR-TESTING-MERGE-REQUEST.md");
+        repoFile.setContent("This is content");
+        gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, TEST_BRANCH_NAME, "Initial commit.");
+
+        MergeRequest mr = null;
+        try {
+
+            MergeRequestParams params = new MergeRequestParams()
+                .withSourceBranch(TEST_BRANCH_NAME)
+                .withTargetBranch("master")
+                .withTitle(TEST_MR_TITLE);
+            mr = gitLabApi.getMergeRequestApi().createMergeRequest(testProject, params);
+            assertEquals(TEST_MR_TITLE, mr.getTitle());
+
+            MergeRequestFilter filter = new MergeRequestFilter()
+        	    .withSearch("itriuoewrtiuertuieuitruiyewr")
+        	    .withIn(MergeRequestSearchIn.TITLE);
+            List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(filter);
+            assertTrue(mergeRequests.isEmpty());
+
+            filter = new MergeRequestFilter()
+        	    .withSearch(TEST_MR_TITLE)
+        	    .withIn(MergeRequestSearchIn.TITLE);
+            mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(filter);
+            assertFalse(mergeRequests.isEmpty());
+
+            List<String> titles = mergeRequests.stream().map(MergeRequest::getTitle).collect(toList());
+            assertTrue(titles.contains(TEST_MR_TITLE));
+
+        } finally {
+
+            if (mr != null) {
+                try {
+                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
+                } catch (Exception ignore) {
+                }
+            }
+
+            try {
+                gitLabApi.getRepositoryApi().deleteBranch(testProject, TEST_BRANCH_NAME);
+            } catch (GitLabApiException ignore) {
+            }
+        }
+    }    
 
     @Test
     public void testRebaseMergeRequest() throws GitLabApiException {
