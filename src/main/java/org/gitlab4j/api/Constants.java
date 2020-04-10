@@ -156,7 +156,7 @@ public interface Constants {
     /** Enum to use for ordering the results of getPipelines(). */
     public enum PipelineOrderBy {
 
-        ID, STATUS, REF, USER_ID;
+        ID, STATUS, REF, UPDATED_AT, USER_ID;
 
         private static JacksonJsonEnumHelper<PipelineOrderBy> enumHelper = new JacksonJsonEnumHelper<>(PipelineOrderBy.class);
 
