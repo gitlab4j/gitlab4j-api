@@ -26,6 +26,10 @@ import org.gitlab4j.api.utils.FileUtils;
 
 /**
  * This class provides an entry point to all the GitLab API repository calls.
+ * For more information on the repository APIs see:</p>
+ *
+ * <a href="https://docs.gitlab.com/ce/api/repositories.html">Repositories API</a>
+ * <a href="https://docs.gitlab.com/ce/api/branches.html">Branches API</a>
  */
 public class RepositoryApi extends AbstractApi {
 
