@@ -50,4 +50,15 @@
       "web_url": "http://gitlab.dev/root",
       "website_url": ""
     }
+    ,
+    "project": {
+      "id": 3,
+      "name": "Diaspora Project Site",
+      "description": "Project description",
+      "name_with_namespace": "Diaspora / Diaspora Project Site",
+      "path": "diaspora-project-site",
+      "path_with_namespace": "diaspora/diaspora-project-site",
+      "created_at": "2013-09-30T13:46:02Z"
+      
+    }
 }

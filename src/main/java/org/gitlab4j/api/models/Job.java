@@ -300,7 +300,7 @@ public class Job {
         return this;
     }
 
-    public Job allowFailureManual(Boolean allowFailure) {
+    public Job withAllowFailure(Boolean allowFailure) {
         this.allowFailure = allowFailure;
         return this;
     }
