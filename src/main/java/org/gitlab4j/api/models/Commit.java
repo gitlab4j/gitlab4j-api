@@ -8,7 +8,6 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Commit {
 
-    private Author author;
     private Date authoredDate;
     private String authorEmail;
     private String authorName;
@@ -26,14 +25,6 @@ public class Commit {
     private String title;
     private String webUrl;
     private Pipeline lastPipeline;
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
 
     public Date getAuthoredDate() {
         return authoredDate;
@@ -172,7 +163,6 @@ public class Commit {
     }
 
     public Commit withAuthor(Author author) {
-        this.author = author;
         return this;
     }
 
