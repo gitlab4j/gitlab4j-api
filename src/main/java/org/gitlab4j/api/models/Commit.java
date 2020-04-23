@@ -8,6 +8,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Commit {
 
+    private Author author;
     private Date authoredDate;
     private String authorEmail;
     private String authorName;
@@ -23,8 +24,17 @@ public class Commit {
     private String status;
     private Date timestamp;
     private String title;
+    private String url;
     private String webUrl;
     private Pipeline lastPipeline;
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
 
     public Date getAuthoredDate() {
         return authoredDate;
@@ -146,11 +156,19 @@ public class Commit {
         this.title = title;
     }
 
-    public String getWebUrl() {
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getwebUrl() {
         return webUrl;
     }
 
-    public void setWebUrl(String webUrl) {
+    public void setwebUrl(String webUrl) {
         this.webUrl = webUrl;
     }
 
@@ -163,6 +181,7 @@ public class Commit {
     }
 
     public Commit withAuthor(Author author) {
+        this.author = author;
         return this;
     }
 
@@ -242,7 +261,7 @@ public class Commit {
     }
 
     public Commit withUrl(String url) {
-        this.webUrl = url;
+        this.url = url;
         return this;
     }
 
