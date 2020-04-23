@@ -12,7 +12,6 @@ public class Event {
     private Author author;
     private Integer authorId;
     private String authorUsername;
-    private EventData data;
     private Integer projectId;
     private Integer targetId;
     private Integer targetIid;
@@ -54,14 +53,6 @@ public class Event {
 
     public void setAuthorUsername(String authorUsername) {
         this.authorUsername = authorUsername;
-    }
-
-    public EventData getData() {
-        return data;
-    }
-
-    public void setData(EventData data) {
-        this.data = data;
     }
 
     public Integer getProjectId() {
@@ -153,11 +144,6 @@ public class Event {
 
     public Event withAuthorUsername(String authorUsername) {
         this.authorUsername = authorUsername;
-        return this;
-    }
-
-    public Event withData(EventData data) {
-        this.data = data;
         return this;
     }
 

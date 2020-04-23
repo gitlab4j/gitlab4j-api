@@ -18,5 +18,6 @@
     "deletions": 10,
     "total": 25
   },
-  "status": "running"
+  "status": "running",
+  "web_url": "http://localhost/diaspora/diaspora-project-site/-/commit/9df4dd1f0dfae80c05eac4b2bd461b86db5c8e2d"
 }

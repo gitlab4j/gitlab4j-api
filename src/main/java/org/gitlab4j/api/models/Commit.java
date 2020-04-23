@@ -24,7 +24,7 @@ public class Commit {
     private String status;
     private Date timestamp;
     private String title;
-    private String url;
+    private String webUrl;
     private Pipeline lastPipeline;
 
     public Author getAuthor() {
@@ -155,12 +155,12 @@ public class Commit {
         this.title = title;
     }
 
-    public String getUrl() {
-        return url;
+    public String getWebUrl() {
+        return webUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
     }
 
     public Pipeline getLastPipeline() {
@@ -252,7 +252,7 @@ public class Commit {
     }
 
     public Commit withUrl(String url) {
-        this.url = url;
+        this.webUrl = url;
         return this;
     }
 
