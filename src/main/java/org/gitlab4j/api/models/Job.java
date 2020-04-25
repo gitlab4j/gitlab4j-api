@@ -29,6 +29,7 @@ public class Job {
     private Boolean manual;
     private Boolean allowFailure;
     private Float duration;
+    private Project project;
 
     public Integer getId() {
         return id;
@@ -205,6 +206,14 @@ public class Job {
     public void setDuration(Float duration) {
         this.duration = duration;
     }
+    
+    public Project getProject() {
+        return project;
+    }
+    
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
     public Job withId(Integer id) {
         this.id = id;
@@ -291,8 +300,18 @@ public class Job {
         return this;
     }
 
-    public Job allowFailureManual(Boolean allowFailure) {
+    public Job withAllowFailure(Boolean allowFailure) {
         this.allowFailure = allowFailure;
+        return this;
+    }
+    
+    public Job withDuration(Float duration) {
+        this.duration = duration;
+        return this;
+    }
+    
+    public Job withProject(Project project) {
+        this.project = project;
         return this;
     }
 
