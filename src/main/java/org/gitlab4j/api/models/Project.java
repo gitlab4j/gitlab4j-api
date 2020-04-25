@@ -9,6 +9,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Project {
 
@@ -85,6 +86,9 @@ public class Project {
     private Boolean initializeWithReadme;
     private Boolean packagesEnabled;
     private Boolean emptyRepo;
+
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
+    private Date markedForDeletionOn;
 
     public Integer getApprovalsBeforeMerge() {
         return approvalsBeforeMerge;
@@ -645,6 +649,14 @@ public class Project {
 
     public void setEmptyRepo(Boolean emptyRepo) {
         this.emptyRepo = emptyRepo;
+    }
+
+    public Date getMarkedForDeletionOn() {
+        return markedForDeletionOn;
+    }
+
+    public void setMarkedForDeletionOn(Date markedForDeletionOn) {
+        this.markedForDeletionOn = markedForDeletionOn;
     }
 
     public static final boolean isValid(Project project) {
