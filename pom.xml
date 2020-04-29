@@ -376,6 +376,11 @@
 				    <groupId>biz.aQute.bnd</groupId>
 				    <artifactId>bnd-maven-plugin</artifactId>
 				    <version>${bnd.version}</version>
+				    <configuration>
+				    	<bnd><![CDATA[
+			            	Export-Package: org.gitlab4j.api.*
+				    	]]></bnd>
+				    </configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
