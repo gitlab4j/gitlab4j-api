@@ -164,11 +164,11 @@ public class Commit {
         this.url = url;
     }
 
-    public String getwebUrl() {
+    public String getWebUrl() {
         return webUrl;
     }
 
-    public void setwebUrl(String webUrl) {
+    public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
     }
 
