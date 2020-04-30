@@ -307,7 +307,8 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
 &nbsp;&nbsp;[TodosApi](#todosapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)<br/>
-&nbsp;&nbsp;[WikisApi](#wikisapi)
+&nbsp;&nbsp;[WikisApi](#wikisapi)<br/>
+&nbsp;&nbsp;[TagsApi](#tagsapi)
 
 
 ### Sub API Examples
@@ -596,4 +597,10 @@ gitLabApi.getUserApi().createUser(userConfig, password, sendResetPasswordEmail);
 ```java
 // Get a list of pages in project wiki
 List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages();
+```
+
+#### TagsApi
+```java
+// Get a list of tags for the specified project ID
+List<Tag> tags = gitLabApi.getTagsApi().getTags(projectId);
 ```
