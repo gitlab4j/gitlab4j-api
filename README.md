@@ -305,10 +305,10 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SnippetsApi](#snippetsapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
+&nbsp;&nbsp;[TagsApi](#tagsapi)<br/>
 &nbsp;&nbsp;[TodosApi](#todosapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)<br/>
-&nbsp;&nbsp;[WikisApi](#wikisapi)<br/>
-&nbsp;&nbsp;[TagsApi](#tagsapi)
+&nbsp;&nbsp;[WikisApi](#wikisapi)
 
 
 ### Sub API Examples
@@ -572,6 +572,12 @@ List<Snippet> snippets = gitLabApi.getSnippetsApi().getSnippets();
 List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();
 ```
 
+#### TagsApi
+```java
+// Get a list of tags for the specified project ID
+List<Tag> tags = gitLabApi.getTagsApi().getTags(projectId);
+```
+
 #### TodosApi
 ```java
 // Get a list of all pending todos for the current user
@@ -597,10 +603,4 @@ gitLabApi.getUserApi().createUser(userConfig, password, sendResetPasswordEmail);
 ```java
 // Get a list of pages in project wiki
 List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages();
-```
-
-#### TagsApi
-```java
-// Get a list of tags for the specified project ID
-List<Tag> tags = gitLabApi.getTagsApi().getTags(projectId);
 ```
