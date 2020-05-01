@@ -305,6 +305,7 @@ The following is a list of the available sub APIs along with a sample use of eac
 &nbsp;&nbsp;[SessionApi](#sessionapi)<br/>
 &nbsp;&nbsp;[SnippetsApi](#snippetsapi)<br/>
 &nbsp;&nbsp;[SystemHooksApi](#systemhooksapi)<br/>
+&nbsp;&nbsp;[TagsApi](#tagsapi)<br/>
 &nbsp;&nbsp;[TodosApi](#todosapi)<br/>
 &nbsp;&nbsp;[UserApi](#userapi)<br/>
 &nbsp;&nbsp;[WikisApi](#wikisapi)
@@ -569,6 +570,12 @@ List<Snippet> snippets = gitLabApi.getSnippetsApi().getSnippets();
 ```java
 // Get a list of installed system hooks
 List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();
+```
+
+#### TagsApi
+```java
+// Get a list of tags for the specified project ID
+List<Tag> tags = gitLabApi.getTagsApi().getTags(projectId);
 ```
 
 #### TodosApi
