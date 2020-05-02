@@ -1369,7 +1369,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Member> getAllMembers(Object projectIdOrPath) throws GitLabApiException {
-        return (getAllMembers(projectIdOrPath, getDefaultPerPage()).all());
+        return (getAllMembers(projectIdOrPath, null, null));
     }
 
     /**
@@ -1385,7 +1385,9 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param perPage the number of Member instances per page
      * @return the project members viewable by the authenticated user, including inherited members through ancestor groups
      * @throws GitLabApiException if any exception occurs
+     * @deprecated  Will be removed in version 5.0
      */
+    @Deprecated
     public List<Member> getAllMembers(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
                 "projects", getProjectIdOrPath(projectIdOrPath), "members", "all");
@@ -1407,8 +1409,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Member> getAllMembers(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Member>(this, Member.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "members", "all"));
+        return (getAllMembers(projectIdOrPath, null, null, itemsPerPage));
     }
 
     /**
@@ -1425,7 +1426,66 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<Member> getAllMembersStream(Object projectIdOrPath) throws GitLabApiException {
-        return (getAllMembers(projectIdOrPath, getDefaultPerPage()).stream());
+        return (getAllMembersStream(projectIdOrPath, null, null));
+    }
+
+    /**
+     * Gets a list of project members viewable by the authenticated user,
+     * including inherited members through ancestor groups. Returns multiple
+     * times the same user (with different member attributes) when the user is
+     * a member of the project/group and of one or more ancestor group.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/members/all</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param query a query string to search for members
+     * @param userIds filter the results on the given user IDs
+     * @return the project members viewable by the authenticated user, including inherited members through ancestor groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Member> getAllMembers(Object projectIdOrPath, String query, List<Integer> userIds) throws GitLabApiException {
+        return (getAllMembers(projectIdOrPath, query, userIds, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Gets a Pager of project members viewable by the authenticated user,
+     * including inherited members through ancestor groups. Returns multiple
+     * times the same user (with different member attributes) when the user is
+     * a member of the project/group and of one or more ancestor group.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/members/all</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param query a query string to search for members
+     * @param userIds filter the results on the given user IDs
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager of the project members viewable by the authenticated user,
+     * including inherited members through ancestor groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Member> getAllMembers(Object projectIdOrPath, String query, List<Integer> userIds, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm form = new GitLabApiForm().withParam("query", query).withParam("user_ids", userIds);
+        return (new Pager<Member>(this, Member.class, itemsPerPage, form.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "members", "all"));
+    }
+
+    /**
+     * Gets a Stream of project members viewable by the authenticated user,
+     * including inherited members through ancestor groups. Returns multiple
+     * times the same user (with different member attributes) when the user is
+     * a member of the project/group and of one or more ancestor group.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/members/all</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param query a query string to search for members
+     * @param userIds filter the results on the given user IDs
+     * @return a Stream of the project members viewable by the authenticated user,
+     * including inherited members through ancestor groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Member> getAllMembersStream(Object projectIdOrPath, String query, List<Integer> userIds) throws GitLabApiException {
+        return (getAllMembers(projectIdOrPath, query, userIds, getDefaultPerPage()).stream());
     }
 
     /**
