@@ -778,9 +778,7 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Member getMember(Object groupIdOrPath, int userId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "groups", getGroupIdOrPath(groupIdOrPath), "members", userId);
-        return (response.readEntity(new GenericType<Member>() {}));
+	return (getMember(groupIdOrPath, userId, false));
     }
 
     /**
@@ -794,7 +792,46 @@ public class GroupApi extends AbstractApi {
      */
     public Optional<Member> getOptionalMember(Object groupIdOrPath, int userId) {
         try {
-            return (Optional.ofNullable(getMember(groupIdOrPath, userId)));
+            return (Optional.ofNullable(getMember(groupIdOrPath, userId, false)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
+     * Gets a group team member, optionally including inherited member.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/members/all/:user_id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param userId the user ID of the member
+     * @param includeInherited if true will the member even if inherited thru an ancestor group
+     * @return the member specified by the project ID/user ID pair
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member getMember(Object groupIdOrPath, Integer userId, Boolean includeInherited) throws GitLabApiException {
+        Response response;
+        if (includeInherited) {
+            response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "members", "all", userId);
+        } else {
+            response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "members", userId);
+        }
+        return (response.readEntity(Member.class));
+    }
+
+    /**
+     * Gets a group team member, optionally including inherited member.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/members/:user_id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param userId the user ID of the member
+     * @param includeInherited if true will the member even if inherited thru an ancestor group
+     * @return the member specified by the group ID/user ID pair as the value of an Optional
+     */
+    public Optional<Member> getOptionalMember(Object groupIdOrPath, Integer userId, Boolean includeInherited)  {
+        try {
+            return (Optional.ofNullable(getMember(groupIdOrPath, userId, includeInherited)));
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
