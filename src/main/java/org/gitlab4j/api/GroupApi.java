@@ -907,7 +907,7 @@ public class GroupApi extends AbstractApi {
     public Pager<Member> getAllMembers(Object groupIdOrPath, String query, List<Integer> userIds, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm form = new GitLabApiForm().withParam("query", query).withParam("user_ids", userIds);
         return (new Pager<Member>(this, Member.class, itemsPerPage, form.asMap(),
-                "projects", getGroupIdOrPath(groupIdOrPath), "members", "all"));
+                "groups", getGroupIdOrPath(groupIdOrPath), "members", "all"));
     }
 
     /**
