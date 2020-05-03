@@ -2,7 +2,6 @@ package org.gitlab4j.api.models;
 
 import java.util.Date;
 
-import org.gitlab4j.api.Constants.MergeRequestState;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class MergeRequestDiff {
@@ -13,7 +12,7 @@ public class MergeRequestDiff {
     private String startCommitSha;
     private Date createdAt;
     private Integer mergeRequestId;
-    private MergeRequestState state;
+    private String state;
     private String realSize;
 
     public Integer getId() {
@@ -64,11 +63,11 @@ public class MergeRequestDiff {
         this.mergeRequestId = mergeRequestId;
     }
 
-    public MergeRequestState getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(MergeRequestState state) {
+    public void setState(String state) {
         this.state = state;
     }
 
