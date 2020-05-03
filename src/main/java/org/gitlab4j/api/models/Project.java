@@ -4,6 +4,7 @@ package org.gitlab4j.api.models;
 import java.util.Date;
 import java.util.List;
 
+import org.gitlab4j.api.ProjectLicense;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
@@ -86,6 +87,9 @@ public class Project {
     private Boolean initializeWithReadme;
     private Boolean packagesEnabled;
     private Boolean emptyRepo;
+    private String licenseUrl;
+    private ProjectLicense license;
+    private List<CustomAttribute> customAttributes;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -657,6 +661,30 @@ public class Project {
 
     public void setMarkedForDeletionOn(Date markedForDeletionOn) {
         this.markedForDeletionOn = markedForDeletionOn;
+    }
+
+    public String getLicenseUrl() {
+        return licenseUrl;
+    }
+
+    public void setLicenseUrl(String licenseUrl) {
+        this.licenseUrl = licenseUrl;
+    }
+
+    public ProjectLicense getLicense() {
+        return license;
+    }
+
+    public void setLicense(ProjectLicense license) {
+        this.license = license;
+    }
+
+    public List<CustomAttribute> getCustomAttributes() {
+        return customAttributes;
+    }
+
+    public void setCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
     }
 
     public static final boolean isValid(Project project) {

@@ -728,6 +728,50 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id</code></pre>
      *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param includeStatistics include project statistics
+     * @param includeLicense include project license data
+     * @param withCustomAttributes include custom attributes in response (admins only)
+     * @return the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project getProject(Object projectIdOrPath, Boolean includeStatistics,
+	    Boolean includeLicense, Boolean withCustomAttributes) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+        	.withParam("statistics", includeStatistics)
+        	.withParam("license", includeLicense)
+        	.withParam("with_custom_attributes", withCustomAttributes);
+        Response response = get(Response.Status.OK, formData.asMap(),
+        	"projects", getProjectIdOrPath(projectIdOrPath));
+        return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Get an Optional instance with the value for the specific project, which is owned by the authentication user.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param includeStatistics include project statistics
+     * @param includeLicense include project license data
+     * @param withCustomAttributes include custom attributes in response (admins only)
+     * @return an Optional instance with the specified project as a value
+     */
+    public Optional<Project> getOptionalProject(Object projectIdOrPath, Boolean includeStatistics,
+	    Boolean includeLicense, Boolean withCustomAttributes) {
+        try {
+            return (Optional.ofNullable(getProject(projectIdOrPath,
+        	    includeStatistics, includeLicense, withCustomAttributes)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
+     * Get a specific project, which is owned by the authentication user.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id</code></pre>
+     *
      * @param namespace the name of the project namespace or group
      * @param project the name of the project to get
      * @return the specified project
