@@ -670,8 +670,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project getProject(Object projectIdOrPath) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", this.getProjectIdOrPath(projectIdOrPath));
-        return (response.readEntity(Project.class));
+	return (getProject(projectIdOrPath, null, null, null));
     }
 
     /**
@@ -684,7 +683,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public Optional<Project> getOptionalProject(Object projectIdOrPath) {
         try {
-            return (Optional.ofNullable(getProject(projectIdOrPath)));
+            return (Optional.ofNullable(getProject(projectIdOrPath, null, null, null)));
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
@@ -701,9 +700,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project getProject(Object projectIdOrPath, Boolean includeStatistics) throws GitLabApiException {
-        Form formData = new GitLabApiForm().withParam("statistics", includeStatistics);
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", this.getProjectIdOrPath(projectIdOrPath));
-        return (response.readEntity(Project.class));
+	return (getProject(projectIdOrPath, includeStatistics, null, null));
     }
 
     /**
@@ -717,7 +714,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public Optional<Project> getOptionalProject(Object projectIdOrPath, Boolean includeStatistics) {
         try {
-            return (Optional.ofNullable(getProject(projectIdOrPath, includeStatistics)));
+            return (Optional.ofNullable(getProject(projectIdOrPath, includeStatistics, null, null)));
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
