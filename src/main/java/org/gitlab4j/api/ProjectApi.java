@@ -1584,7 +1584,7 @@ public class ProjectApi extends AbstractApi implements Constants {
     /**
      * Gets a project team member, optionally including inherited member.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/members/:user_id</code></pre>
+     * <pre><code>GitLab Endpoint: GET /projects/:id/members/all/:user_id</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param userId the user ID of the member

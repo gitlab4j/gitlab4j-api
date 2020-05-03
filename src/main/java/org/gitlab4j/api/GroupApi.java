@@ -801,7 +801,7 @@ public class GroupApi extends AbstractApi {
     /**
      * Gets a group team member, optionally including inherited member.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/members/all/:user_id</code></pre>
+     * <pre><code>GitLab Endpoint: GET /groups/:id/members/all/:user_id</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param userId the user ID of the member
@@ -822,7 +822,7 @@ public class GroupApi extends AbstractApi {
     /**
      * Gets a group team member, optionally including inherited member.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/members/:user_id</code></pre>
+     * <pre><code>GitLab Endpoint: GET /groups/:id/members/all/:user_id</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param userId the user ID of the member
