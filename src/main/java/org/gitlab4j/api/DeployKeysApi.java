@@ -193,6 +193,33 @@ public class DeployKeysApi extends AbstractApi {
     }
 
     /**
+     * Updates an existing project deploy key.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/deploy_keys/:key_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param deployKeyId the ID of the deploy key to update, required
+     * @param title the updated deploy key's title, optional
+     * @param canPush can deploy key push to the project's repository, optional
+     * @return an updated DeployKey instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public DeployKey updateDeployKey(Object projectIdOrPath, Integer deployKeyId, String title, Boolean canPush) throws GitLabApiException {
+
+        if (deployKeyId == null) {
+            throw new RuntimeException("deployKeyId cannot be null");
+        }
+
+        final DeployKey key = new DeployKey();
+        key.setCanPush(canPush);
+        key.setTitle(title);
+        final Response response = put(Response.Status.OK, key,
+                "projects", getProjectIdOrPath(projectIdOrPath), "deploy_keys", deployKeyId);
+
+        return (response.readEntity(DeployKey.class));
+    }
+
+    /**
      * Removes a deploy key from the project. If the deploy key is used only for this project,it will be deleted from the system.
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/deploy_keys/:key_id</code></pre>
