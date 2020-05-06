@@ -1,5 +1,8 @@
 package org.gitlab4j.api.models;
 
+import static org.gitlab4j.api.Constants.MergeRequestScope.ALL;
+import static org.gitlab4j.api.Constants.MergeRequestScope.ASSIGNED_TO_ME;
+
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +34,10 @@ public class MergeRequestFilter {
     private Date updatedAfter;
     private Date updatedBefore;
     private MergeRequestScope scope;
+
+    /**
+     * Filter MR by created by the given user id. Combine with scope=all or scope=assigned_to_me
+     */
     private Integer authorId;
     private Integer assigneeId;
     private String myReactionEmoji;
@@ -322,25 +329,30 @@ public class MergeRequestFilter {
 
     @JsonIgnore
     public GitLabApiForm getQueryParams() {
-        return (new GitLabApiForm()
-            .withParam("iids", iids)
-            .withParam("state", state)
-            .withParam("order_by", orderBy)
-            .withParam("sort", sort)
-            .withParam("milestone", milestone)
-            .withParam("view", (simpleView != null && simpleView ? "simple" : null))
-            .withParam("labels", (labels != null? String.join(",", labels) : null))
-            .withParam("created_after", createdAfter)
-            .withParam("created_before", createdBefore)
-            .withParam("updated_after", updatedAfter)
-            .withParam("updated_before", updatedBefore) 
-            .withParam("scope", scope)
-            .withParam("assignee_id", assigneeId) 
-            .withParam("my_reaction_emoji", myReactionEmoji)  
-            .withParam("source_branch", sourceBranch)
-            .withParam("target_branch", targetBranch)
-            .withParam("search", search)
-            .withParam("in", in)
-            .withParam("wip", (wip == null ? null : wip ? "yes" : "no")));
+        GitLabApiForm params = new GitLabApiForm()
+                .withParam("iids", iids)
+                .withParam("state", state)
+                .withParam("order_by", orderBy)
+                .withParam("sort", sort)
+                .withParam("milestone", milestone)
+                .withParam("view", (simpleView != null && simpleView ? "simple" : null))
+                .withParam("labels", (labels != null ? String.join(",", labels) : null))
+                .withParam("created_after", createdAfter)
+                .withParam("created_before", createdBefore)
+                .withParam("updated_after", updatedAfter)
+                .withParam("updated_before", updatedBefore)
+                .withParam("scope", scope)
+                .withParam("assignee_id", assigneeId)
+                .withParam("my_reaction_emoji", myReactionEmoji)
+                .withParam("source_branch", sourceBranch)
+                .withParam("target_branch", targetBranch)
+                .withParam("search", search)
+                .withParam("in", in)
+                .withParam("wip", (wip == null ? null : wip ? "yes" : "no"));
+
+        if (authorId != null && (scope == ALL || scope == ASSIGNED_TO_ME)) {
+            params.withParam("author_id", authorId);
+        }
+        return params;
     }
 }

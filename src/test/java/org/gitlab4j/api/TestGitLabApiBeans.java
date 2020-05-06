@@ -49,6 +49,7 @@ import org.gitlab4j.api.models.CommitStatus;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Contributor;
 import org.gitlab4j.api.models.DeployKey;
+import org.gitlab4j.api.models.DeployToken;
 import org.gitlab4j.api.models.Deployment;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Discussion;
@@ -73,6 +74,7 @@ import org.gitlab4j.api.models.Label;
 import org.gitlab4j.api.models.LabelEvent;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.models.MergeRequestDiff;
 import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.NotificationSettings;
@@ -201,6 +203,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testDeployTokens() throws Exception {
+        List<DeployToken> deployTokens = unmarshalResourceList(DeployToken.class, "deploy-tokens.json");
+        assertTrue(compareJson(deployTokens, "deploy-tokens.json"));
+    }
+
+    @Test
     public void testEmails() throws Exception {
         List<Email> emails = unmarshalResourceList(Email.class, "emails.json");
         assertTrue(compareJson(emails, "emails.json"));
@@ -228,6 +236,12 @@ public class TestGitLabApiBeans {
     public void testEvent() throws Exception {
         Event event = unmarshalResource(Event.class, "event.json");
         assertTrue(compareJson(event, "event.json"));
+    }
+
+    @Test
+    public void testEvents() throws Exception {
+        List<Event> events = unmarshalResourceList(Event.class, "events.json");
+        assertTrue(compareJson(events, "events.json"));
     }
 
     @Test
@@ -294,6 +308,12 @@ public class TestGitLabApiBeans {
     public void testIssueLink() throws Exception {
         IssueLink issueLink = unmarshalResource(IssueLink.class, "issue-link.json");
         assertTrue(compareJson(issueLink, "issue-link.json"));
+    }
+
+    @Test
+    public void testIssuesClosedBy() throws Exception {
+        List<Issue> issues = unmarshalResourceList(Issue.class, "issues-closed-by-mr.json");
+        assertTrue(compareJson(issues, "issues-closed-by-mr.json"));
     }
 
     @Test
@@ -517,6 +537,12 @@ public class TestGitLabApiBeans {
     public void testMergeRequest() throws Exception {
         MergeRequest mergeRequest = unmarshalResource(MergeRequest.class, "merge-request.json");
         assertTrue(compareJson(mergeRequest, "merge-request.json"));
+    }
+
+    @Test
+    public void testMergeRequestDiffs() throws Exception {
+        List<MergeRequestDiff> diffs = unmarshalResourceList(MergeRequestDiff.class, "merge-request-diffs.json");
+        assertTrue(compareJson(diffs, "merge-request-diffs.json"));
     }
 
     @Test

@@ -10,6 +10,7 @@
   "full_path": "twitter",
   "parent_id": 1234,
   "shared_runners_minutes_limit": 133,
+  "marked_for_deletion_on": "2016-06-17",
   "statistics": {
     "storage_size" : 212,
     "repository_size" : 33,

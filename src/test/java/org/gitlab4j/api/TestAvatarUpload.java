@@ -82,6 +82,8 @@ public class TestAvatarUpload extends AbstractIntegrationTest {
         Project updatedProject = gitLabApi.getProjectApi().setProjectAvatar(testProject.getId(), avatarFile);
         assertNotNull(updatedProject);
         assertTrue(updatedProject.getAvatarUrl().endsWith(AVATAR_FILENAME));
+
+        gitLabApi.close();
     }
 
     @Test

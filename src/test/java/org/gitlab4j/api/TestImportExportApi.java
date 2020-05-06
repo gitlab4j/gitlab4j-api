@@ -24,7 +24,6 @@
 package org.gitlab4j.api;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -97,23 +96,6 @@ public class TestImportExportApi extends AbstractIntegrationTest {
         assumeNotNull(gitLabApi);
     }
 
-
-    @Test
-    public void testScheduleExport() throws GitLabApiException {
-
-        // Arrange
-        assumeNotNull(testProject);
-
-        // Act
-        gitLabApi.getImportExportApi().scheduleExport(testProject);
-        ExportStatus exportStatus = gitLabApi.getImportExportApi().getExportStatus(testProject);
-
-        // Assert
-        assertNotNull(exportStatus);
-        ExportStatus.Status status = exportStatus.getExportStatus();
-        assertNotEquals(ExportStatus.Status.NONE, status);
-    }
-
     @Test
     public void testExportDownloadAndImport() throws GitLabApiException {
 
@@ -135,13 +117,13 @@ public class TestImportExportApi extends AbstractIntegrationTest {
                 break;
             }
 
-            if (retries >= 40) {
+            if (retries >= 6) {
                 System.out.println("aborting!");
                 fail("Project export is taking too long, failing test.");
             }
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
             }
 
@@ -173,13 +155,13 @@ public class TestImportExportApi extends AbstractIntegrationTest {
                     break;
                 }
 
-                if (retries >= 40) {
+                if (retries >= 6) {
                     System.out.println("aborting!");
                     fail("Project import is taking too long, failing test.");
                 }
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                 }
 

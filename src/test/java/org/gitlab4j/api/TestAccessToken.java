@@ -68,5 +68,7 @@ public class TestAccessToken extends AbstractIntegrationTest {
         System.out.format("tokenType: %s, version=%s, revision=%s%n", TokenType.ACCESS, gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
+
+        gitLabApi.close();
     }
 }

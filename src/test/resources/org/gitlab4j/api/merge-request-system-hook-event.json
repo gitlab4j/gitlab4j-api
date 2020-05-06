@@ -92,7 +92,12 @@
       }
     },
     "work_in_progress": false,
-    "total_time_spent": 0
+    "total_time_spent": 0,
+    "human_total_time_spent": "0m",
+    "human_time_estimate": "1h",
+    "assignee_ids": [
+      96
+    ]
   },
   "labels": [],
   "repository": {
@@ -100,5 +105,12 @@
     "url": "git@example.com:awesome_space/awesome_project.git",
     "description": "",
     "homepage": "http://example.com/awesome_space/awesome_project"
-  }
+  },
+  "assignees": [
+    {
+      "name": "User1",
+      "username": "user1",
+      "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+    }
+  ]
 }

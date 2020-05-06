@@ -9,6 +9,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Pipeline;
+import org.gitlab4j.api.models.PipelineFilter;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.PipelineStatus;
 import org.gitlab4j.api.models.Trigger;
@@ -84,6 +85,51 @@ public class PipelineApi extends AbstractApi implements Constants {
      */
     public Stream<Pipeline> getPipelinesStream(Object projectIdOrPath) throws GitLabApiException {
         return (getPipelines(projectIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of pipelines in a project filtered with the provided {@link org.gitlab4j.api.models.PipelineFilter}.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filter a PipelineFilter instance used to filter the results
+     * @return a list containing the pipelines for the specified project ID and matching the provided filter
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public List<Pipeline> getPipelines(Object projectIdOrPath, PipelineFilter filter) throws GitLabApiException {
+        return (getPipelines(projectIdOrPath, filter, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of pipelines in a project filtered with the provided {@link org.gitlab4j.api.models.PipelineFilter}.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filter a PipelineFilter instance used to filter the results
+     * @param itemsPerPage the number of Pipeline instances that will be fetched per page
+     * @return a Pager containing the pipelines for the specified project ID and matching the provided filter
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Pager<Pipeline> getPipelines(Object projectIdOrPath, PipelineFilter filter, int itemsPerPage) throws GitLabApiException {
+	GitLabApiForm formData = (filter != null ? filter.getQueryParams() : new GitLabApiForm());
+	return (new Pager<Pipeline>(this, Pipeline.class, itemsPerPage, formData.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "pipelines"));
+    }
+
+    /**
+     * Get a Stream of pipelines in a project filtered with the provided {@link org.gitlab4j.api.models.PipelineFilter}.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filter a PipelineFilter instance used to filter the results
+     * @return a Stream containing the pipelines for the specified project ID and matching the provided filter
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Stream<Pipeline> getPipelinesStream(Object projectIdOrPath, PipelineFilter filter) throws GitLabApiException {
+        return (getPipelines(projectIdOrPath, filter, getDefaultPerPage()).stream());
     }
 
     /**
@@ -195,7 +241,7 @@ public class PipelineApi extends AbstractApi implements Constants {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("scope", scope)
                 .withParam("status", status)
-                .withParam("ref", ref)
+                .withParam("ref", (ref != null ? urlEncode(ref) : null))
                 .withParam("yaml_errors", yamlErrors)
                 .withParam("name", name)
                 .withParam("username", username)

@@ -196,6 +196,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         GitLabApi gitLabApi = new GitLabApi(TEST_HOST_URL, "");
         List<Project> projects = gitLabApi.getProjectApi().getProjects(1, 1);
         assertTrue(projects != null);
+        gitLabApi.close();
     }
 
     @Test
@@ -327,11 +328,12 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertTrue(projects.size() >= 2);
 
         assertNotNull(projects.get(0).getStatistics());
-        assertNotNull(projects.get(0).getStatistics().getLfsObjectSize());
+        assertNotNull(projects.get(0).getStatistics().getLfsObjectsSize());
         assertNotNull(projects.get(0).getStatistics().getCommitCount());
         assertNotNull(projects.get(0).getStatistics().getJobArtifactsSize());
         assertNotNull(projects.get(0).getStatistics().getStorageSize());
-
+        assertNotNull(projects.get(0).getStatistics().getRepositorySize());
+        assertNotNull(projects.get(0).getStatistics().getWikiSize());
     }
 
     @Test

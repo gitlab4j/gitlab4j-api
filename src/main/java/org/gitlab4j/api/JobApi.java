@@ -212,7 +212,7 @@ public class JobApi extends AbstractApi implements Constants {
 
         Form formData = new GitLabApiForm().withParam("job", jobName, true);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", ref, "download");
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", urlEncode(ref), "download");
 
         try {
 
@@ -247,7 +247,7 @@ public class JobApi extends AbstractApi implements Constants {
     public InputStream downloadArtifactsFile(Object projectIdOrPath, String ref, String jobName) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("job", jobName, true);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", ref, "download");
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", urlEncode(ref), "download");
         return (response.readEntity(InputStream.class));
     }
 
@@ -437,8 +437,24 @@ public class JobApi extends AbstractApi implements Constants {
      * @param jobId the ID to cancel job
      * @return job instance which just canceled
      * @throws GitLabApiException if any exception occurs during execution
+     * @deprecated replaced by {@link #cancelJob(Object, Integer)}
      */
+     @Deprecated
     public Job cancleJob(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
+	return (cancelJob(projectIdOrPath, jobId));
+    }
+
+    /**
+     * Cancel specified job in a project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/jobs/:job_id/cancel</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param jobId the ID to cancel job
+     * @return job instance which just canceled
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Job cancelJob(Object projectIdOrPath, Integer jobId) throws GitLabApiException {
         GitLabApiForm formData = null;
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "cancel");
         return (response.readEntity(Job.class));

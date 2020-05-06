@@ -61,7 +61,7 @@ public class RepositoryFileApi extends AbstractApi {
     public RepositoryFile getFileInfo(Object projectIdOrPath, String filePath, String ref) throws GitLabApiException {
 
         Form form = new Form();
-        addFormParam(form, "ref", ref, true);
+        addFormParam(form, "ref", (ref != null ? urlEncode(ref) : null), true);
         Response response = head(Response.Status.OK, form.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(filePath));
 
@@ -162,7 +162,7 @@ public class RepositoryFileApi extends AbstractApi {
         }
 
         Form form = new Form();
-        addFormParam(form, "ref", ref, true);
+        addFormParam(form, "ref", (ref != null ? urlEncode(ref) : null), true);
         Response response = get(Response.Status.OK, form.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(filePath));
         return (response.readEntity(RepositoryFile.class));
     }
@@ -325,7 +325,8 @@ public class RepositoryFileApi extends AbstractApi {
         }
 
         Form form = new Form();
-        addFormParam(form, isApiVersion(ApiVersion.V3) ? "branch_name" : "branch", branchName, true);
+        addFormParam(form, isApiVersion(ApiVersion.V3) ? "branch_name" : "branch",
+                (branchName != null ? urlEncode(branchName) : null), true);
         addFormParam(form, "commit_message", commitMessage, true);
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
 
@@ -411,20 +412,19 @@ public class RepositoryFileApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files/:filepath</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param commitOrBranchName the commit or branch name to get the file contents for
+     * @param ref the commit or branch name to get the file contents for
      * @param filepath the path of the file to get
      * @return an InputStream to read the raw file from
      * @throws GitLabApiException if any exception occurs
      */
-    public InputStream getRawFile(Object projectIdOrPath, String commitOrBranchName, String filepath) throws GitLabApiException {
+    public InputStream getRawFile(Object projectIdOrPath, String ref, String filepath) throws GitLabApiException {
 
+	Form formData = new GitLabApiForm().withParam("ref", (ref != null ? ref : null), true);
         if (isApiVersion(ApiVersion.V3)) {
-            Form formData = new GitLabApiForm().withParam("file_path", filepath, true);
             Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "blobs", commitOrBranchName);
+                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "blobs", ref);
             return (response.readEntity(InputStream.class));
         } else {
-            Form formData = new GitLabApiForm().withParam("ref", commitOrBranchName, true);
             Response response = getWithAccepts(Response.Status.OK, formData.asMap(),  MediaType.MEDIA_TYPE_WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(filepath), "raw");
             return (response.readEntity(InputStream.class));

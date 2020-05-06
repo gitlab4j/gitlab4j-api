@@ -68,5 +68,23 @@
   "only_allow_merge_if_pipeline_succeeds": false,
   "only_allow_merge_if_all_discussions_are_resolved": false,
   "request_access_enabled": false,
-  "merge_method": "merge"
+  "merge_method": "merge",
+  "statistics": {
+    "commit_count": 9827,
+    "storage_size": 169043997645,
+    "repository_size": 388717608,
+    "wiki_size": 52428,
+    "lfs_objects_size": 2118052893,
+    "job_artifacts_size": 166537174716
+  },
+  "marked_for_deletion_on": "2016-06-17",
+  "license_url": "http://example.com/diaspora/diaspora-client/blob/master/LICENSE",
+  "license": {
+    "key": "lgpl-3.0",
+    "name": "GNU Lesser General Public License v3.0",
+    "nickname": "GNU LGPLv3",
+    "html_url": "http://choosealicense.com/licenses/lgpl-3.0/",
+    "source_url": "http://www.gnu.org/licenses/lgpl-3.0.txt"
+  },
+  "custom_attributes": []
 }

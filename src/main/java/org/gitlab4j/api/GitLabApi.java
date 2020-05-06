@@ -23,7 +23,7 @@ import org.gitlab4j.api.utils.SecretString;
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
  * a separate API class for each concern.
  */
-public class GitLabApi {
+public class GitLabApi implements AutoCloseable {
 
     private final static Logger LOGGER = Logger.getLogger(GitLabApi.class.getName());
 
@@ -57,6 +57,7 @@ public class GitLabApi {
     private ContainerRegistryApi containerRegistryApi;
     private DiscussionsApi discussionsApi;
     private DeployKeysApi deployKeysApi;
+    private DeployTokensApi deployTokensApi;
     private EnvironmentsApi environmentsApi;
     private EpicsApi epicsApi;
     private EventsApi eventsApi;
@@ -409,6 +410,17 @@ public class GitLabApi {
     }
 
     /**
+      *  Constructs a GitLabApi instance set up to interact with the GitLab server using GitLab API version 4.
+      *
+      * @param hostUrl the URL of the GitLab server
+      * @param personalAccessToken the private token to use for access to the API
+      * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+      */
+     public GitLabApi(String hostUrl, String personalAccessToken, Map<String, Object> clientConfigProperties) {
+         this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, personalAccessToken, null, clientConfigProperties);
+     }
+
+    /**
      *  Constructs a GitLabApi instance set up to interact with the GitLab server specified by GitLab API version.
      *
      * @param apiVersion the ApiVersion specifying which version of the API to use
@@ -445,6 +457,38 @@ public class GitLabApi {
 
         gitLabApi.defaultPerPage = this.defaultPerPage;
         return (gitLabApi);
+    }
+
+    /**
+     * Close the underlying {@link javax.ws.rs.client.Client} and its associated resources.
+     */
+    @Override
+    public void close() {
+        if (apiClient != null) {
+            apiClient.close();
+        }
+    }
+
+    /**
+     * Sets the per request connect and read timeout.
+     *
+     * @param connectTimeout the per request connect timeout in milliseconds, can be null to use default
+     * @param readTimeout the per request read timeout in milliseconds, can be null to use default
+     */
+    public void setRequestTimeout(Integer connectTimeout, Integer readTimeout) {
+	apiClient.setRequestTimeout(connectTimeout, readTimeout);
+    }
+
+    /**
+     * Fluent method that sets the per request connect and read timeout.
+     *
+     * @param connectTimeout the per request connect timeout in milliseconds, can be null to use default
+     * @param readTimeout the per request read timeout in milliseconds, can be null to use default
+     * @return this GitLabApi instance
+     */
+    public GitLabApi withRequestTimeout(Integer connectTimeout, Integer readTimeout) {
+	apiClient.setRequestTimeout(connectTimeout, readTimeout);
+	return (this);
     }
 
     /**
@@ -895,6 +939,25 @@ public class GitLabApi {
         }
 
         return (deployKeysApi);
+    }
+
+    /**
+     * Gets the DeployTokensApi instance owned by this GitLabApi instance. The DeployTokensApi is used
+     * to perform all deploy token related API calls.
+     *
+     * @return the DeployTokensApi instance owned by this GitLabApi instance
+     */
+    public DeployTokensApi getDeployTokensApi(){
+
+        if (deployTokensApi == null) {
+            synchronized (this) {
+                if (deployTokensApi == null) {
+                    deployTokensApi = new DeployTokensApi(this);
+                }
+            }
+        }
+
+        return (deployTokensApi);
     }
 
     /**

@@ -85,6 +85,7 @@ public class TestIgnoreCertificateErrors implements PropertyConstants {
         System.out.format("ignoreCertErrors: %b, version=%s, revision=%s%n", gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
+        gitLabApi.close();
 
         gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
         gitLabApi.setIgnoreCertificateErrors(true);
@@ -102,5 +103,7 @@ public class TestIgnoreCertificateErrors implements PropertyConstants {
         System.out.format("ignoreCertErrors: %b, version=%s, revision=%s%n", gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
+
+        gitLabApi.close();
     }
 }

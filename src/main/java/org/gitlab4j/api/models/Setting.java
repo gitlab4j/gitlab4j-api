@@ -1091,7 +1091,23 @@ public enum Setting {
     PROTECTED_PATHS_RAW(String.class),
     THROTTLE_PROTECTED_PATHS_ENABLED(Boolean.class),
     THROTTLE_PROTECTED_PATHS_PERIOD_IN_SECONDS(Integer.class),
-    THROTTLE_PROTECTED_PATHS_REQUESTS_PER_PERIOD(Integer.class);
+    THROTTLE_PROTECTED_PATHS_REQUESTS_PER_PERIOD(Integer.class),
+  
+    /*
+     * Undocumented settings as of GitLab 12.8
+     * These are reported but not documented.
+     */
+    FORCE_PAGES_ACCESS_CONTROL(Boolean.class),
+    MINIMUM_PASSWORD_LENGTH(Integer.class),
+    SNIPPET_SIZE_LIMIT(Integer.class),
+
+    /*
+     * Undocumented settings as of GitLab 12.9
+     * These are reported but not documented.
+     */
+    EMAIL_RESTRICTIONS_ENABLED(Boolean.class),
+    EMAIL_RESTRICTIONS(String.class);
+
 
 
     private static JacksonJsonEnumHelper<Setting> enumHelper = new JacksonJsonEnumHelper<>(Setting.class);

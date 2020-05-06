@@ -48,7 +48,7 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 /**
  * This class utilizes the Jersey client package to communicate with a GitLab API endpoint.
  */
-public class GitLabApiClient {
+public class GitLabApiClient implements AutoCloseable {
 
     protected static final String PRIVATE_TOKEN_HEADER  = "PRIVATE-TOKEN";
     protected static final String SUDO_HEADER           = "Sudo";
@@ -66,6 +66,8 @@ public class GitLabApiClient {
     private SSLContext openSslContext;
     private HostnameVerifier openHostnameVerifier;
     private Integer sudoAsId;
+    private Integer connectTimeout;
+    private Integer readTimeout;
 
     /**
      * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
@@ -244,6 +246,16 @@ public class GitLabApiClient {
     }
 
     /**
+     * Close the underlying {@link Client} and its associated resources.
+     */
+    @Override
+    public void close() {
+        if (apiClient != null) {
+            apiClient.close();
+        }
+    }
+
+    /**
      * Enable the logging of the requests to and the responses from the GitLab server API.
      *
      * @param logger the Logger instance to log to
@@ -262,6 +274,17 @@ public class GitLabApiClient {
         if (apiClient != null) {
             createApiClient();
         }
+    }
+
+    /**
+     * Sets the per request connect and read timeout.
+     *
+     * @param connectTimeout the per request connect timeout in milliseconds, can be null to use default
+     * @param readTimeout the per request read timeout in milliseconds, can be null to use default
+     */
+    void setRequestTimeout(Integer connectTimeout, Integer readTimeout) {
+	this.connectTimeout = connectTimeout;
+	this.readTimeout = readTimeout;
     }
 
     /**
@@ -780,6 +803,16 @@ public class GitLabApiClient {
         // If sudo as ID is set add the Sudo header
         if (sudoAsId != null && sudoAsId.intValue() > 0)
             builder = builder.header(SUDO_HEADER,  sudoAsId);
+
+        // Set the per request connect timeout
+        if (connectTimeout != null) {
+            builder.property(ClientProperties.CONNECT_TIMEOUT, connectTimeout);
+        }
+
+        // Set the per request read timeout
+        if (readTimeout != null) {
+            builder.property(ClientProperties.READ_TIMEOUT, readTimeout);
+        }
 
         return (builder);
     }

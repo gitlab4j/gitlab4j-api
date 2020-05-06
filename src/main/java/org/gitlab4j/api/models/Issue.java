@@ -7,6 +7,12 @@ import java.util.List;
 import org.gitlab4j.api.Constants.IssueState;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.TextNode;
+import com.fasterxml.jackson.databind.node.ValueNode;
+
 public class Issue {
 
     public static class TaskCompletionStatus {
@@ -46,7 +52,14 @@ public class Issue {
     private User closedBy;
     private String description;
     private Date dueDate;
+
+    @JsonProperty("id")
+    private ValueNode actualId;
+    @JsonIgnore
+    private String externalId;
+    @JsonIgnore
     private Integer id;
+
     private Integer iid;
     private Integer issueLinkId;
     private List<String> labels;
@@ -121,15 +134,44 @@ public class Issue {
     }
 
     public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+	this.dueDate = dueDate;
+    }
+
+    public ValueNode getActualId() {
+        return actualId;
+    }
+
+    public void setActualId(ValueNode id) {
+	actualId = id;
+        if (actualId instanceof TextNode) {
+            externalId = actualId.asText();
+        } else if (actualId instanceof IntNode) {
+            this.id = actualId.asInt();
+        }
     }
 
     public Integer getId() {
-        return id;
+        return (id);
     }
 
     public void setId(Integer id) {
-        this.id = id;
+	this.id = id;
+	if (id != null) {
+	    actualId = new IntNode(id);
+	    externalId = null;
+	}
+    }
+
+    public String getExternalId() {
+        return (externalId);
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+	if (externalId != null) {
+	    actualId = new TextNode(externalId);
+	    id = null;
+	}
     }
 
     public Integer getIid() {

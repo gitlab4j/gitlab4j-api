@@ -36,7 +36,7 @@ public class DiscussionsApi extends AbstractApi {
         Pager<Discussion> pager = getIssueDiscussionsPager(projectIdOrPath, issueIid, getDefaultPerPage());
         return (pager.all());
     }
- 
+
     /**
      * Get a list of discussions for the specified issue.
      *
@@ -103,7 +103,7 @@ public class DiscussionsApi extends AbstractApi {
         Pager<Discussion> pager = getSnippetDiscussionsPager(projectIdOrPath, snippetId, getDefaultPerPage());
         return (pager.all());
     }
- 
+
     /**
      * Get a list of discussions for the specified snippet.
      *
@@ -171,7 +171,7 @@ public class DiscussionsApi extends AbstractApi {
         Pager<Discussion> pager = getEpicDiscussionsPager(projectIdOrPath, epicId, getDefaultPerPage());
         return (pager.all());
     }
- 
+
     /**
      * Get a list of discussions for the specified epic.
      *
@@ -238,7 +238,7 @@ public class DiscussionsApi extends AbstractApi {
         Pager<Discussion> pager = getMergeRequestDiscussionsPager(projectIdOrPath, mergeRequestIid, getDefaultPerPage());
         return (pager.all());
     }
- 
+
     /**
      * Get a list of discussions for the specified merge request.
      *
@@ -385,7 +385,7 @@ public class DiscussionsApi extends AbstractApi {
         Pager<Discussion> pager = getCommitDiscussionsPager(projectIdOrPath, commitSha, getDefaultPerPage());
         return (pager.all());
     }
- 
+
     /**
      * Get a list of discussions for the specified commit.
      *
@@ -561,7 +561,7 @@ public class DiscussionsApi extends AbstractApi {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
         Response response = this.putWithFormData(Response.Status.OK, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), 
+                "projects", getProjectIdOrPath(projectIdOrPath),
                 "repository", "commits", commitSha, "discussions", discussionId, "notes", noteId);
         return (response.readEntity(Note.class));
     }
@@ -671,4 +671,87 @@ public class DiscussionsApi extends AbstractApi {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
                 "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
     }
+
+    /**
+     * Creates a new thread to a single project issue. This is similar to creating a note but other comments (replies) can be added to it later.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/discussions</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid The IID of an issue
+     * @param body the content of the discussion
+     * @param createdAt (optional) date the discussion was created (requires admin or project/group owner rights)
+     * @return a Discussion instance containing the newly created discussion
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Discussion createIssueDiscussion(Object projectIdOrPath, Integer issueIid, String body, Date createdAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("body", body, true)
+                .withParam("created_at", createdAt);
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions");
+        return (response.readEntity(Discussion.class));
+    }
+
+    /**
+     * Adds a new note to the thread.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid The IID of an issue
+     * @param discussionId the id of discussion
+     * @param body the content of the note
+     * @param createdAt (optional) date the discussion was created (requires admin or project/group owner rights)
+     * @return a Note instance containing the newly created note
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Note addIssueThreadNote(Object projectIdOrPath, Integer issueIid,
+                                   String discussionId, String body, Date createdAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("body", body, true)
+                .withParam("created_at", createdAt);
+        Response response = post(Response.Status.CREATED, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions", discussionId, "notes");
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Modify existing thread note of an issue.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes/:note_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid The IID of an issue
+     * @param discussionId the id of discussion
+     * @param noteId the id of the note
+     * @param body the content of the note
+     * @return a Note instance containing the modified note
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Note modifyIssueThreadNote(Object projectIdOrPath, Integer issueIid,
+                                      String discussionId, Integer noteId, String body) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("body", body, true);
+        Response response = putWithFormData(Response.Status.OK, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions", discussionId, "notes", noteId);
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Deletes an existing thread note of an issue.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes/:note_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param issueIid The IID of an issue
+     * @param discussionId the id of discussion
+     * @param noteId the id of the note
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public void deleteIssueThreadNote(Object projectIdOrPath, Integer issueIid,
+                                      String discussionId, Integer noteId) throws GitLabApiException {
+        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions", discussionId, "notes", noteId);
+    }
+
 }

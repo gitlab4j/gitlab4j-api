@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -24,7 +25,11 @@ import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.utils.FileUtils;
 
 /**
- * This class provides an entry point to all the GitLab API repository calls.
+ * <p>This class provides an entry point to all the GitLab API repository calls.
+ * For more information on the repository APIs see:</p>
+ *
+ * <a href="https://docs.gitlab.com/ce/api/repositories.html">Repositories API</a>
+ * <a href="https://docs.gitlab.com/ce/api/branches.html">Branches API</a>
  */
 public class RepositoryApi extends AbstractApi {
 
@@ -384,7 +389,7 @@ public class RepositoryApi extends AbstractApi {
         Form formData = new GitLabApiForm()
                 .withParam("id", getProjectIdOrPath(projectIdOrPath), true)
                 .withParam("path", filePath, false)
-                .withParam(isApiVersion(ApiVersion.V3) ? "ref_name" : "ref", refName, false)
+                .withParam(isApiVersion(ApiVersion.V3) ? "ref_name" : "ref", (refName != null ? urlEncode(refName) : null), false)
                 .withParam("recursive", recursive, false);
         return (new Pager<TreeItem>(this, TreeItem.class, itemsPerPage, formData.asMap(), "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "tree"));
@@ -440,7 +445,7 @@ public class RepositoryApi extends AbstractApi {
      */
     public InputStream getRepositoryArchive(Object projectIdOrPath, String sha) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive");
         return (response.readEntity(InputStream.class));
     }
@@ -486,7 +491,7 @@ public class RepositoryApi extends AbstractApi {
          *         https://gitlab.com/gitlab-com/support-forum/issues/3067
          */
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive" + "." + format.toString());
         return (response.readEntity(InputStream.class));
     }
@@ -506,7 +511,7 @@ public class RepositoryApi extends AbstractApi {
     public File getRepositoryArchive(Object projectIdOrPath, String sha, File directory) throws GitLabApiException {
 
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive");
 
         try {
@@ -571,7 +576,7 @@ public class RepositoryApi extends AbstractApi {
          *         https://gitlab.com/gitlab-com/support-forum/issues/3067
          */
         Form formData = new GitLabApiForm().withParam("sha", sha);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive" + "." + format.toString());
 
         try {
@@ -696,7 +701,17 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Commit getMergeBase(Object projectIdOrPath, List<String> refs) throws GitLabApiException {
-        GitLabApiForm queryParams = new GitLabApiForm().withParam("refs", refs, true);
+
+	if (refs == null || refs.size() < 2) {
+	    throw new RuntimeException("refs must conatin at least 2 refs");
+	}
+
+	List<String> encodedRefs = new ArrayList<>(refs.size());
+	for (String ref : refs) {
+	    encodedRefs.add(urlEncode(ref));
+	}
+
+        GitLabApiForm queryParams = new GitLabApiForm().withParam("refs", encodedRefs, true);
         Response response = get(Response.Status.OK, queryParams.asMap(), "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "merge_base");
         return (response.readEntity(Commit.class));
