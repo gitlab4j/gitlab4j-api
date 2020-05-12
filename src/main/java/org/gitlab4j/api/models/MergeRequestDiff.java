@@ -1,6 +1,7 @@
 package org.gitlab4j.api.models;
 
 import java.util.Date;
+import java.util.List;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -14,6 +15,8 @@ public class MergeRequestDiff {
     private Integer mergeRequestId;
     private String state;
     private String realSize;
+    private List<Commit> commits;
+    private List<Diff> diffs;
 
     public Integer getId() {
         return id;
@@ -77,6 +80,22 @@ public class MergeRequestDiff {
 
     public void setRealSize(String realSize) {
         this.realSize = realSize;
+    }
+
+    public List<Commit> getCommits() {
+        return commits;
+    }
+
+    public void setCommits(List<Commit> commits) {
+        this.commits = commits;
+    }
+
+    public List<Diff> getDiffs() {
+        return diffs;
+    }
+
+    public void setDiffs(List<Diff> diffs) {
+        this.diffs = diffs;
     }
 
     @Override

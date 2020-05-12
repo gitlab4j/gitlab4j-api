@@ -434,6 +434,43 @@ public class MergeRequestApi extends AbstractApi {
     }
 
     /**
+     * Get a single merge request diff version.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/versions/:version_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param versionId the ID of the merge request diff version
+     * @return a MergeRequestDiff instance for the specified MR diff version
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequestDiff getMergeRequestDiff(Object projectIdOrPath,
+	    Integer mergeRequestIid, Integer versionId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
+                "merge_requests", mergeRequestIid, "versions", versionId);
+        return (response.readEntity(MergeRequestDiff.class));
+    }
+
+    /**
+     * Get a single merge request diff version as an Optional instance.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/versions/:version_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param versionId the ID of the merge request diff version
+     * @return the specified MergeRequestDiff as an Optional instance instance
+     */
+    public Optional<MergeRequestDiff> getOptionalMergeRequestDiff(
+	    Object projectIdOrPath, Integer mergeRequestIid, Integer versionId) {
+        try {
+            return (Optional.ofNullable(getMergeRequestDiff(projectIdOrPath, mergeRequestIid, versionId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
      * Creates a merge request.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests</code></pre>

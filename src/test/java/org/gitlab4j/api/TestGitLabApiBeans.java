@@ -540,6 +540,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testMergeRequestDiff() throws Exception {
+        MergeRequestDiff diff = unmarshalResource(MergeRequestDiff.class, "merge-request-diff.json");
+        assertTrue(compareJson(diff, "merge-request-diff.json"));
+    }
+
+    @Test
     public void testMergeRequestDiffs() throws Exception {
         List<MergeRequestDiff> diffs = unmarshalResourceList(MergeRequestDiff.class, "merge-request-diffs.json");
         assertTrue(compareJson(diffs, "merge-request-diffs.json"));
