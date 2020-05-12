@@ -199,7 +199,7 @@ public class DeployKeysApi extends AbstractApi {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param deployKeyId the ID of the deploy key to update, required
-     * @param title the updated deploy key's title, optional
+     * @param title the title for the deploy key, optional
      * @param canPush can deploy key push to the project's repository, optional
      * @return an updated DeployKey instance
      * @throws GitLabApiException if any exception occurs
