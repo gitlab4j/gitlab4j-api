@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineFilter;
 import org.gitlab4j.api.models.PipelineSchedule;
+import org.gitlab4j.api.models.PipelineScheduleWithVariables;
 import org.gitlab4j.api.models.PipelineStatus;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.Variable;
@@ -445,12 +446,12 @@ public class PipelineApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param pipelineScheduleId the ID of the pipeline schedule to get
-     * @return the project PipelineSchedule
+     * @return the project PipelineScheduleWithVariables
      * @throws GitLabApiException if any exception occurs
      */
-    public PipelineSchedule getPipelineSchedule(Object projectIdOrPath, Integer pipelineScheduleId) throws GitLabApiException {
+    public PipelineScheduleWithVariables getPipelineSchedule(Object projectIdOrPath, Integer pipelineScheduleId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "pipeline_schedules", pipelineScheduleId);
-        return (response.readEntity(PipelineSchedule.class));
+        return (response.readEntity(PipelineScheduleWithVariables.class));
     }
 
     /**
@@ -460,9 +461,9 @@ public class PipelineApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param pipelineScheduleId the ID of the hook to get
-     * @return the project PipelineSchedule as an Optional instance
+     * @return the project PipelineScheduleWithVariables as an Optional instance
      */
-    public Optional<PipelineSchedule> getOptionalPipelineSchedule (Object projectIdOrPath, Integer pipelineScheduleId) {
+    public Optional<PipelineScheduleWithVariables> getOptionalPipelineSchedule (Object projectIdOrPath, Integer pipelineScheduleId) {
         try {
             return (Optional.ofNullable(getPipelineSchedule(projectIdOrPath, pipelineScheduleId)));
         } catch (GitLabApiException glae) {
