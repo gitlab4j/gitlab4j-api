@@ -1,6 +1,7 @@
 package org.gitlab4j.api.models;
 
 import java.util.Date;
+import java.util.List;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -17,6 +18,7 @@ public class PipelineSchedule {
     private Boolean active;
     private Pipeline lastPipeline;
     private Owner owner;
+    private List<Variable> variables;
 
     public Integer getId() {
         return id;
@@ -104,6 +106,14 @@ public class PipelineSchedule {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public List<Variable> getVariables() {
+        return variables;
+    }
+
+    public void setVariables(List<Variable> variables) {
+        this.variables = variables;
     }
 
     @Override
