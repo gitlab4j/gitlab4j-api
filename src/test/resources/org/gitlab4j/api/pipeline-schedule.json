@@ -21,5 +21,12 @@
     "state": "active",
     "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
     "web_url": "https://gitlab.example.com/root"
-  }
+  },
+  "variables": [
+    {
+       "key": "TEST_VARIABLE_1",
+       "variable_type": "env_var",
+       "value": "TEST_1"
+    }
+  ]
 }
