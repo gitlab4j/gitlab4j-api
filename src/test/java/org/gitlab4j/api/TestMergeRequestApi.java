@@ -246,7 +246,7 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
             while (true) {
 
                 System.out.print(".");
-                rebaseMr = gitLabApi.getMergeRequestApi().getRebaseStatus(testProject, mr.getId());
+                rebaseMr = gitLabApi.getMergeRequestApi().getRebaseStatus(testProject, mr.getIid());
                 if (!rebaseMr.getRebaseInProgress()) {
                     System.out.println("done");
                     break;
