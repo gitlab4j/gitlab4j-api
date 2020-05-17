@@ -2510,10 +2510,13 @@ public class ProjectApi extends AbstractApi implements Constants {
      * memberCheck (optional) - Restrict commits by author (email) to existing GitLab users
      * preventSecrets (optional) - GitLab will reject any files that are likely to contain secrets
      * commitMessageRegex (optional) - All commit messages must match this, e.g. Fixed \d+\..*
+     * commitMessageNegativeRegex (optional) - No commit message is allowed to match this, e.g. ssh\:\/\/
      * branchNameRegex (optional) - All branch names must match this, e.g. `(feature
      * authorEmailRegex (optional) - All commit author emails must match this, e.g. @my-company.com$
      * fileNameRegex (optional) - All committed filenames must not match this, e.g. `(jar
-     * maxFileSize (optional) - Maximum file size (MB
+     * maxFileSize (optional) - Maximum file size (MB)
+     * commitCommitterCheck (optional) - Users can only push commits to this repository that were committed with one of their own verified emails.
+     * rejectUnsignedCommits (optional) - Reject commit when it is not signed through GPG
      *</code>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
@@ -2527,13 +2530,13 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("member_check", pushRule.getMemberCheck())
             .withParam("prevent_secrets", pushRule.getPreventSecrets())
             .withParam("commit_message_regex", pushRule.getCommitMessageRegex())
+            .withParam("commit_message_negative_regex", pushRule.getCommitMessageNegativeRegex())
             .withParam("branch_name_regex", pushRule.getBranchNameRegex())
             .withParam("author_email_regex", pushRule.getAuthorEmailRegex())
             .withParam("file_name_regex", pushRule.getFileNameRegex())
             .withParam("max_file_size", pushRule.getMaxFileSize())
             .withParam("commit_committer_check", pushRule.getCommitCommitterCheck())
             .withParam("reject_unsigned_commits", pushRule.getRejectUnsignedCommits());
-
 
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "push_rule");
         return (response.readEntity(PushRules.class));
@@ -2551,10 +2554,13 @@ public class ProjectApi extends AbstractApi implements Constants {
      * memberCheck (optional) - Restrict commits by author (email) to existing GitLab users
      * preventSecrets (optional) - GitLab will reject any files that are likely to contain secrets
      * commitMessageRegex (optional) - All commit messages must match this, e.g. Fixed \d+\..*
+     * commitMessageNegativeRegex (optional) - No commit message is allowed to match this, e.g. ssh\:\/\/
      * branchNameRegex (optional) - All branch names must match this, e.g. `(feature
      * authorEmailRegex (optional) - All commit author emails must match this, e.g. @my-company.com$
      * fileNameRegex (optional) - All committed filenames must not match this, e.g. `(jar
-     * maxFileSize (optional) - Maximum file size (MB
+     * maxFileSize (optional) - Maximum file size (MB)
+     * commitCommitterCheck (optional) - Users can only push commits to this repository that were committed with one of their own verified emails.
+     * rejectUnsignedCommits (optional) - Reject commit when it is not signed through GPG
      *</code>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
@@ -2568,6 +2574,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("member_check", pushRule.getMemberCheck())
             .withParam("prevent_secrets", pushRule.getPreventSecrets())
             .withParam("commit_message_regex", pushRule.getCommitMessageRegex())
+            .withParam("commit_message_negative_regex", pushRule.getCommitMessageNegativeRegex())
             .withParam("branch_name_regex", pushRule.getBranchNameRegex())
             .withParam("author_email_regex", pushRule.getAuthorEmailRegex())
             .withParam("file_name_regex", pushRule.getFileNameRegex())

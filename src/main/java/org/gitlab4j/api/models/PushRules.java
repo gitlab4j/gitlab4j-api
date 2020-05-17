@@ -9,6 +9,7 @@ public class PushRules {
     private Integer id;
     private Integer projectId;
     private String commitMessageRegex;
+    private String commitMessageNegativeRegex;
     private String branchNameRegex;
     private Boolean denyDeleteTag;
     private Date createdAt;
@@ -54,6 +55,18 @@ public class PushRules {
         return (this);
     }
 
+    public String getCommitMessageNegativeRegex() {
+        return commitMessageNegativeRegex;
+    }
+
+    public void setCommitMessageNegativeRegex(String commitMessageNegativeRegex) {
+        this.commitMessageNegativeRegex = commitMessageNegativeRegex;
+    }
+    
+    public PushRules withCommitMessageNegativeRegex(String commitMessageNegativeRegex) {
+        this.commitMessageNegativeRegex = commitMessageNegativeRegex;
+        return (this);
+    }
     public String getBranchNameRegex() {
         return branchNameRegex;
     }
