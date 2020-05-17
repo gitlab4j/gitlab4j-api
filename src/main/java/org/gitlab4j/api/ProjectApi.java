@@ -2530,7 +2530,10 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("branch_name_regex", pushRule.getBranchNameRegex())
             .withParam("author_email_regex", pushRule.getAuthorEmailRegex())
             .withParam("file_name_regex", pushRule.getFileNameRegex())
-            .withParam("max_file_size", pushRule.getMaxFileSize());
+            .withParam("max_file_size", pushRule.getMaxFileSize())
+            .withParam("commit_committer_check", pushRule.getCommitCommitterCheck())
+            .withParam("reject_unsigned_commits", pushRule.getRejectUnsignedCommits());
+
 
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "push_rule");
         return (response.readEntity(PushRules.class));
@@ -2568,7 +2571,9 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("branch_name_regex", pushRule.getBranchNameRegex())
             .withParam("author_email_regex", pushRule.getAuthorEmailRegex())
             .withParam("file_name_regex", pushRule.getFileNameRegex())
-            .withParam("max_file_size", pushRule.getMaxFileSize());
+            .withParam("max_file_size", pushRule.getMaxFileSize())
+            .withParam("commit_committer_check", pushRule.getCommitCommitterCheck())
+            .withParam("reject_unsigned_commits", pushRule.getRejectUnsignedCommits());
 
         final Response response = putWithFormData(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "push_rule");
         return (response.readEntity(PushRules.class));
