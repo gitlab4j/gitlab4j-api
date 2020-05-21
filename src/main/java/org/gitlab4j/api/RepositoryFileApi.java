@@ -5,13 +5,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.RepositoryFile;
 
 /**
@@ -460,5 +463,56 @@ public class RepositoryFileApi extends AbstractApi {
 
         addFormParam(form, "commit_message", commitMessage, true);
         return (form);
+    }
+
+    /**
+     * Get a List of file blame from repository.  Allows you to receive blame information.
+     * Each blame range contains lines and corresponding commit information.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files/:file_path/blame</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filePath the path of the file to get the blame for
+     * @param ref the name of branch, tag or commit
+     * @return a List of Blame instances for the specified filePath and ref
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Blame> getBlame(Object projectIdOrPath, String filePath, String ref) throws GitLabApiException {
+       return (getBlame(projectIdOrPath, filePath, ref, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of file blame from repository.  Allows you to receive blame information.
+     * Each blame range contains lines and corresponding commit information.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files/:file_path/blame</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filePath the path of the file to get the blame for
+     * @param ref the name of branch, tag or commit
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager of Blame instances for the specified filePath and ref
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Blame> getBlame(Object projectIdOrPath, String filePath, String ref, int itemsPerPage) throws GitLabApiException {
+	GitLabApiForm formData = new GitLabApiForm().withParam("ref", ref, true);
+        return (new Pager<Blame>(this, Blame.class, itemsPerPage, formData.asMap(),
+                "projects",  getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(filePath), "blame"));
+    }
+
+    /**
+     * Get a Stream of file blame from repository.  Allows you to receive blame information.
+     * Each blame range contains lines and corresponding commit information.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/files/:file_path/blame</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filePath the path of the file to get the blame for
+     * @param ref the name of branch, tag or commit
+     * @return a Stream of Blame instances for the specified filePath and ref
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Blame> getBlameStream(Object projectIdOrPath, String filePath, String ref) throws GitLabApiException {
+       return (getBlame(projectIdOrPath, filePath, ref, getDefaultPerPage()).stream());
     }
 }
