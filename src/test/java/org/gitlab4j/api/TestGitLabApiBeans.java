@@ -40,6 +40,7 @@ import org.gitlab4j.api.models.ApprovalRule;
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.AwardEmoji;
 import org.gitlab4j.api.models.Badge;
+import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.Board;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Comment;
@@ -136,6 +137,12 @@ public class TestGitLabApiBeans {
     public void testBadges() throws Exception {
         List<Badge> badges = unmarshalResourceList(Badge.class, "badges.json");
         assertTrue(compareJson(badges, "badges.json"));
+    }
+
+    @Test
+    public void testBlame() throws Exception {
+        List<Blame> blame = unmarshalResourceList(Blame.class, "blame.json");
+        assertTrue(compareJson(blame, "blame.json"));
     }
 
     @Test
