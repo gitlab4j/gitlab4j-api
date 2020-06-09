@@ -268,6 +268,7 @@ The following is a list of the available sub APIs along with a sample use of eac
 ---
 &nbsp;&nbsp;[ApplicationsApi](#applicationsapi)<br/>
 &nbsp;&nbsp;[ApplicationSettingsApi](#applicationsettingsapi)<br/>
+&nbsp;&nbsp;[AuditEventApi](#auditeventapi)<br/>
 &nbsp;&nbsp;[AwardEmojiApi](#awardemojiapi)<br/>
 &nbsp;&nbsp;[BoardsApi](#boardsapi)<br/>
 &nbsp;&nbsp;[CommitsApi](#commitsapi)<br/>
@@ -324,6 +325,15 @@ gitLabApi.getApplicationsApi().createApplication("My OAUTH Application", "https/
 ```java
 // Get the current GitLab server application settings
 ApplicationSettings appSettings = gitLabApi.getApplicationSettingsApi().getAppliationSettings();
+```
+
+#### AuditEventApi
+```java
+// Get the current GitLab server audit events for entity
+// This uses the ISO8601 date utilities the in org.gitlab4j.api.utils.ISO8601 class
+Date since = ISO8601.toDate("2017-01-01T00:00:00Z");
+Date until = new Date(); // now
+List<AuditEvent> auditEvents = gitLabApi.getAuditEventApi().getAuditEvents(since, until, EntityType.USER, 1);
 ```
 
 #### AwardEmojiApi

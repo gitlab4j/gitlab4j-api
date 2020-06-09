@@ -1,27 +1,17 @@
 package org.gitlab4j.api;
 
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.utils.ISO8601;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.AccessLevel;
-import org.gitlab4j.api.models.AccessRequest;
-import org.gitlab4j.api.models.Badge;
-import org.gitlab4j.api.models.Group;
-import org.gitlab4j.api.models.GroupFilter;
-import org.gitlab4j.api.models.GroupParams;
-import org.gitlab4j.api.models.GroupProjectsFilter;
-import org.gitlab4j.api.models.Member;
-import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.Variable;
-import org.gitlab4j.api.models.Visibility;
 
 /**
  * This class implements the client side API for the GitLab groups calls.
@@ -29,6 +19,7 @@ import org.gitlab4j.api.models.Visibility;
  * @see <a href="https://docs.gitlab.com/ce/api/members.html">Group and project members API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ce/api/access_requests.html">Group and project access requests API</a>
  * @see <a href="https://docs.gitlab.com/ce/api/group_badges.html">Group badges API</a>
+ * @see <a href="https://docs.gitlab.com/ee/api/audit_events.html#retrieve-all-group-audit-events">Group audit events API</a>
  */
 public class GroupApi extends AbstractApi {
 
@@ -1356,13 +1347,78 @@ public class GroupApi extends AbstractApi {
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
-     * @return the transfered Project instance
+     * @return the transferred Project instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Project transferProject(Object groupIdOrPath, Object projectIdOrPath) throws GitLabApiException {
         Response response = post(Response.Status.CREATED, (Form)null, "groups",  getGroupIdOrPath(groupIdOrPath),
                 "projects", getProjectIdOrPath(projectIdOrPath));
         return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Get a List of the group audit events viewable by Maintainer or an Owner of the group.
+     *
+     * <pre><code>GET /groups/:id/audit_events</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param created_after Group audit events created on or after the given time.
+     * @param created_before Group audit events created on or before the given time.
+     * @return a List of group Audit events
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<AuditEvent> getAuditEvents(Object groupIdOrPath, Date created_after, Date created_before) throws GitLabApiException {
+        return (getAuditEvents(groupIdOrPath, created_after, created_before, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of the group audit events viewable by Maintainer or an Owner of the group.
+     *
+     * <pre><code>GET /groups/:id/audit_events</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param created_after Group audit events created on or after the given time.
+     * @param created_before Group audit events created on or before the given time.
+     * @param itemsPerPage the number of Audit Event instances that will be fetched per page
+     * @return a Pager of group Audit events
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<AuditEvent> getAuditEvents(Object groupIdOrPath, Date created_after, Date created_before, int itemsPerPage) throws GitLabApiException {
+        Form form = new GitLabApiForm()
+                .withParam("created_before", ISO8601.toString(created_after, false))
+                .withParam("created_after", ISO8601.toString(created_before, false));
+        return (new Pager<AuditEvent>(this, AuditEvent.class, itemsPerPage, form.asMap(),
+                "groups", getGroupIdOrPath(groupIdOrPath), "audit_events"));
+    }
+
+    /**
+     * Get a Stream of the group audit events viewable by Maintainer or an Owner of the group.
+     *
+     * <pre><code>GET /groups/:id/audit_events</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param created_after Group audit events created on or after the given time.
+     * @param created_before Group audit events created on or before the given time.
+     * @return a Stream of group Audit events
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<AuditEvent> getAuditEventsStream(Object groupIdOrPath, Date created_after, Date created_before) throws GitLabApiException {
+        return (getAuditEvents(groupIdOrPath, created_after, created_before, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a specific audit event of a group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/audit_events/:id_audit_event</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param auditEventId the auditEventId, required
+     * @return the group Audit event
+     * @throws GitLabApiException if any exception occurs
+     */
+    public AuditEvent getAuditEvent(Object groupIdOrPath, Integer auditEventId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "audit_events", auditEventId);
+        return (response.readEntity(AuditEvent.class));
     }
 
     /**
