@@ -24,7 +24,27 @@
 package org.gitlab4j.api;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.models.AccessLevel;
+import org.gitlab4j.api.models.AccessRequest;
+import org.gitlab4j.api.models.ApprovalRule;
+import org.gitlab4j.api.models.ApprovalRuleParams;
+import org.gitlab4j.api.models.AuditEvent;
+import org.gitlab4j.api.models.Badge;
+import org.gitlab4j.api.models.Event;
+import org.gitlab4j.api.models.FileUpload;
+import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.Member;
+import org.gitlab4j.api.models.Namespace;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectApprovalsConfig;
+import org.gitlab4j.api.models.ProjectFetches;
+import org.gitlab4j.api.models.ProjectFilter;
+import org.gitlab4j.api.models.ProjectHook;
+import org.gitlab4j.api.models.ProjectUser;
+import org.gitlab4j.api.models.PushRules;
+import org.gitlab4j.api.models.Snippet;
+import org.gitlab4j.api.models.Variable;
+import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.ISO8601;
 
 import javax.ws.rs.core.Form;

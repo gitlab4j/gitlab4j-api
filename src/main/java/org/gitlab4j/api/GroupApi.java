@@ -1,7 +1,18 @@
 package org.gitlab4j.api;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.models.AccessLevel;
+import org.gitlab4j.api.models.AccessRequest;
+import org.gitlab4j.api.models.AuditEvent;
+import org.gitlab4j.api.models.Badge;
+import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.GroupFilter;
+import org.gitlab4j.api.models.GroupParams;
+import org.gitlab4j.api.models.GroupProjectsFilter;
+import org.gitlab4j.api.models.Member;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.Variable;
+import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.ISO8601;
 
 import javax.ws.rs.core.Form;
