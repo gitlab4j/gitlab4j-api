@@ -23,25 +23,12 @@
 
 package org.gitlab4j.api;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.ApprovalRule;
 import org.gitlab4j.api.models.ApprovalRuleParams;
+import org.gitlab4j.api.models.AuditEvent;
 import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
@@ -58,16 +45,31 @@ import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
+import org.gitlab4j.api.utils.ISO8601;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * This class provides an entry point to all the GitLab API project calls.
- * 
+ *
  * @see <a href="https://docs.gitlab.com/ce/api/projects.html">Projects API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ce/api/project_statistics.html">Project statistics API</a>
  * @see <a href="https://docs.gitlab.com/ce/api/members.html">Group and project members API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ce/api/access_requests.html#group-and-project-access-requests-api">Group and project access requests API</a>
  * @see <a href="https://docs.gitlab.com/ee/api/project_badges.html">Project badges API</a>
  * @see <a href="https://docs.gitlab.com/ce/api/merge_request_approvals.html">
+ * @see <a href="https://docs.gitlab.com/ee/api/audit_events.html#retrieve-all-project-audit-events">Project audit events API</a>
  * Merge request approvals API (Project-level) at GitLab</a>
  */
 public class ProjectApi extends AbstractApi implements Constants {
@@ -1559,7 +1561,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             return (GitLabApi.createOptionalFromException(glae));
         }
     }
- 
+
     /**
      * Gets a project team member, optionally including inherited member.
      *
@@ -2733,6 +2735,71 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a List of the project audit events viewable by Maintainer or an Owner of the group.
+     *
+     * <pre><code>GET /projects/:id/audit_events</code></pre>
+     *
+     * @param projectIdOrPath the project ID, path of the project, or a project instance holding the project ID or path
+     * @param created_after Project audit events created on or after the given time.
+     * @param created_before Project audit events created on or before the given time.
+     * @return a List of project Audit events
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<AuditEvent> getAuditEvents(Object projectIdOrPath, Date created_after, Date created_before) throws GitLabApiException {
+        return (getAuditEvents(projectIdOrPath, created_after, created_before, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of the group audit events viewable by Maintainer or an Owner of the group.
+     *
+     * <pre><code>GET /projects/:id/audit_events</code></pre>
+     *
+     * @param projectIdOrPath the project ID, path of the project, or a Project instance holding the project ID or path
+     * @param created_after Project audit events created on or after the given time.
+     * @param created_before Project audit events created on or before the given time.
+     * @param itemsPerPage the number of Audit Event instances that will be fetched per page
+     * @return a Pager of project Audit events
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<AuditEvent> getAuditEvents(Object projectIdOrPath, Date created_after, Date created_before, int itemsPerPage) throws GitLabApiException {
+        Form form = new GitLabApiForm()
+                .withParam("created_before", ISO8601.toString(created_before, false))
+                .withParam("created_after", ISO8601.toString(created_after, false));
+        return (new Pager<AuditEvent>(this, AuditEvent.class, itemsPerPage, form.asMap(),
+                "projects", getProjectIdOrPath(projectIdOrPath), "audit_events"));
+    }
+
+    /**
+     * Get a Stream of the group audit events viewable by Maintainer or an Owner of the group.
+     *
+     * <pre><code>GET /projects/:id/audit_events</code></pre>
+     *
+     * @param projectIdOrPath the project ID, path of the project, or a Project instance holding the project ID or path
+     * @param created_after Project audit events created on or after the given time.
+     * @param created_before Project audit events created on or before the given time.
+     * @return a Stream of project Audit events
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<AuditEvent> getAuditEventsStream(Object projectIdOrPath, Date created_after, Date created_before) throws GitLabApiException {
+        return (getAuditEvents(projectIdOrPath, created_after, created_before, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a specific audit event of a project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/audit_events/:id_audit_event</code></pre>
+     *
+     * @param projectIdOrPath the project ID, path of the project, or a Project instance holding the project ID or path
+     * @param auditEventId the auditEventId, required
+     * @return the project Audit event
+     * @throws GitLabApiException if any exception occurs
+     */
+    public AuditEvent getAuditEvent(Object projectIdOrPath, Integer auditEventId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "audit_events", auditEventId);
+        return (response.readEntity(AuditEvent.class));
+    }
+
+    /**
      * Get list of a project's variables.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/variables</code></pre>
@@ -2867,7 +2934,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param value the value for the variable, required
      * @param variableType the type of variable. Available types are: env_var (default) and file
      * @param isProtected whether the variable is protected, optional
-     * @param isMasked whether the variable is masked, optional                   
+     * @param isMasked whether the variable is masked, optional
      * @return a Variable instance with the newly created variable
      * @throws GitLabApiException if any exception occurs during execution
      */
@@ -2888,7 +2955,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param value the value for the variable, required
      * @param variableType the type of variable. Available types are: env_var (default) and file
      * @param isProtected whether the variable is protected, optional
-     * @param isMasked whether the variable is masked, optional                   
+     * @param isMasked whether the variable is masked, optional
      * @param environmentScope the environment_scope of the variable, optional
      * @return a Variable instance with the newly created variable
      * @throws GitLabApiException if any exception occurs during execution

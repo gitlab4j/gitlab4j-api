@@ -1,16 +1,5 @@
 package org.gitlab4j.api;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.WeakHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.User;
@@ -18,6 +7,16 @@ import org.gitlab4j.api.models.Version;
 import org.gitlab4j.api.utils.MaskingLoggingFilter;
 import org.gitlab4j.api.utils.Oauth2LoginStreamingOutput;
 import org.gitlab4j.api.utils.SecretString;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into
@@ -51,6 +50,7 @@ public class GitLabApi implements AutoCloseable {
 
     private ApplicationsApi applicationsApi;
     private ApplicationSettingsApi applicationSettingsApi;
+    private AuditEventApi auditEventApi;
     private AwardEmojiApi awardEmojiApi;
     private BoardsApi boardsApi;
     private CommitsApi commitsApi;
@@ -547,7 +547,7 @@ public class GitLabApi implements AutoCloseable {
 
     /**
      * Enable the logging of the requests to and the responses from the GitLab server API using the
-     * specified logger. Logging will NOT include entity logging and will mask PRIVATE-TOKEN 
+     * specified logger. Logging will NOT include entity logging and will mask PRIVATE-TOKEN
      * and Authorization headers..
      *
      * @param logger the Logger instance to log to
@@ -844,6 +844,25 @@ public class GitLabApi implements AutoCloseable {
         }
 
         return (applicationSettingsApi);
+    }
+
+    /**
+     * Gets the AuditEventApi instance owned by this GitLabApi instance. The AuditEventApi is used
+     * to perform all instance audit event API calls.
+     *
+     * @return the AuditEventApi instance owned by this GitLabApi instance
+     */
+    public AuditEventApi getAuditEventApi() {
+
+        if (auditEventApi == null) {
+            synchronized (this) {
+                if (auditEventApi == null) {
+                    auditEventApi = new AuditEventApi(this);
+                }
+            }
+        }
+
+        return (auditEventApi);
     }
 
     /**

@@ -23,21 +23,13 @@
 
 package org.gitlab4j.api;
 
-import static org.gitlab4j.api.JsonUtils.compareJson;
-import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
-import static org.gitlab4j.api.JsonUtils.unmarshalResource;
-import static org.gitlab4j.api.JsonUtils.unmarshalResourceList;
-import static org.gitlab4j.api.JsonUtils.unmarshalResourceMap;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Application;
 import org.gitlab4j.api.models.ApplicationSettings;
 import org.gitlab4j.api.models.ApprovalRule;
 import org.gitlab4j.api.models.ArtifactsFile;
+import org.gitlab4j.api.models.AuditEvent;
 import org.gitlab4j.api.models.AwardEmoji;
 import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Blame;
@@ -111,7 +103,15 @@ import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.List;
+import java.util.Map;
+
+import static org.gitlab4j.api.JsonUtils.compareJson;
+import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
+import static org.gitlab4j.api.JsonUtils.unmarshalResource;
+import static org.gitlab4j.api.JsonUtils.unmarshalResourceList;
+import static org.gitlab4j.api.JsonUtils.unmarshalResourceMap;
+import static org.junit.Assert.assertTrue;
 
 public class TestGitLabApiBeans {
 
@@ -125,6 +125,12 @@ public class TestGitLabApiBeans {
     public void testApplications() throws Exception {
         List<Application> applications = unmarshalResourceList(Application.class, "applications.json");
         assertTrue(compareJson(applications, "applications.json"));
+    }
+
+    @Test
+    public void testAuditEvent() throws Exception {
+        List<AuditEvent> auditEvents = unmarshalResourceList(AuditEvent.class, "audit-events.json");
+        assertTrue(compareJson(auditEvents, "audit-events.json"));
     }
 
     @Test
