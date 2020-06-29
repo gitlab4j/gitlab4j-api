@@ -18,9 +18,6 @@ public class ApprovalRule {
     private List<User> users;
     private List<Group> groups;
     private Boolean containsHiddenGroups;
-
-    @JsonSerialize(using = JacksonJson.UserListSerializer.class)
-    @JsonDeserialize(using = JacksonJson.UserListDeserializer.class)
     private List<User> approvedBy;
     private Boolean approved;
 
