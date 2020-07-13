@@ -16,9 +16,9 @@ import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
-import org.gitlab4j.api.utils.EmailChecker;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.utils.EmailChecker;
 
 /**
  * This class provides an entry point to all the GitLab API users calls.

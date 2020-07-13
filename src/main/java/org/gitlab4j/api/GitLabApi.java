@@ -1,15 +1,5 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.Constants.TokenType;
-import org.gitlab4j.api.models.OauthTokenResponse;
-import org.gitlab4j.api.models.User;
-import org.gitlab4j.api.models.Version;
-import org.gitlab4j.api.utils.MaskingLoggingFilter;
-import org.gitlab4j.api.utils.Oauth2LoginStreamingOutput;
-import org.gitlab4j.api.utils.SecretString;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +7,17 @@ import java.util.Optional;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.Constants.TokenType;
+import org.gitlab4j.api.models.OauthTokenResponse;
+import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.models.Version;
+import org.gitlab4j.api.utils.MaskingLoggingFilter;
+import org.gitlab4j.api.utils.Oauth2LoginStreamingOutput;
+import org.gitlab4j.api.utils.SecretString;
 
 /**
  * This class is provides a simplified interface to a GitLab API server, and divides the API up into

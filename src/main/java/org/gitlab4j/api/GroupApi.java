@@ -1,5 +1,15 @@
 package org.gitlab4j.api;
 
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
@@ -14,15 +24,6 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.ISO8601;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-import java.io.File;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * This class implements the client side API for the GitLab groups calls.

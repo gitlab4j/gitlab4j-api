@@ -1,13 +1,14 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.AuditEvent;
-import org.gitlab4j.api.utils.ISO8601;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.models.AuditEvent;
+import org.gitlab4j.api.utils.ISO8601;
 
 /**
  * This class implements the client side API for the GitLab Instance Audit Event API.

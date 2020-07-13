@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Greg Messner <greg@messners.com>
+ * Copyright (c) 2017-2020 Greg Messner <greg@messners.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software.json"), to deal in
@@ -23,7 +23,16 @@
 
 package org.gitlab4j.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import static org.gitlab4j.api.JsonUtils.compareJson;
+import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
+import static org.gitlab4j.api.JsonUtils.unmarshalResource;
+import static org.gitlab4j.api.JsonUtils.unmarshalResourceList;
+import static org.gitlab4j.api.JsonUtils.unmarshalResourceMap;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+import java.util.Map;
+
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Application;
 import org.gitlab4j.api.models.ApplicationSettings;
@@ -103,15 +112,7 @@ import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
 import org.junit.Test;
 
-import java.util.List;
-import java.util.Map;
-
-import static org.gitlab4j.api.JsonUtils.compareJson;
-import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
-import static org.gitlab4j.api.JsonUtils.unmarshalResource;
-import static org.gitlab4j.api.JsonUtils.unmarshalResourceList;
-import static org.gitlab4j.api.JsonUtils.unmarshalResourceMap;
-import static org.junit.Assert.assertTrue;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class TestGitLabApiBeans {
 
