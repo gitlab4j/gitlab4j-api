@@ -2299,23 +2299,38 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param title the title of a snippet, required
      * @param filename the name of a snippet file, required
      * @param description the description of a snippet, optional
-     * @param code the content of a snippet, required
+     * @param content the content of a snippet, required
      * @param visibility the snippet's visibility, required
      * @return a Snippet instance with info on the created snippet
      * @throws GitLabApiException if any exception occurs
      */
     public Snippet createSnippet(Object projectIdOrPath, String title, String filename, String description,
-            String code, Visibility visibility) throws GitLabApiException {
+            String content, Visibility visibility) throws GitLabApiException {
 
-        GitLabApiForm formData = new GitLabApiForm()
+	// Use a GitLabApiForm to validate the parameters.
+        GitLabApiForm form = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("file_name", filename, true)
                 .withParam("description", description)
-                .withParam("code", code, true)
+                .withParam("code", content, true)
                 .withParam("visibility", visibility, true);
 
-        Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "snippets");
-        return (response.readEntity(Snippet.class));
+        try {
+            // GitLab 12.9 and newer
+            Snippet  snippet = new  Snippet(title, filename, content, visibility, description);
+            Response response = post(Response.Status.CREATED, snippet, "projects", getProjectIdOrPath(projectIdOrPath), "snippets");
+            return (response.readEntity(Snippet.class));
+
+        } catch (GitLabApiException e) {
+
+            // GitLab 12.8 and older will return HTTP status 400 if called with content instead of code
+            if (e.getHttpStatus() != Response.Status.BAD_REQUEST.getStatusCode()) {
+                throw e;
+            }
+
+            Response response = post(Response.Status.CREATED, form, "projects", getProjectIdOrPath(projectIdOrPath), "snippets");
+            return (response.readEntity(Snippet.class));
+        }
     }
 
     /**
