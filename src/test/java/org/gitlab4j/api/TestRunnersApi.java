@@ -35,7 +35,6 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.Runner.RunnerStatus;
 import org.gitlab4j.api.models.Runner.RunnerType;
-import org.gitlab4j.api.models.RunnerDetail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
