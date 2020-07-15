@@ -66,6 +66,7 @@ public class Group {
     private Statistics statistics;
     private List<Project> projects;
     private List<Project> sharedProjects;
+    private Date createdAt;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -204,6 +205,14 @@ public class Group {
 
     public void setMarkedForDeletionOn(Date markedForDeletionOn) {
         this.markedForDeletionOn = markedForDeletionOn;
+    }
+
+    public Date getCreatedAt() {
+	return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+	this.createdAt = createdAt;
     }
 
     public Group withId(Integer id) {
