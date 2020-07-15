@@ -2307,26 +2307,31 @@ public class ProjectApi extends AbstractApi implements Constants {
     public Snippet createSnippet(Object projectIdOrPath, String title, String filename, String description,
             String content, Visibility visibility) throws GitLabApiException {
 
-	// Use a GitLabApiForm to validate the parameters.
-        GitLabApiForm form = new GitLabApiForm()
-                .withParam("title", title, true)
-                .withParam("file_name", filename, true)
-                .withParam("description", description)
-                .withParam("code", content, true)
-                .withParam("visibility", visibility, true);
-
         try {
-            // GitLab 12.9 and newer
-            Snippet  snippet = new  Snippet(title, filename, content, visibility, description);
-            Response response = post(Response.Status.CREATED, snippet, "projects", getProjectIdOrPath(projectIdOrPath), "snippets");
+
+            GitLabApiForm form = new GitLabApiForm()
+                    .withParam("title", title, true)
+                    .withParam("file_name", filename, true)
+                    .withParam("description", description)
+                    .withParam("content", content, true)
+                    .withParam("visibility", visibility, true);
+
+            Response response = post(Response.Status.CREATED, form, "projects", getProjectIdOrPath(projectIdOrPath), "snippets");
             return (response.readEntity(Snippet.class));
 
-        } catch (GitLabApiException e) {
+        } catch (GitLabApiException glae) {
 
             // GitLab 12.8 and older will return HTTP status 400 if called with content instead of code
-            if (e.getHttpStatus() != Response.Status.BAD_REQUEST.getStatusCode()) {
-                throw e;
+            if (glae.getHttpStatus() != Response.Status.BAD_REQUEST.getStatusCode()) {
+                throw glae;
             }
+
+            GitLabApiForm form = new GitLabApiForm()
+                    .withParam("title", title, true)
+                    .withParam("file_name", filename, true)
+                    .withParam("description", description)
+                    .withParam("code", content, true)
+                    .withParam("visibility", visibility, true);
 
             Response response = post(Response.Status.CREATED, form, "projects", getProjectIdOrPath(projectIdOrPath), "snippets");
             return (response.readEntity(Snippet.class));
