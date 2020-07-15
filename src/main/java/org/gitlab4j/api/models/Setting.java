@@ -578,6 +578,11 @@ public enum Setting {
     MAX_ATTACHMENT_SIZE(Integer.class),
 
     /**
+     * Maximum import size in MB. 0 for unlimited. Default = 50
+     */
+    MAX_IMPORT_SIZE(Integer.class),
+
+    /**
      * Maximum size of pages repositories in MB
      */
     MAX_PAGES_SIZE(Integer.class),
@@ -934,6 +939,16 @@ public enum Setting {
     SOURCEGRAPH_URL(String.class),
 
     /**
+     * Enables Spam Check via external API endpoint. Default is false.
+     */
+    SPAM_CHECK_ENDPOINT_ENABLED(Boolean.class),
+
+    /**
+     * URL of the external Spam Check service endpoint.
+     */
+    SPAM_CHECK_ENDPOINT_URL(String.class),
+
+    /**
      * required by: {@link #PENDO_ENABLED} The Pendo endpoint url with js snippet. 
      * (e.g. https://cdn.pendo.io/agent/static/your-api-key/pendo.js)
      */
@@ -1106,8 +1121,15 @@ public enum Setting {
      * These are reported but not documented.
      */
     EMAIL_RESTRICTIONS_ENABLED(Boolean.class),
-    EMAIL_RESTRICTIONS(String.class);
+    EMAIL_RESTRICTIONS(String.class),
 
+    /*
+     * Undocumented settings as of GitLab 13.0
+     * These are reported but not documented.
+     */
+    CONTAINER_EXPIRATION_POLICIES_ENABLE_HISTORIC_ENTRIES(Boolean.class),
+    ISSUES_CREATE_LIMIT(Integer.class),
+    RAW_BLOB_REQUEST_LIMIT(Integer.class);
 
 
     private static JacksonJsonEnumHelper<Setting> enumHelper = new JacksonJsonEnumHelper<>(Setting.class);
