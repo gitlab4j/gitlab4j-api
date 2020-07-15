@@ -67,11 +67,14 @@ public class TestEnvironmentsApi extends AbstractIntegrationTest {
 
 		    for (Environment env : envs) {
 			if (env.getName().startsWith(ENVIRONMENT_NAME)) {
+			    gitLabApi.getEnvironmentsApi().stopEnvironment(testProject, env.getId());
 			    gitLabApi.getEnvironmentsApi().deleteEnvironment(testProject, env.getId());
 			}
 		    }
 		}
 	    } catch (GitLabApiException ignore) {
+		System.out.println("ERROR");
+
 	    }
 	}
     }
@@ -91,23 +94,21 @@ public class TestEnvironmentsApi extends AbstractIntegrationTest {
 	final Environment env = gitLabApi.getEnvironmentsApi().createEnvironment(
 		testProject, getUniqueName(), EXTERNAL_URL);
 
-	try {
-	    List<Environment> envs = gitLabApi.getEnvironmentsApi().getEnvironments(testProject);
-	    assertTrue(envs.size() > 0);
-	    Environment foundEnv = envs.stream().filter(
+	List<Environment> envs = gitLabApi.getEnvironmentsApi().getEnvironments(testProject);
+	assertTrue(envs.size() > 0);
+	Environment foundEnv = envs.stream().filter(
 		    e -> e.getName().equals(env.getName())).findFirst().orElse(null);
-	    assertNotNull(foundEnv);
-	    assertEquals(env.getName(), foundEnv.getName());
-	} catch (Exception e) {
-	    gitLabApi.getEnvironmentsApi().deleteEnvironment(testProject, env.getId());
-	}
+	assertNotNull(foundEnv);
+	assertEquals(env.getName(), foundEnv.getName());
     }
 
     @Test
-    public void testDeleteEnvironment() throws GitLabApiException {
+    public void testStopAndDeleteEnvironment() throws GitLabApiException {
 
 	final Environment env = gitLabApi.getEnvironmentsApi().createEnvironment(
 		testProject, getUniqueName(), EXTERNAL_URL);
+
+	gitLabApi.getEnvironmentsApi().stopEnvironment(testProject, env.getId());
 	gitLabApi.getEnvironmentsApi().deleteEnvironment(testProject, env.getId());
 
 	Stream<Environment> envs = gitLabApi.getEnvironmentsApi().getEnvironmentsStream(testProject);
@@ -125,6 +126,7 @@ public class TestEnvironmentsApi extends AbstractIntegrationTest {
 	assertTrue(optionalEnv.isPresent());
 	assertEquals(env.getName(), optionalEnv.get().getName());
 
+	gitLabApi.getEnvironmentsApi().stopEnvironment(testProject, env.getId());
 	gitLabApi.getEnvironmentsApi().deleteEnvironment(testProject, env.getId());
     }
 }

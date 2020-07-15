@@ -130,6 +130,22 @@ public class EnvironmentsApi extends AbstractApi {
     }
 
     /**
+     * Stop an environment.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/environments/:environment_id/stop</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param environmentId the ID of the environment to stop
+     * @return the stopped Environment instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Environment stopEnvironment(Object projectIdOrPath, Integer environmentId) throws GitLabApiException {
+	Response response = post(Response.Status.OK, (GitLabApiForm) null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "environments", environmentId, "stop");
+	return (response.readEntity(Environment.class));
+    }
+
+    /**
      * Delete an environment.
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/environments/:environment_id</code></pre>
