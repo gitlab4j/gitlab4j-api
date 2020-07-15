@@ -18,6 +18,7 @@ import org.gitlab4j.api.models.SearchBlob;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.User;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -95,7 +96,7 @@ public class TestSearchApi extends AbstractIntegrationTest {
         }
     }
 
-    @Test
+    @Ignore
     public void testGlobalSnippetBlobsSearch() throws GitLabApiException {
         List<?> results = (List<?>) gitLabApi.getSearchApi().globalSearch(SearchScope.SNIPPET_BLOBS, TEST_PROJECT_NAME);
         assertNotNull(results);
