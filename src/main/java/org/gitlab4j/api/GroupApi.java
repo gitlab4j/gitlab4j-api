@@ -1652,4 +1652,39 @@ public class GroupApi extends AbstractApi {
                 "avatar", avatarFile, "groups", getGroupIdOrPath(groupIdOrPath));
         return (response.readEntity(Group.class));
     }
+
+    /**
+     * Share group with another group. Returns 200 and the group details on success.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/share</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param shareWithGroupId the ID of the group to share with, required
+     * @param groupAccess the access level to grant the group, required
+     * @param expiresAt expiration date of the share, optional
+     * @return a Group instance holding the details of the shared group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Group shareGroup(Object groupIdOrPath, Integer shareWithGroupId, AccessLevel groupAccess, Date expiresAt) throws GitLabApiException {
+	GitLabApiForm formData = new GitLabApiForm()
+		.withParam("group_id", shareWithGroupId, true)
+		.withParam("group_access", groupAccess, true)
+		.withParam("expires_at", expiresAt);
+	Response response = post(Response.Status.OK, formData, "groups", getGroupIdOrPath(groupIdOrPath), "share");
+	return (response.readEntity(Group.class));
+    }
+
+    /**
+     * Unshare the group from another group.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/share/:group_id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param sharedWithGroupId the ID of the group to unshare with, required
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void shareGroup(Object groupIdOrPath, Integer sharedWithGroupId) throws GitLabApiException {
+	delete(Response.Status.NO_CONTENT, null,
+	        "groups", getGroupIdOrPath(groupIdOrPath), "share", sharedWithGroupId);
+    }
 }
