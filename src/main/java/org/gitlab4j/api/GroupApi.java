@@ -1683,7 +1683,7 @@ public class GroupApi extends AbstractApi {
      * @param sharedWithGroupId the ID of the group to unshare with, required
      * @throws GitLabApiException if any exception occurs
      */
-    public void shareGroup(Object groupIdOrPath, Integer sharedWithGroupId) throws GitLabApiException {
+    public void unshareGroup(Object groupIdOrPath, Integer sharedWithGroupId) throws GitLabApiException {
 	delete(Response.Status.NO_CONTENT, null,
 	        "groups", getGroupIdOrPath(groupIdOrPath), "share", sharedWithGroupId);
     }
