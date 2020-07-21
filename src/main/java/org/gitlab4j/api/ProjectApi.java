@@ -1285,15 +1285,12 @@ public class ProjectApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: POST /projects/:id/fork</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param namespace path of the namespace that the project will be forked to
+     * @param namespace       path of the namespace that the project will be forked to
      * @return the newly forked Project instance
      * @throws GitLabApiException if any exception occurs
      */
     public Project forkProject(Object projectIdOrPath, String namespace) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("namespace", namespace, true);
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
-        Response response = post(expectedStatus, formData, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
-        return (response.readEntity(Project.class));
+        return forkProject(projectIdOrPath, namespace, null, null);
     }
 
     /**
@@ -1304,12 +1301,33 @@ public class ProjectApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: POST /projects/:id/fork</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param namespaceId ID of the namespace that the project will be forked to
+     * @param namespaceId     ID of the namespace that the project will be forked to
      * @return the newly forked Project instance
      * @throws GitLabApiException if any exception occurs
      */
     public Project forkProject(Object projectIdOrPath, Integer namespaceId) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("namespace", namespaceId, true);
+        return forkProject(projectIdOrPath, Integer.toString(namespaceId));
+    }
+
+    /**
+     * Forks a project into the user namespace of the authenticated user or the one provided.
+     * The forking operation for a project is asynchronous and is completed in a background job.
+     * The request will return immediately.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/fork</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param namespace       path of the namespace that the project will be forked to
+     * @param path            the path that will be assigned to the resultant project after forking
+     * @param name            the name that will be assigned to the resultant project after forking
+     * @return the newly forked Project instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project forkProject(Object projectIdOrPath, String namespace, String path, String name) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("namespace", namespace, true)
+                .withParam("path", path)
+                .withParam("name", name);
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
         Response response = post(expectedStatus, formData, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
         return (response.readEntity(Project.class));
