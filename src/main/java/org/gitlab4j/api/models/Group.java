@@ -11,40 +11,40 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class Group {
 
     public class Statistics {
-        private Integer storageSize;
-        private Integer repositorySize;
-        private Integer lfsObjectsSize;
-        private Integer jobArtifactsSize;
+        private Long storageSize;
+        private Long repositorySize;
+        private Long lfsObjectsSize;
+        private Long jobArtifactsSize;
 
-        public Integer getStorageSize() {
+        public Long getStorageSize() {
             return storageSize;
         }
 
-        public void setStorageSize(Integer storageSize) {
+        public void setStorageSize(Long storageSize) {
             this.storageSize = storageSize;
         }
 
-        public Integer getRepositorySize() {
+        public Long getRepositorySize() {
             return repositorySize;
         }
 
-        public void setRepositorySize(Integer repositorySize) {
+        public void setRepositorySize(Long repositorySize) {
             this.repositorySize = repositorySize;
         }
 
-        public Integer getLfsObjectsSize() {
+        public Long getLfsObjectsSize() {
             return lfsObjectsSize;
         }
 
-        public void setLfsObjectsSize(Integer lfsObjectsSize) {
+        public void setLfsObjectsSize(Long lfsObjectsSize) {
             this.lfsObjectsSize = lfsObjectsSize;
         }
 
-        public Integer getJobArtifactsSize() {
+        public Long getJobArtifactsSize() {
             return jobArtifactsSize;
         }
 
-        public void setJobArtifactsSize(Integer jobArtifactsSize) {
+        public void setJobArtifactsSize(Long jobArtifactsSize) {
             this.jobArtifactsSize = jobArtifactsSize;
         }
     }
