@@ -1,11 +1,8 @@
 package org.gitlab4j.api.models;
 
-import java.util.List;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.List;
 
 public class ApprovalRule {
 
@@ -18,9 +15,6 @@ public class ApprovalRule {
     private List<User> users;
     private List<Group> groups;
     private Boolean containsHiddenGroups;
-
-    @JsonSerialize(using = JacksonJson.UserListSerializer.class)
-    @JsonDeserialize(using = JacksonJson.UserListDeserializer.class)
     private List<User> approvedBy;
     private Boolean approved;
 

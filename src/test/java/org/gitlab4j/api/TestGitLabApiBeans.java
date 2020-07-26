@@ -37,6 +37,7 @@ import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Application;
 import org.gitlab4j.api.models.ApplicationSettings;
 import org.gitlab4j.api.models.ApprovalRule;
+import org.gitlab4j.api.models.ApprovalState;
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.AuditEvent;
 import org.gitlab4j.api.models.AwardEmoji;
@@ -539,6 +540,12 @@ public class TestGitLabApiBeans {
     public void testMergeRequestApprovals() throws Exception {
         MergeRequest mergeRequestApprovals = unmarshalResource(MergeRequest.class, "approvals.json");
         assertTrue(compareJson(mergeRequestApprovals, "approvals.json"));
+    }
+
+    @Test
+    public void testMergeRequestApprovalState() throws Exception {
+        ApprovalState approvalState = unmarshalResource(ApprovalState.class, "approval-state.json");
+        assertTrue(compareJson(approvalState, "approval-state.json"));
     }
 
     @Test
