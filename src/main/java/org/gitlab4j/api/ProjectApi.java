@@ -953,6 +953,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * resolveOutdatedDiffDiscussions (optional) - Automatically resolve merge request diffs discussions on lines changed with a push
      * initialize_with_readme (optional) - Initialize project with README file
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
+     * buildGitStrategy (optional) - set the build git strategy
+     * buildCoverageRegex (optional) - set build coverage regex
      *
      * @param project the Project instance with the configuration for the new project
      * @param importUrl the URL to import the repository from
@@ -997,7 +999,9 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled())
             .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
             .withParam("initialize_with_readme", project.getInitializeWithReadme())
-            .withParam("packages_enabled", project.getPackagesEnabled());
+            .withParam("packages_enabled", project.getPackagesEnabled())
+            .withParam("build_git_strategy", project.getBuildGitStrategy())
+            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
@@ -1197,6 +1201,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * printingMergeRequestLinkEnabled (optional) - Show link to create/view merge request when pushing from the command line
      * resolveOutdatedDiffDiscussions (optional) - Automatically resolve merge request diffs discussions on lines changed with a push
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
+     * buildGitStrategy (optional) - set the build git strategy
+     * buildCoverageRegex (optional) - set build coverage regex
      *
      * NOTE: The following parameters specified by the GitLab API edit project are not supported:
      *     import_url
@@ -1240,7 +1246,9 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
             .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled())
             .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
-            .withParam("packages_enabled", project.getPackagesEnabled());
+            .withParam("packages_enabled", project.getPackagesEnabled())
+            .withParam("build_git_strategy", project.getBuildGitStrategy())
+            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());

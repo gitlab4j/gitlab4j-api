@@ -236,7 +236,9 @@ public class ImportExportApi extends AbstractApi {
                 .withParam("printing_merge_request_link_enabled", overrideParams.getPrintingMergeRequestLinkEnabled())
                 .withParam("resolve_outdated_diff_discussions", overrideParams.getResolveOutdatedDiffDiscussions())
                 .withParam("initialize_with_readme", overrideParams.getInitializeWithReadme())
-                .withParam("packages_enabled", overrideParams.getPackagesEnabled());
+                .withParam("packages_enabled", overrideParams.getPackagesEnabled())
+                .withParam("build_git_strategy", overrideParams.getBuildGitStrategy())
+                .withParam("build_coverage_regex", overrideParams.getBuildCoverageRegex());
         }
 
         Response response = upload(Response.Status.CREATED, "file", exportFile, null, formData, url);
