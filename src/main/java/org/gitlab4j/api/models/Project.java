@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import org.gitlab4j.api.Constants.BuildGitStrategy;
+
 public class Project {
 
     // Enum for the merge_method of the Project instance.
@@ -23,29 +25,6 @@ public class Project {
 
         @JsonCreator
         public static MergeMethod forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
-
-    // Enum for the build_git_strategy of the project instance.
-    public enum BuildGitStrategy {
-
-        FETCH, CLONE;
-
-        private static JacksonJsonEnumHelper<BuildGitStrategy> enumHelper = new JacksonJsonEnumHelper<>(BuildGitStrategy.class);
-
-        @JsonCreator
-        public static BuildGitStrategy forValue(String value) {
             return enumHelper.forValue(value);
         }
 
