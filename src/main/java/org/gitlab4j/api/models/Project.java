@@ -37,6 +37,29 @@ public class Project {
         }
     }
 
+    // Enum for the build_git_strategy of the project instance.
+    public enum BuildGitStrategy {
+
+        FETCH, CLONE;
+
+        private static JacksonJsonEnumHelper<BuildGitStrategy> enumHelper = new JacksonJsonEnumHelper<>(BuildGitStrategy.class);
+
+        @JsonCreator
+        public static BuildGitStrategy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     private Integer approvalsBeforeMerge;
     private Boolean archived;
     private String avatarUrl;
