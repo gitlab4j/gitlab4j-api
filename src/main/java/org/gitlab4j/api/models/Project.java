@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import org.gitlab4j.api.Constants.BuildGitStrategy;
+
 public class Project {
 
     // Enum for the merge_method of the Project instance.
@@ -90,6 +92,8 @@ public class Project {
     private String licenseUrl;
     private ProjectLicense license;
     private List<CustomAttribute> customAttributes;
+    private String buildCoverageRegex;
+    private BuildGitStrategy buildGitStrategy;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -705,5 +709,31 @@ public class Project {
      */
     public static final String getPathWithNammespace(String namespace, String path) {
         return (namespace.trim() + "/" + path.trim());
+    }
+
+    public String getBuildCoverageRegex() {
+        return buildCoverageRegex;
+    }
+
+    public void setBuildCoverageRegex(String buildCoverageRegex) {
+        this.buildCoverageRegex = buildCoverageRegex;
+    }
+
+    public Project withBuildCoverageRegex(String buildCoverageRegex) {
+        this.buildCoverageRegex = buildCoverageRegex;
+        return this;
+    }
+
+    public BuildGitStrategy getBuildGitStrategy() {
+        return buildGitStrategy;
+    }
+
+    public void setBuildGitStrategy(BuildGitStrategy buildGitStrategy) {
+        this.buildGitStrategy = buildGitStrategy;
+    }
+
+    public Project withBuildGitStrategy(BuildGitStrategy buildGitStrategy) {
+        this.buildGitStrategy = buildGitStrategy;
+        return this;
     }
 }
