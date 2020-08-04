@@ -914,6 +914,25 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Creates a new project owned by the authenticated user.
+     *
+     * @param name the name of the project top create.  Equals path if not provided.
+     * @param path repository name for new project. Generated based on name if not provided (generated lowercased with dashes).
+     * @return the created project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project createProject(String name, String path) throws GitLabApiException {
+	
+	if ((name == null || name.trim().isEmpty()) && (path == null || path.trim().isEmpty())) {
+	    throw new RuntimeException("Either name or path must be specified.");
+	}
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("name", name).withParam("path", path);
+        Response response = post(Response.Status.CREATED, formData, "projects");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
      * Creates new project owned by the current user.
      *
      * @param project the Project instance with the configuration for the new project
