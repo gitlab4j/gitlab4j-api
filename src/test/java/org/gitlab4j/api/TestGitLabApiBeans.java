@@ -96,6 +96,7 @@ import org.gitlab4j.api.models.ProtectedTag;
 import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.RegistryRepository;
 import org.gitlab4j.api.models.Release;
+import org.gitlab4j.api.models.RemoteMirror;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
@@ -491,6 +492,12 @@ public class TestGitLabApiBeans {
     public void testReleases() throws Exception {
         List<Release> releases = unmarshalResourceList(Release.class, "releases.json");
         assertTrue(compareJson(releases, "releases.json"));
+    }
+
+    @Test
+    public void testRemoteMirror() throws Exception {
+	RemoteMirror remoteMirror = unmarshalResource(RemoteMirror.class, "remote-mirror.json");
+        assertTrue(compareJson(remoteMirror, "remote-mirror.json"));
     }
 
     @Test

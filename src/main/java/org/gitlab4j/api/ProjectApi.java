@@ -58,6 +58,7 @@ import org.gitlab4j.api.models.ProjectFilter;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.PushRules;
+import org.gitlab4j.api.models.RemoteMirror;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
@@ -71,9 +72,10 @@ import org.gitlab4j.api.utils.ISO8601;
  * @see <a href="https://docs.gitlab.com/ce/api/members.html">Group and project members API at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ce/api/access_requests.html#group-and-project-access-requests-api">Group and project access requests API</a>
  * @see <a href="https://docs.gitlab.com/ee/api/project_badges.html">Project badges API</a>
- * @see <a href="https://docs.gitlab.com/ce/api/merge_request_approvals.html"> * Merge request approvals API (Project-level) at GitLab</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/merge_request_approvals.html">Merge request approvals API (Project-level) at GitLab</a>
  * @see <a href="https://docs.gitlab.com/ce/api/audit_events.html#retrieve-all-project-audit-events">Project audit events API</a>
  * @see <a href="https://docs.gitlab.com/ce/api/custom_attributes.html">Custom Attributes API</a>
+ * @see <a href="https://docs.gitlab.com/ce/api/remote_mirrors.html">Project remote mirrors API</a>
  */
 public class ProjectApi extends AbstractApi implements Constants {
 
@@ -3610,5 +3612,97 @@ public class ProjectApi extends AbstractApi implements Constants {
         }
 
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "custom_attributes", key);
+    }
+
+    /**
+     * Get all remote mirrors and their statuses for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/remote_mirrors</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a list of project's remote mirrors
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<RemoteMirror> getRemoteMirrors(final Object projectIdOrPath) throws GitLabApiException {
+        return (getRemoteMirrors(projectIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of remote mirrors and their statuses for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/remote_mirrors</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param itemsPerPage the number of items per page
+     * @return a Pager of project's remote mirrors
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<RemoteMirror> getRemoteMirrors(final Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<RemoteMirror>(this, RemoteMirror.class, itemsPerPage, null,
+                "projects", getProjectIdOrPath(projectIdOrPath), "remote_mirrors"));
+    }
+
+    /**
+     * Get a Stream of all remote mirrors and their statuses for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/remote_mirrors</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @return a Stream of project's remote mirrors
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<RemoteMirror> getRemoteMirrorsStream(final Object projectIdOrPath) throws GitLabApiException {
+        return (getRemoteMirrors(projectIdOrPath, getDefaultPerPage()).stream());
+    }
+
+
+    /**
+     * Create a remote mirror for a project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/remote_mirrors</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param url the URL of the remote repository to be mirrored
+     * @param enabled determines if the mirror is enabled
+     * @param onlyProtectedBranches determines if only protected branches are mirrored
+     * @param keepDivergentRefs determines if divergent refs are skipped
+     * @return a RemoteMirror instance with remote mirror configuration
+     * @throws GitLabApiException if any exception occurs
+     */
+    public RemoteMirror createRemoteMirror(Object projectIdOrPath, String url, Boolean enabled,
+	    Boolean onlyProtectedBranches, Boolean keepDivergentRefs) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("url", url, true)
+                .withParam("enabled", enabled)
+                .withParam("only_protected_branches", onlyProtectedBranches)
+                .withParam("keep_divergent_refs", keepDivergentRefs);
+        Response response = post(Response.Status.OK, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "remote_mirrors");
+        return (response.readEntity(RemoteMirror.class));
+    }
+
+    /**
+     * Toggle a remote mirror on or off, or change which types of branches are mirrored.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/remote_mirrors/:mirror_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param mirrorId the ID of the remote mirror
+     * @param enabled determines if the mirror is enabled
+     * @param onlyProtectedBranches determines if only protected branches are mirrored
+     * @param keepDivergentRefs determines if divergent refs are skipped
+     * @return a RemoteMirror instance with the updated remote mirror configuration
+     * @throws GitLabApiException if any exception occurs
+     */
+    public RemoteMirror updateRemoteMirror(Object projectIdOrPath, Integer mirrorId,  Boolean enabled,
+	    Boolean onlyProtectedBranches, Boolean keepDivergentRefs) throws GitLabApiException {
+
+	GitLabApiForm formData = new GitLabApiForm()
+		.withParam("enabled", enabled)
+		.withParam("only_protected_branches", onlyProtectedBranches)
+		.withParam("keep_divergent_refs", keepDivergentRefs);
+        Response response = putWithFormData(Response.Status.OK, formData,
+                "projects", getProjectIdOrPath(projectIdOrPath), "remote_mirrors", mirrorId);
+        return (response.readEntity(RemoteMirror.class));
     }
 }
