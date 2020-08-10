@@ -1,8 +1,10 @@
 package org.gitlab4j.api.models;
 
+import java.util.Date;
+
+import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.ProjectOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
-import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.GitLabApiForm;
 
 /**
@@ -15,6 +17,7 @@ public class ProjectFilter {
     private ProjectOrderBy orderBy;
     private SortOrder sort;
     private String search;
+    private Boolean searchNamespaces;
     private Boolean simple;
     private Boolean owned;
     private Boolean membership;
@@ -27,6 +30,11 @@ public class ProjectFilter {
     private Boolean wikiChecksumFailed;
     private Boolean repositoryChecksumFailed;
     private AccessLevel minAccessLevel;
+    private Integer idAfter;
+    private Integer idBefore;
+    private Date lastActivityAfter;
+    private Date lastActivityBefore;
+    private String repositoryStorage;
 
     /**
      * Limit by archived status.
@@ -80,6 +88,17 @@ public class ProjectFilter {
      */
     public ProjectFilter withSearch(String search) {
         this.search = search;
+        return (this);
+    }
+
+    /**
+     * Include ancestor namespaces when matching search criteria. Default is false.
+     *
+     * @param searchNamespaces if true, include ancestor namespaces when matching search criteria
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withSearchNamespaces(Boolean searchNamespaces) {
+        this.searchNamespaces = searchNamespaces;
         return (this);
     }
 
@@ -220,13 +239,68 @@ public class ProjectFilter {
     }
 
     /**
-     * Limit by current user minimal access level
+     * Limit by current user minimal access level.
      *
      * @param minAccessLevel limit by current user minimal access level
      * @return the reference to this ProjectFilter instance
      */
     public ProjectFilter withMinAccessLevel(AccessLevel minAccessLevel) {
         this.minAccessLevel = minAccessLevel;
+        return (this);
+    }
+
+    /**
+     * Limit results to projects with IDs greater than the specified projectID.
+     *
+     * @param idAfter limit results to projects with IDs greater than the specified project ID
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withIdAfter(Integer idAfter) {
+        this.idAfter = idAfter;
+        return (this);
+    }
+
+    /**
+     * Limit results to projects with IDs less than the specified project ID.
+     *
+     * @param idBefore limit results to projects with IDs less than the specified project ID
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withIdBefore(Integer idBefore) {
+        this.idBefore = idBefore;
+        return (this);
+    }
+
+    /**
+     * Limit results to projects with last_activity after specified time.
+     *
+     * @param lastActivityAfter limit results to projects with last_activity after specified time
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withLastActivityAfter(Date lastActivityAfter) {
+        this.lastActivityAfter = lastActivityAfter;
+        return (this);
+    }
+
+    /**
+     * Limit results to projects with last_activity before specified time.
+     *
+     * @param lastActivityBefore limit results to projects with last_activity before specified time
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withLastActivityBefore(Date lastActivityBefore) {
+        this.lastActivityBefore = lastActivityBefore;
+        return (this);
+    }
+
+    /**
+     * Limit results to projects stored on the specified repository_storage. Available for admins only.
+     *
+     * @param repositoryStorage limit results to projects stored on repository_storage
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withRepositoryStorage(String repositoryStorage) {
+        this.repositoryStorage = repositoryStorage;
         return (this);
     }
 
@@ -255,6 +329,7 @@ public class ProjectFilter {
             .withParam("order_by", orderBy)
             .withParam("sort", sort)
             .withParam("search", search)
+            .withParam("search_namespaces", searchNamespaces)
             .withParam("simple", simple)
             .withParam("owned", owned)
             .withParam("membership", membership)
@@ -262,11 +337,16 @@ public class ProjectFilter {
             .withParam("statistics", statistics)
             .withParam("with_custom_attributes", withCustomAttributes)
             .withParam("with_issues_enabled", withIssuesEnabled)
-            .withParam("with_merge_requests_enabled ", withMergeRequestsEnabled))
+            .withParam("with_merge_requests_enabled", withMergeRequestsEnabled)
             .withParam("with_programming_language", withProgrammingLanguage)
             .withParam("wiki_checksum_failed", wikiChecksumFailed)
             .withParam("repository_checksum_failed", repositoryChecksumFailed)
-            .withParam("min_access_level", (minAccessLevel != null ? minAccessLevel.toValue() : null)
+            .withParam("min_access_level", (minAccessLevel != null ? minAccessLevel.toValue() : null))
+            .withParam("id_after", idAfter)
+            .withParam("id_before", idBefore)
+            .withParam("last_activity_after", lastActivityAfter)
+            .withParam("last_activity_before", lastActivityBefore)
+            .withParam("repository_storage", repositoryStorage)
         );
     }
 }
