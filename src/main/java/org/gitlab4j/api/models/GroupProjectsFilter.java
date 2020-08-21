@@ -21,6 +21,7 @@ public class GroupProjectsFilter {
     private Boolean withIssuesEnabled;
     private Boolean withMergeRequestsEnabled;
     private Boolean withShared;
+    private Boolean withSearchNamespaces;
     private Boolean includeSubGroups;
 
     /**
@@ -168,6 +169,17 @@ public class GroupProjectsFilter {
     }
 
     /**
+     * Include ancestor namespaces when matching search criteria
+     *
+     * @param withSearchNamespaces if true, ancestor namespaces will be matched by search criteria
+     * @return the reference to this ProjectFilter instance
+     */
+    public GroupProjectsFilter withSearchNamespaces(Boolean withSearchNamespaces) {
+        this.withSearchNamespaces = withSearchNamespaces;
+        return (this);
+    }
+
+    /**
      * Get the query params specified by this filter.
      *
      * @return a GitLabApiForm instance holding the query parameters for this ProjectFilter instance
@@ -186,6 +198,7 @@ public class GroupProjectsFilter {
             .withParam("with_issues_enabled", withIssuesEnabled)
             .withParam("with_merge_requests_enabled ", withMergeRequestsEnabled)
             .withParam("with_shared", withShared)
+            .withParam("search_namespaces", withSearchNamespaces)
             .withParam("include_subgroups", includeSubGroups)
         );
     }

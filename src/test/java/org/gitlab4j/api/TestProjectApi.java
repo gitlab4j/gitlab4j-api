@@ -470,6 +470,15 @@ public class TestProjectApi extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testProjectsWithSearchFilter() throws GitLabApiException {
+        ProjectFilter filter = new ProjectFilter().withSearch(TEST_PROJECT_NAME_1).withSearchNamespaces(true).withStatistics(false);
+        List<Project> projects = gitLabApi.getProjectApi().getProjects(filter);
+        assertTrue(projects != null);
+        assertTrue(projects.size() > 0);
+        assertNull(projects.get(0).getStatistics());
+    }
+
+    @Test
     public void testProjectsWithFilterAndStatistics() throws GitLabApiException {
         ProjectFilter filter = new ProjectFilter().withOwned(true).withStatistics(true);
         List<Project> projects = gitLabApi.getProjectApi().getProjects(filter);
