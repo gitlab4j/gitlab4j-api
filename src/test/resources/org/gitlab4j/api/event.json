@@ -3,7 +3,7 @@
     "project_id": 15,
     "action_name": "pushed",
     "target_id": 830,
-    "target_type": "MergeRequest",
+    "target_type": "Merge_request",
     "author_id": 1,
     "author": {
       "name": "Dmitriy Zaporozhets",

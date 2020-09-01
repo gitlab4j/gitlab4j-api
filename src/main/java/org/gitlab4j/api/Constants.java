@@ -466,7 +466,7 @@ public interface Constants {
 
         ISSUE, MILESTONE, MERGE_REQUEST, NOTE, PROJECT, SNIPPET, USER;
 
-        private static JacksonJsonEnumHelper<TargetType> enumHelper = new JacksonJsonEnumHelper<>(TargetType.class, true, true);
+        private static JacksonJsonEnumHelper<TargetType> enumHelper = new JacksonJsonEnumHelper<>(TargetType.class, true, false, true);
 
         @JsonCreator
         public static TargetType forValue(String value) {
