@@ -15,7 +15,7 @@ public class MergeRequest {
     private Integer approvalsBeforeMerge;
     private Assignee assignee;
     private List<Assignee> assignees;
-    private List<Assignee> reviewers;
+    private List<Reviewer> reviewers;
     private Author author;
     private Boolean blockingDiscussionsResolved;
     private List<Diff> changes;
@@ -549,11 +549,11 @@ public class MergeRequest {
         return (mergeRequest != null && mergeRequest.getId() != null);
     }
 
-    public List<Assignee> getReviewers() {
+    public List<Reviewer> getReviewers() {
         return reviewers;
     }
 
-    public void setReviewers(List<Assignee> reviewers) {
+    public void setReviewers(List<Reviewer> reviewers) {
         this.reviewers = reviewers;
     }
 
