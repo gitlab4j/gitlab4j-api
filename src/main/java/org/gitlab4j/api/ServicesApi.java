@@ -3,6 +3,7 @@ package org.gitlab4j.api;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.services.BugzillaService;
 import org.gitlab4j.api.services.CustomIssueTrackerService;
+import org.gitlab4j.api.services.EmailOnPushService;
 import org.gitlab4j.api.services.ExternalWikiService;
 import org.gitlab4j.api.services.HipChatService;
 import org.gitlab4j.api.services.JiraService;
@@ -493,4 +494,58 @@ public class ServicesApi extends AbstractApi {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "custom-issue-tracker");
 
     }
+
+    /**
+     * Get the Custom Issue Tracker service settings for a project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/services/custom_issue_tracker</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @return a ExternalWikiService instance holding the External Wiki service settings
+     * @throws GitLabApiException if any exception occurs
+     */
+    public EmailOnPushService getEmailOnPushService(Object projectIdOrPath) throws GitLabApiException {
+        Response response = this.get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "emails-on-push");
+        return (response.readEntity(EmailOnPushService.class));
+    }
+
+    /**
+     * Updates the Custom Issue Tracker service settings for a project.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/custom_issue_tracker</code></pre>
+     *
+     * The following properties on the CustomIssueTrackerService instance are utilized in the update of the settings:
+     * <p>
+     * description (optional), description
+     * issuesUrl (required), issue url
+     * newIssueUrl (required), new Issue url
+     * projectUrl (required), project url
+     * pushEvents (optional) - Enable notifications for push events
+     * title (optional), the title for the custom issue tracker
+     * </p>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param customIssueTracker the CustomIssueTrackerService instance holding the settings
+     * @return a CustomIssueTrackerService instance holding the newly updated settings
+     * @throws GitLabApiException if any exception occurs
+     */
+    public EmailOnPushService updateEmailOnPushService(Object projectIdOrPath,  EmailOnPushService customIssueTracker) throws GitLabApiException {
+        GitLabApiForm formData = customIssueTracker.servicePropertiesForm();
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "services", "emails-on-push");
+        return (response.readEntity(EmailOnPushService.class));
+    }
+
+    /**
+     * Deletes the Custom Issue Tracker service for a project.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/custom_issue_tracker</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteEmailonPushService(Object projectIdOrPath) throws GitLabApiException {
+        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "emails-on-push");
+
+    }
+
 }
