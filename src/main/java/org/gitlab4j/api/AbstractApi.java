@@ -155,7 +155,7 @@ public abstract class AbstractApi implements Constants {
                 return (id);
             }
 
-            String name = ((User) obj).getName();
+            String name = ((Label) obj).getName();
             if (name != null && name.trim().length() > 0) {
                 return (urlEncode(name.trim()));
             }
