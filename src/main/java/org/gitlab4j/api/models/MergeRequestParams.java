@@ -16,6 +16,7 @@ public class MergeRequestParams {
     private String title;
     private Integer assigneeId;
     private List<Integer> assigneeIds;
+    private List<Integer> reviewerIds;
     private Integer milestoneId;
     private List<String> labels;
     private String description;
@@ -81,6 +82,18 @@ public class MergeRequestParams {
     public MergeRequestParams withAssigneeIds(List<Integer> assigneeIds) {
 	this.assigneeIds = assigneeIds;
 	return (this);
+    }
+
+    /**
+     * The ID of the user(s) to assign to the review of the merge request. Set to 0 or provide
+     * an empty value to unassign all reviewers.
+     *
+     * @param reviewerIds the reviewerIds to set
+     * @return the reference to this MergeRequestParams instance
+     */
+    public MergeRequestParams withReviewerIds(List<Integer> reviewerIds) {
+        this.reviewerIds = reviewerIds;
+        return (this);
     }
 
     /**
@@ -219,6 +232,7 @@ public class MergeRequestParams {
             .withParam("title", title, isCreate)
             .withParam("assignee_id", assigneeId)
             .withParam("assignee_ids", assigneeIds)
+            .withParam("reviewer_ids", reviewerIds)
             .withParam("milestone_id", milestoneId)
             .withParam("labels", (labels != null ? String.join(",", labels) : null))
             .withParam("description", description)
