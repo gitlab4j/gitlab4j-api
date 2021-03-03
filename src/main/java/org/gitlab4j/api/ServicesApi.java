@@ -496,12 +496,12 @@ public class ServicesApi extends AbstractApi {
     }
 
     /**
-     * Get the Custom Issue Tracker service settings for a project.
+     * Get Emails on push service settings for a project.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/services/custom_issue_tracker</code></pre>
+     * <pre><code>GitLab Endpoint: GET /projects/:id/services/emails-on-push</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
-     * @return a ExternalWikiService instance holding the External Wiki service settings
+     * @return a EmailOnPushService instance holding the Email on push settings
      * @throws GitLabApiException if any exception occurs
      */
     public EmailOnPushService getEmailOnPushService(Object projectIdOrPath) throws GitLabApiException {
@@ -510,35 +510,37 @@ public class ServicesApi extends AbstractApi {
     }
 
     /**
-     * Updates the Custom Issue Tracker service settings for a project.
+     * Updates the EmailsOnPush service settings for a project.
      *
-     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/custom_issue_tracker</code></pre>
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/emails-on-push</code></pre>
      *
-     * The following properties on the CustomIssueTrackerService instance are utilized in the update of the settings:
+     * The following properties on the EmailOnPushService instance are utilized in the update of the settings:
      * <p>
-     * description (optional), description
-     * issuesUrl (required), issue url
-     * newIssueUrl (required), new Issue url
-     * projectUrl (required), project url
-     * pushEvents (optional) - Enable notifications for push events
-     * title (optional), the title for the custom issue tracker
+     * recipients (required), Emails separated by whitespace
+     * disable_diffs (optional), Disable code diffs
+     * send_from_committer_email (optional), Send from committer
+     * push_events (optional), Enable notifications for push events
+     * tag_push_events(optional), Enable notifications for tag push events
+     * branches_to_be_notified (optional), Branches to send notifications for. Valid options are "all", "default",
+     *                                     "protected", and "default_and_protected". Notifications are always fired
+     *                                     for tag pushes. The default value is "all"
      * </p>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
-     * @param customIssueTracker the CustomIssueTrackerService instance holding the settings
-     * @return a CustomIssueTrackerService instance holding the newly updated settings
+     * @param emailsOnPush the EmailOnPushService instance holding the settings
+     * @return a EmailOnPushService instance holding the newly updated settings
      * @throws GitLabApiException if any exception occurs
      */
-    public EmailOnPushService updateEmailOnPushService(Object projectIdOrPath,  EmailOnPushService customIssueTracker) throws GitLabApiException {
-        GitLabApiForm formData = customIssueTracker.servicePropertiesForm();
+    public EmailOnPushService updateEmailOnPushService(Object projectIdOrPath,  EmailOnPushService emailsOnPush) throws GitLabApiException {
+        GitLabApiForm formData = emailsOnPush.servicePropertiesForm();
         Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "services", "emails-on-push");
         return (response.readEntity(EmailOnPushService.class));
     }
 
     /**
-     * Deletes the Custom Issue Tracker service for a project.
+     * Deletes the Emails on push service for a project.
      *
-     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/custom_issue_tracker</code></pre>
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/emails-on-push</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @throws GitLabApiException if any exception occurs
