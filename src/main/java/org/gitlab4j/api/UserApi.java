@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
+import org.gitlab4j.api.models.GpgKey;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.SshKey;
@@ -522,7 +523,7 @@ public class UserApi extends AbstractApi {
      * Either password or resetPassword should be specified (resetPassword takes priority).</p>
      *
      * <pre><code>GitLab Endpoint: POST /users</code></pre>
-     * 
+     *
      * <p>The following properties of the provided User instance can be set during creation:<pre><code> email (required) - Email
      * username (required) - Username
      * name (required) - Name
@@ -1210,5 +1211,86 @@ public class UserApi extends AbstractApi {
      */
     public void deleteEmail(final Object userIdOrUsername, final Long emailId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "users", getUserIdOrUsername(userIdOrUsername), "emails", emailId);
+    }
+
+    /**
+     * Get all GPG keys for the current user.
+     *
+     * <pre><code>GitLab Endpoint: GET /user/gpg_keys</code></pre>
+     *
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<GpgKey> listGpgKeys() throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "user", "gpg_keys");
+        return (response.readEntity(new GenericType<List<GpgKey>>() {}));
+    }
+
+    /**
+     * Add a GPG key for the current user
+     *
+     * <pre><code>GitLab Endpoint: POST /user/gpg_keys</code></pre>
+     *
+     * @param key the ASCII-armored exported public GPG key to add
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GpgKey addGpgKey(final String key) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("key", key, true);
+        Response response = post(Response.Status.CREATED, formData, "user", "gpg_keys");
+        return (response.readEntity(GpgKey.class));
+    }
+
+    /**
+     * Remove a specific GPG key for the current user
+     *
+     * <pre><code>GitLab Endpoint: DELETE /user/gpg_keys/:keyId</code></pre>
+     *
+     * @param keyId the key ID  in the form if an Integer(ID)
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteGpgKey(final Integer keyId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "user", "gpg_keys", keyId);
+    }
+
+    /**
+     * Get all GPG keys for a given user.
+     *
+     * <pre><code>GitLab Endpoint: GET /users/:id/gpg_keys</code></pre>
+     *
+     * @param userId the user in the form of an Integer(ID)
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<GpgKey> listGpgKeys(final Integer userId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "users", userId, "gpg_keys");
+        return (response.readEntity(new GenericType<List<GpgKey>>() {}));
+    }
+
+    /**
+     * Add a GPG key for a specific user
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:id/gpg_keys</code></pre>
+     *
+     * @param userId the user in the form of an Integer(ID)
+     * @param key the ASCII-armored exported public GPG key to add
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GpgKey addGpgKey(final Integer userId, final String key) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("key", key, true);
+        Response response = post(Response.Status.CREATED, formData, "users", userId, "gpg_keys");
+        return (response.readEntity(GpgKey.class));
+    }
+
+    /**
+     * Remove a specific GPG key for a specific user
+     *
+     * <pre><code>GitLab Endpoint: DELETE /users/:id/gpg_keys/:keyId</code></pre>
+     *
+     * @param userId the user in the form of an Integer(ID)
+     * @param keyId the key ID  in the form if an Integer(ID)
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteGpgKey(final Integer userId, final Integer keyId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "users", userId, "gpg_keys", keyId);
     }
 }
