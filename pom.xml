@@ -35,6 +35,11 @@
 			<name>Greg Messner</name>
 			<email>greg@messners.com</email>
 		</developer>
+		<developer>
+			<id>gdesaintmartinlacaze</id>
+			<name>Gautier de Saint Martin Lacaze</name>
+			<email>gautier@jabby-techs.fr</email>
+		</developer>
 	</developers>
 
 	<properties>
@@ -56,7 +61,7 @@
 		<systemRules.version>1.19.0</systemRules.version>
 
 		<changelog-lib.version>1.59</changelog-lib.version>
-		<bnd.version>5.0.1</bnd.version>
+		<bnd.version>5.3.0</bnd.version>
 
 		<gitlab.version>12.9.2-ce.0</gitlab.version>
 		<gitlab.autoremove-container>true</gitlab.autoremove-container>
