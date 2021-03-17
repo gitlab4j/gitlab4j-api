@@ -499,6 +499,7 @@ public class DiscussionsApi extends AbstractApi {
                 .withParam("body", body, true)
                 .withParam("created_at", createdAt)
                 .withParam("position", positionHash)
+                .withParam("commit_id", position.getHeadSha())
                 .withParam("position[base_sha]", position.getBaseSha(), true)
                 .withParam("position[start_sha]", position.getStartSha(), true)
                 .withParam("position[head_sha]", position.getHeadSha(), true)
