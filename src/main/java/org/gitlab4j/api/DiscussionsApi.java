@@ -603,7 +603,7 @@ public class DiscussionsApi extends AbstractApi {
     public void deleteCommitDiscussionNote(Object projectIdOrPath, String commitSha,
             String discussionId, Integer noteId)  throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
-                "repository", commitSha, "discussions", discussionId, "notes", noteId);
+                "repository", "commits", commitSha, "discussions", discussionId, "notes", noteId);
     }
 
     /**
