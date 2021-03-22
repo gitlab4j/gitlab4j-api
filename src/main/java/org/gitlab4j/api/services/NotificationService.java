@@ -34,10 +34,12 @@ public abstract class NotificationService {
 
     private Integer id;
     private String title;
+    private String slug;
     private Date createdAt;
     private Date updatedAt;
     private Boolean active;
 
+    private Boolean commitEvents;
     private Boolean pushEvents;
     private Boolean issuesEvents;
     private Boolean confidentialIssuesEvents;
@@ -59,6 +61,14 @@ public abstract class NotificationService {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getTitle() {
@@ -96,6 +106,19 @@ public abstract class NotificationService {
     // *******************************************************************************
     // The following methods can be used to configure the notification service
     // *******************************************************************************
+
+    public Boolean getCommitEvents() {
+        return commitEvents;
+    }
+
+    public void setCommitEvents(Boolean commitEvents) {
+        this.commitEvents = commitEvents;
+    }
+
+    protected <T> T withCommitEvents(Boolean commitEvents, T derivedInstance) {
+        this.commitEvents = commitEvents;
+        return (derivedInstance);
+    }
 
     public Boolean getPushEvents() {
         return pushEvents;
@@ -237,7 +260,7 @@ public abstract class NotificationService {
 
     @JsonIgnore
     protected String getProperty(String prop) {
-        return ((String) getProperty(prop, ""));
+        return (getProperty(prop, ""));
     }
 
     @JsonIgnore
@@ -270,4 +293,13 @@ public abstract class NotificationService {
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }
+
+	public enum BranchesToBeNotified {
+	    ALL, DEFAULT, PROTECTED, DEFAULT_AND_PROTECTED;
+	    @Override
+		public String toString() {
+	        return (name().toLowerCase());
+	    }
+	}
+
 }

@@ -32,7 +32,7 @@ public class EmailOnPushService extends NotificationService {
 
     @JsonIgnore
 	public String getRecipients() {
-    	return ((String)getProperty(RECIPIENT_PROP));
+    	return (getProperty(RECIPIENT_PROP));
 	}
 	public void setRecipients(String recipients) {
     	setProperty(RECIPIENT_PROP, recipients);
@@ -45,7 +45,7 @@ public class EmailOnPushService extends NotificationService {
 
     @JsonIgnore
     public Boolean getDisableDiffs() {
-		return Boolean.valueOf(getProperty(DISABLE_DIFFS_PROP,"false"));
+		return Boolean.valueOf(getProperty(DISABLE_DIFFS_PROP, false));
 	}
 	public void setDisableDiffs(Boolean disableDiffs) {
 		setProperty(DISABLE_DIFFS_PROP, disableDiffs);
@@ -54,10 +54,10 @@ public class EmailOnPushService extends NotificationService {
 		setDisableDiffs(disableDiffs);
 		return this;
 	}
-	
+
     @JsonIgnore
 	public Boolean getSendFromCommitterEmail() {
-		return Boolean.valueOf(getProperty(SEND_FROM_COMMITTER_EMAIL_PROP,"false"));
+		return Boolean.valueOf(getProperty(SEND_FROM_COMMITTER_EMAIL_PROP, false));
 	}
 	public void setSendFromCommitterEmail(Boolean sendFromCommitterEmail) {
 		setProperty(SEND_FROM_COMMITTER_EMAIL_PROP, sendFromCommitterEmail);
@@ -68,16 +68,20 @@ public class EmailOnPushService extends NotificationService {
 	}
 
     @JsonIgnore
-	public String getBranchesToBeNotified() {
-		return ((String)getProperty(BRANCHES_TO_BE_NOTIFIED_PROP));
+	public BranchesToBeNotified getBranchesToBeNotified() {
+    	String branchesToBeNotified = getProperty(BRANCHES_TO_BE_NOTIFIED_PROP);
+
+    	if (branchesToBeNotified == null || branchesToBeNotified.isEmpty()) {
+    		return null;
+    	}
+
+		return (BranchesToBeNotified.valueOf(branchesToBeNotified.toUpperCase()));
 	}
-	public void setBranchesToBeNotified(String branchesToBeNotified) {
-		setProperty(BRANCHES_TO_BE_NOTIFIED_PROP, branchesToBeNotified);
+	public void setBranchesToBeNotified(BranchesToBeNotified branchesToBeNotified) {
+		setProperty(BRANCHES_TO_BE_NOTIFIED_PROP, branchesToBeNotified.toString());
 	}
-	public EmailOnPushService withBranchesToBeNotified(String branchesToBeNotified) {
+	public EmailOnPushService withBranchesToBeNotified(BranchesToBeNotified branchesToBeNotified) {
 		setBranchesToBeNotified(branchesToBeNotified);
 		return this;
 	}
-
-
 }
