@@ -16,6 +16,7 @@ public class ProjectStatistics {
     long wikiSize;
     long lfsObjectsSize;
     long jobArtifactsSize;
+    long packagesSize;
 
     public long getCommitCount() {
         return commitCount;
@@ -63,6 +64,14 @@ public class ProjectStatistics {
 
     public void setJobArtifactsSize(long jobArtifactsSize) {
         this.jobArtifactsSize = jobArtifactsSize;
+    }
+
+    public long getPackagesSize() {
+        return packagesSize;
+    }
+
+    public void setPackagesSize(long packagesSize) {
+        this.packagesSize = packagesSize;
     }
 
     @Override

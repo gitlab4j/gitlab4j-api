@@ -848,5 +848,26 @@ public interface Constants {
             return (enumHelper.toString(this));
         }
     }
+
+    enum AutoDevopsDeployStrategy {
+    	CONTINUOUS, MANUAL, TIMED_INCREMENTAL;
+
+        private static JacksonJsonEnumHelper<AutoDevopsDeployStrategy> enumHelper = new JacksonJsonEnumHelper<>(AutoDevopsDeployStrategy.class);
+
+        @JsonCreator
+        public static AutoDevopsDeployStrategy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 }
 
