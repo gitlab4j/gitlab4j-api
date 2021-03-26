@@ -1310,9 +1310,28 @@ public class GroupApi extends AbstractApi {
      */
     public Variable createVariable(Object groupIdOrPath, String key, String value, Boolean isProtected) throws GitLabApiException {
 
+        return createVariable(groupIdOrPath, key, value, isProtected, false);
+    }
+
+    /**
+     * Create a new group variable.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/variables</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param masked whether the variable is masked, optional
+     * @return a Variable instance with the newly created variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable createVariable(Object groupIdOrPath, String key, String value, Boolean isProtected, Boolean masked) throws GitLabApiException {
+
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("key", key, true)
                 .withParam("value", value, true)
+                .withParam("masked", masked)
                 .withParam("protected", isProtected);
         Response response = post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "variables");
         return (response.readEntity(Variable.class));
@@ -1332,8 +1351,27 @@ public class GroupApi extends AbstractApi {
      */
     public Variable updateVariable(Object groupIdOrPath, String key, String value, Boolean isProtected) throws GitLabApiException {
 
+        return updateVariable(groupIdOrPath, key, value, isProtected, false);
+    }
+
+    /**
+     * Update a group variable.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/variables/:key</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of an existing variable, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param masked whether the variable is masked, optional
+     * @return a Variable instance with the updated variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable updateVariable(Object groupIdOrPath, String key, String value, Boolean isProtected, Boolean masked) throws GitLabApiException {
+
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("value", value, true)
+                .withParam("masked", masked)
                 .withParam("protected", isProtected);
         Response response = putWithFormData(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "variables", key);
         return (response.readEntity(Variable.class));
