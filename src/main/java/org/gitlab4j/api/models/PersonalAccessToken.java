@@ -9,12 +9,12 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class ImpersonationToken {
+public class PersonalAccessToken {
 
-    /** Enum to specify the scope of an ImpersonationToken. */
+    /** Enum to specify the scope of a PersonalAccessToken. */
     public enum Scope {
 
-        API, READ_USER, READ_REPOSITORY, WRITE_REPOSITORY, READ_REGISTRY, SUDO;
+        API, READ_API, READ_USER, READ_REPOSITORY, WRITE_REPOSITORY, READ_REGISTRY, WRITE_REGISTRY, SUDO;
 
         private static JacksonJsonEnumHelper<Scope> enumHelper = new JacksonJsonEnumHelper<>(Scope.class);
 

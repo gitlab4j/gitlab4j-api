@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
-import org.gitlab4j.api.models.ImpersonationToken;
-import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.models.PersonalAccessToken;
+import org.gitlab4j.api.models.PersonalAccessToken.Scope;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.EmailChecker;
@@ -829,7 +829,7 @@ public class UserApi extends AbstractApi {
      * @return a list of a specified user's impersonation tokens
      * @throws GitLabApiException if any exception occurs
      */
-    public List<ImpersonationToken> getImpersonationTokens(Object userIdOrUsername) throws GitLabApiException {
+    public List<PersonalAccessToken> getImpersonationTokens(Object userIdOrUsername) throws GitLabApiException {
         return (getImpersonationTokens(userIdOrUsername, null));
     }
 
@@ -843,12 +843,12 @@ public class UserApi extends AbstractApi {
      * @return a list of a specified user's impersonation tokens
      * @throws GitLabApiException if any exception occurs
      */
-    public List<ImpersonationToken> getImpersonationTokens(Object userIdOrUsername, ImpersonationState state) throws GitLabApiException {
+    public List<PersonalAccessToken> getImpersonationTokens(Object userIdOrUsername, ImpersonationState state) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("state", state)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "users", getUserIdOrUsername(userIdOrUsername), "impersonation_tokens");
-        return (response.readEntity(new GenericType<List<ImpersonationToken>>() {}));
+        return (response.readEntity(new GenericType<List<PersonalAccessToken>>() {}));
     }
 
     /**
@@ -861,14 +861,14 @@ public class UserApi extends AbstractApi {
      * @return the specified impersonation token
      * @throws GitLabApiException if any exception occurs
      */
-    public ImpersonationToken getImpersonationToken(Object userIdOrUsername, Integer tokenId) throws GitLabApiException {
+    public PersonalAccessToken getImpersonationToken(Object userIdOrUsername, Integer tokenId) throws GitLabApiException {
 
         if (tokenId == null) {
             throw new RuntimeException("tokenId cannot be null");
         }
 
         Response response = get(Response.Status.OK, null, "users", getUserIdOrUsername(userIdOrUsername), "impersonation_tokens", tokenId);
-        return (response.readEntity(ImpersonationToken.class));
+        return (response.readEntity(PersonalAccessToken.class));
     }
 
     /**
@@ -880,7 +880,7 @@ public class UserApi extends AbstractApi {
      * @param tokenId the impersonation token ID to get
      * @return the specified impersonation token as an Optional instance
      */
-    public Optional<ImpersonationToken> getOptionalImpersonationToken(Object userIdOrUsername, Integer tokenId) {
+    public Optional<PersonalAccessToken> getOptionalImpersonationToken(Object userIdOrUsername, Integer tokenId) {
         try {
             return (Optional.ofNullable(getImpersonationToken(userIdOrUsername, tokenId)));
         } catch (GitLabApiException glae) {
@@ -897,25 +897,11 @@ public class UserApi extends AbstractApi {
      * @param name the name of the impersonation token, required
      * @param expiresAt the expiration date of the impersonation token, optional
      * @param scopes an array of scopes of the impersonation token
-     * @return the created ImpersonationToken instance
+     * @return the created PersonalAccessToken instance
      * @throws GitLabApiException if any exception occurs
      */
-    public ImpersonationToken createImpersonationToken(Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
-
-        if (scopes == null || scopes.length == 0) {
-            throw new RuntimeException("scopes cannot be null or empty");
-        }
-
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("name", name, true)
-                .withParam("expires_at", expiresAt);
-
-        for (Scope scope : scopes) {
-            formData.withParam("scopes[]", scope.toString());
-        }
-
-        Response response = post(Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), "impersonation_tokens");
-        return (response.readEntity(ImpersonationToken.class));
+    public PersonalAccessToken createImpersonationToken(Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
+        return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, expiresAt, scopes, true);
     }
 
     /**
@@ -935,6 +921,43 @@ public class UserApi extends AbstractApi {
 
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "users", getUserIdOrUsername(userIdOrUsername), "impersonation_tokens", tokenId);
+    }
+
+    /**
+     * Create a personal access token.  Available only for admin users.
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:user_id/personal_access_tokens</code></pre>
+     *
+     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param name the name of the personal access token, required
+     * @param expiresAt the expiration date of the personal access token, optional
+     * @param scopes an array of scopes of the personal access token
+     * @return the created PersonalAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public PersonalAccessToken createPersonalAccessToken(Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
+        return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, expiresAt, scopes, false);
+    }
+
+    // as per https://docs.gitlab.com/ee/api/README.html#impersonation-tokens, impersonation tokens are a type of
+    // personal access token
+    private PersonalAccessToken createPersonalAccessTokenOrImpersonationToken(Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes, boolean impersonation) throws GitLabApiException {
+
+        if (scopes == null || scopes.length == 0) {
+            throw new RuntimeException("scopes cannot be null or empty");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("expires_at", expiresAt);
+
+        for (Scope scope : scopes) {
+            formData.withParam("scopes[]", scope.toString());
+        }
+
+        String tokenTypePathArg = impersonation ? "impersonation_tokens" : "personal_access_tokens";
+        Response response = post(Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), tokenTypePathArg);
+        return (response.readEntity(PersonalAccessToken.class));
     }
 
     /**

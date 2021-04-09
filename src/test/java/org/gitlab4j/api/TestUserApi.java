@@ -19,8 +19,8 @@ import java.util.Optional;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Email;
-import org.gitlab4j.api.models.ImpersonationToken;
-import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.models.PersonalAccessToken;
+import org.gitlab4j.api.models.PersonalAccessToken.Scope;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
@@ -56,7 +56,8 @@ public class TestUserApi extends AbstractIntegrationTest {
     private static final String TEST_BLOCK_USERNAME = HelperUtils.getProperty(BLOCK_USERNAME_KEY);
     private static final String TEST_SUDO_AS_USERNAME = HelperUtils.getProperty(SUDO_AS_USERNAME_KEY);
 
-    private static final String TEST_IMPERSONATION_TOKEN_NAME = "token1";
+    private static final String TEST_IMPERSONATION_TOKEN_NAME = "ipt_1";
+    private static final String TEST_PERSONAL_ACCESS_TOKEN_NAME = "pat_1";
     private static final String TEST_SSH_KEY = 
 	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3rWzl/oPAD+Em2iGTmR81HcYZsopvnKp7jelI4XS91fT1NjCRrGsxf5Mw/" +
         "KnmtBjhk+kQjkhIrnsBDcs6DZWtNcHJtyWJZrYsfxMTqWCaQv+OTRwVboqS2pmPcbK3gizUd5GCLFTKbg4OMpdywTwi6NAPwQ" +
@@ -268,12 +269,12 @@ public class TestUserApi extends AbstractIntegrationTest {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
 
-        // NOTE: READ_REGISTRY scope is left out because the GitLab server docker instance does not have the 
-        // registry configured and the test would thus fail.
-        Scope[] scopes = {Scope.API, Scope.READ_USER, Scope.READ_REPOSITORY, Scope.WRITE_REPOSITORY, Scope.SUDO};
+        // NOTE: READ_REGISTRY & WRITE_REGISTRY scopes are left out because the GitLab server docker instance does not
+        // have the registry configured and the test would thus fail.
+        Scope[] scopes = {Scope.API, Scope.READ_API, Scope.READ_USER, Scope.READ_REPOSITORY, Scope.WRITE_REPOSITORY, Scope.SUDO};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
 
-        ImpersonationToken token = null;
+        PersonalAccessToken token = null;
         try {
 
             token = gitLabApi.getUserApi().createImpersonationToken(user, TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
@@ -299,13 +300,13 @@ public class TestUserApi extends AbstractIntegrationTest {
         Scope[] scopes = {Scope.API, Scope.READ_USER};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
 
-        ImpersonationToken token = null;
+        PersonalAccessToken token = null;
         try {
 
             token = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
             assertNotNull(token);
 
-            Optional<ImpersonationToken> optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), token.getId());
+            Optional<PersonalAccessToken> optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), token.getId());
             assertTrue(optional.isPresent());
             assertEquals(token.getId(), optional.get().getId());
             gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
@@ -327,16 +328,16 @@ public class TestUserApi extends AbstractIntegrationTest {
         User user = gitLabApi.getUserApi().getCurrentUser();
         Scope[] scopes = {Scope.API, Scope.READ_USER};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
-        ImpersonationToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
+        PersonalAccessToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
         assertNotNull(createdToken);
 
-        ImpersonationToken token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
+        PersonalAccessToken token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
         assertNotNull(token);
         assertEquals(createdToken.getId(), token.getId());
         assertEquals(TEST_IMPERSONATION_TOKEN_NAME, token.getName());
         assertEquals(createdToken.getExpiresAt(), token.getExpiresAt());
 
-        List<ImpersonationToken> tokens = gitLabApi.getUserApi().getImpersonationTokens(user.getId());
+        List<PersonalAccessToken> tokens = gitLabApi.getUserApi().getImpersonationTokens(user.getId());
         assertNotNull(tokens);
         assertTrue(tokens.size() > 0);
 
@@ -344,21 +345,52 @@ public class TestUserApi extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testDeleteImpersonationTokens() throws GitLabApiException, ParseException {
+    public void testRevokeImpersonationToken() throws GitLabApiException, ParseException {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
         Scope[] scopes = {Scope.API, Scope.READ_USER};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
-        ImpersonationToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME + "a", expiresAt, scopes);
+        PersonalAccessToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME + "a", expiresAt, scopes);
         assertNotNull(createdToken);
 
-        ImpersonationToken token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
+        PersonalAccessToken token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
         assertNotNull(token);
         assertEquals(createdToken.getId(), token.getId());
 
         gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), createdToken.getId());
         token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
         assertFalse(token.getActive());
+    }
+
+    @Test
+    public void testCreatePersonalAccessToken() throws GitLabApiException, ParseException {
+
+        User user = gitLabApi.getUserApi().getCurrentUser();
+
+        // NOTE: READ_REGISTRY & WRITE_REGISTRY scopes are left out because the GitLab server docker instance does not
+        // have the registry configured and the test would thus fail.
+        Scope[] scopes = {Scope.API, Scope.READ_API, Scope.READ_USER, Scope.READ_REPOSITORY, Scope.WRITE_REPOSITORY, Scope.SUDO};
+        Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
+
+        PersonalAccessToken token = null;
+        try {
+
+            token = gitLabApi.getUserApi().createPersonalAccessToken(user, TEST_PERSONAL_ACCESS_TOKEN_NAME, expiresAt, scopes);
+
+            assertNotNull(token);
+            assertNotNull(token.getId());
+            assertEquals(TEST_PERSONAL_ACCESS_TOKEN_NAME, token.getName());
+            assertEquals(expiresAt.getTime(), token.getExpiresAt().getTime());
+            assertEquals(scopes.length, token.getScopes().size());
+            assertThat(token.getScopes(), contains(scopes));
+
+        } finally {
+            if (user != null && token != null) {
+                // GitLab doesn't have this API method yet - not a big issue since multiple tokens with the same name
+                // can be created. Note that you won't see a token in the UI unless the expiry date is in the future.
+//                gitLabApi.getUserApi().revokePersonalAccessToken(user.getId(), token.getId());
+            }
+        }
     }
 
     @Test

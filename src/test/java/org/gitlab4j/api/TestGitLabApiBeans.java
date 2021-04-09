@@ -66,7 +66,7 @@ import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.GpgSignature;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.HealthCheckInfo;
-import org.gitlab4j.api.models.ImpersonationToken;
+import org.gitlab4j.api.models.PersonalAccessToken;
 import org.gitlab4j.api.models.ImportStatus;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueLink;
@@ -671,7 +671,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testImpersonationToken() throws Exception {
-        ImpersonationToken token = unmarshalResource(ImpersonationToken.class, "impersonation-token.json");
+        PersonalAccessToken token = unmarshalResource(PersonalAccessToken.class, "impersonation-token.json");
         assertTrue(compareJson(token, "impersonation-token.json"));
     }
 
