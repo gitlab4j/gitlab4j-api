@@ -178,16 +178,25 @@ public class TestPager extends AbstractIntegrationTest {
         Pager<Commit> pager = gitLabApi.getCommitsApi().getCommits(project, 1);
         assertNotNull(pager);
         assertEquals(1, pager.getItemsPerPage());
-        assertTrue(0 < pager.getTotalPages());
 
-        int numCommits = pager.getTotalItems();
-        assertTrue(0 < numCommits);
+        /*
+        Since 13.5 the commits API no longer returns "X-Total-Pages" and "X-Total" headers
+        https://gitlab.com/gitlab-org/gitlab/-/merge_requests/43159
+         */
+//        assertTrue(0 < pager.getTotalPages());
+//
+//        int numCommits = pager.getTotalItems();
+//        assertTrue(0 < numCommits);
 
         List<Commit> allCommits = pager.all();
         System.out.println("All commits:");
         allCommits.stream().map(Commit::getId).forEach(System.out::println);
 
-        assertEquals(numCommits, allCommits.size());
+        /*
+        A more deterministic approach, creating a known no. of commits within the scope of this test, is needed if the
+        total no. of commits should be tested
+         */
+//        assertEquals(numCommits, allCommits.size());
     }
 
     @Test
@@ -199,12 +208,23 @@ public class TestPager extends AbstractIntegrationTest {
         Pager<Commit> pager = gitLabApi.getCommitsApi().getCommits(project, 1);
         assertNotNull(pager);
         assertEquals(1, pager.getItemsPerPage());
-        assertTrue(0 < pager.getTotalPages());
 
-        int numCommits = pager.getTotalItems();
-        assertTrue(0 < numCommits);
+        /*
+        Since 13.5 the commits API no longer returns "X-Total-Pages" and "X-Total" headers
+        https://gitlab.com/gitlab-org/gitlab/-/merge_requests/43159
+         */
+//        assertTrue(0 < pager.getTotalPages());
+//
+//        int numCommits = pager.getTotalItems();
+//        assertTrue(0 < numCommits);
 
         System.out.println("Streamed commits:");
-       assertEquals(numCommits, pager.stream().map(Commit::getId).peek(System.out::println).count());
+        pager.stream().map(Commit::getId).peek(System.out::println);
+
+        /*
+        A more deterministic approach, creating a known no. of commits within the scope of this test, is needed if the
+        total no. of commits should be tested
+         */
+//        assertEquals(numCommits, pager.stream().map(Commit::getId).peek(System.out::println).count());
     }
 }

@@ -147,7 +147,12 @@ public class TestCommitsApi extends AbstractIntegrationTest {
 
         pager = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, since, null, 10);
         assertNotNull(pager);
-        assertTrue(pager.getTotalItems() > 0);
+
+        /*
+        Since 13.5 the commits API no longer returns "X-Total-Pages" and "X-Total" headers
+        https://gitlab.com/gitlab-org/gitlab/-/merge_requests/43159
+         */
+//        assertTrue(pager.getTotalItems() > 0);
     }
 
     @Test
