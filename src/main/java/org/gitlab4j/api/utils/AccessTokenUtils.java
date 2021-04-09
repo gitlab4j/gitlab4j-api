@@ -89,7 +89,7 @@ public final class AccessTokenUtils {
     protected static final String USER_AGENT = "GitLab4J Client";
     protected static final String COOKIES_HEADER = "Set-Cookie";
 
-    protected static final String NEW_USER_AUTHENTICITY_TOKEN_REGEX = "\"new_user\".*name=\\\"authenticity_token\\\"\\svalue=\\\"([^\\\"]*)\\\".*new_new_user";
+    protected static final String NEW_USER_AUTHENTICITY_TOKEN_REGEX = "\"new_user\".*name=\\\"authenticity_token\\\"\\svalue=\\\"([^\\\"]*)\\\"";
     protected static final Pattern NEW_USER_AUTHENTICITY_TOKEN_PATTERN = Pattern.compile(NEW_USER_AUTHENTICITY_TOKEN_REGEX);
 
     protected static final String AUTHENTICITY_TOKEN_REGEX = "name=\\\"authenticity_token\\\"\\svalue=\\\"([^\\\"]*)\\\"";
@@ -170,8 +170,21 @@ public final class AccessTokenUtils {
             connection.setReadTimeout(10000);
             connection.setConnectTimeout(10000);
 
-            // Make sure the response code is 200, otherwise there is a failure
+            // Check if a redirect was provided, follow it if so (profile URLs are prefixed with -/ now)
             int responseCode = connection.getResponseCode();
+            if (responseCode == 301) {
+                // Follow the redirect with the provided session cookie
+                String profileRedirectUrl = connection.getHeaderField("Location");
+                url = new URL(profileRedirectUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("User-Agent", USER_AGENT);
+                connection.setRequestProperty("Cookie", cookies);
+                connection.setReadTimeout(10000);
+                connection.setConnectTimeout(10000);
+            }
+
+            // Make sure the response code is 200, otherwise there is a failure
+            responseCode = connection.getResponseCode();
             if (responseCode != 200) {
                 throw new GitLabApiException("Failure loading Access Tokens page, aborting!");
             }
@@ -322,8 +335,21 @@ public final class AccessTokenUtils {
             connection.setReadTimeout(10000);
             connection.setConnectTimeout(10000);
 
-            // Make sure the response code is 200, otherwise there is a failure
+            // Check if a redirect was provided, follow it if so (profile URLs are prefixed with -/ now)
             int responseCode = connection.getResponseCode();
+            if (responseCode == 301) {
+                // Follow the redirect with the provided session cookie
+                String profileRedirectUrl = connection.getHeaderField("Location");
+                url = new URL(profileRedirectUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("User-Agent", USER_AGENT);
+                connection.setRequestProperty("Cookie", cookies);
+                connection.setReadTimeout(10000);
+                connection.setConnectTimeout(10000);
+            }
+
+            // Make sure the response code is 200, otherwise there is a failure
+            responseCode = connection.getResponseCode();
             if (responseCode != 200) {
                 throw new GitLabApiException("Failure loading Access Tokens page, aborting!");
             }
@@ -465,8 +491,21 @@ public final class AccessTokenUtils {
             connection.setReadTimeout(10000);
             connection.setConnectTimeout(10000);
 
-            // Make sure the response code is 200, otherwise there is a failure
+            // Check if a redirect was provided, follow it if so (profile URLs are prefixed with -/ now)
             int responseCode = connection.getResponseCode();
+            if (responseCode == 301) {
+                // Follow the redirect with the provided session cookie
+                String profileRedirectUrl = connection.getHeaderField("Location");
+                url = new URL(profileRedirectUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("User-Agent", USER_AGENT);
+                connection.setRequestProperty("Cookie", cookies);
+                connection.setReadTimeout(10000);
+                connection.setConnectTimeout(10000);
+            }
+
+            // Make sure the response code is 200, otherwise there is a failure
+            responseCode = connection.getResponseCode();
             if (responseCode != 200) {
                 throw new GitLabApiException("Failure loading Access Tokens page, aborting!");
             }
