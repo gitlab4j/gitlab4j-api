@@ -114,11 +114,11 @@ public class TestWikisApi extends AbstractIntegrationTest {
 
     @Test
     public void testUpdate() throws GitLabApiException {
-        String title = TEST_WIKI_TITLE_PREFIX + "Test createWikiPage()";
+        String title = TEST_WIKI_TITLE_PREFIX + "Test updateWikiPage()";
         WikiPage wikiPage = createWikiPage(title, testContent);
         assertNotNull(wikiPage);
 
-        title = TEST_WIKI_TITLE_PREFIX + "Test updateWikiPage()";
+        title = TEST_WIKI_TITLE_PREFIX + "Test updateWikiPage() updated title";
         wikiPage = gitLabApi.getWikisApi().updatePage(testProject, wikiPage.getSlug(), title, "some content");
         assertEquals(title, wikiPage.getTitle());
         assertEquals("some content", wikiPage.getContent());
@@ -142,7 +142,7 @@ public class TestWikisApi extends AbstractIntegrationTest {
 
     @Test
     public void testDeleteWikiPage() throws GitLabApiException {
-        String title = TEST_WIKI_TITLE_PREFIX + "Test listWikiPages()";
+        String title = TEST_WIKI_TITLE_PREFIX + "Test deleteWikiPage()";
         WikiPage createdWikiPage = createWikiPage(title, testContent);
         assertNotNull(createdWikiPage);
 
@@ -156,7 +156,7 @@ public class TestWikisApi extends AbstractIntegrationTest {
 
     @Test
     public void testAttachment() throws GitLabApiException {
-        String title = TEST_WIKI_TITLE_PREFIX + "Test createWikiPage()";
+        String title = TEST_WIKI_TITLE_PREFIX + "Test uploadWikiAttachment()";
         WikiPage wikiPage = createWikiPage(title, testContent);
         assertNotNull(wikiPage);
 
@@ -168,7 +168,7 @@ public class TestWikisApi extends AbstractIntegrationTest {
 
     @Test
     public void testAttachmentWithBranch() throws GitLabApiException {
-        String title = TEST_WIKI_TITLE_PREFIX + "Test createWikiPage()";
+        String title = TEST_WIKI_TITLE_PREFIX + "Test uploadWikiAttachmentWithBranch()";
         WikiPage wikiPage = createWikiPage(title, testContent);
         assertNotNull(wikiPage);
 
