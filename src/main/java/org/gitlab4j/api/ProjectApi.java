@@ -1046,10 +1046,6 @@ public class ProjectApi extends AbstractApi implements Constants {
             }
         }
 
-        if (project.getNamespace() != null) {
-            formData.withParam("namespace_id", project.getNamespace().getId());
-        }
-
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
     }
