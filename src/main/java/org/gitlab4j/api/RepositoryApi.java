@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.ChangelogPayload;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Contributor;
@@ -749,4 +750,32 @@ public class RepositoryApi extends AbstractApi {
         delete(Response.Status.NO_CONTENT, null, "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "merged_branches");
     }
+
+    /**
+     * Generate changelog data based on commits in a repository.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/changelog</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param version         the version to generate the changelog for
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void generateChangelog(Object projectIdOrPath, String version) throws GitLabApiException {
+        generateChangelog(projectIdOrPath, new ChangelogPayload(version));
+    }
+
+    /**
+     * Generate changelog data based on commits in a repository.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/changelog</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param payload         the payload to generate the changelog for
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void generateChangelog(Object projectIdOrPath, ChangelogPayload payload) throws GitLabApiException {
+        post(Response.Status.OK, payload.getFormData(), "projects",
+                getProjectIdOrPath(projectIdOrPath), "repository", "changelog");
+    }
+
 }
