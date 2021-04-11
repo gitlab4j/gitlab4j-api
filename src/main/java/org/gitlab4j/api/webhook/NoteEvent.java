@@ -131,6 +131,8 @@ public class NoteEvent extends AbstractEvent {
 
         private Integer id;
         private String note;
+        private String discussionId;
+        private String type;
         private NoteableType noteableType;
         private Integer authorId;
         private Date createdAt;
@@ -158,6 +160,22 @@ public class NoteEvent extends AbstractEvent {
 
         public void setNote(String note) {
             this.note = note;
+        }
+
+        public String getDiscussionId() {
+            return discussionId;
+        }
+
+        public void setDiscussionId(String discussionId) {
+            this.discussionId = discussionId;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
 
         public NoteableType getNoteableType() {
