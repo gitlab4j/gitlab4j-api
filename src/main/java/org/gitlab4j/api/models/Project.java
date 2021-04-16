@@ -99,6 +99,8 @@ public class Project {
     private Boolean canCreateMergeRequestIn;
     private Status importStatus;
     private Integer ciDefaultGitDepth;
+    private Boolean ciForwardDeploymentEnabled;
+    private String ciConfigPath;
     private Boolean removeSourceBranchAfterMerge;
     private Boolean autoDevopsEnabled;
     private AutoDevopsDeployStrategy autoDevopsDeployStrategy;
@@ -777,6 +779,22 @@ public class Project {
 
     public void setCiDefaultGitDepth(Integer ciDefaultGitDepth) {
         this.ciDefaultGitDepth = ciDefaultGitDepth;
+    }
+
+    public Boolean getCiForwardDeploymentEnabled() {
+        return ciForwardDeploymentEnabled;
+    }
+
+    public void setCiForwardDeploymentEnabled(Boolean ciForwardDeploymentEnabled) {
+        this.ciForwardDeploymentEnabled = ciForwardDeploymentEnabled;
+    }
+
+    public String getCiConfigPath() {
+        return ciConfigPath;
+    }
+
+    public void setCiConfigPath(String ciConfigPath) {
+        this.ciConfigPath = ciConfigPath;
     }
 
     public Boolean getRemoveSourceBranchAfterMerge() {

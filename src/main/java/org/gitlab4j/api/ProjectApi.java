@@ -976,6 +976,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
+     * ciConfigPath (optional) - Set path to CI configuration file
      *
      * @param project the Project instance with the configuration for the new project
      * @param importUrl the URL to import the repository from
@@ -1022,7 +1023,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("initialize_with_readme", project.getInitializeWithReadme())
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
-            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
+            .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("ci_config_path", project.getCiConfigPath());
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
@@ -1220,6 +1222,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
+     * ciConfigPath (optional) - Set path to CI configuration file
+     * ciForwardDeploymentEnabled (optional) - When a new deployment job starts, skip older deployment jobs that are still pending
      *
      * NOTE: The following parameters specified by the GitLab API edit project are not supported:
      *     import_url
@@ -1265,7 +1269,9 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
-            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
+            .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("ci_config_path", project.getCiConfigPath())
+            .withParam("ci_forward_deployment_enabled", project.getCiForwardDeploymentEnabled());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());
