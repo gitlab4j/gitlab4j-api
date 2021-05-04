@@ -4,7 +4,7 @@ public interface PropertyConstants {
 
     String TEST_PROJECT_SUBDIRECTORY_PATH = "src/main/docs/test-project.txt";
 
-    // The following are keys used to look up values in the test propertiues file
+    // The following are keys used to look up values in the test properties file
     String ADMIN_PASSWORD_KEY = "TEST_ADMIN_PASSWORD";
     String ADMIN_USERNAME_KEY = "TEST_ADMIN_USERNAME";
     String ACCESS_TOKEN_KEY = "TEST_ACCESS_TOKEN";
