@@ -16,6 +16,8 @@ import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.models.Membership;
+import org.gitlab4j.api.models.Memberships;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.EmailChecker;
@@ -522,7 +524,7 @@ public class UserApi extends AbstractApi {
      * Either password or resetPassword should be specified (resetPassword takes priority).</p>
      *
      * <pre><code>GitLab Endpoint: POST /users</code></pre>
-     * 
+     *
      * <p>The following properties of the provided User instance can be set during creation:<pre><code> email (required) - Email
      * username (required) - Username
      * name (required) - Name
@@ -1211,4 +1213,21 @@ public class UserApi extends AbstractApi {
     public void deleteEmail(final Object userIdOrUsername, final Long emailId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "users", getUserIdOrUsername(userIdOrUsername), "emails", emailId);
     }
+
+    /**
+     * Lists all projects and groups a user is a member of. (admin only)
+     *
+     * <pre><code>GitLab Endpoint: GET /users/:id/memberships</code></pre>
+     *
+     * @param userId the ID of the user to get the memberships for
+     * @return the list of memberships of the given user
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 12.8
+     */
+    public List<Membership> getMemberships(Integer userId) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm();
+        Response response = get(Response.Status.OK, formData.asMap(), "users", userId, "memberships");
+        return (response.readEntity(Memberships.class));
+    }
+
 }
