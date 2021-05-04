@@ -3,7 +3,6 @@ package org.gitlab4j.api;
 public interface PropertyConstants {
 
     public static final String TEST_PROJECT_SUBDIRECTORY_PATH = "src/main/docs/test-project.txt";
-    public static final String TEST_PROPERTIES_FILENAME = "test-gitlab4j.properties";
 
     // The following are keys used to look up values in the test propertiues file
     public static final String ADMIN_PASSWORD_KEY = "TEST_ADMIN_PASSWORD";
