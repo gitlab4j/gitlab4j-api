@@ -308,6 +308,90 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for specifying the report_type when calling the vulnerability findings api. */
+    public enum VulnerabilityFindingReportType {
+
+        SAST, DAST, DEPENDENCY_SCANNING, CONTAINER_SCANNING;
+
+        private static JacksonJsonEnumHelper<VulnerabilityFindingReportType> enumHelper = new JacksonJsonEnumHelper<>(VulnerabilityFindingReportType.class);
+
+        @JsonCreator
+        public static VulnerabilityFindingReportType forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the scope when calling the vulnerability findings api. */
+    public enum VulnerabilityFindingScope {
+
+        ALL, DISMISSED;
+
+        private static JacksonJsonEnumHelper<VulnerabilityFindingScope> enumHelper = new JacksonJsonEnumHelper<>(VulnerabilityFindingScope.class);
+
+        @JsonCreator
+        public static VulnerabilityFindingScope forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the severity when calling the vulnerability findings api. */
+    public enum VulnerabilityFindingSeverity {
+
+        INFO, LOW, MEDIUM, HIGH, CRITICAL, UNKNOWN;
+
+        private static JacksonJsonEnumHelper<VulnerabilityFindingSeverity> enumHelper = new JacksonJsonEnumHelper<>(VulnerabilityFindingSeverity.class);
+
+        @JsonCreator
+        public static VulnerabilityFindingSeverity forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for specifying the confidence when calling the vulnerability findings api. */
+    public enum VulnerabilityFindingConfidence {
+
+        LOW, MEDIUM, HIGH, CONFIRMED, UNKNOWN, IGNORE, EXPERIMENTAL;
+
+        private static JacksonJsonEnumHelper<VulnerabilityFindingConfidence> enumHelper = new JacksonJsonEnumHelper<>(VulnerabilityFindingConfidence.class);
+
+        @JsonCreator
+        public static VulnerabilityFindingConfidence forValue(String value) { return enumHelper.forValue(value); }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for specifying the scope for getMergeRequests methods. */
     public enum MergeRequestScope {
 
