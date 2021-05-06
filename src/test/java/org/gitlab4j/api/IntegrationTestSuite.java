@@ -32,7 +32,7 @@ import com.googlecode.junittoolbox.WildcardPatternSuite;
  * that are being performed.</p>
  */
 @RunWith(WildcardPatternSuite.class)
-@SuiteClasses({"**/Tesssst*.class"})
+@SuiteClasses({"**/Test*.class"})
 @IncludeCategory(IntegrationTest.class)
 public class IntegrationTestSuite implements PropertyConstants {
 
