@@ -28,7 +28,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  * so if there are any failures the test suite will fail.  Consider it the first integration tests
  * that are being performed.</p>
  */
-
 public class SetupIntegrationTestExtension implements BeforeAllCallback, ExtensionContext.Store.CloseableResource, PropertyConstants {
     private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
     private static final String TEST_LOGIN_USERNAME = HelperUtils.getProperty(LOGIN_USERNAME_KEY);
