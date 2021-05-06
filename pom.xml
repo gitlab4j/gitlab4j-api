@@ -3,7 +3,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.gitlab4j</groupId>
-	<artifactId>gitlab4j-api</artifactId>
+	<artifactId>gitlab4j-api-cortex</artifactId>
 	<packaging>jar</packaging>
 	<version>4.17.0-SNAPSHOT</version>
 	<name>GitLab4J-API - GitLab API Java Client</name>
