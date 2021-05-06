@@ -95,6 +95,7 @@ public class GitLabApi implements AutoCloseable {
     private TagsApi tagsApi;
     private TodosApi todosApi;
     private UserApi userApi;
+    private VulnerabilityFindingsApi vulnerabilityFindingsApi;
     private WikisApi wikisApi;
     private KeysApi keysApi;
 
@@ -1665,6 +1666,23 @@ public class GitLabApi implements AutoCloseable {
         }
 
         return (userApi);
+    }
+
+    /**
+     * Gets the VulnerabilityFindingsApi instance owned by this GitLabApi instance. The VulnerabilityFindingsApi is used to perform all vulnerability scan related API calls.
+     *
+     * @return the VulnerabilityFindingsApi instance owned by this GitLabApi instance
+     */
+    public VulnerabilityFindingsApi getVulnerabilityFindingsApi() {
+        if (vulnerabilityFindingsApi == null) {
+            synchronized (this) {
+                if (vulnerabilityFindingsApi == null) {
+                    vulnerabilityFindingsApi = new VulnerabilityFindingsApi(this);
+                }
+            }
+        }
+
+        return vulnerabilityFindingsApi;
     }
 
     /**
