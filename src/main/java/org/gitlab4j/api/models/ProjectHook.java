@@ -264,7 +264,7 @@ public class ProjectHook {
     }
 
     public ProjectHook withReleasesEvents(Boolean releasesEvents) {
-        this.releasesEvents = ProjectHook.this.releasesEvents;
+        this.releasesEvents = releasesEvents;
         return (this);
     }
 
