@@ -68,6 +68,9 @@ public class GitLabApiClient implements AutoCloseable {
     private Integer sudoAsId;
     private Integer connectTimeout;
     private Integer readTimeout;
+    private boolean basicAuthIsEnabled = false;
+    private String basicAuthUserName;
+    private String basicAuthPassword;
 
     /**
      * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
@@ -253,6 +256,18 @@ public class GitLabApiClient implements AutoCloseable {
         if (apiClient != null) {
             apiClient.close();
         }
+    }
+
+    /**
+     * Enable basic authentication
+     *
+     * @param userName the user name
+     * @param password the password
+     */
+    void enableBasicAuthentication(String userName, String password) {
+        basicAuthIsEnabled = true;
+        basicAuthUserName = userName;
+        basicAuthPassword = password;
     }
 
     /**
@@ -798,6 +813,12 @@ public class GitLabApiClient implements AutoCloseable {
             builder = builder.header(authHeader, authValue);
         } else {
             builder = builder.header(authHeader, authValue).accept(accept);
+        }
+        /* For servers with basic authentication enabled. */
+        if (basicAuthIsEnabled) {
+            String rawString = basicAuthUserName + ":" + basicAuthPassword;
+            String headerValue = "Basic " + java.util.Base64.getEncoder().encodeToString(rawString.getBytes());
+            builder.header(AUTHORIZATION_HEADER, headerValue);
         }
 
         // If sudo as ID is set add the Sudo header

@@ -527,6 +527,18 @@ public class GitLabApi implements AutoCloseable {
         return (this);
     }
 
+
+    /**
+     * Enable basic authentication when connecting to the gitlab server.
+     *
+     * @param userName the user name
+     * @param password the password
+     */
+    public GitLabApi enableBasicAuthentication(String userName, String password) {
+        apiClient.enableBasicAuthentication(userName, password);
+        return (this);
+    }
+
     /**
      * Enable the logging of the requests to and the responses from the GitLab server API
      * using the GitLab4J shared Logger instance and Level.FINE as the level.
