@@ -1265,7 +1265,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
-            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
+            .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("merge_method", project.getMergeMethod())
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());

@@ -235,7 +235,8 @@ public class TestProjectApi extends AbstractIntegrationTest {
                 .withWikiEnabled(true)
                 .withSnippetsEnabled(true)
                 .withVisibility(Visibility.PUBLIC)
-                .withTagList(Arrays.asList("tag1", "tag2"));
+                .withTagList(Arrays.asList("tag1", "tag2"))
+                .withMergeMethod(Project.MergeMethod.MERGE)
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
@@ -247,6 +248,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertEquals(project.getSnippetsEnabled(), newProject.getSnippetsEnabled());
         assertEquals(project.getTagList(), newProject.getTagList());
         assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
+        assertEquals(Project.MergeMethod.MERGE, newProject.getMergeMethod());
 
         project = new Project()
             .withId(newProject.getId())
@@ -256,7 +258,8 @@ public class TestProjectApi extends AbstractIntegrationTest {
             .withMergeRequestsEnabled(false)
             .withWikiEnabled(false)
             .withSnippetsEnabled(false)
-            .withVisibility(Visibility.PRIVATE);
+            .withVisibility(Visibility.PRIVATE)
+            .withMergeMethod(Project.MergeMethod.REBASE_MERGE)
 
         Project updatedProject = gitLabApi.getProjectApi().updateProject(project);
         assertNotNull(updatedProject);
@@ -267,6 +270,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertEquals(project.getWikiEnabled(), updatedProject.getWikiEnabled());
         assertEquals(project.getSnippetsEnabled(), updatedProject.getSnippetsEnabled());
         assertTrue(Visibility.PRIVATE == updatedProject.getVisibility() || Boolean.FALSE == updatedProject.getPublic());
+        assertEquals(Project.MergeMethod.REBASE_MERGE, updatedProject.getMergeMethod());
     }
 
     @Test
