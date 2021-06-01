@@ -788,6 +788,11 @@ public class Project {
         this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
     }
 
+    public Project withRemoveSourceBranchAfterMerge(Boolean removeSourceBranchAfterMerge) {
+        this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
+        return this;
+    }
+
     public Boolean getAutoDevopsEnabled() {
         return autoDevopsEnabled;
     }

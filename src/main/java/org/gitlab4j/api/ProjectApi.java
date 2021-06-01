@@ -1024,6 +1024,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
+            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge());
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
