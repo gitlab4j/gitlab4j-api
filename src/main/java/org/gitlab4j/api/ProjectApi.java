@@ -1022,7 +1022,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("initialize_with_readme", project.getInitializeWithReadme())
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
-            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
+            .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
@@ -1267,6 +1268,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
             .withParam("merge_method", project.getMergeMethod())
+            .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
+            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());
