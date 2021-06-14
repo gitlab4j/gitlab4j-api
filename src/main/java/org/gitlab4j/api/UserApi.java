@@ -17,7 +17,6 @@ import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.Membership;
-import org.gitlab4j.api.models.Memberships;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.EmailChecker;
@@ -513,6 +512,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @deprecated Will be removed in version 5.0, replaced by {@link #createUser(User, CharSequence, boolean)}
      */
+    @Deprecated
     public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
         Form formData = userToForm(user, projectsLimit, password, null, true);
         Response response = post(Response.Status.CREATED, formData, "users");
@@ -1227,7 +1227,7 @@ public class UserApi extends AbstractApi {
     public List<Membership> getMemberships(Integer userId) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm();
         Response response = get(Response.Status.OK, formData.asMap(), "users", userId, "memberships");
-        return (response.readEntity(Memberships.class));
+        return (response.readEntity(new GenericType<List<Membership>>() {}));
     }
 
 }
