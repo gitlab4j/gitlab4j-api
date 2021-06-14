@@ -2066,7 +2066,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("confidential_note_events", enabledHooks.getConfidentialNoteEvents(), false)
                 .withParam("job_events", enabledHooks.getJobEvents(), false)
                 .withParam("pipeline_events", enabledHooks.getPipelineEvents(), false)
-                .withParam("wiki_events", enabledHooks.getWikiPageEvents(), false)
+                .withParam("wiki_page_events", enabledHooks.getWikiPageEvents(), false)
                 .withParam("enable_ssl_verification", enableSslVerification, false)
                 .withParam("repository_update_events", enabledHooks.getRepositoryUpdateEvents(), false)
                 .withParam("token", secretToken, false);
@@ -2146,7 +2146,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("note_events", hook.getNoteEvents(), false)
             .withParam("job_events", hook.getJobEvents(), false)
             .withParam("pipeline_events", hook.getPipelineEvents(), false)
-            .withParam("wiki_events", hook.getWikiPageEvents(), false)
+            .withParam("wiki_page_events", hook.getWikiPageEvents(), false)
             .withParam("enable_ssl_verification", hook.getEnableSslVerification(), false)
             .withParam("token", hook.getToken(), false);
 
