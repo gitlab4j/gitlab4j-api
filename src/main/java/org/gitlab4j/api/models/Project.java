@@ -104,6 +104,7 @@ public class Project {
     private AutoDevopsDeployStrategy autoDevopsDeployStrategy;
     private Boolean autocloseReferencedIssues;
     private Boolean emailsDisabled;
+    private String suggestionCommitMessage;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -787,6 +788,11 @@ public class Project {
         this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
     }
 
+    public Project withRemoveSourceBranchAfterMerge(Boolean removeSourceBranchAfterMerge) {
+        this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
+        return this;
+    }
+
     public Boolean getAutoDevopsEnabled() {
         return autoDevopsEnabled;
     }
@@ -822,5 +828,18 @@ public class Project {
     public Project withEmailsDisabled(Boolean emailsDisabled) {
         this.emailsDisabled = emailsDisabled;
         return this;
+    }
+
+    public String getSuggestionCommitMessage() {
+        return this.suggestionCommitMessage;
+    }
+
+    public Project withSuggestionCommitMessage(String suggestionCommitMessage) {
+        this.suggestionCommitMessage = suggestionCommitMessage;
+        return this;
+    }
+
+    public void setSuggestionCommitMessage(String suggestionCommitMessage) {
+        this.suggestionCommitMessage = suggestionCommitMessage;
     }
 }
