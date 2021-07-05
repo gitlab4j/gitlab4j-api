@@ -148,8 +148,8 @@ public class DeploymentsApi extends AbstractApi {
      * @param environment The name of the environment to create the deployment for, required
      * @param sha The SHA of the commit that is deployed, required
      * @param ref The name of the branch or tag that is deployed, required
-     * @param tag A boolean that indicates if the deployed ref is a tag (true) or not (false). , required
-     * @param status The status to filter deployments by, optional
+     * @param tag A boolean that indicates if the deployed ref is a tag (true) or not (false), required
+     * @param status The status to filter deployments by, required
      * @return a Deployment instance with info on the added deployment
      * @throws GitLabApiException if any exception occurs
      */
@@ -160,7 +160,8 @@ public class DeploymentsApi extends AbstractApi {
                 .withParam("sha", sha, true)
                 .withParam("ref", ref, true)
                 .withParam("tag", tag, true)
-                .withParam("status",  status);
+                .withParam("status", status, true);
+
         Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "deployments");
         return (response.readEntity(Deployment.class));
@@ -173,7 +174,7 @@ public class DeploymentsApi extends AbstractApi {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param deploymentId The ID of the deployment to update, required
-     * @param status The new status of the deployment, optional
+     * @param status The new status of the deployment, required
      * @return an updated Deployment instance
      * @throws GitLabApiException if any exception occurs
      */
@@ -183,9 +184,9 @@ public class DeploymentsApi extends AbstractApi {
             throw new RuntimeException("deploymentId cannot be null");
         }
 
-        final Deployment key = new Deployment();
-        key.setStatus(status);
-        final Response response = put(Response.Status.OK, key,
+        final Deployment deployment = new Deployment();
+        deployment.setStatus(status);
+        final Response response = put(Response.Status.OK, deployment,
                 "projects", getProjectIdOrPath(projectIdOrPath), "deployments", deploymentId);
 
         return (response.readEntity(Deployment.class));

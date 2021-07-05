@@ -805,7 +805,9 @@ public interface Constants {
 
     /** Enum to use for specifying the status of a deployment. */
     public enum DeploymentStatus {
-
+    /**
+     * After some tests, {@link #CREATED} value is not a valid value.
+     */
 	CREATED, RUNNING, SUCCESS, FAILED, CANCELED;
 
         private static JacksonJsonEnumHelper<DeploymentStatus> enumHelper = new JacksonJsonEnumHelper<>(DeploymentStatus.class);
