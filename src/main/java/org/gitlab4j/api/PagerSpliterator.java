@@ -30,8 +30,10 @@ class PagerSpliterator<T> implements Spliterator<T> {
 			return true;
 		} else if (pager.hasNext()) {
 			elements = pager.next().iterator();
-			action.accept(elements.next());
-			return true;
+			if(elements.hasNext()) {
+				action.accept(elements.next());
+				return true;
+			}
 		}
 		return false;
 	}

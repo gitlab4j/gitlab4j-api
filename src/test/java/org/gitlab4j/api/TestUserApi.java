@@ -18,10 +18,13 @@ import java.util.Optional;
 
 import javax.ws.rs.core.Response;
 
+import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.GpgKey;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.models.Membership;
+import org.gitlab4j.api.models.MembershipSourceType;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
@@ -539,5 +542,33 @@ public class TestUserApi extends AbstractIntegrationTest {
         assertEquals(currentSize, keys.size());
         found = keys.stream().filter(e -> e.getKey().equals(TEST_GPG_KEY)).findAny().orElse(null);
         assertNull(found);
+    }
+
+    public void testGetMemberships() throws GitLabApiException {
+        User currentUser = gitLabApi.getUserApi().getCurrentUser();
+        assertNotNull(currentUser);
+        List<Membership> memberships = gitLabApi.getUserApi().getMemberships(currentUser.getId());
+        assertNotNull(memberships);
+        assertEquals(3, memberships.size());
+
+        Membership membership1 = memberships.get(0);
+        assertMembershipEquals(membership1, 1, "test-project", MembershipSourceType.PROJECT, AccessLevel.MAINTAINER);
+
+        Membership membership2 = memberships.get(1);
+        assertMembershipEquals(membership2, 4, "Test Group", MembershipSourceType.NAMESPACE, AccessLevel.OWNER);
+
+        Membership membership3 = memberships.get(2);
+        assertMembershipEquals(membership3, 5, "subgroup", MembershipSourceType.NAMESPACE, AccessLevel.OWNER);
+    }
+
+    private void assertMembershipEquals(Membership actualMembership,
+                                        int expectedSourceId,
+                                        String expectedSourceName,
+                                        MembershipSourceType expectedSourceType,
+                                        AccessLevel expectedAccessLevel) {
+        assertEquals(expectedSourceId, actualMembership.getSourceId().intValue());
+        assertEquals(expectedSourceName, actualMembership.getSourceName());
+        assertEquals(expectedSourceType, actualMembership.getSourceType());
+        assertEquals(expectedAccessLevel, actualMembership.getAccessLevel());
     }
 }

@@ -3,6 +3,7 @@ package org.gitlab4j.api;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.services.BugzillaService;
 import org.gitlab4j.api.services.CustomIssueTrackerService;
+import org.gitlab4j.api.services.EmailOnPushService;
 import org.gitlab4j.api.services.ExternalWikiService;
 import org.gitlab4j.api.services.HipChatService;
 import org.gitlab4j.api.services.JiraService;
@@ -493,4 +494,60 @@ public class ServicesApi extends AbstractApi {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "custom-issue-tracker");
 
     }
+
+    /**
+     * Get Emails on push service settings for a project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/services/emails-on-push</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @return a EmailOnPushService instance holding the Email on push settings
+     * @throws GitLabApiException if any exception occurs
+     */
+    public EmailOnPushService getEmailOnPushService(Object projectIdOrPath) throws GitLabApiException {
+        Response response = this.get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "emails-on-push");
+        return (response.readEntity(EmailOnPushService.class));
+    }
+
+    /**
+     * Updates the EmailsOnPush service settings for a project.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/services/emails-on-push</code></pre>
+     *
+     * The following properties on the EmailOnPushService instance are utilized in the update of the settings:
+     * <p>
+     * recipients (required), Emails separated by whitespace
+     * disable_diffs (optional), Disable code diffs
+     * send_from_committer_email (optional), Send from committer
+     * push_events (optional), Enable notifications for push events
+     * tag_push_events(optional), Enable notifications for tag push events
+     * branches_to_be_notified (optional), Branches to send notifications for. Valid options are "all", "default",
+     *                                     "protected", and "default_and_protected". Notifications are always fired
+     *                                     for tag pushes. The default value is "all"
+     * </p>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param emailsOnPush the EmailOnPushService instance holding the settings
+     * @return a EmailOnPushService instance holding the newly updated settings
+     * @throws GitLabApiException if any exception occurs
+     */
+    public EmailOnPushService updateEmailOnPushService(Object projectIdOrPath,  EmailOnPushService emailsOnPush) throws GitLabApiException {
+        GitLabApiForm formData = emailsOnPush.servicePropertiesForm();
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "services", "emails-on-push");
+        return (response.readEntity(EmailOnPushService.class));
+    }
+
+    /**
+     * Deletes the Emails on push service for a project.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/services/emails-on-push</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteEmailonPushService(Object projectIdOrPath) throws GitLabApiException {
+        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "emails-on-push");
+
+    }
+
 }

@@ -46,6 +46,16 @@ public class PagerSpliteratorTest {
 
 		assertFalse(success);
 	}
+	
+	@Test
+	public void shouldReturnFalseIfNextPagerItemMissing() {
+		when(pager.hasNext()).thenReturn(true);
+		when(pager.next()).thenReturn(Collections.emptyList());
+
+		boolean success = pagerSpliterator.tryAdvance(System.out::println);
+
+		assertFalse(success);
+	}
 
 	@Test
 	public void shouldThrowNullPointerExceptionWhenActionIsMissing() {

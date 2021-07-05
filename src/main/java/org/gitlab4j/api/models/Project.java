@@ -4,15 +4,16 @@ package org.gitlab4j.api.models;
 import java.util.Date;
 import java.util.List;
 
+import org.gitlab4j.api.Constants.AutoDevopsDeployStrategy;
+import org.gitlab4j.api.Constants.BuildGitStrategy;
 import org.gitlab4j.api.ProjectLicense;
+import org.gitlab4j.api.models.ImportStatus.Status;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import org.gitlab4j.api.Constants.BuildGitStrategy;
 
 public class Project {
 
@@ -94,6 +95,16 @@ public class Project {
     private List<CustomAttribute> customAttributes;
     private String buildCoverageRegex;
     private BuildGitStrategy buildGitStrategy;
+    private String readmeUrl;
+    private Boolean canCreateMergeRequestIn;
+    private Status importStatus;
+    private Integer ciDefaultGitDepth;
+    private Boolean removeSourceBranchAfterMerge;
+    private Boolean autoDevopsEnabled;
+    private AutoDevopsDeployStrategy autoDevopsDeployStrategy;
+    private Boolean autocloseReferencedIssues;
+    private Boolean emailsDisabled;
+    private String suggestionCommitMessage;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -735,5 +746,100 @@ public class Project {
     public Project withBuildGitStrategy(BuildGitStrategy buildGitStrategy) {
         this.buildGitStrategy = buildGitStrategy;
         return this;
+    }
+
+    public String getReadmeUrl() {
+        return readmeUrl;
+    }
+
+    public void setReadmeUrl(String readmeUrl) {
+        this.readmeUrl = readmeUrl;
+    }
+
+    public Boolean getCanCreateMergeRequestIn() {
+        return canCreateMergeRequestIn;
+    }
+
+    public void setCanCreateMergeRequestIn(Boolean canCreateMergeRequestIn) {
+        this.canCreateMergeRequestIn = canCreateMergeRequestIn;
+    }
+
+    public Status getImportStatus() {
+        return importStatus;
+    }
+
+    public void setImportStatus(Status importStatus) {
+        this.importStatus = importStatus;
+    }
+
+    public Integer getCiDefaultGitDepth() {
+        return ciDefaultGitDepth;
+    }
+
+    public void setCiDefaultGitDepth(Integer ciDefaultGitDepth) {
+        this.ciDefaultGitDepth = ciDefaultGitDepth;
+    }
+
+    public Boolean getRemoveSourceBranchAfterMerge() {
+        return removeSourceBranchAfterMerge;
+    }
+
+    public void setRemoveSourceBranchAfterMerge(Boolean removeSourceBranchAfterMerge) {
+        this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
+    }
+
+    public Project withRemoveSourceBranchAfterMerge(Boolean removeSourceBranchAfterMerge) {
+        this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
+        return this;
+    }
+
+    public Boolean getAutoDevopsEnabled() {
+        return autoDevopsEnabled;
+    }
+
+    public void setAutoDevopsEnabled(Boolean autoDevopsEnabled) {
+        this.autoDevopsEnabled = autoDevopsEnabled;
+    }
+
+    public AutoDevopsDeployStrategy getAutoDevopsDeployStrategy() {
+        return autoDevopsDeployStrategy;
+    }
+
+    public void setAutoDevopsDeployStrategy(AutoDevopsDeployStrategy autoDevopsDeployStrategy) {
+        this.autoDevopsDeployStrategy = autoDevopsDeployStrategy;
+    }
+
+    public Boolean getAutocloseReferencedIssues() {
+        return autocloseReferencedIssues;
+    }
+
+    public void setAutocloseReferencedIssues(Boolean autocloseReferencedIssues) {
+        this.autocloseReferencedIssues = autocloseReferencedIssues;
+    }
+
+    public Boolean getEmailsDisabled() {
+        return emailsDisabled;
+    }
+
+    public void setEmailsDisabled(Boolean emailsDisabled) {
+        this.emailsDisabled = emailsDisabled;
+    }
+
+    public Project withEmailsDisabled(Boolean emailsDisabled) {
+        this.emailsDisabled = emailsDisabled;
+        return this;
+    }
+
+    public String getSuggestionCommitMessage() {
+        return this.suggestionCommitMessage;
+    }
+
+    public Project withSuggestionCommitMessage(String suggestionCommitMessage) {
+        this.suggestionCommitMessage = suggestionCommitMessage;
+        return this;
+    }
+
+    public void setSuggestionCommitMessage(String suggestionCommitMessage) {
+        this.suggestionCommitMessage = suggestionCommitMessage;
     }
 }

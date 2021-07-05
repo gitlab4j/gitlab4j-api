@@ -1,4 +1,4 @@
-# GitlLab4J&trade; API (gitlab4j-api)<br />Java Client Library for the GitLab REST API
+# GitLab4J&trade; API (gitlab4j-api)<br />Java Client Library for the GitLab REST API
 
 [![Maven Central](https://img.shields.io/maven-central/v/org.gitlab4j/gitlab4j-api.svg)](http://mvnrepository.com/artifact/org.gitlab4j/gitlab4j-api)
 [![Build Status](https://travis-ci.org/gitlab4j/gitlab4j-api.svg?branch=master)](https://travis-ci.org/gitlab4j/gitlab4j-api)
@@ -54,7 +54,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.15.7'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.16.0'
 }
 ```
 
@@ -65,7 +65,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>4.15.7</version>
+    <version>4.16.0</version>
 </dependency>
 ```
 

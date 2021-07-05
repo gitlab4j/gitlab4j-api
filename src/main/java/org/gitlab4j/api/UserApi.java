@@ -17,6 +17,7 @@ import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.GpgKey;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.models.Membership;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.EmailChecker;
@@ -512,6 +513,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @deprecated Will be removed in version 5.0, replaced by {@link #createUser(User, CharSequence, boolean)}
      */
+    @Deprecated
     public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
         Form formData = userToForm(user, projectsLimit, password, null, true);
         Response response = post(Response.Status.CREATED, formData, "users");
@@ -1292,5 +1294,21 @@ public class UserApi extends AbstractApi {
      */
     public void deleteGpgKey(final Integer userId, final Integer keyId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "users", userId, "gpg_keys", keyId);
+    }
+
+    /**
+     * Lists all projects and groups a user is a member of. (admin only)
+     *
+     * <pre><code>GitLab Endpoint: GET /users/:id/memberships</code></pre>
+     *
+     * @param userId the ID of the user to get the memberships for
+     * @return the list of memberships of the given user
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 12.8
+     */
+    public List<Membership> getMemberships(Integer userId) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm();
+        Response response = get(Response.Status.OK, formData.asMap(), "users", userId, "memberships");
+        return (response.readEntity(new GenericType<List<Membership>>() {}));
     }
 }

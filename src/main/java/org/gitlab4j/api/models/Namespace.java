@@ -9,6 +9,8 @@ public class Namespace {
     private String path;
     private String kind;
     private String fullPath;
+    private String avatarUrl;
+    private String webUrl;
 
     public Integer getId() {
         return this.id;
@@ -73,6 +75,22 @@ public class Namespace {
     public Namespace withFullPath(String fullPath) {
         this.fullPath = fullPath;
         return this;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
     }
 
     @Override
