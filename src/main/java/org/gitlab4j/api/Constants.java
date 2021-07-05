@@ -243,6 +243,28 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for ordering the results of getDeployments. */
+    public static enum DeploymentOrderBy {
+
+        ID, IID, CREATED_AT, UPDATED_AT, REF;
+        private static JacksonJsonEnumHelper<DeploymentOrderBy> enumHelper = new JacksonJsonEnumHelper<>(DeploymentOrderBy.class);
+
+        @JsonCreator
+        public static DeploymentOrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for specifying the scope when calling getPipelines(). */
     public enum PipelineScope {
 
@@ -783,7 +805,9 @@ public interface Constants {
 
     /** Enum to use for specifying the status of a deployment. */
     public enum DeploymentStatus {
-
+    /**
+     * After some tests, {@link #CREATED} value is not a valid value.
+     */
 	CREATED, RUNNING, SUCCESS, FAILED, CANCELED;
 
         private static JacksonJsonEnumHelper<DeploymentStatus> enumHelper = new JacksonJsonEnumHelper<>(DeploymentStatus.class);
