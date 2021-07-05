@@ -64,7 +64,7 @@ public class TestSystemHooksApi extends AbstractIntegrationTest {
         assertTrue(hook.getPushEvents());
         assertFalse(hook.getTagPushEvents());
         assertFalse(hook.getMergeRequestsEvents());
-        assertFalse(hook.getRepositoryUpdateEvents());
+        assertTrue(hook.getRepositoryUpdateEvents());
         assertTrue(hook.getEnableSslVerification());
 
         gitLabApi.getSystemHooksApi().deleteSystemHook(hook);
@@ -72,7 +72,7 @@ public class TestSystemHooksApi extends AbstractIntegrationTest {
         hook.withPushEvents(false)
             .withTagPushEvents(true)
             .withMergeRequestsEvents(true)
-            .withRepositoryUpdateEvents(true)
+            .withRepositoryUpdateEvents(false)
             .withEnableSslVerification(false);
 
         SystemHook updatedHook = gitLabApi.getSystemHooksApi().addSystemHook(TEST_HOOK_URL, TEST_SECRET_TOKEN, hook);
@@ -81,10 +81,10 @@ public class TestSystemHooksApi extends AbstractIntegrationTest {
         assertFalse(hook.getPushEvents());
         assertTrue(hook.getTagPushEvents());
         assertTrue(hook.getMergeRequestsEvents());
-        assertTrue(hook.getRepositoryUpdateEvents());
+        assertFalse(hook.getRepositoryUpdateEvents());
         assertFalse(hook.getEnableSslVerification());
 
-        gitLabApi.getSystemHooksApi().deleteSystemHook(hook);
+        gitLabApi.getSystemHooksApi().deleteSystemHook(updatedHook);
 
     }
 

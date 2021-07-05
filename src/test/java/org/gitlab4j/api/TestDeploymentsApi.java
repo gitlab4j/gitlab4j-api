@@ -187,6 +187,13 @@ public class TestDeploymentsApi extends AbstractIntegrationTest {
                 DeploymentStatus.SUCCESS);
         }
 
+        gitLabApi.getDeploymentsApi().addDeployment(testProject,
+            environment + "-other",
+            commits.get(0).getId(),
+            testProject.getDefaultBranch(),
+            false,
+            DeploymentStatus.SUCCESS);
+
         Pager<Deployment> pager = gitLabApi.getDeploymentsApi().getProjectDeployments(testProject, 2);
         while (pager.hasNext()) {
             pager.next();
