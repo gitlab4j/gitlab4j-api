@@ -59,15 +59,23 @@ public class TestSystemHooksApi extends AbstractIntegrationTest {
     public void testAddSystemHook() throws GitLabApiException {
 
         SystemHook hook = gitLabApi.getSystemHooksApi().addSystemHook(TEST_HOOK_URL, TEST_SECRET_TOKEN, true, false, true);
-        assertNotNull(hook);
-        assertEquals(TEST_HOOK_URL, hook.getUrl());
-        assertTrue(hook.getPushEvents());
-        assertFalse(hook.getTagPushEvents());
-        assertFalse(hook.getMergeRequestsEvents());
-        assertTrue(hook.getRepositoryUpdateEvents());
-        assertTrue(hook.getEnableSslVerification());
+        try {
+            assertNotNull(hook);
+            assertEquals(TEST_HOOK_URL, hook.getUrl());
+            assertTrue(hook.getPushEvents());
+            assertFalse(hook.getTagPushEvents());
+            assertFalse(hook.getMergeRequestsEvents());
 
-        gitLabApi.getSystemHooksApi().deleteSystemHook(hook);
+            // TODO: Attribute "repository_update_events" is not being honored by GitLab API as per issue
+            //       https://gitlab.com/gitlab-org/gitlab/-/issues/335129
+            //       Revisit and update this test if/when the GitLab API/documentation is fixed
+            assertTrue(hook.getRepositoryUpdateEvents());
+
+            assertTrue(hook.getEnableSslVerification());
+        } finally {
+            // Ensure we remove the hook we added even if we had failures
+            gitLabApi.getSystemHooksApi().deleteSystemHook(hook);
+        }
 
         hook.withPushEvents(false)
             .withTagPushEvents(true)
@@ -76,15 +84,23 @@ public class TestSystemHooksApi extends AbstractIntegrationTest {
             .withEnableSslVerification(false);
 
         SystemHook updatedHook = gitLabApi.getSystemHooksApi().addSystemHook(TEST_HOOK_URL, TEST_SECRET_TOKEN, hook);
-        assertNotNull(updatedHook);
-        assertEquals(TEST_HOOK_URL, updatedHook.getUrl());
-        assertFalse(hook.getPushEvents());
-        assertTrue(hook.getTagPushEvents());
-        assertTrue(hook.getMergeRequestsEvents());
-        assertFalse(hook.getRepositoryUpdateEvents());
-        assertFalse(hook.getEnableSslVerification());
+        try {
+            assertNotNull(updatedHook);
+            assertEquals(TEST_HOOK_URL, updatedHook.getUrl());
+            assertFalse(updatedHook.getPushEvents());
+            assertTrue(updatedHook.getTagPushEvents());
+            assertTrue(updatedHook.getMergeRequestsEvents());
 
-        gitLabApi.getSystemHooksApi().deleteSystemHook(updatedHook);
+            // TODO: Attribute "repository_update_events" is not being honored by GitLab API as per issue
+            //       https://gitlab.com/gitlab-org/gitlab/-/issues/335129
+            //       Revisit and update this test if/when the GitLab API/documentation is fixed
+            assertTrue(updatedHook.getRepositoryUpdateEvents());
+
+            assertFalse(updatedHook.getEnableSslVerification());
+        } finally {
+            // Ensure we remove the hook we added even if we had failures
+            gitLabApi.getSystemHooksApi().deleteSystemHook(updatedHook);
+        }
 
     }
 
