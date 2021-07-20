@@ -851,6 +851,29 @@ public interface Constants {
     }
 
     /** Enum for the build_git_strategy of the project instance. */
+    enum SquashOption {
+
+        NEVER, ALWAYS, DEFAULT_ON, DEFAULT_OFF;
+
+        private static JacksonJsonEnumHelper<SquashOption> enumHelper = new JacksonJsonEnumHelper<>(SquashOption.class);
+
+        @JsonCreator
+        public static SquashOption forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum for the build_git_strategy of the project instance. */
     enum BuildGitStrategy {
 
         FETCH, CLONE;

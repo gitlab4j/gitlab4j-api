@@ -924,7 +924,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project createProject(String name, String path) throws GitLabApiException {
-	
+
 	if ((name == null || name.trim().isEmpty()) && (path == null || path.trim().isEmpty())) {
 	    throw new RuntimeException("Either name or path must be specified.");
 	}
@@ -976,6 +976,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
+     * squashOption (optional) - set squash option for merge requests
      *
      * @param project the Project instance with the configuration for the new project
      * @param importUrl the URL to import the repository from
@@ -1024,7 +1025,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
-            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge());
+            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
+            .withParam("squash_option", project.getSquashOption());
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
@@ -1222,6 +1224,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
+     * squashOption (optional) - set squash option for merge requests
      *
      * NOTE: The following parameters specified by the GitLab API edit project are not supported:
      *     import_url
@@ -1270,7 +1273,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
             .withParam("merge_method", project.getMergeMethod())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
-            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge());
+            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
+            .withParam("squash_option", project.getSquashOption());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());
