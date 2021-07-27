@@ -13,6 +13,7 @@ public class SystemHook {
     private Boolean tagPushEvents;
     private Boolean enableSslVerification;
     private Boolean repositoryUpdateEvents;
+    private Boolean mergeRequestsEvents;
 
     public Integer getId() {
         return id;
@@ -70,6 +71,14 @@ public class SystemHook {
         return repositoryUpdateEvents;
     }
 
+    public void setMergeRequestsEvents(Boolean mergeRequestsEvents) {
+        this.mergeRequestsEvents = mergeRequestsEvents;
+    }
+
+    public Boolean getMergeRequestsEvents() {
+        return mergeRequestsEvents;
+    }
+
     public SystemHook withId(Integer id) {
         this.id = id;
         return (this);
@@ -102,6 +111,11 @@ public class SystemHook {
 
     public SystemHook withRepositoryUpdateEvents(Boolean repositoryUpdateEvents) {
         this.repositoryUpdateEvents = repositoryUpdateEvents;
+        return (this);
+    }
+
+    public SystemHook withMergeRequestsEvents(Boolean mergeRequestsEvents) {
+        this.mergeRequestsEvents = mergeRequestsEvents;
         return (this);
     }
 
