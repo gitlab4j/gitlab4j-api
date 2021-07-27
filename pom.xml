@@ -69,10 +69,6 @@
 		<gitlab.autoremove-container>true</gitlab.autoremove-container>
 		<gitlab.skip-docker-start>true</gitlab.skip-docker-start>
 		<gitlab.port>8090</gitlab.port>
-		
-		<sonar.projectKey>gitlab4j_gitlab4j-api</sonar.projectKey>
-		<sonar.organization>gitlab4j</sonar.organization>
-		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 	<scm>
