@@ -6,6 +6,7 @@ import org.gitlab4j.api.services.CustomIssueTrackerService;
 import org.gitlab4j.api.services.EmailOnPushService;
 import org.gitlab4j.api.services.ExternalWikiService;
 import org.gitlab4j.api.services.HipChatService;
+import org.gitlab4j.api.services.JenkinsService;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.MattermostService;
 import org.gitlab4j.api.services.SlackService;
@@ -548,6 +549,21 @@ public class ServicesApi extends AbstractApi {
     public void deleteEmailonPushService(Object projectIdOrPath) throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "emails-on-push");
 
+    }
+
+    public JenkinsService getJenkinsService(Object projectIdOrPath) throws GitLabApiException {
+        Response response = this.get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "jenkins");
+        return (response.readEntity(JenkinsService.class));
+    }
+
+    public JenkinsService updateJenkinsService(Object projectIdOrPath, JenkinsService jenkinsService) throws GitLabApiException {
+        GitLabApiForm formData = jenkinsService.servicePropertiesForm();
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "services", "jenkins");
+        return (response.readEntity(JenkinsService.class));
+    }
+
+    public void deleteJenkinsService(Object projectIdOrPath) throws GitLabApiException {
+        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "jenkins");
     }
 
 }

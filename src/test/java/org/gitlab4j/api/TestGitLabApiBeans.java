@@ -110,6 +110,7 @@ import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
+import org.gitlab4j.api.services.JenkinsService;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
 import org.junit.Test;
@@ -529,6 +530,12 @@ public class TestGitLabApiBeans {
     public void testJiraService() throws Exception {
         JiraService jira = unmarshalResource(JiraService.class, "jira.json");
         assertTrue(compareJson(jira, "jira.json"));
+    }
+
+    @Test
+    public void testJenkinsService() throws Exception {
+        JenkinsService jenkins = unmarshalResource(JenkinsService.class, "jenkins.json");
+        assertTrue(compareJson(jenkins, "jenkins.json"));
     }
 
     @Test
