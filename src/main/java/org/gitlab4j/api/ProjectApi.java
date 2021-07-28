@@ -1022,7 +1022,9 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("initialize_with_readme", project.getInitializeWithReadme())
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
-            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
+            .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
+            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge());
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
@@ -1265,7 +1267,10 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
-            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
+            .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("merge_method", project.getMergeMethod())
+            .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
+            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());
@@ -2061,7 +2066,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("confidential_note_events", enabledHooks.getConfidentialNoteEvents(), false)
                 .withParam("job_events", enabledHooks.getJobEvents(), false)
                 .withParam("pipeline_events", enabledHooks.getPipelineEvents(), false)
-                .withParam("wiki_events", enabledHooks.getWikiPageEvents(), false)
+                .withParam("wiki_page_events", enabledHooks.getWikiPageEvents(), false)
                 .withParam("enable_ssl_verification", enableSslVerification, false)
                 .withParam("repository_update_events", enabledHooks.getRepositoryUpdateEvents(), false)
                 .withParam("token", secretToken, false);
@@ -2141,7 +2146,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("note_events", hook.getNoteEvents(), false)
             .withParam("job_events", hook.getJobEvents(), false)
             .withParam("pipeline_events", hook.getPipelineEvents(), false)
-            .withParam("wiki_events", hook.getWikiPageEvents(), false)
+            .withParam("wiki_page_events", hook.getWikiPageEvents(), false)
             .withParam("enable_ssl_verification", hook.getEnableSslVerification(), false)
             .withParam("token", hook.getToken(), false);
 
