@@ -238,7 +238,8 @@ public class ImportExportApi extends AbstractApi {
                 .withParam("initialize_with_readme", overrideParams.getInitializeWithReadme())
                 .withParam("packages_enabled", overrideParams.getPackagesEnabled())
                 .withParam("build_git_strategy", overrideParams.getBuildGitStrategy())
-                .withParam("build_coverage_regex", overrideParams.getBuildCoverageRegex());
+                .withParam("build_coverage_regex", overrideParams.getBuildCoverageRegex())
+                .withParam("squash_option", overrideParams.getSquashOption());
         }
 
         Response response = upload(Response.Status.CREATED, "file", exportFile, null, formData, url);

@@ -58,6 +58,7 @@ public class GitLabApi implements AutoCloseable {
     private ContainerRegistryApi containerRegistryApi;
     private DiscussionsApi discussionsApi;
     private DeployKeysApi deployKeysApi;
+    private DeploymentsApi deploymentsApi;
     private DeployTokensApi deployTokensApi;
     private EnvironmentsApi environmentsApi;
     private EpicsApi epicsApi;
@@ -971,6 +972,25 @@ public class GitLabApi implements AutoCloseable {
         }
 
         return (deployKeysApi);
+    }
+
+    /**
+     * Gets the DeployKeysApi instance owned by this GitLabApi instance. The DeploymentsApi is used
+     * to perform all deployment related API calls.
+     *
+     * @return the DeploymentsApi instance owned by this GitLabApi instance
+     */
+    public DeploymentsApi getDeploymentsApi() {
+
+        if (deploymentsApi == null) {
+            synchronized (this) {
+                if (deploymentsApi == null) {
+                    deploymentsApi = new DeploymentsApi(this);
+                }
+            }
+        }
+
+        return (deploymentsApi);
     }
 
     /**

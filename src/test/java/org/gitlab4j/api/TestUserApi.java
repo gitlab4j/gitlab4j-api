@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Email;
+import org.gitlab4j.api.models.GpgKey;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.Membership;
@@ -60,13 +61,65 @@ public class TestUserApi extends AbstractIntegrationTest {
     private static final String TEST_SUDO_AS_USERNAME = HelperUtils.getProperty(SUDO_AS_USERNAME_KEY);
 
     private static final String TEST_IMPERSONATION_TOKEN_NAME = "token1";
-    private static final String TEST_SSH_KEY = 
+    private static final String TEST_SSH_KEY =
 	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3rWzl/oPAD+Em2iGTmR81HcYZsopvnKp7jelI4XS91fT1NjCRrGsxf5Mw/" +
         "KnmtBjhk+kQjkhIrnsBDcs6DZWtNcHJtyWJZrYsfxMTqWCaQv+OTRwVboqS2pmPcbK3gizUd5GCLFTKbg4OMpdywTwi6NAPwQ" +
 	"rtn3xwiVnGGCfBSyRFppcYP81otALctrlAW57V5+bQwFIJteJ+NWe1UmPxrqQ0N/a+dEEoJHzwX8RtVSkULafrRw8avn6Zp2x" +
         "1OlD2aIEMQWvepNTRW6UDMSmWFc61ycy1pF5sCT5rij+b/fN4qCEvQs6R7GmCzaaZzbWuAqaxLRdITm/WUxdG6rjh";
 
     private static final String TEST_USER_EMAIL = "test-user-email123@gitlab4j.org";
+
+    // Key for fake@fake.com - set to never expire
+    private static final String TEST_GPG_KEY = "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n" +
+            "mQINBGBHltIBEADW8zSGAs/XEkwWI36xOusuOqSINhTDVuqq3n50Oazb+a9Ai/MM\n" +
+            "8GTm900ZZghGBVUXGm8PkWuSmabcpbDbjYmJx8aIY71UipXxXrfBzr8S2yOx7IjU\n" +
+            "m6AEw0HwNUF6ayBwsklUFFWMyCeCVSCeZNldFwKRQApP6YOlTlwmZFESv32J6AHz\n" +
+            "goeEsIcoea484nVJKOl7unneb8TyuF6kmViyZtiDkjeiH5vNy8XjSWH9xl5tcBxy\n" +
+            "70NxkZt9EKnMq8izy51OBdzA+oWByGIGRjRPrW+5niMCGltV0w12M0uMDa2pJU2B\n" +
+            "Z0U7uL/Lj3srMnD54OjbjK++wtYbshhGKXhAzshk9RgZq5fEN7Jjn1CTvue5EcHz\n" +
+            "D27RD4yy35MledJ0hrvcTVVxvFmTg3TfDFdQBVLHjRATdXo7xT1Wg35M3z3aVSRt\n" +
+            "PoynOxGNSotKUGfW5bhCB9XjUNpNY7+IphLS4LuQ3vZdEs9MTTWagoOoDx5w2PRS\n" +
+            "7VNccRsqgIbNkpPjy78wN9m1QV97ytFs57eE+FfNDkKYeeCQDeHbeBlOmoEP/vSc\n" +
+            "plOb6K3mdJgs0d5klXTOrFRVCYHHQ84p1YyQDKZO2Qd6JtHo5FNeqvgj5JwnBdfH\n" +
+            "NGUdnaSn6hQTd8UB0AfwB+CC7cJq/fhbgcNvfK0ErHd24tsCif8vP9AG4QARAQAB\n" +
+            "tBtGYWtlIFBlcnNvbiA8ZmFrZUBmYWtlLmNvbT6JAk4EEwEIADgWIQSE5/Jy7XYO\n" +
+            "8riBcF/RhpwhMYJMpwUCYEeW0gIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAK\n" +
+            "CRDRhpwhMYJMp+ESD/99LNCF1bqg/jhQOC4UIdwzCCVkUP8imrL6NnBUso+FAwH6\n" +
+            "AT+Pbg8JLpM0lfcjzD5PV+ekLtWTZZVsyObfdRo7GrtBt/wcLKfJU5uQmrJfRClN\n" +
+            "mdiHbh8LyVwfhLp20JRqV6NiEWSdWwNBq8zMZGgZ6HONC7JPGokak0MKpU2Woyc3\n" +
+            "BlAU+998mdoDPKWT8XEr8cnHFFuUpZb4oWhqNV36mFrkdBZovEbnfefA+JvcxwEs\n" +
+            "khAeaNLmpZWZ95YSimJuL4sKUjPCXlkHs9nayTFeDdNcZPAuZwfBCLpdCSj4ErYV\n" +
+            "MyMHs/8J7CibulJB/o8qpp07oa3Qlcd62XNpqDOEIxiWHefnaYgkyIHtmzhXH4Fa\n" +
+            "O7Ir3zGcwARXpQfobRUmtFdzeJT3zVVdUWjkKr5rgwYZZraADXGvOo8xJ5cvdrzq\n" +
+            "4/yvOaNNoIA4KkuZcXbnqsh31pT77PxsqK60+TpLzw/jyzTqmVTEG+6SUobW7o6D\n" +
+            "qrpqR2RPH0GtyzKHuGKSCJClDmiLF+XSyjScGUAlQ9hcFquI6F1Vddy88yURaESK\n" +
+            "qy2agvhSkgpRxeuglytl6ZbWp/AIXrkh3F6qJozMNMFzEokapRYsQe+QdXCDSGDQ\n" +
+            "DNvXXfIvxrFv+vQLy4jjM+DwJfrw0eN2XZ+U3E9sP0uloiVgU1zg1wc2tyPv77kC\n" +
+            "DQRgR5bSARAAwumSlVvzb3JORu2ezPsCh8C+VJe2nPo8m+vR1Dni58UB3xnixZnF\n" +
+            "lPaEprnIO5TSDwELJJN3oNM+AVAPjUJYHotKny5iBSFPIbHYYHs/mGRqo4jHa4b6\n" +
+            "riNRWJ1xoYdvzH7PKAcV36tl27Y4SuQVMYmnaSXbDkGOqd9cenqVHikhj9+SJxNr\n" +
+            "yIHrw/SNbNbRl3cMVfke2vgRp9Eso5Ivpl6tjNoohAwDp3L6MGbHliEYQgk8pjzq\n" +
+            "bIR4lakKNVdRQoW/ZaQM2GkDlbCIEuY/7Rr4ZA1L0tsALY+bnv+9SMtA1OnMvNQ7\n" +
+            "7Pn2uTSHeIbSVxsRk9aWmK63l20OEcB/YPmTSeNvq0JVzJ2fLG2ZL6NUHBBF2DB4\n" +
+            "x66FA8mu9cK3Y9Jnc/3KWdzGA74R4HSIcuDPGkZmPtDMXSgXArRuD0s71QgH5E3U\n" +
+            "9/QJ8g4s9Mjb/8aBhbg+7lm8HzN3XANmbR+y/s71Askw/ewlbhfmwxK+/XI3xDr0\n" +
+            "1jkf42cmoLq4/Y292mQjFkcq6cCFIxDOXM89Qopbtm6PnaQsKyz0GoiyHsP846yS\n" +
+            "RdiHTVHrUdiLl+6TIK90cm8CzNoiF+UGvdD4HObWbySh8O8n1nno+lX9EwSoq20o\n" +
+            "0WobXesDjNIrzJHow0WGGbx5gTxlZq0WwmgXgwYM0PbqlfjxFjct+98AEQEAAYkC\n" +
+            "NgQYAQgAIBYhBITn8nLtdg7yuIFwX9GGnCExgkynBQJgR5bSAhsMAAoJENGGnCEx\n" +
+            "gkynbOkQAI+N/wFxOTbewuTiy0P11saqqYr7Jwc7NLhqOVZ1tHKaTB6ZDbIrlWjN\n" +
+            "u2tFk7PqsA4/zI6KO9JoKiQYbopZ+xjd1nCJUjkUKI/wi4rl0t7ELQKhlSlUC11f\n" +
+            "Nz0C6Q+9cwRQCCT4sX/ZkzVQbGWx9fkAYVHzezDqh43xorXJ2ix5y63pr1NGuUgx\n" +
+            "EujMlUbXFzXpUrCmdUVWujlp4gSEfd6tLW0WMw0tYJe6UY7xx4EmWsT+kAGj7QLH\n" +
+            "L06yFigDQ0eUkGQ1T7Z0AjG4EXGETbX6lSLwzIBnmaZXQxdx4LiRy9TcaNtcowH4\n" +
+            "U2yxCoG0o0kS7sS/rI77TV6WZ46DPCJmlNJ+MP8lt0j/nsDA3AECB1AA+8SNepbA\n" +
+            "LSZY7MJmh4nsqJ+iy/XMosipluZx2u6ZwlXAHxAzHhs7FBsvdMtq/gLNAlZzVyeH\n" +
+            "UqzRaMJps7xIbap5d5jZT5jaZwFeGi+63YVRx3Jm6dkiBCPFffLyWdrzkFTZdWqZ\n" +
+            "PkiRbJ64wYPIWQgAN/RhmCcRBhxJE8f7kgo/nBkZ5dwmfXgnXpheEaaCSzvJ4nMh\n" +
+            "TUdg6ZLna12QndjI5gy5aenrr5H/HmDKKSNkuWZv0+NS4GhwnL8NFs+MRk6znpLN\n" +
+            "aEjPdfYxINCMz+uotKJV9NieDWIbEJLlfZUf2hJwuwwjQGAyVf7b\n" +
+            "=ryCD\n" +
+            "-----END PGP PUBLIC KEY BLOCK-----";
 
     private static final String TEST_EXTERNAL_USERNAME = HelperUtils.getProperty(EXTERNAL_USERNAME_KEY);
     private static final String TEST_EXTERNAL_PROVIDER = HelperUtils.getProperty(EXTERNAL_PROVIDER_KEY);
@@ -153,7 +206,7 @@ public class TestUserApi extends AbstractIntegrationTest {
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
     }
-    
+
     @Test
     public void testGetCurrentUser() throws GitLabApiException {
         User currentUser = gitLabApi.getUserApi().getCurrentUser();
@@ -271,7 +324,7 @@ public class TestUserApi extends AbstractIntegrationTest {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
 
-        // NOTE: READ_REGISTRY scope is left out because the GitLab server docker instance does not have the 
+        // NOTE: READ_REGISTRY scope is left out because the GitLab server docker instance does not have the
         // registry configured and the test would thus fail.
         Scope[] scopes = {Scope.API, Scope.READ_USER, Scope.READ_REPOSITORY, Scope.WRITE_REPOSITORY, Scope.SUDO};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
@@ -443,7 +496,7 @@ public class TestUserApi extends AbstractIntegrationTest {
         assertTrue(emails.size() == currentSize + 1);
         Email found = emails.stream().filter(e -> e.getEmail().equals(TEST_USER_EMAIL)).findAny().orElse(null);
         assertNotNull(found);
- 
+
         gitLabApi.getUserApi().deleteEmail(currentUser, email.getId());
         emails = gitLabApi.getUserApi().getEmails(currentUser);
         assertEquals(currentSize, emails.size());
@@ -452,6 +505,45 @@ public class TestUserApi extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testGpgKeys() throws GitLabApiException {
+        User currentUser = gitLabApi.getUserApi().getCurrentUser();
+        assertNotNull(currentUser);
+        List<GpgKey> keys = gitLabApi.getUserApi().listGpgKeys(currentUser.getId());
+        assertNotNull(keys);
+        int currentSize = keys.size();
+
+        GpgKey key = gitLabApi.getUserApi().addGpgKey(currentUser.getId(), TEST_GPG_KEY);
+        keys = gitLabApi.getUserApi().listGpgKeys(currentUser.getId());
+        assertTrue(keys.size() == currentSize + 1);
+        GpgKey found = keys.stream().filter(e -> e.getKey().equals(TEST_GPG_KEY)).findAny().orElse(null);
+        assertNotNull(found);
+
+        gitLabApi.getUserApi().deleteGpgKey(currentUser.getId(), key.getId());
+        keys = gitLabApi.getUserApi().listGpgKeys(currentUser.getId());
+        assertEquals(currentSize, keys.size());
+        found = keys.stream().filter(e -> e.getKey().equals(TEST_GPG_KEY)).findAny().orElse(null);
+        assertNull(found);
+    }
+
+    @Test
+    public void testGpgKeysCurrentUser() throws GitLabApiException {
+        List<GpgKey> keys = gitLabApi.getUserApi().listGpgKeys();
+        assertNotNull(keys);
+        int currentSize = keys.size();
+
+        GpgKey key = gitLabApi.getUserApi().addGpgKey(TEST_GPG_KEY);
+        keys = gitLabApi.getUserApi().listGpgKeys();
+        assertTrue(keys.size() == currentSize + 1);
+        GpgKey found = keys.stream().filter(e -> e.getKey().equals(TEST_GPG_KEY)).findAny().orElse(null);
+        assertNotNull(found);
+
+        gitLabApi.getUserApi().deleteGpgKey(key.getId());
+        keys = gitLabApi.getUserApi().listGpgKeys();
+        assertEquals(currentSize, keys.size());
+        found = keys.stream().filter(e -> e.getKey().equals(TEST_GPG_KEY)).findAny().orElse(null);
+        assertNull(found);
+    }
+
     public void testGetMemberships() throws GitLabApiException {
         User currentUser = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(currentUser);
