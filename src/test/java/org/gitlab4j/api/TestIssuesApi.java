@@ -101,7 +101,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         deleteAllTestIssues();
     }
 
-    private static void deleteAllTestIssues() {
+    public static void deleteAllTestIssues() {
 
         if (gitLabApi != null) {
             try {
