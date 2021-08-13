@@ -85,6 +85,7 @@ public class GitLabApi implements AutoCloseable {
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
     private ResourceLabelEventsApi resourceLabelEventsApi;
+    private ResourceStateEventsApi resourceStateEventsApi;
     private RunnersApi runnersApi;
     private SearchApi searchApi;
     private ServicesApi servicesApi;
@@ -1486,6 +1487,25 @@ public class GitLabApi implements AutoCloseable {
         }
 
         return (resourceLabelEventsApi);
+    }
+
+    /**
+     * Gets the ResourceStateEventsApi instance owned by this GitLabApi instance. The ResourceStateEventsApi
+     * is used to perform all Resource State Events related API calls.
+     *
+     * @return the ResourceStateEventsApi instance owned by this GitLabApi instance
+     */
+    public ResourceStateEventsApi getResourceStateEventsApi() {
+
+        if (resourceStateEventsApi == null) {
+            synchronized (this) {
+                if (resourceStateEventsApi == null) {
+                    resourceStateEventsApi = new ResourceStateEventsApi(this);
+                }
+            }
+        }
+
+        return (resourceStateEventsApi);
     }
 
     /**
