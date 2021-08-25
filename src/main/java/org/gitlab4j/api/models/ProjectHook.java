@@ -29,6 +29,7 @@ public class ProjectHook {
     private String pushEventsBranchFilter;
 
     private Boolean deploymentEvents;
+    private Boolean releasesEvents;
 
     public Boolean getBuildEvents() {
         return buildEvents;
@@ -162,8 +163,16 @@ public class ProjectHook {
         return deploymentEvents;
     }
 
-    public void setDeploymentEvents(Boolean deploymentEvents) {
-        this.deploymentEvents = deploymentEvents;
+    public void setDeploymentEvents(Boolean releasesEvents) {
+        this.deploymentEvents = releasesEvents;
+    }
+
+    public Boolean getReleasesEvents() {
+        return releasesEvents;
+    }
+
+    public void setReleasesEvents(Boolean releasesEvents) {
+        this.releasesEvents = releasesEvents;
     }
 
     public Boolean getConfidentialIssuesEvents() {
@@ -255,9 +264,13 @@ public class ProjectHook {
         return (this);
     }
 
+    public ProjectHook withReleasesEvents(Boolean releasesEvents) {
+        this.releasesEvents = releasesEvents;
+        return (this);
+    }
+
     @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }
-
 }

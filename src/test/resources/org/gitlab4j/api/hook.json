@@ -7,6 +7,7 @@
   "issues_events": true,
   "confidential_issues_events": true,
   "deployment_events": true,
+  "releases_events": true,
   "merge_requests_events": true,
   "tag_push_events": true,
   "note_events": true,
