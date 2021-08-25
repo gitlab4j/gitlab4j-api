@@ -28,6 +28,8 @@ public class ProjectHook {
     private Boolean confidentialNoteEvents;
     private String pushEventsBranchFilter;
 
+    private Boolean deploymentEvents;
+
     public Boolean getBuildEvents() {
         return buildEvents;
     }
@@ -83,7 +85,7 @@ public class ProjectHook {
     public void setNoteEvents(Boolean noteEvents) {
         this.noteEvents = noteEvents;
     }
-    
+
     public Boolean getJobEvents() {
         return jobEvents;
     }
@@ -123,7 +125,7 @@ public class ProjectHook {
     public void setTagPushEvents(Boolean tagPushEvents) {
         this.tagPushEvents = tagPushEvents;
     }
-    
+
     public String getToken() {
         return token;
     }
@@ -156,6 +158,14 @@ public class ProjectHook {
         this.repositoryUpdateEvents = repositoryUpdateEvents;
     }
 
+    public Boolean getDeploymentEvents() {
+        return deploymentEvents;
+    }
+
+    public void setDeploymentEvents(Boolean deploymentEvents) {
+        this.deploymentEvents = deploymentEvents;
+    }
+
     public Boolean getConfidentialIssuesEvents() {
         return confidentialIssuesEvents;
     }
@@ -179,7 +189,7 @@ public class ProjectHook {
     public void setPushEventsBranchFilter(String pushEventsBranchFilter) {
         this.pushEventsBranchFilter = pushEventsBranchFilter;
     }
-    
+
     public ProjectHook withIssuesEvents(Boolean issuesEvents) {
         this.issuesEvents = issuesEvents;
         return (this);
@@ -194,7 +204,7 @@ public class ProjectHook {
         this.noteEvents = noteEvents;
         return (this);
     }
-    
+
     public ProjectHook withJobEvents(Boolean jobEvents) {
         this.jobEvents = jobEvents;
         return (this);
@@ -240,8 +250,14 @@ public class ProjectHook {
         return (this);
     }
 
+    public ProjectHook withDeploymentEvents(Boolean deploymentEvents) {
+        this.deploymentEvents = deploymentEvents;
+        return (this);
+    }
+
     @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }
+
 }
