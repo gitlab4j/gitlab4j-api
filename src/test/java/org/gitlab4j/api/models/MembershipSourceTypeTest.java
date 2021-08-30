@@ -1,21 +1,20 @@
 package org.gitlab4j.api.models;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 public class MembershipSourceTypeTest {
 
     @Test
     public void forValue() {
         final MembershipSourceType namespace = MembershipSourceType.forValue("Namespace");
-        Assert.assertEquals(MembershipSourceType.NAMESPACE, namespace);
-        Assert.assertEquals("Namespace", namespace.toValue());
-        Assert.assertEquals("Namespace", namespace.toString());
+        assertEquals(MembershipSourceType.NAMESPACE, namespace);
+        assertEquals("Namespace", namespace.toValue());
+        assertEquals("Namespace", namespace.toString());
         final MembershipSourceType project = MembershipSourceType.forValue("Project");
-        Assert.assertEquals(MembershipSourceType.PROJECT, project);
-        Assert.assertEquals("Project", project.toValue());
-        Assert.assertEquals("Project", project.toString());
+        assertEquals(MembershipSourceType.PROJECT, project);
+        assertEquals("Project", project.toValue());
+        assertEquals("Project", project.toString());
     }
 }

@@ -2,14 +2,13 @@ package org.gitlab4j.api;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -29,10 +28,11 @@ import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
 import org.gitlab4j.api.utils.ISO8601;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -52,7 +52,8 @@ import org.junit.experimental.categories.Category;
  * If this is null the SSH key tests will be skipped.
  *
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestUserApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
@@ -132,7 +133,7 @@ public class TestUserApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         String problems = "";
@@ -193,9 +194,9 @@ public class TestUserApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
+        assumeTrue(gitLabApi != null);
     }
 
     @Test
@@ -223,7 +224,7 @@ public class TestUserApi extends AbstractIntegrationTest {
 
     @Test
     public void testBlockUnblockUser() throws GitLabApiException {
-        assumeNotNull(blockUser);
+        assumeTrue(blockUser != null);
 
         assertNotEquals("blocked", blockUser.getState());
         gitLabApi.getUserApi().blockUser(blockUser.getId());
@@ -251,9 +252,9 @@ public class TestUserApi extends AbstractIntegrationTest {
     @Test
     public void testExternalUid() throws GitLabApiException {
 
-        assumeNotNull(TEST_EXTERNAL_USERNAME);
-        assumeNotNull(TEST_EXTERNAL_PROVIDER);
-        assumeNotNull(TEST_EXTERNAL_UID);
+        assumeTrue(TEST_EXTERNAL_USERNAME != null);
+        assumeTrue(TEST_EXTERNAL_PROVIDER != null);
+        assumeTrue(TEST_EXTERNAL_UID != null);
 
         User externalUser = null;
         try {
@@ -423,18 +424,18 @@ public class TestUserApi extends AbstractIntegrationTest {
         assumeTrue(TEST_SSH_KEY != null);
         SshKey sshKey = gitLabApi.getUserApi().addSshKey("Test-Key", TEST_SSH_KEY);
         assertNotNull(sshKey);
-        assertTrue(TEST_SSH_KEY, sshKey.getKey().startsWith(TEST_SSH_KEY));
+        assertTrue(sshKey.getKey().startsWith(TEST_SSH_KEY), TEST_SSH_KEY);
         gitLabApi.getUserApi().deleteSshKey(sshKey.getId());
 
         User user = gitLabApi.getUserApi().getCurrentUser();
         sshKey = gitLabApi.getUserApi().addSshKey(user.getId(), "Test-Key1", TEST_SSH_KEY);
         assertNotNull(sshKey);
-        assertTrue(TEST_SSH_KEY, sshKey.getKey().startsWith(TEST_SSH_KEY));
+        assertTrue(sshKey.getKey().startsWith(TEST_SSH_KEY), TEST_SSH_KEY);
         assertEquals(user.getId(), sshKey.getUserId());
 
         Optional<SshKey> optional = gitLabApi.getUserApi().getOptionalSshKey(sshKey.getId());
         assertNotNull(optional.isPresent());
-        assertTrue(TEST_SSH_KEY, sshKey.getKey().startsWith(TEST_SSH_KEY));
+        assertTrue(sshKey.getKey().startsWith(TEST_SSH_KEY), TEST_SSH_KEY);
 
         gitLabApi.getUserApi().deleteSshKey(sshKey.getId());
     }

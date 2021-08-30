@@ -1,15 +1,17 @@
 package org.gitlab4j.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
 import org.gitlab4j.api.models.Markdown;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.junit.Assert.*;
-import static org.junit.Assume.assumeTrue;
-
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestMarkdownApi extends AbstractIntegrationTest {
 
     private static final String EXPECTED_HTML_FOR_SPECIAL = "<p data-sourcepos=\"1:1-1:104\" dir=\"auto\">Hello world! <gl-emoji title=\"party popper\" data-name=\"tada\" data-unicode-version=\"6.0\">🎉</gl-emoji> <code>xml &lt;profiles&gt; &lt;version&gt;${maven-surefire-plugin.version}&lt;/version&gt; &lt;/profiles&gt;</code></p>";
@@ -30,12 +32,12 @@ public class TestMarkdownApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
         gitLabApi = baseTestSetup();
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         assumeTrue(gitLabApi != null);
     }

@@ -2,16 +2,23 @@ package org.gitlab4j.api;
 
 import org.gitlab4j.api.models.*;
 import org.gitlab4j.api.models.Package;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.*;
-import static org.junit.Assert.*;
-import static org.junit.Assume.assumeNotNull;
 
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestPackageApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -21,18 +28,19 @@ public class TestPackageApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         gitLabApi = baseTestSetup();
         testProject = getTestProject();
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
-        assumeNotNull(testProject);
+        assumeTrue(gitLabApi != null);
+        assumeTrue(testProject != null);
     }
 
+    @Disabled("need creation of a package through CI")
     @Test
     public void getPackagesStream() throws GitLabApiException {
         PackagesApi packagesApi = gitLabApi.getPackagesApi();

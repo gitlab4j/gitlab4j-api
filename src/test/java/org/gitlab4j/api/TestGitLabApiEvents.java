@@ -4,11 +4,11 @@ package org.gitlab4j.api;
 import static org.gitlab4j.api.JsonUtils.compareJson;
 import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
 import static org.gitlab4j.api.JsonUtils.unmarshalResource;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -25,7 +25,8 @@ import org.gitlab4j.api.systemhooks.SystemHookListener;
 import org.gitlab4j.api.systemhooks.SystemHookManager;
 import org.gitlab4j.api.systemhooks.TeamMemberSystemHookEvent;
 import org.gitlab4j.api.utils.JacksonJson;
-import org.gitlab4j.api.webhook.*;
+import org.gitlab4j.api.webhook.BuildEvent;
+import org.gitlab4j.api.webhook.ChangeContainer;
 import org.gitlab4j.api.webhook.Event;
 import org.gitlab4j.api.webhook.IssueEvent;
 import org.gitlab4j.api.webhook.JobEvent;
@@ -35,9 +36,9 @@ import org.gitlab4j.api.webhook.PipelineEvent;
 import org.gitlab4j.api.webhook.PushEvent;
 import org.gitlab4j.api.webhook.TagPushEvent;
 import org.gitlab4j.api.webhook.WikiPageEvent;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -52,14 +53,14 @@ public class TestGitLabApiEvents {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() throws Exception {
         jacksonJson = new JacksonJson();
         jacksonJson.getObjectMapper().configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
         savedLevel = GitLabApi.getLogger().getLevel();
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() {
         GitLabApi.getLogger().setLevel(savedLevel);
     }

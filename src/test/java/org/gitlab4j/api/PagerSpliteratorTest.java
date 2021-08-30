@@ -1,23 +1,23 @@
 package org.gitlab4j.api;
 
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.when;
+
 import java.util.Collections;
 import java.util.stream.StreamSupport;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PagerSpliteratorTest {
 
 	PagerSpliterator<Integer> pagerSpliterator;
@@ -25,7 +25,7 @@ public class PagerSpliteratorTest {
 	@Mock
 	Pager<Integer> pager;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		pagerSpliterator = new PagerSpliterator<>(pager);
 	}
@@ -46,7 +46,7 @@ public class PagerSpliteratorTest {
 
 		assertFalse(success);
 	}
-	
+
 	@Test
 	public void shouldReturnFalseIfNextPagerItemMissing() {
 		when(pager.hasNext()).thenReturn(true);
@@ -61,7 +61,7 @@ public class PagerSpliteratorTest {
 	public void shouldThrowNullPointerExceptionWhenActionIsMissing() {
 		try {
 			pagerSpliterator.tryAdvance(null);
-			Assert.fail("Missing NullPointerException");
+			fail("Missing NullPointerException");
 		} catch (Throwable e) {
 			assertEquals(NullPointerException.class, e.getClass());
 		}

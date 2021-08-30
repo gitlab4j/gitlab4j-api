@@ -1,12 +1,12 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.text.ParseException;
 import java.util.Arrays;
@@ -16,8 +16,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
-import org.gitlab4j.api.models.Branch;
 
+import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitAction;
@@ -28,25 +28,27 @@ import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.utils.ISO8601;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(IntegrationTest.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestCommitsApi extends AbstractIntegrationTest {
 
     private static final String TEST_CREATE_COMMIT_FILEPATH = "gitlab4j-create-commit-test-file.txt";
@@ -57,7 +59,7 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         // Must setup the connection to the GitLab test server and get the test Project instance
         gitLabApi = baseTestSetup();
@@ -73,24 +75,24 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         assumeTrue(gitLabApi != null);
     }
 
     @Test
     public void testDiff() throws GitLabApiException {
-        
+
         assertNotNull(testProject);
 
         List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId());
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
-        
+
         List<Diff> diffs = gitLabApi.getCommitsApi().getDiff(testProject.getId(), commits.get(0).getId());
         assertNotNull(diffs);
         assertTrue(diffs.size() > 0);
- 
+
         diffs = gitLabApi.getCommitsApi().getDiff(TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(0).getId());
         assertNotNull(diffs);
         assertTrue(diffs.size() > 0);
@@ -160,7 +162,7 @@ public class TestCommitsApi extends AbstractIntegrationTest {
 
         List<CommitRef> commitRefs = gitLabApi.getCommitsApi().getCommitRefs(testProject.getId(), commits.get(0).getId());
         assertNotNull(commitRefs);
- 
+
         Stream<CommitRef> commitRefsStream = gitLabApi.getCommitsApi().getCommitRefsStream(testProject.getId(), commits.get(0).getId());
         assertNotNull(commitRefsStream);
     }
@@ -378,15 +380,15 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
         assertFalse(repoFile.isPresent());
     }
-    
+
     @Test
     public void testCherryPickCommit() throws GitLabApiException {
-        
+
         // Make sure the branch to cherry pick does not exist
         if(gitLabApi.getRepositoryApi().getOptionalBranch(testProject, "cherry-pick-branch").isPresent()) {
            gitLabApi.getRepositoryApi().deleteBranch(testProject, "cherry-pick-branch");
         }
-        
+
         // Make sure the file to create does not exist.
         String filePath = TEST_CREATE_COMMIT_FILEPATH + ".test";
         if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master").isPresent()) {
@@ -395,12 +397,12 @@ public class TestCommitsApi extends AbstractIntegrationTest {
 
         // Act
         Branch branch = gitLabApi.getRepositoryApi().createBranch(testProject, "cherry-pick-branch", "master");
-        
+
         // Assert
         assertNotNull(branch);
         Optional<RepositoryFile> repoFileBranch = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, branch.getName());
         assertFalse(repoFileBranch.isPresent());
-        
+
         // Arrange
         CommitAction commitAction = new CommitAction()
                 .withAction(Action.CREATE)
@@ -415,10 +417,10 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         assertNotNull(commit);
         Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
         assertTrue(repoFile.isPresent());
-        
+
         // Act
         Commit cherryPickedCommit = gitLabApi.getCommitsApi().cherryPickCommit(testProject, commit.getId(), "cherry-pick-branch");
-        
+
         // Assert
         assertNotNull(cherryPickedCommit);
         Optional<RepositoryFile> repoFileBranchCherryPicked = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, branch.getName());

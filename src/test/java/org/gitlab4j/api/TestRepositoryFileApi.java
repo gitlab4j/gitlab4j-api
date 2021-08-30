@@ -1,10 +1,10 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,13 +17,14 @@ import java.util.Optional;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -37,8 +38,9 @@ import org.junit.runners.MethodSorters;
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that testCreate() is executed first.
  */
-@Category(IntegrationTest.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestRepositoryFileApi extends AbstractIntegrationTest {
 
     private static final String TEST_CONTENT = "This is some content to test file content 1234567890 !@#$%^&().";
@@ -52,7 +54,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         // Must setup the connection to the GitLab test server
@@ -61,7 +63,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         teardown();
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() {
         if (gitLabApi != null) {
 
@@ -83,9 +85,9 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
+        assumeTrue(gitLabApi != null);
     }
 
     @Test

@@ -23,15 +23,16 @@
 
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.FileHandler;
@@ -40,12 +41,15 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.contrib.java.lang.system.SystemErrRule;
-import org.junit.experimental.categories.Category;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
+
+import uk.org.webcompere.systemstubs.jupiter.SystemStub;
+import uk.org.webcompere.systemstubs.jupiter.SystemStubsExtension;
+import uk.org.webcompere.systemstubs.stream.SystemErr;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -55,15 +59,16 @@ import org.junit.rules.TemporaryFolder;
  * <p>
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
+@ExtendWith(SystemStubsExtension.class)
 public class TestRequestResponseLogging implements PropertyConstants {
 
-    @ClassRule
-    public final static SystemErrRule systemErrorRule = new SystemErrRule().enableLog();
+	@SystemStub
+	private SystemErr systemErr;
 
-    @ClassRule
-    public final static TemporaryFolder tempFolder = new TemporaryFolder();
-
+	@TempDir
+	static Path tempDir;
 
     // The following needs to be set to your test repository
     private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
@@ -78,7 +83,7 @@ public class TestRequestResponseLogging implements PropertyConstants {
     private static StreamHandler loggingHandler;
     private static File tempLoggingFile;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() throws Exception {
 
         String problems = "";
@@ -93,7 +98,7 @@ public class TestRequestResponseLogging implements PropertyConstants {
 
         if (problems.isEmpty()) {
 
-            tempLoggingFile = tempFolder.newFile("test-loging.log");
+            tempLoggingFile = Files.createFile(tempDir.resolve("test-loging.log")).toFile();
 
             loggingHandler = new FileHandler(tempLoggingFile.getAbsolutePath());
             loggingHandler.setFormatter(new SimpleFormatter());
@@ -126,10 +131,10 @@ public class TestRequestResponseLogging implements PropertyConstants {
         String log = readLogFile();
         System.out.println(log);
 
-        assertTrue("Request/response log information was missing.", log.contains("PRIVATE-TOKEN:"));
-        assertTrue("Request/response PRIVATE-TOKEN value was incorrectly present.", log.contains("PRIVATE-TOKEN: ********"));
-        assertTrue("Request/response log information was missing.", log.contains("/api/v4/projects"));
-        assertTrue("Request/response entity was missing.", log.contains("...more..."));
+        assertTrue(log.contains("PRIVATE-TOKEN:"), "Request/response log information was missing.");
+        assertTrue(log.contains("PRIVATE-TOKEN: ********"), "Request/response PRIVATE-TOKEN value was incorrectly present.");
+        assertTrue(log.contains("/api/v4/projects"), "Request/response log information was missing.");
+        assertTrue(log.contains("...more..."), "Request/response entity was missing.");
     }
 
     @Test
@@ -141,10 +146,10 @@ public class TestRequestResponseLogging implements PropertyConstants {
         String log = readLogFile();
         System.out.println(log);
 
-        assertTrue("Request/response log information was missing.", log.contains("PRIVATE-TOKEN:"));
-        assertTrue("Request/response PRIVATE-TOKEN value was incorrectly present.", log.contains("PRIVATE-TOKEN: ********"));
-        assertTrue("Request/response log information was missing.", log.contains("/api/v4/projects"));
-        assertFalse("Request/response entity was incorrectly present.", log.contains("...more..."));
+        assertTrue(log.contains("PRIVATE-TOKEN:"), "Request/response log information was missing.");
+        assertTrue(log.contains("PRIVATE-TOKEN: ********"), "Request/response PRIVATE-TOKEN value was incorrectly present.");
+        assertTrue(log.contains("/api/v4/projects"), "Request/response log information was missing.");
+        assertFalse(log.contains("...more..."), "Request/response entity was incorrectly present.");
     }
 
     @Test
@@ -156,23 +161,23 @@ public class TestRequestResponseLogging implements PropertyConstants {
         String log = readLogFile();
         System.out.println(log);
 
-        assertTrue("Request/response log information was missing.", log.contains("PRIVATE-TOKEN:"));
-        assertFalse("Request/response PRIVATE-TOKEN value was missing.", log.contains("PRIVATE-TOKEN: ********"));
-        assertTrue("Request/response log information was missing.", log.contains("/api/v4/projects"));
-        assertTrue("Request/response entity was incorrectly present.", log.contains("...more..."));
+        assertTrue(log.contains("PRIVATE-TOKEN:"), "Request/response log information was missing.");
+        assertFalse(log.contains("PRIVATE-TOKEN: ********"), "Request/response PRIVATE-TOKEN value was missing.");
+        assertTrue(log.contains("/api/v4/projects"), "Request/response log information was missing.");
+        assertTrue(log.contains("...more..."), "Request/response entity was incorrectly present.");
     }
 
     @Test
     public void shouldNotLogRequests() throws GitLabApiException {
 
         assumeTrue(gitLabApiWithoutLogging != null);
-        systemErrorRule.clearLog();
+        systemErr.clear();
         gitLabApiWithoutLogging.getProjectApi().getProjects(1, 1);
-        String log = systemErrorRule.getLog();
+        String log = systemErr.getText();
 
-        assertFalse("Request/response log information was incorrectly present.", log.contains("PRIVATE-TOKEN:"));
-        assertFalse("Request/response log information was incorrectly present.", log.contains("/api/v4/projects"));
-        assertFalse("Request/response entity was incorrectly present.", log.contains("...more..."));
+        assertFalse(log.contains("PRIVATE-TOKEN:"), "Request/response log information was incorrectly present.");
+        assertFalse(log.contains("/api/v4/projects"), "Request/response log information was incorrectly present.");
+        assertFalse(log.contains("...more..."), "Request/response entity was incorrectly present.");
     }
 
     private static String readLogFile() throws IOException {

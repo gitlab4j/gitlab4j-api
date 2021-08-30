@@ -23,11 +23,11 @@
 
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -44,11 +44,12 @@ import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueFilter;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.TimeStats;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -60,7 +61,8 @@ import org.junit.experimental.categories.Category;
  *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestIssuesApi extends AbstractIntegrationTest  {
 
     private static GitLabApi gitLabApi;
@@ -76,7 +78,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         // Must setup the connection to the GitLab test server and get the test Project instance
@@ -91,12 +93,12 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         deleteAllTestIssues();
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
+        assumeTrue(gitLabApi != null);
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() throws GitLabApiException {
         deleteAllTestIssues();
     }
@@ -157,7 +159,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
 
     @Test
     public void testGetGroupIssues() throws GitLabApiException {
-        assumeNotNull(testGroup);
+        assumeTrue(testGroup != null);
         List<Issue> issues = gitLabApi.getIssuesApi().getGroupIssues(testGroup);
         assertNotNull(issues);
     }

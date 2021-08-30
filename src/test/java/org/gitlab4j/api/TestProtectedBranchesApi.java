@@ -1,22 +1,23 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.List;
 
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProtectedBranch;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -30,8 +31,9 @@ import org.junit.runners.MethodSorters;
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that testCreate() is executed first.
  */
-@Category(IntegrationTest.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestProtectedBranchesApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -41,14 +43,14 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
     private static final String TEST_BRANCH_NAME = "feature/test_branch";
     private static final String TEST_PROTECT_BRANCH_NAME = "feature/protect_branch";
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 	// Must setup the connection to the GitLab test server and get the test Project instance
         gitLabApi = baseTestSetup();
         testProject = getTestProject();
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() {
         if (testProject != null) {
             try {
@@ -65,9 +67,9 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() throws GitLabApiException {
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         Branch protectedBranch;
         try {
@@ -90,7 +92,7 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
     @Test
     public void testGetProtectedBranches() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
         List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(testProject);
         assertNotNull(branches);
         assertTrue(branches.stream()
@@ -100,7 +102,7 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
     @Test
     public void testUnprotectBranch() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
         gitLabApi.getProtectedBranchesApi().unprotectBranch(testProject, TEST_PROTECT_BRANCH_NAME);
         List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(testProject);
         assertNotNull(branches);
@@ -111,7 +113,7 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
     @Test
     public void testProtectBranch() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         ProtectedBranch branch = gitLabApi.getProtectedBranchesApi().protectBranch(testProject, TEST_BRANCH_NAME);
         assertNotNull(branch);

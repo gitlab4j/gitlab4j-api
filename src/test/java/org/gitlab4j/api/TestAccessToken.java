@@ -1,27 +1,29 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Version;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_HOST_URL
  * TEST_ACCESS_TOKEN
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestAccessToken extends AbstractIntegrationTest {
 
     // TEST_ACCESS_TOKEN must be defined to run this test
@@ -32,7 +34,7 @@ public class TestAccessToken extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void testSetup() {
 
         // Must setup the connection to the GitLab test server
@@ -43,9 +45,9 @@ public class TestAccessToken extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
+        assumeTrue(gitLabApi != null);
     }
 
     @Test
@@ -61,7 +63,7 @@ public class TestAccessToken extends AbstractIntegrationTest {
 
     @Test
     public void testAccessToken() throws GitLabApiException {
-        assumeNotNull(TEST_ACCESS_TOKEN);
+        assumeTrue(TEST_ACCESS_TOKEN != null);
         GitLabApi gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TokenType.ACCESS, TEST_ACCESS_TOKEN);
         Version version = gitLabApi.getVersion();
         assertNotNull(version);

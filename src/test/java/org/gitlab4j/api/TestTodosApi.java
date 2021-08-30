@@ -1,21 +1,24 @@
 package org.gitlab4j.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import java.util.List;
+import java.util.Random;
+
 import org.gitlab4j.api.Constants.TodoState;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Todo;
 import org.gitlab4j.api.models.User;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
-import java.util.List;
-import java.util.Random;
-
-import static org.junit.Assert.*;
-import static org.junit.Assume.assumeNotNull;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -25,7 +28,8 @@ import static org.junit.Assume.assumeNotNull;
  * <p>
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestTodosApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -39,7 +43,7 @@ public class TestTodosApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         // Must setup the connection to the GitLab test server and get the test Project instance
@@ -49,7 +53,7 @@ public class TestTodosApi extends AbstractIntegrationTest {
         deleteAllTestIssues();
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() throws GitLabApiException {
         deleteAllTestIssues();
     }
@@ -72,9 +76,9 @@ public class TestTodosApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
+        assumeTrue(gitLabApi != null);
     }
 
     private static String getUniqueTitle() {
