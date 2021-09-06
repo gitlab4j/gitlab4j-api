@@ -8,6 +8,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 public class User extends AbstractUser<User> {
 
     private String bio;
+    private Boolean bot;
     private Boolean canCreateGroup;
     private Boolean canCreateProject;
     private Integer colorSchemeId;
@@ -43,6 +44,14 @@ public class User extends AbstractUser<User> {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public Boolean getBot() {
+        return bot;
+    }
+
+    public void setBot(Boolean bot) {
+        this.bot = bot;
     }
 
     public Boolean getCanCreateGroup() {
