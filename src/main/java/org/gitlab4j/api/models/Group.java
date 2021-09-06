@@ -1,12 +1,11 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.Date;
+import java.util.List;
 
 public class Group {
 
@@ -67,6 +66,7 @@ public class Group {
     private List<Project> projects;
     private List<Project> sharedProjects;
     private Date createdAt;
+    private String runnersToken;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -213,6 +213,14 @@ public class Group {
 
     public void setCreatedAt(Date createdAt) {
 	this.createdAt = createdAt;
+    }
+
+    public String getRunnersToken() {
+        return runnersToken;
+    }
+
+    public void setRunnersToken(String runnersToken) {
+        this.runnersToken = runnersToken;
     }
 
     public Group withId(Integer id) {
