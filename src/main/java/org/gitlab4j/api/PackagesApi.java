@@ -27,10 +27,12 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Package;
 import org.gitlab4j.api.models.PackageFile;
+import org.gitlab4j.api.models.PackageFilter;
 
 /**
  * <p>This class implements the client side API for the GitLab Packages API.
@@ -88,8 +90,25 @@ public class PackagesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Package> getPackages(Object projectIdOrPath,  int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Package>(this, Package.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "packages"));
+        return getPackages(projectIdOrPath,null,itemsPerPage);
+    }
+
+    /**
+     * Get a Pager of project packages. Both Maven and NPM packages are included in results.
+     * When accessed without authentication, only packages of public projects are returned.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/packages</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filter the PackageFilter instance holding the filter values for the query
+     * @param itemsPerPage the number of Package instances per page
+     * @return a Pager of project packages for the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Package> getPackages(Object projectIdOrPath, PackageFilter filter, int itemsPerPage) throws GitLabApiException {
+        MultivaluedMap query = filter!=null?filter.getQueryParams().asMap():null;
+        return (new Pager<Package>(this, Package.class, itemsPerPage, query,
+            "projects", getProjectIdOrPath(projectIdOrPath), "packages"));
     }
 
     /**
@@ -104,6 +123,21 @@ public class PackagesApi extends AbstractApi {
      */
     public Stream<Package> getPackagesStream(Object projectIdOrPath) throws GitLabApiException {
         return (getPackages(projectIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a Stream of project packages. Both Maven and NPM packages are included in results.
+     * When accessed without authentication, only packages of public projects are returned.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/packages</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param filter the PackageFilter instance holding the filter values for the query
+     * @return a Stream of pages in the project's packages
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Package> getPackagesStream(Object projectIdOrPath, PackageFilter filter) throws GitLabApiException {
+        return (getPackages(projectIdOrPath, filter, getDefaultPerPage()).stream());
     }
 
     /**
