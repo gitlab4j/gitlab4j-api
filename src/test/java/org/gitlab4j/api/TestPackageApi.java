@@ -30,16 +30,20 @@ public class TestPackageApi extends AbstractIntegrationTest {
     @Before
     public void beforeMethod() {
         assumeNotNull(gitLabApi);
+        assumeNotNull(testProject);
     }
 
     @Test
     public void getPackagesStream() throws GitLabApiException {
         PackagesApi packagesApi = gitLabApi.getPackagesApi();
+        PackageFilter filter = new PackageFilter()
+            .withOrderBy(Constants.PackageOrderBy.CREATED_AT)
+            .withSortOder(Constants.SortOrder.DESC);
 
-        assumeNotNull(packagesApi);
 
-        Optional<Package> packageOptional = packagesApi.getPackagesStream(testProject.getId()).findAny();
 
-        assertTrue(packageOptional.isPresent());
+        Optional<Package> lastPackage = packagesApi.getPackagesStream(testProject.getId(),filter).findAny();
+
+        assertTrue(lastPackage.isPresent());
     }
 }
