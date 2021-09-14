@@ -97,6 +97,7 @@ public class Note {
     private Boolean resolved;
     private Boolean resolvable;
     private Participant resolvedBy;
+    private Date resolvedAt;
     private Type type;
 
     private Position position;
@@ -243,6 +244,14 @@ public class Note {
 
     public void setResolvedBy(Participant resolvedBy) {
         this.resolvedBy = resolvedBy;
+    }
+
+    public Date getResolvedAt() {
+        return resolvedAt;
+    }
+
+    public void setResolvedAt(Date resolvedAt) {
+        this.resolvedAt = resolvedAt;
     }
 
     public Type getType() {
