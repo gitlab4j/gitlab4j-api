@@ -916,5 +916,27 @@ public interface Constants {
             return (enumHelper.toString(this));
         }
     }
+
+    /** Enum to use for specifying the Event scope. */
+    public enum EventScope {
+        ALL;
+
+        private static JacksonJsonEnumHelper<EventScope> enumHelper = new JacksonJsonEnumHelper<>(EventScope.class);
+
+        @JsonCreator
+        public static EventScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 }
 
