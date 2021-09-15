@@ -463,7 +463,7 @@ public interface Constants {
     /** Enum to use for specifying the event action_type. */
     public enum ActionType {
 
-        CREATED, UPDATED, CLOSED, REOPENED, PUSHED, COMMENTED, MERGED, JOINED, LEFT, DESTROYED, EXPIRED, REMOVED;
+        CREATED, UPDATED, OPENED, CLOSED, REOPENED, PUSHED, COMMENTED, MERGED, JOINED, LEFT, DESTROYED, EXPIRED, REMOVED, DELETED, APPROVED, ACCEPTED;
 
         private static JacksonJsonEnumHelper<ActionType> enumHelper = new JacksonJsonEnumHelper<>(ActionType.class);
 
