@@ -9,7 +9,6 @@ public class EmailOnPushService extends NotificationService {
     public static final String RECIPIENT_PROP = "recipients";
     public static final String DISABLE_DIFFS_PROP = "disable_diffs";
     public static final String SEND_FROM_COMMITTER_EMAIL_PROP = "send_from_committer_email";
-    public static final String BRANCHES_TO_BE_NOTIFIED_PROP = "branches_to_be_notified";
 
 	@Override
 	public GitLabApiForm servicePropertiesForm() {

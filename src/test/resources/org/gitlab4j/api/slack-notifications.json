@@ -18,7 +18,7 @@
         "webhook": "https://hooks.slack.com/services/AAAA1BBB/ABCDEFGHI/aBCdef1Gerer65ere54gdffd",
         "username": "GitLab",
         "notify_only_broken_pipelines": false,
-        "notify_only_default_branch": true,
+        "branches_to_be_notified": "all",
         "push_channel": "pushes",
         "issue_channel": "",
         "confidential_issue_channel": "",

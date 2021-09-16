@@ -139,17 +139,48 @@ public class SlackService extends NotificationService {
     }
 
     @JsonIgnore
+    @Deprecated
     public Boolean getNotifyOnlyDefaultBranch() {
         return ((Boolean) getProperty(NOTIFY_ONLY_DEFAULT_BRANCH_PROP, Boolean.FALSE));
     }
 
+    /**
+     * @deprecated use {@link SlackService#setBranchesToBeNotified(BranchesToBeNotified)}
+     * @param notifyOnlyDefaultBranch
+     */
+    @Deprecated
     public void setNotifyOnlyDefaultBranch(Boolean notifyOnlyDefaultBranch) {
         setProperty(NOTIFY_ONLY_DEFAULT_BRANCH_PROP, notifyOnlyDefaultBranch);
     }
 
+    /**
+     * @deprecated use {@link SlackService#withBranchesToBeNotified(BranchesToBeNotified)}
+     * @param notifyOnlyDefaultBranch
+     */
+    @Deprecated
     public SlackService withNotifyOnlyDefaultBranch(Boolean notifyOnlyDefaultBranch) {
         setNotifyOnlyDefaultBranch(notifyOnlyDefaultBranch);
         return (this);
+    }
+
+    @JsonIgnore
+    public BranchesToBeNotified getBranchesToBeNotified() {
+        String branchesToBeNotified = getProperty(BRANCHES_TO_BE_NOTIFIED_PROP);
+
+        if (branchesToBeNotified == null || branchesToBeNotified.isEmpty()) {
+            return null;
+        }
+
+        return (BranchesToBeNotified.valueOf(branchesToBeNotified.toUpperCase()));
+    }
+
+    public void setBranchesToBeNotified(BranchesToBeNotified branchesToBeNotified) {
+        setProperty(BRANCHES_TO_BE_NOTIFIED_PROP, branchesToBeNotified.toString());
+    }
+
+    public SlackService withBranchesToBeNotified(BranchesToBeNotified branchesToBeNotified) {
+        setBranchesToBeNotified(branchesToBeNotified);
+        return this;
     }
 
     @JsonIgnore
