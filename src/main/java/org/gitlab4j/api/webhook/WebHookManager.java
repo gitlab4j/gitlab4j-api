@@ -105,8 +105,8 @@ public class WebHookManager implements HookManager {
             case PushEvent.X_GITLAB_EVENT:
             case TagPushEvent.X_GITLAB_EVENT:
             case WikiPageEvent.X_GITLAB_EVENT:
-            case DeploymentEvent.JOB_HOOK_X_GITLAB_EVENT:
-            case ReleaseEvent.JOB_HOOK_X_GITLAB_EVENT:
+            case DeploymentEvent.X_GITLAB_EVENT:
+            case ReleaseEvent.X_GITLAB_EVENT:
                 break;
 
         default:

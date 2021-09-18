@@ -5,7 +5,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class DeploymentEvent extends AbstractEvent {
 
-    public static final String JOB_HOOK_X_GITLAB_EVENT = "Deployment Hook";
+    public static final String X_GITLAB_EVENT = "Deployment Hook";
     public static final String OBJECT_KIND = "deployment";
 
     private String status;

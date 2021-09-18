@@ -4,7 +4,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class ReleaseEvent extends AbstractEvent {
 
-    public static final String JOB_HOOK_X_GITLAB_EVENT = "Release Hook";
+    public static final String X_GITLAB_EVENT = "Release Hook";
     public static final String OBJECT_KIND = "release";
 
     private Integer id;
