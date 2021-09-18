@@ -1,17 +1,18 @@
 
 package org.gitlab4j.api.webhook;
 
-import org.gitlab4j.api.GitLabApiException;
-import org.gitlab4j.api.HookManager;
-import org.gitlab4j.api.utils.HttpRequestUtils;
-import org.gitlab4j.api.utils.JacksonJson;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.gitlab4j.api.GitLabApiException;
+import org.gitlab4j.api.HookManager;
+import org.gitlab4j.api.utils.HttpRequestUtils;
+import org.gitlab4j.api.utils.JacksonJson;
 
 /**
  * This class provides a handler for processing GitLab WebHook callouts.
@@ -97,17 +98,17 @@ public class WebHookManager implements HookManager {
         LOGGER.info("handleEvent: X-Gitlab-Event=" + eventName);
         switch (eventName) {
 
-            case IssueEvent.X_GITLAB_EVENT:
-            case JobEvent.JOB_HOOK_X_GITLAB_EVENT:
-            case MergeRequestEvent.X_GITLAB_EVENT:
-            case NoteEvent.X_GITLAB_EVENT:
-            case PipelineEvent.X_GITLAB_EVENT:
-            case PushEvent.X_GITLAB_EVENT:
-            case TagPushEvent.X_GITLAB_EVENT:
-            case WikiPageEvent.X_GITLAB_EVENT:
-            case DeploymentEvent.X_GITLAB_EVENT:
-            case ReleaseEvent.X_GITLAB_EVENT:
-                break;
+        case IssueEvent.X_GITLAB_EVENT:
+        case JobEvent.JOB_HOOK_X_GITLAB_EVENT:
+        case MergeRequestEvent.X_GITLAB_EVENT:
+        case NoteEvent.X_GITLAB_EVENT:
+        case PipelineEvent.X_GITLAB_EVENT:
+        case PushEvent.X_GITLAB_EVENT:
+        case TagPushEvent.X_GITLAB_EVENT:
+        case WikiPageEvent.X_GITLAB_EVENT:
+        case DeploymentEvent.X_GITLAB_EVENT:
+        case ReleaseEvent.X_GITLAB_EVENT:
+            break;
 
         default:
             String message = "Unsupported X-Gitlab-Event, event Name=" + eventName;
@@ -164,18 +165,19 @@ public class WebHookManager implements HookManager {
         LOGGER.info("handleEvent: object_kind=" + event.getObjectKind());
 
         switch (event.getObjectKind()) {
-            case BuildEvent.OBJECT_KIND:
-            case IssueEvent.OBJECT_KIND:
-            case JobEvent.OBJECT_KIND:
-            case MergeRequestEvent.OBJECT_KIND:
-            case NoteEvent.OBJECT_KIND:
-            case PipelineEvent.OBJECT_KIND:
-            case PushEvent.OBJECT_KIND:
-            case TagPushEvent.OBJECT_KIND:
-            case WikiPageEvent.OBJECT_KIND:
-            case DeploymentEvent.OBJECT_KIND:
-                fireEvent(event);
-                break;
+        case BuildEvent.OBJECT_KIND:
+        case IssueEvent.OBJECT_KIND:
+        case JobEvent.OBJECT_KIND:
+        case MergeRequestEvent.OBJECT_KIND:
+        case NoteEvent.OBJECT_KIND:
+        case PipelineEvent.OBJECT_KIND:
+        case PushEvent.OBJECT_KIND:
+        case TagPushEvent.OBJECT_KIND:
+        case WikiPageEvent.OBJECT_KIND:
+        case ReleaseEvent.OBJECT_KIND:
+        case DeploymentEvent.OBJECT_KIND:
+            fireEvent(event);
+            break;
 
         default:
             String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
@@ -214,49 +216,49 @@ public class WebHookManager implements HookManager {
     public void fireEvent(Event event) throws GitLabApiException {
 
         switch (event.getObjectKind()) {
-            case BuildEvent.OBJECT_KIND:
-                fireBuildEvent((BuildEvent) event);
-                break;
+        case BuildEvent.OBJECT_KIND:
+            fireBuildEvent((BuildEvent) event);
+            break;
 
-            case IssueEvent.OBJECT_KIND:
-                fireIssueEvent((IssueEvent) event);
-                break;
+        case IssueEvent.OBJECT_KIND:
+            fireIssueEvent((IssueEvent) event);
+            break;
 
-            case JobEvent.OBJECT_KIND:
-                fireJobEvent((JobEvent) event);
-                break;
+        case JobEvent.OBJECT_KIND:
+            fireJobEvent((JobEvent) event);
+            break;
 
-            case MergeRequestEvent.OBJECT_KIND:
-                fireMergeRequestEvent((MergeRequestEvent) event);
-                break;
+        case MergeRequestEvent.OBJECT_KIND:
+            fireMergeRequestEvent((MergeRequestEvent) event);
+            break;
 
-            case NoteEvent.OBJECT_KIND:
-                fireNoteEvent((NoteEvent) event);
-                break;
+        case NoteEvent.OBJECT_KIND:
+            fireNoteEvent((NoteEvent) event);
+            break;
 
-            case PipelineEvent.OBJECT_KIND:
-                firePipelineEvent((PipelineEvent) event);
-                break;
+        case PipelineEvent.OBJECT_KIND:
+            firePipelineEvent((PipelineEvent) event);
+            break;
 
-            case PushEvent.OBJECT_KIND:
-                firePushEvent((PushEvent) event);
-                break;
+        case PushEvent.OBJECT_KIND:
+            firePushEvent((PushEvent) event);
+            break;
 
-            case TagPushEvent.OBJECT_KIND:
-                fireTagPushEvent((TagPushEvent) event);
-                break;
+        case TagPushEvent.OBJECT_KIND:
+            fireTagPushEvent((TagPushEvent) event);
+            break;
 
-            case WikiPageEvent.OBJECT_KIND:
-                fireWikiPageEvent((WikiPageEvent) event);
-                break;
+        case WikiPageEvent.OBJECT_KIND:
+            fireWikiPageEvent((WikiPageEvent) event);
+            break;
 
-            case DeploymentEvent.OBJECT_KIND:
-                fireDeploymentEvent((DeploymentEvent) event);
-                break;
+        case ReleaseEvent.OBJECT_KIND:
+            fireReleaseEvent((ReleaseEvent) event);
+            break;
 
-            case ReleaseEvent.OBJECT_KIND:
-                fireReleaseEvent((ReleaseEvent) event);
-                break;
+        case DeploymentEvent.OBJECT_KIND:
+            fireDeploymentEvent((DeploymentEvent) event);
+            break;
 
         default:
             String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
