@@ -424,7 +424,7 @@ public class TagsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedTag protectTag(Object projectIdOrPath, String name, AccessLevel createAccessLevel) throws GitLabApiException {
-        Form formData = new GitLabApiForm().withParam("name", name, true).withParam("create_access_Level", createAccessLevel);
+        Form formData = new GitLabApiForm().withParam("name", name, true).withParam("create_access_level", createAccessLevel);
         Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "protected_tags");
         return (response.readEntity(ProtectedTag.class));
     }

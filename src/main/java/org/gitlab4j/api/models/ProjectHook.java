@@ -1,9 +1,9 @@
 
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.util.Date;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class ProjectHook {
 
@@ -12,8 +12,6 @@ public class ProjectHook {
     private Boolean enableSslVerification;
     private Integer id;
     private Boolean issuesEvents;
-    private Boolean deploymentEvents;
-    private Boolean releasesEvents;
     private Boolean mergeRequestsEvents;
     private Boolean noteEvents;
     private Boolean jobEvents;
@@ -29,6 +27,9 @@ public class ProjectHook {
     private Boolean confidentialIssuesEvents;
     private Boolean confidentialNoteEvents;
     private String pushEventsBranchFilter;
+
+    private Boolean deploymentEvents;
+    private Boolean releasesEvents;
 
     public Boolean getBuildEvents() {
         return buildEvents;
@@ -158,6 +159,22 @@ public class ProjectHook {
         this.repositoryUpdateEvents = repositoryUpdateEvents;
     }
 
+    public Boolean getDeploymentEvents() {
+        return deploymentEvents;
+    }
+
+    public void setDeploymentEvents(Boolean releasesEvents) {
+        this.deploymentEvents = releasesEvents;
+    }
+
+    public Boolean getReleasesEvents() {
+        return releasesEvents;
+    }
+
+    public void setReleasesEvents(Boolean releasesEvents) {
+        this.releasesEvents = releasesEvents;
+    }
+
     public Boolean getConfidentialIssuesEvents() {
         return confidentialIssuesEvents;
     }
@@ -180,22 +197,6 @@ public class ProjectHook {
 
     public void setPushEventsBranchFilter(String pushEventsBranchFilter) {
         this.pushEventsBranchFilter = pushEventsBranchFilter;
-    }
-
-    public Boolean getDeploymentEvents() {
-        return deploymentEvents;
-    }
-
-    public void setDeploymentEvents(Boolean deploymentEvents) {
-        this.deploymentEvents = deploymentEvents;
-    }
-
-    public Boolean getReleasesEvents() {
-        return releasesEvents;
-    }
-
-    public void setReleasesEvents(Boolean releasesEvents) {
-        this.releasesEvents = releasesEvents;
     }
 
     public ProjectHook withIssuesEvents(Boolean issuesEvents) {

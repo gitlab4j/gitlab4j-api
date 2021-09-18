@@ -80,12 +80,32 @@ public class SystemHooksApi extends AbstractApi {
      * @param token secret token to validate received payloads, optional
      * @param pushEvents when true, the hook will fire on push events, optional
      * @param tagPushEvents when true, the hook will fire on new tags being pushed, optional
-     * @param enablSsslVerification do SSL verification when triggering the hook, optional
+     * @param enableSslVerification do SSL verification when triggering the hook, optional
      * @return an SystemHookEvent instance with info on the added system hook
      * @throws GitLabApiException if any exception occurs
      */
     public SystemHook addSystemHook(String url, String token, Boolean pushEvents,
-            Boolean tagPushEvents,  Boolean enablSsslVerification) throws GitLabApiException {
+            Boolean tagPushEvents,  Boolean enableSslVerification) throws GitLabApiException {
+
+        SystemHook systemHook = new SystemHook().withPushEvents(pushEvents)
+            .withTagPushEvents(tagPushEvents)
+            .withEnableSslVerification(enableSslVerification);
+
+        return addSystemHook(url, token, systemHook);
+    }
+
+    /**
+     * Add a new system hook. This method requires admin access.
+     *
+     *  <pre><code>GitLab Endpoint: POST /hooks</code></pre>
+     *
+     * @param url the hook URL, required
+     * @param token secret token to validate received payloads, optional
+     * @param systemHook the systemHook to create
+     * @return an SystemHookEvent instance with info on the added system hook
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SystemHook addSystemHook(String url, String token, SystemHook systemHook) throws GitLabApiException {
 
         if (url == null) {
             throw new RuntimeException("url cannot be null");
@@ -94,9 +114,11 @@ public class SystemHooksApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", url, true)
                 .withParam("token", token)
-                .withParam("push_events", pushEvents)
-                .withParam("tag_push_events", tagPushEvents)
-                .withParam("enable_ssl_verification", enablSsslVerification);
+                .withParam("push_events", systemHook.getPushEvents())
+                .withParam("tag_push_events", systemHook.getTagPushEvents())
+                .withParam("merge_requests_events", systemHook.getMergeRequestsEvents())
+                .withParam("repository_update_events", systemHook.getRepositoryUpdateEvents())
+                .withParam("enable_ssl_verification", systemHook.getEnableSslVerification());
         Response response = post(Response.Status.CREATED, formData, "hooks");
         return (response.readEntity(SystemHook.class));
     }

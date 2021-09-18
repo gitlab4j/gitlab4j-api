@@ -11,6 +11,9 @@ public class Branch {
     private Boolean merged;
     private String name;
     private Boolean isProtected;
+    private Boolean isDefault;
+    private Boolean canPush;
+    private String webUrl;
 
     public Commit getCommit() {
         return commit;
@@ -60,6 +63,30 @@ public class Branch {
         this.isProtected = isProtected;
     }
 
+    public Boolean getDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public Boolean getCanPush() {
+        return canPush;
+    }
+
+    public void setCanPush(Boolean canPush) {
+        this.canPush = canPush;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+    }
+
     public static final boolean isValid(Branch branch) {
         return (branch != null && branch.getName() != null);
     }
@@ -80,7 +107,19 @@ public class Branch {
         return this;
     }
 
+    /**
+     * Set the merged attribute
+     * @param merged
+     * @deprecated Use {@link #withMerged(Boolean)} instead
+     * @return Current branch instance
+     */
+    @Deprecated
     public Branch withDerged(Boolean merged) {
+        this.merged = merged;
+        return this;
+    }
+
+    public Branch withMerged(Boolean merged) {
         this.merged = merged;
         return this;
     }
