@@ -9,7 +9,7 @@ public class DeploymentEvent extends AbstractEvent {
     public static final String OBJECT_KIND = "deployment";
 
     private String status;
-    private String statusChanged_at;
+    private String statusChangedAt;
     private Integer deployableId;
     private String deployableUrl;
     private String environment;
@@ -37,12 +37,12 @@ public class DeploymentEvent extends AbstractEvent {
         this.status = status;
     }
 
-    public String getStatusChanged_at() {
-        return statusChanged_at;
+    public String getStatusChangedAt() {
+        return statusChangedAt;
     }
 
-    public void setStatusChanged_at(String statusChanged_at) {
-        this.statusChanged_at = statusChanged_at;
+    public void setStatusChangedAt(String statusChangedAt) {
+        this.statusChangedAt = statusChangedAt;
     }
 
     public Integer getDeployableId() {
