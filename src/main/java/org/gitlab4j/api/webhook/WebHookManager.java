@@ -109,10 +109,10 @@ public class WebHookManager implements HookManager {
             case ReleaseEvent.JOB_HOOK_X_GITLAB_EVENT:
                 break;
 
-            default:
-                String message = "Unsupported X-Gitlab-Event, event Name=" + eventName;
-                LOGGER.warning(message);
-                throw new GitLabApiException(message);
+        default:
+            String message = "Unsupported X-Gitlab-Event, event Name=" + eventName;
+            LOGGER.warning(message);
+            throw new GitLabApiException(message);
         }
 
         Event event;
@@ -177,10 +177,10 @@ public class WebHookManager implements HookManager {
                 fireEvent(event);
                 break;
 
-            default:
-                String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
-                LOGGER.warning(message);
-                throw new GitLabApiException(message);
+        default:
+            String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
+            LOGGER.warning(message);
+            throw new GitLabApiException(message);
         }
     }
 
@@ -258,10 +258,10 @@ public class WebHookManager implements HookManager {
                 fireReleaseEvent((ReleaseEvent) event);
                 break;
 
-            default:
-                String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
-                LOGGER.warning(message);
-                throw new GitLabApiException(message);
+        default:
+            String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
+            LOGGER.warning(message);
+            throw new GitLabApiException(message);
         }
     }
 
