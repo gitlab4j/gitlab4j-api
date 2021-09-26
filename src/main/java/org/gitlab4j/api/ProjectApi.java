@@ -2073,6 +2073,8 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("wiki_page_events", enabledHooks.getWikiPageEvents(), false)
                 .withParam("enable_ssl_verification", enableSslVerification, false)
                 .withParam("repository_update_events", enabledHooks.getRepositoryUpdateEvents(), false)
+                .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
+                .withParam("releases_events", enabledHooks.getReleasesEvents(), false)
                 .withParam("token", secretToken, false);
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
         return (response.readEntity(ProjectHook.class));
