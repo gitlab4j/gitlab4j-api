@@ -3,6 +3,7 @@ package org.gitlab4j.api;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -15,6 +16,7 @@ import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.AuditEvent;
 import org.gitlab4j.api.models.Badge;
+import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupParams;
@@ -1724,5 +1726,124 @@ public class GroupApi extends AbstractApi {
     public void unshareGroup(Object groupIdOrPath, Integer sharedWithGroupId) throws GitLabApiException {
 	delete(Response.Status.NO_CONTENT, null,
 	        "groups", getGroupIdOrPath(groupIdOrPath), "share", sharedWithGroupId);
+    }
+
+    /**
+     * Get all custom attributes for the specified group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/custom_attributes</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @return a list of group's CustomAttributes
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<CustomAttribute> getCustomAttributes(final Object groupIdOrPath) throws GitLabApiException {
+        return (getCustomAttributes(groupIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of custom attributes for the specified group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/custom_attributes</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param itemsPerPage the number of items per page
+     * @return a Pager of group's custom attributes
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<CustomAttribute> getCustomAttributes(final Object groupIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<CustomAttribute>(this, CustomAttribute.class, itemsPerPage, null,
+            "groups", getGroupIdOrPath(groupIdOrPath), "custom_attributes"));
+    }
+
+    /**
+     * Get a Stream of all custom attributes for the specified group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/custom_attributes</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @return a Stream of group's custom attributes
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<CustomAttribute> getCustomAttributesStream(final Object groupIdOrPath) throws GitLabApiException {
+        return (getCustomAttributes(groupIdOrPath, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a single custom attribute for the specified group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/custom_attributes/:key</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param key the key for the custom attribute
+     * @return a CustomAttribute instance for the specified key
+     * @throws GitLabApiException if any exception occurs
+     */
+    public CustomAttribute getCustomAttribute(final Object groupIdOrPath, final String key) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null,
+            "groups", getGroupIdOrPath(groupIdOrPath), "custom_attributes", key);
+        return (response.readEntity(CustomAttribute.class));
+    }
+
+    /**
+     * Get an Optional instance with the value for a single custom attribute for the specified group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/custom_attributes/:key</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance, required
+     * @param key the key for the custom attribute, required
+     * @return an Optional instance with the value for a single custom attribute for the specified group
+     */
+    public Optional<CustomAttribute> geOptionalCustomAttribute(final Object groupIdOrPath, final String key) {
+        try {
+            return (Optional.ofNullable(getCustomAttribute(groupIdOrPath, key)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
+     * Set a custom attribute for the specified group. The attribute will be updated if it already exists,
+     * or newly created otherwise.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/custom_attributes/:key</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param key the key for the custom attribute
+     * @param value the value for the customAttribute
+     * @return a CustomAttribute instance for the updated or created custom attribute
+     * @throws GitLabApiException if any exception occurs
+     */
+    public CustomAttribute setCustomAttribute(final Object groupIdOrPath, final String key, final String value) throws GitLabApiException {
+
+        if (Objects.isNull(key) || key.trim().isEmpty()) {
+            throw new IllegalArgumentException("Key cannot be null or empty");
+        }
+        if (Objects.isNull(value) || value.trim().isEmpty()) {
+            throw new IllegalArgumentException("Value cannot be null or empty");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("value", value);
+        Response response = putWithFormData(Response.Status.OK, formData,
+            "groups", getGroupIdOrPath(groupIdOrPath), "custom_attributes", key);
+        return (response.readEntity(CustomAttribute.class));
+    }
+
+    /**
+     * Delete a custom attribute for the specified group.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/custom_attributes/:key</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param key the key of the custom attribute to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteCustomAttribute(final Object groupIdOrPath, final String key) throws GitLabApiException {
+
+        if (Objects.isNull(key) || key.trim().isEmpty()) {
+            throw new IllegalArgumentException("Key can't be null or empty");
+        }
+
+        delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "custom_attributes", key);
     }
 }
