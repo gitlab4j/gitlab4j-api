@@ -219,7 +219,7 @@ public class DeploymentsApi extends AbstractApi {
      */
     public Pager<MergeRequest> getMergeRequests(Object projectIdOrPath, Integer deploymentId, int itemsPerPage) throws GitLabApiException {
     return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", deploymentId, "merge_requests"));
+                "projects", getProjectIdOrPath(projectIdOrPath), "deployments", deploymentId, "merge_requests"));
     }
 
     /**
