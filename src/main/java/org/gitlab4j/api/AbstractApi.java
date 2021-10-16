@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.ws.rs.NotAuthorizedException;
@@ -377,6 +378,14 @@ public abstract class AbstractApi implements Constants {
     protected Response upload(Response.Status expectedStatus, String name, File fileToUpload, String mediaType, Object... pathArgs) throws GitLabApiException {
         try {
             return validate(getApiClient().upload(name, fileToUpload, mediaType, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    protected Response upload(Response.Status expectedStatus, String name, InputStream inputStream, String filename, String mediaType, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().upload(name, inputStream, filename, mediaType, pathArgs), expectedStatus);
         } catch (Exception e) {
             throw handle(e);
         }

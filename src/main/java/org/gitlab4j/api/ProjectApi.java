@@ -24,6 +24,7 @@
 package org.gitlab4j.api;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -32,12 +33,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
@@ -2559,6 +2558,23 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public FileUpload uploadFile(Object projectIdOrPath, File fileToUpload, String mediaType) throws GitLabApiException {
         Response response = upload(Response.Status.CREATED, "file", fileToUpload, mediaType, "projects", getProjectIdOrPath(projectIdOrPath), "uploads");
+        return (response.readEntity(FileUpload.class));
+    }
+
+    /**
+     * Uploads some data in an {@link InputStream} to the specified project,
+     * to be used in an issue or merge request description, or a comment.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/uploads</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param inputStream the data to upload, required
+     * @param mediaType the media type of the file to upload, required
+     * @return a FileUpload instance with information on the just uploaded file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public FileUpload uploadFile(Object projectIdOrPath, InputStream inputStream, String filename, String mediaType) throws GitLabApiException {
+        Response response = upload(Response.Status.CREATED, "file", inputStream, filename, mediaType, "projects", getProjectIdOrPath(projectIdOrPath), "uploads");
         return (response.readEntity(FileUpload.class));
     }
 
