@@ -976,6 +976,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
+     * ciConfigPath (optional) - Set path to CI configuration file
      * squashOption (optional) - set squash option for merge requests
      *
      * @param project the Project instance with the configuration for the new project
@@ -1024,6 +1025,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("ci_config_path", project.getCiConfigPath());
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
             .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
             .withParam("squash_option", project.getSquashOption());
@@ -1224,13 +1226,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
+     * ciConfigPath (optional) - Set path to CI configuration file
+     * ciForwardDeploymentEnabled (optional) - When a new deployment job starts, skip older deployment jobs that are still pending
      * squashOption (optional) - set squash option for merge requests
      *
      * NOTE: The following parameters specified by the GitLab API edit project are not supported:
      *     import_url
      *     tag_list array
      *     avatar
-     *     ci_config_path
      *     initialize_with_readme
      *
      * @param project the Project instance with the configuration for the new project
@@ -1271,6 +1274,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("ci_config_path", project.getCiConfigPath())
+            .withParam("ci_forward_deployment_enabled", project.getCiForwardDeploymentEnabled());
             .withParam("merge_method", project.getMergeMethod())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
             .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
