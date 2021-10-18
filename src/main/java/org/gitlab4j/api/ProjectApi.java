@@ -1025,7 +1025,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
-            .withParam("ci_config_path", project.getCiConfigPath());
+            .withParam("ci_config_path", project.getCiConfigPath())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
             .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
             .withParam("squash_option", project.getSquashOption());
@@ -1275,7 +1275,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
             .withParam("ci_config_path", project.getCiConfigPath())
-            .withParam("ci_forward_deployment_enabled", project.getCiForwardDeploymentEnabled());
+            .withParam("ci_forward_deployment_enabled", project.getCiForwardDeploymentEnabled())
             .withParam("merge_method", project.getMergeMethod())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
             .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
