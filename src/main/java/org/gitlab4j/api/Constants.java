@@ -131,6 +131,52 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for ordering the results of getPackages(). */
+    public enum PackageOrderBy {
+
+        NAME, CREATED_AT, VERSION, TYPE, PROJECT_PATH;
+
+        private static JacksonJsonEnumHelper<PackageOrderBy> enumHelper = new JacksonJsonEnumHelper<>(PackageOrderBy.class);
+
+        @JsonCreator
+        public static PackageOrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /** Enum to use for filtering the results of getPackages(). */
+    public enum PackageStatus {
+
+        DEFAULT, HIDDEN, PROCESSING;
+
+        private static JacksonJsonEnumHelper<PackageStatus> enumHelper = new JacksonJsonEnumHelper<>(PackageStatus.class);
+
+        @JsonCreator
+        public static PackageStatus forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for ordering the results of getProjects(). */
     public enum ProjectOrderBy {
 
