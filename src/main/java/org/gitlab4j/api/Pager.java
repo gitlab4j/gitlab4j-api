@@ -306,12 +306,6 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      */
     public List<T> page(int pageNumber) {
 
-        if (pageNumber > totalPages && pageNumber > kaminariNextPage) {
-            throw new NoSuchElementException();
-        } else if (pageNumber < 1) {
-            throw new NoSuchElementException();
-        }
-
         if (currentPage == 0 && pageNumber == 1) {
             currentPage = 1;
             return (currentItems);
@@ -319,6 +313,12 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
         if (currentPage == pageNumber) {
             return (currentItems);
+        }
+
+        if (pageNumber > totalPages && pageNumber > kaminariNextPage) {
+            throw new NoSuchElementException();
+        } else if (pageNumber < 1) {
+            throw new NoSuchElementException();
         }
 
         try {

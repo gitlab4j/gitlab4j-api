@@ -498,7 +498,7 @@ public class CommitsApi extends AbstractApi {
 
         MultivaluedMap<String, String> queryParams = (filter != null ?
                 filter.getQueryParams(page, perPage).asMap() : getPageQueryParams(page, perPage));
-        Response response = get(Response.Status.OK, queryParams, 
+        Response response = get(Response.Status.OK, queryParams,
                 "projects", this.getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "statuses");
         return (response.readEntity(new GenericType<List<CommitStatus>>() {}));
     }
@@ -515,7 +515,7 @@ public class CommitsApi extends AbstractApi {
      * @return a Pager containing the commit statuses for the specified project and sha that meet the provided filter
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public Pager<CommitStatus> getCommitStatuses(Object projectIdOrPath, String sha, 
+    public Pager<CommitStatus> getCommitStatuses(Object projectIdOrPath, String sha,
             CommitStatusFilter filter, int itemsPerPage) throws GitLabApiException {
 
         if (projectIdOrPath == null) {
@@ -567,6 +567,31 @@ public class CommitsApi extends AbstractApi {
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public CommitStatus addCommitStatus(Object projectIdOrPath, String sha, CommitBuildState state, CommitStatus status) throws GitLabApiException {
+        return addCommitStatus(projectIdOrPath, sha, state, null, status);
+    }
+
+    /**
+     * <p>Add or update the build status of a commit.  The following fluent methods are available on the
+     * CommitStatus instance for setting up the status:</p>
+     * <pre><code>
+     * withCoverage(Float)
+     * withDescription(String)
+     * withName(String)
+     * withRef(String)
+     * withTargetUrl(String)
+     * </code></pre>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/statuses/:sha</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance (required)
+     * @param sha a commit SHA (required)
+     * @param state the state of the status. Can be one of the following: PENDING, RUNNING, SUCCESS, FAILED, CANCELED (required)
+     * @param pipelineId 	The ID of the pipeline to set status. Use in case of several pipeline on same SHA (optional)
+     * @param status the CommitSatus instance hoilding the optional parms: ref, name, target_url, description, and coverage
+     * @return a CommitStatus instance with the updated info
+     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     */
+    public CommitStatus addCommitStatus(Object projectIdOrPath, String sha, CommitBuildState state, Integer pipelineId, CommitStatus status) throws GitLabApiException {
 
         if (projectIdOrPath == null) {
             throw new RuntimeException("projectIdOrPath cannot be null");
@@ -583,6 +608,10 @@ public class CommitsApi extends AbstractApi {
                 .withParam("target_url", status.getTargetUrl())
                 .withParam("description", status.getDescription())
                 .withParam("coverage", status.getCoverage());
+        }
+
+        if (pipelineId != null) {
+            formData.withParam("pipeline_id", pipelineId);
         }
 
         Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "statuses", sha);
@@ -837,7 +866,7 @@ public class CommitsApi extends AbstractApi {
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", sha, "revert");
         return (response.readEntity(Commit.class));
     }
-    
+
     /**
      * Cherry picks a commit in a given branch.
      *

@@ -387,7 +387,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * Create an issue for the project.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param title the title of an issue, required
      * @param description the description of an issue, optional
@@ -412,9 +412,9 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @param labels comma-separated label names for an issue, optional
      * @param createdAt the date the issue was created at, optional
      * @param dueDate the due date, optional
-     * @param mergeRequestToResolveId the IID of a merge request in which to resolve all issues. This will fill the issue with a default 
+     * @param mergeRequestToResolveId the IID of a merge request in which to resolve all issues. This will fill the issue with a default
      *        description and mark all discussions as resolved. When passing a description or title, these values will take precedence over the default values. Optional
-     * @param discussionToResolveId the ID of a discussion to resolve. This will fill in the issue with a default description and mark the discussion as resolved. 
+     * @param discussionToResolveId the ID of a discussion to resolve. This will fill in the issue with a default description and mark the discussion as resolved.
      *        Use in combination with merge_request_to_resolve_discussions_of. Optional
      * @return an instance of Issue
      * @throws GitLabApiException if any exception occurs
@@ -434,7 +434,7 @@ public class IssuesApi extends AbstractApi implements Constants {
                 .withParam("merge_request_to_resolve_discussions_of", mergeRequestToResolveId)
                 .withParam("discussion_to_resolve", discussionToResolveId);
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "issues");
-        return (response.readEntity(Issue.class));        
+        return (response.readEntity(Issue.class));
     }
 
     /**
@@ -453,9 +453,9 @@ public class IssuesApi extends AbstractApi implements Constants {
             throw new RuntimeException("issue IID cannot be null");
         }
 
-        GitLabApiForm formData = new GitLabApiForm().withParam("state_event", StateEvent.CLOSE);          
+        GitLabApiForm formData = new GitLabApiForm().withParam("state_event", StateEvent.CLOSE);
         Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
-        return (response.readEntity(Issue.class));        
+        return (response.readEntity(Issue.class));
     }
 
     /**
@@ -477,7 +477,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @return an instance of the updated Issue
      * @throws GitLabApiException if any exception occurs
      */
-    public Issue updateIssue(Object projectIdOrPath, Integer issueIid, String title, String description, Boolean confidential, List<Integer> assigneeIds, 
+    public Issue updateIssue(Object projectIdOrPath, Integer issueIid, String title, String description, Boolean confidential, List<Integer> assigneeIds,
             Integer milestoneId, String labels, StateEvent stateEvent, Date updatedAt, Date dueDate) throws GitLabApiException {
 
         if (issueIid == null) {
@@ -495,7 +495,7 @@ public class IssuesApi extends AbstractApi implements Constants {
                 .withParam("updated_at", updatedAt)
                 .withParam("due_date", dueDate);
         Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
-        return (response.readEntity(Issue.class));        
+        return (response.readEntity(Issue.class));
     }
 
     /**
@@ -541,9 +541,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Sets an estimated time of work in this issue
-     * 
+     *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/time_estimate</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param issueIid the internal ID of a project's issue
      * @param duration estimated time in seconds
@@ -556,9 +556,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Sets an estimated time of work in this issue
-     * 
+     *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/time_estimate</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param issueIid the internal ID of a project's issue
      * @param duration Human readable format, e.g. 3h30m
@@ -571,9 +571,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Sets an estimated time of work in this issue
-     * 
+     *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/time_estimate</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param issueIid the internal ID of a project's issue
      * @param duration set the estimate of time to this duration
@@ -596,9 +596,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Resets the estimated time for this issue to 0 seconds.
-     * 
+     *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/reset_time_estimate</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param issueIid the internal ID of a project's issue
      * @return a TimeSTats instance
@@ -617,9 +617,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Adds spent time for this issue
-     * 
+     *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/add_spent_time</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param issueIid the internal ID of a project's issue
      * @param duration the duration in seconds
@@ -632,9 +632,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Adds spent time for this issue
-     * 
+     *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/add_spent_time</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param issueIid the internal ID of a project's issue
      * @param duration Human readable format, e.g. 3h30m
@@ -647,9 +647,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Adds spent time for this issue
-     * 
+     *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/add_spent_time</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param issueIid the internal ID of a project's issue
      * @param duration the duration of time spent
@@ -672,9 +672,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Resets the total spent time for this issue to 0 seconds.
-     * 
+     *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/reset_spent_time</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param issueIid the internal ID of a project's issue
      * @return a TimeSTats instance
@@ -693,9 +693,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Get time tracking stats.
-     * 
+     *
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/time_stats</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
      * @param issueIid the internal ID of a project's issue
      * @return a TimeStats instance
@@ -984,8 +984,24 @@ public class IssuesApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Gets issues count statistics for given project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:projectId/issues_statistics</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param filter {@link IssuesStatisticsFilter} a IssuesStatisticsFilter instance with the filter settings.
+     * @return an IssuesStatistics instance with the statistics for the matched issues
+     * @throws GitLabApiException if any exception occurs
+     */
+    public IssuesStatistics geProjectIssuesStatistics(Object projectIdOrPath, IssuesStatisticsFilter filter) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        Response response = get(Response.Status.OK, formData.asMap(), "projects", this.getProjectIdOrPath(projectIdOrPath), "issues_statistics");
+        return (response.readEntity(IssuesStatistics.class));
+    }
+
+    /**
      * <p>Moves an issue to a different project. If the target project equals the source project or
-     * the user has insufficient permissions to move an issue, error 400 together with an 
+     * the user has insufficient permissions to move an issue, error 400 together with an
      * explaining error message is returned.</p>
      *
      * <p>If a given label and/or milestone with the same name also exists in the target project,
@@ -1004,5 +1020,5 @@ public class IssuesApi extends AbstractApi implements Constants {
         Response response = post(Response.Status.OK, formData,
         	"projects", this.getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "move");
         return (response.readEntity(Issue.class));
-    }  
+    }
 }

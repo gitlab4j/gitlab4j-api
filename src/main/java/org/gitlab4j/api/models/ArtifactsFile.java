@@ -5,7 +5,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 public class ArtifactsFile {
 
     private String filename;
-    private Integer size;
+    private Long size;
 
     public String getFilename() {
         return filename;
@@ -15,11 +15,11 @@ public class ArtifactsFile {
         this.filename = filename;
     }
 
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
