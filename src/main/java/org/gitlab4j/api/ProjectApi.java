@@ -1197,6 +1197,30 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Create a new project from a template, belonging to the namespace ID.  A namespace ID is either a user or group ID.
+     *
+     * @param namespaceId the namespace ID to create the project under
+     * @param projectName the name of the project top create
+     * @param groupWithProjectTemplatesId Id of the Gitlab Group, which contains the relevant templates.
+     * @param templateName name of the template to use
+     * @param visibility Visibility of the new create project
+     * @return the created project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project createProjectFromTemplate(Integer namespaceId, String projectName, Integer groupWithProjectTemplatesId, String templateName, Visibility visibility) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("namespace_id", namespaceId)
+            .withParam("name", projectName, true)
+            .withParam("use_custom_template", true)
+            .withParam("group_with_project_templates_id", groupWithProjectTemplatesId, true)
+            .withParam("template_name", templateName, true)
+            .withParam("visibility", visibility)
+            ;
+        Response response = post(Response.Status.CREATED, formData, "projects");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
      * Updates a project. The following properties on the Project instance
      * are utilized in the edit of the project, null values are not updated:
      *
