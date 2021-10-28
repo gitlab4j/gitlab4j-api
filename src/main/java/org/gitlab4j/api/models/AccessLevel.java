@@ -48,4 +48,6 @@ public enum AccessLevel {
     public String toString() {
         return (value.toString());
     }
+
+    public String toLowerCaseString() { return this.name().toLowerCase();}
 }

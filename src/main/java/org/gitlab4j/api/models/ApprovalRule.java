@@ -17,6 +17,15 @@ public class ApprovalRule {
     private Boolean containsHiddenGroups;
     private List<User> approvedBy;
     private Boolean approved;
+    private List<ProtectedBranch> protectedBranches;
+
+    public List<ProtectedBranch> getProtectedBranches() {
+        return protectedBranches;
+    }
+
+    public void setProtectedBranches(List<ProtectedBranch> protectedBranches) {
+        this.protectedBranches = protectedBranches;
+    }
 
     public Integer getId() {
 	return id;

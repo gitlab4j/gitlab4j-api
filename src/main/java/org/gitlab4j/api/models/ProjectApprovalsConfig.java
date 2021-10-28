@@ -11,6 +11,20 @@ public class ProjectApprovalsConfig {
     private Boolean disableOverridingApproversPerMergeRequest;
     private Boolean mergeRequestsAuthorApproval;
     private Boolean mergeRequestsDisableCommittersApproval;
+    private Boolean requirePasswordToApprove;
+
+    public Boolean getRequirePasswordToApprove() {
+        return requirePasswordToApprove;
+    }
+
+    public void setRequirePasswordToApprove(Boolean requirePasswordToApprove) {
+        this.requirePasswordToApprove = requirePasswordToApprove;
+    }
+
+    public ProjectApprovalsConfig withRequirePasswordToApprove(Boolean requirePasswordToApprove) {
+        this.requirePasswordToApprove = requirePasswordToApprove;
+        return (this);
+    }
 
     public Integer getApprovalsBeforeMerge() {
         return approvalsBeforeMerge;
@@ -89,6 +103,7 @@ public class ProjectApprovalsConfig {
             .withParam("reset_approvals_on_push", resetApprovalsOnPush)
             .withParam("disable_overriding_approvers_per_merge_request", disableOverridingApproversPerMergeRequest)
             .withParam("merge_requests_author_approval", mergeRequestsAuthorApproval)
-            .withParam("merge_requests_disable_committers_approval", mergeRequestsDisableCommittersApproval);
+            .withParam("merge_requests_disable_committers_approval", mergeRequestsDisableCommittersApproval)
+            .withParam("require_password_to_approve", requirePasswordToApprove);
     }
 }

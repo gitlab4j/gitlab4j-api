@@ -45,10 +45,14 @@ public class GroupParams {
         }
     }
 
+
+
+
+    private String avatar;
     private String name;
     private String path;
     private String description;
-    private String visibility;
+    private Visibility visibility;
     private Boolean shareWithGroupLock;
     private Boolean requireTwoFactorAuthentication;
     private Integer twoFactorGracePeriod;
@@ -62,6 +66,7 @@ public class GroupParams {
     private Integer sharedRunnersMinutesLimit;
     private Integer extraSharedRunnersMinutesLimit;
     private DefaultBranchProtectionLevel defaultBranchProtection;
+    private Boolean mentionsDisabled;
 
     private Boolean membershipLock;
     private Integer fileTemplateProjectId;
@@ -114,7 +119,7 @@ public class GroupParams {
 	return (this);
     }
 
-    public GroupParams withVisibility(String visibility) {
+    public GroupParams withVisibility(Visibility visibility) {
 	this.visibility = visibility;
 	return (this);
     }
@@ -179,6 +184,101 @@ public class GroupParams {
     return (this);
     }
 
+    public GroupParams withAvatar(String avatar) {
+    this.avatar = avatar;
+    return (this);
+    }
+
+    public GroupParams withMentionsDisabled(Boolean mentionsDisabled) {
+    this.mentionsDisabled = mentionsDisabled;
+    return (this);
+    }
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public Boolean getShareWithGroupLock() {
+        return shareWithGroupLock;
+    }
+
+    public Boolean getRequireTwoFactorAuthentication() {
+        return requireTwoFactorAuthentication;
+    }
+
+    public Integer getTwoFactorGracePeriod() {
+        return twoFactorGracePeriod;
+    }
+
+    public ProjectCreationLevel getProjectCreationLevel() {
+        return projectCreationLevel;
+    }
+
+    public Boolean getAutoDevopsEnabled() {
+        return autoDevopsEnabled;
+    }
+
+    public SubgroupCreationLevel getSubgroupCreationLevel() {
+        return subgroupCreationLevel;
+    }
+
+    public Boolean getEmailsDisabled() {
+        return emailsDisabled;
+    }
+
+    public Boolean getLfsEnabled() {
+        return lfsEnabled;
+    }
+
+    public Boolean getRequestAccessEnabled() {
+        return requestAccessEnabled;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public Integer getSharedRunnersMinutesLimit() {
+        return sharedRunnersMinutesLimit;
+    }
+
+    public Integer getExtraSharedRunnersMinutesLimit() {
+        return extraSharedRunnersMinutesLimit;
+    }
+
+    public DefaultBranchProtectionLevel getDefaultBranchProtection() {
+        return defaultBranchProtection;
+    }
+
+    public Boolean getMembershipLock() {
+        return membershipLock;
+    }
+
+    public Integer getFileTemplateProjectId() {
+        return fileTemplateProjectId;
+    }
+
+    public Boolean getMentionsDisabled() {
+        return mentionsDisabled;
+    }
+
+
+
     /**
      * Get the form params for a group create oir update call.
      *
@@ -188,29 +288,30 @@ public class GroupParams {
      */
     public GitLabApiForm getForm(boolean isCreate) {
 
-	GitLabApiForm form = new GitLabApiForm()
-	    .withParam("name", name, isCreate)
-            .withParam("path", path, isCreate)
-            .withParam("description", description)
-            .withParam("visibility", visibility)
-            .withParam("share_with_group_lock", shareWithGroupLock)
-            .withParam("require_two_factor_authentication", requireTwoFactorAuthentication)
-            .withParam("two_factor_grace_period", twoFactorGracePeriod)
-            .withParam("project_creation_level", projectCreationLevel)
-            .withParam("auto_devops_enabled", autoDevopsEnabled)
-            .withParam("subgroup_creation_level", subgroupCreationLevel)
-            .withParam("emails_disabled", emailsDisabled)
-            .withParam("lfs_enabled", lfsEnabled)
-            .withParam("request_access_enabled", requestAccessEnabled)
-            .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit)
-            .withParam("extra_shared_runners_minutes_limit", extraSharedRunnersMinutesLimit)
-            .withParam("default_branch_protection", defaultBranchProtection);
+        GitLabApiForm form = new GitLabApiForm()
+                .withParam("name", name, isCreate)
+                .withParam("path", path, isCreate)
+                .withParam("description", description)
+                .withParam("visibility", visibility)
+                .withParam("share_with_group_lock", shareWithGroupLock)
+                .withParam("require_two_factor_authentication", requireTwoFactorAuthentication)
+                .withParam("two_factor_grace_period", twoFactorGracePeriod)
+                .withParam("project_creation_level", projectCreationLevel)
+                .withParam("auto_devops_enabled", autoDevopsEnabled)
+                .withParam("subgroup_creation_level", subgroupCreationLevel)
+                .withParam("emails_disabled", emailsDisabled)
+                .withParam("lfs_enabled", lfsEnabled)
+                .withParam("request_access_enabled", requestAccessEnabled)
+                .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit)
+                .withParam("extra_shared_runners_minutes_limit", extraSharedRunnersMinutesLimit)
+                .withParam("default_branch_protection", defaultBranchProtection);
 
         if (isCreate) {
             form.withParam("parent_id", parentId);
         } else {
             form.withParam("membership_lock", membershipLock)
-                .withParam("file_template_project_id", fileTemplateProjectId);
+                .withParam("file_template_project_id", fileTemplateProjectId)
+                .withParam("mentions_disabled", mentionsDisabled);
         }
 
         return (form);

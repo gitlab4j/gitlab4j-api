@@ -40,14 +40,135 @@ public class Project {
         }
     }
 
+    public enum FeatureAccessLevel {
+        ENABLED, PRIVATE, DISABLED;
+
+        private static JacksonJsonEnumHelper<FeatureAccessLevel> enumHelper = new JacksonJsonEnumHelper<>(FeatureAccessLevel.class);
+
+        @JsonCreator
+        public static FeatureAccessLevel forValue(String value) { return enumHelper.forValue(value);}
+
+        @JsonValue
+        public String toValue() { return (enumHelper.toString(this).toLowerCase());}
+
+        @Override
+        public String toString() { return this.toValue();}
+    }
+
+    public static class ContainerExpirationPolicyAttributes {
+
+        public String getCadence() {
+            return cadence;
+        }
+
+        public void setCadence(String cadence) {
+            this.cadence = cadence;
+        }
+
+        public Integer getKeepN() {
+            return keepN;
+        }
+
+        public void setKeepN(Integer keepN) {
+            this.keepN = keepN;
+        }
+
+        public String getOlderThan() {
+            return olderThan;
+        }
+
+        public void setOlderThan(String olderThan) {
+            this.olderThan = olderThan;
+        }
+
+        public String getNameRegex() {
+            return nameRegex;
+        }
+
+        public void setNameRegex(String nameRegex) {
+            this.nameRegex = nameRegex;
+        }
+
+        public String getNameRegexDelete() {
+            return nameRegexDelete;
+        }
+
+        public void setNameRegexDelete(String nameRegexDelete) {
+            this.nameRegexDelete = nameRegexDelete;
+        }
+
+        public String getNameRegexKeep() {
+            return nameRegexKeep;
+        }
+
+        public void setNameRegexKeep(String nameRegexKeep) {
+            this.nameRegexKeep = nameRegexKeep;
+        }
+
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        private String cadence;
+        private Integer keepN;
+        private String olderThan;
+        private String nameRegex;
+        private String nameRegexDelete;
+        private String nameRegexKeep;
+        private Boolean enabled;
+
+        @Override
+        public boolean equals(Object obj) {
+            if(!(obj instanceof ContainerExpirationPolicyAttributes)) {
+                return false;
+            } else {
+                ContainerExpirationPolicyAttributes target = (ContainerExpirationPolicyAttributes) obj;
+                return cadence.equals(target.getCadence())
+                        //&& (keepN != null ? target.getKeepN() != null : keepN.equals(target.getKeepN()))
+                        //&& (olderThan != null ? target.getOlderThan() != null : olderThan.equals(target.getOlderThan()))
+                        && (nameRegex != null ? target.getNameRegex() != null : nameRegex.equals(target.getNameRegex()))
+                        // && (nameRegexDelete != null ? target.getNameRegexDelete() != null : nameRegexDelete.equals(target.getNameRegexDelete()))
+                        && (nameRegexKeep != null ? target.getNameRegexKeep() != null : nameRegexKeep.equals(target.getNameRegexKeep()))
+                        && (enabled != null ? target.getEnabled() != null : enabled.equals(target.getEnabled()));
+            }
+
+        }
+
+        @Override
+        public String toString() {
+            return "ContainerExpirationPolicyAttributes{" +
+                    "cadence='" + cadence + '\'' +
+                    ", keepN=" + keepN +
+                    ", olderThan='" + olderThan + '\'' +
+                    ", nameRegex='" + nameRegex + '\'' +
+                    ", nameRegexDelete='" + nameRegexDelete + '\'' +
+                    ", nameRegexKeep='" + nameRegexKeep + '\'' +
+                    ", enabled=" + enabled +
+                    '}';
+        }
+    }
+
     private Integer approvalsBeforeMerge;
     private Boolean archived;
+    private String autoCancelPendingPipelines;
     private String avatarUrl;
+    private String buildCoverageRegex;
+    private BuildGitStrategy buildGitStrategy;
+    private Integer buildTimeout;
+    private String ciConfigPath;
+    private Integer ciDefaultGitDepth;
+    private Boolean ciForwardDeploymentEnabled;
+    private ContainerExpirationPolicyAttributes containerExpirationPolicy;
     private Boolean containerRegistryEnabled;
     private Date createdAt;
     private Integer creatorId;
     private String defaultBranch;
     private String description;
+    private String externalAuthorizationClassificationLabel;
     private Integer forksCount;
     private Project forkedFromProject;
     private String httpUrlToRepo;
@@ -59,11 +180,16 @@ public class Project {
     private Boolean lfsEnabled;
     private MergeMethod mergeMethod;
     private Boolean mergeRequestsEnabled;
+    private Boolean mirror;
+    private Boolean mirrorOverwritesDivergedBranches;
+    private Boolean mirrorTriggerBuilds;
+    private Integer mirrorUserId;
     private String name;
     private Namespace namespace;
     private String nameWithNamespace;
     private Boolean onlyAllowMergeIfPipelineSucceeds;
     private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
+    private Boolean onlyMirrorProtectedBranches;
     private Integer openIssuesCount;
     private Owner owner;
     private String path;
@@ -73,6 +199,7 @@ public class Project {
     private String repositoryStorage;
     private Boolean requestAccessEnabled;
     private String runnersToken;
+    private Boolean serviceDeskEnabled;
     private Boolean sharedRunnersEnabled;
     private List<ProjectSharedGroup> sharedWithGroups;
     private Boolean snippetsEnabled;
@@ -93,17 +220,160 @@ public class Project {
     private String licenseUrl;
     private ProjectLicense license;
     private List<CustomAttribute> customAttributes;
-    private String buildCoverageRegex;
-    private BuildGitStrategy buildGitStrategy;
     private String readmeUrl;
     private Boolean canCreateMergeRequestIn;
     private Status importStatus;
-    private Integer ciDefaultGitDepth;
     private Boolean removeSourceBranchAfterMerge;
     private Boolean autoDevopsEnabled;
     private AutoDevopsDeployStrategy autoDevopsDeployStrategy;
     private Boolean autocloseReferencedIssues;
     private Boolean emailsDisabled;
+    private FeatureAccessLevel issuesAccessLevel;
+    private FeatureAccessLevel repositoryAccessLevel;
+    private FeatureAccessLevel mergeRequestsAccessLevel;
+    private FeatureAccessLevel forkingAccessLevel;
+    private FeatureAccessLevel buildsAccessLevel;
+    private FeatureAccessLevel wikiAccessLevel;
+    private FeatureAccessLevel snippetsAccessLevel;
+    private FeatureAccessLevel pagesAccessLevel;
+
+
+    public Boolean getCiForwardDeploymentEnabled() {
+        return ciForwardDeploymentEnabled;
+    }
+
+    public void setCiForwardDeploymentEnabled(Boolean ciForwardDeploymentEnabled) {
+        this.ciForwardDeploymentEnabled = ciForwardDeploymentEnabled;
+    }
+
+    public Project withCiForwardDeploymentEnabled(Boolean ciForwardDeploymentEnabled) {
+        this.ciForwardDeploymentEnabled = ciForwardDeploymentEnabled;
+        return (this);
+    }
+
+
+
+    public String getSuggestionCommitMessage() {
+        return suggestionCommitMessage;
+    }
+
+    public void setSuggestionCommitMessage(String suggestionCommitMessage) {
+        this.suggestionCommitMessage = suggestionCommitMessage;
+    }
+
+    public Project withSuggestionCommitMessage(String suggestionCommitMessage) {
+        this.suggestionCommitMessage = suggestionCommitMessage;
+        return (this);
+    }
+
+    private String suggestionCommitMessage;
+
+    public FeatureAccessLevel getIssuesAccessLevel() {
+        return issuesAccessLevel;
+    }
+
+    public void setIssuesAccessLevel(FeatureAccessLevel issuesAccessLevel) {
+        this.issuesAccessLevel = issuesAccessLevel;
+    }
+
+    public Project withIssuesAccessLevel(FeatureAccessLevel issuesAccessLevel) {
+        this.issuesAccessLevel = issuesAccessLevel;
+        return (this);
+    }
+
+    public FeatureAccessLevel getRepositoryAccessLevel() {
+        return repositoryAccessLevel;
+    }
+
+    public void setRepositoryAccessLevel(FeatureAccessLevel repositoryAccessLevel) {
+        this.repositoryAccessLevel = repositoryAccessLevel;
+    }
+
+    public Project withRepositoryAccessLevel(FeatureAccessLevel repositoryAccessLevel) {
+        this.repositoryAccessLevel = repositoryAccessLevel;
+        return (this);
+    }
+
+    public FeatureAccessLevel getMergeRequestsAccessLevel() {
+        return mergeRequestsAccessLevel;
+    }
+
+    public void setMergeRequestsAccessLevel(FeatureAccessLevel mergeRequestsAccessLevel) {
+        this.mergeRequestsAccessLevel = mergeRequestsAccessLevel;
+    }
+
+    public Project withMergeRequestsAccessLevel(FeatureAccessLevel mergeRequestsAccessLevel) {
+        this.mergeRequestsAccessLevel = mergeRequestsAccessLevel;
+        return (this);
+    }
+
+
+    public FeatureAccessLevel getForkingAccessLevel() {
+        return forkingAccessLevel;
+    }
+
+    public void setForkingAccessLevel(FeatureAccessLevel forkingAccessLevel) {
+        this.forkingAccessLevel = forkingAccessLevel;
+    }
+
+    public Project withForkingAccessLevel(FeatureAccessLevel forkingAccessLevel) {
+        this.forkingAccessLevel = forkingAccessLevel;
+        return (this);
+    }
+
+    public FeatureAccessLevel getBuildsAccessLevel() {
+        return buildsAccessLevel;
+    }
+
+    public void setBuildsAccessLevel(FeatureAccessLevel buildsAccessLevel) {
+        this.buildsAccessLevel = buildsAccessLevel;
+    }
+
+    public Project withBuildsAccessLevel(FeatureAccessLevel buildsAccessLevel) {
+        this.buildsAccessLevel = buildsAccessLevel;
+        return (this);
+    }
+
+    public FeatureAccessLevel getWikiAccessLevel() {
+        return wikiAccessLevel;
+    }
+
+    public void setWikiAccessLevel(FeatureAccessLevel wikiAccessLevel) {
+        this.wikiAccessLevel = wikiAccessLevel;
+    }
+
+    public Project withWikiAccessLevel(FeatureAccessLevel wikiAccessLevel) {
+        this.wikiAccessLevel = wikiAccessLevel;
+        return (this);
+    }
+
+    public FeatureAccessLevel getSnippetsAccessLevel() {
+        return snippetsAccessLevel;
+    }
+
+    public void setSnippetsAccessLevel(FeatureAccessLevel snippetsAccessLevel) {
+        this.snippetsAccessLevel = snippetsAccessLevel;
+    }
+
+    public Project withSnippetsAccessLevel(FeatureAccessLevel snippetsAccessLevel) {
+        this.snippetsAccessLevel = snippetsAccessLevel;
+        return (this);
+    }
+
+    public FeatureAccessLevel getPagesAccessLevel() {
+        return pagesAccessLevel;
+    }
+
+    public void setPagesAccessLevel(FeatureAccessLevel pagesAccessLevel) {
+        this.pagesAccessLevel = pagesAccessLevel;
+    }
+
+    public Project withPagesAccessLevel(FeatureAccessLevel pagesAccessLevel) {
+        this.pagesAccessLevel = pagesAccessLevel;
+        return (this);
+    }
+
+    
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -693,6 +963,151 @@ public class Project {
         this.license = license;
     }
 
+    public String getAutoCancelPendingPipelines() {
+        return autoCancelPendingPipelines;
+    }
+
+    public void setAutoCancelPendingPipelines(String autoCancelPendingPipelines) {
+        this.autoCancelPendingPipelines = autoCancelPendingPipelines;
+    }
+
+    public Project withAutoCancelPendingPipelines(String autoCancelPendingPipelines) {
+        this.autoCancelPendingPipelines = autoCancelPendingPipelines;
+        return (this);
+    }
+
+    public Integer getBuildTimeout() {
+        return buildTimeout;
+    }
+
+    public void setBuildTimeout(Integer buildTimeout) {
+        this.buildTimeout = buildTimeout;
+    }
+
+    public Project withBuildTimeout(Integer buildTimeout) {
+        this.buildTimeout = buildTimeout;
+        return (this);
+    }
+
+    public String getCiConfigPath() {
+        return ciConfigPath;
+    }
+
+    public void setCiConfigPath(String ciConfigPath) {
+        this.ciConfigPath = ciConfigPath;
+    }
+
+    public Project withCiConfigPath(String ciConfigPath) {
+        this.ciConfigPath = ciConfigPath;
+        return (this);
+    }
+
+    public ContainerExpirationPolicyAttributes getContainerExpirationPolicy() {
+        return containerExpirationPolicy;
+    }
+
+    public void setContainerExpirationPolicy(ContainerExpirationPolicyAttributes containerExpirationPolicy) {
+        this.containerExpirationPolicy = containerExpirationPolicy;
+    }
+
+    public Project withContainerExpirationPolicy(ContainerExpirationPolicyAttributes containerExpirationPolicyAttributes) {
+        this.containerExpirationPolicy = containerExpirationPolicyAttributes;
+        return (this);
+    }
+
+    public String getExternalAuthorizationClassificationLabel() {
+        return externalAuthorizationClassificationLabel;
+    }
+
+    public void setExternalAuthorizationClassificationLabel(String externalAuthorizationClassificationLabel) {
+        this.externalAuthorizationClassificationLabel = externalAuthorizationClassificationLabel;
+    }
+
+    public Project withExternalAuthorizationClassificationLabel(String externalAuthorizationClassificationLabel) {
+        this.externalAuthorizationClassificationLabel = externalAuthorizationClassificationLabel;
+        return (this);
+    }
+
+    public Boolean getMirror() {
+        return mirror;
+    }
+
+    public void setMirror(Boolean mirror) {
+        this.mirror = mirror;
+    }
+
+    public Project withMirror(Boolean mirror) {
+        this.mirror = mirror;
+        return (this);
+    }
+
+    public Boolean getMirrorOverwritesDivergedBranches() {
+        return mirrorOverwritesDivergedBranches;
+    }
+
+    public void setMirrorOverwritesDivergedBranches(Boolean mirrorOverwritesDivergedBranches) {
+        this.mirrorOverwritesDivergedBranches = mirrorOverwritesDivergedBranches;
+    }
+
+    public Project withMirrorOverwritesDivergedBranches(Boolean mirrorOverwritesDivergedBranches) {
+        this.mirrorOverwritesDivergedBranches = mirrorOverwritesDivergedBranches;
+        return (this);
+    }
+
+    public Boolean getMirrorTriggerBuilds() {
+        return mirrorTriggerBuilds;
+    }
+
+    public void setMirrorTriggerBuilds(Boolean mirrorTriggerBuilds) {
+        this.mirrorTriggerBuilds = mirrorTriggerBuilds;
+    }
+
+    public Project withMirrorTriggerBuilds(Boolean mirrorTriggerBuilds) {
+        this.mirrorTriggerBuilds = mirrorTriggerBuilds;
+        return (this);
+    }
+
+    public Integer getMirrorUserId() {
+        return mirrorUserId;
+    }
+
+    public void setMirrorUserId(Integer mirrorUserId) {
+        this.mirrorUserId = mirrorUserId;
+    }
+
+    public Project withMirrorUserId(Integer mirrorUserId) {
+        this.mirrorUserId = mirrorUserId;
+        return(this);
+    }
+
+    public Boolean getOnlyMirrorProtectedBranches() {
+        return onlyMirrorProtectedBranches;
+    }
+
+    public void setOnlyMirrorProtectedBranches(Boolean onlyMirrorProtectedBranches) {
+        this.onlyMirrorProtectedBranches = onlyMirrorProtectedBranches;
+    }
+
+    public Project withOnlyMirrorProtectedBranches(Boolean onlyMirrorProtectedBranches) {
+        this.onlyMirrorProtectedBranches = onlyMirrorProtectedBranches;
+        return (this);
+    }
+
+    public Boolean getServiceDeskEnabled() {
+        return serviceDeskEnabled;
+    }
+
+    public void setServiceDeskEnabled(Boolean serviceDeskEnabled) {
+        this.serviceDeskEnabled = serviceDeskEnabled;
+    }
+
+    public Project withServiceDeskEnabled(Boolean serviceDeskEnabled) {
+        this.serviceDeskEnabled = serviceDeskEnabled;
+        return (this);
+    }
+
+
+
     public List<CustomAttribute> getCustomAttributes() {
         return customAttributes;
     }
@@ -717,7 +1132,7 @@ public class Project {
      * @param path the project path
      * @return a fully qualified project path based on the provided namespace and project path
      */
-    public static final String getPathWithNammespace(String namespace, String path) {
+    public static final String getPathWithNamespace(String namespace, String path) {
         return (namespace.trim() + "/" + path.trim());
     }
 
@@ -755,12 +1170,22 @@ public class Project {
         this.readmeUrl = readmeUrl;
     }
 
+    public Project withReadmeUrl(String readmeUrl) {
+        this.readmeUrl = readmeUrl;
+        return (this);
+    }
+
     public Boolean getCanCreateMergeRequestIn() {
         return canCreateMergeRequestIn;
     }
 
     public void setCanCreateMergeRequestIn(Boolean canCreateMergeRequestIn) {
         this.canCreateMergeRequestIn = canCreateMergeRequestIn;
+    }
+
+    public Project withCanCreateMergeRequestIn(Boolean canCreateMergeRequestIn) {
+        this.canCreateMergeRequestIn = canCreateMergeRequestIn;
+        return (this);
     }
 
     public Status getImportStatus() {
@@ -771,12 +1196,22 @@ public class Project {
         this.importStatus = importStatus;
     }
 
+    public Project withImportStatus(Status importStatus) {
+        this.importStatus = importStatus;
+        return (this);
+    }
+
     public Integer getCiDefaultGitDepth() {
         return ciDefaultGitDepth;
     }
 
     public void setCiDefaultGitDepth(Integer ciDefaultGitDepth) {
         this.ciDefaultGitDepth = ciDefaultGitDepth;
+    }
+
+    public Project withCiDefaultGitDepth(Integer ciDefaultGitDepth) {
+        this.ciDefaultGitDepth = ciDefaultGitDepth;
+        return (this);
     }
 
     public Boolean getRemoveSourceBranchAfterMerge() {
@@ -787,12 +1222,23 @@ public class Project {
         this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
     }
 
+
+    public Project withRemoveSourceBranchAfterMerge(Boolean removeSourceBranchAfterMerge) {
+        this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
+        return(this);
+    }
+
     public Boolean getAutoDevopsEnabled() {
         return autoDevopsEnabled;
     }
 
     public void setAutoDevopsEnabled(Boolean autoDevopsEnabled) {
         this.autoDevopsEnabled = autoDevopsEnabled;
+    }
+
+    public Project withAutoDevopsEnabled(Boolean autoDevopsEnabled) {
+        this.autoDevopsEnabled = autoDevopsEnabled;
+        return (this);
     }
 
     public AutoDevopsDeployStrategy getAutoDevopsDeployStrategy() {
@@ -803,12 +1249,22 @@ public class Project {
         this.autoDevopsDeployStrategy = autoDevopsDeployStrategy;
     }
 
+    public Project withAutoDevopsDeployStrategy(AutoDevopsDeployStrategy autoDevopsDeployStrategy) {
+        this.autoDevopsDeployStrategy = autoDevopsDeployStrategy;
+        return (this);
+    }
+
     public Boolean getAutocloseReferencedIssues() {
         return autocloseReferencedIssues;
     }
 
     public void setAutocloseReferencedIssues(Boolean autocloseReferencedIssues) {
         this.autocloseReferencedIssues = autocloseReferencedIssues;
+    }
+
+    public Project withAutocloseReferencedIssues(Boolean autocloseReferencedIssues) {
+        this.autocloseReferencedIssues = autocloseReferencedIssues;
+        return (this);
     }
 
     public Boolean getEmailsDisabled() {
@@ -823,4 +1279,6 @@ public class Project {
         this.emailsDisabled = emailsDisabled;
         return this;
     }
+
+
 }

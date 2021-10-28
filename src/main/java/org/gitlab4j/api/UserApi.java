@@ -979,7 +979,10 @@ public class UserApi extends AbstractApi {
                 .withParam("can_create_group", user.getCanCreateGroup(), false)
                 .withParam(skipConfirmationFeildName, user.getSkipConfirmation(), false)
                 .withParam("external", user.getExternal(), false)
-                .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(), false));
+                .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(), false)
+                .withParam("public_email", user.getPublicEmail(), false)
+                .withParam("private_profile", user.getPrivateProfile(), false)
+                .withParam("extra_shared_runners_minutes_limit", user.getExtraSharedRunnersMinutesLimit(), false));
     }
 
     /**

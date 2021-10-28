@@ -10,6 +10,7 @@ public class ApprovalRuleParams {
     private Integer approvalsRequired;
     private List<Integer> userIds;
     private List<Integer> groupIds;
+    private Integer protectedBranchIds;
 
     public ApprovalRuleParams withName(String name) {
 	this.name = name;
@@ -32,6 +33,17 @@ public class ApprovalRuleParams {
     }
 
     /**
+     * Note : the API documentation defines <code>protected_branch_ids</code> as an array, but only one ID
+     * is actually used.
+     * @param branchId
+     * @return
+     */
+    public ApprovalRuleParams withProtectedBranchIds(Integer branchId) {
+        this.protectedBranchIds = branchId;
+        return (this);
+    }
+
+    /**
      * Get the form params specified by this instance.
      *
      * @return a GitLabApiForm instance holding the form parameters for this ApprovalRuleParams instance
@@ -41,6 +53,7 @@ public class ApprovalRuleParams {
             .withParam("name", name)
             .withParam("approvals_required", approvalsRequired, true)
             .withParam("user_ids", userIds)
-            .withParam("group_ids", groupIds);
+            .withParam("group_ids", groupIds)
+            .withParam("protected_branch_ids", protectedBranchIds);
     }
 }

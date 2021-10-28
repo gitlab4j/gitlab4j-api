@@ -840,12 +840,12 @@ public interface Constants {
 
         @JsonValue
         public String toValue() {
-            return (enumHelper.toString(this));
+            return (enumHelper.toString(this).toLowerCase());
         }
 
         @Override
         public String toString() {
-            return (enumHelper.toString(this));
+            return (enumHelper.toString(this).toLowerCase());
         }
     }
 

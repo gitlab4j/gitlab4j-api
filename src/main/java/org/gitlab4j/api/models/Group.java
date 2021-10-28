@@ -63,10 +63,23 @@ public class Group {
     private String fullPath;
     private Integer parentId;
     private Integer sharedRunnersMinutesLimit;
+    private Boolean emailsDisabled;
+    private Integer extraSharedRunnersMinutesLimit;
+    private Boolean membershipLock;
+    private Boolean requireTwoFactorAuthentication;
+    private Integer twoFactorGracePeriod;
+    private GroupParams.ProjectCreationLevel projectCreationLevel;
+    private GroupParams.SubgroupCreationLevel subgroupCreationLevel;
+    private Integer defaultBranchProtection;
+    private Boolean mentionsDisabled;
+    private Boolean autoDevopsEnabled;
+    private Integer fileTemplateProjectId;
+    private Boolean shareWithGroupLock;
     private Statistics statistics;
     private List<Project> projects;
     private List<Project> sharedProjects;
     private Date createdAt;
+    private List<ProjectSharedGroup> sharedWithGroups;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -215,6 +228,111 @@ public class Group {
 	this.createdAt = createdAt;
     }
 
+
+    public Boolean getEmailsDisabled() {
+        return emailsDisabled;
+    }
+
+    public void setEmailsDisabled(Boolean emailsDisabled) {
+        this.emailsDisabled = emailsDisabled;
+    }
+
+    public Integer getExtraSharedRunnersMinutesLimit() {
+        return extraSharedRunnersMinutesLimit;
+    }
+
+    public void setExtraSharedRunnersMinutesLimit(Integer extraSharedRunnersMinutesLimit) {
+        this.extraSharedRunnersMinutesLimit = extraSharedRunnersMinutesLimit;
+    }
+
+    public Boolean getMembershipLock() {
+        return membershipLock;
+    }
+
+    public void setMembershipLock(Boolean membershipLock) {
+        this.membershipLock = membershipLock;
+    }
+
+    public Boolean getRequireTwoFactorAuthentication() {
+        return requireTwoFactorAuthentication;
+    }
+
+    public void setRequireTwoFactorAuthentication(Boolean requireTwoFactorAuthentication) {
+        this.requireTwoFactorAuthentication = requireTwoFactorAuthentication;
+    }
+
+    public Integer getTwoFactorGracePeriod() {
+        return twoFactorGracePeriod;
+    }
+
+    public void setTwoFactorGracePeriod(Integer twoFactorGracePeriod) {
+        this.twoFactorGracePeriod = twoFactorGracePeriod;
+    }
+
+    public GroupParams.ProjectCreationLevel getProjectCreationLevel() {
+        return projectCreationLevel;
+    }
+
+    public void setProjectCreationLevel(GroupParams.ProjectCreationLevel projectCreationLevel) {
+        this.projectCreationLevel = projectCreationLevel;
+    }
+
+    public GroupParams.SubgroupCreationLevel getSubgroupCreationLevel() {
+        return subgroupCreationLevel;
+    }
+
+    public void setSubgroupCreationLevel(GroupParams.SubgroupCreationLevel subgroupCreationLevel) {
+        this.subgroupCreationLevel = subgroupCreationLevel;
+    }
+
+    public Integer getDefaultBranchProtection() {
+        return defaultBranchProtection;
+    }
+
+    public void setDefaultBranchProtection(Integer defaultBranchProtection) {
+        this.defaultBranchProtection = defaultBranchProtection;
+    }
+
+    public Boolean getMentionsDisabled() {
+        return mentionsDisabled;
+    }
+
+    public void setMentionsDisabled(Boolean mentionsDisabled) {
+        this.mentionsDisabled = mentionsDisabled;
+    }
+
+    public Boolean getAutoDevopsEnabled() {
+        return autoDevopsEnabled;
+    }
+
+    public void setAutoDevopsEnabled(Boolean autoDevopsEnabled) {
+        this.autoDevopsEnabled = autoDevopsEnabled;
+    }
+
+    public Integer getFileTemplateProjectId() {
+        return fileTemplateProjectId;
+    }
+
+    public void setFileTemplateProjectId(Integer fileTemplateProjectId) {
+        this.fileTemplateProjectId = fileTemplateProjectId;
+    }
+
+    public Boolean getShareWithGroupLock() {
+        return shareWithGroupLock;
+    }
+
+    public void setShareWithGroupLock(Boolean shareWithGroupLock) {
+        this.shareWithGroupLock = shareWithGroupLock;
+    }
+
+    public List<ProjectSharedGroup> getSharedWithGroups() {
+        return sharedWithGroups;
+    }
+
+    public void setSharedWithGroups(List<ProjectSharedGroup> sharedWithGroups) {
+        this.sharedWithGroups = sharedWithGroups;
+    }
+
     public Group withId(Integer id) {
         this.id = id;
         return this;
@@ -240,7 +358,7 @@ public class Group {
         return this;
     }
 
-    public Group withlfsEnabled(boolean lfsEnabled) {
+    public Group withLfsEnabled(boolean lfsEnabled) {
         this.lfsEnabled = lfsEnabled;
         return this;
     }
@@ -293,6 +411,66 @@ public class Group {
     public Group withSharedProjects(List<Project> sharedProjects) {
         this.sharedProjects = sharedProjects;
         return this;
+    }
+
+    public Group withEmailsDisabled(Boolean emailsDisabled) {
+        this.emailsDisabled = emailsDisabled;
+        return (this);
+    }
+
+    public Group withExtraSharedRunnersMinutesLimit(Integer extraSharedRunnersMinutesLimit) {
+        this.extraSharedRunnersMinutesLimit = extraSharedRunnersMinutesLimit;
+        return (this);
+    }
+
+    public Group withMembershipLock(Boolean membershipLock) {
+        this.membershipLock = membershipLock;
+        return (this);
+    }
+
+    public Group withRequireTwoFactorAuthentication(Boolean requireTwoFactorAuthentication) {
+        this.requireTwoFactorAuthentication = requireTwoFactorAuthentication;
+        return (this);
+    }
+
+    public Group withTwoFactorGracePeriod(Integer twoFactorGracePeriod) {
+        this.twoFactorGracePeriod = twoFactorGracePeriod;
+        return (this);
+    }
+
+    public Group withProjectCreationLevel(GroupParams.ProjectCreationLevel projectCreationLevel) {
+        this.projectCreationLevel = projectCreationLevel;
+        return (this);
+    }
+
+    public Group withSubgroupCreationLevel(GroupParams.SubgroupCreationLevel subgroupCreationLevel) {
+        this.subgroupCreationLevel = subgroupCreationLevel;
+        return (this);
+    }
+
+    public Group withDefaultBranchProtection(Integer defaultBranchProtection) {
+        this.defaultBranchProtection = defaultBranchProtection;
+        return (this);
+    }
+
+    public Group withMentionsDisabled(Boolean mentionsDisabled) {
+        this.mentionsDisabled = mentionsDisabled;
+        return (this);
+    }
+
+    public Group withAutoDevopsEnabled(Boolean autoDevopsEnabled) {
+        this.autoDevopsEnabled = autoDevopsEnabled;
+        return (this);
+    }
+
+    public Group withFileTemplateProjectId(Integer fileTemplateProjectId) {
+        this.fileTemplateProjectId = fileTemplateProjectId;
+        return (this);
+    }
+
+    public Group withShareWithGroupLock(Boolean shareWithGroupLock) {
+        this.shareWithGroupLock = shareWithGroupLock;
+        return (this);
     }
 
     @Override

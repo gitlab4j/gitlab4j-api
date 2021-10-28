@@ -119,23 +119,23 @@ public class TestProjectApi extends AbstractIntegrationTest {
         }
 
         try {
-            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_PROJECT_NAME_1));
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNamespace(TEST_NAMESPACE, TEST_PROJECT_NAME_1));
         } catch (GitLabApiException ignore) {}
 
         try {
-            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_PROJECT_NAME_2));
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNamespace(TEST_NAMESPACE, TEST_PROJECT_NAME_2));
         } catch (GitLabApiException ignore) {}
 
         try {
-            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE));
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNamespace(TEST_NAMESPACE, TEST_PROJECT_NAME_UPDATE));
         } catch (GitLabApiException ignore) {}
 
         try {
-            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_XFER_PROJECT_NAME));
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNamespace(TEST_NAMESPACE, TEST_XFER_PROJECT_NAME));
         } catch (GitLabApiException ignore) {}
 
         try {
-            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_NAMESPACE_PROJECT_NAME));
+            gitLabApi.getProjectApi().deleteProject(Project.getPathWithNamespace(TEST_NAMESPACE, TEST_NAMESPACE_PROJECT_NAME));
         } catch (GitLabApiException ignore) {}
 
         if (TEST_GROUP != null && TEST_PROJECT_NAME != null) {
@@ -161,13 +161,13 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         if (TEST_GROUP != null && TEST_GROUP_PROJECT != null) {
             try {
-                gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_NAMESPACE, TEST_GROUP_PROJECT));
+                gitLabApi.getProjectApi().deleteProject(Project.getPathWithNamespace(TEST_NAMESPACE, TEST_GROUP_PROJECT));
             } catch (GitLabApiException ignore) {}
         }
 
         if (TEST_XFER_NAMESPACE != null) {
             try {
-                gitLabApi.getProjectApi().deleteProject(Project.getPathWithNammespace(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME));
+                gitLabApi.getProjectApi().deleteProject(Project.getPathWithNamespace(TEST_XFER_NAMESPACE, TEST_XFER_PROJECT_NAME));
             } catch (GitLabApiException ignore) {}
         }
 

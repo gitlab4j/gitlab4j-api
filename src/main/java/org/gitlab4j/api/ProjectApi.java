@@ -39,29 +39,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.AccessLevel;
-import org.gitlab4j.api.models.AccessRequest;
-import org.gitlab4j.api.models.ApprovalRule;
-import org.gitlab4j.api.models.ApprovalRuleParams;
-import org.gitlab4j.api.models.AuditEvent;
-import org.gitlab4j.api.models.Badge;
-import org.gitlab4j.api.models.CustomAttribute;
-import org.gitlab4j.api.models.Event;
-import org.gitlab4j.api.models.FileUpload;
-import org.gitlab4j.api.models.Issue;
-import org.gitlab4j.api.models.Member;
-import org.gitlab4j.api.models.Namespace;
-import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.ProjectApprovalsConfig;
-import org.gitlab4j.api.models.ProjectFetches;
-import org.gitlab4j.api.models.ProjectFilter;
-import org.gitlab4j.api.models.ProjectHook;
-import org.gitlab4j.api.models.ProjectUser;
-import org.gitlab4j.api.models.PushRules;
-import org.gitlab4j.api.models.RemoteMirror;
-import org.gitlab4j.api.models.Snippet;
-import org.gitlab4j.api.models.Variable;
-import org.gitlab4j.api.models.Visibility;
+import org.gitlab4j.api.models.*;
 import org.gitlab4j.api.utils.ISO8601;
 
 /**
@@ -998,6 +976,7 @@ public class ProjectApi extends AbstractApi implements Constants {
         GitLabApiForm formData = new GitLabApiForm()
             .withParam("name", name)
             .withParam("path", path)
+            .withParam("container_registry_enabled", project.getContainerRegistryEnabled())
             .withParam("default_branch", project.getDefaultBranch())
             .withParam("description", project.getDescription())
             .withParam("issues_enabled", project.getIssuesEnabled())
@@ -1005,7 +984,6 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("merge_requests_enabled", project.getMergeRequestsEnabled())
             .withParam("jobs_enabled", project.getJobsEnabled())
             .withParam("wiki_enabled", project.getWikiEnabled())
-            .withParam("container_registry_enabled", project.getContainerRegistryEnabled())
             .withParam("snippets_enabled", project.getSnippetsEnabled())
             .withParam("shared_runners_enabled", project.getSharedRunnersEnabled())
             .withParam("public_jobs", project.getPublicJobs())
@@ -1022,7 +1000,36 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("initialize_with_readme", project.getInitializeWithReadme())
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
-            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
+            .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("container_expiration_policy_attributes", project.getContainerExpirationPolicy())
+            .withParam("autoclose_referenced_issues", project.getAutocloseReferencedIssues())
+            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
+            .withParam("build_timeout", project.getBuildTimeout())
+            .withParam("auto_cancel_pending_pipelines", project.getAutoCancelPendingPipelines())
+            .withParam("ci_config_path", project.getCiConfigPath())
+            .withParam("ci_default_git_depth", project.getCiDefaultGitDepth())
+            .withParam("ci_forward_deployment_enabled", project.getCiForwardDeploymentEnabled())
+            .withParam("auto_devops_enabled", project.getAutoDevopsEnabled())
+            .withParam("auto_devops_deploy_strategy", project.getAutoDevopsDeployStrategy())
+            .withParam("external_authorization_classification_label", project.getExternalAuthorizationClassificationLabel())
+            .withParam("mirror", project.getMirror())
+            .withParam("mirror_user_id", project.getMirrorUserId())
+            .withParam("mirror_trigger_builds", project.getMirrorTriggerBuilds())
+            .withParam("only_mirror_protected_branches", project.getOnlyMirrorProtectedBranches())
+            .withParam("mirror_overwrites_diverged_branches", project.getMirrorOverwritesDivergedBranches())
+            .withParam("service_desk_enabled", project.getServiceDeskEnabled())
+            .withParam("tag_list", project.getTagList())
+            .withParam("avatar", project.getAvatarUrl())
+            .withParam("issues_access_level", project.getIssuesAccessLevel())
+            .withParam("repository_access_level", project.getRepositoryAccessLevel())
+            .withParam("merge_requests_access_level", project.getMergeRequestsAccessLevel())
+            .withParam("forking_access_level", project.getForkingAccessLevel())
+            .withParam("builds_access_level", project.getBuildsAccessLevel())
+            .withParam("wiki_access_level", project.getWikiAccessLevel())
+            .withParam("snippets_access_level", project.getSnippetsAccessLevel())
+            .withParam("pages_access_level", project.getPagesAccessLevel())
+            .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
+            .withParam("emails_disabled", project.getEmailsDisabled());
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
@@ -1242,30 +1249,67 @@ public class ProjectApi extends AbstractApi implements Constants {
         Object projectIdentifier = getProjectIdOrPath(project);
 
         GitLabApiForm formData = new GitLabApiForm()
-            .withParam("name", project.getName())
-            .withParam("path", project.getPath())
-            .withParam("default_branch", project.getDefaultBranch())
-            .withParam("description", project.getDescription())
-            .withParam("issues_enabled", project.getIssuesEnabled())
-            .withParam("merge_method",  project.getMergeMethod())
-            .withParam("merge_requests_enabled", project.getMergeRequestsEnabled())
-            .withParam("jobs_enabled", project.getJobsEnabled())
-            .withParam("wiki_enabled", project.getWikiEnabled())
-            .withParam("snippets_enabled", project.getSnippetsEnabled())
-            .withParam("container_registry_enabled", project.getContainerRegistryEnabled())
-            .withParam("shared_runners_enabled", project.getSharedRunnersEnabled())
-            .withParam("public_jobs", project.getPublicJobs())
-            .withParam("only_allow_merge_if_pipeline_succeeds", project.getOnlyAllowMergeIfPipelineSucceeds())
-            .withParam("only_allow_merge_if_all_discussions_are_resolved", project.getOnlyAllowMergeIfAllDiscussionsAreResolved())
-            .withParam("lfs_enabled", project.getLfsEnabled())
-            .withParam("request_access_enabled", project.getRequestAccessEnabled())
-            .withParam("repository_storage", project.getRepositoryStorage())
-            .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
-            .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled())
-            .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
-            .withParam("packages_enabled", project.getPackagesEnabled())
-            .withParam("build_git_strategy", project.getBuildGitStrategy())
-            .withParam("build_coverage_regex", project.getBuildCoverageRegex());
+                .withParam("name", project.getName())
+                .withParam("path", project.getPath())
+                .withParam("container_registry_enabled", project.getContainerRegistryEnabled())
+                .withParam("default_branch", project.getDefaultBranch())
+                .withParam("description", project.getDescription())
+                .withParam("issues_enabled", project.getIssuesEnabled())
+                .withParam("merge_method",  project.getMergeMethod())
+                .withParam("merge_requests_enabled", project.getMergeRequestsEnabled())
+                .withParam("jobs_enabled", project.getJobsEnabled())
+                .withParam("wiki_enabled", project.getWikiEnabled())
+                .withParam("snippets_enabled", project.getSnippetsEnabled())
+                .withParam("shared_runners_enabled", project.getSharedRunnersEnabled())
+                .withParam("public_jobs", project.getPublicJobs())
+                .withParam("visibility_level", project.getVisibilityLevel())
+                .withParam("only_allow_merge_if_pipeline_succeeds", project.getOnlyAllowMergeIfPipelineSucceeds())
+                .withParam("only_allow_merge_if_all_discussions_are_resolved", project.getOnlyAllowMergeIfAllDiscussionsAreResolved())
+                .withParam("lfs_enabled", project.getLfsEnabled())
+                .withParam("request_access_enabled", project.getRequestAccessEnabled())
+                .withParam("repository_storage", project.getRepositoryStorage())
+                .withParam("approvals_before_merge", project.getApprovalsBeforeMerge())
+                .withParam("printing_merge_request_link_enabled", project.getPrintingMergeRequestLinkEnabled())
+                .withParam("resolve_outdated_diff_discussions", project.getResolveOutdatedDiffDiscussions())
+                .withParam("initialize_with_readme", project.getInitializeWithReadme())
+                .withParam("packages_enabled", project.getPackagesEnabled())
+                .withParam("build_git_strategy", project.getBuildGitStrategy())
+                .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+                .withParam("container_expiration_policy_attributes[cadence]", project.getContainerExpirationPolicy().getCadence())
+                //.withParam("container_expiration_policy_attributes[keep_n]", project.getContainerExpirationPolicy().getKeepN())
+                //.withParam("container_expiration_policy_attributes[older_than]", project.getContainerExpirationPolicy().getOlderThan())
+                .withParam("container_expiration_policy_attributes[name_regex]", project.getContainerExpirationPolicy().getNameRegex())
+                .withParam("container_expiration_policy_attributes[name_regex_delete]", project.getContainerExpirationPolicy().getNameRegexDelete())
+                .withParam("container_expiration_policy_attributes[name_regex_keep]", project.getContainerExpirationPolicy().getNameRegexKeep())
+                .withParam("container_expiration_policy_attributes[enabled]", project.getContainerExpirationPolicy().getEnabled())
+                .withParam("autoclose_referenced_issues", project.getAutocloseReferencedIssues())
+                .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
+                .withParam("build_timeout", project.getBuildTimeout())
+                .withParam("auto_cancel_pending_pipelines", project.getAutoCancelPendingPipelines())
+                .withParam("ci_config_path", project.getCiConfigPath())
+                .withParam("ci_default_git_depth", project.getCiDefaultGitDepth())
+                .withParam("ci_forward_deployment_enabled", project.getCiForwardDeploymentEnabled())
+                .withParam("auto_devops_enabled", project.getAutoDevopsEnabled())
+                .withParam("auto_devops_deploy_strategy", project.getAutoDevopsDeployStrategy())
+                .withParam("external_authorization_classification_label", project.getExternalAuthorizationClassificationLabel())
+                .withParam("mirror", project.getMirror())
+                .withParam("mirror_user_id", project.getMirrorUserId())
+                .withParam("mirror_trigger_builds", project.getMirrorTriggerBuilds())
+                .withParam("only_mirror_protected_branches", project.getOnlyMirrorProtectedBranches())
+                .withParam("mirror_overwrites_diverged_branches", project.getMirrorOverwritesDivergedBranches())
+                .withParam("service_desk_enabled", project.getServiceDeskEnabled())
+                .withParam("tag_list", project.getTagList())
+                .withParam("avatar", project.getAvatarUrl())
+                .withParam("issues_access_level", project.getIssuesAccessLevel())
+                .withParam("repository_access_level", project.getRepositoryAccessLevel())
+                .withParam("merge_requests_access_level", project.getMergeRequestsAccessLevel())
+                .withParam("forking_access_level", project.getForkingAccessLevel())
+                .withParam("builds_access_level", project.getBuildsAccessLevel())
+                .withParam("wiki_access_level", project.getWikiAccessLevel())
+                .withParam("snippets_access_level", project.getSnippetsAccessLevel())
+                .withParam("pages_access_level", project.getPagesAccessLevel())
+                .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
+                .withParam("emails_disabled", project.getEmailsDisabled());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());
@@ -3700,5 +3744,27 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response response = putWithFormData(Response.Status.OK, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "remote_mirrors", mirrorId);
         return (response.readEntity(RemoteMirror.class));
+    }
+
+    /**
+     * Get a resource group for the specified project by key.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/resource_groups</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param resourceGroupKey the resource group key
+     * @return the resource group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ResourceGroup getResourceGroup(final Object projectIdOrPath, String resourceGroupKey) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "resource_groups", resourceGroupKey);
+        return (response.readEntity(ResourceGroup.class));
+    }
+
+    public ResourceGroup updateResourceGroup(final Object projectIdOrPath, ResourceGroup resourceGroup) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("process_mode", resourceGroup.getProcessMode());
+        Response response = putWithFormData(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "resource_groups", resourceGroup.getKey());
+        return (response.readEntity(ResourceGroup.class));
     }
 }
