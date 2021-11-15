@@ -13,6 +13,7 @@ public abstract class NotificationService {
 
     public static final String NOTIFY_ONLY_BROKEN_PIPELINES_PROP = "notify_only_broken_pipelines";
     public static final String NOTIFY_ONLY_DEFAULT_BRANCH_PROP = "notify_only_default_branch";
+    public static final String BRANCHES_TO_BE_NOTIFIED_PROP = "branches_to_be_notified";
     public static final String PUSH_CHANNEL_PROP = "push_channel";
     public static final String ISSUE_CHANNEL_PROP = "issue_channel";
     public static final String CONFIDENTIAL_ISSUE_CHANNEL_PROP = "confidential_issue_channel";
