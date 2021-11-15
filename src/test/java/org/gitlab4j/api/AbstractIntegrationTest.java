@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
 
@@ -16,6 +17,7 @@ import org.gitlab4j.api.models.User;
  * TEST_PRIVATE_TOKEN
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
+ * TEST_GROUP
  */
 public class AbstractIntegrationTest implements PropertyConstants {
 
@@ -33,6 +35,7 @@ public class AbstractIntegrationTest implements PropertyConstants {
     protected static class BaseTestResources {
         protected GitLabApi gitLabApi;
         protected Project testProject;
+        protected Group testGroup;
 
         protected BaseTestResources(GitLabApi gitLabApi) {
             this.gitLabApi = gitLabApi;
@@ -80,6 +83,10 @@ public class AbstractIntegrationTest implements PropertyConstants {
             problems += "TEST_PROJECT_NAME cannot be empty\n";
         }
 
+        if (TEST_GROUP == null || TEST_GROUP.trim().isEmpty()) {
+            problems += "TEST_GROUP cannot be empty\n";
+        }
+
         if (problems.isEmpty()) {
             try {
                 GitLabApi gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TEST_PRIVATE_TOKEN);
@@ -117,6 +124,34 @@ public class AbstractIntegrationTest implements PropertyConstants {
             Project testProject =  (baseResources.gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME));
             baseResources.testProject = testProject;
             return (testProject);
+        } catch (Exception e) {
+            System.err.println("Problems fetching test Project instance: " + e.getMessage());
+            return (null);
+        }
+    }
+
+    /**
+     * Get the test Group instance for the calling test class.
+     *
+     * @return the test Group instance for the calling test class
+     */
+    protected static Group getTestGroup() {
+
+        Throwable t = new Throwable();
+        StackTraceElement directCaller = t.getStackTrace()[1];
+        String callingClassName = directCaller.getClassName();
+        BaseTestResources baseResources = baseTestResourcesMap.get(callingClassName);
+        if (baseResources == null || baseResources.gitLabApi == null) {
+            System.err.println("Problems fetching test Project instance: GitLabApi instance is null");
+            return (null);
+        } else if (baseResources.testGroup != null) {
+            return (baseResources.testGroup);
+        }
+
+        try {
+            Group testGroup =  (baseResources.gitLabApi.getGroupApi().getGroup(TEST_GROUP));
+            baseResources.testGroup = testGroup;
+            return (testGroup);
         } catch (Exception e) {
             System.err.println("Problems fetching test Project instance: " + e.getMessage());
             return (null);
