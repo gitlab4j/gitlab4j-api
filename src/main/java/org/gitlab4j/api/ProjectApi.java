@@ -2080,6 +2080,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("repository_update_events", enabledHooks.getRepositoryUpdateEvents(), false)
                 .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
                 .withParam("releases_events", enabledHooks.getReleasesEvents(), false)
+                .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
                 .withParam("token", secretToken, false);
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
         return (response.readEntity(ProjectHook.class));
@@ -2151,14 +2152,20 @@ public class ProjectApi extends AbstractApi implements Constants {
         GitLabApiForm formData = new GitLabApiForm()
             .withParam("url", hook.getUrl(), true)
             .withParam("push_events", hook.getPushEvents(), false)
+            .withParam("push_events_branch_filter", hook.getPushEventsBranchFilter(), false)
             .withParam("issues_events", hook.getIssuesEvents(), false)
+            .withParam("confidential_issues_events", hook.getConfidentialIssuesEvents(), false)
             .withParam("merge_requests_events", hook.getMergeRequestsEvents(), false)
             .withParam("tag_push_events", hook.getTagPushEvents(), false)
             .withParam("note_events", hook.getNoteEvents(), false)
+            .withParam("confidential_note_events", hook.getConfidentialNoteEvents(), false)
             .withParam("job_events", hook.getJobEvents(), false)
             .withParam("pipeline_events", hook.getPipelineEvents(), false)
             .withParam("wiki_page_events", hook.getWikiPageEvents(), false)
             .withParam("enable_ssl_verification", hook.getEnableSslVerification(), false)
+            .withParam("repository_update_events", hook.getRepositoryUpdateEvents(), false)
+            .withParam("releases_events", hook.getReleasesEvents(), false)
+            .withParam("deployment_events", hook.getDeploymentEvents(), false)
             .withParam("token", hook.getToken(), false);
 
         Response response = put(Response.Status.OK, formData.asMap(), "projects", hook.getProjectId(), "hooks", hook.getId());

@@ -36,7 +36,7 @@ public class WebHookManager implements HookManager {
     /**
      * Create a HookManager to handle GitLab webhook events which will be verified
      * against the specified secretToken.
-     * 
+     *
      * @param secretToken the secret token to verify against
      */
     public WebHookManager(String secretToken) {
@@ -64,7 +64,7 @@ public class WebHookManager implements HookManager {
     /**
      * Parses and verifies an Event instance from the HTTP request and
      * fires it off to the registered listeners.
-     * 
+     *
      * @param request the HttpServletRequest to read the Event instance from
      * @throws GitLabApiException if the parsed event is not supported
      */
@@ -106,6 +106,8 @@ public class WebHookManager implements HookManager {
         case PushEvent.X_GITLAB_EVENT:
         case TagPushEvent.X_GITLAB_EVENT:
         case WikiPageEvent.X_GITLAB_EVENT:
+        case DeploymentEvent.X_GITLAB_EVENT:
+        case ReleaseEvent.X_GITLAB_EVENT:
             break;
 
         default:
@@ -154,7 +156,7 @@ public class WebHookManager implements HookManager {
 
     /**
      * Verifies the provided Event and fires it off to the registered listeners.
-     * 
+     *
      * @param event the Event instance to handle
      * @throws GitLabApiException if the event is not supported
      */
@@ -172,6 +174,8 @@ public class WebHookManager implements HookManager {
         case PushEvent.OBJECT_KIND:
         case TagPushEvent.OBJECT_KIND:
         case WikiPageEvent.OBJECT_KIND:
+        case ReleaseEvent.OBJECT_KIND:
+        case DeploymentEvent.OBJECT_KIND:
             fireEvent(event);
             break;
 
@@ -205,7 +209,7 @@ public class WebHookManager implements HookManager {
 
     /**
      * Fire the event to the registered listeners.
-     * 
+     *
      * @param event the Event instance to fire to the registered event listeners
      * @throws GitLabApiException if the event is not supported
      */
@@ -246,6 +250,14 @@ public class WebHookManager implements HookManager {
 
         case WikiPageEvent.OBJECT_KIND:
             fireWikiPageEvent((WikiPageEvent) event);
+            break;
+
+        case ReleaseEvent.OBJECT_KIND:
+            fireReleaseEvent((ReleaseEvent) event);
+            break;
+
+        case DeploymentEvent.OBJECT_KIND:
+            fireDeploymentEvent((DeploymentEvent) event);
             break;
 
         default:
@@ -306,6 +318,18 @@ public class WebHookManager implements HookManager {
     protected void fireWikiPageEvent(WikiPageEvent wikiPageEvent) {
         for (WebHookListener listener : webhookListeners) {
             listener.onWikiPageEvent(wikiPageEvent);
+        }
+    }
+
+    protected void fireDeploymentEvent(DeploymentEvent deploymentEvent) {
+        for (WebHookListener listener : webhookListeners) {
+            listener.onDeploymentEvent(deploymentEvent);
+        }
+    }
+
+    protected void fireReleaseEvent(ReleaseEvent releaseEvent) {
+        for (WebHookListener listener : webhookListeners) {
+            listener.onReleaseEvent(releaseEvent);
         }
     }
 }

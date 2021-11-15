@@ -17,7 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = PipelineEvent.class, name = PipelineEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = PushEvent.class, name = PushEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = TagPushEvent.class, name = TagPushEvent.OBJECT_KIND),
-    @JsonSubTypes.Type(value = WikiPageEvent.class, name = WikiPageEvent.OBJECT_KIND)
+    @JsonSubTypes.Type(value = WikiPageEvent.class, name = WikiPageEvent.OBJECT_KIND),
+    @JsonSubTypes.Type(value = DeploymentEvent.class, name = DeploymentEvent.OBJECT_KIND),
+    @JsonSubTypes.Type(value = ReleaseEvent.class, name = ReleaseEvent.OBJECT_KIND)
 })
 public interface Event {     
     String getObjectKind();
