@@ -561,7 +561,7 @@ public class GitLabApiClient implements AutoCloseable {
      *
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param mediaTypeString unused; will be removed in the next major version
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
@@ -576,7 +576,7 @@ public class GitLabApiClient implements AutoCloseable {
      *
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param mediaTypeString unused; will be removed in the next major version
      * @param formData the Form containing the name/value pairs
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -593,17 +593,14 @@ public class GitLabApiClient implements AutoCloseable {
      *
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param mediaTypeString unused; will be removed in the next major version
      * @param formData the Form containing the name/value pairs
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
     protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, URL url) throws IOException {
-        MediaType mediaType = (mediaTypeString != null ? MediaType.valueOf(mediaTypeString) : null);
-        FileDataBodyPart filePart = mediaType != null ?
-            new FileDataBodyPart(name, fileToUpload, mediaType) :
-            new FileDataBodyPart(name, fileToUpload);
+        FileDataBodyPart filePart = new FileDataBodyPart(name, fileToUpload);
         return upload(filePart, formData, url);
     }
 
@@ -613,10 +610,7 @@ public class GitLabApiClient implements AutoCloseable {
     }
 
     protected Response upload(String name, InputStream inputStream, String filename, String mediaTypeString, Form formData, URL url) throws IOException {
-        MediaType mediaType = (mediaTypeString != null ? MediaType.valueOf(mediaTypeString) : null);
-        StreamDataBodyPart streamDataBodyPart = mediaType != null ?
-            new StreamDataBodyPart(name, inputStream, filename, mediaType) :
-            new StreamDataBodyPart(name, inputStream, filename);
+        StreamDataBodyPart streamDataBodyPart = new StreamDataBodyPart(name, inputStream, filename);
         return upload(streamDataBodyPart, formData, url);
     }
 
