@@ -10,6 +10,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,7 +61,7 @@ public class GitLabApiClient implements AutoCloseable {
     private String baseUrl;
     private String hostUrl;
     private TokenType tokenType = TokenType.PRIVATE;
-    private String authToken;
+    private Supplier<String> authToken;
     private String secretToken;
     private boolean ignoreCertificateErrors;
     private SSLContext openSslContext;
@@ -215,7 +216,7 @@ public class GitLabApiClient implements AutoCloseable {
         this.hostUrl += apiVersion.getApiNamespace();
 
         this.tokenType = tokenType;
-        this.authToken = authToken;
+        this.authToken = () -> authToken;
 
         if (secretToken != null) {
             secretToken = secretToken.trim();
@@ -293,7 +294,7 @@ public class GitLabApiClient implements AutoCloseable {
      * @return the auth token being used by this client
      */
     String getAuthToken() {
-        return (authToken);
+        return (authToken.get());
     }
 
     /**
@@ -792,7 +793,7 @@ public class GitLabApiClient implements AutoCloseable {
         }
 
         String authHeader = (tokenType == TokenType.OAUTH2_ACCESS ? AUTHORIZATION_HEADER : PRIVATE_TOKEN_HEADER);
-        String authValue = (tokenType == TokenType.OAUTH2_ACCESS ? "Bearer " + authToken : authToken);
+        String authValue = (tokenType == TokenType.OAUTH2_ACCESS ? "Bearer " + authToken.get() : authToken.get());
         Invocation.Builder builder = target.request();
         if (accept == null || accept.trim().length() == 0) {
             builder = builder.header(authHeader, authValue);
@@ -922,5 +923,13 @@ public class GitLabApiClient implements AutoCloseable {
         }
 
         return (true);
+    }
+
+    /**
+     * Set auth token supplier for gitlab api client.
+     * @param authTokenSupplier - supplier which provide actual auth token
+     */
+    public void setAuthTokenSupplier(Supplier<String> authTokenSupplier) {
+        this.authToken = authTokenSupplier;
     }
 }
