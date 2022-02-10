@@ -38,6 +38,7 @@ import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.Boundary;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPart;
@@ -242,6 +243,7 @@ public class GitLabApiClient implements AutoCloseable {
         clientConfig.property(ClientProperties.METAINF_SERVICES_LOOKUP_DISABLE, true);
 
         clientConfig.register(JacksonJson.class);
+        clientConfig.register(JacksonFeature.class);
         clientConfig.register(MultiPartFeature.class);
     }
 
@@ -769,6 +771,7 @@ public class GitLabApiClient implements AutoCloseable {
 
         // Register JacksonJson as the ObjectMapper provider.
         clientBuilder.register(JacksonJson.class);
+        clientBuilder.register(JacksonFeature.class);
 
         if (ignoreCertificateErrors) {
             clientBuilder.sslContext(openSslContext).hostnameVerifier(openHostnameVerifier);
