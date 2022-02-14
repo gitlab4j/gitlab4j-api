@@ -1,31 +1,38 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum MembershipSourceType {
+import java.util.Locale;
 
-    PROJECT,
+public enum MembershipSourceType {
+    PROJECT("Project"),
 
     /** Representing a group */
-    NAMESPACE;
+    NAMESPACE("Namespace");
 
-    private static JacksonJsonEnumHelper<MembershipSourceType> enumHelper = new JacksonJsonEnumHelper<>(MembershipSourceType.class);
+    public final String name;
+
+    MembershipSourceType(String name) {
+        this.name = name;
+    }
 
     @JsonCreator
     public static MembershipSourceType forValue(String value) {
-        return enumHelper.forValue(value);
+        if (value == null) {
+            return null;
+        } else {
+            return MembershipSourceType.valueOf(value.toUpperCase(Locale.ROOT));
+        }
     }
 
     @JsonValue
     public String toValue() {
-        return (enumHelper.toString(this));
+        return this.name;
     }
 
     @Override
     public String toString() {
-        return (enumHelper.toString(this));
+        return this.name;
     }
 }
