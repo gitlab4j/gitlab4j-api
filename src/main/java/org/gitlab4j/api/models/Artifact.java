@@ -30,7 +30,7 @@ public class Artifact {
     }
 
     private FileType fileType;
-    private Integer size;
+    private Long size;
     private String filename;
     private String fileFormat;
 
@@ -42,11 +42,11 @@ public class Artifact {
         this.fileType = fileType;
     }
 
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
