@@ -241,6 +241,7 @@
 					<systemPropertyVariables>
 						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
 					</systemPropertyVariables>
+					<forkCount>1.5C</forkCount>
 				</configuration>
 			</plugin>
 
