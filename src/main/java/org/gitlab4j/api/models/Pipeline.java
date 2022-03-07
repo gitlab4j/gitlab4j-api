@@ -7,7 +7,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Pipeline {
 
-    private Integer id;
+    private Long id;
     private PipelineStatus status;
     private String ref;
     private String sha;
@@ -25,11 +25,11 @@ public class Pipeline {
     private String webUrl;
     private DetailedStatus detailedStatus;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

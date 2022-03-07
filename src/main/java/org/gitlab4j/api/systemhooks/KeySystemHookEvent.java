@@ -14,7 +14,7 @@ public class KeySystemHookEvent extends AbstractSystemHookEvent {
     private String eventName;
     private String username;
     private String key;
-    private Integer id;
+    private Long id;
 
     public Date getCreatedAt() {
         return createdAt;
@@ -56,11 +56,11 @@ public class KeySystemHookEvent extends AbstractSystemHookEvent {
         this.key = key;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

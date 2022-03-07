@@ -8,8 +8,8 @@ public class ApprovalRuleParams {
 
     private String name;
     private Integer approvalsRequired;
-    private List<Integer> userIds;
-    private List<Integer> groupIds;
+    private List<Long> userIds;
+    private List<Long> groupIds;
 
     public ApprovalRuleParams withName(String name) {
 	this.name = name;
@@ -21,12 +21,12 @@ public class ApprovalRuleParams {
 	return (this);
     }
 
-    public ApprovalRuleParams withUserIds(List<Integer> userIds) {
+    public ApprovalRuleParams withUserIds(List<Long> userIds) {
 	this.userIds = userIds;
 	return (this);
     }
 
-    public ApprovalRuleParams withGroupIds(List<Integer> groupIds) {
+    public ApprovalRuleParams withGroupIds(List<Long> groupIds) {
 	this.groupIds = groupIds;
 	return (this);
     }

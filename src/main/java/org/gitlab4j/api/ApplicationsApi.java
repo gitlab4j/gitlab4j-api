@@ -126,7 +126,7 @@ public class ApplicationsApi extends AbstractApi {
      * @param applicationId the ID of the OUAUTH Application to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteApplication(Integer applicationId) throws GitLabApiException {
+    public void deleteApplication(Long applicationId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "applications", applicationId);
     }
 }

@@ -70,7 +70,7 @@ public class TestServicesApi extends AbstractIntegrationTest {
 
 	@Test
 	public void testProjectIdOrPath() throws GitLabApiException {
-		Integer projectId = testProject.getId();
+		Long projectId = testProject.getId();
 		JiraService jiraServiceById = gitLabApi.getServicesApi().getJiraService(projectId);
 		assertNotNull(jiraServiceById);
 		JiraService jiraServiceByPath = gitLabApi.getServicesApi().getJiraService(testProject.getPathWithNamespace());

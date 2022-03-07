@@ -127,7 +127,7 @@ public class TestTodosApi extends AbstractIntegrationTest {
         List<Todo> todos = gitLabApi.getTodosApi().getPendingTodos();
         assertTrue(todos.size() > 0);
 
-        Integer foundId = null;
+        Long foundId = null;
         for (Todo todo : todos) {
             if (todo.isIssueTodo() && ((Issue)todo.getTarget()).getIid().intValue() == issue.getIid()) {
                 foundId = todo.getId();

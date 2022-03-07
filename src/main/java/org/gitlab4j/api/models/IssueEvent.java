@@ -30,18 +30,18 @@ public class IssueEvent {
 	}
     }
 
-    private int id;
+    private Long id;
     private User user;
     private String createdAt;
     private ResourceType resourceType;
-    private int resourceId;
+    private Long resourceId;
     private String state;
 
-    public int getId() {
+    public Long getId() {
 	return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 
@@ -69,11 +69,11 @@ public class IssueEvent {
 	this.resourceType = resourceType;
     }
 
-    public int getResourceId() {
+    public Long getResourceId() {
 	return resourceId;
     }
 
-    public void setResourceId(int resourceId) {
+    public void setResourceId(Long resourceId) {
 	this.resourceId = resourceId;
     }
 

@@ -68,7 +68,7 @@ public class GitLabApiClient implements AutoCloseable {
     private boolean ignoreCertificateErrors;
     private SSLContext openSslContext;
     private HostnameVerifier openHostnameVerifier;
-    private Integer sudoAsId;
+    private Long sudoAsId;
     private Integer connectTimeout;
     private Integer readTimeout;
 
@@ -322,7 +322,7 @@ public class GitLabApiClient implements AutoCloseable {
      * Set the ID of the user to sudo as.
      *
      */
-    Integer getSudoAsId() {
+    Long getSudoAsId() {
         return (sudoAsId);
     }
 
@@ -331,7 +331,7 @@ public class GitLabApiClient implements AutoCloseable {
      *
      * @param sudoAsId the ID of the user to sudo as
      */
-    void setSudoAsId(Integer sudoAsId) {
+    void setSudoAsId(Long sudoAsId) {
         this.sudoAsId = sudoAsId;
     }
 
@@ -917,7 +917,8 @@ public class GitLabApiClient implements AutoCloseable {
 
         // Ignore differences between given hostname and certificate hostname
         HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-            public boolean verify(String hostname, SSLSession session) {
+            @Override
+			public boolean verify(String hostname, SSLSession session) {
                 return true;
             }
         };

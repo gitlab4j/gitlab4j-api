@@ -10,10 +10,10 @@ public class Milestone {
     private String description;
     private Date startDate;
     private Date dueDate;
-    private Integer id;
-    private Integer iid;
-    private Integer projectId;
-    private Integer groupId;
+    private Long id;
+    private Long iid;
+    private Long projectId;
+    private Long groupId;
     private String state;
     private String title;
     private Date updatedAt;
@@ -50,35 +50,35 @@ public class Milestone {
         this.dueDate = dueDate;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getIid() {
+    public Long getIid() {
         return this.iid;
     }
 
-    public void setIid(Integer iid) {
+    public void setIid(Long iid) {
         this.iid = iid;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return this.projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
-    public Integer getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(Integer groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 

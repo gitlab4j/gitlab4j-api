@@ -41,12 +41,12 @@ import org.junit.experimental.categories.Category;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
- * 
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
 @Category(IntegrationTest.class)
@@ -96,7 +96,7 @@ public class TestProjectApiSnippets extends AbstractIntegrationTest {
         assumeNotNull(gitLabApi);
     }
 
-    private Snippet createSnippet(String title, String filename, String description, 
+    private Snippet createSnippet(String title, String filename, String description,
             String code, Visibility visibility) throws GitLabApiException {
         return (gitLabApi.getProjectApi().createSnippet(testProject, title, filename, description, code, visibility));
     }
@@ -147,7 +147,7 @@ public class TestProjectApiSnippets extends AbstractIntegrationTest {
         Snippet newSnippet = createSnippet(title, filename, description, code, visibility);
         assertNotNull(newSnippet);
 
-        int snippetId = newSnippet.getId();
+        long snippetId = newSnippet.getId();
         List<Snippet> snippets = gitLabApi.getProjectApi().getSnippets(testProject);
         assertNotNull(snippets);
         for (Snippet snippet : snippets) {
@@ -172,7 +172,7 @@ public class TestProjectApiSnippets extends AbstractIntegrationTest {
         Snippet createdSnippet = createSnippet(title, filename, description, code, visibility);
         assertNotNull(createdSnippet);
 
-        int snippetId = createdSnippet.getId();
+        long snippetId = createdSnippet.getId();
         gitLabApi.getProjectApi().deleteSnippet(testProject, snippetId);
         List<Snippet> snippets = gitLabApi.getProjectApi().getSnippets(testProject);
         if (snippets != null) {
@@ -181,7 +181,7 @@ public class TestProjectApiSnippets extends AbstractIntegrationTest {
                     fail("Snippet was not deleted.");
                 }
             }
-        }        
+        }
     }
 
     @Test

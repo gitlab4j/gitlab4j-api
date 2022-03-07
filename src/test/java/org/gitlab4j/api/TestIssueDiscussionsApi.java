@@ -39,28 +39,28 @@ public class TestIssueDiscussionsApi implements Constants {
 
     @Test
     public void testGetIssueDiscussionsByList() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getIssueDiscussions(1, 1);        
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getIssueDiscussions(1, 1L);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "issue-discussions.json"));
     }
 
     @Test
     public void testGetIssueDiscussionsByListWithMaxItems() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getIssueDiscussions(1, 1, 20);        
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getIssueDiscussions(1, 1L, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "issue-discussions.json"));
     }
 
     @Test
     public void testGetIssueDiscussionsByPager() throws Exception {
-        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getIssueDiscussionsPager(1, 1, 20);
+        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getIssueDiscussionsPager(1, 1L, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions.all(), "issue-discussions.json"));
     }
 
     @Test
     public void testGetIssueDiscussionsByStream() throws Exception {
-        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getIssueDiscussionsStream(1, 1);
+        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getIssueDiscussionsStream(1, 1L);
         assertNotNull(stream);
         List<Discussion> discussions = stream.collect(Collectors.toList());
         assertTrue(compareJson(discussions, "issue-discussions.json"));

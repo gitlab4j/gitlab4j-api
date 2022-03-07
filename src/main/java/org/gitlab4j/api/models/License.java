@@ -7,7 +7,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class License {
 
-    private Integer id;
+    private Long id;
     private String plan;
     private Date createdAt;
     private Date startsAt;
@@ -20,11 +20,11 @@ public class License {
     private Map<String, String> licensee;
     private Map<String, Integer> addOns;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

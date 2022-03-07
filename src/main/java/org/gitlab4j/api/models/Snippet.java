@@ -33,7 +33,7 @@ public class Snippet {
     private Date createdAt;
     private Date expiresAt;
     private String fileName;
-    private Integer id;
+    private Long id;
     private String title;
     private String updatedAt;
     private String webUrl;
@@ -89,11 +89,11 @@ public class Snippet {
         this.fileName = fileName;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -88,7 +88,7 @@ public class SnippetsApi extends AbstractApi {
      * @return the content of snippet
      * @throws GitLabApiException if any exception occurs
      */
-    public String getSnippetContent(Integer snippetId) throws GitLabApiException {
+    public String getSnippetContent(Long snippetId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "snippets", snippetId, "raw");
         return (response.readEntity(String.class));
     }
@@ -101,7 +101,7 @@ public class SnippetsApi extends AbstractApi {
      * @return the snippet with the given id
      * @throws GitLabApiException if any exception occurs
      */
-    public Snippet getSnippet(Integer snippetId, boolean downloadContent) throws GitLabApiException {
+    public Snippet getSnippet(Long snippetId, boolean downloadContent) throws GitLabApiException {
 
         if (snippetId == null) {
             throw new RuntimeException("snippetId can't be null");
@@ -124,7 +124,7 @@ public class SnippetsApi extends AbstractApi {
      * @return the snippet with the given id
      * @throws GitLabApiException if any exception occurs
      */
-    public Snippet getSnippet(Integer snippetId) throws GitLabApiException {
+    public Snippet getSnippet(Long snippetId) throws GitLabApiException {
         return getSnippet(snippetId, false);
     }
 
@@ -136,7 +136,7 @@ public class SnippetsApi extends AbstractApi {
      * @param snippetId the ID of the snippet to get the Optional instance for
      * @return the specified Snippet as an Optional instance
      */
-    public Optional<Snippet> getOptionalSnippet(Integer snippetId) {
+    public Optional<Snippet> getOptionalSnippet(Long snippetId) {
         return (getOptionalSnippet(snippetId, false));
     }
 
@@ -149,7 +149,7 @@ public class SnippetsApi extends AbstractApi {
      * @param downloadContent indicating whether to download the snippet content
      * @return the specified Snippet as an Optional instance
      */
-    public Optional<Snippet> getOptionalSnippet(Integer snippetId, boolean downloadContent) {
+    public Optional<Snippet> getOptionalSnippet(Long snippetId, boolean downloadContent) {
         try {
             return (Optional.ofNullable(getSnippet(snippetId, downloadContent)));
         } catch (GitLabApiException glae) {
@@ -205,7 +205,7 @@ public class SnippetsApi extends AbstractApi {
      * @param snippetId the snippet ID to remove
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteSnippet(Integer snippetId) throws GitLabApiException {
+    public void deleteSnippet(Long snippetId) throws GitLabApiException {
 
         if (snippetId == null) {
             throw new RuntimeException("snippetId can't be null");

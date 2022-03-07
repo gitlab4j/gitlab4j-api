@@ -6,17 +6,17 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class EventIssue {
 
-    private Integer assigneeId;
-    private Integer authorId;
+    private Long assigneeId;
+    private Long authorId;
     private String branchName;
     private Date createdAt;
     private String description;
-    private Integer id;
-    private Integer iid;
+    private Long id;
+    private Long iid;
 
     private String milestoneId;
     private Integer position;
-    private Integer projectId;
+    private Long projectId;
 
     private String state;
 
@@ -26,19 +26,19 @@ public class EventIssue {
     private String url;
     private String action;
 
-    public Integer getAssigneeId() {
+    public Long getAssigneeId() {
         return this.assigneeId;
     }
 
-    public void setAssigneeId(Integer assigneeId) {
+    public void setAssigneeId(Long assigneeId) {
         this.assigneeId = assigneeId;
     }
 
-    public Integer getAuthorId() {
+    public Long getAuthorId() {
         return this.authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
@@ -66,19 +66,19 @@ public class EventIssue {
         this.description = description;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getIid() {
+    public Long getIid() {
         return this.iid;
     }
 
-    public void setIid(Integer iid) {
+    public void setIid(Long iid) {
         this.iid = iid;
     }
 
@@ -98,11 +98,11 @@ public class EventIssue {
         this.position = position;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return this.projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 

@@ -39,28 +39,28 @@ public class TestEpicDiscussionsApi implements Constants {
 
     @Test
     public void testGetEpicDiscussionsByList() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getEpicDiscussions(1, 1);        
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getEpicDiscussions(1, 1L);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "epic-discussions.json"));
     }
 
     @Test
     public void testGetEpicDiscussionsByListWithMaxItems() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getEpicDiscussions(1, 1, 20);        
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getEpicDiscussions(1, 1L, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "epic-discussions.json"));
     }
 
     @Test
     public void testGetEpicDiscussionsByPager() throws Exception {
-        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getEpicDiscussionsPager(1, 1, 20);
+        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getEpicDiscussionsPager(1, 1L, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions.all(), "epic-discussions.json"));
     }
 
     @Test
     public void testGetEpicDiscussionsByStream() throws Exception {
-        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getEpicDiscussionsStream(1, 1);
+        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getEpicDiscussionsStream(1, 1L);
         assertNotNull(stream);
         List<Discussion> discussions = stream.collect(Collectors.toList());
         assertTrue(compareJson(discussions, "epic-discussions.json"));

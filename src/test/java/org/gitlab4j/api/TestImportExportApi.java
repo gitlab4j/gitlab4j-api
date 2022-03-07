@@ -141,7 +141,7 @@ public class TestImportExportApi extends AbstractIntegrationTest {
             ImportStatus importStatus = gitLabApi.getImportExportApi().startImport(null, exportDownload,
                     TEST_IMPORT_PROJECT_NAME, true, null);
             assertNotNull(importStatus);
-            Integer newProjectId = importStatus.getId();
+            Long newProjectId = importStatus.getId();
 
             // Wait up to 40 seconds for the import to complete
             System.out.print("Waiting for import to complete");

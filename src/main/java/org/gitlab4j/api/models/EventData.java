@@ -13,7 +13,7 @@ public class EventData {
     private String ref;
     private Repository repository;
     private Integer totalCommitsCount;
-    private Integer userId;
+    private Long userId;
     private String userName;
 
     public String getAfter() {
@@ -64,11 +64,11 @@ public class EventData {
         this.totalCommitsCount = totalCommitsCount;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return this.userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -111,7 +111,7 @@ public class EventData {
         return this;
     }
 
-    public EventData withUserId(Integer userId) {
+    public EventData withUserId(Long userId) {
         this.userId = userId;
         return this;
     }

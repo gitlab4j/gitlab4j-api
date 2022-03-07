@@ -52,12 +52,12 @@ import org.junit.experimental.categories.Category;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
- * 
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
 @Category(IntegrationTest.class)
@@ -127,7 +127,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
     public void testGetIssue() throws GitLabApiException {
 
         assertNotNull(testProject);
-        Integer projectId = testProject.getId();
+        Long projectId = testProject.getId();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         Issue foundIssue = gitLabApi.getIssuesApi().getIssue(projectId, issue.getIid());
         assertNotNull(foundIssue);
@@ -138,7 +138,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
     public void testGetIssues() throws GitLabApiException {
 
         assertNotNull(testProject);
-        Integer projectId = testProject.getId();
+        Long projectId = testProject.getId();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         List<Issue> issues = gitLabApi.getIssuesApi().getIssues(projectId);
         assertNotNull(issues);
@@ -166,7 +166,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
     public void testCreateIssue() throws GitLabApiException {
 
         assertNotNull(testProject);
-        Integer projectId = testProject.getId();
+        Long projectId = testProject.getId();
         String title = getUniqueTitle();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, title, ISSUE_DESCRIPTION);
         assertNotNull(issue);
@@ -174,7 +174,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         assertEquals(ISSUE_DESCRIPTION, issue.getDescription());
         assertEquals(IssueState.OPENED, issue.getState());
 
-        List<Integer> assigneeIds = Arrays.asList(issue.getAuthor().getId());
+        List<Long> assigneeIds = Arrays.asList(issue.getAuthor().getId());
         issue = gitLabApi.getIssuesApi().createIssue(projectId, title, ISSUE_DESCRIPTION, null, assigneeIds, null, null, new Date(), null, null, null);
         assertNotNull(issue);
         assertEquals(title, issue.getTitle());
@@ -186,7 +186,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
     public void testCloseIssueJustCreated() throws GitLabApiException {
 
         assertNotNull(testProject);
-        Integer projectId = testProject.getId();
+        Long projectId = testProject.getId();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
 
         Issue closedIssue = gitLabApi.getIssuesApi().closeIssue(projectId, issue.getIid());
@@ -199,7 +199,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
     public void testCloseIssueClosedAt() throws GitLabApiException {
 
         assertNotNull(testProject);
-        Integer projectId = testProject.getId();
+        Long projectId = testProject.getId();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         assertNull(issue.getClosedAt());
         assertNull(issue.getClosedBy());
@@ -219,7 +219,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
     public void testDeleteIssue() throws GitLabApiException {
 
         assertNotNull(testProject);
-        Integer projectId = testProject.getId();
+        Long projectId = testProject.getId();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         gitLabApi.getIssuesApi().deleteIssue(projectId, issue.getIid());
 
@@ -233,12 +233,12 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
 
     /**
      * Simplify creation of issues
-     * 
+     *
      * @return
      * @throws GitLabApiException
      */
     private Issue ensureIssue() throws GitLabApiException {
-        Integer projectId = testProject.getId();
+        Long projectId = testProject.getId();
         String title = getUniqueTitle();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, title, ISSUE_DESCRIPTION);
 
@@ -256,7 +256,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
 
     /**
      * Expect the given {@link TimeStats} object to have the values
-     * 
+     *
      * @param timeStats
      * @param timeEstimate
      * @param totalTimeSpent
@@ -271,10 +271,10 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         Issue issue = ensureIssue();
         TimeStats timeStats = gitLabApi.getIssuesApi().estimateTime(issue.getProjectId(), issue.getIid(), "1h");
         assertTimeStats(timeStats, (60 /* seconds */ * 60 /* minutes */), 0);
-        
+
         timeStats = gitLabApi.getIssuesApi().estimateTime(issue.getProjectId(), issue.getIid(), 60 * 60);
         assertTimeStats(timeStats, (60 /* seconds */ * 60 /* minutes */), 0);
-        
+
         timeStats = gitLabApi.getIssuesApi().estimateTime(issue.getProjectId(), issue.getIid(), new Duration(60 * 60));
         assertTimeStats(timeStats, (60 /* seconds */ * 60 /* minutes */), 0);
     }
@@ -293,10 +293,10 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         Issue issue = ensureIssue();
         TimeStats timeStats = gitLabApi.getIssuesApi().addSpentTime(issue.getProjectId(), issue.getIid(), "1h");
         assertTimeStats(timeStats, 0, (60 /* seconds */ * 60 /* minutes */));
-        
+
         timeStats = gitLabApi.getIssuesApi().addSpentTime(issue.getProjectId(), issue.getIid(), 60 * 60);
         assertTimeStats(timeStats, 0, 60 * 60 * 2);
-        
+
         timeStats = gitLabApi.getIssuesApi().addSpentTime(issue.getProjectId(), issue.getIid(), new Duration(60 * 60));
         assertTimeStats(timeStats, 0, 60 * 60 * 3);
     }
@@ -314,20 +314,20 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
     public void testGetIssuesWithOptions() throws GitLabApiException {
 
         assertNotNull(testProject);
-        Integer projectId = testProject.getId();
+        Long projectId = testProject.getId();
 
         Issue issueOpen = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         Issue issueClose = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         issueClose = gitLabApi.getIssuesApi().closeIssue(projectId, issueClose.getIid());
 
-        final Integer openIid = issueOpen.getIid();
+        final Long openIid = issueOpen.getIid();
         IssueFilter openFilter = new IssueFilter().withState(IssueState.OPENED);
         List<Issue> opens = gitLabApi.getIssuesApi().getIssues(projectId, openFilter);
         assertNotNull(opens);
         assertTrue(opens.stream().map(Issue::getIid).anyMatch(iid -> iid.equals(openIid)));
 
-        final Integer closedIid = issueClose.getIid();
-        IssueFilter closeFilter = new IssueFilter().withState(IssueState.CLOSED);       
+        final Long closedIid = issueClose.getIid();
+        IssueFilter closeFilter = new IssueFilter().withState(IssueState.CLOSED);
         List<Issue> closes = gitLabApi.getIssuesApi().getIssues(projectId, closeFilter);
         assertNotNull(closes);
         assertTrue(closes.stream().map(Issue::getIid).anyMatch(iid -> iid.equals(closedIid)));

@@ -59,13 +59,13 @@ import org.junit.runners.MethodSorters;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
- * 
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  * TEST_GROUP_PROJECT
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that the tests are in the correct order
@@ -174,7 +174,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         if (TEST_REQUEST_ACCESS_USERNAME != null) {
             Optional<User> user = gitLabApi.getUserApi().getOptionalUser(TEST_REQUEST_ACCESS_USERNAME);
             if (user.isPresent()) {
-                Integer userId = user.get().getId();
+                Long userId = user.get().getId();
                 try {
                     gitLabApi.getProjectApi().denyAccessRequest(testProject, userId);
                 } catch (Exception e) {
@@ -627,7 +627,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertTrue(optional.isPresent());
         assertEquals(TEST_PROJECT_NAME, optional.get().getName());
 
-        Integer projectId = optional.get().getId();
+        Long projectId = optional.get().getId();
         optional = gitLabApi.getProjectApi().getOptionalProject(projectId);
         assertNotNull(optional);
         assertTrue(optional.isPresent());
@@ -787,7 +787,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
         User user = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(user);
-        final Integer userId = user.getId();
+        final Long userId = user.getId();
 
         try {
             try {
@@ -832,7 +832,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
         User user = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(user);
-        final Integer userId = user.getId();
+        final Long userId = user.getId();
 
         try {
             try {

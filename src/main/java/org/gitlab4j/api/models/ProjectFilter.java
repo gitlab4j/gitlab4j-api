@@ -30,8 +30,8 @@ public class ProjectFilter {
     private Boolean wikiChecksumFailed;
     private Boolean repositoryChecksumFailed;
     private AccessLevel minAccessLevel;
-    private Integer idAfter;
-    private Integer idBefore;
+    private Long idAfter;
+    private Long idBefore;
     private Date lastActivityAfter;
     private Date lastActivityBefore;
     private String repositoryStorage;
@@ -44,7 +44,7 @@ public class ProjectFilter {
      */
     public ProjectFilter withArchived(Boolean archived) {
         this.archived = archived;
-        return (this);  
+        return (this);
     }
 
     /**
@@ -55,7 +55,7 @@ public class ProjectFilter {
      */
     public ProjectFilter withVisibility(Visibility visibility) {
         this.visibility = visibility;
-        return (this);       
+        return (this);
     }
 
     /**
@@ -103,7 +103,7 @@ public class ProjectFilter {
     }
 
     /**
-     * Return only limited fields for each project. This is a no-op without 
+     * Return only limited fields for each project. This is a no-op without
      * authentication as then only simple fields are returned.
      *
      * @param simple if true, return only limited fields for each project
@@ -160,7 +160,7 @@ public class ProjectFilter {
 
     /**
      *  Include custom attributes in response (admins only).
-     * 
+     *
      * @param withCustomAttributes if true, include custom attributes in the repsonse
      * @return the reference to this ProjectFilter instance
      */
@@ -233,7 +233,8 @@ public class ProjectFilter {
      * @return the reference to this ProjectFilter instance
      * @deprecated Replaced by {@link #withMinAccessLevel(AccessLevel) getComponentAt}
      */
-    public ProjectFilter minAccessLevel(AccessLevel minAccessLevel) {
+    @Deprecated
+	public ProjectFilter minAccessLevel(AccessLevel minAccessLevel) {
         this.minAccessLevel = minAccessLevel;
         return (this);
     }
@@ -255,7 +256,7 @@ public class ProjectFilter {
      * @param idAfter limit results to projects with IDs greater than the specified project ID
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectFilter withIdAfter(Integer idAfter) {
+    public ProjectFilter withIdAfter(Long idAfter) {
         this.idAfter = idAfter;
         return (this);
     }
@@ -266,7 +267,7 @@ public class ProjectFilter {
      * @param idBefore limit results to projects with IDs less than the specified project ID
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectFilter withIdBefore(Integer idBefore) {
+    public ProjectFilter withIdBefore(Long idBefore) {
         this.idBefore = idBefore;
         return (this);
     }

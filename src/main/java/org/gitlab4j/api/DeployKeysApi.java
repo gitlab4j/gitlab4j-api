@@ -77,7 +77,7 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deploy_keys</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a list of DeployKey
      * @throws GitLabApiException if any exception occurs
      */
@@ -91,7 +91,7 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deploy_keys</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param page the page to get
      * @param perPage the number of deploy keys per page
      * @return the list of DeployKey in the specified range
@@ -108,7 +108,7 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deploy_keys</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance@param projectId the ID of the project
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance@param projectId the ID of the project
      * @param itemsPerPage the number of DeployKey instances that will be fetched per page
      * @return a Pager of DeployKey
      * @throws GitLabApiException if any exception occurs
@@ -123,7 +123,7 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deploy_keys</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a list of DeployKey
      * @throws GitLabApiException if any exception occurs
      */
@@ -136,12 +136,12 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deploy_keys/:key_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param keyId the ID of the deploy key to delete
      * @return the DeployKey instance for the specified project ID and key ID
      * @throws GitLabApiException if any exception occurs
      */
-    public DeployKey getDeployKey(Object projectIdOrPath, Integer keyId) throws GitLabApiException {
+    public DeployKey getDeployKey(Object projectIdOrPath, Long keyId) throws GitLabApiException {
 
         if (keyId == null) {
             throw new RuntimeException("keyId cannot be null");
@@ -157,11 +157,11 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deploy_keys/:key_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param keyId the ID of the deploy key to delete
      * @return the DeployKey for the specified project ID and key ID as an Optional instance
      */
-    public Optional<DeployKey> getOptionalDeployKey(Object projectIdOrPath, Integer keyId) {
+    public Optional<DeployKey> getOptionalDeployKey(Object projectIdOrPath, Long keyId) {
         try {
             return (Optional.ofNullable(getDeployKey(projectIdOrPath, keyId)));
         } catch (GitLabApiException glae) {
@@ -174,7 +174,7 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/deploy_keys</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param title the new deploy key's title, required
      * @param key the new deploy key, required
      * @param canPush can deploy key push to the project's repository, optional
@@ -197,14 +197,14 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/deploy_keys/:key_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param deployKeyId the ID of the deploy key to update, required
      * @param title the title for the deploy key, optional
      * @param canPush can deploy key push to the project's repository, optional
      * @return an updated DeployKey instance
      * @throws GitLabApiException if any exception occurs
      */
-    public DeployKey updateDeployKey(Object projectIdOrPath, Integer deployKeyId, String title, Boolean canPush) throws GitLabApiException {
+    public DeployKey updateDeployKey(Object projectIdOrPath, Long deployKeyId, String title, Boolean canPush) throws GitLabApiException {
 
         if (deployKeyId == null) {
             throw new RuntimeException("deployKeyId cannot be null");
@@ -224,11 +224,11 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/deploy_keys/:key_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param keyId the ID of the deploy key to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteDeployKey(Object projectIdOrPath, Integer keyId) throws GitLabApiException {
+    public void deleteDeployKey(Object projectIdOrPath, Long keyId) throws GitLabApiException {
 
         if (keyId == null) {
             throw new RuntimeException("keyId cannot be null");
@@ -242,12 +242,12 @@ public class DeployKeysApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/deploy_keys/:key_id/enable</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param keyId the ID of the deploy key to enable
      * @return an DeployKey instance with info on the enabled deploy key
      * @throws GitLabApiException if any exception occurs
      */
-    public DeployKey enableDeployKey(Object projectIdOrPath, Integer keyId) throws GitLabApiException {
+    public DeployKey enableDeployKey(Object projectIdOrPath, Long keyId) throws GitLabApiException {
 
         if (keyId == null) {
             throw new RuntimeException("keyId cannot be null");

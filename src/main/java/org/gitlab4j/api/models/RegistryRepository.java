@@ -6,17 +6,17 @@ import java.util.Date;
 
 public class RegistryRepository {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String path;
     private String location;
     private Date createdAt;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

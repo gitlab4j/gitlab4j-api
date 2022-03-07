@@ -7,17 +7,17 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class DeployKey {
 
-    private Integer id;
+    private Long id;
     private String title;
     private String key;
     private Boolean canPush;
     private Date createdAt;
  
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
