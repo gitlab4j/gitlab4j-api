@@ -85,6 +85,21 @@ public class AwardEmojiApi extends AbstractApi {
     }
 
     /**
+     * Get a list of award emoji for the specified issue note.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/notes/:note_id/award_emoji</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param issueIid the issue IID of the issue that owns the note
+     * @param noteId the note ID to get the award emojis for
+     * @return a list of AwardEmoji for the specified note
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<AwardEmoji> getNoteAwardEmojis(Object projectIdOrPath, Integer issueIid, Integer noteId) throws GitLabApiException {
+        return getIssueNoteAwardEmojis(projectIdOrPath, issueIid, noteId);
+    }
+
+    /**
      * Get a list of award emoji for the specified merge request note.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/notes/:note_id/award_emoji</code></pre>
@@ -168,6 +183,24 @@ public class AwardEmojiApi extends AbstractApi {
         Response response = get(Response.Status.OK, getPageQueryParams(1, getDefaultPerPage()),
             "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes", noteId, "award_emoji", awardId);
         return (response.readEntity(AwardEmoji.class));
+    }
+
+    /**
+     * Get the specified award emoji for the specified issue note.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/notes/:note_id/award_emoji/:award_id</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param issueIid the issue IID of the issue that owns the note
+     * @param noteId the note ID to get the award emoji from
+     * @param awardId the ID of the award emoji to get
+     * @return an AwardEmoji instance for the specified award emoji
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getIssueNoteAwardEmoji(Object, Integer, Integer, Integer)} instead
+     */
+    @Deprecated
+    public AwardEmoji getNoteAwardEmoji(Object projectIdOrPath, Integer issueIid, Integer noteId, Integer awardId) throws GitLabApiException {
+    	return getIssueNoteAwardEmoji(projectIdOrPath, issueIid, noteId, awardId);
     }
 
     /**
@@ -262,6 +295,24 @@ public class AwardEmojiApi extends AbstractApi {
     }
 
     /**
+     * Add an award emoji for the specified issue note.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/notes/:noteId/award_emoji</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param issueIid the issue IID of the issue that owns the note
+     * @param noteId the note ID to add the award emoji to
+     * @param name the name of the award emoji to add
+     * @return an AwardEmoji instance for the added award emoji
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #addIssueNoteAwardEmoji(Object, Integer, Integer, String)}
+     */
+    @Deprecated
+    public AwardEmoji addNoteAwardEmoji(Object projectIdOrPath, Integer issueIid, Integer noteId, String name) throws GitLabApiException {
+        return addIssueNoteAwardEmoji(projectIdOrPath, issueIid, noteId, name);
+    }
+
+    /**
      * Add an award emoji for the specified merge request note.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/notes/:noteId/award_emoji</code></pre>
@@ -273,7 +324,7 @@ public class AwardEmojiApi extends AbstractApi {
      * @return an AwardEmoji instance for the added award emoji
      * @throws GitLabApiException if any exception occurs
      */
-    public AwardEmoji addNoteAwardEmoji(Object projectIdOrPath, Integer mergeRequestIid, Integer noteId, String name) throws GitLabApiException {
+    public AwardEmoji addMergeRequestAwardEmoji(Object projectIdOrPath, Integer mergeRequestIid, Integer noteId, String name) throws GitLabApiException {
         GitLabApiForm form = new GitLabApiForm().withParam("name",  name, true);
         Response response = post(Response.Status.CREATED, form.asMap(),
             "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "notes", noteId, "award_emoji");
@@ -336,9 +387,26 @@ public class AwardEmojiApi extends AbstractApi {
      * @param awardId the ID of the award emoji to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteNoteAwardEmoji(Object projectIdOrPath, Integer issueIid, Integer noteId, Integer awardId) throws GitLabApiException {
+    public void deleteIssueNoteAwardEmoji(Object projectIdOrPath, Integer issueIid, Integer noteId, Integer awardId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null,
             "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes", noteId, "award_emoji", awardId);
+    }
+
+    /**
+     *  Delete an award emoji from the specified issue note.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/issues/:issue_iid/notes/:note_id/award_emoji/:award_id</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param issueIid the issue IID that owns the note
+     * @param noteId the note ID of the note to delete the award emoji from
+     * @param awardId the ID of the award emoji to delete
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #deleteIssueNoteAwardEmoji(Object, Integer, Integer, Integer)} instead
+     */
+    @Deprecated
+    public void deleteNoteAwardEmoji(Object projectIdOrPath, Integer issueIid, Integer noteId, Integer awardId) throws GitLabApiException {
+        deleteIssueNoteAwardEmoji(projectIdOrPath, issueIid, noteId, awardId);
     }
 
     /**
@@ -352,7 +420,7 @@ public class AwardEmojiApi extends AbstractApi {
      * @param awardId the ID of the award emoji to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteNoteAwardEmoji(Object projectIdOrPath, Integer mergeRequestIid, Integer noteId, Integer awardId) throws GitLabApiException {
+    public void deleteMergeRequestNoteAwardEmoji(Object projectIdOrPath, Integer mergeRequestIid, Integer noteId, Integer awardId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null,
             "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "notes", noteId, "award_emoji", awardId);
     }
