@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.net.URL;
 import java.security.GeneralSecurityException;
@@ -13,7 +14,6 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -30,7 +30,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.utils.JacksonJson;
@@ -39,11 +38,13 @@ import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.Boundary;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 
 
 /**
@@ -561,14 +562,13 @@ public class GitLabApiClient implements AutoCloseable {
      *
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param mediaTypeString unused; will be removed in the next major version
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
     protected Response upload(String name, File fileToUpload, String mediaTypeString, Object... pathArgs) throws IOException {
-        URL url = getApiUrl(pathArgs);
-        return (upload(name, fileToUpload, mediaTypeString, null, url));
+        return upload(name, fileToUpload, mediaTypeString, null, pathArgs);
     }
 
     /**
@@ -577,7 +577,7 @@ public class GitLabApiClient implements AutoCloseable {
      *
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param mediaTypeString unused; will be removed in the next major version
      * @param formData the Form containing the name/value pairs
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
@@ -594,30 +594,38 @@ public class GitLabApiClient implements AutoCloseable {
      *
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaTypeString the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param mediaTypeString unused; will be removed in the next major version
      * @param formData the Form containing the name/value pairs
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
     protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, URL url) throws IOException {
+        FileDataBodyPart filePart = new FileDataBodyPart(name, fileToUpload);
+        return upload(filePart, formData, url);
+    }
 
-        MediaType mediaType = (mediaTypeString != null ? MediaType.valueOf(mediaTypeString) : null);
+    protected Response upload(String name, InputStream inputStream, String filename, String mediaTypeString, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (upload(name, inputStream, filename, mediaTypeString, null, url));
+    }
+
+    protected Response upload(String name, InputStream inputStream, String filename, String mediaTypeString, Form formData, URL url) throws IOException {
+        StreamDataBodyPart streamDataBodyPart = new StreamDataBodyPart(name, inputStream, filename);
+        return upload(streamDataBodyPart, formData, url);
+    }
+
+    protected Response upload(BodyPart bodyPart, Form formData, URL url) throws IOException {
         try (FormDataMultiPart multiPart = new FormDataMultiPart()) {
-
             if (formData != null) {
-                MultivaluedMap<String, String> formParams = formData.asMap();
-                formParams.forEach((key, values) -> {
+                formData.asMap().forEach((key, values) -> {
                     if (values != null) {
                         values.forEach(value -> multiPart.field(key, value));
                     }
                 });
             }
 
-            FileDataBodyPart filePart = mediaType != null ?
-                new FileDataBodyPart(name, fileToUpload, mediaType) :
-                new FileDataBodyPart(name, fileToUpload);
-            multiPart.bodyPart(filePart);
+            multiPart.bodyPart(bodyPart);
             final Entity<?> entity = Entity.entity(multiPart, Boundary.addBoundary(multiPart.getMediaType()));
             return (invocation(url, null).post(entity));
         }
