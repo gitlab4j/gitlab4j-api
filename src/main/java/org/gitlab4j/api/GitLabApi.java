@@ -714,14 +714,6 @@ public class GitLabApi implements AutoCloseable {
     }
 
     /**
-     * Set auth token supplier for gitlab api client.
-     * @param authTokenSupplier - supplier which provide actual auth token
-     */
-    public void setAuthTokenSupplier(Supplier<String> authTokenSupplier) {
-        apiClient.setAuthTokenSupplier(authTokenSupplier);
-    }
-
-    /**
      * Get the secret token.
      *
      * @return the secret token
