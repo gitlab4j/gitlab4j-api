@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
@@ -1306,9 +1307,24 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 12.8
      */
-    public List<Membership> getMemberships(Integer userId) throws GitLabApiException {
+    public List<Membership> getMemberships(int userId) throws GitLabApiException {
+        return getMembershipsPager(userId).stream().collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a Pager that lists all projects and groups a user is a member of. (admin only)
+     *
+     * This allows lazy-fetching of huge numbers of memberships.
+     *
+     * <pre><code>GitLab Endpoint: GET /users/:id/memberships</code></pre>
+     *
+     * @param userId the ID of the user to get the memberships for
+     * @return the list of memberships of the given user
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 12.8
+     */
+    public Pager<Membership> getMembershipsPager(int userId) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm();
-        Response response = get(Response.Status.OK, formData.asMap(), "users", userId, "memberships");
-        return (response.readEntity(new GenericType<List<Membership>>() {}));
+        return (new Pager<>(this, Membership.class, 100, formData.asMap(), "users", userId, "memberships"));
     }
 }
