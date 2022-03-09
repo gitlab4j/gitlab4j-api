@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -95,6 +96,7 @@ public class GitLabApi implements AutoCloseable {
     private TodosApi todosApi;
     private UserApi userApi;
     private WikisApi wikisApi;
+    private KeysApi keysApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -709,6 +711,14 @@ public class GitLabApi implements AutoCloseable {
      */
     public String getAuthToken() {
         return (apiClient.getAuthToken());
+    }
+
+    /**
+     * Set auth token supplier for gitlab api client.
+     * @param authTokenSupplier - supplier which provide actual auth token
+     */
+    public void setAuthTokenSupplier(Supplier<String> authTokenSupplier) {
+        apiClient.setAuthTokenSupplier(authTokenSupplier);
     }
 
     /**
@@ -1673,6 +1683,21 @@ public class GitLabApi implements AutoCloseable {
 
         return wikisApi;
     }
+
+    /**
+     * Gets the KeysApi instance owned by this GitLabApi instance. The KeysApi is used to look up users by their ssh key signatures
+     *
+     * @return the KeysApi instance owned by this GitLabApi instance
+     */
+    public KeysApi getKeysAPI() {
+        synchronized (this) {
+            if (keysApi == null) {
+                keysApi = new KeysApi(this);
+            }
+        }
+        return keysApi;
+    }
+
 
     /**
      * Create and return an Optional instance associated with a GitLabApiException.
