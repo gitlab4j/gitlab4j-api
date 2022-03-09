@@ -66,6 +66,18 @@ public class TestEventsApi extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testGetAuthenticatedUserEventsWithScope() throws GitLabApiException {
+        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null, 1, 10, Constants.EventScope.ALL);
+        assertNotNull(events);
+    }
+
+    @Test
+    public void testGetAllAuthenticatedUserEvents() throws GitLabApiException {
+        List<Event> events = gitLabApi.getEventsApi().getAllAuthenticatedUserEvents(null, null, null, null, null);
+        assertNotNull(events);
+    }
+
+    @Test
     public void testGetAuthenticatedUserEventsWithDates() throws GitLabApiException {
         Date after = new Date(0);
         Date now = new Date();
@@ -73,6 +85,18 @@ public class TestEventsApi extends AbstractIntegrationTest {
         assertNotNull(events);
 
         events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, after, null, null);
+        assertNotNull(events);
+        assertEquals(0, events.size());
+    }
+
+    @Test
+    public void testGetAuthenticatedUserEventsWithDatesAndScope() throws GitLabApiException {
+        Date after = new Date(0);
+        Date now = new Date();
+        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, now, after, null, 1, 10, Constants.EventScope.ALL);
+        assertNotNull(events);
+
+        events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, after, null, null, 1, 10, Constants.EventScope.ALL);
         assertNotNull(events);
         assertEquals(0, events.size());
     }
@@ -104,6 +128,12 @@ public class TestEventsApi extends AbstractIntegrationTest {
     @Test
     public void testPagedGetAuthenticatedUserEvents() throws GitLabApiException {
         Pager<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null, 10);
+        assertNotNull(events);
+    }
+
+    @Test
+    public void testPagedGetAuthenticatedUserEventsWithScope() throws GitLabApiException {
+        Pager<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null, 10, Constants.EventScope.ALL);
         assertNotNull(events);
     }
 

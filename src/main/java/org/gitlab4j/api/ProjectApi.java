@@ -24,6 +24,7 @@
 package org.gitlab4j.api;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -32,12 +33,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
@@ -1192,6 +1191,30 @@ public class ProjectApi extends AbstractApi implements Constants {
             formData.withParam("visibility", Visibility.PUBLIC);
         }
 
+        Response response = post(Response.Status.CREATED, formData, "projects");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Create a new project from a template, belonging to the namespace ID.  A namespace ID is either a user or group ID.
+     *
+     * @param namespaceId the namespace ID to create the project under
+     * @param projectName the name of the project top create
+     * @param groupWithProjectTemplatesId Id of the Gitlab Group, which contains the relevant templates.
+     * @param templateName name of the template to use
+     * @param visibility Visibility of the new create project
+     * @return the created project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project createProjectFromTemplate(Integer namespaceId, String projectName, Integer groupWithProjectTemplatesId, String templateName, Visibility visibility) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("namespace_id", namespaceId)
+            .withParam("name", projectName, true)
+            .withParam("use_custom_template", true)
+            .withParam("group_with_project_templates_id", groupWithProjectTemplatesId, true)
+            .withParam("template_name", templateName, true)
+            .withParam("visibility", visibility)
+            ;
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
     }
@@ -2565,12 +2588,28 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param fileToUpload the File instance of the file to upload, required
-     * @param mediaType the media type of the file to upload, optional
+     * @param mediaType unused; will be removed in the next major version
      * @return a FileUpload instance with information on the just uploaded file
      * @throws GitLabApiException if any exception occurs
      */
     public FileUpload uploadFile(Object projectIdOrPath, File fileToUpload, String mediaType) throws GitLabApiException {
         Response response = upload(Response.Status.CREATED, "file", fileToUpload, mediaType, "projects", getProjectIdOrPath(projectIdOrPath), "uploads");
+        return (response.readEntity(FileUpload.class));
+    }
+
+    /**
+     * Uploads some data in an {@link InputStream} to the specified project,
+     * to be used in an issue or merge request description, or a comment.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/uploads</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param inputStream the data to upload, required
+     * @return a FileUpload instance with information on the just uploaded file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public FileUpload uploadFile(Object projectIdOrPath, InputStream inputStream, String filename, String mediaType) throws GitLabApiException {
+        Response response = upload(Response.Status.CREATED, "file", inputStream, filename, mediaType, "projects", getProjectIdOrPath(projectIdOrPath), "uploads");
         return (response.readEntity(FileUpload.class));
     }
 

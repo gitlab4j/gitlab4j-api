@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -710,6 +711,14 @@ public class GitLabApi implements AutoCloseable {
      */
     public String getAuthToken() {
         return (apiClient.getAuthToken());
+    }
+
+    /**
+     * Set auth token supplier for gitlab api client.
+     * @param authTokenSupplier - supplier which provide actual auth token
+     */
+    public void setAuthTokenSupplier(Supplier<String> authTokenSupplier) {
+        apiClient.setAuthTokenSupplier(authTokenSupplier);
     }
 
     /**
