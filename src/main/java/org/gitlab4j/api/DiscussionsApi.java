@@ -368,7 +368,7 @@ public class DiscussionsApi extends AbstractApi {
     public void deleteMergeRequestDiscussionNote(Object projectIdOrPath, Integer mergeRequestIid,
             String discussionId, Integer noteId)  throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
-                "merge_requests", mergeRequestIid, "discussions", noteId);
+                "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
     }
 
     /**

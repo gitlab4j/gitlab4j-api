@@ -41,6 +41,7 @@ public class MergeRequest {
     private Boolean mergeWhenPipelineSucceeds;
     private String mergeError;
     private Milestone milestone;
+    private Pipeline pipeline;
     private Integer projectId;
     private String sha;
     private Boolean shouldRemoveSourceBranch;
@@ -309,6 +310,14 @@ public class MergeRequest {
 
     public void setMilestone(Milestone milestone) {
         this.milestone = milestone;
+    }
+
+    public Pipeline getPipeline() {
+        return pipeline;
+    }
+
+    public void setPipeline(Pipeline pipeline) {
+        this.pipeline = pipeline;
     }
 
     public Integer getProjectId() {

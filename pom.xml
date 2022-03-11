@@ -5,7 +5,7 @@
 	<groupId>org.gitlab4j</groupId>
 	<artifactId>gitlab4j-api-cortex</artifactId>
 	<packaging>jar</packaging>
-	<version>4.17.1</version>
+	<version>4.20.1-SNAPSHOT</version>
 	<name>GitLab4J-API - GitLab API Java Client</name>
 	<description>GitLab4J-API (gitlab4j-api) provides a full featured Java client library for working with GitLab repositories and servers via the GitLab REST API.</description>
 	<url>https://github.com/gitlab4j/gitlab4j-api</url>
@@ -75,7 +75,7 @@
 		<url>git@github.com:gitlab4j/gitlab4j-api.git</url>
 		<connection>scm:git:git@github.com:gitlab4j/gitlab4j-api.git</connection>
 		<developerConnection>scm:git:git@github.com:gitlab4j/gitlab4j-api.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>head</tag>
 	</scm>
 
 	<build>
@@ -401,12 +401,6 @@
 			<artifactId>jakarta.activation-api</artifactId>
 			<version>${activation.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.jaxrs</groupId>
-			<artifactId>jackson-jaxrs-json-provider</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
@@ -425,6 +419,11 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-multipart</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>

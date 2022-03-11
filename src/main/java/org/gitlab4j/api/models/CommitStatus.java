@@ -13,7 +13,7 @@ public class CommitStatus {
     private Date createdAt;
     private String description;
     private Date finishedAt;
-    private Integer id;
+    private Long id;
     private String name;
     private String ref;
     private String sha;
@@ -69,11 +69,11 @@ public class CommitStatus {
         this.finishedAt = finishedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

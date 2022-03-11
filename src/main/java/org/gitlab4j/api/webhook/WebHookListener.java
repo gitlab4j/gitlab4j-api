@@ -78,4 +78,23 @@ public interface WebHookListener extends java.util.EventListener {
      */
     default void onWikiPageEvent(WikiPageEvent wikiEvent) {
     }
+
+
+
+    /**
+     * This method is called when a WebHook deployment event has been received.
+     *
+     * @param deploymentEvent the DeploymentEvent instance
+     */
+    default void onDeploymentEvent(DeploymentEvent deploymentEvent) {
+    }
+
+
+    /**
+     * This method is called when a WebHook release event has been received.
+     *
+     * @param releaseEvent the ReleaseEvent instance
+     */
+    default void onReleaseEvent(ReleaseEvent releaseEvent) {
+    }
 }

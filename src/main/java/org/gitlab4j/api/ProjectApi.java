@@ -24,6 +24,7 @@
 package org.gitlab4j.api;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -32,12 +33,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
@@ -924,7 +923,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project createProject(String name, String path) throws GitLabApiException {
-	
+
 	if ((name == null || name.trim().isEmpty()) && (path == null || path.trim().isEmpty())) {
 	    throw new RuntimeException("Either name or path must be specified.");
 	}
@@ -976,6 +975,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
+     * ciConfigPath (optional) - Set path to CI configuration file
+     * squashOption (optional) - set squash option for merge requests
      *
      * @param project the Project instance with the configuration for the new project
      * @param importUrl the URL to import the repository from
@@ -1023,8 +1024,10 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("ci_config_path", project.getCiConfigPath())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
-            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge());
+            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
+            .withParam("squash_option", project.getSquashOption());
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
@@ -1193,6 +1196,30 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Create a new project from a template, belonging to the namespace ID.  A namespace ID is either a user or group ID.
+     *
+     * @param namespaceId the namespace ID to create the project under
+     * @param projectName the name of the project top create
+     * @param groupWithProjectTemplatesId Id of the Gitlab Group, which contains the relevant templates.
+     * @param templateName name of the template to use
+     * @param visibility Visibility of the new create project
+     * @return the created project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project createProjectFromTemplate(Integer namespaceId, String projectName, Integer groupWithProjectTemplatesId, String templateName, Visibility visibility) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("namespace_id", namespaceId)
+            .withParam("name", projectName, true)
+            .withParam("use_custom_template", true)
+            .withParam("group_with_project_templates_id", groupWithProjectTemplatesId, true)
+            .withParam("template_name", templateName, true)
+            .withParam("visibility", visibility)
+            ;
+        Response response = post(Response.Status.CREATED, formData, "projects");
+        return (response.readEntity(Project.class));
+    }
+
+    /**
      * Updates a project. The following properties on the Project instance
      * are utilized in the edit of the project, null values are not updated:
      *
@@ -1222,12 +1249,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      * packagesEnabled (optional) - Enable or disable mvn packages repository feature
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
+     * ciConfigPath (optional) - Set path to CI configuration file
+     * ciForwardDeploymentEnabled (optional) - When a new deployment job starts, skip older deployment jobs that are still pending
+     * squashOption (optional) - set squash option for merge requests
      *
      * NOTE: The following parameters specified by the GitLab API edit project are not supported:
      *     import_url
      *     tag_list array
      *     avatar
-     *     ci_config_path
      *     initialize_with_readme
      *
      * @param project the Project instance with the configuration for the new project
@@ -1268,9 +1297,12 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("packages_enabled", project.getPackagesEnabled())
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
+            .withParam("ci_config_path", project.getCiConfigPath())
+            .withParam("ci_forward_deployment_enabled", project.getCiForwardDeploymentEnabled())
             .withParam("merge_method", project.getMergeMethod())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
-            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge());
+            .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
+            .withParam("squash_option", project.getSquashOption());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());
@@ -2069,6 +2101,9 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("wiki_page_events", enabledHooks.getWikiPageEvents(), false)
                 .withParam("enable_ssl_verification", enableSslVerification, false)
                 .withParam("repository_update_events", enabledHooks.getRepositoryUpdateEvents(), false)
+                .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
+                .withParam("releases_events", enabledHooks.getReleasesEvents(), false)
+                .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
                 .withParam("token", secretToken, false);
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
         return (response.readEntity(ProjectHook.class));
@@ -2140,14 +2175,20 @@ public class ProjectApi extends AbstractApi implements Constants {
         GitLabApiForm formData = new GitLabApiForm()
             .withParam("url", hook.getUrl(), true)
             .withParam("push_events", hook.getPushEvents(), false)
+            .withParam("push_events_branch_filter", hook.getPushEventsBranchFilter(), false)
             .withParam("issues_events", hook.getIssuesEvents(), false)
+            .withParam("confidential_issues_events", hook.getConfidentialIssuesEvents(), false)
             .withParam("merge_requests_events", hook.getMergeRequestsEvents(), false)
             .withParam("tag_push_events", hook.getTagPushEvents(), false)
             .withParam("note_events", hook.getNoteEvents(), false)
+            .withParam("confidential_note_events", hook.getConfidentialNoteEvents(), false)
             .withParam("job_events", hook.getJobEvents(), false)
             .withParam("pipeline_events", hook.getPipelineEvents(), false)
             .withParam("wiki_page_events", hook.getWikiPageEvents(), false)
             .withParam("enable_ssl_verification", hook.getEnableSslVerification(), false)
+            .withParam("repository_update_events", hook.getRepositoryUpdateEvents(), false)
+            .withParam("releases_events", hook.getReleasesEvents(), false)
+            .withParam("deployment_events", hook.getDeploymentEvents(), false)
             .withParam("token", hook.getToken(), false);
 
         Response response = put(Response.Status.OK, formData.asMap(), "projects", hook.getProjectId(), "hooks", hook.getId());
@@ -2547,12 +2588,28 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param fileToUpload the File instance of the file to upload, required
-     * @param mediaType the media type of the file to upload, optional
+     * @param mediaType unused; will be removed in the next major version
      * @return a FileUpload instance with information on the just uploaded file
      * @throws GitLabApiException if any exception occurs
      */
     public FileUpload uploadFile(Object projectIdOrPath, File fileToUpload, String mediaType) throws GitLabApiException {
         Response response = upload(Response.Status.CREATED, "file", fileToUpload, mediaType, "projects", getProjectIdOrPath(projectIdOrPath), "uploads");
+        return (response.readEntity(FileUpload.class));
+    }
+
+    /**
+     * Uploads some data in an {@link InputStream} to the specified project,
+     * to be used in an issue or merge request description, or a comment.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/uploads</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param inputStream the data to upload, required
+     * @return a FileUpload instance with information on the just uploaded file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public FileUpload uploadFile(Object projectIdOrPath, InputStream inputStream, String filename, String mediaType) throws GitLabApiException {
+        Response response = upload(Response.Status.CREATED, "file", inputStream, filename, mediaType, "projects", getProjectIdOrPath(projectIdOrPath), "uploads");
         return (response.readEntity(FileUpload.class));
     }
 

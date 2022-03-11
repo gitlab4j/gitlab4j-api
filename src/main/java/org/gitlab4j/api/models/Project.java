@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.gitlab4j.api.Constants.AutoDevopsDeployStrategy;
 import org.gitlab4j.api.Constants.BuildGitStrategy;
+import org.gitlab4j.api.Constants.SquashOption;
 import org.gitlab4j.api.ProjectLicense;
 import org.gitlab4j.api.models.ImportStatus.Status;
 import org.gitlab4j.api.utils.JacksonJson;
@@ -99,12 +100,15 @@ public class Project {
     private Boolean canCreateMergeRequestIn;
     private Status importStatus;
     private Integer ciDefaultGitDepth;
+    private Boolean ciForwardDeploymentEnabled;
+    private String ciConfigPath;
     private Boolean removeSourceBranchAfterMerge;
     private Boolean autoDevopsEnabled;
     private AutoDevopsDeployStrategy autoDevopsDeployStrategy;
     private Boolean autocloseReferencedIssues;
     private Boolean emailsDisabled;
     private String suggestionCommitMessage;
+    private SquashOption squashOption;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -780,6 +784,22 @@ public class Project {
         this.ciDefaultGitDepth = ciDefaultGitDepth;
     }
 
+    public Boolean getCiForwardDeploymentEnabled() {
+        return ciForwardDeploymentEnabled;
+    }
+
+    public void setCiForwardDeploymentEnabled(Boolean ciForwardDeploymentEnabled) {
+        this.ciForwardDeploymentEnabled = ciForwardDeploymentEnabled;
+    }
+
+    public String getCiConfigPath() {
+        return ciConfigPath;
+    }
+
+    public void setCiConfigPath(String ciConfigPath) {
+        this.ciConfigPath = ciConfigPath;
+    }
+
     public Boolean getRemoveSourceBranchAfterMerge() {
         return removeSourceBranchAfterMerge;
     }
@@ -841,5 +861,18 @@ public class Project {
 
     public void setSuggestionCommitMessage(String suggestionCommitMessage) {
         this.suggestionCommitMessage = suggestionCommitMessage;
+    }
+
+    public SquashOption getSquashOption() {
+        return squashOption;
+    }
+
+    public void setSquashOption(SquashOption squashOption) {
+        this.squashOption = squashOption;
+    }
+
+    public Project withSquashOption(SquashOption squashOption) {
+        this.squashOption = squashOption;
+        return this;
     }
 }

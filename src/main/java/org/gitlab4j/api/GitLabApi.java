@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,6 +86,7 @@ public class GitLabApi implements AutoCloseable {
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
     private ResourceLabelEventsApi resourceLabelEventsApi;
+    private ResourceStateEventsApi resourceStateEventsApi;
     private RunnersApi runnersApi;
     private SearchApi searchApi;
     private ServicesApi servicesApi;
@@ -709,6 +711,14 @@ public class GitLabApi implements AutoCloseable {
      */
     public String getAuthToken() {
         return (apiClient.getAuthToken());
+    }
+
+    /**
+     * Set auth token supplier for gitlab api client.
+     * @param authTokenSupplier - supplier which provide actual auth token
+     */
+    public void setAuthTokenSupplier(Supplier<String> authTokenSupplier) {
+        apiClient.setAuthTokenSupplier(authTokenSupplier);
     }
 
     /**
@@ -1487,6 +1497,25 @@ public class GitLabApi implements AutoCloseable {
         }
 
         return (resourceLabelEventsApi);
+    }
+
+    /**
+     * Gets the ResourceStateEventsApi instance owned by this GitLabApi instance. The ResourceStateEventsApi
+     * is used to perform all Resource State Events related API calls.
+     *
+     * @return the ResourceStateEventsApi instance owned by this GitLabApi instance
+     */
+    public ResourceStateEventsApi getResourceStateEventsApi() {
+
+        if (resourceStateEventsApi == null) {
+            synchronized (this) {
+                if (resourceStateEventsApi == null) {
+                    resourceStateEventsApi = new ResourceStateEventsApi(this);
+                }
+            }
+        }
+
+        return (resourceStateEventsApi);
     }
 
     /**
