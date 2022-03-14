@@ -681,7 +681,7 @@ public class RepositoryApi extends AbstractApi {
             throw new RuntimeException("Sort must be asc or desc");
         }
 
-        GitLabApiForm formData = new GitLabApiForm().withParam(PAGE_PARAM,  page).withParam(PER_PAGE_PARAM, perPage);
+        GitLabApiForm formData = new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage);
         if (sort != null) {
             formData.withParam("sort", sort, false);
         }

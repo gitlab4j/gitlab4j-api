@@ -7,7 +7,7 @@
 	<groupId>org.gitlab4j</groupId>
 	<artifactId>gitlab4j-api-cortex</artifactId>
 	<packaging>jar</packaging>
-	<version>5.1.0-SNAPSHOT</version>
+	<version>4.20.2</version>
 	<name>GitLab4J-API - GitLab API Java Client</name>
 	<description>GitLab4J-API (gitlab4j-api) provides a full featured Java client library for working with GitLab repositories and servers via the GitLab REST API.</description>
 	<url>https://github.com/gitlab4j/gitlab4j-api</url>
