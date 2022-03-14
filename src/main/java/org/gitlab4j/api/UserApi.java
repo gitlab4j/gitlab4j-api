@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
@@ -1308,7 +1307,7 @@ public class UserApi extends AbstractApi {
      * @since GitLab 12.8
      */
     public List<Membership> getMemberships(int userId) throws GitLabApiException {
-        return getMembershipsPager(userId).stream().collect(Collectors.toList());
+        return getMemberships(userId, getDefaultPerPage()).all();
     }
 
     /**
@@ -1319,12 +1318,13 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: GET /users/:id/memberships</code></pre>
      *
      * @param userId the ID of the user to get the memberships for
-     * @return the list of memberships of the given user
+     * @param itemsPerPage the number of Membership instances that will be fetched per page
+     * @return a Pager of user's memberships
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 12.8
      */
-    public Pager<Membership> getMembershipsPager(int userId) throws GitLabApiException {
+    public Pager<Membership> getMemberships(int userId, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm();
-        return (new Pager<>(this, Membership.class, 100, formData.asMap(), "users", userId, "memberships"));
+        return (new Pager<>(this, Membership.class, itemsPerPage, formData.asMap(), "users", userId, "memberships"));
     }
 }
