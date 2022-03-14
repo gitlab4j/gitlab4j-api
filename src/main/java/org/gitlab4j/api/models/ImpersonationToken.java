@@ -39,7 +39,7 @@ public class ImpersonationToken {
     private List<Scope> scopes;
     private Boolean revoked;
     private String name;
-    private Integer id;
+    private Long id;
     private Date createdAt;
     private Boolean impersonation;
     private Date expiresAt;
@@ -84,11 +84,11 @@ public class ImpersonationToken {
         this.name = name;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

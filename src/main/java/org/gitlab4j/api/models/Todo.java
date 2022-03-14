@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class Todo {
 
-    private Integer id;
+    private Long id;
     private Project project;
     private Author author;
     private TodoAction actionName;
@@ -33,11 +33,11 @@ public class Todo {
     private TodoState state;
     private Date createdAt;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

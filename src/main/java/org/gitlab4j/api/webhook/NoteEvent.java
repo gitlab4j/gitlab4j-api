@@ -16,7 +16,7 @@ public class NoteEvent extends AbstractEvent {
     public static final String OBJECT_KIND = "note";
 
     private User user;
-    private Integer projectId;
+    private Long projectId;
     private EventProject project;
     private EventRepository repository;
     private ObjectAttributes objectAttributes;
@@ -25,7 +25,8 @@ public class NoteEvent extends AbstractEvent {
     private EventMergeRequest mergeRequest;
     private EventSnippet snippet;
 
-    public String getObjectKind() {
+    @Override
+	public String getObjectKind() {
         return (OBJECT_KIND);
     }
 
@@ -42,11 +43,11 @@ public class NoteEvent extends AbstractEvent {
         this.user = user;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return this.projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
@@ -129,28 +130,28 @@ public class NoteEvent extends AbstractEvent {
 
     public static class ObjectAttributes {
 
-        private Integer id;
+        private Long id;
         private String note;
         private String discussionId;
         private String type;
         private NoteableType noteableType;
-        private Integer authorId;
+        private Long authorId;
         private Date createdAt;
         private Date updatedAt;
-        private Integer projectId;
+        private Long projectId;
         private String attachment;
         private String lineCode;
         private String commitId;
-        private Integer noteableId;
+        private Long noteableId;
         private Boolean system;
         private Diff stDiff;
         private String url;
 
-        public Integer getId() {
+        public Long getId() {
             return this.id;
         }
 
-        public void setId(Integer id) {
+        public void setId(Long id) {
             this.id = id;
         }
 
@@ -186,11 +187,11 @@ public class NoteEvent extends AbstractEvent {
             this.noteableType = notableType;
         }
 
-        public Integer getAuthorId() {
+        public Long getAuthorId() {
             return this.authorId;
         }
 
-        public void setAuthorId(Integer authorId) {
+        public void setAuthorId(Long authorId) {
             this.authorId = authorId;
         }
 
@@ -210,11 +211,11 @@ public class NoteEvent extends AbstractEvent {
             this.updatedAt = updatedAt;
         }
 
-        public Integer getProjectId() {
+        public Long getProjectId() {
             return this.projectId;
         }
 
-        public void setProjectId(Integer projectId) {
+        public void setProjectId(Long projectId) {
             this.projectId = projectId;
         }
 
@@ -242,11 +243,11 @@ public class NoteEvent extends AbstractEvent {
             this.commitId = commitId;
         }
 
-        public Integer getNoteableId() {
+        public Long getNoteableId() {
             return noteableId;
         }
 
-        public void setNoteableId(Integer noteableId) {
+        public void setNoteableId(Long noteableId) {
             this.noteableId = noteableId;
         }
 

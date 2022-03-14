@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class MergeRequestFilter {
 
-    private Integer projectId;
-    private List<Integer> iids;
+    private Long projectId;
+    private List<Long> iids;
     private MergeRequestState state;
     private MergeRequestOrderBy orderBy;
     private SortOrder sort;
@@ -38,8 +38,8 @@ public class MergeRequestFilter {
     /**
      * Filter MR by created by the given user id. Combine with scope=all or scope=assigned_to_me
      */
-    private Integer authorId;
-    private Integer assigneeId;
+    private Long authorId;
+    private Long assigneeId;
     private String myReactionEmoji;
     private String sourceBranch;
     private String targetBranch;
@@ -47,28 +47,28 @@ public class MergeRequestFilter {
     private MergeRequestSearchIn in;
     private Boolean wip;
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
-    public MergeRequestFilter withProjectId(Integer projectId) {
+    public MergeRequestFilter withProjectId(Long projectId) {
         this.projectId = projectId;
         return (this);
     }
 
-    public List<Integer> getIids() {
+    public List<Long> getIids() {
         return iids;
     }
 
-    public void setIids(List<Integer> iids) {
+    public void setIids(List<Long> iids) {
         this.iids = iids;
     }
 
-    public MergeRequestFilter withIids(List<Integer> iids) {
+    public MergeRequestFilter withIids(List<Long> iids) {
         this.iids = iids;
         return (this);
     }
@@ -216,28 +216,28 @@ public class MergeRequestFilter {
         return (this);
     }
 
-    public Integer getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
-    public MergeRequestFilter withAuthorId(Integer authorId) {
+    public MergeRequestFilter withAuthorId(Long authorId) {
         this.authorId = authorId;
         return (this);
     }
 
-    public Integer getAssigneeId() {
+    public Long getAssigneeId() {
         return assigneeId;
     }
 
-    public void setAssigneeId(Integer assigneeId) {
+    public void setAssigneeId(Long assigneeId) {
         this.assigneeId = assigneeId;
     }
 
-    public MergeRequestFilter withAssigneeId(Integer assigneeId) {
+    public MergeRequestFilter withAssigneeId(Long assigneeId) {
         this.assigneeId = assigneeId;
         return (this);
     }
@@ -293,7 +293,7 @@ public class MergeRequestFilter {
         this.search = search;
         return (this);
     }
-    
+
     public MergeRequestSearchIn getIn() {
         return in;
     }

@@ -46,8 +46,8 @@ public abstract class AbstractApi implements Constants {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Project) {
 
-            Integer id = ((Project) obj).getId();
-            if (id != null && id.intValue() > 0) {
+            Long id = ((Project) obj).getId();
+            if (id != null && id.longValue() > 0) {
                 return (id);
             }
 
@@ -81,8 +81,8 @@ public abstract class AbstractApi implements Constants {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Group) {
 
-            Integer id = ((Group) obj).getId();
-            if (id != null && id.intValue() > 0) {
+            Long id = ((Group) obj).getId();
+            if (id != null && id.longValue() > 0) {
                 return (id);
             }
 
@@ -116,8 +116,8 @@ public abstract class AbstractApi implements Constants {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof User) {
 
-            Integer id = ((User) obj).getId();
-            if (id != null && id.intValue() > 0) {
+            Long id = ((User) obj).getId();
+            if (id != null && id.longValue() > 0) {
                 return (id);
             }
 
@@ -151,8 +151,8 @@ public abstract class AbstractApi implements Constants {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Label) {
 
-            Integer id = ((Label) obj).getId();
-            if (id != null && id.intValue() > 0) {
+            Long id = ((Label) obj).getId();
+            if (id != null && id.longValue() > 0) {
                 return (id);
             }
 

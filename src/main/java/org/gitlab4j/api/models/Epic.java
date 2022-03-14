@@ -6,10 +6,10 @@ import java.util.List;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class Epic {
-    
-    private Integer id;
-    private Integer iid;
-    private Integer groupId;
+
+    private Long id;
+    private Long iid;
+    private Long groupId;
     private String title;
     private String description;
     private Author author;
@@ -19,27 +19,27 @@ public class Epic {
     private Date createdAt;
     private Date updatedAt;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getIid() {
+    public Long getIid() {
         return iid;
     }
 
-    public void setIid(Integer iid) {
+    public void setIid(Long iid) {
         this.iid = iid;
     }
 
-    public Integer getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(Integer groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 
@@ -50,7 +50,7 @@ public class Epic {
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
     public Epic withTitle(String title) {
         this.title = title;
         return (this);

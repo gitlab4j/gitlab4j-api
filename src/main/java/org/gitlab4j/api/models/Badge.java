@@ -29,7 +29,7 @@ public class Badge {
         }
     }
 
-    private Integer id;
+    private Long id;
     private String name;
     private String linkUrl;
     private String imageUrl;
@@ -37,11 +37,11 @@ public class Badge {
     private String renderedImageUrl;
     private BadgeKind kind;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -31,7 +31,7 @@ public class SystemHooksApi extends AbstractApi {
     }
 
     /**
-     * Get a list of all system hooks using the specified page and per page settings. 
+     * Get a list of all system hooks using the specified page and per page settings.
      * This method requires admin access.
      *
      * <pre><code>GitLab Endpoint: GET /hooks</code></pre>
@@ -148,7 +148,7 @@ public class SystemHooksApi extends AbstractApi {
      * @param hookId the ID of the system hook to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteSystemHook(Integer hookId) throws GitLabApiException {
+    public void deleteSystemHook(Long hookId) throws GitLabApiException {
 
         if (hookId == null) {
             throw new RuntimeException("hookId cannot be null");
@@ -183,7 +183,7 @@ public class SystemHooksApi extends AbstractApi {
      * @param hookId the ID of the system hook to test
      * @throws GitLabApiException if any exception occurs
      */
-    public void testSystemHook(Integer hookId) throws GitLabApiException {
+    public void testSystemHook(Long hookId) throws GitLabApiException {
 
         if (hookId == null) {
             throw new RuntimeException("hookId cannot be null");

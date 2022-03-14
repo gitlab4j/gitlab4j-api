@@ -298,7 +298,7 @@ public class TestUserApi extends AbstractIntegrationTest {
             User user = gitLabApi.getUserApi().getCurrentUser();
             assertNotNull(user);
             assertEquals(TEST_SUDO_AS_USERNAME, user.getUsername());
-            Integer sudoAsId = user.getId();
+            Long sudoAsId = user.getId();
 
             gitLabApi.sudo(null);
             user = gitLabApi.getUserApi().getCurrentUser();
@@ -366,7 +366,7 @@ public class TestUserApi extends AbstractIntegrationTest {
             assertEquals(token.getId(), optional.get().getId());
             gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), token.getId());
 
-            optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), 123456);
+            optional = gitLabApi.getUserApi().getOptionalImpersonationToken(user.getId(), 123456L);
             assertNotNull(optional);
             assertFalse(optional.isPresent());
 
@@ -452,7 +452,7 @@ public class TestUserApi extends AbstractIntegrationTest {
         assertEquals(sshKey.getId(), optional.get().getId());
         gitLabApi.getUserApi().deleteSshKey(sshKey.getId());
 
-        optional = gitLabApi.getUserApi().getOptionalSshKey(12345);
+        optional = gitLabApi.getUserApi().getOptionalSshKey(12345L);
         assertNotNull(optional);
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());

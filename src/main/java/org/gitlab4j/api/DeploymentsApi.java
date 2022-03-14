@@ -26,7 +26,7 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a list of Deployments
      * @throws GitLabApiException if any exception occurs
      */
@@ -39,7 +39,7 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param itemsPerPage the number of Deployments instances that will be fetched per page
      * @return a Pager of Deployment
      * @throws GitLabApiException if any exception occurs
@@ -53,7 +53,7 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param filter  {@link DeploymentFilter} a DeploymentFilter instance with the filter settings
      * @return a Pager of Deployment
      * @throws GitLabApiException if any exception occurs
@@ -67,7 +67,7 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param filter  {@link DeploymentFilter} a DeploymentFilter instance with the filter settings
      * @param itemsPerPage the number of Deployments instances that will be fetched per page
      * @return a Pager of Deployment
@@ -84,7 +84,7 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a list of Deployment
      * @throws GitLabApiException if any exception occurs
      */
@@ -97,7 +97,7 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param filter  {@link DeploymentFilter} a DeploymentFilter instance with the filter settings
      * @return a list of Deployment
      * @throws GitLabApiException if any exception occurs
@@ -111,12 +111,12 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments/:deployment_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param deploymentId the ID of a project's deployment
      * @return the specified Deployment instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Deployment getDeployment(Object projectIdOrPath, Integer deploymentId) throws GitLabApiException {
+    public Deployment getDeployment(Object projectIdOrPath, Long deploymentId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "deployments", deploymentId);
         return (response.readEntity(Deployment.class));
@@ -127,11 +127,11 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments/:deployment_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param deploymentId the ID of a project's deployment
      * @return the specified Deployment as an Optional instance
      */
-    public Optional<Deployment> getOptionalDeployment(Object projectIdOrPath, Integer deploymentId) {
+    public Optional<Deployment> getOptionalDeployment(Object projectIdOrPath, Long deploymentId) {
         try {
             return (Optional.ofNullable(getDeployment(projectIdOrPath, deploymentId)));
         } catch (GitLabApiException glae) {
@@ -144,7 +144,7 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/deployments</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param environment The name of the environment to create the deployment for, required
      * @param sha The SHA of the commit that is deployed, required
      * @param ref The name of the branch or tag that is deployed, required
@@ -172,13 +172,13 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/deployments/:key_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param deploymentId The ID of the deployment to update, required
      * @param status The new status of the deployment, required
      * @return an updated Deployment instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Deployment updateDeployment(Object projectIdOrPath, Integer deploymentId, DeploymentStatus status) throws GitLabApiException {
+    public Deployment updateDeployment(Object projectIdOrPath, Long deploymentId, DeploymentStatus status) throws GitLabApiException {
 
         if (deploymentId == null) {
             throw new RuntimeException("deploymentId cannot be null");
@@ -197,12 +197,12 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments/:deployment_id/merge_requests</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param deploymentId The ID of the deployment to update, required
      * @return a list containing the MergeRequest instances shipped with a given deployment
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public List<MergeRequest> getMergeRequests(Object projectIdOrPath, Integer deploymentId) throws GitLabApiException {
+    public List<MergeRequest> getMergeRequests(Object projectIdOrPath, Long deploymentId) throws GitLabApiException {
         return (getMergeRequests(projectIdOrPath, deploymentId, getDefaultPerPage()).all());
     }
 
@@ -211,13 +211,13 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments/:deployment_id/merge_requests</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param deploymentId The ID of the deployment to update, required
      * @param itemsPerPage the number of Commit instances that will be fetched per page
      * @return a Pager containing the MergeRequest instances shipped with a given deployment
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public Pager<MergeRequest> getMergeRequests(Object projectIdOrPath, Integer deploymentId, int itemsPerPage) throws GitLabApiException {
+    public Pager<MergeRequest> getMergeRequests(Object projectIdOrPath, Long deploymentId, int itemsPerPage) throws GitLabApiException {
     return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "deployments", deploymentId, "merge_requests"));
     }
@@ -227,12 +227,12 @@ public class DeploymentsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deployments/:deployment_id/merge_requests</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param deploymentId The ID of the deployment to update, required
      * @return a Stream containing the MergeRequest instances shipped with a given deployment
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public Stream<MergeRequest> getMergeRequestsStream(Object projectIdOrPath, Integer deploymentId) throws GitLabApiException {
+    public Stream<MergeRequest> getMergeRequestsStream(Object projectIdOrPath, Long deploymentId) throws GitLabApiException {
         return (getMergeRequests(projectIdOrPath, deploymentId, getDefaultPerPage()).stream());
     }
 

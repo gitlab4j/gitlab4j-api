@@ -39,7 +39,7 @@ public class TestResourceStateEventsApi extends AbstractIntegrationTest {
 
     @Test
     public void testGetCloseReopenIssueEvents() throws GitLabApiException {
-        Integer projectId = testProject.getId();
+        Long projectId = testProject.getId();
         Issue issue = gitLabApi.getIssuesApi().createIssue(projectId, ISSUE_TITLE, ISSUE_DESCRIPTION);
 
         Issue closedIssue = gitLabApi.getIssuesApi().closeIssue(projectId, issue.getIid());

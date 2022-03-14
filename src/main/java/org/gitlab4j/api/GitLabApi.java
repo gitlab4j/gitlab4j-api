@@ -449,7 +449,7 @@ public class GitLabApi implements AutoCloseable {
      */
     public final GitLabApi duplicate() {
 
-        Integer sudoUserId = this.getSudoAsId();
+        Long sudoUserId = this.getSudoAsId();
         GitLabApi gitLabApi = new GitLabApi(apiVersion, gitLabServerUrl,
                 getTokenType(), getAuthToken(), getSecretToken(), clientConfigProperties);
         if (sudoUserId != null) {
@@ -661,7 +661,7 @@ public class GitLabApi implements AutoCloseable {
             throw new GitLabApiException("the specified username was not found");
         }
 
-        Integer sudoAsId = user.getId();
+        Long sudoAsId = user.getId();
         apiClient.setSudoAsId(sudoAsId);
     }
 
@@ -679,7 +679,7 @@ public class GitLabApi implements AutoCloseable {
      * @param sudoAsId the ID of the user to sudo as, null will turn off sudo
      * @throws GitLabApiException if any exception occurs
      */
-    public void setSudoAsId(Integer sudoAsId) throws GitLabApiException {
+    public void setSudoAsId(Long sudoAsId) throws GitLabApiException {
 
         if (sudoAsId == null) {
             apiClient.setSudoAsId(null);
@@ -700,7 +700,7 @@ public class GitLabApi implements AutoCloseable {
      *
      * @return the current sudo as ID, will return null if not in sudo mode
      */
-    public Integer getSudoAsId() {
+    public Long getSudoAsId() {
         return (apiClient.getSudoAsId());
     }
 

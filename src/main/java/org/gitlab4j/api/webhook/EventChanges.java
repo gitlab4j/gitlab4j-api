@@ -12,24 +12,24 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public abstract class EventChanges {
 
-    private ChangeContainer<Integer> authorId;
+    private ChangeContainer<Long> authorId;
     private ChangeContainer<Date> createdAt;
     private ChangeContainer<Date> updatedAt;
-    private ChangeContainer<Integer> updatedById;
+    private ChangeContainer<Long> updatedById;
     private ChangeContainer<String> title;
     private ChangeContainer<String> description;
     private ChangeContainer<String> state;
-    private ChangeContainer<Integer> milestoneId;
+    private ChangeContainer<Long> milestoneId;
     private ChangeContainer<List<EventLabel>> labels;
     private ChangeContainer<List<Assignee>> assignees;
     private ChangeContainer<Integer> totalTimeSpent;
     private Map<String, ChangeContainer<Object>> otherProperties = new LinkedHashMap<>();
 
-    public ChangeContainer<Integer> getAuthorId() {
+    public ChangeContainer<Long> getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(ChangeContainer<Integer> authorId) {
+    public void setAuthorId(ChangeContainer<Long> authorId) {
         this.authorId = authorId;
     }
 
@@ -49,11 +49,11 @@ public abstract class EventChanges {
         this.updatedAt = updatedAt;
     }
 
-    public ChangeContainer<Integer> getUpdatedById() {
+    public ChangeContainer<Long> getUpdatedById() {
         return updatedById;
     }
 
-    public void setUpdatedById(ChangeContainer<Integer> updatedById) {
+    public void setUpdatedById(ChangeContainer<Long> updatedById) {
         this.updatedById = updatedById;
     }
 
@@ -81,11 +81,11 @@ public abstract class EventChanges {
         this.state = state;
     }
 
-    public ChangeContainer<Integer> getMilestoneId() {
+    public ChangeContainer<Long> getMilestoneId() {
         return milestoneId;
     }
 
-    public void setMilestoneId(ChangeContainer<Integer> milestoneId) {
+    public void setMilestoneId(ChangeContainer<Long> milestoneId) {
         this.milestoneId = milestoneId;
     }
 

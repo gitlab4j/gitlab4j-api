@@ -24,7 +24,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get all labels of the specified project.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a list of project's labels
      * @throws GitLabApiException if any exception occurs
      */
@@ -35,7 +35,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a Pager of all labels of the specified project.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param itemsPerPage the number of items per page
      * @return a list of project's labels in the specified range
      * @throws GitLabApiException if any exception occurs
@@ -48,7 +48,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a Stream of all labels of the specified project.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a Stream of project's labels
      * @throws GitLabApiException if any exception occurs
      */
@@ -59,8 +59,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a single project label.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @return a Label instance holding the information for the group label
      * @throws GitLabApiException if any exception occurs
      */
@@ -73,8 +73,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a single project label as the value of an Optional.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @return a Optional instance with a Label instance as its value
      * @throws GitLabApiException if any exception occurs
      */
@@ -101,7 +101,7 @@ public class LabelsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /groups/:id/labels</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param labelProperties a Label instance holding the properties for the new group label
      * @return the created Label instance
      * @throws GitLabApiException if any exception occurs
@@ -126,8 +126,8 @@ public class LabelsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/labels/:label_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @param labelConfig a Label instance holding the label properties to update
      * @return the updated Label instance
      * @throws GitLabApiException if any exception occurs
@@ -142,8 +142,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Delete the specified project label.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteProjectLabel(Object projectIdOrPath, Object labelIdOrName) throws GitLabApiException {
@@ -153,8 +153,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Subscribe a specified project label.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @return HttpStatusCode 503
      * @throws GitLabApiException if any exception occurs
      */
@@ -167,8 +167,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Unsubscribe a specified project label.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @return HttpStatusCode 503
      * @throws GitLabApiException if any exception occurs
      */
@@ -181,7 +181,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get all labels of the specified group.
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @return a list of group's labels
      * @throws org.gitlab4j.api.GitLabApiException if any exception occurs
      */
@@ -192,7 +192,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a Pager of all labels of the specified group.
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param itemsPerPage the number of items per page
      * @return a list of group's labels in the specified range
      * @throws GitLabApiException if any exception occurs
@@ -205,7 +205,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a Stream of all labels of the specified group.
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @return a Stream of group's labels
      * @throws GitLabApiException if any exception occurs
      */
@@ -216,8 +216,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a single group label.
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @return a Label instance holding the information for the group label
      * @throws GitLabApiException if any exception occurs
      */
@@ -230,8 +230,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a single group label as the value of an Optional.
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @return a Optional instance with a Label instance as its value
      * @throws GitLabApiException if any exception occurs
      */
@@ -256,7 +256,7 @@ public class LabelsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /groups/:id/labels</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param labelProperties a Label instance holding the properties for the new group label
      * @return the created Label instance
      * @throws GitLabApiException if any exception occurs
@@ -281,8 +281,8 @@ public class LabelsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /groups/:id/labels/:label_id</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @param labelConfig a Label instance holding the label properties to update
      * @return the updated Label instance
      * @throws GitLabApiException if any exception occurs
@@ -297,8 +297,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Delete the specified label
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteGroupLabel(Object groupIdOrPath, Object labelIdOrName) throws GitLabApiException {
@@ -308,8 +308,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Subscribe a specified group label.
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @return HttpStatusCode 503
      * @throws GitLabApiException if any exception occurs
      */
@@ -322,8 +322,8 @@ public class LabelsApi extends AbstractApi {
     /**
      * Unsubscribe a specified group label.
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
-     * @param labelIdOrName the label in the form of an Integer(ID), String(name), or Label instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param labelIdOrName the label in the form of an Long(ID), String(name), or Label instance
      * @return HttpStatusCode 503
      * @throws GitLabApiException if any exception occurs
      */
@@ -337,7 +337,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get all labels of the specified project.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a list of project's labels
      * @throws GitLabApiException if any exception occurs
      * @deprecated Replaced by the {@link #getProjectLabels(Object)} method.
@@ -350,7 +350,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get all labels of the specified project to using the specified page and per page setting
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param page the page to get
      * @param perPage the number of items per page
      * @return a list of project's labels in the specified range
@@ -367,7 +367,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a Pager of all labels of the specified project.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param itemsPerPage the number of items per page
      * @return a list of project's labels in the specified range
      * @throws GitLabApiException if any exception occurs
@@ -382,7 +382,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Get a Stream of all labels of the specified project.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a Stream of project's labels
      * @throws GitLabApiException if any exception occurs
      * @deprecated Replaced by the {@link #getProjectLabelsStream(Object)} method.
@@ -395,7 +395,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Create a label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param name        the name for the label
      * @param color       the color for the label
      * @param description the description for the label
@@ -411,7 +411,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Create a label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param name the name for the label
      * @param color the color for the label
      * @return the created Label instance
@@ -426,7 +426,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Create a label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param name the name for the label
      * @param color the color for the label
      * @param priority the priority for the label
@@ -442,7 +442,7 @@ public class LabelsApi extends AbstractApi {
     /**
      *  Create a label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param name the name for the label
      * @param color the color for the label
      * @param description the description for the label
@@ -464,7 +464,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Update the specified label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param name the name for the label
      * @param newName the new name for the label
      * @param description the description for the label
@@ -481,7 +481,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Update the specified label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param name the name for the label
      * @param color the color for the label
      * @param description the description for the label
@@ -498,7 +498,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Update the specified label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param name the name for the label
      * @param newName the new name for the label
      * @param color the color for the label
@@ -524,7 +524,7 @@ public class LabelsApi extends AbstractApi {
     /**
      * Delete the specified label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param name the name for the label
      * @throws GitLabApiException if any exception occurs
      * @deprecated Replaced by the {@link #deleteProjectLabel(Object, Object)} method.
@@ -538,28 +538,28 @@ public class LabelsApi extends AbstractApi {
     /**
      * Subscribe a specified label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param labelId the label ID
      * @return HttpStatusCode 503
      * @throws GitLabApiException if any exception occurs
      * @deprecated Replaced by the {@link #subscribeProjectLabel(Object, Object)} method.
      */
     @Deprecated
-    public Label subscribeLabel(Object projectIdOrPath, Integer labelId) throws GitLabApiException {
+    public Label subscribeLabel(Object projectIdOrPath, Long labelId) throws GitLabApiException {
         return (subscribeProjectLabel(projectIdOrPath, labelId));
     }
 
     /**
      * Unsubscribe a specified label
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param labelId the label ID
      * @return HttpStatusCode 503
      * @throws GitLabApiException if any exception occurs
      * @deprecated Replaced by the {@link #unsubscribeProjectLabel(Object, Object)} method.
      */
     @Deprecated
-    public Label unsubscribeLabel(Object projectIdOrPath, Integer labelId) throws GitLabApiException {
+    public Label unsubscribeLabel(Object projectIdOrPath, Long labelId) throws GitLabApiException {
         return (unsubscribeProjectLabel(projectIdOrPath, labelId));
     }
 }

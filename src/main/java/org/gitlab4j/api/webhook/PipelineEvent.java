@@ -70,7 +70,7 @@ public class PipelineEvent extends AbstractEvent {
 
     public static class ObjectAttributes {
 
-        private Integer id;
+        private Long id;
         private String ref;
         private Boolean tag;
         private String sha;
@@ -83,11 +83,11 @@ public class PipelineEvent extends AbstractEvent {
         private Integer duration;
         private List<Variable> variables;
 
-        public Integer getId() {
+        public Long getId() {
             return id;
         }
 
-        public void setId(Integer id) {
+        public void setId(Long id) {
             this.id = id;
         }
 

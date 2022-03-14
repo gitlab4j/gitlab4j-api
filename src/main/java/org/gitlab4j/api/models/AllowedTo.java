@@ -9,10 +9,10 @@ import org.gitlab4j.api.GitLabApiForm;
 public class AllowedTo {
 
     private AccessLevel accessLevel;
-    private Integer userId;
-    private Integer groupId;
+    private Long userId;
+    private Long groupId;
 
-    public AllowedTo(AccessLevel accessLevel, Integer userId, Integer groupId) {
+    public AllowedTo(AccessLevel accessLevel, Long userId, Long groupId) {
 	this.accessLevel = accessLevel;
 	this.userId = userId;
 	this.groupId = groupId;
@@ -23,12 +23,12 @@ public class AllowedTo {
 	return (this);
     }
 
-    public AllowedTo withUserId(Integer userId) {
+    public AllowedTo withUserId(Long userId) {
 	this.userId = userId;
 	return (this);
     }
 
-    public AllowedTo withGroupId(Integer groupId) {
+    public AllowedTo withGroupId(Long groupId) {
 	this.groupId = groupId;
 	return (this);
     }

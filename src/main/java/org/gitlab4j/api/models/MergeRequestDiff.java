@@ -7,22 +7,22 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class MergeRequestDiff {
 
-    private Integer id;
+    private Long id;
     private String headCommitSha;
     private String baseCommitSha;
     private String startCommitSha;
     private Date createdAt;
-    private Integer mergeRequestId;
+    private Long mergeRequestId;
     private String state;
     private String realSize;
     private List<Commit> commits;
     private List<Diff> diffs;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,11 +58,11 @@ public class MergeRequestDiff {
         this.createdAt = createdAt;
     }
 
-    public Integer getMergeRequestId() {
+    public Long getMergeRequestId() {
         return mergeRequestId;
     }
 
-    public void setMergeRequestId(Integer mergeRequestId) {
+    public void setMergeRequestId(Long mergeRequestId) {
         this.mergeRequestId = mergeRequestId;
     }
 

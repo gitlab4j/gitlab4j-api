@@ -7,7 +7,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class PipelineSchedule {
 
-    private Integer id;
+    private Long id;
     private String description;
     private String ref;
     private String cron;
@@ -20,11 +20,11 @@ public class PipelineSchedule {
     private Owner owner;
     private List<Variable> variables;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

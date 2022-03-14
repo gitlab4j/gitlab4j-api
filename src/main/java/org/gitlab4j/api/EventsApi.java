@@ -296,7 +296,7 @@ public class EventsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /:projectId/events</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param action include only events of a particular action type, optional
      * @param targetType include only events of a particular target type, optional
      * @param before include only events created before a particular date, optional
@@ -315,7 +315,7 @@ public class EventsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:projectId/events</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param action include only events of a particular action type, optional
      * @param targetType include only events of a particular target type, optional
      * @param before include only events created before a particular date, optional
@@ -326,7 +326,7 @@ public class EventsApi extends AbstractApi {
      * @return a list of events for the specified project and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getProjectEvents(Integer projectIdOrPath, ActionType action, TargetType targetType,
+    public List<Event> getProjectEvents(Long projectIdOrPath, ActionType action, TargetType targetType,
             Date before, Date after, SortOrder sortOrder, int page, int perPage) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
@@ -348,7 +348,7 @@ public class EventsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:projectId/events</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param action include only events of a particular action type, optional
      * @param targetType include only events of a particular target type, optional
      * @param before include only events created before a particular date, optional
@@ -358,7 +358,7 @@ public class EventsApi extends AbstractApi {
      * @return a Pager of events for the specified project and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Event> getProjectEvents(Object projectIdOrPath, ActionType action, TargetType targetType, Date before, Date after, 
+    public Pager<Event> getProjectEvents(Object projectIdOrPath, ActionType action, TargetType targetType, Date before, Date after,
             SortOrder sortOrder, int itemsPerPage) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
@@ -377,7 +377,7 @@ public class EventsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /:projectId/events</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param action include only events of a particular action type, optional
      * @param targetType include only events of a particular target type, optional
      * @param before include only events created before a particular date, optional

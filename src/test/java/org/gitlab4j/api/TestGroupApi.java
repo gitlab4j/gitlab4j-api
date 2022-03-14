@@ -27,13 +27,13 @@ import org.junit.experimental.categories.Category;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  * TEST_USERNAME
  * TEST_GROUP
  * TEST_GROUP_MEMBER_USERNAME
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
@@ -101,7 +101,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         if (TEST_REQUEST_ACCESS_USERNAME != null) {
             Optional<User> user = gitLabApi.getUserApi().getOptionalUser(TEST_REQUEST_ACCESS_USERNAME);
             if (user.isPresent()) {
-                Integer userId = user.get().getId();
+                Long userId = user.get().getId();
                 try {
                     gitLabApi.getGroupApi().denyAccessRequest(testGroup, userId);
                 } catch (Exception e) {
@@ -204,7 +204,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
         User user = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(user);
-        final Integer userId = user.getId();
+        final Long userId = user.getId();
 
         try {
             try {
@@ -249,7 +249,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
         User user = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(user);
-        final Integer userId = user.getId();
+        final Long userId = user.getId();
 
         try {
             try {

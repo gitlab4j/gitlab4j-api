@@ -28,7 +28,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @return the milestones associated with the specified group
      * @throws GitLabApiException if any exception occurs
      */
@@ -41,7 +41,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param page the page number to get
      * @param perPage how many milestones per page
      * @return the milestones associated with the specified group
@@ -58,7 +58,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param itemsPerPage The number of Milestone instances that will be fetched per page
      * @return the milestones associated with the specified group
      * @throws GitLabApiException if any exception occurs
@@ -73,7 +73,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @return a Stream of the milestones associated with the specified group
      * @throws GitLabApiException if any exception occurs
      */
@@ -86,7 +86,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param state the milestone state
      * @return the milestones associated with the specified group and state
      * @throws GitLabApiException if any exception occurs
@@ -103,7 +103,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param search the search string
      * @return the milestones associated with the specified group
      * @throws GitLabApiException if any exception occurs
@@ -120,7 +120,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones/:milestone_id</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param state the milestone state
      * @param search the search string
      * @return the milestones associated with the specified group
@@ -141,12 +141,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones/:milestone_id</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param milestoneId the ID of the milestone tp get
      * @return a Milestone instance for the specified IDs
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone getGroupMilestone(Object groupIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public Milestone getGroupMilestone(Object groupIdOrPath, Long milestoneId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
                 "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
@@ -157,12 +157,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones/:milestone_id/issues</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param milestoneId the milestone ID to get the issues for
      * @return a List of Issue for the milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Issue> getGroupIssues(Object groupIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public List<Issue> getGroupIssues(Object groupIdOrPath, Long milestoneId) throws GitLabApiException {
         return (getGroupIssues(groupIdOrPath, milestoneId, getDefaultPerPage()).all());
     }
 
@@ -171,13 +171,13 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones/:milestone_id/issues</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param milestoneId the milestone ID to get the issues for
      * @param itemsPerPage The number of Milestone instances that will be fetched per page
      * @return a Pager of Issue for the milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Issue> getGroupIssues(Object groupIdOrPath, Integer milestoneId, int itemsPerPage) throws GitLabApiException {
+    public Pager<Issue> getGroupIssues(Object groupIdOrPath, Long milestoneId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Issue>(this, Issue.class, itemsPerPage, null,
                 "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId, "issues"));
     }
@@ -187,12 +187,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones/:milestone_id/issues</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param milestoneId the milestone ID to get the issues for
      * @return a Stream of Issue for the milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Issue> getGroupIssuesStream(Object groupIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public Stream<Issue> getGroupIssuesStream(Object groupIdOrPath, Long milestoneId) throws GitLabApiException {
         return (getGroupIssues(groupIdOrPath, milestoneId, getDefaultPerPage()).stream());
     }
 
@@ -201,12 +201,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/milestones/:milestone_id/merge_requests</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param milestoneId the milestone ID to get the merge requests for
      * @return a list of merge requests associated with the specified milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public List<MergeRequest> getGroupMergeRequest(Object groupIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public List<MergeRequest> getGroupMergeRequest(Object groupIdOrPath, Long milestoneId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
                 "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId, "merge_requests");
         return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
@@ -217,7 +217,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /groups/:id/milestones</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param title the title for the milestone
      * @param description the description for the milestone
      * @param dueDate the due date for the milestone
@@ -240,12 +240,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /groups/:id/milestones/:milestone_id</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param milestoneId the milestone ID to close
      * @return the closed Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone closeGroupMilestone(Object groupIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public Milestone closeGroupMilestone(Object groupIdOrPath, Long milestoneId) throws GitLabApiException {
 
         if (milestoneId == null) {
             throw new RuntimeException("milestoneId cannot be null");
@@ -262,12 +262,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /groups/:id/milestones/:milestone_id</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param milestoneId the milestone ID to activate
      * @return the activated Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone activateGroupMilestone(Object groupIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public Milestone activateGroupMilestone(Object groupIdOrPath, Long milestoneId) throws GitLabApiException {
 
         if (milestoneId == null) {
             throw new RuntimeException("milestoneId cannot be null");
@@ -284,7 +284,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /groups/:id/milestones/:milestone_id</code></pre>
      *
-     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
      * @param milestoneId the milestone ID to update
      * @param title the updated title for the milestone
      * @param description the updated description for the milestone
@@ -294,7 +294,7 @@ public class MilestonesApi extends AbstractApi {
      * @return the updated Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone updateGroupMilestone(Object groupIdOrPath, Integer milestoneId, String title, String description,
+    public Milestone updateGroupMilestone(Object groupIdOrPath, Long milestoneId, String title, String description,
                                      Date dueDate, Date startDate, MilestoneState milestoneState) throws GitLabApiException {
 
         if (milestoneId == null) {
@@ -317,7 +317,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return the milestones associated with the specified project
      * @throws GitLabApiException if any exception occurs
      */
@@ -330,7 +330,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param page the page number to get
      * @param perPage how many milestones per page
      * @return the milestones associated with the specified project
@@ -347,7 +347,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param itemsPerPage The number of Milestone instances that will be fetched per page
      * @return the milestones associated with the specified project
      * @throws GitLabApiException if any exception occurs
@@ -362,7 +362,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a Stream of the milestones associated with the specified project
      * @throws GitLabApiException if any exception occurs
      */
@@ -375,7 +375,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param state the milestone state
      * @return the milestones associated with the specified project and state
      * @throws GitLabApiException if any exception occurs
@@ -392,7 +392,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param search the search string
      * @return the milestones associated with the specified project
      * @throws GitLabApiException if any exception occurs
@@ -409,7 +409,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param state the milestone state
      * @param search the search string
      * @return the milestones associated with the specified project
@@ -430,12 +430,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones/:milestone_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the ID of the milestone tp get
      * @return a Milestone instance for the specified IDs
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone getMilestone(Object projectIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public Milestone getMilestone(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
@@ -446,12 +446,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones/:milestone_id/issues</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to get the issues for
      * @return a List of Issue for the milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Issue> getIssues(Object projectIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public List<Issue> getIssues(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
         return (getIssues(projectIdOrPath, milestoneId, getDefaultPerPage()).all());
     }
 
@@ -460,13 +460,13 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones/:milestone_id/issues</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to get the issues for
      * @param itemsPerPage the number of Milestone instances that will be fetched per page
      * @return a Pager of Issue for the milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Issue> getIssues(Object projectIdOrPath, Integer milestoneId, int itemsPerPage) throws GitLabApiException {
+    public Pager<Issue> getIssues(Object projectIdOrPath, Long milestoneId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Issue>(this, Issue.class, itemsPerPage, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId, "issues"));
     }
@@ -476,12 +476,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones/:milestone_id/issues</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to get the issues for
      * @return a Stream of Issue for the milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Issue> getIssuesStream(Object projectIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public Stream<Issue> getIssuesStream(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
         return (getIssues(projectIdOrPath, milestoneId, getDefaultPerPage()).stream());
     }
 
@@ -489,13 +489,13 @@ public class MilestonesApi extends AbstractApi {
      * Get the list of merge requests associated with the specified milestone.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones/:milestone_id/merge_requests</code></pre>
-     * 
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to get the merge requests for
      * @return a list of merge requests associated with the specified milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public List<MergeRequest> getMergeRequest(Object projectIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public List<MergeRequest> getMergeRequest(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId, "merge_requests");
         return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
@@ -506,7 +506,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/milestones</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param title the title for the milestone
      * @param description the description for the milestone
      * @param dueDate the due date for the milestone
@@ -530,12 +530,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/milestones/:milestone_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to close
      * @return the closed Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone closeMilestone(Object projectIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public Milestone closeMilestone(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
 
         if (milestoneId == null) {
             throw new RuntimeException("milestoneId cannot be null");
@@ -552,12 +552,12 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/milestones/:milestone_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to activate
      * @return the activated Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone activateMilestone(Object projectIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public Milestone activateMilestone(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
 
         if (milestoneId == null) {
             throw new RuntimeException("milestoneId cannot be null");
@@ -574,7 +574,7 @@ public class MilestonesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/milestones/:milestone_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to update
      * @param title the updated title for the milestone
      * @param description the updated description for the milestone
@@ -584,13 +584,13 @@ public class MilestonesApi extends AbstractApi {
      * @return the updated Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone updateMilestone(Object projectIdOrPath, Integer milestoneId, String title, String description, 
+    public Milestone updateMilestone(Object projectIdOrPath, Long milestoneId, String title, String description,
             Date dueDate, Date startDate, MilestoneState milestoneState) throws GitLabApiException {
 
         if (milestoneId == null) {
             throw new RuntimeException("milestoneId cannot be null");
         }
- 
+
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("description", description)
@@ -605,11 +605,11 @@ public class MilestonesApi extends AbstractApi {
     /**
      * Delete a project milestone.
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteMilestone(Object projectIdOrPath, Integer milestoneId) throws GitLabApiException {
+    public void deleteMilestone(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId);
     }
 }

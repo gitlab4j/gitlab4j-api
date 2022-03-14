@@ -7,7 +7,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Job {
 
-    private Integer id;
+    private Long id;
     private Commit commit;
     private String coverage;
     private Date createdAt;
@@ -31,11 +31,11 @@ public class Job {
     private Float duration;
     private Project project;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -215,7 +215,7 @@ public class Job {
         this.project = project;
     }
 
-    public Job withId(Integer id) {
+    public Job withId(Long id) {
         this.id = id;
         return this;
     }

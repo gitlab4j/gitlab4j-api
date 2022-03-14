@@ -32,19 +32,19 @@ public class AwardEmoji {
         }
     }
 
-    private Integer id;
+    private Long id;
     private String name;
     private User user;
     private Date createdAt;
     private Date updatedAt;
-    private Integer awardableId;
+    private Long awardableId;
     private AwardableType awardableType;
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -80,11 +80,11 @@ public class AwardEmoji {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getAwardableId() {
+    public Long getAwardableId() {
         return awardableId;
     }
 
-    public void setAwardableId(Integer awardableId) {
+    public void setAwardableId(Long awardableId) {
         this.awardableId = awardableId;
     }
 

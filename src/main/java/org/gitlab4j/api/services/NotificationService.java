@@ -33,7 +33,7 @@ public abstract class NotificationService {
     public static final String PROJECT_URL_PROP = "project_url";
     public static final String PUSH_EVENTS_PROP = "push_events";
 
-    private Integer id;
+    private Long id;
     private String title;
     private String slug;
     private Date createdAt;
@@ -56,11 +56,11 @@ public abstract class NotificationService {
 
     public abstract GitLabApiForm servicePropertiesForm();
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

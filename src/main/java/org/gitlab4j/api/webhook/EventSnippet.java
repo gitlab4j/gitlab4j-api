@@ -7,11 +7,11 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class EventSnippet {
 
-    private Integer id;
+    private Long id;
     private String title;
     private String content;
-    private Integer authorId;
-    private Integer projectId;
+    private Long authorId;
+    private Long projectId;
     private Date createdAt;
     private Date updatedAt;
     private String fileName;
@@ -19,11 +19,11 @@ public class EventSnippet {
     private String type;
     private AccessLevel visibilityLevel;
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,19 +43,19 @@ public class EventSnippet {
         this.content = content;
     }
 
-    public Integer getAuthorId() {
+    public Long getAuthorId() {
         return this.authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return this.projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
