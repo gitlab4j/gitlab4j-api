@@ -26,12 +26,12 @@ public class DeploymentFilter {
 	/**
      * Return deployments updated after the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
      */
-    private Date finishedAfter;
+    private Date updatedAfter;
 
     /**
      * Return deployments updated before the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
      */
-    private Date finishedBefore;
+    private Date updatedBefore;
 
     /**
      * The name of the environment to filter deployments by.
@@ -59,20 +59,20 @@ public class DeploymentFilter {
 		this.sortOrder = sortOrder;
 	}
 
-	public Date getFinishedAfter() {
-		return finishedAfter;
+	public Date getUpdatedAfter() {
+		return updatedAfter;
 	}
 
-	public void setFinishedAfter(Date finishedAfter) {
-		this.finishedAfter = finishedAfter;
+	public void setUpdatedAfter(Date updatedAfter) {
+		this.updatedAfter = updatedAfter;
 	}
 
-	public Date getFinishedBefore() {
-		return finishedBefore;
+	public Date getUpdatedBefore() {
+		return updatedBefore;
 	}
 
-	public void setFinishedBefore(Date finishedBefore) {
-		this.finishedBefore = finishedBefore;
+	public void setUpdatedBefore(Date updatedBefore) {
+		this.updatedBefore = updatedBefore;
 	}
 
 	public String getEnvironment() {
@@ -101,13 +101,13 @@ public class DeploymentFilter {
         return (this);
     }
 
-    public DeploymentFilter withFinishedAfter(Date finishedAfter) {
-        this.finishedAfter = finishedAfter;
+    public DeploymentFilter withUpdatedAfter(Date updatedAfter) {
+        this.updatedAfter = updatedAfter;
         return (this);
     }
 
-    public DeploymentFilter withFinishedBefore(Date finishedBefore) {
-        this.finishedBefore = finishedBefore;
+    public DeploymentFilter withUpdatedBefore(Date updatedBefore) {
+        this.updatedBefore = updatedBefore;
         return (this);
     }
 
@@ -133,8 +133,8 @@ public class DeploymentFilter {
         return (new GitLabApiForm()
                 .withParam("order_by", orderBy)
                 .withParam("sort", sortOrder)
-                .withParam("finished_after", ISO8601.toString(finishedAfter, false))
-                .withParam("finished_before", ISO8601.toString(finishedBefore, false))
+                .withParam("updated_after", ISO8601.toString(updatedAfter, false))
+                .withParam("updated_before", ISO8601.toString(updatedBefore, false))
                 .withParam("environment", environment)
                 .withParam("status", status));
     }
