@@ -75,6 +75,38 @@ public class DeploymentFilter {
 		this.updatedBefore = updatedBefore;
 	}
 
+	/**
+	 * @deprecated use {@link #getUpdatedAfter()}
+	 */
+	@Deprecated
+	public Date getFinishedAfter() {
+		return updatedAfter;
+	}
+
+	/**
+	 * @deprecated use {@link #setUpdatedAfter(Date)}
+	 */
+	@Deprecated
+	public void setFinishedAfter(Date finishedAfter) {
+		this.updatedAfter = finishedAfter;
+	}
+
+	/**
+	 * @deprecated use {@link #getUpdatedBefore()}
+	 */
+	@Deprecated
+	public Date getFinishedBefore() {
+		return updatedBefore;
+	}
+
+	/**
+	 * @deprecated use {@link #setUpdatedBefore(Date)}
+	 */
+	@Deprecated
+	public void setFinishedBefore(Date finishedBefore) {
+		this.updatedBefore = finishedBefore;
+	}
+
 	public String getEnvironment() {
 		return environment;
 	}
@@ -108,6 +140,24 @@ public class DeploymentFilter {
 
     public DeploymentFilter withUpdatedBefore(Date updatedBefore) {
         this.updatedBefore = updatedBefore;
+        return (this);
+    }
+
+	/**
+	 * @deprecated use {@link #withUpdatedAfter(Date)}
+	 */
+	@Deprecated
+    public DeploymentFilter withFinishedAfter(Date finishedAfter) {
+        this.updatedAfter = finishedAfter;
+        return (this);
+    }
+
+	/**
+	 * @deprecated use {@link #withUpdatedBefore(Date)}
+	 */
+	@Deprecated
+    public DeploymentFilter withFinishedBefore(Date finishedBefore) {
+        this.updatedBefore = finishedBefore;
         return (this);
     }
 
