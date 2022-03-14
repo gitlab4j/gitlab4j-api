@@ -664,6 +664,33 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
+     * Get a list of contributors from a project and in the specified page range, sorted by specified param.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/contributors</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param page the page to get
+     * @param perPage the number of projects per page
+     * @param sort optional param to sort the list of contributors by
+     * @return a List containing the contributors for the specified project ID
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Contributor> getContributors(Object projectIdOrPath, int page, int perPage, String sort) throws GitLabApiException {
+        if (sort != null && !(sort.equals("asc") || sort.equals("desc")) ) {
+            throw new RuntimeException("Sort must be asc or desc");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage);
+        if (sort != null) {
+            formData.withParam("sort", sort, false);
+        }
+
+        Response response = get(Response.Status.OK, formData.asMap(),
+            "projects", getProjectIdOrPath(projectIdOrPath), "repository", "contributors");
+        return (response.readEntity(new GenericType<List<Contributor>>() { }));
+    }
+
+    /**
      * Get a Pager of contributors from a project.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/contributors</code></pre>
