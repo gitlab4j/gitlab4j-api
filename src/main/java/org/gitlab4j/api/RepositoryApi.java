@@ -671,18 +671,19 @@ public class RepositoryApi extends AbstractApi {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param page the page to get
      * @param perPage the number of projects per page
-     * @param sort optional param to sort the list of contributors by
+     * @param orderBy (optional param) returns contributors ordered by NAME, EMAIL, or COMMITS. Default is COMMITS
+     * @param sortOrder (optional param) returns contributors sorted in ASC or DESC order. Default is ASC
      * @return a List containing the contributors for the specified project ID
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Contributor> getContributors(Object projectIdOrPath, int page, int perPage, String sort) throws GitLabApiException {
-        if (sort != null && !(sort.equals("asc") || sort.equals("desc")) ) {
-            throw new RuntimeException("Sort must be asc or desc");
+    public List<Contributor> getContributors(Object projectIdOrPath, int page, int perPage, ContributorOrderBy orderBy, SortOrder sortOrder) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage);
+        if (sortOrder != null) {
+            formData.withParam("sort", sortOrder, false);
         }
 
-        GitLabApiForm formData = new GitLabApiForm().withParam(PAGE_PARAM, page).withParam(PER_PAGE_PARAM, perPage);
-        if (sort != null) {
-            formData.withParam("sort", sort, false);
+        if (orderBy != null) {
+            formData.withParam("order_by", orderBy, false);
         }
 
         Response response = get(Response.Status.OK, formData.asMap(),

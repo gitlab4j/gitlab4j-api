@@ -311,6 +311,29 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for ordering the results of getContibutors(). */
+    public enum ContributorOrderBy {
+
+        NAME, EMAIL, COMMITS;
+
+        private static JacksonJsonEnumHelper<ContributorOrderBy> enumHelper = new JacksonJsonEnumHelper<>(ContributorOrderBy.class);
+
+        @JsonCreator
+        public static ContributorOrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for specifying the scope when calling getPipelines(). */
     public enum PipelineScope {
 
