@@ -476,7 +476,7 @@ public class RunnersApi extends AbstractApi {
 
     /**
      * Disable a specific runner from the project. It works only if the project isn't the only project associated with
-     * the specified runner. If so, an error is returned. Use the {@link #removeRunner(Integer)} instead.
+     * the specified runner. If so, an error is returned. Use the {@link #removeRunner(Long)} instead.
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/runners/:runner_id</code></pre>
      *

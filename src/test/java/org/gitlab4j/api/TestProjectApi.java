@@ -638,7 +638,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
 
-        optional = gitLabApi.getProjectApi().getOptionalProject(1234567);
+        optional = gitLabApi.getProjectApi().getOptionalProject(1234567L);
         assertNotNull(optional);
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());

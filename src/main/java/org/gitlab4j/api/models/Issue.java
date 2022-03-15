@@ -9,6 +9,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.LongNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
@@ -145,7 +146,7 @@ public class Issue {
 	actualId = id;
         if (actualId instanceof TextNode) {
             externalId = actualId.asText();
-        } else if (actualId instanceof LongNode) {
+        } else if (actualId instanceof IntNode || actualId instanceof LongNode) {
             this.id = actualId.asLong();
         }
     }

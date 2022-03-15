@@ -642,7 +642,7 @@ public class GroupApi extends AbstractApi {
      * @return the created Group instance
      * @throws GitLabApiException if any exception occurs
      * @deprecated  Will be removed in version 5.0, replaced by {@link #addGroup(String, String, String, Visibility,
-     *      Boolean, Boolean, Integer)}
+     *      Boolean, Boolean, Long)}
      */
     @Deprecated
 	public Group addGroup(String name, String path, String description, Boolean membershipLock,
@@ -683,7 +683,7 @@ public class GroupApi extends AbstractApi {
      * @return the updated Group instance
      * @throws GitLabApiException if any exception occurs
      * @deprecated  Will be removed in version 5.0, replaced by {@link #updateGroup(Object, String, String, String,
-     *      Visibility, Boolean, Boolean, Integer)}
+     *      Visibility, Boolean, Boolean, Long)}
      */
     @Deprecated
 	public Group updateGroup(Object groupIdOrPath, String name, String path, String description, Boolean membershipLock,

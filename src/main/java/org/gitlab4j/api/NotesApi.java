@@ -24,7 +24,7 @@ public class NotesApi extends AbstractApi {
      * @param issueIid the issue ID to get the notes for
      * @return a list of the issues's notes
      * @throws GitLabApiException if any exception occurs
-     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Object, Integer)}
+     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Object, Long)}
      */
     @Deprecated
     public List<Note> getNotes(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
@@ -42,7 +42,7 @@ public class NotesApi extends AbstractApi {
      * @param perPage the number of notes per page
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
-     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Object, Integer, int, int)}
+     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Object, Long, int, int)}
      */
     @Deprecated
     public List<Note> getNotes(Object projectIdOrPath, Long issueIid, int page, int perPage) throws GitLabApiException {
@@ -59,7 +59,7 @@ public class NotesApi extends AbstractApi {
      * @param itemsPerPage the number of notes per page
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
-     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Object, Integer, int)}
+     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Object, Long, int)}
      */
     @Deprecated
     public Pager<Note> getNotes(Object projectIdOrPath, Long issueIid, int itemsPerPage) throws GitLabApiException {

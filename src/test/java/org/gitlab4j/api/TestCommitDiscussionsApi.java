@@ -40,28 +40,28 @@ public class TestCommitDiscussionsApi implements Constants {
 
     @Test
     public void testGetCommitDiscussionsByList() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, COMMIT_SHA);
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1L, COMMIT_SHA);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "commit-discussions.json"));
     }
 
     @Test
     public void testGetCommitDiscussionsByListWithMaxItems() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, COMMIT_SHA, 20);
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1L, COMMIT_SHA, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "commit-discussions.json"));
     }
 
     @Test
     public void testGetCommitDiscussionsByPager() throws Exception {
-        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussionsPager(1, COMMIT_SHA, 20);
+        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussionsPager(1L, COMMIT_SHA, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions.all(), "commit-discussions.json"));
     }
 
     @Test
     public void testGetCommitDiscussionsByStream() throws Exception {
-        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getCommitDiscussionsStream(1, COMMIT_SHA);
+        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getCommitDiscussionsStream(1L, COMMIT_SHA);
         assertNotNull(stream);
         List<Discussion> discussions = stream.collect(Collectors.toList());
         assertTrue(compareJson(discussions, "commit-discussions.json"));

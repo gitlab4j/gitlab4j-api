@@ -189,7 +189,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         assertTrue(optional.isPresent());
         assertEquals(testGroup.getId(), optional.get().getId());
 
-        optional = gitLabApi.getGroupApi().getOptionalGroup(12345);
+        optional = gitLabApi.getGroupApi().getOptionalGroup(12345L);
         assertNotNull(optional);
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());

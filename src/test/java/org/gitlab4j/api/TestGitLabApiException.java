@@ -22,11 +22,11 @@ import org.junit.experimental.categories.Category;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
- * 
+ *
  * TEST_NAMESPACE
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
 @Category(IntegrationTest.class)
@@ -76,7 +76,7 @@ public class TestGitLabApiException extends AbstractIntegrationTest {
     public void testNotFoundError() throws GitLabApiException {
 
         try {
-            gitLabApi.getProjectApi().getProject(123456789);
+            gitLabApi.getProjectApi().getProject(123456789L);
             fail("GitLabApiException not thrown");
         } catch (GitLabApiException gae) {
             assertFalse(gae.hasValidationErrors());

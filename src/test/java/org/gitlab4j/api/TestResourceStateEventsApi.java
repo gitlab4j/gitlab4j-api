@@ -5,6 +5,7 @@ import org.gitlab4j.api.models.IssueEvent;
 import org.gitlab4j.api.models.Project;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -37,6 +38,7 @@ public class TestResourceStateEventsApi extends AbstractIntegrationTest {
         deleteAllTestIssues();
     }
 
+    @Ignore("should be enabled when CI tests will be run against GitLab 13.2+")
     @Test
     public void testGetCloseReopenIssueEvents() throws GitLabApiException {
         Long projectId = testProject.getId();

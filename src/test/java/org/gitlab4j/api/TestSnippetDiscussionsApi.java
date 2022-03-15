@@ -39,28 +39,28 @@ public class TestSnippetDiscussionsApi implements Constants {
 
     @Test
     public void testGetSnippetDiscussionsByList() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getSnippetDiscussions(1, 1L);
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getSnippetDiscussions(1L, 1L);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "snippet-discussions.json"));
     }
 
     @Test
     public void testGetSnippetDiscussionsByListWithMaxItems() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getSnippetDiscussions(1, 1L, 20);
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getSnippetDiscussions(1L, 1L, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "snippet-discussions.json"));
     }
 
     @Test
     public void testGetSnippetDiscussionsByPager() throws Exception {
-        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getSnippetDiscussionsPager(1, 1L, 20);
+        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getSnippetDiscussionsPager(1L, 1L, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions.all(), "snippet-discussions.json"));
     }
 
     @Test
     public void testGetSnippetDiscussionsByStream() throws Exception {
-        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getSnippetDiscussionsStream(1, 1L);
+        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getSnippetDiscussionsStream(1L, 1L);
         assertNotNull(stream);
         List<Discussion> discussions = stream.collect(Collectors.toList());
         assertTrue(compareJson(discussions, "snippet-discussions.json"));

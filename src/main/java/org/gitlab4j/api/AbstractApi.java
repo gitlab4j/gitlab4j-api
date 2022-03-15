@@ -33,14 +33,14 @@ public abstract class AbstractApi implements Constants {
      * Returns the project ID or path from the provided Integer, String, or Project instance.
      *
      * @param obj the object to determine the ID or path from
-     * @return the project ID or path from the provided Integer, String, or Project instance
+     * @return the project ID or path from the provided Long, String, or Project instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Object getProjectIdOrPath(Object obj) throws GitLabApiException {
 
         if (obj == null) {
             throw (new RuntimeException("Cannot determine ID or path from null object"));
-        } else if (obj instanceof Integer) {
+        } else if (obj instanceof Long) {
             return (obj);
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
@@ -60,7 +60,7 @@ public abstract class AbstractApi implements Constants {
 
         } else {
             throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
-                    " instance, must be Integer, String, or a Project instance"));
+                    " instance, must be Long, String, or a Project instance"));
         }
     }
 
@@ -68,14 +68,14 @@ public abstract class AbstractApi implements Constants {
      * Returns the group ID or path from the provided Integer, String, or Group instance.
      *
      * @param obj the object to determine the ID or path from
-     * @return the group ID or path from the provided Integer, String, or Group instance
+     * @return the group ID or path from the provided Long, String, or Group instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Object getGroupIdOrPath(Object obj) throws GitLabApiException {
 
         if (obj == null) {
             throw (new RuntimeException("Cannot determine ID or path from null object"));
-        } else if (obj instanceof Integer) {
+        } else if (obj instanceof Long) {
             return (obj);
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
@@ -95,7 +95,7 @@ public abstract class AbstractApi implements Constants {
 
         } else {
             throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
-                    " instance, must be Integer, String, or a Group instance"));
+                    " instance, must be Long, String, or a Group instance"));
         }
     }
 
@@ -110,7 +110,7 @@ public abstract class AbstractApi implements Constants {
 
         if (obj == null) {
             throw (new RuntimeException("Cannot determine ID or username from null object"));
-        } else if (obj instanceof Integer) {
+        } else if (obj instanceof Long) {
             return (obj);
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
@@ -145,7 +145,7 @@ public abstract class AbstractApi implements Constants {
 
         if (obj == null) {
             throw (new RuntimeException("Cannot determine ID or name from null object"));
-        } else if (obj instanceof Integer) {
+        } else if (obj instanceof Long) {
             return (obj);
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));

@@ -39,28 +39,28 @@ public class TestMergeRequestDiscussionsApi implements Constants {
 
     @Test
     public void testGetMergeRequestDiscussionsByList() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getMergeRequestDiscussions(1, 1L);
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getMergeRequestDiscussions(1L, 1L);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "merge-request-discussions.json"));
     }
 
     @Test
     public void testGetMergeRequestDiscussionsByListMaxItems() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getMergeRequestDiscussions(1, 1L, 20);
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getMergeRequestDiscussions(1L, 1L, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "merge-request-discussions.json"));
     }
 
     @Test
     public void testGetMergeRequestDiscussionsByPager() throws Exception {
-        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getMergeRequestDiscussionsPager(1, 1L, 20);
+        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getMergeRequestDiscussionsPager(1L, 1L, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions.all(), "merge-request-discussions.json"));
     }
 
     @Test
     public void testGetMergeRequestDiscussionsByStream() throws Exception {
-        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getMergeRequestDiscussionsStream(1, 1L);
+        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getMergeRequestDiscussionsStream(1L, 1L);
         assertNotNull(stream);
         List<Discussion> discussions = stream.collect(Collectors.toList());
         assertTrue(compareJson(discussions, "merge-request-discussions.json"));

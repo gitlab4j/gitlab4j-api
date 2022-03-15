@@ -39,14 +39,14 @@ public class TestUnitMergeRequestApi {
 
     @Test
     public void whenAllArgumentsNull_thenNoAttributesSent() throws Exception {
-        new MergeRequestApi(mockGitLabApi).updateMergeRequest(1, 2L, null, null, null, null, null, null,
+        new MergeRequestApi(mockGitLabApi).updateMergeRequest(1L, 2L, null, null, null, null, null, null,
                 null, null, null, null, null);
         assertEquals(0, attributeCaptor.getValue().size());
     }
 
     @Test
     public void falseBooleansAreSerializedCorrectly() throws Exception {
-        new MergeRequestApi(mockGitLabApi).updateMergeRequest(1, 2L, null, null, null, null, null, null,
+        new MergeRequestApi(mockGitLabApi).updateMergeRequest(1L, 2L, null, null, null, null, null, null,
                 null, null, null, null, false);
         assertThat(attributeCaptor.getValue(),
                 hasEntry("allow_collaboration", Collections.singletonList("false")));
@@ -54,7 +54,7 @@ public class TestUnitMergeRequestApi {
 
     @Test
     public void trueBooleansAreSerializedCorrectly() throws Exception {
-        new MergeRequestApi(mockGitLabApi).updateMergeRequest(1, 2L, null, null, null, null, null, null,
+        new MergeRequestApi(mockGitLabApi).updateMergeRequest(1L, 2L, null, null, null, null, null, null,
                 null, null, null, null, true);
         assertThat(attributeCaptor.getValue(),
                 hasEntry("allow_collaboration", Collections.singletonList("true")));

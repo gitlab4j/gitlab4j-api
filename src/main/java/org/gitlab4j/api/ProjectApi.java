@@ -1163,7 +1163,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param importUrl The Import URL for the project, otherwise null
      * @return the GitLab Project
      * @throws GitLabApiException if any exception occurs
-     * @deprecated As of release 4.2.0, replaced by {@link #createProject(String, Integer, String, Boolean, Boolean,
+     * @deprecated As of release 4.2.0, replaced by {@link #createProject(String, Long, String, Boolean, Boolean,
      *      Boolean, Boolean, Visibility, Integer, String)}
      */
     @Deprecated
@@ -2268,7 +2268,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param issueId the internal ID of a project's issue
      * @return the specified Issue instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#getIssue(Object, Integer)}
+     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#getIssue(Object, Long)}
      */
     @Deprecated
     public Issue getIssue(Object projectIdOrPath, Long issueId) throws GitLabApiException {
@@ -2284,7 +2284,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param issueId the internal ID of a project's issue
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#deleteIssue(Object, Integer)}
+     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#deleteIssue(Object, Long)}
      */
     @Deprecated
     public void deleteIssue(Object projectIdOrPath, Long issueId) throws GitLabApiException {
@@ -2605,6 +2605,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
      * @param inputStream the data to upload, required
+     * @param filename The filename of the file to upload
+     * @param mediaType unused; will be removed in the next major version
      * @return a FileUpload instance with information on the just uploaded file
      * @throws GitLabApiException if any exception occurs
      */

@@ -140,7 +140,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public List<Job> getJobsForPipeline(Object projectIdOrPath, int pipelineId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), 
+        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs");
         return (response.readEntity(new GenericType<List<Job>>() {}));
     }
@@ -466,7 +466,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @param jobId the ID to cancel job
      * @return job instance which just canceled
      * @throws GitLabApiException if any exception occurs during execution
-     * @deprecated replaced by {@link #cancelJob(Object, Integer)}
+     * @deprecated replaced by {@link #cancelJob(Object, Long)}
      */
      @Deprecated
     public Job cancleJob(Object projectIdOrPath, Long jobId) throws GitLabApiException {

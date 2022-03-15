@@ -40,8 +40,6 @@ public class TestPackageApi extends AbstractIntegrationTest {
             .withOrderBy(Constants.PackageOrderBy.CREATED_AT)
             .withSortOder(Constants.SortOrder.DESC);
 
-
-
         Optional<Package> lastPackage = packagesApi.getPackagesStream(testProject.getId(),filter).findAny();
 
         assertTrue(lastPackage.isPresent());
