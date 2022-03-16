@@ -2,18 +2,18 @@ package org.gitlab4j.api;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.util.Collections;
 
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.MergeRequest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -26,9 +26,9 @@ public class TestUnitMergeRequestApi {
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
     private MockResponse mockedResponse;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        initMocks(this);
+    	openMocks(this);
         mockedResponse = new MockResponse(MergeRequest.class, "merge-request.json", null);
         when(mockGitLabApi.getApiClient()).thenReturn(mockedGitLabApiClient);
 

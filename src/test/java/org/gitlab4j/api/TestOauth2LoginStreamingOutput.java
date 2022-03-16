@@ -1,12 +1,12 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.gitlab4j.api.utils.Oauth2LoginStreamingOutput;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

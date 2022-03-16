@@ -3,13 +3,13 @@ package org.gitlab4j.api;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static org.gitlab4j.api.JsonUtils.compareJson;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -17,9 +17,9 @@ import java.util.stream.Stream;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.User;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -34,7 +34,7 @@ public class TestStreams implements Constants {
 
     static private List<User> sortedUsers;
 
-    @BeforeClass
+    @BeforeAll
     public static void setupClass() throws Exception {
 
         // Get a list of users sorted by username, we use this as thye source of truth for the asserts
@@ -42,9 +42,9 @@ public class TestStreams implements Constants {
         sortedUsers.sort(comparing(User::getUsername));
     }
 
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
-        initMocks(this);
+    	openMocks(this);
         response = new MockResponse(User.class, null, "user-list.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);

@@ -1,27 +1,28 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.Map;
 
 import org.gitlab4j.api.models.Version;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestGitLabApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
@@ -35,15 +36,15 @@ public class TestGitLabApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         // Must setup the connection to the GitLab test server
         gitLabApi = baseTestSetup();
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
+        assumeTrue(gitLabApi != null);
     }
 
     @Test

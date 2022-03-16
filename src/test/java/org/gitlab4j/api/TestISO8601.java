@@ -1,12 +1,12 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
 import java.util.Date;
 
 import org.gitlab4j.api.utils.ISO8601;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestISO8601 {
 

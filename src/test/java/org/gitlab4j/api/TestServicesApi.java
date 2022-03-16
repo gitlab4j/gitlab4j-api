@@ -1,10 +1,10 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.services.BugzillaService;
@@ -15,12 +15,13 @@ import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.MattermostService;
 import org.gitlab4j.api.services.NotificationService.BranchesToBeNotified;
 import org.gitlab4j.api.services.SlackService;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in
@@ -30,8 +31,9 @@ import org.junit.runners.MethodSorters;
  *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(IntegrationTest.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestServicesApi extends AbstractIntegrationTest {
 
 	private static final String TEST_ENDPOINT = "https://foobar.com/gitlab_service/webhooks/";
@@ -43,7 +45,7 @@ public class TestServicesApi extends AbstractIntegrationTest {
 		super();
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 
 		// Must setup the connection to the GitLab test server and get the test Project
@@ -63,9 +65,9 @@ public class TestServicesApi extends AbstractIntegrationTest {
 		}
 	}
 
-	@Before
+	@BeforeEach
 	public void beforeMethod() {
-		assumeNotNull(testProject);
+		assumeTrue(testProject != null);
 	}
 
 	@Test
