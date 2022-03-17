@@ -355,7 +355,7 @@ public class LabelsApi extends AbstractApi {
      * @param perPage the number of items per page
      * @return a list of project's labels in the specified range
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in the next major release (5.0.0)
+     * @deprecated Will be removed in the next major release (6.0.0)
      */
     @Deprecated
     public List<Label> getLabels(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {

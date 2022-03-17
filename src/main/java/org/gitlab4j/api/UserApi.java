@@ -511,7 +511,7 @@ public class UserApi extends AbstractApi {
      * @param projectsLimit the maximum number of project
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link #createUser(User, CharSequence, boolean)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link #createUser(User, CharSequence, boolean)}
      */
     @Deprecated
     public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
@@ -624,7 +624,7 @@ public class UserApi extends AbstractApi {
      * @param projectsLimit the maximum number of project
      * @return the modified User instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link #updateUser(User, CharSequence)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link #updateUser(User, CharSequence)}
      */
     @Deprecated
     public User modifyUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {

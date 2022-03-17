@@ -196,7 +196,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param statistics include project statistics
      * @return a list of projects accessible by the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #getProjects(Boolean, Visibility,
+     * @deprecated  Will be removed in version 6.0, replaced by {@link #getProjects(Boolean, Visibility,
      *      Constants.ProjectOrderBy, Constants.SortOrder, String, Boolean, Boolean, Boolean, Boolean, Boolean)}
      */
     @Deprecated
@@ -1510,7 +1510,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param perPage the number of Member instances per page
      * @return the project members viewable by the authenticated user, including inherited members through ancestor groups
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0
+     * @deprecated  Will be removed in version 6.0
      */
     @Deprecated
     public List<Member> getAllMembers(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
@@ -2203,7 +2203,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @return a list of project's issues
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Object)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link IssuesApi#getIssues(Object)}
      */
     @Deprecated
     public List<Issue> getIssues(Object projectIdOrPath) throws GitLabApiException {
@@ -2220,7 +2220,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param perPage the number of issues per page
      * @return the list of issues in the specified range
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Object, int, int)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link IssuesApi#getIssues(Object, int, int)}
      */
     @Deprecated
     public List<Issue> getIssues(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
@@ -2237,7 +2237,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param itemsPerPage the number of issues per page
      * @return the list of issues in the specified range
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Object, int)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link IssuesApi#getIssues(Object, int)}
      */
     @Deprecated
     public Pager<Issue> getIssues(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
@@ -2252,7 +2252,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @return a Stream of the project's issues
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link IssuesApi#getIssues(Object)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link IssuesApi#getIssues(Object)}
      */
     @Deprecated
     public Stream<Issue> getIssuesStream(Object projectIdOrPath) throws GitLabApiException {
@@ -2268,7 +2268,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param issueId the internal ID of a project's issue
      * @return the specified Issue instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#getIssue(Object, Long)}
+     * @deprecated  Will be removed in version 6.0, replaced by {@link IssuesApi#getIssue(Object, Long)}
      */
     @Deprecated
     public Issue getIssue(Object projectIdOrPath, Long issueId) throws GitLabApiException {
@@ -2284,7 +2284,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param issueId the internal ID of a project's issue
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link IssuesApi#deleteIssue(Object, Long)}
+     * @deprecated  Will be removed in version 6.0, replaced by {@link IssuesApi#deleteIssue(Object, Long)}
      */
     @Deprecated
     public void deleteIssue(Object projectIdOrPath, Long issueId) throws GitLabApiException {

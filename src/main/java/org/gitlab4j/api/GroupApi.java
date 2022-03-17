@@ -641,7 +641,7 @@ public class GroupApi extends AbstractApi {
      * @param sharedRunnersMinutesLimit (optional) - (admin-only) Pipeline minutes quota for this group
      * @return the created Group instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #addGroup(String, String, String, Visibility,
+     * @deprecated  Will be removed in version 6.0, replaced by {@link #addGroup(String, String, String, Visibility,
      *      Boolean, Boolean, Long)}
      */
     @Deprecated
@@ -682,7 +682,7 @@ public class GroupApi extends AbstractApi {
      * @param sharedRunnersMinutesLimit (optional) - (admin-only) Pipeline minutes quota for this group
      * @return the updated Group instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #updateGroup(Object, String, String, String,
+     * @deprecated  Will be removed in version 6.0, replaced by {@link #updateGroup(Object, String, String, String,
      *      Visibility, Boolean, Boolean, Long)}
      */
     @Deprecated
@@ -873,7 +873,7 @@ public class GroupApi extends AbstractApi {
      * @return a list of group members viewable by the authenticated user, including inherited members
      * through ancestor groups in the specified page range
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0
+     * @deprecated  Will be removed in version 6.0
      */
     @Deprecated
     public List<Member> getAllMembers(Object groupIdOrPath, int page, int perPage) throws GitLabApiException {

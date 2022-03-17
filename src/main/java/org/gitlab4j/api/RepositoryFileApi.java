@@ -133,7 +133,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @param ref (required) - The name of branch, tag or commit
      * @return a RepositoryFile instance with the file info and file content
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #getFile(Object, String, String)}
+     * @deprecated  Will be removed in version 6.0, replaced by {@link #getFile(Object, String, String)}
      */
     @Deprecated
     public RepositoryFile getFile(String filePath, Long projectId, String ref) throws GitLabApiException {
@@ -181,7 +181,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @param ref (required) - The name of branch, tag or commit
      * @return a RepositoryFile instance with the file info
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0
+     * @deprecated  Will be removed in version 6.0
      */
     @Deprecated
     protected RepositoryFile getFileV3(String filePath, Long projectId, String ref) throws GitLabApiException {
@@ -242,7 +242,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @param commitMessage the commit message
      * @return a RepositoryFile instance with the created file info
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #createFile(Object, RepositoryFile, String, String)}
+     * @deprecated  Will be removed in version 6.0, replaced by {@link #createFile(Object, RepositoryFile, String, String)}
      */
     @Deprecated
     public RepositoryFile createFile(RepositoryFile file, Long projectId, String branchName, String commitMessage) throws GitLabApiException {
@@ -299,7 +299,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @param commitMessage the commit message
      * @return a RepositoryFile instance with the updated file info
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #updateFile(Object, RepositoryFile, String, String)}
+     * @deprecated  Will be removed in version 6.0, replaced by {@link #updateFile(Object, RepositoryFile, String, String)}
      */
     @Deprecated
     public RepositoryFile updateFile(RepositoryFile file, Long projectId, String branchName, String commitMessage) throws GitLabApiException {
@@ -355,7 +355,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @param branchName the name of branch
      * @param commitMessage the commit message
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 5.0, replaced by {@link #deleteFile(Object, String, String, String)}
+     * @deprecated  Will be removed in version 6.0, replaced by {@link #deleteFile(Object, String, String, String)}
      */
     @Deprecated
     public void deleteFile(String filePath, Long projectId, String branchName, String commitMessage) throws GitLabApiException {
