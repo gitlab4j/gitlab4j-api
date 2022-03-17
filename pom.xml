@@ -59,7 +59,7 @@
 
 		<junit.version>5.8.2</junit.version>
 		<testcontainers.version>1.15.3</testcontainers.version>
-		<mockito.version>4.1.0</mockito.version>
+		<mockito.version>4.4.0</mockito.version>
 		<hamcrest.version>1.3</hamcrest.version>
 		<systemRules.version>1.19.0</systemRules.version>
 
