@@ -139,7 +139,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Job> getJobsForPipeline(Object projectIdOrPath, int pipelineId) throws GitLabApiException {
+    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs");
         return (response.readEntity(new GenericType<List<Job>>() {}));
@@ -156,7 +156,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Job> getJobsForPipeline(Object projectIdOrPath, int pipelineId, JobScope scope) throws GitLabApiException {
+    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, JobScope scope) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("scope", scope).withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs");
         return (response.readEntity(new GenericType<List<Job>>() {}));
@@ -173,7 +173,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Job> getJobsForPipeline(Object projectIdOrPath, int pipelineId, int itemsPerPage) throws GitLabApiException {
+    public Pager<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Job>(this, Job.class, itemsPerPage, getDefaultPerPageParam(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs"));
     }
@@ -187,7 +187,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a Stream containing the jobs for the specified project ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Job> getJobsStream(Object projectIdOrPath, int pipelineId) throws GitLabApiException {
+    public Stream<Job> getJobsStream(Object projectIdOrPath, long pipelineId) throws GitLabApiException {
         return (getJobsForPipeline(projectIdOrPath, pipelineId, getDefaultPerPage()).stream());
     }
 
