@@ -43,4 +43,4 @@ jobs:
       - name: GitLab4j verify
         id: gitlab4j-verify
         run: |
-          ./mvnw integration-test -B -V -Dmaven.javadoc.skip=true
+          ./mvnw verify -B -V

@@ -133,7 +133,7 @@ public class NotificationSettingsApi extends AbstractApi {
      * @return a NotificationSettings instance containing the updated project notification settings
      * @throws GitLabApiException if any exception occurs
      */
-    public NotificationSettings updateProjectNotificationSettings(int projectId, NotificationSettings settings) throws GitLabApiException {
+    public NotificationSettings updateProjectNotificationSettings(long projectId, NotificationSettings settings) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("level",  settings.getLevel())

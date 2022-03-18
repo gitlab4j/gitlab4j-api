@@ -553,21 +553,21 @@ public class TestUserApi extends AbstractIntegrationTest {
         assertEquals(3, memberships.size());
 
         Membership membership1 = memberships.get(0);
-        assertMembershipEquals(membership1, 1, "test-project", MembershipSourceType.PROJECT, AccessLevel.MAINTAINER);
+        assertMembershipEquals(membership1, 1L, "test-project", MembershipSourceType.PROJECT, AccessLevel.MAINTAINER);
 
         Membership membership2 = memberships.get(1);
-        assertMembershipEquals(membership2, 4, "Test Group", MembershipSourceType.NAMESPACE, AccessLevel.OWNER);
+        assertMembershipEquals(membership2, 1L, "Test Group", MembershipSourceType.NAMESPACE, AccessLevel.OWNER);
 
         Membership membership3 = memberships.get(2);
-        assertMembershipEquals(membership3, 5, "subgroup", MembershipSourceType.NAMESPACE, AccessLevel.OWNER);
+        assertMembershipEquals(membership3, 1L, "subgroup", MembershipSourceType.NAMESPACE, AccessLevel.OWNER);
     }
 
     private void assertMembershipEquals(Membership actualMembership,
-                                        int expectedSourceId,
+                                        long expectedSourceId,
                                         String expectedSourceName,
                                         MembershipSourceType expectedSourceType,
                                         AccessLevel expectedAccessLevel) {
-        assertEquals(expectedSourceId, actualMembership.getSourceId().intValue());
+        assertEquals(expectedSourceId, actualMembership.getSourceId());
         assertEquals(expectedSourceName, actualMembership.getSourceName());
         assertEquals(expectedSourceType, actualMembership.getSourceType());
         assertEquals(expectedAccessLevel, actualMembership.getAccessLevel());
