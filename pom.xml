@@ -352,7 +352,7 @@
 
 		<pluginManagement>
 			<plugins>
-				<!-- The se.bjurr.gitchangelog:git-changelog-maven-plugin needs to be 
+				<!-- The se.bjurr.gitchangelog:git-changelog-maven-plugin needs to be
 					in -->
 				<!-- this section (pluginManagement) for it to work correctly. -->
 				<plugin>
@@ -452,6 +452,7 @@
 			<groupId>uk.org.webcompere</groupId>
 			<artifactId>system-stubs-jupiter</artifactId>
 			<version>1.2.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
