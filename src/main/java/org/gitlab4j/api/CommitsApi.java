@@ -1,29 +1,19 @@
 package org.gitlab4j.api;
 
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.models.CommitAction.Action;
+import org.gitlab4j.api.models.CommitRef.RefType;
+import org.gitlab4j.api.utils.ISO8601;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.models.Comment;
-import org.gitlab4j.api.models.Commit;
-import org.gitlab4j.api.models.CommitAction;
-import org.gitlab4j.api.models.CommitAction.Action;
-import org.gitlab4j.api.models.CommitPayload;
-import org.gitlab4j.api.models.CommitRef;
-import org.gitlab4j.api.models.CommitRef.RefType;
-import org.gitlab4j.api.models.CommitStatus;
-import org.gitlab4j.api.models.CommitStatusFilter;
-import org.gitlab4j.api.models.Diff;
-import org.gitlab4j.api.models.GpgSignature;
-import org.gitlab4j.api.models.MergeRequest;
-import org.gitlab4j.api.utils.ISO8601;
 
 /**
  * This class implements the client side API for the GitLab commits calls.

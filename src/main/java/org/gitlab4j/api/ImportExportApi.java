@@ -9,9 +9,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.Map;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.ExportStatus;
 import org.gitlab4j.api.models.ImportStatus;
@@ -251,7 +251,7 @@ public class ImportExportApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/import</code></pre>
      *
-     * @param projectIdOrPath the new (imported) project identifier in the form of an Long(ID), String(path), or Project instance 
+     * @param projectIdOrPath the new (imported) project identifier in the form of an Long(ID), String(path), or Project instance
      * @return an ImportStatus instance holding information on the import status
      * @throws GitLabApiException if any exception occurs
      */

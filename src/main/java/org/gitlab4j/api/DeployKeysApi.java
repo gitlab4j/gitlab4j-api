@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.DeployKey;
 
@@ -32,7 +32,7 @@ public class DeployKeysApi extends AbstractApi {
     }
 
     /**
-     * Get a list of all deploy keys across all projects of the GitLab instance using the specified page and per page settings. 
+     * Get a list of all deploy keys across all projects of the GitLab instance using the specified page and per page settings.
      * This method requires admin access.
      *
      * <pre><code>GitLab Endpoint: GET /deploy_keys</code></pre>
@@ -86,7 +86,7 @@ public class DeployKeysApi extends AbstractApi {
     }
 
     /**
-     * Get a list of the deploy keys for the specified project using the specified page and per page settings. 
+     * Get a list of the deploy keys for the specified project using the specified page and per page settings.
      * This method requires admin access.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deploy_keys</code></pre>

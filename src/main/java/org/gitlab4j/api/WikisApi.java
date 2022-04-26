@@ -30,8 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.WikiAttachment;
 import org.gitlab4j.api.models.WikiPage;
@@ -131,7 +131,7 @@ public class WikisApi extends AbstractApi {
      */
     public Pager<WikiPage> getPages(Object projectIdOrPath, boolean withContent, int itemsPerPage) throws GitLabApiException {
 	GitLabApiForm formData = new GitLabApiForm().withParam("with_content", (withContent ? 1 : 0));
-	return (new Pager<WikiPage>(this, WikiPage.class, itemsPerPage, formData.asMap(), 
+	return (new Pager<WikiPage>(this, WikiPage.class, itemsPerPage, formData.asMap(),
             "projects", getProjectIdOrPath(projectIdOrPath), "wikis"));
     }
 

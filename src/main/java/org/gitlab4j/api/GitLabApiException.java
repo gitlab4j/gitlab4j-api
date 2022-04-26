@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.StatusType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.StatusType;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -26,7 +26,7 @@ public class GitLabApiException extends Exception {
     private int httpStatus;
     private String message;
     private Map<String, List<String>> validationErrors;
-    
+
     /**
      * Create a GitLabApiException instance with the specified message.
      *
@@ -87,7 +87,7 @@ public class GitLabApiException extends Exception {
                             while(fields.hasNext()) {
 
                                 Entry<String, JsonNode> field = fields.next();
-                                String fieldName = field.getKey();                                
+                                String fieldName = field.getKey();
                                 List<String> values = new ArrayList<>();
                                 validationErrors.put(fieldName, values);
                                 for (JsonNode value : field.getValue()) {
@@ -186,10 +186,10 @@ public class GitLabApiException extends Exception {
     }
 
     /**
-     * Returns a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException 
+     * Returns a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException
      * was caused by validation errors on the GitLab server, otherwise returns null.
      *
-     * @return a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException 
+     * @return a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException
      * was caused by validation errors on the GitLab server, otherwise returns null
      */
     public Map<String, List<String>> getValidationErrors() {

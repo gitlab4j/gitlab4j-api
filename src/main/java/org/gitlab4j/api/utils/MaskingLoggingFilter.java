@@ -1,36 +1,25 @@
 package org.gitlab4j.api.utils;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import jakarta.annotation.Priority;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientRequestFilter;
+import jakarta.ws.rs.client.ClientResponseContext;
+import jakarta.ws.rs.client.ClientResponseFilter;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.ext.WriterInterceptor;
+import jakarta.ws.rs.ext.WriterInterceptorContext;
+import org.glassfish.jersey.message.MessageUtils;
+
+import java.io.*;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.annotation.Priority;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientRequestFilter;
-import javax.ws.rs.client.ClientResponseContext;
-import javax.ws.rs.client.ClientResponseFilter;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.WriterInterceptor;
-import javax.ws.rs.ext.WriterInterceptorContext;
-
-import org.glassfish.jersey.message.MessageUtils;
 
 
 /**
@@ -46,21 +35,21 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
     /**
      * Default list of header names that should be masked.
      */
-    public static final List<String> DEFAULT_MASKED_HEADER_NAMES = 
+    public static final List<String> DEFAULT_MASKED_HEADER_NAMES =
             Collections.unmodifiableList(Arrays.asList("PRIVATE-TOKEN", "Authorization", "Proxy-Authorization"));
 
     /**
      * Prefix for request log entries.
      */
     protected static final String REQUEST_PREFIX = "> ";
- 
+
     /**
      * Prefix for response log entries.
      */
     protected static final String RESPONSE_PREFIX = "< ";
 
     /**
-     * Prefix that marks the beginning of a request or response section. 
+     * Prefix that marks the beginning of a request or response section.
      */
     protected static final String SECTION_PREFIX = "- ";
 
@@ -202,7 +191,7 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
     /**
      * Logs each of the HTTP headers, masking the value of the header if the header key is
      * in the list of masked header names.
-     * 
+     *
      * @param sb the StringBuilder to build up the logging info in
      * @param id the ID for the logging line
      * @param prefix the logging line prefix character
@@ -212,7 +201,7 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
                               final long id,
                               final String prefix,
                               final MultivaluedMap<String, String> headers) {
- 
+
         getSortedHeaders(headers.entrySet()).forEach(h -> {
 
             final List<?> values = h.getValue();
@@ -223,7 +212,7 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
                 String value = (isMaskedHeader ? "********" : values.get(0).toString());
                 appendId(sb, id).append(prefix).append(header).append(": ").append(value).append('\n');
             } else {
-                
+
                 final StringBuilder headerBuf = new StringBuilder();
                 for (final Object value : values) {
                     if (headerBuf.length() == 0) {
@@ -232,12 +221,12 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
 
                     headerBuf.append(isMaskedHeader ? "********" : value.toString());
                 }
-        
+
                 appendId(sb, id).append(prefix).append(header).append(": ").append(headerBuf.toString()).append('\n');
             }
         });
     }
-    
+
     protected void buildEntityLogString(StringBuilder sb, byte[] entity, int entitySize, Charset charset) {
 
         sb.append(new String(entity, 0, Math.min(entitySize, maxEntitySize), charset));
@@ -302,9 +291,9 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
         final StringBuilder sb = new StringBuilder();
         printResponseLine(sb, "Received server response", id, responseContext.getStatus());
         printHeaders(sb, id, RESPONSE_PREFIX, responseContext.getHeaders());
- 
+
         if (responseContext.hasEntity() && maxEntitySize > 0) {
-            responseContext.setEntityStream(logResponseEntity(sb, responseContext.getEntityStream(), 
+            responseContext.setEntityStream(logResponseEntity(sb, responseContext.getEntityStream(),
                     MessageUtils.getCharset(responseContext.getMediaType())));
         }
 
@@ -319,7 +308,7 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
         if (stream == null) {
             return;
         }
-        
+
         MediaType mediaType = context.getMediaType();
         if (mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE) ||
                 mediaType.isCompatible(MediaType.APPLICATION_FORM_URLENCODED_TYPE)) {

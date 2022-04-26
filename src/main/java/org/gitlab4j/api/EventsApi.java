@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Event;
 
@@ -86,7 +86,7 @@ public class EventsApi extends AbstractApi {
      * @param sortOrder sort events in ASC or DESC order by created_at. Default is DESC, optional
      * @param page the page to get
      * @param perPage the number of projects per page
-     * @param scope include all events across a user’s projects, optional 
+     * @param scope include all events across a user’s projects, optional
      * @return a list of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
@@ -137,7 +137,7 @@ public class EventsApi extends AbstractApi {
      * @param after include only events created after a particular date, optional
      * @param sortOrder sort events in ASC or DESC order by created_at. Default is DESC, optional
      * @param itemsPerPage the number of Event instances that will be fetched per page
-     * @param scope include all events across a user’s projects, optional 
+     * @param scope include all events across a user’s projects, optional
      * @return a Pager of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */

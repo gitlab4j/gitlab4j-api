@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.HookManager;
@@ -181,7 +181,7 @@ public class SystemHookManager implements HookManager {
 
     /**
      * Verifies the provided Event and fires it off to the registered listeners.
-     * 
+     *
      * @param event the Event instance to handle
      * @throws GitLabApiException if the event is not supported
      */
@@ -217,7 +217,7 @@ public class SystemHookManager implements HookManager {
 
     /**
      * Fire the event to the registered listeners.
-     * 
+     *
      * @param event the SystemHookEvent instance to fire to the registered event listeners
      * @throws GitLabApiException if the event is not supported
      */

@@ -26,9 +26,9 @@ package org.gitlab4j.api;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Package;
 import org.gitlab4j.api.models.PackageFile;
@@ -37,7 +37,7 @@ import org.gitlab4j.api.models.PackageFilter;
 /**
  * <p>This class implements the client side API for the GitLab Packages API.
  * See <a href="https://docs.gitlab.com/ee/api/packages.html">Packages API at GitLab</a> for more information.</p>
- * 
+ *
  * NOTE: This API is not available in the Community edition of GitLab.
  */
 public class PackagesApi extends AbstractApi {
@@ -189,7 +189,7 @@ public class PackagesApi extends AbstractApi {
     }
 
     /**
-     * Get a Pager of project package files. 
+     * Get a Pager of project package files.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages/:package_id/package_files</code></pre>
      *
@@ -205,7 +205,7 @@ public class PackagesApi extends AbstractApi {
     }
 
     /**
-     * Get a Stream of project package files. 
+     * Get a Stream of project package files.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages/:package_id/package_files</code></pre>
      *
