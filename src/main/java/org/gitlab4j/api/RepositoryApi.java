@@ -126,6 +126,11 @@ public class RepositoryApi extends AbstractApi {
         return (getBranches(projectIdOrPath, search, getDefaultPerPage()).all());
     }
 
+    public List<Branch> getBranches(Object projectIdOrPath, String search, String sort) throws GitLabApiException {
+        return (getBranches(projectIdOrPath, search,sort,getDefaultPerPage()).all());
+    }
+
+
     /**
      * Get a Pager of repository branches from a project, sorted by name alphabetically, filter by the search term.
      *
@@ -141,10 +146,25 @@ public class RepositoryApi extends AbstractApi {
     public Pager<Branch> getBranches(Object projectIdOrPath, String search, int itemsPerPage) throws GitLabApiException {
         MultivaluedMap<String, String> queryParams = ( search == null ? null :
             new GitLabApiForm().withParam("search", urlEncode(search)).asMap() );
+        
+        return (new Pager<Branch>(this, Branch.class, itemsPerPage, queryParams, "projects",
+                getProjectIdOrPath(projectIdOrPath), "repository", "branches"));
+    }
+
+
+    public Pager<Branch> getBranches(Object projectIdOrPath, String search, String sort, int itemsPerPage) throws GitLabApiException {
+        
+        MultivaluedMap<String, String> queryParams = ( search == null ? null :
+            new GitLabApiForm().withParam("search", urlEncode(search)).asMap() );
+        
+        if (sort != null && sort.trim().length() > 0) { 
+            queryParams.add("sort",urlEncode(sort));
+        }
 
         return (new Pager<Branch>(this, Branch.class, itemsPerPage, queryParams, "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "branches"));
     }
+
 
     /**
      * Get a Stream of repository branches from a project, sorted by name alphabetically, filter by the search term.
