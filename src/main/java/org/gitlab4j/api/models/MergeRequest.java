@@ -19,6 +19,7 @@ public class MergeRequest {
     private Author author;
     private Boolean blockingDiscussionsResolved;
     private List<Diff> changes;
+    private String changesCount;
     private Date closedAt;
     private Participant closedBy;
     private Date createdAt;
@@ -134,6 +135,14 @@ public class MergeRequest {
 
     public void setChanges(List<Diff> changes) {
         this.changes = changes;
+    }
+
+    public String getChangesCount() {
+        return changesCount;
+    }
+
+    public void setChangesCount(String changesCount) {
+        this.changesCount = changesCount;
     }
 
     public Date getClosedAt() {
