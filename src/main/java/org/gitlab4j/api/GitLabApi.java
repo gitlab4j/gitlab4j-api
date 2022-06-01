@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -639,6 +640,10 @@ public class GitLabApi implements AutoCloseable {
      */
     public void enableRequestResponseLogging(Logger logger, Level level, int maxEntitySize, List<String> maskedHeaderNames) {
         apiClient.enableRequestResponseLogging(logger, level, maxEntitySize, maskedHeaderNames);
+    }
+
+    public void setApiClient(Client apiClient) {
+        this.apiClient.setApiClient(apiClient);
     }
 
     /**
