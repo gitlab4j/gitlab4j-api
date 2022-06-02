@@ -643,6 +643,12 @@ public class GitLabApi implements AutoCloseable {
         apiClient.enableRequestResponseLogging(logger, level, maxEntitySize, maskedHeaderNames);
     }
 
+    /**
+     * Allow the user of the library to specify the javax Client implementation
+     * specified logger.
+     *
+     * @param apiClient the client instance that the GitlabApiClient can use
+     */
     public void setApiClient(Client apiClient) {
         this.apiClient.setApiClient(apiClient);
     }
