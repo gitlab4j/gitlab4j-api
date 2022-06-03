@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
@@ -40,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @param <T> the GitLab4J type contained in the List.
  */
 public class Pager<T> implements Iterator<List<T>>, Constants {
+    private final static Logger LOGGER = Logger.getLogger(Pager.class.getName());
 
     private int itemsPerPage;
     private int totalPages;
@@ -92,7 +95,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
         Response response = api.get(Response.Status.OK, queryParams, pathArgs);
 
         try {
-            currentItems = mapper.readValue((InputStream) response.getEntity(), javaType);
+            currentItems = mapper.convertValue(response.readEntity(new GenericType<List<T>>() {}), javaType);
         } catch (Exception e) {
             throw new GitLabApiException(e);
         }

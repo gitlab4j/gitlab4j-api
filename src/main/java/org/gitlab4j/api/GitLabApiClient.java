@@ -790,6 +790,10 @@ public class GitLabApiClient implements AutoCloseable {
         return (apiClient);
     }
 
+    public void setApiClient(Client apiClient) {
+        this.apiClient = apiClient;
+    }
+
     protected Invocation.Builder invocation(URL url, MultivaluedMap<String, String> queryParams, String accept) {
 
         if (apiClient == null) {
