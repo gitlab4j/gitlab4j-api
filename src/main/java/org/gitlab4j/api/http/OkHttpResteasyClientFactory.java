@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
@@ -23,6 +24,7 @@ public class OkHttpResteasyClientFactory {
 
         return new ResteasyClientBuilder().providerFactory(instance)
             .register(JacksonFeature.class)
+            .register(MultiPartFeature.class)
             .httpEngine(new OkHttpClientEngine(client))
             .withConfig(clientConfig)
             .build();
