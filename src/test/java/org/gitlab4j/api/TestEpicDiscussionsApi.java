@@ -1,13 +1,13 @@
 package org.gitlab4j.api;
 
 import static org.gitlab4j.api.JsonUtils.compareJson;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -64,5 +64,16 @@ public class TestEpicDiscussionsApi implements Constants {
         assertNotNull(stream);
         List<Discussion> discussions = stream.collect(Collectors.toList());
         assertTrue(compareJson(discussions, "epic-discussions.json"));
+    }
+
+    @Test
+    public void testPage() throws Exception {
+        try {
+            Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getEpicDiscussionsPager(1L, 1L, 20);
+            discussions.page(-1555957071);
+            fail("testPage should have thrown NoSuchElementException");
+        } catch (NoSuchElementException expected) {
+            assertNull(expected.getMessage());
+        }
     }
 }
