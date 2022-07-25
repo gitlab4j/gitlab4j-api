@@ -12,6 +12,7 @@ public class SshKey {
     private String title;
     private String key;
     private Date createdAt;
+    private Date expiresAt;
 
     private Long userId;
 
@@ -45,6 +46,14 @@ public class SshKey {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Date getExpiresAt() {
+        return expiresAt;
+    }
+
+    public void setExpiresAt(Date expiresAt) {
+        this.expiresAt = expiresAt;
     }
 
     @JsonIgnore
