@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       gitlab-instance:
-        image: gitlab/gitlab-ce:12.9.2-ce.0
+        image: gitlab/gitlab-ce:latest
         env:
           GITLAB_OMNIBUS_CONFIG: gitlab_rails['initial_root_password']="password";gitlab_rails['lfs_enabled']=false;
         ports:
