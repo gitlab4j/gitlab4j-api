@@ -471,6 +471,35 @@ public class GitLabApiClient implements AutoCloseable {
     }
 
     /**
+     * Perform an HTTP PATCH call with the specified query parameters and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response patch(MultivaluedMap<String, String> queryParams, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (patch(queryParams, url));
+    }
+
+    /**
+     * Perform an HTTP PATCH call with the specified query parameters and URL, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     */
+    protected Response patch(MultivaluedMap<String, String> queryParams, URL url) {
+        Entity<?> empty = Entity.text("");
+        // use "X-HTTP-Method-Override" header on POST to override to unsupported PATCH
+        return (invocation(url, queryParams)
+            .header("X-HTTP-Method-Override", "PATCH").post(empty));
+    }
+
+    /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      *

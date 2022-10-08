@@ -233,4 +233,27 @@ public class ProtectedBranchesApi extends AbstractApi {
                 "projects", getProjectIdOrPath(projectIdOrPath), "protected_branches");
         return (response.readEntity(ProtectedBranch.class));
     }
+
+    /**
+     * Sets the code_owner_approval_required flag on the specified protected branch.
+     *
+     * <p>NOTE: This method is only available in GitLab Premium or higher.</p>
+     *
+     * <pre><code>GitLab Endpoint: PATCH /projects/:id/protected_branches/:branch_name?code_owner_approval_required=true</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param branchName the name of the branch to protect, can be a wildcard
+     * @param codeOwnerApprovalRequired prevent pushes to this branch if it matches an item in the CODEOWNERS file. (defaults: false)
+     * @return the branch info for the protected branch
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProtectedBranch setCodeOwnerApprovalRequired(Object projectIdOrPath, String branchName,
+	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+            Form formData = new GitLabApiForm()
+                .withParam("code_owner_approval_required", codeOwnerApprovalRequired);
+
+        Response response = patch(Response.Status.OK, formData.asMap(),
+            "projects", this.getProjectIdOrPath(projectIdOrPath), "protected_branches", urlEncode(branchName));
+        return (response.readEntity(ProtectedBranch.class));
+    }
 }

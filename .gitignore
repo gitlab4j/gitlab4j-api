@@ -26,6 +26,9 @@ local.properties
 .classpath
 .settings/
 .loadpath
+
+### Visual Studio Code ###
+.vscode
  
 # External tool builders
 .externalToolBuilders/
@@ -45,7 +48,7 @@ target/
 
 # Test properties file for gitlab4j
 test-gitlab4j.properties
-!src/test/resoures/test-gitlab4j.properties
+!src/test/resources/test-gitlab4j.properties
 
 # git-changelog plugin #
 .okhttpcache
