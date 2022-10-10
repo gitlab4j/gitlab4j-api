@@ -243,7 +243,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param branchName the name of the branch to protect, can be a wildcard
-     * @param codeOwnerApprovalRequired prevent pushes to this branch if it matches an item in the CODEOWNERS file. (defaults: false)
+     * @param codeOwnerApprovalRequired prevent pushes to this branch if it matches an item in the CODEOWNERS file.
      * @return the branch info for the protected branch
      * @throws GitLabApiException if any exception occurs
      */
