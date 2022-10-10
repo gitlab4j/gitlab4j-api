@@ -287,8 +287,8 @@ public class GitLabApiClient implements AutoCloseable {
      * @param readTimeout the per request read timeout in milliseconds, can be null to use default
      */
     void setRequestTimeout(Integer connectTimeout, Integer readTimeout) {
-	this.connectTimeout = connectTimeout;
-	this.readTimeout = readTimeout;
+        this.connectTimeout = connectTimeout;
+        this.readTimeout = readTimeout;
     }
 
     /**
@@ -496,7 +496,7 @@ public class GitLabApiClient implements AutoCloseable {
         Entity<?> empty = Entity.text("");
         // use "X-HTTP-Method-Override" header on POST to override to unsupported PATCH
         return (invocation(url, queryParams)
-            .header("X-HTTP-Method-Override", "PATCH").post(empty));
+                .header("X-HTTP-Method-Override", "PATCH").post(empty));
     }
 
     /**
@@ -947,7 +947,7 @@ public class GitLabApiClient implements AutoCloseable {
         // Ignore differences between given hostname and certificate hostname
         HostnameVerifier hostnameVerifier = new HostnameVerifier() {
             @Override
-			public boolean verify(String hostname, SSLSession session) {
+            public boolean verify(String hostname, SSLSession session) {
                 return true;
             }
         };

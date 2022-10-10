@@ -154,8 +154,8 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
-	    AccessLevel pushAccessLevel, AccessLevel mergeAccessLevel, AccessLevel unprotectAccessLevel,
-	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+            AccessLevel pushAccessLevel, AccessLevel mergeAccessLevel, AccessLevel unprotectAccessLevel,
+            Boolean codeOwnerApprovalRequired) throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("name", branchName, true)
                 .withParam("push_access_level", pushAccessLevel)
@@ -184,8 +184,8 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
-	    Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
-	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+            Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
+            Boolean codeOwnerApprovalRequired) throws GitLabApiException {
 
         Form formData = new GitLabApiForm()
                 .withParam("name", branchName, true)
@@ -215,8 +215,8 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
-	    AllowedTo allowedToPush, AllowedTo allowedToMerge, AllowedTo allowedToUnprotect,
-	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+            AllowedTo allowedToPush, AllowedTo allowedToMerge, AllowedTo allowedToUnprotect,
+            Boolean codeOwnerApprovalRequired) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", branchName, true)
@@ -248,7 +248,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch setCodeOwnerApprovalRequired(Object projectIdOrPath, String branchName,
-	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+            Boolean codeOwnerApprovalRequired) throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("code_owner_approval_required", codeOwnerApprovalRequired);
 

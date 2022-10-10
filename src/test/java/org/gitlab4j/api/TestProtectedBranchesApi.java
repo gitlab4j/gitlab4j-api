@@ -47,7 +47,7 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
 
     @BeforeAll
     public static void setup() {
-	// Must setup the connection to the GitLab test server and get the test Project instance
+        // Must setup the connection to the GitLab test server and get the test Project instance
         gitLabApi = baseTestSetup();
         testProject = getTestProject();
     }
@@ -139,8 +139,7 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
 
         // current version returns 404, but will return branch with "code_owner_approval_required = true" with newer Premium
         GitLabApiException gae = assertThrowsExactly(GitLabApiException.class,
-            () -> gitLabApi.getProtectedBranchesApi().setCodeOwnerApprovalRequired(testProject, TEST_BRANCH_NAME, true)
-        );
+                () -> gitLabApi.getProtectedBranchesApi().setCodeOwnerApprovalRequired(testProject, TEST_BRANCH_NAME, true));
         assertTrue(gae.getHttpStatus() == 404);
     }
 }
