@@ -187,7 +187,7 @@ public class ProtectedBranchesApi extends AbstractApi {
 	    Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
 	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
 
-	Form formData = new GitLabApiForm()
+        Form formData = new GitLabApiForm()
                 .withParam("name", branchName, true)
                 .withParam("allowed_to_push[][user_id]", allowedToPushUserId)
                 .withParam("allowed_to_merge[][user_id]", allowedToMergeUserId)
@@ -222,14 +222,14 @@ public class ProtectedBranchesApi extends AbstractApi {
                 .withParam("name", branchName, true)
                 .withParam("code_owner_approval_required", codeOwnerApprovalRequired);
 
-	if (allowedToPush != null)
-	    allowedToPush.getForm(formData, "allowed_to_push");
-	if (allowedToMerge != null)
-	    allowedToMerge.getForm(formData, "allowed_to_merge");
-	if (allowedToUnprotect != null)
-	    allowedToUnprotect.getForm(formData, "allowed_to_unprotect");
+        if (allowedToPush != null)
+            allowedToPush.getForm(formData, "allowed_to_push");
+        if (allowedToMerge != null)
+            allowedToMerge.getForm(formData, "allowed_to_merge");
+        if (allowedToUnprotect != null)
+            allowedToUnprotect.getForm(formData, "allowed_to_unprotect");
 
-	Response response = post(Response.Status.CREATED, formData.asMap(),
+        Response response = post(Response.Status.CREATED, formData.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "protected_branches");
         return (response.readEntity(ProtectedBranch.class));
     }
@@ -249,11 +249,12 @@ public class ProtectedBranchesApi extends AbstractApi {
      */
     public ProtectedBranch setCodeOwnerApprovalRequired(Object projectIdOrPath, String branchName,
 	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
-            Form formData = new GitLabApiForm()
+        Form formData = new GitLabApiForm()
                 .withParam("code_owner_approval_required", codeOwnerApprovalRequired);
 
         Response response = patch(Response.Status.OK, formData.asMap(),
-            "projects", this.getProjectIdOrPath(projectIdOrPath), "protected_branches", urlEncode(branchName));
+                "projects", this.getProjectIdOrPath(projectIdOrPath),
+                "protected_branches", urlEncode(branchName));
         return (response.readEntity(ProtectedBranch.class));
     }
 }
