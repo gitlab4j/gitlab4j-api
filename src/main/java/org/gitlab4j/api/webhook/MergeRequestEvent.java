@@ -20,6 +20,7 @@ public class MergeRequestEvent extends AbstractEvent {
     private MergeRequestChanges changes;
     private List<Assignee> assignees;
     private List<Reviewer> reviewers;
+
     public String getObjectKind() {
         return (OBJECT_KIND);
     }
