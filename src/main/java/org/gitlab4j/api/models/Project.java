@@ -64,6 +64,7 @@ public class Project {
     private Namespace namespace;
     private String nameWithNamespace;
     private Boolean onlyAllowMergeIfPipelineSucceeds;
+    private Boolean allowMergeOnSkippedPipeline;
     private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
     private Integer openIssuesCount;
     private Owner owner;
@@ -357,6 +358,19 @@ public class Project {
 
     public Project withOnlyAllowMergeIfPipelineSucceeds(Boolean onlyAllowMergeIfPipelineSucceeds) {
         this.onlyAllowMergeIfPipelineSucceeds = onlyAllowMergeIfPipelineSucceeds;
+        return (this);
+    }
+
+    public Boolean getAllowMergeOnSkippedPipeline() {
+        return allowMergeOnSkippedPipeline;
+    }
+
+    public void setAllowMergeOnSkippedPipeline(Boolean allowMergeOnSkippedPipeline) {
+        this.allowMergeOnSkippedPipeline = allowMergeOnSkippedPipeline;
+    }
+
+    public Project withAllowMergeOnSkippedPipeline(Boolean allowMergeOnSkippedPipeline) {
+        this.allowMergeOnSkippedPipeline = allowMergeOnSkippedPipeline;
         return (this);
     }
 

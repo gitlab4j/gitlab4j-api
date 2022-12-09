@@ -331,7 +331,7 @@ public class MergeRequestApi extends AbstractApi {
      * @return a list containing the commits for the specified merge request
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public List<Commit> getCommits(Object projectIdOrPath, int mergeRequestIid) throws GitLabApiException {
+    public List<Commit> getCommits(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
         return (getCommits(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).all());
     }
 
@@ -349,7 +349,7 @@ public class MergeRequestApi extends AbstractApi {
      * @return a list containing the commits for the specified merge request
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public List<Commit> getCommits(Object projectIdOrPath, int mergeRequestIid, int page, int perPage) throws GitLabApiException {
+    public List<Commit> getCommits(Object projectIdOrPath, Long mergeRequestIid, int page, int perPage) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("owned", true).withParam(PAGE_PARAM,  page).withParam(PER_PAGE_PARAM, perPage);
         Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "commits");
         return (response.readEntity(new GenericType<List<Commit>>() {}));
@@ -368,7 +368,7 @@ public class MergeRequestApi extends AbstractApi {
      * @return a Pager containing the commits for the specified merge request
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public Pager<Commit> getCommits(Object projectIdOrPath, int mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+    public Pager<Commit> getCommits(Object projectIdOrPath, Long mergeRequestIid, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Commit>(this, Commit.class, itemsPerPage, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "commits"));
     }
@@ -385,7 +385,7 @@ public class MergeRequestApi extends AbstractApi {
      * @return a Stream containing the commits for the specified merge request
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
-    public Stream<Commit> getCommitsStream(Object projectIdOrPath, int mergeRequestIid) throws GitLabApiException {
+    public Stream<Commit> getCommitsStream(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
         return (getCommits(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).stream());
     }
 
