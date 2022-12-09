@@ -287,8 +287,8 @@ public class GitLabApiClient implements AutoCloseable {
      * @param readTimeout the per request read timeout in milliseconds, can be null to use default
      */
     void setRequestTimeout(Integer connectTimeout, Integer readTimeout) {
-	this.connectTimeout = connectTimeout;
-	this.readTimeout = readTimeout;
+        this.connectTimeout = connectTimeout;
+        this.readTimeout = readTimeout;
     }
 
     /**
@@ -468,6 +468,35 @@ public class GitLabApiClient implements AutoCloseable {
      */
     protected Response head(MultivaluedMap<String, String> queryParams, URL url) {
         return (invocation(url, queryParams).head());
+    }
+
+    /**
+     * Perform an HTTP PATCH call with the specified query parameters and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws IOException if an error occurs while constructing the URL
+     */
+    protected Response patch(MultivaluedMap<String, String> queryParams, Object... pathArgs) throws IOException {
+        URL url = getApiUrl(pathArgs);
+        return (patch(queryParams, url));
+    }
+
+    /**
+     * Perform an HTTP PATCH call with the specified query parameters and URL, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     */
+    protected Response patch(MultivaluedMap<String, String> queryParams, URL url) {
+        Entity<?> empty = Entity.text("");
+        // use "X-HTTP-Method-Override" header on POST to override to unsupported PATCH
+        return (invocation(url, queryParams)
+                .header("X-HTTP-Method-Override", "PATCH").post(empty));
     }
 
     /**
@@ -918,7 +947,7 @@ public class GitLabApiClient implements AutoCloseable {
         // Ignore differences between given hostname and certificate hostname
         HostnameVerifier hostnameVerifier = new HostnameVerifier() {
             @Override
-			public boolean verify(String hostname, SSLSession session) {
+            public boolean verify(String hostname, SSLSession session) {
                 return true;
             }
         };

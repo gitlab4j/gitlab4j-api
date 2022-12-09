@@ -154,8 +154,8 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
-	    AccessLevel pushAccessLevel, AccessLevel mergeAccessLevel, AccessLevel unprotectAccessLevel,
-	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+            AccessLevel pushAccessLevel, AccessLevel mergeAccessLevel, AccessLevel unprotectAccessLevel,
+            Boolean codeOwnerApprovalRequired) throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("name", branchName, true)
                 .withParam("push_access_level", pushAccessLevel)
@@ -184,10 +184,10 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
-	    Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
-	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+            Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
+            Boolean codeOwnerApprovalRequired) throws GitLabApiException {
 
-	Form formData = new GitLabApiForm()
+        Form formData = new GitLabApiForm()
                 .withParam("name", branchName, true)
                 .withParam("allowed_to_push[][user_id]", allowedToPushUserId)
                 .withParam("allowed_to_merge[][user_id]", allowedToMergeUserId)
@@ -215,22 +215,46 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
-	    AllowedTo allowedToPush, AllowedTo allowedToMerge, AllowedTo allowedToUnprotect,
-	    Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+            AllowedTo allowedToPush, AllowedTo allowedToMerge, AllowedTo allowedToUnprotect,
+            Boolean codeOwnerApprovalRequired) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", branchName, true)
                 .withParam("code_owner_approval_required", codeOwnerApprovalRequired);
 
-	if (allowedToPush != null)
-	    allowedToPush.getForm(formData, "allowed_to_push");
-	if (allowedToMerge != null)
-	    allowedToMerge.getForm(formData, "allowed_to_merge");
-	if (allowedToUnprotect != null)
-	    allowedToUnprotect.getForm(formData, "allowed_to_unprotect");
+        if (allowedToPush != null)
+            allowedToPush.getForm(formData, "allowed_to_push");
+        if (allowedToMerge != null)
+            allowedToMerge.getForm(formData, "allowed_to_merge");
+        if (allowedToUnprotect != null)
+            allowedToUnprotect.getForm(formData, "allowed_to_unprotect");
 
-	Response response = post(Response.Status.CREATED, formData.asMap(),
+        Response response = post(Response.Status.CREATED, formData.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "protected_branches");
+        return (response.readEntity(ProtectedBranch.class));
+    }
+
+    /**
+     * Sets the code_owner_approval_required flag on the specified protected branch.
+     *
+     * <p>NOTE: This method is only available in GitLab Premium or higher.</p>
+     *
+     * <pre><code>GitLab Endpoint: PATCH /projects/:id/protected_branches/:branch_name?code_owner_approval_required=true</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param branchName the name of the branch to protect, can be a wildcard
+     * @param codeOwnerApprovalRequired prevent pushes to this branch if it matches an item in the CODEOWNERS file.
+     * @return the branch info for the protected branch
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProtectedBranch setCodeOwnerApprovalRequired(Object projectIdOrPath, String branchName,
+            Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("code_owner_approval_required", codeOwnerApprovalRequired);
+
+        Response response = patch(Response.Status.OK, formData.asMap(),
+                "projects", this.getProjectIdOrPath(projectIdOrPath),
+                "protected_branches", urlEncode(branchName));
         return (response.readEntity(ProtectedBranch.class));
     }
 }
