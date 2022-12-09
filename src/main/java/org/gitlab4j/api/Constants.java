@@ -248,7 +248,7 @@ public interface Constants {
     /** Enum to use for ordering the results of getGroups() and getSubGroups(). */
     public enum GroupOrderBy {
 
-        NAME, PATH, ID;
+        NAME, PATH, ID, SIMILARITY;
         private static JacksonJsonEnumHelper<GroupOrderBy> enumHelper = new JacksonJsonEnumHelper<>(GroupOrderBy.class);
 
         @JsonCreator
