@@ -36,8 +36,10 @@ public class MergeRequest {
     private Date latestBuildStartedAt;
     private String mergeCommitSha;
     private String squashCommitSha;
-    // see https://docs.gitlab.com/ee/update/deprecations.html#merge_status-api-field
-    // -> deprecated since 15.6, use detailedMergeStatus instead
+    /**
+     * @deprecated since 15.6, use {@link #detailedMergeStatus} instead.
+     * see https://docs.gitlab.com/ee/update/deprecations.html#merge_status-api-field
+     */
     @Deprecated
     private String mergeStatus;
     private String detailedMergeStatus;
