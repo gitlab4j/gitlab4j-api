@@ -279,11 +279,18 @@ public class MergeRequest {
         this.squashCommitSha = squashCommitSha;
     }
 
+    /**
+     * @deprecated since 15.6, use {@link #getDetailedMergeStatus()} instead.
+     */
     @Deprecated
     public String getMergeStatus() {
         return mergeStatus;
     }
 
+    /**
+     * @deprecated since 15.6, use {@link #setDetailedMergeStatus(String)} instead.
+     */
+    @Deprecated
     public void setMergeStatus(String mergeStatus) {
         this.mergeStatus = mergeStatus;
     }
