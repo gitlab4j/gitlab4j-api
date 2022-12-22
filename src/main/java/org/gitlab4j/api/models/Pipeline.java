@@ -8,6 +8,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 public class Pipeline {
 
     private Long id;
+    private Long projectId;
     private PipelineStatus status;
     private String ref;
     private String sha;
@@ -31,6 +32,15 @@ public class Pipeline {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public Pipeline setProjectId(Long projectId) {
+        this.projectId = projectId;
+        return this;
     }
 
     public PipelineStatus getStatus() {
