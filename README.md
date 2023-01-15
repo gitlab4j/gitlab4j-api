@@ -68,6 +68,7 @@ dependencies {
     <version>5.0.1</version>
 </dependency>
 ```
+**NOTE:** If you use **Java9+ and Jakarta EE** you need use the version **6.0.0**
 
 **Ivy and SBT**<br/>
 There have been reports of problems resolving some dependencies when using Ivy or SBT, for help resolving those issues see:<br/>

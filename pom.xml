@@ -7,7 +7,7 @@
 	<groupId>org.gitlab4j</groupId>
 	<artifactId>gitlab4j-api</artifactId>
 	<packaging>jar</packaging>
-	<version>5.1.0-SNAPSHOT</version>
+	<version>6.0.0-SNAPSHOT</version>
 	<name>GitLab4J-API - GitLab API Java Client</name>
 	<description>GitLab4J-API (gitlab4j-api) provides a full featured Java client library for working with GitLab repositories and servers via the GitLab REST API.</description>
 	<url>https://github.com/gitlab4j/gitlab4j-api</url>
@@ -71,6 +71,10 @@
 		<gitlab.skip-docker-start>true</gitlab.skip-docker-start>
 		<gitlab.port>8090</gitlab.port>
 
+		<maven-enforcer-plugin.maxJdkVersion>1.8</maven-enforcer-plugin.maxJdkVersion>
+		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+		<maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
+
 		<sonar.projectKey>gitlab4j_gitlab4j-api</sonar.projectKey>
 		<sonar.organization>gitlab4j</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -106,7 +110,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>${java.source.version}</source>
 					<target>${java.target.version}</target>
@@ -126,6 +130,7 @@
 			<plugin>
 				<groupId>biz.aQute.bnd</groupId>
 				<artifactId>bnd-maven-plugin</artifactId>
+				<version>${bnd.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -260,7 +265,7 @@
 				<configuration>
 					<rules>
 						<enforceBytecodeVersion>
-							<maxJdkVersion>1.8</maxJdkVersion>
+							<maxJdkVersion>${maven-enforcer-plugin.maxJdkVersion}</maxJdkVersion>
 							<ignoreClasses>
 								<ignoreClass>module-info</ignoreClass>
 							</ignoreClasses>
@@ -348,6 +353,10 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
@@ -422,6 +431,7 @@
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
 			<version>${servlet.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -490,7 +500,317 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>java8</id>
+			<activation>
+				<jdk>[,9)</jdk>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-jar-plugin</artifactId>
+							<version>3.2.0</version>
+							<configuration>
+								<archive>
+									<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+								</archive>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-compiler-plugin</artifactId>
+							<version>${maven-compiler-plugin.version}</version>
+							<configuration>
+								<source>${java.source.version}</source>
+								<target>${java.target.version}</target>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-failsafe-plugin</artifactId>
+							<version>3.0.0-M5</version>
+							<configuration>
+								<groups>integration</groups>
+								<includes>
+									<include>**/*.java</include>
+								</includes>
+							</configuration>
+							<executions>
+								<execution>
+									<phase>verify</phase>
+									<goals>
+										<goal>integration-test</goal>
+										<goal>verify</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+		<profile>
+			<id>java9+</id>
+			<activation>
+				<jdk>[9,)</jdk>
+			</activation>
+			<properties>
+				<jacoco.skip>true</jacoco.skip>
+				<skipTests>true</skipTests>
+				<animal.sniffer.skip>true</animal.sniffer.skip>
+				<maven.test.skip>true</maven.test.skip>
+				<maven.javadoc.skip>true</maven.javadoc.skip>
+			</properties>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>biz.aQute.bnd</groupId>
+							<artifactId>bnd-maven-plugin</artifactId>
+							<version>${bnd.version}</version>
+							<configuration>
+								<bnd><![CDATA[
+										Export-Package: org.gitlab4j.api.*
+										-fixupmessages: "Classes found in the wrong directory";restrict:=error;is:=warning
+									]]></bnd>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+		<profile>
+			<id>generate-jakarta-sources</id>
+			<activation>
+				<file>
+					<missing>${basedir}/target/jakarta</missing>
+				</file>
+				<jdk>[9,)</jdk>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-compiler-plugin</artifactId>
+							<version>${maven-compiler-plugin.version}</version>
+							<configuration>
+								<release>8</release>
+								<source>${java.source.version}</source>
+								<target>${java.target.version}</target>
+								<!-- recompile everything for target VM except the module-info.java -->
+								<excludes>
+									<exclude>module-info.java</exclude>
+								</excludes>
+							</configuration>
+							<executions>
+								<execution>
+									<id>base-compile</id>
+									<phase>compile</phase>
+									<goals>
+										<goal>compile</goal>
+									</goals>
+									<configuration>
+										<release>8</release>
+										<source>${java.source.version}</source>
+										<target>${java.target.version}</target>
+										<!-- recompile everything for target VM except the module-info.java -->
+										<excludes>
+											<exclude>module-info.java</exclude>
+										</excludes>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-antrun-plugin</artifactId>
+							<version>${maven-antrun-plugin.version}</version>
+							<executions>
+								<execution>
+									<id>generate-jakarta-sources</id>
+									<phase>prepare-package</phase>
+									<configuration>
+										<target name="jakarta-compile">
+											<property name="jakarta.src.dir" value="${basedir}/target/jakarta"/>
+											<property name="jakarta.test.dir" value="${basedir}/target/jakarta-test"/>
 
+											<delete dir="${jakarta.src.dir}"/>
+											<delete dir="${jakarta.test.dir}"/>
+											<mkdir dir="${jakarta.src.dir}"/>
+											<mkdir dir="${jakarta.test.dir}"/>
+
+											<echo message="project home:        ${basedir}" />
+											<echo message="java home:           ${java.home}" />
+											<echo message="JAVA_HOME:           ${JAVA_HOME}"/>
+											<echo message="java version:        ${java.version}" />
+
+											<echo message="sources dir:         ${basedir}/src/main/java"/>
+											<echo message="jakarta dir:         ${jakarta.src.dir}"/>
+
+											<copy todir="${jakarta.src.dir}">
+												<fileset dir="${basedir}/src/main/java" includes="**/*.java">
+													<contains text="javax."/>
+												</fileset>
+											</copy>
+
+											<copy todir="${jakarta.test.dir}">
+												<fileset dir="${basedir}/src/test/java" includes="**/*.java">
+													<contains text="javax."/>
+												</fileset>
+											</copy>
+
+											<exec dir="${basedir}" executable="/bin/bash">
+												<arg value="-c"/>
+												<arg value="JAVA_HOME=${java.home}; ./mvnw compile verify -P jakarta"/>
+											</exec>
+										</target>
+									</configuration>
+									<goals>
+										<goal>run</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+		<profile>
+			<id>jakarta</id>
+			<properties>
+				<jakarta.source.version>9</jakarta.source.version>
+				<jakarta.target.version>9</jakarta.target.version>
+				<jersey.version>3.0.0</jersey.version>
+				<servlet.version>6.0.0</servlet.version>
+				<activation.version>2.1.1</activation.version>
+				<maven.javadoc.skip>true</maven.javadoc.skip>
+				<maven.jacoco.skip>true</maven.jacoco.skip>
+				<maven-enforcer-plugin.maxJdkVersion>11</maven-enforcer-plugin.maxJdkVersion>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>jakarta.annotation</groupId>
+					<artifactId>jakarta.annotation-api</artifactId>
+					<version>2.0.0</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-jar-plugin</artifactId>
+							<version>3.2.0</version>
+							<configuration>
+								<archive>
+									<manifestEntries>
+										<Multi-Release>true</Multi-Release>
+									</manifestEntries>
+									<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+								</archive>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-antrun-plugin</artifactId>
+							<version>${maven-antrun-plugin.version}</version>
+							<executions>
+								<execution>
+									<id>generate-jakarta-sources</id>
+									<phase>generate-sources</phase>
+									<configuration>
+										<target>
+											<property name="jakarta.src.dir" value="${basedir}/target/jakarta"/>
+											<property name="jakarta.test.dir" value="${basedir}/target/jakarta-test"/>
+
+											<echo message="replace javax.servlet        ====> jakarta.servlet"/>
+											<echo message="replace javax.ws.rs          ====> jakarta.ws.rs"/>
+											<echo message="replace javax.annotation     ====> jakarta.annotation"/>
+											<replace dir="${jakarta.src.dir}" summary="true" includes="**/*.java">
+												<replacefilter token="javax.servlet" value="jakarta.servlet"/>
+												<replacefilter token="javax.ws.rs" value="jakarta.ws.rs"/>
+												<replacefilter token="javax.annotation" value="jakarta.annotation"/>
+											</replace>
+
+											<replace dir="${jakarta.test.dir}" summary="true" includes="**/*.java">
+												<replacefilter token="javax.servlet" value="jakarta.servlet"/>
+												<replacefilter token="javax.ws.rs" value="jakarta.ws.rs"/>
+												<replacefilter token="javax.annotation" value="jakarta.annotation"/>
+											</replace>
+										</target>
+									</configuration>
+									<goals>
+										<goal>run</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-compiler-plugin</artifactId>
+							<version>${maven-compiler-plugin.version}</version>
+							<configuration>
+								<release>9</release>
+								<source>${jakarta.source.version}</source>
+								<target>${jakarta.target.version}</target>
+								<compileSourceRoots>
+									<compileSourceRoot>${project.basedir}/target/jakarta</compileSourceRoot>
+								</compileSourceRoots>
+								<outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
+							</configuration>
+							<executions>
+								<execution>
+									<id>java8-compile</id>
+									<phase>compile</phase>
+									<goals>
+										<goal>compile</goal>
+									</goals>
+									<configuration>
+										<release>8</release>
+										<source>${java.source.version}</source>
+										<target>${java.target.version}</target>
+									</configuration>
+								</execution>
+								<execution>
+									<id>jakarta-compile</id>
+									<phase>compile</phase>
+									<goals>
+										<goal>compile</goal>
+									</goals>
+									<configuration>
+										<release>9</release>
+										<source>${jakarta.source.version}</source>
+										<target>${jakarta.target.version}</target>
+										<outputDirectory>${project.build.outputDirectory}/META-INF/versions/9
+										</outputDirectory>
+									</configuration>
+								</execution>
+								<execution>
+									<id>jakarta-test-compile</id>
+									<phase>test-compile</phase>
+									<goals>
+										<goal>testCompile</goal>
+									</goals>
+									<configuration>
+										<release>9</release>
+										<source>${jakarta.source.version}</source>
+										<target>${jakarta.target.version}</target>
+										<compileSourceRoots>
+											<root>${project.basedir}/target/jakarta-test</root>
+										</compileSourceRoots>
+										<outputDirectory>${project.basedir}/target/test-classes
+										</outputDirectory>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
 	</profiles>
 
 </project>
