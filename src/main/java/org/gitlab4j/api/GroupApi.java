@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
@@ -1577,6 +1578,24 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
+     * Gets a list of a group’s badges, case insensitively filtered on name.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/badges</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param name The name to filter on
+     * @return All badges of the GitLab item, case insensitively filtered on name.
+     * @throws GitLabApiException If any problem is encountered
+     */
+    public List<Badge> getBadges(Object groupIdOrPath, String name) throws GitLabApiException {
+    List<Badge> result = getBadges(groupIdOrPath);
+    if (name != null && name.length()>0) {
+        return result.stream().filter(b -> b.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
+    }
+    return (result);
+    }
+
+    /**
      * Gets a badge of a group.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/badges/:badge_id</code></pre>
@@ -1620,11 +1639,28 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Badge addBadge(Object groupIdOrPath, String linkUrl, String imageUrl) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm()
-		.withParam("link_url", linkUrl, true)
-		.withParam("image_url", imageUrl, true);
-	Response response = post(Response.Status.OK, formData, "groups", getGroupIdOrPath(groupIdOrPath), "badges");
-	return (response.readEntity(Badge.class));
+    return addBadge(groupIdOrPath, null, linkUrl, imageUrl);
+    }
+
+    /**
+     * Add a badge to a group.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/badges</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param name The name to give the badge (may be null)
+     * @param linkUrl the URL of the badge link
+     * @param imageUrl the URL of the image link
+     * @return A Badge instance for the added badge
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Badge addBadge(Object groupIdOrPath, String name, String linkUrl, String imageUrl) throws GitLabApiException {
+    GitLabApiForm formData = new GitLabApiForm()
+        .withParam("name", name, false)
+        .withParam("link_url", linkUrl, true)
+        .withParam("image_url", imageUrl, true);
+    Response response = post(Response.Status.OK, formData, "groups", getGroupIdOrPath(groupIdOrPath), "badges");
+    return (response.readEntity(Badge.class));
     }
 
     /**
@@ -1640,11 +1676,29 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Badge editBadge(Object groupIdOrPath, Long badgeId, String linkUrl, String imageUrl) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm()
-		.withParam("link_url", linkUrl, false)
-		.withParam("image_url", imageUrl, false);
-	Response response = putWithFormData(Response.Status.OK, formData, "groups", getGroupIdOrPath(groupIdOrPath), "badges", badgeId);
-	return (response.readEntity(Badge.class));
+    return (editBadge(groupIdOrPath, badgeId, null, linkUrl, imageUrl));
+    }
+
+    /**
+     * Edit a badge of a group.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/badges</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param badgeId the ID of the badge to edit
+     * @param name The name of the badge to edit (may be null)
+     * @param linkUrl the URL of the badge link
+     * @param imageUrl the URL of the image link
+     * @return a Badge instance for the edited badge
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Badge editBadge(Object groupIdOrPath, Long badgeId, String name, String linkUrl, String imageUrl) throws GitLabApiException {
+    GitLabApiForm formData = new GitLabApiForm()
+        .withParam("name", name, false)
+        .withParam("link_url", linkUrl, false)
+        .withParam("image_url", imageUrl, false);
+    Response response = putWithFormData(Response.Status.OK, formData, "groups", getGroupIdOrPath(groupIdOrPath), "badges", badgeId);
+    return (response.readEntity(Badge.class));
     }
 
     /**
