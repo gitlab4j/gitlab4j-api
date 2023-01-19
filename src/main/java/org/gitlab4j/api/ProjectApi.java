@@ -3320,10 +3320,9 @@ public class ProjectApi extends AbstractApi implements Constants {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/badges</code></pre>
      *
-     * Gets the badges associated with a given project, filtering on name and <b>ignoring case</b>
-     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
      * @param name The name to filter on
-     * @return All badges of the GitLab item
+     * @return All badges of the GitLab item, case insensitively filtered on name.
      * @throws GitLabApiException If any problem is encountered
      */
     public List<Badge> getBadges(Object projectIdOrPath, String name) throws GitLabApiException {
