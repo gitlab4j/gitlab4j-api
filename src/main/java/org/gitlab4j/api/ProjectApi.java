@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -3311,26 +3310,23 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Badge> getBadges(Object projectIdOrPath) throws GitLabApiException {
-	Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "badges");
-	return (response.readEntity(new GenericType<List<Badge>>() {}));
+	return getBadges(projectIdOrPath, null);
     }
 
     /**
-     * Gets a list of a project’s badges and its group badges, case insensitively filtered on name.
+     * Gets a list of a project’s badges and its group badges, case-sensitively filtered on bagdeName if non-null.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/badges</code></pre>
+     * <pre><code>GitLab Endpoint: GET /projects/:id/badges?name=:name</code></pre>
      *
      * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
-     * @param name The name to filter on
+     * @param bagdeName The name to filter on (case-sensitive), ignored if null.
      * @return All badges of the GitLab item, case insensitively filtered on name.
      * @throws GitLabApiException If any problem is encountered
      */
-    public List<Badge> getBadges(Object projectIdOrPath, String name) throws GitLabApiException {
-    List<Badge> result = getBadges(projectIdOrPath);
-    if (name != null && name.length()>0) {
-        return result.stream().filter(b -> b.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
-    }
-    return (result);
+    public List<Badge> getBadges(Object projectIdOrPath, String bagdeName) throws GitLabApiException {
+    Form queryParam = new GitLabApiForm().withParam("name", bagdeName);
+    Response response = get(Response.Status.OK, queryParam.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "badges");
+    return (response.readEntity(new GenericType<List<Badge>>() {}));
     }
 
     /**

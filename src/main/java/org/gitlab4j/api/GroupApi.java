@@ -1573,26 +1573,23 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Badge> getBadges(Object groupIdOrPath) throws GitLabApiException {
-	Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "badges");
-	return (response.readEntity(new GenericType<List<Badge>>() {}));
+    return getBadges(groupIdOrPath, null);
     }
 
     /**
-     * Gets a list of a group’s badges, case insensitively filtered on name.
+     * Gets a list of a group’s badges, case-sensitively filtered on bagdeName if non-null.
      *
-     * <pre><code>GitLab Endpoint: GET /groups/:id/badges</code></pre>
+     * <pre><code>GitLab Endpoint: GET /groups/:id/badges?name=:name</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
-     * @param name The name to filter on
+     * @param badgeName The name to filter on (case-sensitive), ignored if null.
      * @return All badges of the GitLab item, case insensitively filtered on name.
      * @throws GitLabApiException If any problem is encountered
      */
-    public List<Badge> getBadges(Object groupIdOrPath, String name) throws GitLabApiException {
-    List<Badge> result = getBadges(groupIdOrPath);
-    if (name != null && name.length()>0) {
-        return result.stream().filter(b -> b.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
-    }
-    return (result);
+    public List<Badge> getBadges(Object groupIdOrPath, String badgeName) throws GitLabApiException {
+    Form queryParam = new GitLabApiForm().withParam("name", badgeName);
+    Response response = get(Response.Status.OK, queryParam.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "badges");
+    return (response.readEntity(new GenericType<List<Badge>>() {}));
     }
 
     /**
