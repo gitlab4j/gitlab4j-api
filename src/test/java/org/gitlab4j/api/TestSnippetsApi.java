@@ -1,21 +1,23 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.List;
 
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Visibility;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestSnippetsApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -25,15 +27,15 @@ public class TestSnippetsApi extends AbstractIntegrationTest {
     private static final String TEST_SNIPPET_CONTENT_2 = "test-snippet-content-2";
     private static final String TEST_SNIPPET_DESCRIPTION_1 = "test-snippet-description-1";
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         // Must setup the connection to the GitLab test server
         gitLabApi = baseTestSetup();
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
+        assumeTrue(gitLabApi != null);
     }
 
     @Test

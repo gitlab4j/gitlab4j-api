@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class GpgKey {
 
-    private Integer id;
+    private Long id;
     private String key;
     private Date created_at;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -19,6 +19,7 @@ public class MergeRequest {
     private Author author;
     private Boolean blockingDiscussionsResolved;
     private List<Diff> changes;
+    private String changesCount;
     private Date closedAt;
     private Participant closedBy;
     private Date createdAt;
@@ -28,8 +29,8 @@ public class MergeRequest {
     private Integer downvotes;
     private Boolean forceRemoveSourceBranch;
     private Boolean hasConflicts;
-    private Integer id;
-    private Integer iid;
+    private Long id;
+    private Long iid;
     private List<String> labels;
     private Date latestBuildFinishedAt;
     private Date latestBuildStartedAt;
@@ -42,16 +43,16 @@ public class MergeRequest {
     private String mergeError;
     private Milestone milestone;
     private Pipeline pipeline;
-    private Integer projectId;
+    private Long projectId;
     private String sha;
     private Boolean shouldRemoveSourceBranch;
     private String sourceBranch;
-    private Integer sourceProjectId;
+    private Long sourceProjectId;
     private Boolean squash;
     private String state;
     private Boolean subscribed;
     private String targetBranch;
-    private Integer targetProjectId;
+    private Long targetProjectId;
     private TaskCompletionStatus taskCompletionStatus;
     private References references;
     private TimeStats timeStats;
@@ -136,6 +137,14 @@ public class MergeRequest {
         this.changes = changes;
     }
 
+    public String getChangesCount() {
+        return changesCount;
+    }
+
+    public void setChangesCount(String changesCount) {
+        this.changesCount = changesCount;
+    }
+
     public Date getClosedAt() {
         return closedAt;
     }
@@ -208,19 +217,19 @@ public class MergeRequest {
         this.hasConflicts = hasConflicts;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getIid() {
+    public Long getIid() {
         return iid;
     }
 
-    public void setIid(Integer iid) {
+    public void setIid(Long iid) {
         this.iid = iid;
     }
 
@@ -320,11 +329,11 @@ public class MergeRequest {
         this.pipeline = pipeline;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
@@ -352,11 +361,11 @@ public class MergeRequest {
         this.sourceBranch = sourceBranch;
     }
 
-    public Integer getSourceProjectId() {
+    public Long getSourceProjectId() {
         return sourceProjectId;
     }
 
-    public void setSourceProjectId(Integer sourceProjectId) {
+    public void setSourceProjectId(Long sourceProjectId) {
         this.sourceProjectId = sourceProjectId;
     }
 
@@ -392,11 +401,11 @@ public class MergeRequest {
         this.targetBranch = targetBranch;
     }
 
-    public Integer getTargetProjectId() {
+    public Long getTargetProjectId() {
         return targetProjectId;
     }
 
-    public void setTargetProjectId(Integer targetProjectId) {
+    public void setTargetProjectId(Long targetProjectId) {
         this.targetProjectId = targetProjectId;
     }
 

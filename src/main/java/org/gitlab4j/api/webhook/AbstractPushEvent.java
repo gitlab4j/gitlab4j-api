@@ -13,13 +13,13 @@ public abstract class AbstractPushEvent {
     private String ref;
     private String checkoutSha;
 
-    private Integer userId;
+    private Long userId;
     private String userName;
     private String userUsername;
     private String userEmail;
     private String userAvatar;
 
-    private Integer projectId;
+    private Long projectId;
     private EventProject project;
     private EventRepository repository;
     private List<EventCommit> commits;
@@ -69,11 +69,11 @@ public abstract class AbstractPushEvent {
         this.checkoutSha = checkoutSha;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -109,11 +109,11 @@ public abstract class AbstractPushEvent {
         this.userAvatar = userAvatar;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
@@ -179,7 +179,7 @@ public abstract class AbstractPushEvent {
 
     /**
      * Gets the branch name from the ref. Will return null if the ref does not start with "refs/heads/".
-     * 
+     *
      * @return the branch name from the ref
      */
     @JsonIgnore

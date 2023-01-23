@@ -28,7 +28,7 @@ import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
 import static org.gitlab4j.api.JsonUtils.unmarshalResource;
 import static org.gitlab4j.api.JsonUtils.unmarshalResourceList;
 import static org.gitlab4j.api.JsonUtils.unmarshalResourceMap;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -112,7 +112,7 @@ import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

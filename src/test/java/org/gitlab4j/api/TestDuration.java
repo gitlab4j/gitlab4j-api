@@ -1,11 +1,11 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.utils.DurationUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestDuration {
 

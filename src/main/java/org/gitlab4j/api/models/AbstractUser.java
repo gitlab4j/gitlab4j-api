@@ -12,7 +12,7 @@ public abstract class AbstractUser<U extends AbstractUser<U>> {
     private String avatarUrl;
     private Date createdAt;
     private String email;
-    private Integer id;
+    private Long id;
     private String name;
     private String state;
     private String username;
@@ -42,11 +42,11 @@ public abstract class AbstractUser<U extends AbstractUser<U>> {
         this.email = email;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -101,7 +101,7 @@ public abstract class AbstractUser<U extends AbstractUser<U>> {
     }
 
     @SuppressWarnings("unchecked")
-    public U withId(Integer id) {
+    public U withId(Long id) {
         this.id = id;
         return (U)this;
     }
@@ -129,7 +129,7 @@ public abstract class AbstractUser<U extends AbstractUser<U>> {
         this.webUrl = webUrl;
         return (U)this;
     }
-    
+
     @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));

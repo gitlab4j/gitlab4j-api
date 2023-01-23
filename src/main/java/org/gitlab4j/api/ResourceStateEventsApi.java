@@ -1,12 +1,9 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.IssueEvent;
-import org.gitlab4j.api.models.LabelEvent;
-
-import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
+
+import org.gitlab4j.api.models.IssueEvent;
 
 
 /**
@@ -29,7 +26,7 @@ public class ResourceStateEventsApi extends AbstractApi {
      * @return a List of IssueEvent for the specified issue
      * @throws GitLabApiException if any exception occurs
      */
-    public List<IssueEvent> getIssueStateEvents(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+    public List<IssueEvent> getIssueStateEvents(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
         return (getIssueStateEvents(projectIdOrPath, issueIid, getDefaultPerPage()).all());
     }
 
@@ -44,7 +41,7 @@ public class ResourceStateEventsApi extends AbstractApi {
      * @return the Pager of IssueEvent instances for the specified issue IID
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<IssueEvent> getIssueStateEvents(Object projectIdOrPath, Integer issueIid, int itemsPerPage) throws GitLabApiException {
+    public Pager<IssueEvent> getIssueStateEvents(Object projectIdOrPath, Long issueIid, int itemsPerPage) throws GitLabApiException {
         return (new Pager<IssueEvent>(this, IssueEvent.class, itemsPerPage, null,
             "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "resource_state_events"));
     }
@@ -59,7 +56,7 @@ public class ResourceStateEventsApi extends AbstractApi {
      * @return a Stream of IssueEvent for the specified issue
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<IssueEvent> getIssueStateEventsStream(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+    public Stream<IssueEvent> getIssueStateEventsStream(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
         return (getIssueStateEvents(projectIdOrPath, issueIid, getDefaultPerPage()).stream());
     }
 }

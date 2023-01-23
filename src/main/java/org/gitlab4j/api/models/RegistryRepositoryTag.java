@@ -12,7 +12,7 @@ public class RegistryRepositoryTag {
     private String shortRevision;
     private String digest;
     private Date createdAt;
-    private Integer totalSize;
+    private Long totalSize;
 
     public String getName() {
         return name;
@@ -70,11 +70,11 @@ public class RegistryRepositoryTag {
         this.createdAt = createdAt;
     }
 
-    public Integer getTotalSize() {
+    public Long getTotalSize() {
         return totalSize;
     }
 
-    public void setTotalSize(Integer totalSize) {
+    public void setTotalSize(Long totalSize) {
         this.totalSize = totalSize;
     }
 

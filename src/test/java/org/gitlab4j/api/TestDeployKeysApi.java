@@ -1,22 +1,24 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  * TEST_USERNAME
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestDeployKeysApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
@@ -28,7 +30,7 @@ public class TestDeployKeysApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         // Must setup the connection to the GitLab test server
@@ -39,7 +41,7 @@ public class TestDeployKeysApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         assumeTrue(gitLabApi != null);
     }

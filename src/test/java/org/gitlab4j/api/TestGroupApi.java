@@ -1,11 +1,10 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,25 +18,27 @@ import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.User;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  * TEST_USERNAME
  * TEST_GROUP
  * TEST_GROUP_MEMBER_USERNAME
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestGroupApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
@@ -53,7 +54,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         // Must setup the connection to the GitLab test server
@@ -84,7 +85,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         removeGroupMembers();
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() {
         removeGroupMembers();
     }
@@ -101,7 +102,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         if (TEST_REQUEST_ACCESS_USERNAME != null) {
             Optional<User> user = gitLabApi.getUserApi().getOptionalUser(TEST_REQUEST_ACCESS_USERNAME);
             if (user.isPresent()) {
-                Integer userId = user.get().getId();
+                Long userId = user.get().getId();
                 try {
                     gitLabApi.getGroupApi().denyAccessRequest(testGroup, userId);
                 } catch (Exception e) {
@@ -113,11 +114,11 @@ public class TestGroupApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
-        assumeNotNull(testGroup);
-        assumeNotNull(testUser);
+        assumeTrue(gitLabApi != null);
+        assumeTrue(testGroup != null);
+        assumeTrue(testUser != null);
     }
 
     @Test
@@ -189,7 +190,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         assertTrue(optional.isPresent());
         assertEquals(testGroup.getId(), optional.get().getId());
 
-        optional = gitLabApi.getGroupApi().getOptionalGroup(12345);
+        optional = gitLabApi.getGroupApi().getOptionalGroup(12345L);
         assertNotNull(optional);
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
@@ -204,7 +205,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
         User user = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(user);
-        final Integer userId = user.getId();
+        final Long userId = user.getId();
 
         try {
             try {
@@ -249,7 +250,7 @@ public class TestGroupApi extends AbstractIntegrationTest {
         gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
         User user = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(user);
-        final Integer userId = user.getId();
+        final Long userId = user.getId();
 
         try {
             try {

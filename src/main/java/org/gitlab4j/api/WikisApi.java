@@ -51,7 +51,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a list of pages in the project's wiki
      * @throws GitLabApiException if any exception occurs
      */
@@ -64,7 +64,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param itemsPerPage the number of WikiPage instances that will be fetched per page
      * @return a Pager of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
@@ -78,7 +78,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a Pager of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
      */
@@ -91,7 +91,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param page the page to get
      * @param perPage the number of wiki-pages per page
      * @return a list of pages in project's wiki for the specified range
@@ -109,7 +109,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param withContent if true the results will include the pages content
      * @return a List of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
@@ -123,7 +123,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param withContent if true the results will include the pages content
      * @param itemsPerPage the number of WikiPage instances that will be fetched per page
      * @return a Pager of pages in project's wiki for the specified range
@@ -140,7 +140,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/wikis</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param withContent if true the results will include the pages content
      * @return a Stream of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
@@ -154,7 +154,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/wikis/:slug</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param slug the slug of the project's wiki page
      * @return the specified project Snippet
      * @throws GitLabApiException if any exception occurs
@@ -170,7 +170,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/wikis/:slug</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param slug the slug of the project's wiki page
      * @return the specified project Snippet as an Optional instance
      */
@@ -187,7 +187,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/wikis</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param title the title of a snippet, required
      * @param content the content of a wiki page, required
      * @return a WikiPage instance with info on the created page
@@ -209,7 +209,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/wikis/:slug</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param slug the slug of the project's wiki page, required
      * @param title the title of a snippet, optional
      * @param content the content of a page, optional. Either title or content must be supplied.
@@ -233,7 +233,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/wikis/:slug</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param slug the slug of the project's wiki page
      * @throws GitLabApiException if any exception occurs
      */
@@ -246,7 +246,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>POST /projects/:id/wikis/attachments</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param fileToUpload the File instance of the file to upload, required
      * @return a FileUpload instance with information on the just uploaded file
      * @throws GitLabApiException if any exception occurs
@@ -260,7 +260,7 @@ public class WikisApi extends AbstractApi {
      *
      * <pre><code>POST /projects/:id/wikis/attachments</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param fileToUpload the File instance of the file to upload, required
      * @param branch the name of the branch, defaults to the wiki repository default branch, optional
      * @return a FileUpload instance with information on the just uploaded file

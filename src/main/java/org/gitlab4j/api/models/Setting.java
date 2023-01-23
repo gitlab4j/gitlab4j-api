@@ -1199,9 +1199,14 @@ public enum Setting {
             return;
         }
 
-        StringBuilder shouldBe = new StringBuilder(types[0].getSimpleName());
-        for (int i = 1; i < types.length; i++) {
-            shouldBe.append(" | ").append(types[i].getSimpleName());
+        StringBuilder shouldBe;
+        if (type != null) {
+            shouldBe = new StringBuilder(type.getSimpleName());
+        } else {
+            shouldBe = new StringBuilder(types[0].getSimpleName());
+            for (int i = 1; i < types.length; i++) {
+                shouldBe.append(" | ").append(types[i].getSimpleName());
+            }
         }
 
         String errorMsg = String.format("'%s' value is of incorrect type, is %s, should be %s",

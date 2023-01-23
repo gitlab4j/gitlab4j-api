@@ -10,18 +10,19 @@ public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
     public static final String REPOSITORY_UPDATE_EVENT = "repository_update";
 
     private String eventName;
-    private Integer userId;
+    private Long userId;
     private String userName;
     private String userEmail;
     private String userAvatar;
 
-    private Integer projectId;
+    private Long projectId;
     private EventProject project;
 
     private List<RepositoryChange> changes;
     private List<String> refs;
 
-    public String getEventName() {
+    @Override
+	public String getEventName() {
         return (eventName);
     }
 
@@ -29,11 +30,11 @@ public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
         this.eventName = eventName;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return this.userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -61,11 +62,11 @@ public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
         this.userAvatar = userAvatar;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return this.projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 

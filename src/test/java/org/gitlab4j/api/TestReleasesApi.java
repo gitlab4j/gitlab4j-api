@@ -1,10 +1,10 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.Collections;
 import java.util.Date;
@@ -15,13 +15,15 @@ import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.ReleaseParams;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestReleasesApi extends AbstractIntegrationTest {
 
     private static final String TEST_TAG_NAME = "test-release/1.0.0";
@@ -37,7 +39,7 @@ public class TestReleasesApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void testSetup() {
 
         // Must setup the connection to the GitLab test server and get the test Project instance
@@ -47,7 +49,7 @@ public class TestReleasesApi extends AbstractIntegrationTest {
         deleteTestResources();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         deleteTestResources();
     }
@@ -74,7 +76,7 @@ public class TestReleasesApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         assumeTrue(testProject != null);
     }

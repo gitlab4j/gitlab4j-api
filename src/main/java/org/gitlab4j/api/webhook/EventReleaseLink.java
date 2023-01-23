@@ -3,17 +3,17 @@ package org.gitlab4j.api.webhook;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class EventReleaseLink {
-    private Integer id;
+    private Long id;
     private Boolean external;
     private String linkType;
     private String name;
     private String url;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

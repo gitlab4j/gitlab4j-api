@@ -4,7 +4,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Namespace {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String path;
     private String kind;
@@ -12,11 +12,11 @@ public class Namespace {
     private String avatarUrl;
     private String webUrl;
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,7 +52,7 @@ public class Namespace {
         this.fullPath = fullPath;
     }
 
-    public Namespace withId(Integer id) {
+    public Namespace withId(Long id) {
         this.id = id;
         return this;
     }

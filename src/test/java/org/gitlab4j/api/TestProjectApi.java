@@ -23,13 +23,12 @@
 
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,29 +48,31 @@ import org.gitlab4j.api.models.ProjectFilter;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
- * 
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
  * TEST_GROUP_PROJECT
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that the tests are in the correct order
  */
-@Category(IntegrationTest.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestProjectApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
@@ -96,7 +97,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         // Must setup the connection to the GitLab test server
@@ -107,7 +108,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         deleteAllTransientTestData();
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() throws GitLabApiException {
         deleteAllTransientTestData();
     }
@@ -174,7 +175,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         if (TEST_REQUEST_ACCESS_USERNAME != null) {
             Optional<User> user = gitLabApi.getUserApi().getOptionalUser(TEST_REQUEST_ACCESS_USERNAME);
             if (user.isPresent()) {
-                Integer userId = user.get().getId();
+                Long userId = user.get().getId();
                 try {
                     gitLabApi.getProjectApi().denyAccessRequest(testProject, userId);
                 } catch (Exception e) {
@@ -186,9 +187,9 @@ public class TestProjectApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
+        assumeTrue(gitLabApi != null);
     }
 
     @Test
@@ -402,7 +403,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testListStarredProjects() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         try {
             gitLabApi.getProjectApi().starProject(testProject);
@@ -425,7 +426,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testListStarredProjectsWithParams() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         try {
             gitLabApi.getProjectApi().starProject(testProject);
@@ -560,7 +561,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testCreateProjectInNamespace() throws GitLabApiException {
 
-        assumeNotNull(currentUser);
+        assumeTrue(currentUser != null);
 
         Project namespaceProject = null;
         try {
@@ -602,7 +603,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         assumeTrue(TEST_GROUP != null && TEST_GROUP_PROJECT != null);
         assumeTrue(TEST_GROUP.trim().length() > 0 && TEST_GROUP_PROJECT.trim().length() > 0);
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
         assertNotNull(groups);
@@ -627,7 +628,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertTrue(optional.isPresent());
         assertEquals(TEST_PROJECT_NAME, optional.get().getName());
 
-        Integer projectId = optional.get().getId();
+        Long projectId = optional.get().getId();
         optional = gitLabApi.getProjectApi().getOptionalProject(projectId);
         assertNotNull(optional);
         assertTrue(optional.isPresent());
@@ -638,7 +639,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
 
-        optional = gitLabApi.getProjectApi().getOptionalProject(1234567);
+        optional = gitLabApi.getProjectApi().getOptionalProject(1234567L);
         assertNotNull(optional);
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
@@ -647,7 +648,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testStarAndUnstarProject() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         try {
             gitLabApi.getProjectApi().unstarProject(testProject);
@@ -686,7 +687,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testVariables() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         String key = TEST_VARIABLE_KEY_PREFIX + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
         String value = "ABCDEFG12345678" + HelperUtils.getRandomInt();
@@ -736,7 +737,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testFileVariable() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         String key = TEST_VARIABLE_KEY_PREFIX + HelperUtils.getRandomInt() + "_" +  HelperUtils.getRandomInt();
         String value = "/tmp/test.txt";
@@ -758,7 +759,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testGetMembers() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         // Act
         List<Member> members = gitLabApi.getProjectApi().getMembers(testProject);
@@ -770,7 +771,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     public void testAllMemberOperations() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         // Act
         List<Member> members = gitLabApi.getProjectApi().getAllMembers(testProject);
@@ -787,7 +788,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
         User user = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(user);
-        final Integer userId = user.getId();
+        final Long userId = user.getId();
 
         try {
             try {
@@ -832,7 +833,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         gitLabApi.sudo(TEST_REQUEST_ACCESS_USERNAME);
         User user = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(user);
-        final Integer userId = user.getId();
+        final Long userId = user.getId();
 
         try {
             try {

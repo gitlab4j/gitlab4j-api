@@ -19,16 +19,16 @@ import com.fasterxml.jackson.databind.node.TextNode;
 
 public class ApplicationSettings {
 
-    private Integer id;
+    private Long id;
     private Date createdAt;
     private Date updatedAt;
     private Map<String, Object> settings = new HashMap<>();
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

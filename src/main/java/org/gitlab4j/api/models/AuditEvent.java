@@ -7,34 +7,34 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class AuditEvent {
 
-    private Integer id;
-    private Integer authorId;
-    private Integer entityId;
+    private Long id;
+    private Long authorId;
+    private Long entityId;
     private String entityType;
     private AuditEventDetail details;
     private Date createdAt;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
-    public Integer getEntityId() {
+    public Long getEntityId() {
         return entityId;
     }
 
-    public void setEntityId(Integer entityId) {
+    public void setEntityId(Long entityId) {
         this.entityId = entityId;
     }
 

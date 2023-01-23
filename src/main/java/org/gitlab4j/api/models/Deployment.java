@@ -7,8 +7,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Deployment {
 
-    private Integer id;
-    private Integer iid;
+    private Long id;
+    private Long iid;
     private String ref;
     private String sha;
     private Date createdAt;
@@ -18,19 +18,19 @@ public class Deployment {
     private Environment environment;
     private Deployable deployable;
 
-    public Integer getId() {
+    public Long getId() {
 	return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
 	this.id = id;
     }
 
-    public Integer getIid() {
+    public Long getIid() {
 	return iid;
     }
 
-    public void setIid(Integer iid) {
+    public void setIid(Long iid) {
 	this.iid = iid;
     }
 

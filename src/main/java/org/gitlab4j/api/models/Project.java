@@ -46,13 +46,13 @@ public class Project {
     private String avatarUrl;
     private Boolean containerRegistryEnabled;
     private Date createdAt;
-    private Integer creatorId;
+    private Long creatorId;
     private String defaultBranch;
     private String description;
     private Integer forksCount;
     private Project forkedFromProject;
     private String httpUrlToRepo;
-    private Integer id;
+    private Long id;
     private Boolean isPublic;
     private Boolean issuesEnabled;
     private Boolean jobsEnabled;
@@ -64,6 +64,7 @@ public class Project {
     private Namespace namespace;
     private String nameWithNamespace;
     private Boolean onlyAllowMergeIfPipelineSucceeds;
+    private Boolean allowMergeOnSkippedPipeline;
     private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
     private Integer openIssuesCount;
     private Owner owner;
@@ -163,11 +164,11 @@ public class Project {
         this.createdAt = createdAt;
     }
 
-    public Integer getCreatorId() {
+    public Long getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(Integer creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
 
@@ -221,15 +222,15 @@ public class Project {
         this.httpUrlToRepo = httpUrlToRepo;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Project withId(Integer id) {
+    public Project withId(Long id) {
         this.id = id;
         return (this);
     }
@@ -333,7 +334,7 @@ public class Project {
         return (this);
     }
 
-    public Project withNamespaceId(int namespaceId) {
+    public Project withNamespaceId(long namespaceId) {
         this.namespace = new Namespace();
         this.namespace.setId(namespaceId);
         return (this);
@@ -357,6 +358,19 @@ public class Project {
 
     public Project withOnlyAllowMergeIfPipelineSucceeds(Boolean onlyAllowMergeIfPipelineSucceeds) {
         this.onlyAllowMergeIfPipelineSucceeds = onlyAllowMergeIfPipelineSucceeds;
+        return (this);
+    }
+
+    public Boolean getAllowMergeOnSkippedPipeline() {
+        return allowMergeOnSkippedPipeline;
+    }
+
+    public void setAllowMergeOnSkippedPipeline(Boolean allowMergeOnSkippedPipeline) {
+        this.allowMergeOnSkippedPipeline = allowMergeOnSkippedPipeline;
+    }
+
+    public Project withAllowMergeOnSkippedPipeline(Boolean allowMergeOnSkippedPipeline) {
+        this.allowMergeOnSkippedPipeline = allowMergeOnSkippedPipeline;
         return (this);
     }
 

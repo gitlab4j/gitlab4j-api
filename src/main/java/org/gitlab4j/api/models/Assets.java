@@ -39,16 +39,16 @@ public class Assets {
 
     public static class Link {
 
-        private Integer id;
+        private Long id;
         private String name;
         private String url;
         private Boolean external;
 
-        public Integer getId() {
+        public Long getId() {
             return id;
         }
 
-        public void setId(Integer id) {
+        public void setId(Long id) {
             this.id = id;
         }
 

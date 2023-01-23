@@ -6,13 +6,13 @@ import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class ProjectSystemHookEvent extends AbstractSystemHookEvent {
-    
+
     public static final String PROJECT_CREATE_EVENT = "project_create";
     public static final String PROJECT_DESTROY_EVENT = "project_destroy";
     public static final String PROJECT_RENAME_EVENT = "project_rename";
     public static final String PROJECT_TRANSFER_EVENT = "project_transfer";
-    public static final String PROJECT_UPDATE_EVENT = "project_update"; 
-    
+    public static final String PROJECT_UPDATE_EVENT = "project_update";
+
     private Date createdAt;
     private Date updatedAt;
     private String eventName;
@@ -20,7 +20,7 @@ public class ProjectSystemHookEvent extends AbstractSystemHookEvent {
     private String ownerEmail;
     private String ownerName;
     private String path;
-    private Integer projectId;
+    private Long projectId;
     private String pathWithNamespace;
     private Visibility projectVisibility;
     private String oldPathWithNamespace;
@@ -41,7 +41,8 @@ public class ProjectSystemHookEvent extends AbstractSystemHookEvent {
         this.updatedAt = updatedAt;
     }
 
-    public String getEventName() {
+    @Override
+	public String getEventName() {
         return this.eventName;
     }
 
@@ -81,11 +82,11 @@ public class ProjectSystemHookEvent extends AbstractSystemHookEvent {
         this.path = path;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return this.projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 

@@ -8,18 +8,18 @@ import java.util.List;
 
 public class DeployToken {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String username;
     private Date expiresAt;
     private List<Constants.DeployTokenScope> scopes;
     private String token;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

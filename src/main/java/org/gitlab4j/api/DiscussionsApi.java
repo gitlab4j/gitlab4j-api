@@ -27,12 +27,12 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid the internal ID of the issue
      * @return a list containing all the discussions for the specified issue
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getIssueDiscussions(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+    public List<Discussion> getIssueDiscussions(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
         Pager<Discussion> pager = getIssueDiscussionsPager(projectIdOrPath, issueIid, getDefaultPerPage());
         return (pager.all());
     }
@@ -42,13 +42,13 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid the internal ID of the issue
      * @param maxItems the maximum number of Discussion instances to get, if &lt; 1 will fetch all Discussion instances for the issue
      * @return a list containing the discussions for the specified issue
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getIssueDiscussions(Object projectIdOrPath, Integer issueIid, int maxItems) throws GitLabApiException {
+    public List<Discussion> getIssueDiscussions(Object projectIdOrPath, Long issueIid, int maxItems) throws GitLabApiException {
         if (maxItems < 1) {
             return (getIssueDiscussions(projectIdOrPath, issueIid));
         } else {
@@ -63,13 +63,13 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid the internal ID of the issue
      * @param itemsPerPage the number of Discussion instances that will be fetched per page
      * @return a Pager containing the Discussion instances for the specified issue
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getIssueDiscussionsPager(Object projectIdOrPath, Integer issueIid, int itemsPerPage) throws GitLabApiException {
+    public Pager<Discussion> getIssueDiscussionsPager(Object projectIdOrPath, Long issueIid, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
               "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions"));
     }
@@ -79,12 +79,12 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid the internal ID of the issue
      * @return a Stream instance containing the Discussion instances for the specified issue
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Discussion> getIssueDiscussionsStream(Object projectIdOrPath, Integer issueIid) throws GitLabApiException {
+    public Stream<Discussion> getIssueDiscussionsStream(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
         Pager<Discussion> pager = getIssueDiscussionsPager(projectIdOrPath, issueIid, getDefaultPerPage());
         return (pager.stream());
     }
@@ -94,12 +94,12 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/snippets/:snippet_id/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param snippetId the ID of the snippet
      * @return a list containing all the discussions for the specified snippet
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getSnippetDiscussions(Object projectIdOrPath, Integer snippetId) throws GitLabApiException {
+    public List<Discussion> getSnippetDiscussions(Object projectIdOrPath, Long snippetId) throws GitLabApiException {
         Pager<Discussion> pager = getSnippetDiscussionsPager(projectIdOrPath, snippetId, getDefaultPerPage());
         return (pager.all());
     }
@@ -109,13 +109,13 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/snippets/:snippet_id/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param snippetId the ID of the snippet
      * @param maxItems the maximum number of Discussion instances to get, if &lt; 1 will fetch all Discussion instances for the snippet
      * @return a list containing the discussions for the specified snippet
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getSnippetDiscussions(Object projectIdOrPath, Integer snippetId, int maxItems) throws GitLabApiException {
+    public List<Discussion> getSnippetDiscussions(Object projectIdOrPath, Long snippetId, int maxItems) throws GitLabApiException {
         if (maxItems < 1) {
             return (getSnippetDiscussions(projectIdOrPath, snippetId));
         } else {
@@ -130,13 +130,13 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/snippets/:snippet_id/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param snippetId the ID of the snippet
      * @param itemsPerPage the number of Discussion instances that will be fetched per page
      * @return a Pager containing the Discussion instances for the specified snippet
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getSnippetDiscussionsPager(Object projectIdOrPath, Integer snippetId, int itemsPerPage) throws GitLabApiException {
+    public Pager<Discussion> getSnippetDiscussionsPager(Object projectIdOrPath, Long snippetId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
               "projects", getProjectIdOrPath(projectIdOrPath), "snippets", snippetId, "discussions"));
     }
@@ -146,12 +146,12 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/snippets/:snippet_id/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param snippetId the ID of the snippet
      * @return a Stream instance containing the Discussion instances for the specified snippet
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Discussion> getSnippetDiscussionsStream(Object projectIdOrPath, Integer snippetId) throws GitLabApiException {
+    public Stream<Discussion> getSnippetDiscussionsStream(Object projectIdOrPath, Long snippetId) throws GitLabApiException {
         Pager<Discussion> pager = getSnippetDiscussionsPager(projectIdOrPath, snippetId, getDefaultPerPage());
         return (pager.stream());
     }
@@ -162,12 +162,12 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/epics/:epic_id/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param epicId the internal ID of the epic
      * @return a list containing all the discussions for the specified epic
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getEpicDiscussions(Object projectIdOrPath, Integer epicId) throws GitLabApiException {
+    public List<Discussion> getEpicDiscussions(Object projectIdOrPath, Long epicId) throws GitLabApiException {
         Pager<Discussion> pager = getEpicDiscussionsPager(projectIdOrPath, epicId, getDefaultPerPage());
         return (pager.all());
     }
@@ -177,13 +177,13 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/epics/:epic_id/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param epicId the internal ID of the epic
      * @param maxItems the maximum number of Discussion instances to get, if &lt; 1 will fetch all Discussion instances for the epic
      * @return a list containing the discussions for the specified epic
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getEpicDiscussions(Object projectIdOrPath, Integer epicId, int maxItems) throws GitLabApiException {
+    public List<Discussion> getEpicDiscussions(Object projectIdOrPath, Long epicId, int maxItems) throws GitLabApiException {
         if (maxItems < 1) {
             return (getEpicDiscussions(projectIdOrPath, epicId));
         } else {
@@ -198,13 +198,13 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/epics/:epic_id/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param epicId the internal ID of the epic
      * @param itemsPerPage the number of Discussion instances that will be fetched per page
      * @return a Pager containing the Discussion instances for the specified epic
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getEpicDiscussionsPager(Object projectIdOrPath, Integer epicId, int itemsPerPage) throws GitLabApiException {
+    public Pager<Discussion> getEpicDiscussionsPager(Object projectIdOrPath, Long epicId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
               "projects", getProjectIdOrPath(projectIdOrPath), "epics", epicId, "discussions"));
     }
@@ -214,12 +214,12 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/epics/:epic_id/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param epicId the internal ID of the epic
      * @return a Stream instance containing the Discussion instances for the specified epic
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Discussion> getEpicDiscussionsStream(Object projectIdOrPath, Integer epicId) throws GitLabApiException {
+    public Stream<Discussion> getEpicDiscussionsStream(Object projectIdOrPath, Long epicId) throws GitLabApiException {
         Pager<Discussion> pager = getEpicDiscussionsPager(projectIdOrPath, epicId, getDefaultPerPage());
         return (pager.stream());
     }
@@ -229,12 +229,12 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
      * @return a list containing all the discussions for the specified merge request
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getMergeRequestDiscussions(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+    public List<Discussion> getMergeRequestDiscussions(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
         Pager<Discussion> pager = getMergeRequestDiscussionsPager(projectIdOrPath, mergeRequestIid, getDefaultPerPage());
         return (pager.all());
     }
@@ -244,13 +244,13 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
      * @param maxItems the maximum number of Discussion instances to get, if &lt; 1 will fetch all Discussion instances for the merge request
      * @return a list containing the discussions for the specified merge request
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getMergeRequestDiscussions(Object projectIdOrPath, Integer mergeRequestIid, int maxItems) throws GitLabApiException {
+    public List<Discussion> getMergeRequestDiscussions(Object projectIdOrPath, Long mergeRequestIid, int maxItems) throws GitLabApiException {
         if (maxItems < 1) {
             return (getMergeRequestDiscussions(projectIdOrPath, mergeRequestIid));
         } else {
@@ -265,13 +265,13 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
      * @param itemsPerPage the number of Discussion instances that will be fetched per page
      * @return a Pager containing the Discussion instances for the specified merge request
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getMergeRequestDiscussionsPager(Object projectIdOrPath, Integer mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+    public Pager<Discussion> getMergeRequestDiscussionsPager(Object projectIdOrPath, Long mergeRequestIid, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
               "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "discussions"));
     }
@@ -281,12 +281,12 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
      * @return a Stream instance containing the Discussion instances for the specified issue
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Discussion> getMergeRequestDiscussionsStream(Object projectIdOrPath, Integer mergeRequestIid) throws GitLabApiException {
+    public Stream<Discussion> getMergeRequestDiscussionsStream(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
         Pager<Discussion> pager = getMergeRequestDiscussionsPager(projectIdOrPath, mergeRequestIid, getDefaultPerPage());
         return (pager.stream());
     }
@@ -297,7 +297,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid mergeRequestIid the internal ID of the merge request
      * @param body the content of a discussion
      * @param createdAt date the discussion was created (requires admin or project/group owner rights)
@@ -306,7 +306,7 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Discussion instance containing the newly created discussion
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Discussion createMergeRequestDiscussion(Object projectIdOrPath, Integer mergeRequestIid,
+    public Discussion createMergeRequestDiscussion(Object projectIdOrPath, Long mergeRequestIid,
             String body, Date createdAt, String positionHash, Position position) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
@@ -339,14 +339,14 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/merge_requests/:merge_request_iid/discussions/:discussion_id</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid mergeRequestIid the internal ID of the merge request
      * @param discussionId the ID of a discussion
      * @param resolved resolve/unresolve the discussion
      * @return the updated DIscussion instance
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Discussion resolveMergeRequestDiscussion(Object projectIdOrPath, Integer mergeRequestIid,
+    public Discussion resolveMergeRequestDiscussion(Object projectIdOrPath, Long mergeRequestIid,
             String discussionId, Boolean resolved)  throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("resolved", resolved, true);
         Response response = put(Response.Status.OK, formData.asMap(),
@@ -359,14 +359,14 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/merge_requests/:merge_request_iid/discussions/:discussion_id/notes/:note_id</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid mergeRequestIid the internal ID of the merge request
      * @param discussionId the ID of a discussion
      * @param noteId the note ID to delete
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public void deleteMergeRequestDiscussionNote(Object projectIdOrPath, Integer mergeRequestIid,
-            String discussionId, Integer noteId)  throws GitLabApiException {
+    public void deleteMergeRequestDiscussionNote(Object projectIdOrPath, Long mergeRequestIid,
+            String discussionId, Long noteId)  throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
                 "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
     }
@@ -376,7 +376,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the SHA of the commit to get discussions for
      * @return a list containing all the discussions for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
@@ -391,7 +391,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the SHA of the commit to get discussions for
      * @param maxItems the maximum number of Discussion instances to get, if &lt; 1 will fetch all Discussion instances for the commit
      * @return a list containing the discussions for the specified commit
@@ -412,7 +412,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the SHA of the commit to get discussions for
      * @param itemsPerPage the number of Discussion instances that will be fetched per page
      * @return a Pager containing the Discussion instances for the specified commit
@@ -428,7 +428,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the SHA of the commit to get discussions for
      * @return a Stream instance containing the Discussion instances for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
@@ -443,7 +443,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the SHA of the commit to get discussions for
      * @param discussionId the ID of the discussion
      * @return the Discussion instance specified by discussionId for the specified commit
@@ -460,7 +460,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the SHA of the commit to get discussions for
      * @param discussionId the ID of the discussion
      * @return an Optional instance with the specified Discussion instance as a value
@@ -479,7 +479,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the commit SHA to create the discussion for
      * @param body the content of a discussion
      * @param createdAt date the discussion was created (requires admin or project/group owner rights)
@@ -522,7 +522,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id/notes</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the commit SHA to create the discussion for
      * @param discussionId the ID of a discussion
      * @param body the content of a discussion
@@ -548,7 +548,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id/notes</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the commit SHA to delete the discussion from
      * @param discussionId the ID of a discussion
      * @param noteId the note ID to modify
@@ -557,7 +557,7 @@ public class DiscussionsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Note modifyCommitDiscussionNote(Object projectIdOrPath,
-            String commitSha, String discussionId, Integer noteId, String body) throws GitLabApiException {
+            String commitSha, String discussionId, Long noteId, String body) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
         Response response = this.putWithFormData(Response.Status.OK, formData,
@@ -571,7 +571,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id/notes</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the commit SHA to delete the discussion from
      * @param discussionId the ID of a discussion
      * @param noteId the note ID to resolve or unresolve
@@ -580,7 +580,7 @@ public class DiscussionsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Note resolveCommitDiscussionNote(Object projectIdOrPath,
-            String commitSha, String discussionId, Integer noteId, Boolean resolved) throws GitLabApiException {
+            String commitSha, String discussionId, Long noteId, Boolean resolved) throws GitLabApiException {
 
         GitLabApiForm queryParams = new GitLabApiForm().withParam("resolved", resolved);
         Response response = this.put(Response.Status.OK, queryParams.asMap(),
@@ -594,14 +594,14 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/repository/commits/:commit_sha/discussions/:discussion_id/notes/:note_id</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param commitSha the commit SHA to delete the discussion from
      * @param discussionId the ID of a discussion
      * @param noteId the note ID to delete
      * @throws GitLabApiException if any exception occurs during execution
      */
     public void deleteCommitDiscussionNote(Object projectIdOrPath, String commitSha,
-            String discussionId, Integer noteId)  throws GitLabApiException {
+            String discussionId, Long noteId)  throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
                 "repository", "commits", commitSha, "discussions", discussionId, "notes", noteId);
     }
@@ -611,7 +611,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/discussions/:discussion_id/notes</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid mergeRequestIid the internal ID of the merge request
      * @param discussionId the ID of a discussion
      * @param body the content of a discussion
@@ -619,7 +619,7 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the newly created discussion note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note addMergeRequestThreadNote(Object projectIdOrPath, Integer mergeRequestIid,
+    public Note addMergeRequestThreadNote(Object projectIdOrPath, Long mergeRequestIid,
 	    String discussionId, String body, Date createdAt) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
@@ -636,7 +636,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/merge_requests/:merge_request_iid/discussions/:discussion_id/notes/:note_id</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid mergeRequestIid the internal ID of the merge request
      * @param discussionId the ID of a discussion
      * @param noteId the note ID to modify
@@ -645,8 +645,8 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the updated discussion note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note modifyMergeRequestThreadNote(Object projectIdOrPath, Integer mergeRequestIid,
-	    String discussionId, Integer noteId, String body, Boolean resolved) throws GitLabApiException {
+    public Note modifyMergeRequestThreadNote(Object projectIdOrPath, Long mergeRequestIid,
+	    String discussionId, Long noteId, String body, Boolean resolved) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body).withParam("resolved", resolved);
         Response response = this.putWithFormData(Response.Status.OK, formData,
@@ -660,14 +660,14 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/merge_requests/:merge_request_iid/discussions/:discussion_id/notes/:note_id</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid mergeRequestIid the internal ID of the merge request
      * @param discussionId the ID of a discussion
      * @param noteId the note ID to delete
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public void deleteMergeRequestThreadNote(Object projectIdOrPath, Integer mergeRequestIid,
-	    String discussionId, Integer noteId)  throws GitLabApiException {
+    public void deleteMergeRequestThreadNote(Object projectIdOrPath, Long mergeRequestIid,
+	    String discussionId, Long noteId)  throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
                 "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
     }
@@ -677,14 +677,14 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/discussions</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid The IID of an issue
      * @param body the content of the discussion
      * @param createdAt (optional) date the discussion was created (requires admin or project/group owner rights)
      * @return a Discussion instance containing the newly created discussion
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Discussion createIssueDiscussion(Object projectIdOrPath, Integer issueIid, String body, Date createdAt) throws GitLabApiException {
+    public Discussion createIssueDiscussion(Object projectIdOrPath, Long issueIid, String body, Date createdAt) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true)
                 .withParam("created_at", createdAt);
@@ -698,7 +698,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid The IID of an issue
      * @param discussionId the id of discussion
      * @param body the content of the note
@@ -706,7 +706,7 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the newly created note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note addIssueThreadNote(Object projectIdOrPath, Integer issueIid,
+    public Note addIssueThreadNote(Object projectIdOrPath, Long issueIid,
                                    String discussionId, String body, Date createdAt) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true)
@@ -721,7 +721,7 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes/:note_id</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid The IID of an issue
      * @param discussionId the id of discussion
      * @param noteId the id of the note
@@ -729,8 +729,8 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the modified note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note modifyIssueThreadNote(Object projectIdOrPath, Integer issueIid,
-                                      String discussionId, Integer noteId, String body) throws GitLabApiException {
+    public Note modifyIssueThreadNote(Object projectIdOrPath, Long issueIid,
+                                      String discussionId, Long noteId, String body) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true);
         Response response = putWithFormData(Response.Status.OK, formData,
@@ -743,14 +743,14 @@ public class DiscussionsApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes/:note_id</code></pre>
      *
-     * @param projectIdOrPath projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid The IID of an issue
      * @param discussionId the id of discussion
      * @param noteId the id of the note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public void deleteIssueThreadNote(Object projectIdOrPath, Integer issueIid,
-                                      String discussionId, Integer noteId) throws GitLabApiException {
+    public void deleteIssueThreadNote(Object projectIdOrPath, Long issueIid,
+                                      String discussionId, Long noteId) throws GitLabApiException {
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions", discussionId, "notes", noteId);
     }
 

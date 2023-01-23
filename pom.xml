@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.gitlab4j</groupId>
 	<artifactId>gitlab4j-api-cortex</artifactId>
 	<packaging>jar</packaging>
-	<version>4.20.4</version>
+	<version>5.1.0-SNAPSHOT</version>
 	<name>GitLab4J-API - GitLab API Java Client</name>
 	<description>GitLab4J-API (gitlab4j-api) provides a full featured Java client library for working with GitLab repositories and servers via the GitLab REST API.</description>
 	<url>https://github.com/gitlab4j/gitlab4j-api</url>
@@ -52,13 +54,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<jersey.version>2.30.1</jersey.version>
-		<jackson.version>2.10.3</jackson.version>
-		<servlet.version>4.0.3</servlet.version>
+		<jersey.version>2.35</jersey.version>
+		<jackson.version>2.12.4</jackson.version>
+		<servlet.version>4.0.4</servlet.version>
 		<activation.version>1.2.2</activation.version>
 
-		<junit.version>5.6.0</junit.version>
-		<mockito.version>3.3.0</mockito.version>
+		<junit.version>5.8.2</junit.version>
+		<testcontainers.version>1.15.3</testcontainers.version>
+		<mockito.version>4.4.0</mockito.version>
 		<hamcrest.version>1.3</hamcrest.version>
 		<systemRules.version>1.19.0</systemRules.version>
 
@@ -69,6 +72,10 @@
 		<gitlab.autoremove-container>true</gitlab.autoremove-container>
 		<gitlab.skip-docker-start>true</gitlab.skip-docker-start>
 		<gitlab.port>8090</gitlab.port>
+
+		<sonar.projectKey>gitlab4j_gitlab4j-api</sonar.projectKey>
+		<sonar.organization>gitlab4j</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 	<scm>
@@ -119,27 +126,12 @@
 			</plugin>
 
 			<plugin>
-			    <groupId>biz.aQute.bnd</groupId>
-			    <artifactId>bnd-maven-plugin</artifactId>
-			    <executions>
-			        <execution>
-			            <goals>
-			                <goal>bnd-process</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.6</version>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
 						<goals>
-							<goal>sign</goal>
+							<goal>bnd-process</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -177,20 +169,20 @@
 			</plugin>
 
 			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-jar-plugin</artifactId>
-			    <version>3.2.0</version>
-			    <configuration>
-			        <archive>
-			            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-			        </archive>
-			    </configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<archive>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.3</version>
+				<version>0.8.7</version>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
@@ -233,23 +225,24 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M3</version>
+				<version>3.0.0-M5</version>
 				<configuration>
-					<excludedGroups>org.gitlab4j.api.IntegrationTest</excludedGroups>
 					<systemPropertyVariables>
 						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
 					</systemPropertyVariables>
+					<excludedGroups>integration</excludedGroups>
 				</configuration>
 			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.0.0-M3</version>
+				<version>3.0.0-M5</version>
 				<configuration>
-					<groups>org.gitlab4j.api.IntegrationTest</groups>
+					<groups>integration</groups>
 					<includes>
-						<include>**/IntegrationTestSuite.java</include>
+						<include>**/*.java</include>
 					</includes>
 				</configuration>
 				<executions>
@@ -288,7 +281,7 @@
 					<dependency>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>extra-enforcer-rules</artifactId>
-						<version>1.2</version>
+						<version>1.3</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -296,7 +289,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>animal-sniffer-maven-plugin</artifactId>
-				<version>1.17</version>
+				<version>1.20</version>
 				<executions>
 					<execution>
 						<goals>
@@ -325,7 +318,8 @@
 							<run>
 								<skip>${gitlab.skip-docker-start}</skip>
 								<env>
-									<GITLAB_OMNIBUS_CONFIG>gitlab_rails['initial_root_password']="password"; gitlab_rails['lfs_enabled']=false;</GITLAB_OMNIBUS_CONFIG>
+									<GITLAB_OMNIBUS_CONFIG>gitlab_rails['initial_root_password']="password";
+										gitlab_rails['lfs_enabled']=false;</GITLAB_OMNIBUS_CONFIG>
 								</env>
 								<ports>
 									<port>${gitlab.port}:80</port>
@@ -356,12 +350,12 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 
 		<pluginManagement>
 			<plugins>
-				<!-- The se.bjurr.gitchangelog:git-changelog-maven-plugin needs to be in -->
+				<!-- The se.bjurr.gitchangelog:git-changelog-maven-plugin needs to be
+					in -->
 				<!-- this section (pluginManagement) for it to work correctly. -->
 				<plugin>
 					<groupId>se.bjurr.gitchangelog</groupId>
@@ -380,14 +374,14 @@
 					</executions>
 				</plugin>
 				<plugin>
-				    <groupId>biz.aQute.bnd</groupId>
-				    <artifactId>bnd-maven-plugin</artifactId>
-				    <version>${bnd.version}</version>
-				    <configuration>
-				    	<bnd><![CDATA[
+					<groupId>biz.aQute.bnd</groupId>
+					<artifactId>bnd-maven-plugin</artifactId>
+					<version>${bnd.version}</version>
+					<configuration>
+						<bnd><![CDATA[
 			            	Export-Package: org.gitlab4j.api.*
 				    	]]></bnd>
-				    </configuration>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -433,8 +427,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -445,21 +439,21 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
 			<version>${hamcrest.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.stefanbirkner</groupId>
-			<artifactId>system-rules</artifactId>
-			<version>${systemRules.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.googlecode.junit-toolbox</groupId>
-			<artifactId>junit-toolbox</artifactId>
-			<version>2.4</version>
+			<groupId>uk.org.webcompere</groupId>
+			<artifactId>system-stubs-jupiter</artifactId>
+			<version>1.2.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -481,7 +475,7 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!--  Needed for animal-sniffer -->
+			<!-- Needed for animal-sniffer -->
 			<dependency>
 				<groupId>org.codehaus.mojo.signature</groupId>
 				<artifactId>java18</artifactId>
@@ -490,5 +484,30 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<profiles>
+		<profile>
+			<id>ossrh</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
 
 </project>

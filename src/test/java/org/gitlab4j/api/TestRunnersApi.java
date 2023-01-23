@@ -23,10 +23,10 @@
 
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,12 +35,13 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.Runner.RunnerStatus;
 import org.gitlab4j.api.models.Runner.RunnerType;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -53,8 +54,9 @@ import org.junit.runners.MethodSorters;
  * <p>
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that the tests are in the correct order
  */
-@Category(IntegrationTest.class)
-@FixMethodOrder(MethodSorters.JVM)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
+@TestMethodOrder(MethodOrderer.MethodName.class) // FIXME check if it works properly
 public class TestRunnersApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -63,7 +65,7 @@ public class TestRunnersApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() throws GitLabApiException {
 
         // Must setup the connection to the GitLab test server
@@ -97,7 +99,7 @@ public class TestRunnersApi extends AbstractIntegrationTest {
                 false, null));
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() throws GitLabApiException {
         assumeTrue(gitLabApi != null);
 
@@ -113,7 +115,7 @@ public class TestRunnersApi extends AbstractIntegrationTest {
 
         // Arrange
         Runner runner = createRunner();
-        assertNotNull("Failed to create test runner.", runner);
+        assertNotNull(runner, "Failed to create test runner.");
 
         List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
         assertEquals(1, runners.size());
@@ -125,7 +127,7 @@ public class TestRunnersApi extends AbstractIntegrationTest {
 
         for (int i = 0; i < 3; i++) {
             Runner runner = createRunner();
-            assertNotNull("Failed to create test runner.", runner);
+            assertNotNull(runner, "Failed to create test runner.");
         }
 
         List<Runner> allRunners = gitLabApi.getRunnersApi().getAllRunners();
@@ -143,7 +145,7 @@ public class TestRunnersApi extends AbstractIntegrationTest {
     public void shouldHavePausedRunner() throws GitLabApiException {
 
         Runner runner = createRunner();
-        assertNotNull("Failed to create test runner.", runner);
+        assertNotNull(runner, "Failed to create test runner.");
 
         List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners(RunnerType.GROUP_TYPE, RunnerStatus.PAUSED);
         assertTrue(runners.isEmpty());
