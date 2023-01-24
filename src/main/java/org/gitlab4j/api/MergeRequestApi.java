@@ -118,6 +118,22 @@ public class MergeRequestApi extends AbstractApi {
     }
 
     /**
+     * Get all merge requests for the specified group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/merge_requests</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param page the page to get
+     * @param perPage the number of MergeRequest instances per page
+     * @return all merge requests for the specified group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<MergeRequest> getMergeRequestsForGroup(Object groupIdOrPath, int page, int perPage) throws GitLabApiException {
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "groups", getGroupIdOrPath(groupIdOrPath), "merge_requests");
+        return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
+    }
+
+    /**
      * Get all merge requests for the specified project.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests</code></pre>
