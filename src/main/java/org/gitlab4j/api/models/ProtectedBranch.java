@@ -7,11 +7,20 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class ProtectedBranch {
 
+    private Long id;
     private String name;
     private List<BranchAccessLevel> pushAccessLevels;
     private List<BranchAccessLevel> mergeAccessLevels;
     private List<BranchAccessLevel> unprotectAccessLevels;
     private Boolean codeOwnerApprovalRequired;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return this.name;

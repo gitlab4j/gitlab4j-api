@@ -1,7 +1,9 @@
 {
+  "id": 457,
   "name": "develop",
   "push_access_levels": [
     {
+      "id": 123,
       "access_level": 40,
       "access_level_description": "Masters"
     },
@@ -11,6 +13,7 @@
   ],
   "merge_access_levels": [
     {
+      "id": 789,
       "access_level": 40,
       "access_level_description": "Masters"
     },
