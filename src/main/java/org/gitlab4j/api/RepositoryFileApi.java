@@ -71,6 +71,7 @@ public class RepositoryFileApi extends AbstractApi {
         RepositoryFile file = new RepositoryFile();
         file.setBlobId(response.getHeaderString("X-Gitlab-Blob-Id"));
         file.setCommitId(response.getHeaderString("X-Gitlab-Commit-Id"));
+        file.setContentSha256(response.getHeaderString("X-Gitlab-Content-Sha256"));
 
         String encoding = response.getHeaderString("X-Gitlab-Encoding");
         file.setEncoding(Constants.Encoding.forValue(encoding));
