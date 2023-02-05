@@ -9,15 +9,14 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Job;
+import org.gitlab4j.api.models.JobAttributes;
 
 /**
  * This class provides an entry point to all the GitLab API job calls.
@@ -532,9 +531,35 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Job playJob(Object projectIdOrPath, Long jobId) throws GitLabApiException {
+      return playJob(projectIdOrPath, jobId, null);
+    }
+
+    /**
+     * Play specified job with parameters in a project.
+     *
+     * <pre>
+     * <code>GitLab Endpoint: POST /projects/:id/jobs/:job_id/play</code>
+     * </pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID
+     *                        or path
+     * @param jobId           the ID to play job
+     * @param jobAttributes   attributes for the played job
+     * @return job instance which just played
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Job playJob(Object projectIdOrPath, Long jobId, JobAttributes jobAttributes)
+        throws GitLabApiException {
+      Response response;
+      if (jobAttributes == null) {
         GitLabApiForm formData = null;
-        Response response = post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "play");
-        return (response.readEntity(Job.class));
+        response = post(Status.CREATED, formData, "projects",
+            getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "play");
+      } else {
+        response = post(Status.CREATED, jobAttributes, "projects",
+            getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "play");
+      }
+      return (response.readEntity(Job.class));
     }
 
     /**
