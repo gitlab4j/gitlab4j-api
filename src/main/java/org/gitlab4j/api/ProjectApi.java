@@ -3310,8 +3310,23 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Badge> getBadges(Object projectIdOrPath) throws GitLabApiException {
-	Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "badges");
-	return (response.readEntity(new GenericType<List<Badge>>() {}));
+	return getBadges(projectIdOrPath, null);
+    }
+
+    /**
+     * Gets a list of a project’s badges and its group badges, case-sensitively filtered on bagdeName if non-null.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/badges?name=:name</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param bagdeName The name to filter on (case-sensitive), ignored if null.
+     * @return All badges of the GitLab item, case insensitively filtered on name.
+     * @throws GitLabApiException If any problem is encountered
+     */
+    public List<Badge> getBadges(Object projectIdOrPath, String bagdeName) throws GitLabApiException {
+    Form queryParam = new GitLabApiForm().withParam("name", bagdeName);
+    Response response = get(Response.Status.OK, queryParam.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "badges");
+    return (response.readEntity(new GenericType<List<Badge>>() {}));
     }
 
     /**
@@ -3358,11 +3373,28 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Badge addBadge(Object projectIdOrPath, String linkUrl, String imageUrl) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm()
-		.withParam("link_url", linkUrl, true)
-		.withParam("image_url", imageUrl, true);
-	Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "badges");
-	return (response.readEntity(Badge.class));
+    return addBadge(projectIdOrPath, null, linkUrl, imageUrl);
+    }
+
+    /**
+     * Add a badge to a project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/badges</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param name The name to give the badge (may be null)
+     * @param linkUrl the URL of the badge link
+     * @param imageUrl the URL of the image link
+     * @return A Badge instance for the added badge
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Badge addBadge(Object projectIdOrPath, String name, String linkUrl, String imageUrl) throws GitLabApiException {
+    GitLabApiForm formData = new GitLabApiForm()
+        .withParam("name", name, false)
+        .withParam("link_url", linkUrl, true)
+        .withParam("image_url", imageUrl, true);
+    Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "badges");
+    return (response.readEntity(Badge.class));
     }
 
     /**
@@ -3378,11 +3410,29 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Badge editBadge(Object projectIdOrPath, Long badgeId, String linkUrl, String imageUrl) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm()
-		.withParam("link_url", linkUrl, false)
-		.withParam("image_url", imageUrl, false);
-	Response response = putWithFormData(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "badges", badgeId);
-	return (response.readEntity(Badge.class));
+	return (editBadge(projectIdOrPath, badgeId, null, linkUrl, imageUrl));
+    }
+
+    /**
+     * Edit a badge of a project.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/badges</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param badgeId the ID of the badge to edit
+     * @param name The name of the badge to edit (may be null)
+     * @param linkUrl the URL of the badge link
+     * @param imageUrl the URL of the image link
+     * @return a Badge instance for the editted badge
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Badge editBadge(Object projectIdOrPath, Long badgeId, String name, String linkUrl, String imageUrl) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("name", name, false)
+            .withParam("link_url", linkUrl, false)
+            .withParam("image_url", imageUrl, false);
+        Response response = putWithFormData(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "badges", badgeId);
+        return (response.readEntity(Badge.class));
     }
 
     /**
