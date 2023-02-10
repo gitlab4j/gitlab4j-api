@@ -34,13 +34,21 @@ public class GroupFilter {
     }
 
     /**
+     * @deprecated this method contains a typo, use {@link #withAllAvailable(Boolean)} instead
+     */
+    @Deprecated
+    public GroupFilter withAllAvailabley(Boolean allAvailable) {
+        return withAllAvailable(allAvailable);
+    }
+
+    /**
      * Show all the groups you have access to (defaults to false for authenticated users, true for admin).
      * Attributes owned and min_access_level have precedence
      *
      * @param allAvailable if true show all avauilable groups
      * @return the reference to this GroupFilter instance
      */
-    public GroupFilter withAllAvailabley(Boolean allAvailable) {
+    public GroupFilter withAllAvailable(Boolean allAvailable) {
         this.allAvailable = allAvailable;
         return (this);
     }
