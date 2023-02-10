@@ -20,6 +20,14 @@
         "avatar_url": "https://www.google.com/",
         "web_url": "https://www.google.com/"
     },
+    "merge_user": {
+        "id": 87854,
+        "name": "Douwe Maan",
+        "username": "DouweM",
+        "state": "active",
+        "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/87854/avatar.png",
+        "web_url": "https://gitlab.com/DouweM"
+    },
     "merge_error": "Merge request is not mergeable",
     "author":{
         "id":1,
