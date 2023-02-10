@@ -45,7 +45,7 @@ public class GroupFilter {
      * Show all the groups you have access to (defaults to false for authenticated users, true for admin).
      * Attributes owned and min_access_level have precedence
      *
-     * @param allAvailable if true show all avauilable groups
+     * @param allAvailable if true show all available groups
      * @return the reference to this GroupFilter instance
      */
     public GroupFilter withAllAvailable(Boolean allAvailable) {
