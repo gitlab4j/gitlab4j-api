@@ -71,6 +71,7 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
 
     private static final String ISSUE_TITLE = "Test Issue Title";
     private static final String ISSUE_DESCRIPTION = "This is a really nice description, not.";
+    private static final String ITERATION_TITLE = "iteration title";
     private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
     private static Random randomNumberGenerator = new Random();
 
@@ -320,7 +321,9 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
 
         Issue issueOpen = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         Issue issueClose = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
+        Issue issueInIteration = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION, null, null, null, null, null, null, null, null, ITERATION_TITLE);
         issueClose = gitLabApi.getIssuesApi().closeIssue(projectId, issueClose.getIid());
+
 
         final Long openIid = issueOpen.getIid();
         IssueFilter openFilter = new IssueFilter().withState(IssueState.OPENED);
@@ -333,5 +336,12 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         List<Issue> closes = gitLabApi.getIssuesApi().getIssues(projectId, closeFilter);
         assertNotNull(closes);
         assertTrue(closes.stream().map(Issue::getIid).anyMatch(iid -> iid.equals(closedIid)));
+
+        final Long issueInIterationIid = issueInIteration.getIid();
+        IssueFilter issueInIterationFilter = new IssueFilter().withIterationTitle(ITERATION_TITLE);
+        List<Issue> issuesInIteration = gitLabApi.getIssuesApi().getIssues(projectId, issueInIterationFilter);
+        assertNotNull(issuesInIteration);
+        assertTrue(issuesInIteration.stream().map(Issue::getIid).anyMatch(iid -> iid.equals(issueInIterationIid)));
+
     }
 }
