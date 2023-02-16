@@ -546,6 +546,11 @@ public class PipelineApi extends AbstractApi implements Constants {
         return (response.readEntity(PipelineSchedule.class));
     }
 
+    public void playPipelineSchedule(Object projectIdOrPath, Long pipelineScheduleId) throws GitLabApiException {
+
+        post(Response.Status.CREATED, "", "projects", getProjectIdOrPath(projectIdOrPath),  "pipeline_schedules", pipelineScheduleId, "play");
+    }
+
     /**
      * Create a pipeline schedule variable.
      *
