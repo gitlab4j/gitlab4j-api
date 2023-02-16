@@ -3,6 +3,7 @@ package org.gitlab4j.api.webhook;
 import java.util.List;
 
 import org.gitlab4j.api.models.Assignee;
+import org.gitlab4j.api.models.Reviewer;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -18,6 +19,7 @@ public class MergeRequestEvent extends AbstractEvent {
     private List<EventLabel> labels;
     private MergeRequestChanges changes;
     private List<Assignee> assignees;
+    private List<Reviewer> reviewers;
 
     public String getObjectKind() {
         return (OBJECT_KIND);
@@ -82,6 +84,14 @@ public class MergeRequestEvent extends AbstractEvent {
 
     public void setAssignees(List<Assignee> assignees) {
         this.assignees = assignees;
+    }
+
+    public List<Reviewer> getReviewers() {
+        return reviewers;
+    }
+
+    public void setReviewers(List<Reviewer> reviewers) {
+        this.reviewers = reviewers;
     }
 
     public static class ObjectAttributes extends EventMergeRequest {

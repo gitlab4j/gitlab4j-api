@@ -60,6 +60,7 @@ public class EventMergeRequest {
     private Integer timeEstimate;
     private Duration humanTimeEstimate;
     private List<Long> assigneeIds;
+    private List<Long> reviewerIds;
 
     public Long getAssigneeId() {
         return this.assigneeId;
@@ -435,6 +436,14 @@ public class EventMergeRequest {
 
     public void setAssigneeIds(List<Long> assigneeIds) {
         this.assigneeIds = assigneeIds;
+    }
+
+    public List<Long> getReviewerIds() {
+        return reviewerIds;
+    }
+
+    public void setReviewerIds(List<Long> reviewerIds) {
+        this.reviewerIds = reviewerIds;
     }
 
     @Override
