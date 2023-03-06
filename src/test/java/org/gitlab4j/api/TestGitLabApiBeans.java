@@ -62,6 +62,9 @@ import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.ExportStatus;
+import org.gitlab4j.api.models.ExternalStatusCheck;
+import org.gitlab4j.api.models.ExternalStatusCheckResult;
+import org.gitlab4j.api.models.ExternalStatusCheckStatus;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.GpgSignature;
 import org.gitlab4j.api.models.Group;
@@ -264,6 +267,24 @@ public class TestGitLabApiBeans {
     public void testExportStatus() throws Exception {
         ExportStatus exportStatus = unmarshalResource(ExportStatus.class, "export-status.json");
         assertTrue(compareJson(exportStatus, "export-status.json"));
+    }
+
+    @Test
+    public void testExternalStatusChecks() throws Exception {
+        List<ExternalStatusCheck> externalStatusChecks = unmarshalResourceList(ExternalStatusCheck.class, "external-status-checks.json");
+        assertTrue(compareJson(externalStatusChecks, "external-status-checks.json"));
+    }
+
+    @Test
+    public void testExternalStatusCheckResult() throws Exception {
+        ExternalStatusCheckResult externalStatusCheckResult = unmarshalResource(ExternalStatusCheckResult.class, "external-status-check-result.json");
+        assertTrue(compareJson(externalStatusCheckResult, "external-status-check-result.json"));
+    }
+
+    @Test
+    public void testExternalStatusCheckStatuses() throws Exception {
+        List<ExternalStatusCheckStatus> externalStatusCheckStatuses = unmarshalResourceList(ExternalStatusCheckStatus.class, "external-status-check-statuses.json");
+        assertTrue(compareJson(externalStatusCheckStatuses, "external-status-check-statuses.json"));
     }
 
     @Test

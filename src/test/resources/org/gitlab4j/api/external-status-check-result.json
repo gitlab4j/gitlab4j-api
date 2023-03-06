@@ -1,0 +1,82 @@
+{
+  "id": 4,
+  "merge_request": {
+      "id": 7495,
+      "iid": 19,
+      "project_id": 7,
+      "title": "Update readme",
+      "description": "This is a test",
+      "state": "opened",
+      "created_at": "2023-02-18T09:02:29.978Z",
+      "updated_at": "2023-02-18T09:02:29.978Z",
+      "target_branch": "main/2.0.x",
+      "source_branch": "patch-1",
+      "user_notes_count": 0,
+      "upvotes": 0,
+      "downvotes": 0,
+      "author": {
+          "id": 1,
+          "name": "root",
+          "username": "root",
+          "state": "active",
+          "avatar_url": "https://www.gravatar.com/avatar/00afb8fb6ab07c3ee3e9c1f38777e2f4?s=80&d=identicon",
+          "web_url": "http://localhost:3000/root"
+        },
+      "assignees": [{
+          "id": 7,
+          "name": "Pamella Huel",
+          "username": "arnita",
+          "state": "active",
+          "avatar_url": "http://www.gravatar.com/avatar/a2f5c6fcef64c9c69cb8779cb292be1b?s=80&d=identicon",
+          "web_url": "http://localhost:3001/arnita"
+        }],
+        "assignee": {
+          "id": 7,
+          "name": "Pamella Huel",
+          "username": "arnita",
+          "state": "active",
+          "avatar_url": "http://www.gravatar.com/avatar/a2f5c6fcef64c9c69cb8779cb292be1b?s=80&d=identicon",
+          "web_url": "http://localhost:3001/arnita"
+        },
+      "reviewers": [],
+      "source_project_id": 7,
+      "target_project_id": 7,
+      "labels": [],
+      "work_in_progress": false,
+      "merge_when_pipeline_succeeds": false,
+      "merge_status": "can_be_merged",
+      "sha": "3704ece21a11fc92a0a86cdec0df16a5b304a4ed",
+      "force_remove_source_branch": true,
+      "references": {
+          "short": "!19",
+          "relative": "!19",
+          "full": "my-group/my-project!19"
+      },
+      "web_url": "http://localhost:3001/my-group/my-project/-/merge_requests/19",
+      "time_stats": {
+          "time_estimate": 0,
+          "total_time_spent": 0
+      },
+      "squash": false,
+      "task_completion_status": {
+          "count": 0,
+          "completed_count": 0
+      },
+      "has_conflicts": false,
+      "blocking_discussions_resolved": true,
+      "subscribed": false,
+      "changes_count": "1",
+      "diff_refs": {
+          "base_sha": "8f46dbb86b44b0c59e4cdb411a22f5f38e92d546",
+          "head_sha": "3704ece21a11fc92a0a86cdec0df16a5b304a4ed",
+          "start_sha": "8f46dbb86b44b0c59e4cdb411a22f5f38e92d546"
+      }
+  },
+  "external_status_check": {
+      "id": 2,
+      "name": "a_test",
+      "project_id": 7,
+      "external_url": "https://gitlab.com/example/test.json",
+      "protected_branches": []
+  }
+}
