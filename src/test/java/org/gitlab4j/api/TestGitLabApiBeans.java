@@ -115,6 +115,7 @@ import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
+import org.gitlab4j.api.webhook.ExternalStatusCheckEvent;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -273,6 +274,12 @@ public class TestGitLabApiBeans {
     public void testExternalStatusChecks() throws Exception {
         List<ExternalStatusCheck> externalStatusChecks = unmarshalResourceList(ExternalStatusCheck.class, "external-status-checks.json");
         assertTrue(compareJson(externalStatusChecks, "external-status-checks.json"));
+    }
+
+    @Test
+    public void testExternalStatusCheckEvent() throws Exception {
+        ExternalStatusCheckEvent externalStatusCheckEvent = unmarshalResource(ExternalStatusCheckEvent.class, "external-status-check-event.json");
+        assertTrue(compareJson(externalStatusCheckEvent, "external-status-check-event.json"));
     }
 
     @Test
