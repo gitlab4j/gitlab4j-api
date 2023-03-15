@@ -238,7 +238,7 @@ public class ExternalStatusCheckApi extends AbstractApi {
     /**
      * Set the status of an external status check for a given merge request.
      *
-     * <pre><code>GitLab Endpoint: PUT /projects/:id/external_status_checks/:check_id</code></pre>
+     * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/status_check_responses</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param mergeRequestIid the merge request IID to get the statuses
