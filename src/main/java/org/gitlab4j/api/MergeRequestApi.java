@@ -739,9 +739,9 @@ public class MergeRequestApi extends AbstractApi {
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
-     * @param mergeCommitMessage, custom merge commit message, optional
-     * @param shouldRemoveSourceBranch, if true removes the source branch, optional
-     * @param mergeWhenPipelineSucceeds, if true the MR is merged when the pipeline, optional
+     * @param mergeCommitMessage custom merge commit message, optional
+     * @param shouldRemoveSourceBranch if true removes the source branch, optional
+     * @param mergeWhenPipelineSucceeds if true the MR is merged when the pipeline, optional
      * @return the merged merge request
      * @throws GitLabApiException if any exception occurs
      */
@@ -767,9 +767,9 @@ public class MergeRequestApi extends AbstractApi {
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
-     * @param mergeCommitMessage, custom merge commit message, optional
-     * @param shouldRemoveSourceBranch, if true removes the source branch, optional
-     * @param mergeWhenPipelineSucceeds, if true the MR is merged when the pipeline, optional
+     * @param mergeCommitMessage custom merge commit message, optional
+     * @param shouldRemoveSourceBranch if true removes the source branch, optional
+     * @param mergeWhenPipelineSucceeds if true the MR is merged when the pipeline, optional
      * @param sha if present, then this SHA must match the HEAD of the source branch, otherwise the merge will fail, optional
      * @return the merged merge request
      * @throws GitLabApiException if any exception occurs

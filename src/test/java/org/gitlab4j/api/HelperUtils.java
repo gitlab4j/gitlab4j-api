@@ -87,7 +87,7 @@ public class HelperUtils {
      * Set a named property, this will amend and overwrite properties read from the test-gitlab4j.properties file.
      *
      * @param key the key of the property to get
-     * @return the named property from the test-gitlab4j.properties file
+     * @param value the value of the property to get
      */
     public static final void setProperty(String key, String value) {
         if (value == null) {
