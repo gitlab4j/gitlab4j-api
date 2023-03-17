@@ -36,7 +36,13 @@ public class MergeRequest {
     private Date latestBuildStartedAt;
     private String mergeCommitSha;
     private String squashCommitSha;
+    /**
+     * @deprecated since 15.6, use {@link #detailedMergeStatus} instead.
+     * see https://docs.gitlab.com/ee/update/deprecations.html#merge_status-api-field
+     */
+    @Deprecated
     private String mergeStatus;
+    private String detailedMergeStatus;
     private Date mergedAt;
     private Participant mergedBy;
     private Boolean mergeWhenPipelineSucceeds;
@@ -273,12 +279,28 @@ public class MergeRequest {
         this.squashCommitSha = squashCommitSha;
     }
 
+    /**
+     * @deprecated since 15.6, use {@link #getDetailedMergeStatus()} instead.
+     */
+    @Deprecated
     public String getMergeStatus() {
         return mergeStatus;
     }
 
+    /**
+     * @deprecated since 15.6, use {@link #setDetailedMergeStatus(String)} instead.
+     */
+    @Deprecated
     public void setMergeStatus(String mergeStatus) {
         this.mergeStatus = mergeStatus;
+    }
+
+    public String getDetailedMergeStatus() {
+        return detailedMergeStatus;
+    }
+
+    public void setDetailedMergeStatus(String detailedMergeStatus) {
+        this.detailedMergeStatus = detailedMergeStatus;
     }
 
     public Date getMergedAt() {
