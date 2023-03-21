@@ -22,6 +22,7 @@ public class Pipeline {
     private Date committedAt;
     private String coverage;
     private Integer duration;
+    private Float queuedDuration;
     private String webUrl;
     private DetailedStatus detailedStatus;
 
