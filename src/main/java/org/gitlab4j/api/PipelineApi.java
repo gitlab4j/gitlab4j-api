@@ -546,9 +546,17 @@ public class PipelineApi extends AbstractApi implements Constants {
         return (response.readEntity(PipelineSchedule.class));
     }
 
+    /**
+     * Trigger a new scheduled pipeline, which runs immediately.
+     *
+     * <pre><code>POST /projects/:id/pipeline_schedules/:pipeline_schedule_id/play</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param pipelineScheduleId the pipelineSchedule instance id which should run immediately
+     * @throws GitLabApiException if any exception occurs during execution
+     */
     public void playPipelineSchedule(Object projectIdOrPath, Long pipelineScheduleId) throws GitLabApiException {
-
-        post(Response.Status.CREATED, "projects", getProjectIdOrPath(projectIdOrPath),  "pipeline_schedules", pipelineScheduleId, "play");
+        post(Response.Status.CREATED, "", "projects", getProjectIdOrPath(projectIdOrPath),  "pipeline_schedules", pipelineScheduleId, "play");
     }
 
     /**
