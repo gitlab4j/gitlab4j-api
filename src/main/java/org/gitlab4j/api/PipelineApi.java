@@ -548,7 +548,7 @@ public class PipelineApi extends AbstractApi implements Constants {
 
     public void playPipelineSchedule(Object projectIdOrPath, Long pipelineScheduleId) throws GitLabApiException {
 
-        post(Response.Status.CREATED, "", "projects", getProjectIdOrPath(projectIdOrPath),  "pipeline_schedules", pipelineScheduleId, "play");
+        post(Response.Status.CREATED, "projects", getProjectIdOrPath(projectIdOrPath),  "pipeline_schedules", pipelineScheduleId, "play");
     }
 
     /**
