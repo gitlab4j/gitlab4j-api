@@ -226,6 +226,14 @@ public class Pipeline {
         this.duration = duration;
     }
 
+    public Float getQueuedDuration() {
+        return queuedDuration;
+    }
+
+    public void setQueuedDuration(Float queuedDuration) {
+        this.queuedDuration = queuedDuration;
+    }
+
     public String getWebUrl() {
         return webUrl;
     }
