@@ -219,7 +219,6 @@ public class Job {
     public Project getProject() {
         return project;
     }
-
     public void setProject(Project project) {
         this.project = project;
     }
@@ -313,7 +312,6 @@ public class Job {
         this.allowFailure = allowFailure;
         return this;
     }
-
     public Job withDuration(Float duration) {
         this.duration = duration;
         return this;
