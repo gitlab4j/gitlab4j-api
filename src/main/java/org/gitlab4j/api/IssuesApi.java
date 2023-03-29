@@ -422,17 +422,46 @@ public class IssuesApi extends AbstractApi implements Constants {
     public Issue createIssue(Object projectIdOrPath, String title, String description, Boolean confidential, List<Long> assigneeIds, Long milestoneId, String labels,
             Date createdAt, Date dueDate, Long mergeRequestToResolveId, Long discussionToResolveId) throws GitLabApiException {
 
+        return (createIssue(projectIdOrPath, title, description, confidential, assigneeIds, milestoneId, labels, createdAt, dueDate, mergeRequestToResolveId, discussionToResolveId, null));
+    }
+
+    /**
+     * Create an issue for the project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param title the issue title of an issue, required
+     * @param description the description of an issue, optional
+     * @param confidential set the issue to be confidential, default is false, optional
+     * @param assigneeIds the IDs of the users to assign issue, optional
+     * @param milestoneId the ID of a milestone to assign issue, optional
+     * @param labels comma-separated label names for an issue, optional
+     * @param createdAt the date the issue was created at, optional
+     * @param dueDate the due date, optional
+     * @param mergeRequestToResolveId the IID of a merge request in which to resolve all issues. This will fill the issue with a default
+     *        description and mark all discussions as resolved. When passing a description or title, these values will take precedence over the default values. Optional
+     * @param discussionToResolveId the ID of a discussion to resolve. This will fill in the issue with a default description and mark the discussion as resolved.
+     *        Use in combination with merge_request_to_resolve_discussions_of. Optional
+     * @param iterationTitle the iteration title of an issue, optional
+     * @return an instance of Issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Issue createIssue(Object projectIdOrPath, String title, String description, Boolean confidential, List<Long> assigneeIds, Long milestoneId, String labels,
+        Date createdAt, Date dueDate, Long mergeRequestToResolveId, Long discussionToResolveId, String iterationTitle) throws GitLabApiException {
+
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("title", title, true)
-                .withParam("description", description)
-                .withParam("confidential", confidential)
-                .withParam("assignee_ids", assigneeIds)
-                .withParam("milestone_id", milestoneId)
-                .withParam("labels", labels)
-                .withParam("created_at", createdAt)
-                .withParam("due_date", dueDate)
-                .withParam("merge_request_to_resolve_discussions_of", mergeRequestToResolveId)
-                .withParam("discussion_to_resolve", discussionToResolveId);
+            .withParam("title", title, true)
+            .withParam("description", description)
+            .withParam("confidential", confidential)
+            .withParam("assignee_ids", assigneeIds)
+            .withParam("milestone_id", milestoneId)
+            .withParam("labels", labels)
+            .withParam("created_at", createdAt)
+            .withParam("due_date", dueDate)
+            .withParam("merge_request_to_resolve_discussions_of", mergeRequestToResolveId)
+            .withParam("discussion_to_resolve", discussionToResolveId)
+            .withParam("iteration_title", iterationTitle);
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "issues");
         return (response.readEntity(Issue.class));
     }
