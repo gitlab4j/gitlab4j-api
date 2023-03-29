@@ -64,6 +64,7 @@ public class GitLabApi implements AutoCloseable {
     private EnvironmentsApi environmentsApi;
     private EpicsApi epicsApi;
     private EventsApi eventsApi;
+    private ExternalStatusCheckApi externalStatusCheckApi;
     private GroupApi groupApi;
     private HealthCheckApi healthCheckApi;
     private ImportExportApi importExportApi;
@@ -1086,6 +1087,26 @@ public class GitLabApi implements AutoCloseable {
 
         return (eventsApi);
     }
+
+    /**
+     * Gets the ExternalStatusCheckApi instance owned by this GitLabApi instance. The ExternalStatusCheckApi is used
+     * to perform all the external status checks related API calls.
+     *
+     * @return the ExternalStatusCheckApi instance owned by this GitLabApi instance
+     */
+    public ExternalStatusCheckApi getExternalStatusCheckApi() {
+
+        if (externalStatusCheckApi == null) {
+            synchronized (this) {
+                if (externalStatusCheckApi == null) {
+                    externalStatusCheckApi = new ExternalStatusCheckApi(this);
+                }
+            }
+        }
+
+        return (externalStatusCheckApi);
+    }
+
 
     /**
      * Gets the GroupApi instance owned by this GitLabApi instance. The GroupApi is used
