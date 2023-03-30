@@ -90,6 +90,7 @@ import org.gitlab4j.api.models.PackageFile;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectGroup;
 import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectHook;
@@ -454,6 +455,12 @@ public class TestGitLabApiBeans {
     public void testArtifactsFile() throws Exception {
         ArtifactsFile artifactFile = unmarshalResource(ArtifactsFile.class, "artifacts-file.json");
         assertTrue(compareJson(artifactFile, "artifacts-file.json"));
+    }
+
+    @Test
+    public void testProjectGroups() throws Exception {
+        List<ProjectGroup> projectGroups = unmarshalResourceList(ProjectGroup.class, "project-groups.json");
+        assertTrue(compareJson(projectGroups, "project-groups.json"));
     }
 
     @Test

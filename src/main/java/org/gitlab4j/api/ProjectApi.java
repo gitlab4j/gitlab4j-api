@@ -54,6 +54,8 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectFilter;
+import org.gitlab4j.api.models.ProjectGroupsFilter;
+import org.gitlab4j.api.models.ProjectGroup;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.PushRules;
@@ -1624,7 +1626,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Member getMember(Object projectIdOrPath, Long userId) throws GitLabApiException {
-	return (getMember(projectIdOrPath, userId, false));
+        return (getMember(projectIdOrPath, userId, false));
     }
 
     /**
@@ -1924,6 +1926,90 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public Stream<ProjectUser> getProjectUsersStream(Object projectIdOrPath, String search) throws GitLabApiException {
         return (getProjectUsers(projectIdOrPath, search, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of the ancestor groups for a given project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/groups</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @return the ancestor groups for a given project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ProjectGroup> getProjectGroups(Object projectIdOrPath) throws GitLabApiException {
+        return (getProjectGroups(projectIdOrPath, new ProjectGroupsFilter(), getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of the ancestor groups for a given project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/groups</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager of the ancestor groups for a given project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<ProjectGroup> getProjectGroups(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return (getProjectGroups(projectIdOrPath, new ProjectGroupsFilter(), itemsPerPage));
+    }
+
+    /**
+     * Get a Stream of the ancestor groups for a given project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/groups</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @return a Stream of the ancestor groups for a given project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<ProjectGroup> getProjectGroupsStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getProjectGroups(projectIdOrPath, new ProjectGroupsFilter(), getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of the ancestor groups for a given project matching the specified filter.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/groups</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param filter the ProjectGroupsFilter to match against
+     * @return the ancestor groups for a given project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ProjectGroup> getProjectGroups(Object projectIdOrPath, ProjectGroupsFilter filter) throws GitLabApiException {
+        return (getProjectGroups(projectIdOrPath, filter, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of the ancestor groups for a given project matching the specified filter.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/groups</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param filter the ProjectGroupsFilter to match against
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager of the ancestor groups for a given project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<ProjectGroup> getProjectGroups(Object projectIdOrPath, ProjectGroupsFilter filter, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        return (new Pager<ProjectGroup>(this, ProjectGroup.class, itemsPerPage, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "groups"));
+    }
+
+    /**
+     * Get a Stream of the ancestor groups for a given project matching the specified filter.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/groups</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param filter the ProjectGroupsFilter to match against
+     * @return a Stream of the ancestor groups for a given project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<ProjectGroup> getProjectGroupsStream(Object projectIdOrPath, ProjectGroupsFilter filter) throws GitLabApiException {
+        return (getProjectGroups(projectIdOrPath, filter, getDefaultPerPage()).stream());
     }
 
     /**
