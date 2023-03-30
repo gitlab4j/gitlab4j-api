@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.gitlab4j</groupId>
 	<artifactId>gitlab4j-api</artifactId>
 	<packaging>jar</packaging>
-	<version>5.1.0-SNAPSHOT</version>
+	<version>5.1.0</version>
 	<name>GitLab4J-API - GitLab API Java Client</name>
 	<description>GitLab4J-API (gitlab4j-api) provides a full featured Java client library for working with GitLab repositories and servers via the GitLab REST API.</description>
 	<url>https://github.com/gitlab4j/gitlab4j-api</url>
@@ -80,7 +78,7 @@
 		<url>git@github.com:gitlab4j/gitlab4j-api.git</url>
 		<connection>scm:git:git@github.com:gitlab4j/gitlab4j-api.git</connection>
 		<developerConnection>scm:git:git@github.com:gitlab4j/gitlab4j-api.git</developerConnection>
-		<tag>head</tag>
+		<tag>gitlab4j-api-5.1.0</tag>
 	</scm>
 
 	<build>
