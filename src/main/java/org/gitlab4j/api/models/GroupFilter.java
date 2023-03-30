@@ -7,7 +7,7 @@ import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
 
 /**
- *  This class is used to filter Projects when getting lists of projects for a specified group.
+ *  This class is used to filter Groups when getting lists of groups.
  */
 public class GroupFilter {
 
