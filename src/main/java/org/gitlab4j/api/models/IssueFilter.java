@@ -91,6 +91,11 @@ public class IssueFilter {
      */
     private Date updatedBefore;
 
+    /**
+     * Return issues in current iteration.
+     */
+    private String iterationTitle;
+
 
     /*- properties -*/
     public List<String> getIids() {
@@ -213,6 +218,14 @@ public class IssueFilter {
         this.updatedBefore = updatedBefore;
     }
 
+    public String getIterationTitle() {
+        return iterationTitle;
+    }
+
+    public void setIterationTitle(String iterationTitle) {
+        this.iterationTitle = iterationTitle;
+    }
+
     /*- builder -*/
     public IssueFilter withIids(List<String> iids) {
         this.iids = iids;
@@ -289,6 +302,11 @@ public class IssueFilter {
         return (this);
     }
 
+    public IssueFilter withIterationTitle(String iterationTitle) {
+        this.iterationTitle = iterationTitle;
+        return (this);
+    }
+
     /*- params generator -*/
     @JsonIgnore
     public GitLabApiForm getQueryParams(int page, int perPage) {
@@ -314,6 +332,7 @@ public class IssueFilter {
                 .withParam("created_after", ISO8601.toString(createdAfter, false))
                 .withParam("created_before", ISO8601.toString(createdBefore, false))
                 .withParam("updated_after", ISO8601.toString(updatedAfter, false))
-                .withParam("updated_before", ISO8601.toString(updatedBefore, false)));
+                .withParam("updated_before", ISO8601.toString(updatedBefore, false)))
+                .withParam("iteration_title", iterationTitle);
     }
 }

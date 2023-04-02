@@ -44,7 +44,12 @@ public class MergeRequest {
     private String mergeStatus;
     private String detailedMergeStatus;
     private Date mergedAt;
+    /**
+     * @deprecated since 14.7, use {@link #mergeUser} instead.
+     * see https://docs.gitlab.com/ee/update/deprecations.html#merged_by-api-field
+     */
     private Participant mergedBy;
+    private Participant mergeUser;
     private Boolean mergeWhenPipelineSucceeds;
     private String mergeError;
     private Milestone milestone;
@@ -311,12 +316,30 @@ public class MergeRequest {
         this.mergedAt = mergedAt;
     }
 
+    /**
+     * @deprecated since 14.7, use {@link #getMergeUser()} instead.
+     * see https://docs.gitlab.com/ee/update/deprecations.html#merged_by-api-field
+     */
+    @Deprecated
     public Participant getMergedBy() {
         return mergedBy;
     }
 
+    /**
+     * @deprecated since 14.7, use {@link #setMergeUser(Participant)} instead.
+     * see https://docs.gitlab.com/ee/update/deprecations.html#merged_by-api-field
+     */
+    @Deprecated
     public void setMergedBy(Participant mergedBy) {
         this.mergedBy = mergedBy;
+    }
+
+    public Participant getMergeUser() {
+        return mergeUser;
+    }
+
+    public void setMergeUser(Participant mergeUser) {
+        this.mergeUser = mergeUser;
     }
 
     public Boolean getMergeWhenPipelineSucceeds() {

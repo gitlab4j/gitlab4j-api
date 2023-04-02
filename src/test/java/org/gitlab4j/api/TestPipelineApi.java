@@ -147,6 +147,26 @@ public class TestPipelineApi extends AbstractIntegrationTest {
     }
 
     @Test
+    void testPlayScheduledPipeline() throws GitLabApiException {
+        assertNotNull(testProject);
+
+        String scheduleDescription = SCHEDULE_DESCRIPTION + " - test playScheduledPipeline()";
+        PipelineSchedule newPipelineSchedule = new PipelineSchedule();
+        newPipelineSchedule.setDescription(scheduleDescription);
+        newPipelineSchedule.setCron("3 4 * * *");
+        newPipelineSchedule.setRef("master");
+        PipelineSchedule createdPipelineSchedule = gitLabApi.getPipelineApi().createPipelineSchedule(testProject, newPipelineSchedule);
+        assertNotNull(createdPipelineSchedule);
+
+        // Make sure the created schedule is present before playing
+        List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
+        assertNotNull(pipelineSchedules);
+        assertTrue(pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList()).contains(scheduleDescription));
+
+        gitLabApi.getPipelineApi().playPipelineSchedule(testProject, createdPipelineSchedule.getId());
+    }
+
+    @Test
     public void testDeleteProjectPipeLineSchedule() throws GitLabApiException {
 
         assertNotNull(testProject);

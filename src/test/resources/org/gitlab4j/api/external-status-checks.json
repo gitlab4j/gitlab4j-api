@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Compliance Check",
+    "project_id": 6,
+    "external_url": "https://gitlab.com/example/test.json",
+    "protected_branches": [
+      {
+        "id": 14,
+        "project_id": 6,
+        "name": "master",
+        "created_at": "2020-10-12T14:04:50.787Z",
+        "updated_at": "2020-10-12T14:04:50.787Z",
+        "code_owner_approval_required": false
+      }
+    ]
+  }
+]

@@ -85,20 +85,22 @@ public class MergeRequestApi extends AbstractApi {
      *
      * @param filter a MergeRequestFilter instance with the filter settings
      * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
-     * @return all merge requests for the specified project matching the filter
+     * @return all merge requests for the specified project/group matching the filter
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<MergeRequest> getMergeRequests(MergeRequestFilter filter, int itemsPerPage) throws GitLabApiException {
 
         MultivaluedMap<String, String> queryParams = (filter != null ? filter.getQueryParams().asMap() : null);
-        if (filter != null && (filter.getProjectId() != null && filter.getProjectId().intValue() > 0) ||
-                (filter.getIids() != null && filter.getIids().size() > 0)) {
+        if (filter != null && ((filter.getProjectId() != null && filter.getProjectId().intValue() > 0) ||
+                (filter.getIids() != null && filter.getIids().size() > 0))) {
 
             if (filter.getProjectId() == null || filter.getProjectId().intValue() == 0) {
                 throw new RuntimeException("project ID cannot be null or 0");
             }
 
             return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "projects", filter.getProjectId(), "merge_requests"));
+        } else if (filter != null && filter.getGroupId() != null && filter.getGroupId().intValue() > 0) {
+            return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "groups", filter.getGroupId(), "merge_requests"));
         } else {
             return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "merge_requests"));
         }
