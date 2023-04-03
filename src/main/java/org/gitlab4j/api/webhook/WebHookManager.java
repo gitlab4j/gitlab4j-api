@@ -1,14 +1,12 @@
 
 package org.gitlab4j.api.webhook;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.HookManager;
 import org.gitlab4j.api.utils.HttpRequestUtils;
@@ -39,7 +37,7 @@ public class WebHookManager implements HookManager {
      *
      * @param secretToken the secret token to verify against
      */
-    public WebHookManager(String secretToken) {
+    public WebHookManager(final String secretToken) {
         this.secretToken = secretToken;
     }
 
@@ -57,7 +55,7 @@ public class WebHookManager implements HookManager {
      *
      * @param secretToken the secret token to verify against
      */
-    public void setSecretToken(String secretToken) {
+    public void setSecretToken(final String secretToken) {
         this.secretToken = secretToken;
     }
 
@@ -68,7 +66,7 @@ public class WebHookManager implements HookManager {
      * @param request the HttpServletRequest to read the Event instance from
      * @throws GitLabApiException if the parsed event is not supported
      */
-    public void handleEvent(HttpServletRequest request) throws GitLabApiException {
+    public void handleEvent(final HttpServletRequest request) throws GitLabApiException {
         handleRequest(request);
     }
 
@@ -81,16 +79,16 @@ public class WebHookManager implements HookManager {
      * not contain a webhook event
      * @throws GitLabApiException if the parsed event is not supported
      */
-    public Event handleRequest(HttpServletRequest request) throws GitLabApiException {
+    public Event handleRequest(final HttpServletRequest request) throws GitLabApiException {
 
-        String eventName = request.getHeader("X-Gitlab-Event");
+        final String eventName = request.getHeader("X-Gitlab-Event");
         if (eventName == null || eventName.trim().isEmpty()) {
             LOGGER.warning("X-Gitlab-Event header is missing!");
             return (null);
         }
 
         if (!isValidSecretToken(request)) {
-            String message = "X-Gitlab-Token mismatch!";
+            final String message = "X-Gitlab-Token mismatch!";
             LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
@@ -111,26 +109,26 @@ public class WebHookManager implements HookManager {
             break;
 
         default:
-            String message = "Unsupported X-Gitlab-Event, event Name=" + eventName;
+            final String message = "Unsupported X-Gitlab-Event, event Name=" + eventName;
             LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
 
-        Event event;
+        final Event event;
         try {
 
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine(HttpRequestUtils.getShortRequestDump(eventName + " webhook", true, request));
-                String postData = HttpRequestUtils.getPostDataAsString(request);
+                final String postData = HttpRequestUtils.getPostDataAsString(request);
                 LOGGER.fine("Raw POST data:\n" + postData);
                 event = jacksonJson.unmarshal(Event.class, postData);
                 LOGGER.fine(event.getObjectKind() + " event:\n" + jacksonJson.marshal(event) + "\n");
             } else {
-                InputStreamReader reader = new InputStreamReader(request.getInputStream());
+                final InputStreamReader reader = new InputStreamReader(request.getInputStream());
                 event = jacksonJson.unmarshal(Event.class, reader);
             }
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.warning(String.format("Error processing JSON data, exception=%s, error=%s",
                     e.getClass().getSimpleName(), e.getMessage()));
             throw new GitLabApiException(e);
@@ -141,13 +139,13 @@ public class WebHookManager implements HookManager {
             event.setRequestUrl(request.getRequestURL().toString());
             event.setRequestQueryString(request.getQueryString());
 
-            String secretToken = request.getHeader("X-Gitlab-Token");
+            final String secretToken = request.getHeader("X-Gitlab-Token");
             event.setRequestSecretToken(secretToken);
 
             fireEvent(event);
             return (event);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.warning(String.format("Error processing event, exception=%s, error=%s",
                     e.getClass().getSimpleName(), e.getMessage()));
             throw new GitLabApiException(e);
@@ -160,7 +158,7 @@ public class WebHookManager implements HookManager {
      * @param event the Event instance to handle
      * @throws GitLabApiException if the event is not supported
      */
-    public void handleEvent(Event event) throws GitLabApiException {
+    public void handleEvent(final Event event) throws GitLabApiException {
 
         LOGGER.info("handleEvent: object_kind=" + event.getObjectKind());
 
@@ -180,7 +178,7 @@ public class WebHookManager implements HookManager {
             break;
 
         default:
-            String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
+            final String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
             LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
@@ -191,7 +189,7 @@ public class WebHookManager implements HookManager {
      *
      * @param listener the SystemHookListener to add
      */
-    public void addListener(WebHookListener listener) {
+    public void addListener(final WebHookListener listener) {
 
         if (!webhookListeners.contains(listener)) {
             webhookListeners.add(listener);
@@ -203,7 +201,7 @@ public class WebHookManager implements HookManager {
      *
      * @param listener the SystemHookListener to remove
      */
-    public void removeListener(WebHookListener listener) {
+    public void removeListener(final WebHookListener listener) {
         webhookListeners.remove(listener);
     }
 
@@ -213,7 +211,7 @@ public class WebHookManager implements HookManager {
      * @param event the Event instance to fire to the registered event listeners
      * @throws GitLabApiException if the event is not supported
      */
-    public void fireEvent(Event event) throws GitLabApiException {
+    public void fireEvent(final Event event) throws GitLabApiException {
 
         switch (event.getObjectKind()) {
         case BuildEvent.OBJECT_KIND:
@@ -261,74 +259,74 @@ public class WebHookManager implements HookManager {
             break;
 
         default:
-            String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
+            final String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
             LOGGER.warning(message);
             throw new GitLabApiException(message);
         }
     }
 
-    protected void fireBuildEvent(BuildEvent buildEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void fireBuildEvent(final BuildEvent buildEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onBuildEvent(buildEvent);
         }
     }
 
-    protected void fireIssueEvent(IssueEvent issueEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void fireIssueEvent(final IssueEvent issueEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onIssueEvent(issueEvent);
         }
     }
 
-    protected void fireJobEvent(JobEvent jobEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void fireJobEvent(final JobEvent jobEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onJobEvent(jobEvent);
         }
     }
 
-    protected void fireMergeRequestEvent(MergeRequestEvent mergeRequestEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void fireMergeRequestEvent(final MergeRequestEvent mergeRequestEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onMergeRequestEvent(mergeRequestEvent);
         }
     }
 
-    protected void fireNoteEvent(NoteEvent noteEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void fireNoteEvent(final NoteEvent noteEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onNoteEvent(noteEvent);
         }
     }
 
-    protected void firePipelineEvent(PipelineEvent pipelineEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void firePipelineEvent(final PipelineEvent pipelineEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onPipelineEvent(pipelineEvent);
         }
     }
 
-    protected void firePushEvent(PushEvent pushEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void firePushEvent(final PushEvent pushEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onPushEvent(pushEvent);
         }
     }
 
-    protected void fireTagPushEvent(TagPushEvent tagPushEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void fireTagPushEvent(final TagPushEvent tagPushEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onTagPushEvent(tagPushEvent);
         }
     }
 
-    protected void fireWikiPageEvent(WikiPageEvent wikiPageEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void fireWikiPageEvent(final WikiPageEvent wikiPageEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onWikiPageEvent(wikiPageEvent);
         }
     }
 
-    protected void fireDeploymentEvent(DeploymentEvent deploymentEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void fireDeploymentEvent(final DeploymentEvent deploymentEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onDeploymentEvent(deploymentEvent);
         }
     }
 
-    protected void fireReleaseEvent(ReleaseEvent releaseEvent) {
-        for (WebHookListener listener : webhookListeners) {
+    protected void fireReleaseEvent(final ReleaseEvent releaseEvent) {
+        for (final WebHookListener listener : webhookListeners) {
             listener.onReleaseEvent(releaseEvent);
         }
     }

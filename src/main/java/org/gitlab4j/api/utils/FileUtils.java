@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.util.Base64;
 import java.util.Scanner;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.Constants.Encoding;
 
@@ -21,7 +21,7 @@ public class FileUtils {
      * Creates a File that is unique in the specified directory. If the specified
      * filename exists in the directory, "-#" will be appended to the filename until
      * a unique filename can be created.
-     * 
+     *
      * @param directory the directory to create the file in
      * @param filename the base filename with extension
      * @return a File that is unique in the specified directory
@@ -53,7 +53,7 @@ public class FileUtils {
 
     /**
      * Get the filename from the "Content-Disposition" header of a JAX-RS response.
-     * 
+     *
      * @param response the JAX-RS Response instance  to get the "Content-Disposition" header filename from
      * @return the filename from the "Content-Disposition" header of a JAX-RS response, or null
      * if the "Content-Disposition" header is not present in the response
@@ -66,10 +66,10 @@ public class FileUtils {
 
         return (disposition.replaceFirst("(?i)^.*filename=\"([^\"]+)\".*$", "$1"));
     }
- 
+
     /**
      * Reads the contents of a File to a String.
-     * 
+     *
      * @param file the File instance to read the contents from
      * @return the contents of file as a String
      * @throws IOException if any errors occur while opening or reading the file
@@ -79,7 +79,7 @@ public class FileUtils {
         try (Scanner in = new Scanner(file)) {
             in.useDelimiter("\\Z");
             return (in.next());
-        }       
+        }
     }
 
     /**

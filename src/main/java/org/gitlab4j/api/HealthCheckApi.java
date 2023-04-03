@@ -1,14 +1,13 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.HealthCheckInfo;
-
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URL;
+import jakarta.ws.rs.core.Response;
+import org.gitlab4j.api.models.HealthCheckInfo;
 
 public class HealthCheckApi extends AbstractApi {
 
-    public HealthCheckApi(GitLabApi gitLabApi) {
+    public HealthCheckApi(final GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -37,13 +36,13 @@ public class HealthCheckApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @deprecated
      */
-    public HealthCheckInfo getLiveness(String token) throws GitLabApiException {
+    public HealthCheckInfo getLiveness(final String token) throws GitLabApiException {
         try {
-            URL livenessUrl = getApiClient().getUrlWithBase("-", "liveness");
-            GitLabApiForm formData = new GitLabApiForm().withParam("token", token, false);
-            Response response = get(Response.Status.OK, formData.asMap(), livenessUrl);
+            final URL livenessUrl = getApiClient().getUrlWithBase("-", "liveness");
+            final GitLabApiForm formData = new GitLabApiForm().withParam("token", token, false);
+            final Response response = get(Response.Status.OK, formData.asMap(), livenessUrl);
             return (response.readEntity(HealthCheckInfo.class));
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
             throw (new GitLabApiException(ioe));
         }
     }
@@ -73,13 +72,13 @@ public class HealthCheckApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @deprecated
      */
-    public HealthCheckInfo getReadiness(String token) throws GitLabApiException {
+    public HealthCheckInfo getReadiness(final String token) throws GitLabApiException {
         try {
-            URL readinessUrl = getApiClient().getUrlWithBase("-", "readiness");
-            GitLabApiForm formData = new GitLabApiForm().withParam("token", token, false);
-            Response response = get(Response.Status.OK, formData.asMap(), readinessUrl);
+            final URL readinessUrl = getApiClient().getUrlWithBase("-", "readiness");
+            final GitLabApiForm formData = new GitLabApiForm().withParam("token", token, false);
+            final Response response = get(Response.Status.OK, formData.asMap(), readinessUrl);
             return (response.readEntity(HealthCheckInfo.class));
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
             throw (new GitLabApiException(ioe));
         }
     }

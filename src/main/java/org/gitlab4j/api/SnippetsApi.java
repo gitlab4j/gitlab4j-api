@@ -3,10 +3,8 @@ package org.gitlab4j.api;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.Visibility;
 
@@ -15,7 +13,7 @@ import org.gitlab4j.api.models.Visibility;
  */
 public class SnippetsApi extends AbstractApi {
 
-    public SnippetsApi(GitLabApi gitLabApi) {
+    public SnippetsApi(final GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -28,13 +26,13 @@ public class SnippetsApi extends AbstractApi {
      * @return a list of authenticated user's snippets
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Snippet> getSnippets(boolean downloadContent) throws GitLabApiException {
+    public List<Snippet> getSnippets(final boolean downloadContent) throws GitLabApiException {
 
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "snippets");
-        List<Snippet> snippets = (response.readEntity(new GenericType<List<Snippet>>(){}));
+        final Response response = get(Response.Status.OK, getDefaultPerPageParam(), "snippets");
+        final List<Snippet> snippets = (response.readEntity(new GenericType<List<Snippet>>(){}));
 
         if (downloadContent) {
-            for (Snippet snippet : snippets) {
+            for (final Snippet snippet : snippets) {
                 snippet.setContent(getSnippetContent(snippet.getId()));
             }
         }
@@ -63,7 +61,7 @@ public class SnippetsApi extends AbstractApi {
      * @return the Pager of snippets
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Snippet> getSnippets(int itemsPerPage) throws GitLabApiException {
+    public Pager<Snippet> getSnippets(final int itemsPerPage) throws GitLabApiException {
         return (new Pager<Snippet>(this, Snippet.class, itemsPerPage, null, "snippets"));
     }
 
@@ -88,8 +86,8 @@ public class SnippetsApi extends AbstractApi {
      * @return the content of snippet
      * @throws GitLabApiException if any exception occurs
      */
-    public String getSnippetContent(Long snippetId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "snippets", snippetId, "raw");
+    public String getSnippetContent(final Long snippetId) throws GitLabApiException {
+        final Response response = get(Response.Status.OK, null, "snippets", snippetId, "raw");
         return (response.readEntity(String.class));
     }
 
@@ -101,14 +99,14 @@ public class SnippetsApi extends AbstractApi {
      * @return the snippet with the given id
      * @throws GitLabApiException if any exception occurs
      */
-    public Snippet getSnippet(Long snippetId, boolean downloadContent) throws GitLabApiException {
+    public Snippet getSnippet(final Long snippetId, final boolean downloadContent) throws GitLabApiException {
 
         if (snippetId == null) {
             throw new RuntimeException("snippetId can't be null");
         }
 
-        Response response = get(Response.Status.OK, null, "snippets", snippetId);
-        Snippet snippet = response.readEntity(Snippet.class);
+        final Response response = get(Response.Status.OK, null, "snippets", snippetId);
+        final Snippet snippet = response.readEntity(Snippet.class);
 
         if (downloadContent) {
             snippet.setContent(getSnippetContent(snippet.getId()));
@@ -124,7 +122,7 @@ public class SnippetsApi extends AbstractApi {
      * @return the snippet with the given id
      * @throws GitLabApiException if any exception occurs
      */
-    public Snippet getSnippet(Long snippetId) throws GitLabApiException {
+    public Snippet getSnippet(final Long snippetId) throws GitLabApiException {
         return getSnippet(snippetId, false);
     }
 
@@ -136,7 +134,7 @@ public class SnippetsApi extends AbstractApi {
      * @param snippetId the ID of the snippet to get the Optional instance for
      * @return the specified Snippet as an Optional instance
      */
-    public Optional<Snippet> getOptionalSnippet(Long snippetId) {
+    public Optional<Snippet> getOptionalSnippet(final Long snippetId) {
         return (getOptionalSnippet(snippetId, false));
     }
 
@@ -149,10 +147,10 @@ public class SnippetsApi extends AbstractApi {
      * @param downloadContent indicating whether to download the snippet content
      * @return the specified Snippet as an Optional instance
      */
-    public Optional<Snippet> getOptionalSnippet(Long snippetId, boolean downloadContent) {
+    public Optional<Snippet> getOptionalSnippet(final Long snippetId, final boolean downloadContent) {
         try {
             return (Optional.ofNullable(getSnippet(snippetId, downloadContent)));
-        } catch (GitLabApiException glae) {
+        } catch (final GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
     }
@@ -166,12 +164,12 @@ public class SnippetsApi extends AbstractApi {
      * @return the created Snippet
      * @throws GitLabApiException if any exception occurs
      */
-    public Snippet createSnippet(String title, String fileName, String content) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
+    public Snippet createSnippet(final String title, final String fileName, final String content) throws GitLabApiException {
+        final GitLabApiForm formData = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("file_name", fileName, true)
                 .withParam("content", content, true);
-        Response response = post(Response.Status.CREATED, formData, "snippets");
+        final Response response = post(Response.Status.CREATED, formData, "snippets");
         return (response.readEntity(Snippet.class));
     }
 
@@ -186,14 +184,14 @@ public class SnippetsApi extends AbstractApi {
      * @return the created Snippet
      * @throws GitLabApiException if any exception occurs
      */
-    public Snippet createSnippet(String title, String fileName, String content, Visibility visibility, String description) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
+    public Snippet createSnippet(final String title, final String fileName, final String content, final Visibility visibility, final String description) throws GitLabApiException {
+        final GitLabApiForm formData = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("file_name", fileName, true)
                 .withParam("content", content, true)
                 .withParam("visibility", visibility)
                 .withParam("description", description);
-        Response response = post(Response.Status.CREATED, formData, "snippets");
+        final Response response = post(Response.Status.CREATED, formData, "snippets");
         return (response.readEntity(Snippet.class));
     }
 
@@ -205,7 +203,7 @@ public class SnippetsApi extends AbstractApi {
      * @param snippetId the snippet ID to remove
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteSnippet(Long snippetId) throws GitLabApiException {
+    public void deleteSnippet(final Long snippetId) throws GitLabApiException {
 
         if (snippetId == null) {
             throw new RuntimeException("snippetId can't be null");

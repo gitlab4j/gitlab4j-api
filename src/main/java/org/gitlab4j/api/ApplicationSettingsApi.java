@@ -1,15 +1,12 @@
 package org.gitlab4j.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.ws.rs.core.Response;
 import java.text.ParseException;
 import java.util.Iterator;
-
-import javax.ws.rs.core.Response;
-
-import org.gitlab4j.api.models.Setting;
 import org.gitlab4j.api.models.ApplicationSettings;
+import org.gitlab4j.api.models.Setting;
 import org.gitlab4j.api.utils.ISO8601;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * This class implements the client side API for the GitLab Application Settings API.
@@ -17,7 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class ApplicationSettingsApi extends AbstractApi {
 
-    public ApplicationSettingsApi(GitLabApi gitLabApi) {
+    public ApplicationSettingsApi(final GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -31,8 +28,8 @@ public class ApplicationSettingsApi extends AbstractApi {
      */
     public ApplicationSettings getApplicationSettings() throws GitLabApiException {
 
-        Response response = get(Response.Status.OK, null, "application", "settings");
-        JsonNode root = response.readEntity(JsonNode.class);
+        final Response response = get(Response.Status.OK, null, "application", "settings");
+        final JsonNode root = response.readEntity(JsonNode.class);
         return (parseApplicationSettings(root));
     }
 
@@ -46,7 +43,7 @@ public class ApplicationSettingsApi extends AbstractApi {
      * @return the updated application settings in an ApplicationSettings instance
      * @throws GitLabApiException if any exception occurs
      */
-    public ApplicationSettings updateApplicationSettings(ApplicationSettings appSettings) throws GitLabApiException {
+    public ApplicationSettings updateApplicationSettings(final ApplicationSettings appSettings) throws GitLabApiException {
 
         if (appSettings == null || appSettings.getSettings().isEmpty()) {
             throw new GitLabApiException("ApplicationSettings cannot be null or empty.");
@@ -54,8 +51,8 @@ public class ApplicationSettingsApi extends AbstractApi {
 
         final GitLabApiForm form = new GitLabApiForm();
         appSettings.getSettings().forEach((s, v) -> form.withParam(s,  v));
-        Response response = put(Response.Status.OK, form.asMap(), "application", "settings");
-        JsonNode root = response.readEntity(JsonNode.class);
+        final Response response = put(Response.Status.OK, form.asMap(), "application", "settings");
+        final JsonNode root = response.readEntity(JsonNode.class);
         return (parseApplicationSettings(root));
     }
 
@@ -69,7 +66,7 @@ public class ApplicationSettingsApi extends AbstractApi {
      * @return the updated application settings in an ApplicationSettings instance
      * @throws GitLabApiException if any exception occurs
      */
-    public ApplicationSettings updateApplicationSetting(Setting setting, Object value) throws GitLabApiException {
+    public ApplicationSettings updateApplicationSetting(final Setting setting, final Object value) throws GitLabApiException {
 
         if (setting == null) {
             throw new GitLabApiException("setting cannot be null.");
@@ -88,15 +85,15 @@ public class ApplicationSettingsApi extends AbstractApi {
      * @return the updated application settings in an ApplicationSettings instance
      * @throws GitLabApiException if any exception occurs
      */
-    public ApplicationSettings updateApplicationSetting(String setting, Object value) throws GitLabApiException {
+    public ApplicationSettings updateApplicationSetting(final String setting, final Object value) throws GitLabApiException {
 
         if (setting == null || setting.trim().isEmpty()) {
             throw new GitLabApiException("setting cannot be null or empty.");
         }
 
-        GitLabApiForm form = new GitLabApiForm().withParam(setting, value);
-        Response response = put(Response.Status.OK, form.asMap(), "application", "settings");
-        JsonNode root = response.readEntity(JsonNode.class);
+        final GitLabApiForm form = new GitLabApiForm().withParam(setting, value);
+        final Response response = put(Response.Status.OK, form.asMap(), "application", "settings");
+        final JsonNode root = response.readEntity(JsonNode.class);
         return (parseApplicationSettings(root));
     }
 
@@ -107,14 +104,14 @@ public class ApplicationSettingsApi extends AbstractApi {
      * @return the populated ApplicationSettings instance
      * @throws GitLabApiException if any error occurs
      */
-    public static final ApplicationSettings parseApplicationSettings(JsonNode root) throws GitLabApiException {
+    public static final ApplicationSettings parseApplicationSettings(final JsonNode root) throws GitLabApiException {
 
-        ApplicationSettings appSettings = new ApplicationSettings();
+        final ApplicationSettings appSettings = new ApplicationSettings();
 
-        Iterator<String> fieldNames = root.fieldNames();
+        final Iterator<String> fieldNames = root.fieldNames();
         while (fieldNames.hasNext()) {
 
-            String fieldName = fieldNames.next();
+            final String fieldName = fieldNames.next();
             switch (fieldName) {
             case "id":
                 appSettings.setId(root.path(fieldName).asLong());
@@ -122,25 +119,25 @@ public class ApplicationSettingsApi extends AbstractApi {
 
             case "created_at":
                 try {
-                    String value = root.path(fieldName).asText();
+                    final String value = root.path(fieldName).asText();
                     appSettings.setCreatedAt(ISO8601.toDate(value));
-                } catch (ParseException pe) {
+                } catch (final ParseException pe) {
                     throw new GitLabApiException(pe);
                 }
                 break;
 
             case "updated_at":
                 try {
-                    String value = root.path(fieldName).asText();
+                    final String value = root.path(fieldName).asText();
                     appSettings.setUpdatedAt(ISO8601.toDate(value));
-                } catch (ParseException pe) {
+                } catch (final ParseException pe) {
                     throw new GitLabApiException(pe);
                 }
                 break;
 
             default:
 
-                Setting setting = Setting.forValue(fieldName);
+                final Setting setting = Setting.forValue(fieldName);
                 if (setting != null) {
                     appSettings.addSetting(setting, root.path(fieldName));
                 } else {

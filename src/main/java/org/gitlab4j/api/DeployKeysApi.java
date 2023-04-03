@@ -3,11 +3,9 @@ package org.gitlab4j.api;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import org.gitlab4j.api.models.DeployKey;
 
 /**
@@ -15,7 +13,7 @@ import org.gitlab4j.api.models.DeployKey;
  */
 public class DeployKeysApi extends AbstractApi {
 
-    public DeployKeysApi(GitLabApi gitLabApi) {
+    public DeployKeysApi(final GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -32,7 +30,7 @@ public class DeployKeysApi extends AbstractApi {
     }
 
     /**
-     * Get a list of all deploy keys across all projects of the GitLab instance using the specified page and per page settings. 
+     * Get a list of all deploy keys across all projects of the GitLab instance using the specified page and per page settings.
      * This method requires admin access.
      *
      * <pre><code>GitLab Endpoint: GET /deploy_keys</code></pre>
@@ -42,8 +40,8 @@ public class DeployKeysApi extends AbstractApi {
      * @return the list of DeployKey in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<DeployKey> getDeployKeys(int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "deploy_keys");
+    public List<DeployKey> getDeployKeys(final int page, final int perPage) throws GitLabApiException {
+        final Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "deploy_keys");
         return (response.readEntity(new GenericType<List<DeployKey>>() {}));
     }
 
@@ -56,7 +54,7 @@ public class DeployKeysApi extends AbstractApi {
      * @return a Pager of DeployKey
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<DeployKey> getDeployKeys(int itemsPerPage) throws GitLabApiException {
+    public Pager<DeployKey> getDeployKeys(final int itemsPerPage) throws GitLabApiException {
         return (new Pager<DeployKey>(this, DeployKey.class, itemsPerPage, null, "deploy_keys"));
     }
 
@@ -81,12 +79,12 @@ public class DeployKeysApi extends AbstractApi {
      * @return a list of DeployKey
      * @throws GitLabApiException if any exception occurs
      */
-    public List<DeployKey> getProjectDeployKeys(Object projectIdOrPath) throws GitLabApiException {
+    public List<DeployKey> getProjectDeployKeys(final Object projectIdOrPath) throws GitLabApiException {
         return (getProjectDeployKeys(projectIdOrPath, getDefaultPerPage()).all());
     }
 
     /**
-     * Get a list of the deploy keys for the specified project using the specified page and per page settings. 
+     * Get a list of the deploy keys for the specified project using the specified page and per page settings.
      * This method requires admin access.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/deploy_keys</code></pre>
@@ -97,8 +95,8 @@ public class DeployKeysApi extends AbstractApi {
      * @return the list of DeployKey in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<DeployKey> getProjectDeployKeys(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
+    public List<DeployKey> getProjectDeployKeys(final Object projectIdOrPath, final int page, final int perPage) throws GitLabApiException {
+        final Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
                 "projects", getProjectIdOrPath(projectIdOrPath), "deploy_keys");
         return (response.readEntity(new GenericType<List<DeployKey>>() {}));
     }
@@ -113,7 +111,7 @@ public class DeployKeysApi extends AbstractApi {
      * @return a Pager of DeployKey
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<DeployKey> getProjectDeployKeys(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+    public Pager<DeployKey> getProjectDeployKeys(final Object projectIdOrPath, final int itemsPerPage) throws GitLabApiException {
         return (new Pager<DeployKey>(this, DeployKey.class, itemsPerPage, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "deploy_keys"));
     }
@@ -127,7 +125,7 @@ public class DeployKeysApi extends AbstractApi {
      * @return a list of DeployKey
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<DeployKey> getProjectDeployKeysStream(Object projectIdOrPath) throws GitLabApiException {
+    public Stream<DeployKey> getProjectDeployKeysStream(final Object projectIdOrPath) throws GitLabApiException {
         return (getProjectDeployKeys(projectIdOrPath, getDefaultPerPage()).stream());
     }
 
@@ -141,13 +139,13 @@ public class DeployKeysApi extends AbstractApi {
      * @return the DeployKey instance for the specified project ID and key ID
      * @throws GitLabApiException if any exception occurs
      */
-    public DeployKey getDeployKey(Object projectIdOrPath, Long keyId) throws GitLabApiException {
+    public DeployKey getDeployKey(final Object projectIdOrPath, final Long keyId) throws GitLabApiException {
 
         if (keyId == null) {
             throw new RuntimeException("keyId cannot be null");
         }
 
-        Response response = get(Response.Status.OK, null,
+        final Response response = get(Response.Status.OK, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "deploy_keys", keyId);
         return (response.readEntity(DeployKey.class));
     }
@@ -161,10 +159,10 @@ public class DeployKeysApi extends AbstractApi {
      * @param keyId the ID of the deploy key to delete
      * @return the DeployKey for the specified project ID and key ID as an Optional instance
      */
-    public Optional<DeployKey> getOptionalDeployKey(Object projectIdOrPath, Long keyId) {
+    public Optional<DeployKey> getOptionalDeployKey(final Object projectIdOrPath, final Long keyId) {
         try {
             return (Optional.ofNullable(getDeployKey(projectIdOrPath, keyId)));
-        } catch (GitLabApiException glae) {
+        } catch (final GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
     }
@@ -181,13 +179,13 @@ public class DeployKeysApi extends AbstractApi {
      * @return an DeployKey instance with info on the added deploy key
      * @throws GitLabApiException if any exception occurs
      */
-    public DeployKey addDeployKey(Object projectIdOrPath, String title, String key, Boolean canPush) throws GitLabApiException {
+    public DeployKey addDeployKey(final Object projectIdOrPath, final String title, final String key, final Boolean canPush) throws GitLabApiException {
 
-        GitLabApiForm formData = new GitLabApiForm()
+        final GitLabApiForm formData = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("key", key, true)
                 .withParam("can_push",  canPush);
-        Response response = post(Response.Status.CREATED, formData,
+        final Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "deploy_keys");
         return (response.readEntity(DeployKey.class));
     }
@@ -204,7 +202,7 @@ public class DeployKeysApi extends AbstractApi {
      * @return an updated DeployKey instance
      * @throws GitLabApiException if any exception occurs
      */
-    public DeployKey updateDeployKey(Object projectIdOrPath, Long deployKeyId, String title, Boolean canPush) throws GitLabApiException {
+    public DeployKey updateDeployKey(final Object projectIdOrPath, final Long deployKeyId, final String title, final Boolean canPush) throws GitLabApiException {
 
         if (deployKeyId == null) {
             throw new RuntimeException("deployKeyId cannot be null");
@@ -228,7 +226,7 @@ public class DeployKeysApi extends AbstractApi {
      * @param keyId the ID of the deploy key to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteDeployKey(Object projectIdOrPath, Long keyId) throws GitLabApiException {
+    public void deleteDeployKey(final Object projectIdOrPath, final Long keyId) throws GitLabApiException {
 
         if (keyId == null) {
             throw new RuntimeException("keyId cannot be null");
@@ -247,13 +245,13 @@ public class DeployKeysApi extends AbstractApi {
      * @return an DeployKey instance with info on the enabled deploy key
      * @throws GitLabApiException if any exception occurs
      */
-    public DeployKey enableDeployKey(Object projectIdOrPath, Long keyId) throws GitLabApiException {
+    public DeployKey enableDeployKey(final Object projectIdOrPath, final Long keyId) throws GitLabApiException {
 
         if (keyId == null) {
             throw new RuntimeException("keyId cannot be null");
         }
 
-        Response response = post(Response.Status.CREATED, (Form)null,
+        final Response response = post(Response.Status.CREATED, (Form)null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "deploy_keys", keyId, "enable");
         return (response.readEntity(DeployKey.class));
     }

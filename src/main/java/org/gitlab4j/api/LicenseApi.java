@@ -3,9 +3,7 @@ package org.gitlab4j.api;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.core.Response;
 import org.gitlab4j.api.models.License;
 
 /**
@@ -14,7 +12,7 @@ import org.gitlab4j.api.models.License;
  */
 public class LicenseApi extends AbstractApi {
 
-    public LicenseApi(GitLabApi gitLabApi) {
+    public LicenseApi(final GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -27,7 +25,7 @@ public class LicenseApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public License getLicense() throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "license");
+        final Response response = get(Response.Status.OK, null, "license");
         return (response.readEntity(License.class));
     }
 
@@ -41,7 +39,7 @@ public class LicenseApi extends AbstractApi {
     public Optional<License> getOptionalLicense() {
         try {
             return (Optional.ofNullable(getLicense()));
-        } catch (GitLabApiException glae) {
+        } catch (final GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
     }
@@ -80,7 +78,7 @@ public class LicenseApi extends AbstractApi {
      * @return a Pager of license template
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<License> getAllLicenses(int itemsPerPage) throws GitLabApiException {
+    public Pager<License> getAllLicenses(final int itemsPerPage) throws GitLabApiException {
         return (new Pager<License>(this, License.class, itemsPerPage, null, "licenses"));
     }
 
@@ -93,9 +91,9 @@ public class LicenseApi extends AbstractApi {
      * @return a License instance for the added license
      * @throws GitLabApiException if any exception occurs
      */
-    public License addLicense(String licenseString) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("license", licenseString, true);
-        Response response = post(Response.Status.CREATED, formData, "license");
+    public License addLicense(final String licenseString) throws GitLabApiException {
+        final GitLabApiForm formData = new GitLabApiForm().withParam("license", licenseString, true);
+        final Response response = post(Response.Status.CREATED, formData, "license");
         return (response.readEntity(License.class));
     }
 
@@ -108,8 +106,8 @@ public class LicenseApi extends AbstractApi {
      * @return a License instance for the delete license
      * @throws GitLabApiException if any exception occurs
      */
-    public License deleteLicense(Long licenseId) throws GitLabApiException {
-        Response response = delete(Response.Status.OK, null, "license", licenseId);
+    public License deleteLicense(final Long licenseId) throws GitLabApiException {
+        final Response response = delete(Response.Status.OK, null, "license", licenseId);
         return (response.readEntity(License.class));
     }
 }

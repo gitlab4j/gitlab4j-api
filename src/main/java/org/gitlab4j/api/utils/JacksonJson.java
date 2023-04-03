@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.ContextResolver;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.ext.ContextResolver;
 
 import org.gitlab4j.api.models.User;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonProvider;
@@ -81,7 +81,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 
     /**
      * Gets the ObjectMapper contained by this instance.
-     * 
+     *
      * @return the ObjectMapper contained by this instance
      */
     public ObjectMapper getObjectMapper() {
@@ -230,7 +230,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 
     /**
      * Marshals the supplied object out as a formatted JSON string.
-     * 
+     *
      * @param <T> the generics type for the provided object
      * @param object the object to output as a JSON string
      * @return a String containing the JSON for the specified object

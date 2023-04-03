@@ -1,12 +1,10 @@
 package org.gitlab4j.api;
 
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
-
 import org.gitlab4j.api.models.AuditEvent;
 import org.gitlab4j.api.utils.ISO8601;
 
@@ -16,7 +14,7 @@ import org.gitlab4j.api.utils.ISO8601;
  */
 public class AuditEventApi extends AbstractApi {
 
-    public AuditEventApi(GitLabApi gitLabApi) {
+    public AuditEventApi(final GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -32,7 +30,7 @@ public class AuditEventApi extends AbstractApi {
      * @return a List of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public List<AuditEvent> getAuditEvents(Date created_after, Date created_before, String entityType, Long entityId) throws GitLabApiException {
+    public List<AuditEvent> getAuditEvents(final Date created_after, final Date created_before, final String entityType, final Long entityId) throws GitLabApiException {
         return (getAuditEvents(created_after, created_before, entityType, entityId, getDefaultPerPage()).all());
     }
 
@@ -49,8 +47,8 @@ public class AuditEventApi extends AbstractApi {
      * @return a Pager of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<AuditEvent> getAuditEvents(Date created_after, Date created_before, String entityType, Long entityId, int itemsPerPage) throws GitLabApiException {
-        Form form = new GitLabApiForm()
+    public Pager<AuditEvent> getAuditEvents(final Date created_after, final Date created_before, final String entityType, final Long entityId, final int itemsPerPage) throws GitLabApiException {
+        final Form form = new GitLabApiForm()
                 .withParam("created_before", ISO8601.toString(created_before, false))
                 .withParam("created_after", ISO8601.toString(created_after, false))
                 .withParam("entity_type", entityType)
@@ -70,7 +68,7 @@ public class AuditEventApi extends AbstractApi {
      * @return a Stream of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<AuditEvent> getAuditEventsStream(Date created_after, Date created_before, String entityType, Long entityId) throws GitLabApiException {
+    public Stream<AuditEvent> getAuditEventsStream(final Date created_after, final Date created_before, final String entityType, final Long entityId) throws GitLabApiException {
         return (getAuditEvents(created_after, created_before, entityType, entityId, getDefaultPerPage()).stream());
     }
 
@@ -83,8 +81,8 @@ public class AuditEventApi extends AbstractApi {
      * @return the group Audit event
      * @throws GitLabApiException if any exception occurs
      */
-    public AuditEvent getAuditEvent(Long auditEventId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "audit_events", auditEventId);
+    public AuditEvent getAuditEvent(final Long auditEventId) throws GitLabApiException {
+        final Response response = get(Response.Status.OK, null, "audit_events", auditEventId);
         return (response.readEntity(AuditEvent.class));
     }
 }

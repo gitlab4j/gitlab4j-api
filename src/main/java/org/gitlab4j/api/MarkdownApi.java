@@ -1,17 +1,16 @@
 package org.gitlab4j.api;
 
+import jakarta.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Markdown;
 import org.gitlab4j.api.models.MarkdownRequest;
-
-import javax.ws.rs.core.Response;
 
 /**
  * This class provides an entry point to all the GitLab API markdown calls.
  */
 public class MarkdownApi extends AbstractApi {
 
-    public MarkdownApi(GitLabApi gitLabApi) {
+    public MarkdownApi(final GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -25,7 +24,7 @@ public class MarkdownApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 11.0
      */
-    public Markdown getMarkdown(String text) throws GitLabApiException {
+    public Markdown getMarkdown(final String text) throws GitLabApiException {
 
         if (!isApiVersion(ApiVersion.V4)) {
             throw new GitLabApiException("Api version must be v4");
@@ -44,13 +43,13 @@ public class MarkdownApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      * @since GitLab 11.0
      */
-    public Markdown getMarkdown(MarkdownRequest markdownRequest) throws GitLabApiException {
+    public Markdown getMarkdown(final MarkdownRequest markdownRequest) throws GitLabApiException {
 
         if (!isApiVersion(ApiVersion.V4)) {
             throw new GitLabApiException("Api version must be v4");
         }
 
-        Response response = post(Response.Status.OK, markdownRequest, "markdown");
+        final Response response = post(Response.Status.OK, markdownRequest, "markdown");
         return (response.readEntity(Markdown.class));
     }
 }

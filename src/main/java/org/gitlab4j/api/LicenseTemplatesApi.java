@@ -3,9 +3,7 @@ package org.gitlab4j.api;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.core.Response;
 import org.gitlab4j.api.models.LicenseTemplate;
 
 /**
@@ -14,7 +12,7 @@ import org.gitlab4j.api.models.LicenseTemplate;
  */
 public class LicenseTemplatesApi extends AbstractApi {
 
-    public LicenseTemplatesApi(GitLabApi gitLabApi) {
+    public LicenseTemplatesApi(final GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -51,7 +49,7 @@ public class LicenseTemplatesApi extends AbstractApi {
      * @return a Pager of LicenseTemplate instances
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<LicenseTemplate> getLicenseTemplates(int itemsPerPage) throws GitLabApiException {
+    public Pager<LicenseTemplate> getLicenseTemplates(final int itemsPerPage) throws GitLabApiException {
         return (getLicenseTemplates(false, itemsPerPage));
     }
 
@@ -89,8 +87,8 @@ public class LicenseTemplatesApi extends AbstractApi {
      * @return a Pager of LicenseTemplate instances
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<LicenseTemplate> getLicenseTemplates(Boolean popular, int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("popular", popular);
+    public Pager<LicenseTemplate> getLicenseTemplates(final Boolean popular, final int itemsPerPage) throws GitLabApiException {
+        final GitLabApiForm formData = new GitLabApiForm().withParam("popular", popular);
         return (new Pager<LicenseTemplate>(this, LicenseTemplate.class, itemsPerPage, formData.asMap(), "templates", "licenses"));
     }
 
@@ -103,8 +101,8 @@ public class LicenseTemplatesApi extends AbstractApi {
      * @return a LicenseTemplate instance
      * @throws GitLabApiException if any exception occurs
      */
-    public LicenseTemplate getLicenseTemplate(String key) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "licenses", key);
+    public LicenseTemplate getLicenseTemplate(final String key) throws GitLabApiException {
+        final Response response = get(Response.Status.OK, null, "licenses", key);
         return (response.readEntity(LicenseTemplate.class));
     }
 
@@ -116,10 +114,10 @@ public class LicenseTemplatesApi extends AbstractApi {
      * @param key The key of the license template
      * @return a single license template as the value of an Optional.
      */
-    public Optional<LicenseTemplate> getOptionalLicenseTemplate(String key) {
+    public Optional<LicenseTemplate> getOptionalLicenseTemplate(final String key) {
         try {
             return (Optional.ofNullable(getLicenseTemplate(key)));
-        } catch (GitLabApiException glae) {
+        } catch (final GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
     }
