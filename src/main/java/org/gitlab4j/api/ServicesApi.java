@@ -10,8 +10,8 @@ import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.MattermostService;
 import org.gitlab4j.api.services.SlackService;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.Response;
 
 /**
  * Access for the services API.  Currently only the gitlab-ci, HipChatService, Slack, and JIRA service are supported.

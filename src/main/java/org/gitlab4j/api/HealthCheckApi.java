@@ -2,7 +2,7 @@ package org.gitlab4j.api;
 
 import org.gitlab4j.api.models.HealthCheckInfo;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URL;
 

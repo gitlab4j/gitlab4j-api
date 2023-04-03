@@ -5,8 +5,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Enumeration;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class HttpRequestUtils {
 
