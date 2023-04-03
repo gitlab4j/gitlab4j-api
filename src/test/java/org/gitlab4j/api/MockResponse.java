@@ -9,19 +9,19 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Link;
-import javax.ws.rs.core.Link.Builder;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.EntityTag;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Link;
+import jakarta.ws.rs.core.Link.Builder;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.Response;
 
 /**
  * This class can be used as a concrete mock to test the individual APIs
  * getXxxxx() methods without the need to have a GitLab server available.
- * 
+ *
  * Supports getXxxxx() methods that return a List of items, single items,
  * Optional items, and Pagers of items.
  */
@@ -144,7 +144,7 @@ public class MockResponse extends Response {
     /**************************************************************************************************
      * The remaining methods are stubbed so we can create an instance of this class. They are simply
      * stubs, but needed to do this because the Mockito Spy annotation does not work without JAXB
-     * on Java 11+ and did not wish to pull in the JAXB module even for testing. 
+     * on Java 11+ and did not wish to pull in the JAXB module even for testing.
      **************************************************************************************************/
 
     @Override
