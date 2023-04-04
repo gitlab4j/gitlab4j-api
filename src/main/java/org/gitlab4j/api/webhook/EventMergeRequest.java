@@ -19,6 +19,7 @@ public class EventMergeRequest {
     private Long iid;
     private String mergeCommitSha;
     private String mergeStatus;
+    private String detailedMergeStatus;
     private Long milestoneId;
     private Integer position;
     private Date lockedAt;
@@ -36,8 +37,11 @@ public class EventMergeRequest {
     private EventProject source;
     private EventProject target;
     private EventCommit lastCommit;
+    private Boolean blockingDiscussionsResolved;
     private Boolean workInProgress;
+    private Boolean firstContribution;
     private String url;
+    private List<EventLabel> labels;
     private String action;
     private Assignee assignee;
 
@@ -132,6 +136,14 @@ public class EventMergeRequest {
 
     public void setMergeStatus(String mergeStatus) {
         this.mergeStatus = mergeStatus;
+    }
+
+    public String getDetailedMergeStatus() {
+        return detailedMergeStatus;
+    }
+
+    public void setDetailedMergeStatus(String detailedMergeStatus) {
+        this.detailedMergeStatus = detailedMergeStatus;
     }
 
     public Long getMilestoneId() {
@@ -262,6 +274,14 @@ public class EventMergeRequest {
         this.lastCommit = lastCommit;
     }
 
+    public Boolean getBlockingDiscussionsResolved() {
+        return blockingDiscussionsResolved;
+    }
+
+    public void setBlockingDiscussionsResolved(Boolean blockingDiscussionsResolved) {
+        this.blockingDiscussionsResolved = blockingDiscussionsResolved;
+    }
+
     public Boolean getWorkInProgress() {
         return workInProgress;
     }
@@ -270,12 +290,28 @@ public class EventMergeRequest {
         this.workInProgress = workInProgress;
     }
 
+    public Boolean getFirstContribution() {
+        return firstContribution;
+    }
+
+    public void setFirstContribution(Boolean firstContribution) {
+        this.firstContribution = firstContribution;
+    }
+
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public List<EventLabel> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<EventLabel> labels) {
+        this.labels = labels;
     }
 
     public String getAction() {
