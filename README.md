@@ -175,10 +175,10 @@ GitLab4J-API provides an easy to use paging mechanism to page through lists of r
 Here are a couple of examples on how to use the Pager:
 ```java
 // Get a Pager instance that will page through the projects with 10 projects per page
-Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
+Pager<Project> projectPager = gitLabApi.getProjectApi().getProjects(10);
 
 // Iterate through the pages and print out the name and description
-while (projectsPager.hasNext())) {
+while (projectPager.hasNext()) {
     for (Project project : projectPager.next()) {
         System.out.println(project.getName() + " -: " + project.getDescription());
     }
