@@ -10,6 +10,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.LongNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
 
@@ -58,13 +59,13 @@ public class Issue {
     @JsonIgnore
     private String externalId;
     @JsonIgnore
-    private Integer id;
+    private Long id;
 
-    private Integer iid;
-    private Integer issueLinkId;
+    private Long iid;
+    private Long issueLinkId;
     private List<String> labels;
     private Milestone milestone;
-    private Integer projectId;
+    private Long projectId;
     private IssueState state;
     private Boolean subscribed;
     private String title;
@@ -145,19 +146,19 @@ public class Issue {
 	actualId = id;
         if (actualId instanceof TextNode) {
             externalId = actualId.asText();
-        } else if (actualId instanceof IntNode) {
-            this.id = actualId.asInt();
+        } else if (actualId instanceof IntNode || actualId instanceof LongNode) {
+            this.id = actualId.asLong();
         }
     }
 
-    public Integer getId() {
+    public Long getId() {
         return (id);
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
 	this.id = id;
 	if (id != null) {
-	    actualId = new IntNode(id);
+	    actualId = new LongNode(id);
 	    externalId = null;
 	}
     }
@@ -174,19 +175,19 @@ public class Issue {
 	}
     }
 
-    public Integer getIid() {
+    public Long getIid() {
         return iid;
     }
 
-    public void setIid(Integer iid) {
+    public void setIid(Long iid) {
         this.iid = iid;
     }
 
-    public Integer getIssueLinkId() {
+    public Long getIssueLinkId() {
         return issueLinkId;
     }
 
-    public void setIssueLinkId(Integer issueLinkId) {
+    public void setIssueLinkId(Long issueLinkId) {
         this.issueLinkId = issueLinkId;
     }
 
@@ -206,11 +207,11 @@ public class Issue {
         this.milestone = milestone;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 

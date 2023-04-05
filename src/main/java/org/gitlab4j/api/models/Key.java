@@ -8,7 +8,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 public class Key {
 
     private Date createdAt;
-    private Integer id;
+    private Long id;
     private String key;
     private String title;
     private User user;
@@ -21,11 +21,11 @@ public class Key {
         this.createdAt = createdAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

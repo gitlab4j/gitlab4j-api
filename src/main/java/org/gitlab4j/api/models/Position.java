@@ -42,8 +42,8 @@ public class Position {
 
     private Integer width;
     private Integer height;
-    private Integer x;
-    private Integer y;
+    private Double x;
+    private Double y;
 
     public String getBaseSha() {
         return baseSha;
@@ -175,28 +175,28 @@ public class Position {
         return (this);
     }
 
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public Position withX(Integer x) {
+    public Position withX(Double x) {
         this.x = x;
         return (this);
     }
 
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
-    public Position withY(Integer y) {
+    public Position withY(Double y) {
         this.y = y;
         return (this);
     }

@@ -255,9 +255,8 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      * Returns the first page of List. Will rewind the iterator.
      *
      * @return the first page of List
-     * @throws GitLabApiException if any error occurs
      */
-    public List<T> first() throws GitLabApiException {
+    public List<T> first() {
         return (page(1));
     }
 
@@ -280,9 +279,8 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      * Returns the previous page of List. Will set the iterator to the previous page.
      *
      * @return the previous page of List
-     * @throws GitLabApiException if any error occurs
      */
-    public List<T> previous() throws GitLabApiException {
+    public List<T> previous() {
         return (page(currentPage - 1));
     }
 
@@ -290,9 +288,8 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      * Returns the current page of List.
      *
      * @return the current page of List
-     * @throws GitLabApiException if any error occurs
      */
-    public List<T> current() throws GitLabApiException {
+    public List<T> current() {
         return (page(currentPage));
     }
 
@@ -306,12 +303,6 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      */
     public List<T> page(int pageNumber) {
 
-        if (pageNumber > totalPages && pageNumber > kaminariNextPage) {
-            throw new NoSuchElementException();
-        } else if (pageNumber < 1) {
-            throw new NoSuchElementException();
-        }
-
         if (currentPage == 0 && pageNumber == 1) {
             currentPage = 1;
             return (currentItems);
@@ -319,6 +310,12 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
         if (currentPage == pageNumber) {
             return (currentItems);
+        }
+
+        if (pageNumber > totalPages && pageNumber > kaminariNextPage) {
+            throw new NoSuchElementException();
+        } else if (pageNumber < 1) {
+            throw new NoSuchElementException();
         }
 
         try {

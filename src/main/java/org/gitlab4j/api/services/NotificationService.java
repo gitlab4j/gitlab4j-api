@@ -13,6 +13,7 @@ public abstract class NotificationService {
 
     public static final String NOTIFY_ONLY_BROKEN_PIPELINES_PROP = "notify_only_broken_pipelines";
     public static final String NOTIFY_ONLY_DEFAULT_BRANCH_PROP = "notify_only_default_branch";
+    public static final String BRANCHES_TO_BE_NOTIFIED_PROP = "branches_to_be_notified";
     public static final String PUSH_CHANNEL_PROP = "push_channel";
     public static final String ISSUE_CHANNEL_PROP = "issue_channel";
     public static final String CONFIDENTIAL_ISSUE_CHANNEL_PROP = "confidential_issue_channel";
@@ -32,12 +33,14 @@ public abstract class NotificationService {
     public static final String PROJECT_URL_PROP = "project_url";
     public static final String PUSH_EVENTS_PROP = "push_events";
 
-    private Integer id;
+    private Long id;
     private String title;
+    private String slug;
     private Date createdAt;
     private Date updatedAt;
     private Boolean active;
 
+    private Boolean commitEvents;
     private Boolean pushEvents;
     private Boolean issuesEvents;
     private Boolean confidentialIssuesEvents;
@@ -53,12 +56,20 @@ public abstract class NotificationService {
 
     public abstract GitLabApiForm servicePropertiesForm();
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getTitle() {
@@ -96,6 +107,19 @@ public abstract class NotificationService {
     // *******************************************************************************
     // The following methods can be used to configure the notification service
     // *******************************************************************************
+
+    public Boolean getCommitEvents() {
+        return commitEvents;
+    }
+
+    public void setCommitEvents(Boolean commitEvents) {
+        this.commitEvents = commitEvents;
+    }
+
+    protected <T> T withCommitEvents(Boolean commitEvents, T derivedInstance) {
+        this.commitEvents = commitEvents;
+        return (derivedInstance);
+    }
 
     public Boolean getPushEvents() {
         return pushEvents;
@@ -237,7 +261,7 @@ public abstract class NotificationService {
 
     @JsonIgnore
     protected String getProperty(String prop) {
-        return ((String) getProperty(prop, ""));
+        return (getProperty(prop, ""));
     }
 
     @JsonIgnore
@@ -270,4 +294,13 @@ public abstract class NotificationService {
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }
+
+	public enum BranchesToBeNotified {
+	    ALL, DEFAULT, PROTECTED, DEFAULT_AND_PROTECTED;
+	    @Override
+		public String toString() {
+	        return (name().toLowerCase());
+	    }
+	}
+
 }

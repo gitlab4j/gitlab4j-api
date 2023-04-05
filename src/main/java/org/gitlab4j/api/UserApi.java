@@ -14,8 +14,10 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
+import org.gitlab4j.api.models.GpgKey;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.models.Membership;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.EmailChecker;
@@ -175,7 +177,7 @@ public class UserApi extends AbstractApi {
      * @param userId the ID of the user to block
      * @throws GitLabApiException if any exception occurs
      */
-    public void blockUser(Integer userId) throws GitLabApiException {
+    public void blockUser(Long userId) throws GitLabApiException {
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
         }
@@ -195,7 +197,7 @@ public class UserApi extends AbstractApi {
      * @param userId the ID of the user to unblock
      * @throws GitLabApiException if any exception occurs
      */
-    public void unblockUser(Integer userId) throws GitLabApiException {
+    public void unblockUser(Long userId) throws GitLabApiException {
 
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
@@ -274,7 +276,7 @@ public class UserApi extends AbstractApi {
      * @return the User instance for the specified user ID
      * @throws GitLabApiException if any exception occurs
      */
-    public User getUser(Integer userId) throws GitLabApiException {
+    public User getUser(Long userId) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("with_custom_attributes", customAttributesEnabled);
         Response response = get(Response.Status.OK, formData.asMap(), "users", userId);
         return (response.readEntity(User.class));
@@ -288,7 +290,7 @@ public class UserApi extends AbstractApi {
      * @param userId the ID of the user to get
      * @return the User for the specified user ID as an Optional instance
      */
-    public Optional<User> getOptionalUser(Integer userId) {
+    public Optional<User> getOptionalUser(Long userId) {
         try {
             return (Optional.ofNullable(getUser(userId)));
         } catch (GitLabApiException glae) {
@@ -509,8 +511,9 @@ public class UserApi extends AbstractApi {
      * @param projectsLimit the maximum number of project
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link #createUser(User, CharSequence, boolean)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link #createUser(User, CharSequence, boolean)}
      */
+    @Deprecated
     public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
         Form formData = userToForm(user, projectsLimit, password, null, true);
         Response response = post(Response.Status.CREATED, formData, "users");
@@ -522,7 +525,7 @@ public class UserApi extends AbstractApi {
      * Either password or resetPassword should be specified (resetPassword takes priority).</p>
      *
      * <pre><code>GitLab Endpoint: POST /users</code></pre>
-     * 
+     *
      * <p>The following properties of the provided User instance can be set during creation:<pre><code> email (required) - Email
      * username (required) - Username
      * name (required) - Name
@@ -621,7 +624,7 @@ public class UserApi extends AbstractApi {
      * @param projectsLimit the maximum number of project
      * @return the modified User instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 5.0, replaced by {@link #updateUser(User, CharSequence)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link #updateUser(User, CharSequence)}
      */
     @Deprecated
     public User modifyUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
@@ -635,7 +638,7 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /users/:id</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteUser(Object userIdOrUsername) throws GitLabApiException {
@@ -647,7 +650,7 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /users/:id</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param hardDelete If true, contributions that would usually be moved to the
      *                   ghost user will be deleted instead, as well as groups owned solely by this user
      * @throws GitLabApiException if any exception occurs
@@ -693,7 +696,7 @@ public class UserApi extends AbstractApi {
      * @return a list of a specified user's SSH keys
      * @throws GitLabApiException if any exception occurs
      */
-    public List<SshKey> getSshKeys(Integer userId) throws GitLabApiException {
+    public List<SshKey> getSshKeys(Long userId) throws GitLabApiException {
 
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
@@ -718,7 +721,7 @@ public class UserApi extends AbstractApi {
      * @return an SshKey instance holding the info on the SSH key specified by keyId
      * @throws GitLabApiException if any exception occurs
      */
-    public SshKey getSshKey(Integer keyId) throws GitLabApiException {
+    public SshKey getSshKey(Long keyId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "user", "keys", keyId);
         return (response.readEntity(SshKey.class));
     }
@@ -731,7 +734,7 @@ public class UserApi extends AbstractApi {
      * @param keyId the ID of the SSH key
      * @return an SshKey as an Optional instance holding the info on the SSH key specified by keyId
      */
-    public Optional<SshKey> getOptionalSshKey(Integer keyId) {
+    public Optional<SshKey> getOptionalSshKey(Long keyId) {
         try {
             return (Optional.ofNullable(getSshKey(keyId)));
         } catch (GitLabApiException glae) {
@@ -766,7 +769,7 @@ public class UserApi extends AbstractApi {
      * @return an SshKey instance with info on the added SSH key
      * @throws GitLabApiException if any exception occurs
      */
-    public SshKey addSshKey(Integer userId, String title, String key) throws GitLabApiException {
+    public SshKey addSshKey(Long userId, String title, String key) throws GitLabApiException {
 
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
@@ -791,7 +794,7 @@ public class UserApi extends AbstractApi {
      * @param keyId the key ID to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteSshKey(Integer keyId) throws GitLabApiException {
+    public void deleteSshKey(Long keyId) throws GitLabApiException {
 
         if (keyId == null) {
             throw new RuntimeException("keyId cannot be null");
@@ -806,11 +809,11 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /users/:id/keys/:key_id</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param keyId  the key ID to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteSshKey(Object userIdOrUsername, Integer keyId) throws GitLabApiException {
+    public void deleteSshKey(Object userIdOrUsername, Long keyId) throws GitLabApiException {
 
         if (keyId == null) {
             throw new RuntimeException("keyId cannot be null");
@@ -825,7 +828,7 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /users/:id/impersonation_tokens</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @return a list of a specified user's impersonation tokens
      * @throws GitLabApiException if any exception occurs
      */
@@ -838,7 +841,7 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /users/:id/impersonation_tokens</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param state  the state of impersonation tokens to list (ALL, ACTIVE, INACTIVE)
      * @return a list of a specified user's impersonation tokens
      * @throws GitLabApiException if any exception occurs
@@ -856,12 +859,12 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /users/:user_id/impersonation_tokens/:impersonation_token_id</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param tokenId the impersonation token ID to get
      * @return the specified impersonation token
      * @throws GitLabApiException if any exception occurs
      */
-    public ImpersonationToken getImpersonationToken(Object userIdOrUsername, Integer tokenId) throws GitLabApiException {
+    public ImpersonationToken getImpersonationToken(Object userIdOrUsername, Long tokenId) throws GitLabApiException {
 
         if (tokenId == null) {
             throw new RuntimeException("tokenId cannot be null");
@@ -876,11 +879,11 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /users/:user_id/impersonation_tokens/:impersonation_token_id</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param tokenId the impersonation token ID to get
      * @return the specified impersonation token as an Optional instance
      */
-    public Optional<ImpersonationToken> getOptionalImpersonationToken(Object userIdOrUsername, Integer tokenId) {
+    public Optional<ImpersonationToken> getOptionalImpersonationToken(Object userIdOrUsername, Long tokenId) {
         try {
             return (Optional.ofNullable(getImpersonationToken(userIdOrUsername, tokenId)));
         } catch (GitLabApiException glae) {
@@ -893,7 +896,7 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /users/:user_id/impersonation_tokens</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param name the name of the impersonation token, required
      * @param expiresAt the expiration date of the impersonation token, optional
      * @param scopes an array of scopes of the impersonation token
@@ -923,11 +926,11 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /users/:user_id/impersonation_tokens/:impersonation_token_id</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param tokenId the impersonation token ID to revoke
      * @throws GitLabApiException if any exception occurs
      */
-    public void revokeImpersonationToken(Object userIdOrUsername, Integer tokenId) throws GitLabApiException {
+    public void revokeImpersonationToken(Object userIdOrUsername, Long tokenId) throws GitLabApiException {
 
         if (tokenId == null) {
             throw new RuntimeException("tokenId cannot be null");
@@ -985,7 +988,7 @@ public class UserApi extends AbstractApi {
     /**
      * Creates custom attribute for the given user
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param customAttribute the custom attribute to set
      * @return the created CustomAttribute
      * @throws GitLabApiException on failure while setting customAttributes
@@ -1000,7 +1003,7 @@ public class UserApi extends AbstractApi {
     /**
      * Creates custom attribute for the given user
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param key for the customAttribute
      * @param value  or the customAttribute
      * @return the created CustomAttribute
@@ -1024,7 +1027,7 @@ public class UserApi extends AbstractApi {
     /**
      * Change custom attribute for the given user
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param customAttribute the custome attribute to change
      * @return the changed CustomAttribute
      * @throws GitLabApiException on failure while changing customAttributes
@@ -1043,7 +1046,7 @@ public class UserApi extends AbstractApi {
     /**
      * Changes custom attribute for the given user
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param key    for the customAttribute
      * @param value  for the customAttribute
      * @return changedCustomAttribute
@@ -1056,7 +1059,7 @@ public class UserApi extends AbstractApi {
     /**
      * Delete a custom attribute for the given user
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param customAttribute to remove
      * @throws GitLabApiException on failure while deleting customAttributes
      */
@@ -1071,7 +1074,7 @@ public class UserApi extends AbstractApi {
     /**
      * Delete a custom attribute for the given user
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param key    of the customAttribute to remove
      * @throws GitLabApiException on failure while deleting customAttributes
      */
@@ -1101,7 +1104,7 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>PUT /users/:id</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param avatarFile the File instance of the avatar file to upload
      * @return the updated User instance
      * @throws GitLabApiException if any exception occurs
@@ -1129,7 +1132,7 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /user/:id/emails</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @return a List of Email instances for the specified user
      * @throws GitLabApiException if any exception occurs
      */
@@ -1172,7 +1175,7 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /user/:id/emails</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param email the email address to add
      * @param skipConfirmation skip confirmation and assume e-mail is verified - true or false (default)
      * @return the Email instance for the added email
@@ -1204,11 +1207,124 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /user/:id/emails/:emailId</code></pre>
      *
-     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
      * @param emailId the email ID to delete
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteEmail(final Object userIdOrUsername, final Long emailId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "users", getUserIdOrUsername(userIdOrUsername), "emails", emailId);
+    }
+
+    /**
+     * Get all GPG keys for the current user.
+     *
+     * <pre><code>GitLab Endpoint: GET /user/gpg_keys</code></pre>
+     *
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<GpgKey> listGpgKeys() throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "user", "gpg_keys");
+        return (response.readEntity(new GenericType<List<GpgKey>>() {}));
+    }
+
+    /**
+     * Add a GPG key for the current user
+     *
+     * <pre><code>GitLab Endpoint: POST /user/gpg_keys</code></pre>
+     *
+     * @param key the ASCII-armored exported public GPG key to add
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GpgKey addGpgKey(final String key) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("key", key, true);
+        Response response = post(Response.Status.CREATED, formData, "user", "gpg_keys");
+        return (response.readEntity(GpgKey.class));
+    }
+
+    /**
+     * Remove a specific GPG key for the current user
+     *
+     * <pre><code>GitLab Endpoint: DELETE /user/gpg_keys/:keyId</code></pre>
+     *
+     * @param keyId the key ID  in the form if an Long(ID)
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteGpgKey(final Long keyId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "user", "gpg_keys", keyId);
+    }
+
+    /**
+     * Get all GPG keys for a given user.
+     *
+     * <pre><code>GitLab Endpoint: GET /users/:id/gpg_keys</code></pre>
+     *
+     * @param userId the user in the form of an Long(ID)
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<GpgKey> listGpgKeys(final Long userId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "users", userId, "gpg_keys");
+        return (response.readEntity(new GenericType<List<GpgKey>>() {}));
+    }
+
+    /**
+     * Add a GPG key for a specific user
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:id/gpg_keys</code></pre>
+     *
+     * @param userId the user in the form of an Long(ID)
+     * @param key the ASCII-armored exported public GPG key to add
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GpgKey addGpgKey(final Long userId, final String key) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("key", key, true);
+        Response response = post(Response.Status.CREATED, formData, "users", userId, "gpg_keys");
+        return (response.readEntity(GpgKey.class));
+    }
+
+    /**
+     * Remove a specific GPG key for a specific user
+     *
+     * <pre><code>GitLab Endpoint: DELETE /users/:id/gpg_keys/:keyId</code></pre>
+     *
+     * @param userId the user in the form of an Long(ID)
+     * @param keyId the key ID  in the form if an Long(ID)
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteGpgKey(final Long userId, final Long keyId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "users", userId, "gpg_keys", keyId);
+    }
+
+    /**
+     * Lists all projects and groups a user is a member of. (admin only)
+     *
+     * <pre><code>GitLab Endpoint: GET /users/:id/memberships</code></pre>
+     *
+     * @param userId the ID of the user to get the memberships for
+     * @return the list of memberships of the given user
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 12.8
+     */
+    public List<Membership> getMemberships(Long userId) throws GitLabApiException {
+        return getMemberships(userId, getDefaultPerPage()).all();
+    }
+
+    /**
+     * Returns a Pager that lists all projects and groups a user is a member of. (admin only)
+     *
+     * This allows lazy-fetching of huge numbers of memberships.
+     *
+     * <pre><code>GitLab Endpoint: GET /users/:id/memberships</code></pre>
+     *
+     * @param userId the ID of the user to get the memberships for
+     * @param itemsPerPage the number of Membership instances that will be fetched per page
+     * @return a Pager of user's memberships
+     * @throws GitLabApiException if any exception occurs
+     * @since GitLab 12.8
+     */
+    public Pager<Membership> getMemberships(Long userId, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm();
+        return (new Pager<>(this, Membership.class, itemsPerPage, formData.asMap(), "users", userId, "memberships"));
     }
 }

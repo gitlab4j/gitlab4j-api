@@ -1,10 +1,10 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,13 +15,12 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProtectedTag;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.Tag;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-@Category(IntegrationTest.class)
+@org.junit.jupiter.api.Tag("integration")
 public class TestTagsApi extends AbstractIntegrationTest {
 
     private static final String TEST_TAG_NAME_1 = "test-tag-1";
@@ -36,7 +35,7 @@ public class TestTagsApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void testSetup() {
 
         // Must setup the connection to the GitLab test server and get the test Project instance
@@ -52,7 +51,7 @@ public class TestTagsApi extends AbstractIntegrationTest {
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         deleteTestTags();
     }
@@ -82,7 +81,7 @@ public class TestTagsApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         assumeTrue(testProject != null);
     }

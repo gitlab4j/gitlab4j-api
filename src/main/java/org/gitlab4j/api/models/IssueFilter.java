@@ -44,12 +44,12 @@ public class IssueFilter {
     /**
      * Return issues created by the given user id.
      */
-    private Integer authorId;
+    private Long authorId;
 
     /**
      * Return issues assigned to the given user id.
      */
-    private Integer assigneeId;
+    private Long assigneeId;
 
     /**
      * Return issues reacted by the authenticated user by the given emoji.
@@ -90,6 +90,11 @@ public class IssueFilter {
      * Return issues updated on or before the given time.
      */
     private Date updatedBefore;
+
+    /**
+     * Return issues in current iteration.
+     */
+    private String iterationTitle;
 
 
     /*- properties -*/
@@ -133,19 +138,19 @@ public class IssueFilter {
         this.scope = scope;
     }
 
-    public Integer getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
-    public Integer getAssigneeId() {
+    public Long getAssigneeId() {
         return assigneeId;
     }
 
-    public void setAssigneeId(Integer assigneeId) {
+    public void setAssigneeId(Long assigneeId) {
         this.assigneeId = assigneeId;
     }
 
@@ -213,6 +218,14 @@ public class IssueFilter {
         this.updatedBefore = updatedBefore;
     }
 
+    public String getIterationTitle() {
+        return iterationTitle;
+    }
+
+    public void setIterationTitle(String iterationTitle) {
+        this.iterationTitle = iterationTitle;
+    }
+
     /*- builder -*/
     public IssueFilter withIids(List<String> iids) {
         this.iids = iids;
@@ -239,12 +252,12 @@ public class IssueFilter {
         return (this);
     }
 
-    public IssueFilter withAuthorId(Integer authorId) {
+    public IssueFilter withAuthorId(Long authorId) {
         this.authorId = authorId;
         return (this);
     }
 
-    public IssueFilter withAssigneeId(Integer assigneeId) {
+    public IssueFilter withAssigneeId(Long assigneeId) {
         this.assigneeId = assigneeId;
         return (this);
     }
@@ -289,6 +302,11 @@ public class IssueFilter {
         return (this);
     }
 
+    public IssueFilter withIterationTitle(String iterationTitle) {
+        this.iterationTitle = iterationTitle;
+        return (this);
+    }
+
     /*- params generator -*/
     @JsonIgnore
     public GitLabApiForm getQueryParams(int page, int perPage) {
@@ -314,6 +332,7 @@ public class IssueFilter {
                 .withParam("created_after", ISO8601.toString(createdAfter, false))
                 .withParam("created_before", ISO8601.toString(createdBefore, false))
                 .withParam("updated_after", ISO8601.toString(updatedAfter, false))
-                .withParam("updated_before", ISO8601.toString(updatedBefore, false)));
+                .withParam("updated_before", ISO8601.toString(updatedBefore, false)))
+                .withParam("iteration_title", iterationTitle);
     }
 }

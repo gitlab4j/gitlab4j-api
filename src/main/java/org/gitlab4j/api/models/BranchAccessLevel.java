@@ -4,10 +4,19 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class BranchAccessLevel {
 
+    private Long id;
     private AccessLevel accessLevel;
     private String accessLevelDescription;
-    private Integer userId;
-    private Integer groupId;
+    private Long userId;
+    private Long groupId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public AccessLevel getAccessLevel() {
         return this.accessLevel;
@@ -25,19 +34,19 @@ public class BranchAccessLevel {
         this.accessLevelDescription = accessLevelDescription;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Integer getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(Integer groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 

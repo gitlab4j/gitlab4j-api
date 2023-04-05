@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.ws.rs.NotAuthorizedException;
@@ -32,21 +33,21 @@ public abstract class AbstractApi implements Constants {
      * Returns the project ID or path from the provided Integer, String, or Project instance.
      *
      * @param obj the object to determine the ID or path from
-     * @return the project ID or path from the provided Integer, String, or Project instance
+     * @return the project ID or path from the provided Long, String, or Project instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Object getProjectIdOrPath(Object obj) throws GitLabApiException {
 
         if (obj == null) {
             throw (new RuntimeException("Cannot determine ID or path from null object"));
-        } else if (obj instanceof Integer) {
+        } else if (obj instanceof Long) {
             return (obj);
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Project) {
 
-            Integer id = ((Project) obj).getId();
-            if (id != null && id.intValue() > 0) {
+            Long id = ((Project) obj).getId();
+            if (id != null && id.longValue() > 0) {
                 return (id);
             }
 
@@ -59,7 +60,7 @@ public abstract class AbstractApi implements Constants {
 
         } else {
             throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
-                    " instance, must be Integer, String, or a Project instance"));
+                    " instance, must be Long, String, or a Project instance"));
         }
     }
 
@@ -67,21 +68,21 @@ public abstract class AbstractApi implements Constants {
      * Returns the group ID or path from the provided Integer, String, or Group instance.
      *
      * @param obj the object to determine the ID or path from
-     * @return the group ID or path from the provided Integer, String, or Group instance
+     * @return the group ID or path from the provided Long, String, or Group instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Object getGroupIdOrPath(Object obj) throws GitLabApiException {
 
         if (obj == null) {
             throw (new RuntimeException("Cannot determine ID or path from null object"));
-        } else if (obj instanceof Integer) {
+        } else if (obj instanceof Long) {
             return (obj);
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Group) {
 
-            Integer id = ((Group) obj).getId();
-            if (id != null && id.intValue() > 0) {
+            Long id = ((Group) obj).getId();
+            if (id != null && id.longValue() > 0) {
                 return (id);
             }
 
@@ -94,7 +95,7 @@ public abstract class AbstractApi implements Constants {
 
         } else {
             throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
-                    " instance, must be Integer, String, or a Group instance"));
+                    " instance, must be Long, String, or a Group instance"));
         }
     }
 
@@ -109,14 +110,14 @@ public abstract class AbstractApi implements Constants {
 
         if (obj == null) {
             throw (new RuntimeException("Cannot determine ID or username from null object"));
-        } else if (obj instanceof Integer) {
+        } else if (obj instanceof Long) {
             return (obj);
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof User) {
 
-            Integer id = ((User) obj).getId();
-            if (id != null && id.intValue() > 0) {
+            Long id = ((User) obj).getId();
+            if (id != null && id.longValue() > 0) {
                 return (id);
             }
 
@@ -144,18 +145,18 @@ public abstract class AbstractApi implements Constants {
 
         if (obj == null) {
             throw (new RuntimeException("Cannot determine ID or name from null object"));
-        } else if (obj instanceof Integer) {
+        } else if (obj instanceof Long) {
             return (obj);
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Label) {
 
-            Integer id = ((Label) obj).getId();
-            if (id != null && id.intValue() > 0) {
+            Long id = ((Label) obj).getId();
+            if (id != null && id.longValue() > 0) {
                 return (id);
             }
 
-            String name = ((User) obj).getName();
+            String name = ((Label) obj).getName();
             if (name != null && name.trim().length() > 0) {
                 return (urlEncode(name.trim()));
             }
@@ -272,6 +273,42 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
+     * Perform an HTTP PATCH call with the specified query parameters and path objects, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param queryParams multivalue map of request parameters
+     * @param pathArgs variable list of arguments used to build the URI
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response patch(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().patch(queryParams, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
+     * Perform an HTTP PATCH call with the specified query parameters and URL, returning
+     * a ClientResponse instance with the data returned from the endpoint.
+     *
+     * @param expectedStatus the HTTP status that should be returned from the server
+     * @param queryParams multivalue map of request parameters
+     * @param url the fully formed path to the GitLab API endpoint
+     * @return a ClientResponse instance with the data returned from the endpoint
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    protected Response patch(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url) throws GitLabApiException {
+        try {
+            return validate(getApiClient().patch(queryParams, url), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
+    /**
      * Perform an HTTP POST call with the specified form data and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
      *
@@ -369,7 +406,7 @@ public abstract class AbstractApi implements Constants {
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaType the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param mediaType unused; will be removed in the next major version
      * @param pathArgs variable list of arguments used to build the URI
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws GitLabApiException if any exception occurs during execution
@@ -382,6 +419,14 @@ public abstract class AbstractApi implements Constants {
         }
     }
 
+    protected Response upload(Response.Status expectedStatus, String name, InputStream inputStream, String filename, String mediaType, Object... pathArgs) throws GitLabApiException {
+        try {
+            return validate(getApiClient().upload(name, inputStream, filename, mediaType, pathArgs), expectedStatus);
+        } catch (Exception e) {
+            throw handle(e);
+        }
+    }
+
     /**
      * Perform a file upload with the specified File instance and path objects, returning
      * a ClientResponse instance with the data returned from the endpoint.
@@ -389,7 +434,7 @@ public abstract class AbstractApi implements Constants {
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaType the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param mediaType unused; will be removed in the next major version
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws GitLabApiException if any exception occurs during execution
@@ -409,7 +454,7 @@ public abstract class AbstractApi implements Constants {
      * @param expectedStatus the HTTP status that should be returned from the server
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-     * @param mediaType the content-type of the uploaded file, if null will be determined from fileToUpload
+     * @param mediaType unused; will be removed in the next major version
      * @param formData the Form containing the name/value pairs
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,10 +59,12 @@ public class GitLabApi implements AutoCloseable {
     private ContainerRegistryApi containerRegistryApi;
     private DiscussionsApi discussionsApi;
     private DeployKeysApi deployKeysApi;
+    private DeploymentsApi deploymentsApi;
     private DeployTokensApi deployTokensApi;
     private EnvironmentsApi environmentsApi;
     private EpicsApi epicsApi;
     private EventsApi eventsApi;
+    private ExternalStatusCheckApi externalStatusCheckApi;
     private GroupApi groupApi;
     private HealthCheckApi healthCheckApi;
     private ImportExportApi importExportApi;
@@ -84,6 +87,7 @@ public class GitLabApi implements AutoCloseable {
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
     private ResourceLabelEventsApi resourceLabelEventsApi;
+    private ResourceStateEventsApi resourceStateEventsApi;
     private RunnersApi runnersApi;
     private SearchApi searchApi;
     private ServicesApi servicesApi;
@@ -93,6 +97,7 @@ public class GitLabApi implements AutoCloseable {
     private TodosApi todosApi;
     private UserApi userApi;
     private WikisApi wikisApi;
+    private KeysApi keysApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -445,7 +450,7 @@ public class GitLabApi implements AutoCloseable {
      */
     public final GitLabApi duplicate() {
 
-        Integer sudoUserId = this.getSudoAsId();
+        Long sudoUserId = this.getSudoAsId();
         GitLabApi gitLabApi = new GitLabApi(apiVersion, gitLabServerUrl,
                 getTokenType(), getAuthToken(), getSecretToken(), clientConfigProperties);
         if (sudoUserId != null) {
@@ -657,7 +662,7 @@ public class GitLabApi implements AutoCloseable {
             throw new GitLabApiException("the specified username was not found");
         }
 
-        Integer sudoAsId = user.getId();
+        Long sudoAsId = user.getId();
         apiClient.setSudoAsId(sudoAsId);
     }
 
@@ -675,7 +680,7 @@ public class GitLabApi implements AutoCloseable {
      * @param sudoAsId the ID of the user to sudo as, null will turn off sudo
      * @throws GitLabApiException if any exception occurs
      */
-    public void setSudoAsId(Integer sudoAsId) throws GitLabApiException {
+    public void setSudoAsId(Long sudoAsId) throws GitLabApiException {
 
         if (sudoAsId == null) {
             apiClient.setSudoAsId(null);
@@ -696,7 +701,7 @@ public class GitLabApi implements AutoCloseable {
      *
      * @return the current sudo as ID, will return null if not in sudo mode
      */
-    public Integer getSudoAsId() {
+    public Long getSudoAsId() {
         return (apiClient.getSudoAsId());
     }
 
@@ -707,6 +712,14 @@ public class GitLabApi implements AutoCloseable {
      */
     public String getAuthToken() {
         return (apiClient.getAuthToken());
+    }
+
+    /**
+     * Set auth token supplier for gitlab api client.
+     * @param authTokenSupplier - supplier which provide actual auth token
+     */
+    public void setAuthTokenSupplier(Supplier<String> authTokenSupplier) {
+        apiClient.setAuthTokenSupplier(authTokenSupplier);
     }
 
     /**
@@ -962,6 +975,25 @@ public class GitLabApi implements AutoCloseable {
     }
 
     /**
+     * Gets the DeployKeysApi instance owned by this GitLabApi instance. The DeploymentsApi is used
+     * to perform all deployment related API calls.
+     *
+     * @return the DeploymentsApi instance owned by this GitLabApi instance
+     */
+    public DeploymentsApi getDeploymentsApi() {
+
+        if (deploymentsApi == null) {
+            synchronized (this) {
+                if (deploymentsApi == null) {
+                    deploymentsApi = new DeploymentsApi(this);
+                }
+            }
+        }
+
+        return (deploymentsApi);
+    }
+
+    /**
      * Gets the DeployTokensApi instance owned by this GitLabApi instance. The DeployTokensApi is used
      * to perform all deploy token related API calls.
      *
@@ -1055,6 +1087,26 @@ public class GitLabApi implements AutoCloseable {
 
         return (eventsApi);
     }
+
+    /**
+     * Gets the ExternalStatusCheckApi instance owned by this GitLabApi instance. The ExternalStatusCheckApi is used
+     * to perform all the external status checks related API calls.
+     *
+     * @return the ExternalStatusCheckApi instance owned by this GitLabApi instance
+     */
+    public ExternalStatusCheckApi getExternalStatusCheckApi() {
+
+        if (externalStatusCheckApi == null) {
+            synchronized (this) {
+                if (externalStatusCheckApi == null) {
+                    externalStatusCheckApi = new ExternalStatusCheckApi(this);
+                }
+            }
+        }
+
+        return (externalStatusCheckApi);
+    }
+
 
     /**
      * Gets the GroupApi instance owned by this GitLabApi instance. The GroupApi is used
@@ -1469,6 +1521,25 @@ public class GitLabApi implements AutoCloseable {
     }
 
     /**
+     * Gets the ResourceStateEventsApi instance owned by this GitLabApi instance. The ResourceStateEventsApi
+     * is used to perform all Resource State Events related API calls.
+     *
+     * @return the ResourceStateEventsApi instance owned by this GitLabApi instance
+     */
+    public ResourceStateEventsApi getResourceStateEventsApi() {
+
+        if (resourceStateEventsApi == null) {
+            synchronized (this) {
+                if (resourceStateEventsApi == null) {
+                    resourceStateEventsApi = new ResourceStateEventsApi(this);
+                }
+            }
+        }
+
+        return (resourceStateEventsApi);
+    }
+
+    /**
      * Gets the RunnersApi instance owned by this GitLabApi instance. The RunnersApi is used
      * to perform all Runner related API calls.
      *
@@ -1633,6 +1704,21 @@ public class GitLabApi implements AutoCloseable {
 
         return wikisApi;
     }
+
+    /**
+     * Gets the KeysApi instance owned by this GitLabApi instance. The KeysApi is used to look up users by their ssh key signatures
+     *
+     * @return the KeysApi instance owned by this GitLabApi instance
+     */
+    public KeysApi getKeysAPI() {
+        synchronized (this) {
+            if (keysApi == null) {
+                keysApi = new KeysApi(this);
+            }
+        }
+        return keysApi;
+    }
+
 
     /**
      * Create and return an Optional instance associated with a GitLabApiException.

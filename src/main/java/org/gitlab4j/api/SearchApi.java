@@ -199,7 +199,7 @@ public class SearchApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:projectId/search?scope=:scope&amp;search=:search-query</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
      *               issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users
      * @param search the search query
@@ -217,7 +217,7 @@ public class SearchApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:projectId/search?scope=:scope&amp;search=:search-query&amp;ref=ref</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
      *               issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users
      * @param search the search query
@@ -237,7 +237,7 @@ public class SearchApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:projectId/search?scope=:scope&amp;search=:search-query</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
      *               issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users
      * @param search the search query
@@ -255,7 +255,7 @@ public class SearchApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:projectId/search?scope=:scope&amp;search=:search-query&amp;ref=ref</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
      *               issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users
      * @param search the search query
@@ -276,7 +276,7 @@ public class SearchApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /project/:projectId/search?scope=:scope&amp;search=:search-query</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
      *               issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users
      * @param search the search query
@@ -296,7 +296,7 @@ public class SearchApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /project/:projectId/search?scope=:scope&amp;search=:search-query&amp;ref=ref</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance, required
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param scope search the expression within the specified scope. Currently these scopes are supported:
      *               issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users
      * @param search the search query

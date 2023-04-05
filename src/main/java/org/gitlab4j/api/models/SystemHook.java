@@ -6,19 +6,20 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class SystemHook {
 
-    private Integer id;
+    private Long id;
     private String url;
     private Date createdAt;
     private Boolean pushEvents;
     private Boolean tagPushEvents;
     private Boolean enableSslVerification;
     private Boolean repositoryUpdateEvents;
+    private Boolean mergeRequestsEvents;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -70,7 +71,15 @@ public class SystemHook {
         return repositoryUpdateEvents;
     }
 
-    public SystemHook withId(Integer id) {
+    public void setMergeRequestsEvents(Boolean mergeRequestsEvents) {
+        this.mergeRequestsEvents = mergeRequestsEvents;
+    }
+
+    public Boolean getMergeRequestsEvents() {
+        return mergeRequestsEvents;
+    }
+
+    public SystemHook withId(Long id) {
         this.id = id;
         return (this);
     }
@@ -102,6 +111,11 @@ public class SystemHook {
 
     public SystemHook withRepositoryUpdateEvents(Boolean repositoryUpdateEvents) {
         this.repositoryUpdateEvents = repositoryUpdateEvents;
+        return (this);
+    }
+
+    public SystemHook withMergeRequestsEvents(Boolean mergeRequestsEvents) {
+        this.mergeRequestsEvents = mergeRequestsEvents;
         return (this);
     }
 

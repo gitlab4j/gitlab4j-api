@@ -27,10 +27,12 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Package;
 import org.gitlab4j.api.models.PackageFile;
+import org.gitlab4j.api.models.PackageFilter;
 
 /**
  * <p>This class implements the client side API for the GitLab Packages API.
@@ -50,7 +52,7 @@ public class PackagesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a list of pages in the project's packages
      * @throws GitLabApiException if any exception occurs
      */
@@ -64,7 +66,7 @@ public class PackagesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param page the page to get
      * @param perPage the number of Package instances per page
      * @return a list of project packages for the specified range
@@ -82,14 +84,31 @@ public class PackagesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param itemsPerPage the number of Package instances per page
      * @return a Pager of project packages for the specified range
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Package> getPackages(Object projectIdOrPath,  int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Package>(this, Package.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "packages"));
+        return getPackages(projectIdOrPath,null,itemsPerPage);
+    }
+
+    /**
+     * Get a Pager of project packages. Both Maven and NPM packages are included in results.
+     * When accessed without authentication, only packages of public projects are returned.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/packages</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param filter the PackageFilter instance holding the filter values for the query
+     * @param itemsPerPage the number of Package instances per page
+     * @return a Pager of project packages for the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Package> getPackages(Object projectIdOrPath, PackageFilter filter, int itemsPerPage) throws GitLabApiException {
+        MultivaluedMap query = filter!=null?filter.getQueryParams().asMap():null;
+        return (new Pager<Package>(this, Package.class, itemsPerPage, query,
+            "projects", getProjectIdOrPath(projectIdOrPath), "packages"));
     }
 
     /**
@@ -98,7 +117,7 @@ public class PackagesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a Stream of pages in the project's packages
      * @throws GitLabApiException if any exception occurs
      */
@@ -107,16 +126,31 @@ public class PackagesApi extends AbstractApi {
     }
 
     /**
+     * Get a Stream of project packages. Both Maven and NPM packages are included in results.
+     * When accessed without authentication, only packages of public projects are returned.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/packages</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param filter the PackageFilter instance holding the filter values for the query
+     * @return a Stream of pages in the project's packages
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Package> getPackagesStream(Object projectIdOrPath, PackageFilter filter) throws GitLabApiException {
+        return (getPackages(projectIdOrPath, filter, getDefaultPerPage()).stream());
+    }
+
+    /**
      * Get a single project package.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages/:package_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param packageId the ID of the package to get
      * @return a Package instance for the specified package ID
      * @throws GitLabApiException if any exception occurs
      */
-    public Package getPackage(Object projectIdOrPath, Integer packageId) throws GitLabApiException {
+    public Package getPackage(Object projectIdOrPath, Long packageId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "packages", packageId);
         return (response.readEntity(Package.class));
@@ -127,12 +161,12 @@ public class PackagesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages/:package_id/package_files</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param packageId the ID of the package to get the package files for
      * @return a list of PackageFile instances for the specified package ID
      * @throws GitLabApiException if any exception occurs
      */
-    public List<PackageFile> getPackageFiles(Object projectIdOrPath, Integer packageId) throws GitLabApiException {
+    public List<PackageFile> getPackageFiles(Object projectIdOrPath, Long packageId) throws GitLabApiException {
         return (getPackageFiles(projectIdOrPath, packageId, getDefaultPerPage()).all());
     }
 
@@ -141,14 +175,14 @@ public class PackagesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages/:package_id/package_files</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param packageId the ID of the package to get the package files for
      * @param page the page to get
      * @param perPage the number of PackageFile instances per page
      * @return a list of PackageFile instances for the specified package ID
      * @throws GitLabApiException if any exception occurs
      */
-    public List<PackageFile> getPackageFiles(Object projectIdOrPath, Integer packageId, int page, int perPage) throws GitLabApiException {
+    public List<PackageFile> getPackageFiles(Object projectIdOrPath, Long packageId, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
                 "projects", getProjectIdOrPath(projectIdOrPath), "packages", packageId, "package_files");
         return response.readEntity(new GenericType<List<PackageFile>>() {});
@@ -159,13 +193,13 @@ public class PackagesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages/:package_id/package_files</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param packageId the ID of the package to get the package files for
      * @param itemsPerPage the number of PackageFile instances per page
      * @return a Pager of PackageFile instances for the specified package ID
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<PackageFile> getPackageFiles(Object projectIdOrPath,  Integer packageId, int itemsPerPage) throws GitLabApiException {
+    public Pager<PackageFile> getPackageFiles(Object projectIdOrPath,  Long packageId, int itemsPerPage) throws GitLabApiException {
         return (new Pager<PackageFile>(this, PackageFile.class, itemsPerPage, null,
                 "projects", getProjectIdOrPath(projectIdOrPath), "packages", packageId, "package_files"));
     }
@@ -175,12 +209,12 @@ public class PackagesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages/:package_id/package_files</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param packageId the ID of the package to get the package files for
      * @return a Stream of PackageFile instances for the specified package ID
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<PackageFile> getPackagesStream(Object projectIdOrPath, Integer packageId) throws GitLabApiException {
+    public Stream<PackageFile> getPackagesStream(Object projectIdOrPath, Long packageId) throws GitLabApiException {
         return (getPackageFiles(projectIdOrPath, packageId, getDefaultPerPage()).stream());
     }
 
@@ -189,11 +223,11 @@ public class PackagesApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: DELETE /projects/:id/packages/:package_id</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param packageId the ID of the package to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deletePackage(Object projectIdOrPath, Integer packageId) throws GitLabApiException {
+    public void deletePackage(Object projectIdOrPath, Long packageId) throws GitLabApiException {
 
         if (packageId == null) {
             throw new RuntimeException("packageId cannot be null");

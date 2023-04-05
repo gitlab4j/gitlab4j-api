@@ -6,27 +6,27 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class PackageFile {
 
-    private Integer id;
-    private Integer packageId;
+    private Long id;
+    private Long packageId;
     private Date created_at;
     private String fileName;
     private Long size;
     private String fileMd5;
     private String fileSha1;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getPackageId() {
+    public Long getPackageId() {
         return packageId;
     }
 
-    public void setPackageId(Integer packageId) {
+    public void setPackageId(Long packageId) {
         this.packageId = packageId;
     }
 

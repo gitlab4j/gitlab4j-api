@@ -29,63 +29,72 @@ public class Badge {
         }
     }
 
-    private Integer id;
+    private Long id;
+    private String name;
     private String linkUrl;
     private String imageUrl;
     private String renderedLinkUrl;
     private String renderedImageUrl;
     private BadgeKind kind;
 
-    public Integer getId() {
-	return id;
+    public Long getId() {
+        return id;
     }
 
-    public void setId(Integer id) {
-	this.id = id;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLinkUrl() {
-	return linkUrl;
+        return linkUrl;
     }
 
     public void setLinkUrl(String linkUrl) {
-	this.linkUrl = linkUrl;
+        this.linkUrl = linkUrl;
     }
 
     public String getImageUrl() {
-	return imageUrl;
+        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-	this.imageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 
     public String getRenderedImageUrl() {
-	return renderedImageUrl;
+        return renderedImageUrl;
     }
 
     public void setRenderedImageUrl(String renderedImageUrl) {
-	this.renderedImageUrl = renderedImageUrl;
+        this.renderedImageUrl = renderedImageUrl;
     }
 
     public String getRenderedLinkUrl() {
-	return renderedLinkUrl;
+        return renderedLinkUrl;
     }
 
     public void setRenderedLinkUrl(String renderedLinkUrl) {
-	this.renderedLinkUrl = renderedLinkUrl;
+        this.renderedLinkUrl = renderedLinkUrl;
     }
 
     public BadgeKind getKind() {
-	return kind;
+        return kind;
     }
 
     public void setKind(BadgeKind kind) {
-	this.kind = kind;
+        this.kind = kind;
     }
 
     @Override
     public String toString() {
-	return (JacksonJson.toJsonString(this));
+        return (JacksonJson.toJsonString(this));
     }
 }

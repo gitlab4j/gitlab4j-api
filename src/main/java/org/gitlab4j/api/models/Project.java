@@ -4,15 +4,17 @@ package org.gitlab4j.api.models;
 import java.util.Date;
 import java.util.List;
 
+import org.gitlab4j.api.Constants.AutoDevopsDeployStrategy;
+import org.gitlab4j.api.Constants.BuildGitStrategy;
+import org.gitlab4j.api.Constants.SquashOption;
 import org.gitlab4j.api.ProjectLicense;
+import org.gitlab4j.api.models.ImportStatus.Status;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import org.gitlab4j.api.Constants.BuildGitStrategy;
 
 public class Project {
 
@@ -44,13 +46,13 @@ public class Project {
     private String avatarUrl;
     private Boolean containerRegistryEnabled;
     private Date createdAt;
-    private Integer creatorId;
+    private Long creatorId;
     private String defaultBranch;
     private String description;
     private Integer forksCount;
     private Project forkedFromProject;
     private String httpUrlToRepo;
-    private Integer id;
+    private Long id;
     private Boolean isPublic;
     private Boolean issuesEnabled;
     private Boolean jobsEnabled;
@@ -62,6 +64,7 @@ public class Project {
     private Namespace namespace;
     private String nameWithNamespace;
     private Boolean onlyAllowMergeIfPipelineSucceeds;
+    private Boolean allowMergeOnSkippedPipeline;
     private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
     private Integer openIssuesCount;
     private Owner owner;
@@ -94,6 +97,19 @@ public class Project {
     private List<CustomAttribute> customAttributes;
     private String buildCoverageRegex;
     private BuildGitStrategy buildGitStrategy;
+    private String readmeUrl;
+    private Boolean canCreateMergeRequestIn;
+    private Status importStatus;
+    private Integer ciDefaultGitDepth;
+    private Boolean ciForwardDeploymentEnabled;
+    private String ciConfigPath;
+    private Boolean removeSourceBranchAfterMerge;
+    private Boolean autoDevopsEnabled;
+    private AutoDevopsDeployStrategy autoDevopsDeployStrategy;
+    private Boolean autocloseReferencedIssues;
+    private Boolean emailsDisabled;
+    private String suggestionCommitMessage;
+    private SquashOption squashOption;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -148,11 +164,11 @@ public class Project {
         this.createdAt = createdAt;
     }
 
-    public Integer getCreatorId() {
+    public Long getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(Integer creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
 
@@ -206,15 +222,15 @@ public class Project {
         this.httpUrlToRepo = httpUrlToRepo;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Project withId(Integer id) {
+    public Project withId(Long id) {
         this.id = id;
         return (this);
     }
@@ -318,7 +334,7 @@ public class Project {
         return (this);
     }
 
-    public Project withNamespaceId(int namespaceId) {
+    public Project withNamespaceId(long namespaceId) {
         this.namespace = new Namespace();
         this.namespace.setId(namespaceId);
         return (this);
@@ -342,6 +358,19 @@ public class Project {
 
     public Project withOnlyAllowMergeIfPipelineSucceeds(Boolean onlyAllowMergeIfPipelineSucceeds) {
         this.onlyAllowMergeIfPipelineSucceeds = onlyAllowMergeIfPipelineSucceeds;
+        return (this);
+    }
+
+    public Boolean getAllowMergeOnSkippedPipeline() {
+        return allowMergeOnSkippedPipeline;
+    }
+
+    public void setAllowMergeOnSkippedPipeline(Boolean allowMergeOnSkippedPipeline) {
+        this.allowMergeOnSkippedPipeline = allowMergeOnSkippedPipeline;
+    }
+
+    public Project withAllowMergeOnSkippedPipeline(Boolean allowMergeOnSkippedPipeline) {
+        this.allowMergeOnSkippedPipeline = allowMergeOnSkippedPipeline;
         return (this);
     }
 
@@ -734,6 +763,130 @@ public class Project {
 
     public Project withBuildGitStrategy(BuildGitStrategy buildGitStrategy) {
         this.buildGitStrategy = buildGitStrategy;
+        return this;
+    }
+
+    public String getReadmeUrl() {
+        return readmeUrl;
+    }
+
+    public void setReadmeUrl(String readmeUrl) {
+        this.readmeUrl = readmeUrl;
+    }
+
+    public Boolean getCanCreateMergeRequestIn() {
+        return canCreateMergeRequestIn;
+    }
+
+    public void setCanCreateMergeRequestIn(Boolean canCreateMergeRequestIn) {
+        this.canCreateMergeRequestIn = canCreateMergeRequestIn;
+    }
+
+    public Status getImportStatus() {
+        return importStatus;
+    }
+
+    public void setImportStatus(Status importStatus) {
+        this.importStatus = importStatus;
+    }
+
+    public Integer getCiDefaultGitDepth() {
+        return ciDefaultGitDepth;
+    }
+
+    public void setCiDefaultGitDepth(Integer ciDefaultGitDepth) {
+        this.ciDefaultGitDepth = ciDefaultGitDepth;
+    }
+
+    public Boolean getCiForwardDeploymentEnabled() {
+        return ciForwardDeploymentEnabled;
+    }
+
+    public void setCiForwardDeploymentEnabled(Boolean ciForwardDeploymentEnabled) {
+        this.ciForwardDeploymentEnabled = ciForwardDeploymentEnabled;
+    }
+
+    public String getCiConfigPath() {
+        return ciConfigPath;
+    }
+
+    public void setCiConfigPath(String ciConfigPath) {
+        this.ciConfigPath = ciConfigPath;
+    }
+
+    public Boolean getRemoveSourceBranchAfterMerge() {
+        return removeSourceBranchAfterMerge;
+    }
+
+    public void setRemoveSourceBranchAfterMerge(Boolean removeSourceBranchAfterMerge) {
+        this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
+    }
+
+    public Project withRemoveSourceBranchAfterMerge(Boolean removeSourceBranchAfterMerge) {
+        this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
+        return this;
+    }
+
+    public Boolean getAutoDevopsEnabled() {
+        return autoDevopsEnabled;
+    }
+
+    public void setAutoDevopsEnabled(Boolean autoDevopsEnabled) {
+        this.autoDevopsEnabled = autoDevopsEnabled;
+    }
+
+    public AutoDevopsDeployStrategy getAutoDevopsDeployStrategy() {
+        return autoDevopsDeployStrategy;
+    }
+
+    public void setAutoDevopsDeployStrategy(AutoDevopsDeployStrategy autoDevopsDeployStrategy) {
+        this.autoDevopsDeployStrategy = autoDevopsDeployStrategy;
+    }
+
+    public Boolean getAutocloseReferencedIssues() {
+        return autocloseReferencedIssues;
+    }
+
+    public void setAutocloseReferencedIssues(Boolean autocloseReferencedIssues) {
+        this.autocloseReferencedIssues = autocloseReferencedIssues;
+    }
+
+    public Boolean getEmailsDisabled() {
+        return emailsDisabled;
+    }
+
+    public void setEmailsDisabled(Boolean emailsDisabled) {
+        this.emailsDisabled = emailsDisabled;
+    }
+
+    public Project withEmailsDisabled(Boolean emailsDisabled) {
+        this.emailsDisabled = emailsDisabled;
+        return this;
+    }
+
+    public String getSuggestionCommitMessage() {
+        return this.suggestionCommitMessage;
+    }
+
+    public Project withSuggestionCommitMessage(String suggestionCommitMessage) {
+        this.suggestionCommitMessage = suggestionCommitMessage;
+        return this;
+    }
+
+    public void setSuggestionCommitMessage(String suggestionCommitMessage) {
+        this.suggestionCommitMessage = suggestionCommitMessage;
+    }
+
+    public SquashOption getSquashOption() {
+        return squashOption;
+    }
+
+    public void setSquashOption(SquashOption squashOption) {
+        this.squashOption = squashOption;
+    }
+
+    public Project withSquashOption(SquashOption squashOption) {
+        this.squashOption = squashOption;
         return this;
     }
 }

@@ -14,12 +14,13 @@ public class MergeRequestParams {
     private String sourceBranch;
     private String targetBranch;
     private String title;
-    private Integer assigneeId;
-    private List<Integer> assigneeIds;
-    private Integer milestoneId;
+    private Long assigneeId;
+    private List<Long> assigneeIds;
+    private List<Long> reviewerIds;
+    private Long milestoneId;
     private List<String> labels;
     private String description;
-    private Integer targetProjectId;
+    private Long targetProjectId;
     private StateEvent stateEvent;
     private Boolean removeSourceBranch;
     private Boolean squash;
@@ -66,7 +67,7 @@ public class MergeRequestParams {
      * @param assigneeId the assigneeId to set
      * @return the reference to this MergeRequestParams instance
      */
-    public MergeRequestParams withAssigneeId(Integer assigneeId) {
+    public MergeRequestParams withAssigneeId(Long assigneeId) {
 	this.assigneeId = assigneeId;
 	return (this);
     }
@@ -78,9 +79,21 @@ public class MergeRequestParams {
      * @param assigneeIds the assigneeIds to set
      * @return the reference to this MergeRequestParams instance
      */
-    public MergeRequestParams withAssigneeIds(List<Integer> assigneeIds) {
+    public MergeRequestParams withAssigneeIds(List<Long> assigneeIds) {
 	this.assigneeIds = assigneeIds;
 	return (this);
+    }
+
+    /**
+     * The ID of the user(s) to assign to the review of the merge request. Set to 0 or provide
+     * an empty value to unassign all reviewers.
+     *
+     * @param reviewerIds the reviewerIds to set
+     * @return the reference to this MergeRequestParams instance
+     */
+    public MergeRequestParams withReviewerIds(List<Long> reviewerIds) {
+        this.reviewerIds = reviewerIds;
+        return (this);
     }
 
     /**
@@ -89,7 +102,7 @@ public class MergeRequestParams {
      * @param milestoneId the milestoneId to set
      * @return the reference to this MergeRequestParams instance
      */
-    public MergeRequestParams withMilestoneId(Integer milestoneId) {
+    public MergeRequestParams withMilestoneId(Long milestoneId) {
 	this.milestoneId = milestoneId;
 	return (this);
     }
@@ -133,7 +146,7 @@ public class MergeRequestParams {
      * @param targetProjectId the targetProjectId to set
      * @return the reference to this MergeRequestParams instance
      */
-    public MergeRequestParams withTargetProjectId(Integer targetProjectId) {
+    public MergeRequestParams withTargetProjectId(Long targetProjectId) {
 	this.targetProjectId = targetProjectId;
 	return (this);
     }
@@ -219,6 +232,7 @@ public class MergeRequestParams {
             .withParam("title", title, isCreate)
             .withParam("assignee_id", assigneeId)
             .withParam("assignee_ids", assigneeIds)
+            .withParam("reviewer_ids", reviewerIds)
             .withParam("milestone_id", milestoneId)
             .withParam("labels", (labels != null ? String.join(",", labels) : null))
             .withParam("description", description)

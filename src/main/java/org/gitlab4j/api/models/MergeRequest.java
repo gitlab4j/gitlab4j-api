@@ -15,9 +15,11 @@ public class MergeRequest {
     private Integer approvalsBeforeMerge;
     private Assignee assignee;
     private List<Assignee> assignees;
+    private List<Reviewer> reviewers;
     private Author author;
     private Boolean blockingDiscussionsResolved;
     private List<Diff> changes;
+    private String changesCount;
     private Date closedAt;
     private Participant closedBy;
     private Date createdAt;
@@ -27,29 +29,41 @@ public class MergeRequest {
     private Integer downvotes;
     private Boolean forceRemoveSourceBranch;
     private Boolean hasConflicts;
-    private Integer id;
-    private Integer iid;
+    private Long id;
+    private Long iid;
     private List<String> labels;
     private Date latestBuildFinishedAt;
     private Date latestBuildStartedAt;
     private String mergeCommitSha;
     private String squashCommitSha;
+    /**
+     * @deprecated since 15.6, use {@link #detailedMergeStatus} instead.
+     * see https://docs.gitlab.com/ee/update/deprecations.html#merge_status-api-field
+     */
+    @Deprecated
     private String mergeStatus;
+    private String detailedMergeStatus;
     private Date mergedAt;
+    /**
+     * @deprecated since 14.7, use {@link #mergeUser} instead.
+     * see https://docs.gitlab.com/ee/update/deprecations.html#merged_by-api-field
+     */
     private Participant mergedBy;
+    private Participant mergeUser;
     private Boolean mergeWhenPipelineSucceeds;
     private String mergeError;
     private Milestone milestone;
-    private Integer projectId;
+    private Pipeline pipeline;
+    private Long projectId;
     private String sha;
     private Boolean shouldRemoveSourceBranch;
     private String sourceBranch;
-    private Integer sourceProjectId;
+    private Long sourceProjectId;
     private Boolean squash;
     private String state;
     private Boolean subscribed;
     private String targetBranch;
-    private Integer targetProjectId;
+    private Long targetProjectId;
     private TaskCompletionStatus taskCompletionStatus;
     private References references;
     private TimeStats timeStats;
@@ -134,6 +148,14 @@ public class MergeRequest {
         this.changes = changes;
     }
 
+    public String getChangesCount() {
+        return changesCount;
+    }
+
+    public void setChangesCount(String changesCount) {
+        this.changesCount = changesCount;
+    }
+
     public Date getClosedAt() {
         return closedAt;
     }
@@ -206,19 +228,19 @@ public class MergeRequest {
         this.hasConflicts = hasConflicts;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getIid() {
+    public Long getIid() {
         return iid;
     }
 
-    public void setIid(Integer iid) {
+    public void setIid(Long iid) {
         this.iid = iid;
     }
 
@@ -262,12 +284,28 @@ public class MergeRequest {
         this.squashCommitSha = squashCommitSha;
     }
 
+    /**
+     * @deprecated since 15.6, use {@link #getDetailedMergeStatus()} instead.
+     */
+    @Deprecated
     public String getMergeStatus() {
         return mergeStatus;
     }
 
+    /**
+     * @deprecated since 15.6, use {@link #setDetailedMergeStatus(String)} instead.
+     */
+    @Deprecated
     public void setMergeStatus(String mergeStatus) {
         this.mergeStatus = mergeStatus;
+    }
+
+    public String getDetailedMergeStatus() {
+        return detailedMergeStatus;
+    }
+
+    public void setDetailedMergeStatus(String detailedMergeStatus) {
+        this.detailedMergeStatus = detailedMergeStatus;
     }
 
     public Date getMergedAt() {
@@ -278,12 +316,30 @@ public class MergeRequest {
         this.mergedAt = mergedAt;
     }
 
+    /**
+     * @deprecated since 14.7, use {@link #getMergeUser()} instead.
+     * see https://docs.gitlab.com/ee/update/deprecations.html#merged_by-api-field
+     */
+    @Deprecated
     public Participant getMergedBy() {
         return mergedBy;
     }
 
+    /**
+     * @deprecated since 14.7, use {@link #setMergeUser(Participant)} instead.
+     * see https://docs.gitlab.com/ee/update/deprecations.html#merged_by-api-field
+     */
+    @Deprecated
     public void setMergedBy(Participant mergedBy) {
         this.mergedBy = mergedBy;
+    }
+
+    public Participant getMergeUser() {
+        return mergeUser;
+    }
+
+    public void setMergeUser(Participant mergeUser) {
+        this.mergeUser = mergeUser;
     }
 
     public Boolean getMergeWhenPipelineSucceeds() {
@@ -310,11 +366,19 @@ public class MergeRequest {
         this.milestone = milestone;
     }
 
-    public Integer getProjectId() {
+    public Pipeline getPipeline() {
+        return pipeline;
+    }
+
+    public void setPipeline(Pipeline pipeline) {
+        this.pipeline = pipeline;
+    }
+
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
@@ -342,11 +406,11 @@ public class MergeRequest {
         this.sourceBranch = sourceBranch;
     }
 
-    public Integer getSourceProjectId() {
+    public Long getSourceProjectId() {
         return sourceProjectId;
     }
 
-    public void setSourceProjectId(Integer sourceProjectId) {
+    public void setSourceProjectId(Long sourceProjectId) {
         this.sourceProjectId = sourceProjectId;
     }
 
@@ -382,11 +446,11 @@ public class MergeRequest {
         this.targetBranch = targetBranch;
     }
 
-    public Integer getTargetProjectId() {
+    public Long getTargetProjectId() {
         return targetProjectId;
     }
 
-    public void setTargetProjectId(Integer targetProjectId) {
+    public void setTargetProjectId(Long targetProjectId) {
         this.targetProjectId = targetProjectId;
     }
 
@@ -546,6 +610,14 @@ public class MergeRequest {
 
     public static final boolean isValid(MergeRequest mergeRequest) {
         return (mergeRequest != null && mergeRequest.getId() != null);
+    }
+
+    public List<Reviewer> getReviewers() {
+        return reviewers;
+    }
+
+    public void setReviewers(List<Reviewer> reviewers) {
+        this.reviewers = reviewers;
     }
 
     @Override

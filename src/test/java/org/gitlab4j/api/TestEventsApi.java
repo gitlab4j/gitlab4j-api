@@ -1,8 +1,8 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -12,22 +12,25 @@ import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.ISO8601;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 
 /**
 * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestEventsApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -38,7 +41,7 @@ public class TestEventsApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         // Must setup the connection to the GitLab test server and get the test Project instance
@@ -54,7 +57,7 @@ public class TestEventsApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         assumeTrue(gitLabApi != null);
     }
@@ -66,6 +69,18 @@ public class TestEventsApi extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testGetAuthenticatedUserEventsWithScope() throws GitLabApiException {
+        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null, 1, 10, Constants.EventScope.ALL);
+        assertNotNull(events);
+    }
+
+    @Test
+    public void testGetAllAuthenticatedUserEvents() throws GitLabApiException {
+        List<Event> events = gitLabApi.getEventsApi().getAllAuthenticatedUserEvents(null, null, null, null, null);
+        assertNotNull(events);
+    }
+
+    @Test
     public void testGetAuthenticatedUserEventsWithDates() throws GitLabApiException {
         Date after = new Date(0);
         Date now = new Date();
@@ -73,6 +88,18 @@ public class TestEventsApi extends AbstractIntegrationTest {
         assertNotNull(events);
 
         events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, after, null, null);
+        assertNotNull(events);
+        assertEquals(0, events.size());
+    }
+
+    @Test
+    public void testGetAuthenticatedUserEventsWithDatesAndScope() throws GitLabApiException {
+        Date after = new Date(0);
+        Date now = new Date();
+        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, now, after, null, 1, 10, Constants.EventScope.ALL);
+        assertNotNull(events);
+
+        events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, after, null, null, 1, 10, Constants.EventScope.ALL);
         assertNotNull(events);
         assertEquals(0, events.size());
     }
@@ -104,6 +131,12 @@ public class TestEventsApi extends AbstractIntegrationTest {
     @Test
     public void testPagedGetAuthenticatedUserEvents() throws GitLabApiException {
         Pager<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null, 10);
+        assertNotNull(events);
+    }
+
+    @Test
+    public void testPagedGetAuthenticatedUserEventsWithScope() throws GitLabApiException {
+        Pager<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null, 10, Constants.EventScope.ALL);
         assertNotNull(events);
     }
 

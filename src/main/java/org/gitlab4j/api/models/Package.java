@@ -4,16 +4,16 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Package {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String version;
     private PackageType packageType;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

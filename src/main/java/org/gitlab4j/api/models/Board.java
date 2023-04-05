@@ -6,17 +6,17 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Board {
 
-    private Integer id;
+    private Long id;
     private String name;
     private Project project;
     private Milestone milestone;
     private List<BoardList> lists;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

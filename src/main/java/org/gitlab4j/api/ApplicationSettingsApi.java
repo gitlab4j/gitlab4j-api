@@ -37,7 +37,7 @@ public class ApplicationSettingsApi extends AbstractApi {
     }
 
     /**
-     * Update the application settings of the GitLab instance with the settings in the 
+     * Update the application settings of the GitLab instance with the settings in the
      * provided ApplicationSettings instance.
      *
      * <pre><code>GitLab Endpoint: PUT /api/v4/application/settings</code></pre>
@@ -117,7 +117,7 @@ public class ApplicationSettingsApi extends AbstractApi {
             String fieldName = fieldNames.next();
             switch (fieldName) {
             case "id":
-                appSettings.setId(root.path(fieldName).asInt());
+                appSettings.setId(root.path(fieldName).asLong());
                 break;
 
             case "created_at":

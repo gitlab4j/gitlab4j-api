@@ -1,11 +1,11 @@
 package org.gitlab4j.api;
 
 import static org.gitlab4j.api.JsonUtils.compareJson;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,8 +14,8 @@ import java.util.stream.Stream;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.Discussion;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -29,9 +29,9 @@ public class TestCommitDiscussionsApi implements Constants {
     @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
     private MockResponse response;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        initMocks(this);
+    	openMocks(this);
         response = new MockResponse(Discussion.class,  null,  "commit-discussions.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
@@ -40,28 +40,28 @@ public class TestCommitDiscussionsApi implements Constants {
 
     @Test
     public void testGetCommitDiscussionsByList() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, COMMIT_SHA);
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1L, COMMIT_SHA);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "commit-discussions.json"));
     }
 
     @Test
     public void testGetCommitDiscussionsByListWithMaxItems() throws Exception {
-        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1, COMMIT_SHA, 20);
+        List<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussions(1L, COMMIT_SHA, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions, "commit-discussions.json"));
     }
 
     @Test
     public void testGetCommitDiscussionsByPager() throws Exception {
-        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussionsPager(1, COMMIT_SHA, 20);
+        Pager<Discussion> discussions = new DiscussionsApi(gitLabApi).getCommitDiscussionsPager(1L, COMMIT_SHA, 20);
         assertNotNull(discussions);
         assertTrue(compareJson(discussions.all(), "commit-discussions.json"));
     }
 
     @Test
     public void testGetCommitDiscussionsByStream() throws Exception {
-        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getCommitDiscussionsStream(1, COMMIT_SHA);
+        Stream<Discussion> stream = new DiscussionsApi(gitLabApi).getCommitDiscussionsStream(1L, COMMIT_SHA);
         assertNotNull(stream);
         List<Discussion> discussions = stream.collect(Collectors.toList());
         assertTrue(compareJson(discussions, "commit-discussions.json"));

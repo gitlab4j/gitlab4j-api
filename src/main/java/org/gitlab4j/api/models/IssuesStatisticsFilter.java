@@ -18,24 +18,24 @@ public class IssuesStatisticsFilter {
     private List<String> labels;
     private String milestone;
     private IssueScope scope;
-    private Integer authorId;
-    private Integer assigneeId;
+    private Long authorId;
+    private Long assigneeId;
     private String myReactionEmoji;
-    private List<Integer> iids;
+    private List<Long> iids;
     private String search;
     private String in;
     private Date createdAfter;
     private Date createdBefore;
     private Date updatedAfter;
-    private Date updatedBefore;   
+    private Date updatedBefore;
     private Boolean confidential;
 
     public IssuesStatisticsFilter withLabels(List<String> labels) {
         this.labels = labels;
         return (this);
     }
-    
-    public IssuesStatisticsFilter withIids(List<Integer> iids) {
+
+    public IssuesStatisticsFilter withIids(List<Long> iids) {
         this.iids = iids;
         return (this);
     }
@@ -50,12 +50,12 @@ public class IssuesStatisticsFilter {
         return (this);
     }
 
-    public IssuesStatisticsFilter withAuthorId(Integer authorId) {
+    public IssuesStatisticsFilter withAuthorId(Long authorId) {
         this.authorId = authorId;
         return (this);
     }
 
-    public IssuesStatisticsFilter withAssigneeId(Integer assigneeId) {
+    public IssuesStatisticsFilter withAssigneeId(Long assigneeId) {
         this.assigneeId = assigneeId;
         return (this);
     }

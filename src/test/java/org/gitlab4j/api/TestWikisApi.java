@@ -23,10 +23,10 @@
 
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.util.List;
@@ -34,11 +34,12 @@ import java.util.List;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.WikiAttachment;
 import org.gitlab4j.api.models.WikiPage;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -50,7 +51,8 @@ import org.junit.experimental.categories.Category;
  * <p>
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestWikisApi extends AbstractIntegrationTest {
 
     private static final String TEST_WIKI_TITLE_PREFIX = "Test Wiki: ";
@@ -62,7 +64,7 @@ public class TestWikisApi extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         // Must setup the connection to the GitLab test server and get the test Project instance
@@ -73,7 +75,7 @@ public class TestWikisApi extends AbstractIntegrationTest {
         deleteAllTestWikiPages();
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() throws GitLabApiException {
         deleteAllTestWikiPages();
     }
@@ -94,9 +96,9 @@ public class TestWikisApi extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
     }
 
     private WikiPage createWikiPage(String title, String content) throws GitLabApiException {

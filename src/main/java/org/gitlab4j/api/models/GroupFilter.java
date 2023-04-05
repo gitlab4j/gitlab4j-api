@@ -7,7 +7,7 @@ import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
 
 /**
- *  This class is used to filter Projects when getting lists of projects for a specified group.
+ *  This class is used to filter Groups when getting lists of groups.
  */
 public class GroupFilter {
 
@@ -20,6 +20,7 @@ public class GroupFilter {
     private Boolean withCustomAttributes;
     private Boolean owned;
     private AccessLevel accessLevel;
+    private Boolean topLevelOnly;
 
     /**
      * Do not include the provided groups IDs.
@@ -29,19 +30,27 @@ public class GroupFilter {
      */
     public GroupFilter withSkipGroups(List<Integer> skipGroups) {
         this.skipGroups = skipGroups;
-        return (this);  
+        return (this);
+    }
+
+    /**
+     * @deprecated this method contains a typo, use {@link #withAllAvailable(Boolean)} instead
+     */
+    @Deprecated
+    public GroupFilter withAllAvailabley(Boolean allAvailable) {
+        return withAllAvailable(allAvailable);
     }
 
     /**
      * Show all the groups you have access to (defaults to false for authenticated users, true for admin).
      * Attributes owned and min_access_level have precedence
      *
-     * @param allAvailable if true show all avauilable groups
+     * @param allAvailable if true show all available groups
      * @return the reference to this GroupFilter instance
      */
-    public GroupFilter withAllAvailabley(Boolean allAvailable) {
+    public GroupFilter withAllAvailable(Boolean allAvailable) {
         this.allAvailable = allAvailable;
-        return (this);       
+        return (this);
     }
 
     /**
@@ -90,7 +99,7 @@ public class GroupFilter {
 
     /**
      *  Include custom attributes in response (admins only).
-     * 
+     *
      * @param withCustomAttributes if true, include custom attributes in the response
      * @return the reference to this GroupFilter instance
      */
@@ -122,6 +131,17 @@ public class GroupFilter {
     }
 
     /**
+     * Limit by groups which are top level groups
+     *
+     * @param topLevelOnly if true, limit to groups which are top level groups
+     * @return the reference to this GroupFilter instance
+     */
+    public GroupFilter withTopLevelOnly(Boolean topLevelOnly) {
+        this.topLevelOnly = topLevelOnly;
+        return (this);
+    }
+
+    /**
      * Get the query params specified by this filter.
      *
      * @return a GitLabApiForm instance holding the query parameters for this GroupFilter instance
@@ -135,8 +155,9 @@ public class GroupFilter {
             .withParam("sort", sort)
             .withParam("statistics", statistics)
             .withParam("with_custom_attributes", withCustomAttributes)
-            .withParam("owned", owned)  
+            .withParam("owned", owned)
             .withParam("min_access_level", accessLevel)
+            .withParam("top_level_only", topLevelOnly)
         );
     }
 }

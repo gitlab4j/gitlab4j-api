@@ -23,11 +23,11 @@
 
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +35,12 @@ import java.util.stream.Stream;
 
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Project;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
@@ -51,7 +52,8 @@ import org.junit.experimental.categories.Category;
  *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestProjectCustomAttributes extends AbstractIntegrationTest {
 
     private static final String TEST_CUSTOM_ATTRIBUTE_KEY = "GitLab4JCustomAttributeTestKey";
@@ -64,7 +66,7 @@ public class TestProjectCustomAttributes extends AbstractIntegrationTest {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         // Must setup the connection to the GitLab test server and get the test Project instance
@@ -74,7 +76,7 @@ public class TestProjectCustomAttributes extends AbstractIntegrationTest {
         deleteAllTestCustomAttributes();
     }
 
-    @AfterClass
+    @AfterAll
     public static void teardown() throws GitLabApiException {
         deleteAllTestCustomAttributes();
     }
@@ -95,9 +97,9 @@ public class TestProjectCustomAttributes extends AbstractIntegrationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
-        assumeNotNull(gitLabApi);
+        assumeTrue(gitLabApi != null);
     }
 
     private CustomAttribute createCustomAttribute(String key, String value) throws GitLabApiException {
@@ -116,7 +118,7 @@ public class TestProjectCustomAttributes extends AbstractIntegrationTest {
     @Test
     public void testUpdate() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         String key = TEST_CUSTOM_ATTRIBUTE_KEY + "TestUpdate";
         String value = TEST_CUSTOM_ATTRIBUTE_VALUE;
@@ -134,7 +136,7 @@ public class TestProjectCustomAttributes extends AbstractIntegrationTest {
     @Test
     public void testGetCustomAttribute() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         String key = TEST_CUSTOM_ATTRIBUTE_KEY + "TestGet";
         String value = TEST_CUSTOM_ATTRIBUTE_VALUE + " (test get)";
@@ -151,7 +153,7 @@ public class TestProjectCustomAttributes extends AbstractIntegrationTest {
     @Test
     public void testListCustomAttributes() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         String key = TEST_CUSTOM_ATTRIBUTE_KEY + "TestList";
         String value = TEST_CUSTOM_ATTRIBUTE_VALUE + " (test list)";
@@ -171,7 +173,7 @@ public class TestProjectCustomAttributes extends AbstractIntegrationTest {
     @Test
     public void testDeleteCustomAttribute() throws GitLabApiException {
 
-        assumeNotNull(testProject);
+        assumeTrue(testProject != null);
 
         String key = TEST_CUSTOM_ATTRIBUTE_KEY + "TestDelete";
         String value = TEST_CUSTOM_ATTRIBUTE_VALUE + " (test delete)";

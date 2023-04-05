@@ -18,7 +18,7 @@ public class BuildEvent extends AbstractEvent {
     private Boolean tag;
     private String beforeSha;
     private String sha;
-    private Integer buildId;
+    private Long buildId;
     private String buildName;
     private String buildStage;
     private String buildStatus;
@@ -27,13 +27,14 @@ public class BuildEvent extends AbstractEvent {
     private Float buildDuration;
     private Boolean buildAllowFailure;
     private String buildFailureReason;
-    private Integer projectId;
+    private Long projectId;
     private String projectName;
     private User user;
     private BuildCommit commit;
     private EventRepository repository;
 
-    public String getObjectKind() {
+    @Override
+	public String getObjectKind() {
         return (OBJECT_KIND);
     }
 
@@ -74,11 +75,11 @@ public class BuildEvent extends AbstractEvent {
         this.sha = sha;
     }
 
-    public Integer getBuildId() {
+    public Long getBuildId() {
         return buildId;
     }
 
-    public void setBuildId(Integer buildId) {
+    public void setBuildId(Long buildId) {
         this.buildId = buildId;
     }
 
@@ -146,11 +147,11 @@ public class BuildEvent extends AbstractEvent {
         this.buildFailureReason = buildFailureReason;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 

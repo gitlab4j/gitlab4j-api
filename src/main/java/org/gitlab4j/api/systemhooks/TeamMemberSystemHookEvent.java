@@ -6,22 +6,22 @@ import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
-    
+
     public static final String NEW_TEAM_MEMBER_EVENT = "user_add_to_team";
     public static final String TEAM_MEMBER_REMOVED_EVENT = "user_remove_from_team";
-    
+
     private Date createdAt;
     private Date updatedAt;
     private String eventName;
     private String projectAccess;
     private String projectName;
     private String projectPath;
-    private Integer projectId;
+    private Long projectId;
     private String projectPathWithNamespace;
     private String userEmail;
     private String userName;
     private String userUsername;
-    private Integer userId;
+    private Long userId;
     private Visibility projectVisibility;
 
     public Date getCreatedAt() {
@@ -40,7 +40,8 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
         this.updatedAt = updatedAt;
     }
 
-    public String getEventName() {
+    @Override
+	public String getEventName() {
         return this.eventName;
     }
 
@@ -72,11 +73,11 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
         this.projectPath = projectPath;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
@@ -112,11 +113,11 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
         this.userUsername = userUsername;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

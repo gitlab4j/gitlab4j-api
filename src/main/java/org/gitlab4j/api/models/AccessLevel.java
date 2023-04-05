@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum AccessLevel {
 
-    INVALID(-1), NONE(0), GUEST(10), REPORTER(20), DEVELOPER(30), @Deprecated MASTER(40), MAINTAINER(40), OWNER(50), ADMIN(60);
+    INVALID(-1), NONE(0), MINIMAL_ACCESS(5), GUEST(10), REPORTER(20), DEVELOPER(30), @Deprecated MASTER(40), MAINTAINER(40), OWNER(50), ADMIN(60);
 
     public final Integer value;
 

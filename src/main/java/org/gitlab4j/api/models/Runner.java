@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Runner {
 
-    private Integer id;
+    private Long id;
     private String description;
     private Boolean active;
     private Boolean isShared;
@@ -67,11 +67,11 @@ public class Runner {
         }
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -132,7 +132,7 @@ public class Runner {
     }
 
 
-    public Runner withId(Integer id) {
+    public Runner withId(Long id) {
         this.id = id;
         return this;
     }

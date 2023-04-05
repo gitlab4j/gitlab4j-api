@@ -1,12 +1,14 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
@@ -15,26 +17,18 @@ import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.AccessTokenUtils;
 import org.gitlab4j.api.utils.AccessTokenUtils.Scope;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.experimental.categories.Categories.IncludeCategory;
-import org.junit.runner.RunWith;
-
-import com.googlecode.junittoolbox.SuiteClasses;
-import com.googlecode.junittoolbox.WildcardPatternSuite;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
- * This test suite implementation will check for the users, projects, groups, and repo files needed for testing
+ * This extension for integration tests will check for the users, projects, groups, and repo files needed for testing
  * and create them if they do not exist.  It will also create temporary personal access tokens needed for testing.
  *
  * <p>NOTE: This class relies on a minimal amount of the GitLab4J-API library to set things up,
  * so if there are any failures the test suite will fail.  Consider it the first integration tests
  * that are being performed.</p>
  */
-@RunWith(WildcardPatternSuite.class)
-@SuiteClasses({"**/Test*.class"})
-@IncludeCategory(IntegrationTest.class)
-public class IntegrationTestSuite implements PropertyConstants {
+public class SetupIntegrationTestExtension implements BeforeAllCallback, ExtensionContext.Store.CloseableResource, PropertyConstants {
 
     private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
     private static final String TEST_LOGIN_USERNAME = HelperUtils.getProperty(LOGIN_USERNAME_KEY);
@@ -55,38 +49,47 @@ public class IntegrationTestSuite implements PropertyConstants {
     private static boolean createdAccessToken = false;
     private static String problems = "";
 
-    @BeforeClass
-    public static void suiteSetup() throws GitLabApiException {
+    private static boolean alreadySetup = false;
+	final static Lock lock = new ReentrantLock();
 
-        System.out.println("********************************************************");
-        System.out.println("*                  Test Suite Setup                    *");
-        System.out.println("********************************************************");
+	@Override
+	public void beforeAll(ExtensionContext context) throws Exception {
+		lock.lock();
+		if (!alreadySetup) {
 
-        if (TEST_LOGIN_USERNAME == null || TEST_LOGIN_USERNAME.trim().isEmpty()) {
-            problems += "TEST_LOGIN_USERNAME cannot be empty\n";
-        }
+			System.out.println("********************************************************");
+	        System.out.println("*               Integration Tests Setup                *");
+	        System.out.println("********************************************************");
 
-        if (TEST_LOGIN_PASSWORD == null || TEST_LOGIN_PASSWORD.trim().isEmpty()) {
-            problems += "TEST_LOGIN_PASSWORD cannot be empty\n";
-        }
+	        if (TEST_LOGIN_USERNAME == null || TEST_LOGIN_USERNAME.trim().isEmpty()) {
+	            problems += "TEST_LOGIN_USERNAME cannot be empty\n";
+	        }
 
-        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-            problems += "TEST_HOST_URL cannot be empty\n";
-        }
+	        if (TEST_LOGIN_PASSWORD == null || TEST_LOGIN_PASSWORD.trim().isEmpty()) {
+	            problems += "TEST_LOGIN_PASSWORD cannot be empty\n";
+	        }
 
-        if (!problems.isEmpty()) {
-            fail(problems);
-        }
+	        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
+	            problems += "TEST_HOST_URL cannot be empty\n";
+	        }
 
-        seedData();
-        createAccessTokens();
+	        if (!problems.isEmpty()) {
+	            fail(problems);
+	        }
+
+	        seedData();
+	        createAccessTokens();
+
+			alreadySetup = true;
+		}
+		lock.unlock();
+
     }
 
-    @AfterClass
-    public static void suiteTeardown() throws GitLabApiException {
-
+	@Override
+	public void close() throws Throwable {
         System.out.println("********************************************************");
-        System.out.println("*                 Test Suite Teardown                  *");
+        System.out.println("*             Integration Tests Teardown               *");
         System.out.println("********************************************************");
 
         revokeAccessTokens();

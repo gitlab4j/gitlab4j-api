@@ -10,12 +10,12 @@ public class Event {
 
     private String actionName;
     private Author author;
-    private Integer authorId;
+    private Long authorId;
     private String authorUsername;
     private EventData data;
-    private Integer projectId;
-    private Integer targetId;
-    private Integer targetIid;
+    private Long projectId;
+    private Long targetId;
+    private Long targetIid;
     private String targetTitle;
     private TargetType targetType;
     private String title;
@@ -40,11 +40,11 @@ public class Event {
         this.author = author;
     }
 
-    public Integer getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
@@ -64,27 +64,27 @@ public class Event {
         this.data = data;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
-    public Integer getTargetId() {
+    public Long getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(Integer targetId) {
+    public void setTargetId(Long targetId) {
         this.targetId = targetId;
     }
 
-    public Integer getTargetIid() {
+    public Long getTargetIid() {
         return targetIid;
     }
 
-    public void setTargetIid(Integer targetIid) {
+    public void setTargetIid(Long targetIid) {
         this.targetIid = targetIid;
     }
 
@@ -146,7 +146,7 @@ public class Event {
         return this;
     }
 
-    public Event withAuthorId(Integer authorId) {
+    public Event withAuthorId(Long authorId) {
         this.authorId = authorId;
         return this;
     }
@@ -161,17 +161,17 @@ public class Event {
         return this;
     }
 
-    public Event withProjectId(Integer projectId) {
+    public Event withProjectId(Long projectId) {
         this.projectId = projectId;
         return this;
     }
 
-    public Event withTargetId(Integer targetId) {
+    public Event withTargetId(Long targetId) {
         this.targetId = targetId;
         return this;
     }
 
-    public Event withTargetIid(Integer targetIid) {
+    public Event withTargetIid(Long targetIid) {
         this.targetIid = targetIid;
         return this;
     }

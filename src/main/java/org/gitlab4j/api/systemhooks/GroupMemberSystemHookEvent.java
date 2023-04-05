@@ -15,11 +15,11 @@ public class GroupMemberSystemHookEvent extends AbstractSystemHookEvent {
     private String groupAccess;
     private String groupName;
     private String groupPath;
-    private Integer groupId;
+    private Long groupId;
     private String userEmail;
     private String userName;
     private String userUsername;
-    private Integer userId;
+    private Long userId;
 
     public Date getCreatedAt() {
         return createdAt;
@@ -37,7 +37,8 @@ public class GroupMemberSystemHookEvent extends AbstractSystemHookEvent {
         this.updatedAt = updatedAt;
     }
 
-    public String getEventName() {
+    @Override
+	public String getEventName() {
         return this.eventName;
     }
 
@@ -69,11 +70,11 @@ public class GroupMemberSystemHookEvent extends AbstractSystemHookEvent {
         this.groupPath = groupPath;
     }
 
-    public Integer getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(Integer groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 
@@ -101,11 +102,11 @@ public class GroupMemberSystemHookEvent extends AbstractSystemHookEvent {
         this.userUsername = userUsername;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

@@ -58,13 +58,13 @@ public class GroupParams {
     private Boolean emailsDisabled;
     private Boolean lfsEnabled;
     private Boolean requestAccessEnabled;
-    private Integer parentId;
+    private Long parentId;
     private Integer sharedRunnersMinutesLimit;
     private Integer extraSharedRunnersMinutesLimit;
     private DefaultBranchProtectionLevel defaultBranchProtection;
 
     private Boolean membershipLock;
-    private Integer fileTemplateProjectId;
+    private Long fileTemplateProjectId;
 
     /**
      * The parent group ID for creating nested group. For create only.
@@ -72,7 +72,7 @@ public class GroupParams {
      * @param parentId the parent group ID for creating nested group
      * @return this GroupParms instance
      */
-    public GroupParams withParentId(Integer parentId) {
+    public GroupParams withParentId(Long parentId) {
 	this.parentId = parentId;
 	return (this);
     }
@@ -94,7 +94,7 @@ public class GroupParams {
      * @param fileTemplateProjectId the ID of a project to load custom file templates from
      * @return this GroupParms instance
      */
-    public GroupParams withFileTemplateProjectId(Integer fileTemplateProjectId) {
+    public GroupParams withFileTemplateProjectId(Long fileTemplateProjectId) {
 	this.fileTemplateProjectId = fileTemplateProjectId;
 	return (this);
     }

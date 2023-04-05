@@ -1,19 +1,20 @@
 package org.gitlab4j.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.Arrays;
 
 import org.gitlab4j.api.utils.AccessTokenUtils;
 import org.gitlab4j.api.utils.AccessTokenUtils.Scope;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
@@ -24,7 +25,8 @@ import org.junit.experimental.categories.Category;
  *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-@Category(IntegrationTest.class)
+@Tag("integration")
+@ExtendWith(SetupIntegrationTestExtension.class)
 public class TestAccessTokenUtils {
 
     // The following needs to be set to your test repository
@@ -38,7 +40,7 @@ public class TestAccessTokenUtils {
         super();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
 
         problems = "";
@@ -60,7 +62,7 @@ public class TestAccessTokenUtils {
         }
     }
 
-    @Before
+    @BeforeEach
     public void beforeMethod() {
         assumeTrue(problems.isEmpty());
     }
@@ -93,7 +95,7 @@ public class TestAccessTokenUtils {
 
         try {
             AccessTokenUtils.createPersonalAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, "INVALID PASSWORD", 
+                TEST_HOST_URL, TEST_LOGIN_USERNAME, "INVALID PASSWORD",
                 "Testing Token Creation", Arrays.asList(Scope.API, Scope.SUDO));
             fail("Expected a failure, but personal access token was created.");
         } catch (GitLabApiException glae) {

@@ -3,16 +3,17 @@ package org.gitlab4j.api.models;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class ProjectSharedGroup {
- 
-    private Integer groupId;
+
+    private Long groupId;
     private String groupName;
+    private String groupFullPath;
     private AccessLevel groupAccessLevel;
 
-    public int getGroupId() {
+    public long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(long groupId) {
         this.groupId = groupId;
     }
 
@@ -30,6 +31,14 @@ public class ProjectSharedGroup {
 
     public void setGroupAccessLevel(AccessLevel accessLevel) {
         this.groupAccessLevel = accessLevel;
+    }
+
+    public String getGroupFullPath() {
+        return groupFullPath;
+    }
+
+    public void setGroupFullPath(String groupFullPath) {
+        this.groupFullPath = groupFullPath;
     }
 
     @Override

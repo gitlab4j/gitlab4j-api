@@ -28,7 +28,7 @@ import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
 import static org.gitlab4j.api.JsonUtils.unmarshalResource;
 import static org.gitlab4j.api.JsonUtils.unmarshalResourceList;
 import static org.gitlab4j.api.JsonUtils.unmarshalResourceMap;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -62,6 +62,9 @@ import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.ExportStatus;
+import org.gitlab4j.api.models.ExternalStatusCheck;
+import org.gitlab4j.api.models.ExternalStatusCheckResult;
+import org.gitlab4j.api.models.ExternalStatusCheckStatus;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.GpgSignature;
 import org.gitlab4j.api.models.Group;
@@ -87,6 +90,7 @@ import org.gitlab4j.api.models.PackageFile;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectGroup;
 import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectHook;
@@ -112,7 +116,8 @@ import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.SlackService;
-import org.junit.Test;
+import org.gitlab4j.api.webhook.ExternalStatusCheckEvent;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -264,6 +269,30 @@ public class TestGitLabApiBeans {
     public void testExportStatus() throws Exception {
         ExportStatus exportStatus = unmarshalResource(ExportStatus.class, "export-status.json");
         assertTrue(compareJson(exportStatus, "export-status.json"));
+    }
+
+    @Test
+    public void testExternalStatusChecks() throws Exception {
+        List<ExternalStatusCheck> externalStatusChecks = unmarshalResourceList(ExternalStatusCheck.class, "external-status-checks.json");
+        assertTrue(compareJson(externalStatusChecks, "external-status-checks.json"));
+    }
+
+    @Test
+    public void testExternalStatusCheckEvent() throws Exception {
+        ExternalStatusCheckEvent externalStatusCheckEvent = unmarshalResource(ExternalStatusCheckEvent.class, "external-status-check-event.json");
+        assertTrue(compareJson(externalStatusCheckEvent, "external-status-check-event.json"));
+    }
+
+    @Test
+    public void testExternalStatusCheckResult() throws Exception {
+        ExternalStatusCheckResult externalStatusCheckResult = unmarshalResource(ExternalStatusCheckResult.class, "external-status-check-result.json");
+        assertTrue(compareJson(externalStatusCheckResult, "external-status-check-result.json"));
+    }
+
+    @Test
+    public void testExternalStatusCheckStatuses() throws Exception {
+        List<ExternalStatusCheckStatus> externalStatusCheckStatuses = unmarshalResourceList(ExternalStatusCheckStatus.class, "external-status-check-statuses.json");
+        assertTrue(compareJson(externalStatusCheckStatuses, "external-status-check-statuses.json"));
     }
 
     @Test
@@ -426,6 +455,12 @@ public class TestGitLabApiBeans {
     public void testArtifactsFile() throws Exception {
         ArtifactsFile artifactFile = unmarshalResource(ArtifactsFile.class, "artifacts-file.json");
         assertTrue(compareJson(artifactFile, "artifacts-file.json"));
+    }
+
+    @Test
+    public void testProjectGroups() throws Exception {
+        List<ProjectGroup> projectGroups = unmarshalResourceList(ProjectGroup.class, "project-groups.json");
+        assertTrue(compareJson(projectGroups, "project-groups.json"));
     }
 
     @Test

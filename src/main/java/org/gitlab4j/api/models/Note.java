@@ -83,13 +83,13 @@ public class Note {
     private Boolean downvote;
     private Date expiresAt;
     private String fileName;
-    private Integer id;
-    private Integer noteableId;
-    
+    private Long id;
+    private Long noteableId;
+
     // Use String for noteableType until the constant is fixed in the GitLab API
     private String noteableType;
-    
-    private Integer noteableIid;
+
+    private Long noteableIid;
     private Boolean system;
     private String title;
     private Date updatedAt;
@@ -97,6 +97,7 @@ public class Note {
     private Boolean resolved;
     private Boolean resolvable;
     private Participant resolvedBy;
+    private Date resolvedAt;
     private Type type;
 
     private Position position;
@@ -157,19 +158,19 @@ public class Note {
         this.fileName = fileName;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getNoteableId() {
+    public Long getNoteableId() {
         return noteableId;
     }
 
-    public void setNoteableId(Integer noteableId) {
+    public void setNoteableId(Long noteableId) {
         this.noteableId = noteableId;
     }
 
@@ -181,11 +182,11 @@ public class Note {
         this.noteableType = noteableType;
     }
 
-    public Integer getNoteableIid() {
+    public Long getNoteableIid() {
         return noteableIid;
     }
 
-    public void setNoteableIid(Integer noteableIid) {
+    public void setNoteableIid(Long noteableIid) {
         this.noteableIid = noteableIid;
     }
 
@@ -243,6 +244,14 @@ public class Note {
 
     public void setResolvedBy(Participant resolvedBy) {
         this.resolvedBy = resolvedBy;
+    }
+
+    public Date getResolvedAt() {
+        return resolvedAt;
+    }
+
+    public void setResolvedAt(Date resolvedAt) {
+        this.resolvedAt = resolvedAt;
     }
 
     public Type getType() {

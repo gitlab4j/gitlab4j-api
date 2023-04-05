@@ -32,7 +32,7 @@ public class ImportExportApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/export</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @throws GitLabApiException if any exception occurs
      */
     public void scheduleExport(Object projectIdOrPath) throws GitLabApiException {
@@ -44,7 +44,7 @@ public class ImportExportApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/export</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param description overrides the project description, optional
      * @throws GitLabApiException if any exception occurs
      */
@@ -57,7 +57,7 @@ public class ImportExportApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/export</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param description overrides the project description, optional
      * @param upload Mao that contains the information to upload the exported project to a web server
      * @param uploadUrl the URL to upload the project
@@ -81,7 +81,7 @@ public class ImportExportApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/export</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return an ExportStatus instance holding information on the export status
      * @throws GitLabApiException if any exception occurs
      */
@@ -95,7 +95,7 @@ public class ImportExportApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/export/download</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param directory the File instance of the directory to save the export file to, if null will use "java.io.tmpdir"
      * @return a File instance pointing to the download of the project export file
      * @throws GitLabApiException if any exception occurs
@@ -109,7 +109,7 @@ public class ImportExportApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/export/download</code></pre>
      *
-     * @param projectIdOrPath the project in the form of an Integer(ID), String(path), or Project instance
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param directory the File instance of the directory to save the export file to, if null will use "java.io.tmpdir"
      * @param filename Name to give to the downloaded file. If null then we try to get from Content-Disposition header
      *                 or to compute one from parameters
@@ -238,7 +238,8 @@ public class ImportExportApi extends AbstractApi {
                 .withParam("initialize_with_readme", overrideParams.getInitializeWithReadme())
                 .withParam("packages_enabled", overrideParams.getPackagesEnabled())
                 .withParam("build_git_strategy", overrideParams.getBuildGitStrategy())
-                .withParam("build_coverage_regex", overrideParams.getBuildCoverageRegex());
+                .withParam("build_coverage_regex", overrideParams.getBuildCoverageRegex())
+                .withParam("squash_option", overrideParams.getSquashOption());
         }
 
         Response response = upload(Response.Status.CREATED, "file", exportFile, null, formData, url);
@@ -250,7 +251,7 @@ public class ImportExportApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/import</code></pre>
      *
-     * @param projectIdOrPath the new (imported) project identifier in the form of an Integer(ID), String(path), or Project instance 
+     * @param projectIdOrPath the new (imported) project identifier in the form of an Long(ID), String(path), or Project instance 
      * @return an ImportStatus instance holding information on the import status
      * @throws GitLabApiException if any exception occurs
      */
