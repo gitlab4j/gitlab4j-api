@@ -22,7 +22,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-public class TestReleasesLinkApi implements Constants {
+public class TestReleaseLinksApi implements Constants {
 
     @Mock private GitLabApi gitLabApi;
     @Mock private GitLabApiClient gitLabApiClient;
@@ -37,7 +37,7 @@ public class TestReleasesLinkApi implements Constants {
     @Test
     public void testGetLinks() throws Exception {
         initGetLinks();
-        List<Link> result = new ReleasesLinkApi(gitLabApi).getLinks(6L, "v1.0");
+        List<Link> result = new ReleaseLinksApi(gitLabApi).getLinks(6L, "v1.0");
         assertNotNull(result);
         assertTrue(compareJson(result, "links.json"));
     }
@@ -45,7 +45,7 @@ public class TestReleasesLinkApi implements Constants {
     @Test
     public void testGetLinksByPager() throws Exception {
         initGetLinks();
-        Pager<Link> pager = new ReleasesLinkApi(gitLabApi).getLinks(6L, "v1.0", 20);
+        Pager<Link> pager = new ReleaseLinksApi(gitLabApi).getLinks(6L, "v1.0", 20);
         assertNotNull(pager);
         assertTrue(compareJson(pager.all(), "links.json"));
     }
@@ -53,7 +53,7 @@ public class TestReleasesLinkApi implements Constants {
     @Test
     public void testGetLinksByStream() throws Exception {
         initGetLinks();
-        Stream<Link> stream = new ReleasesLinkApi(gitLabApi).getLinksStream(6L, "v1.0");
+        Stream<Link> stream = new ReleaseLinksApi(gitLabApi).getLinksStream(6L, "v1.0");
         assertNotNull(stream);
         List<Link> list = stream.collect(Collectors.toList());
         assertTrue(compareJson(list, "links.json"));

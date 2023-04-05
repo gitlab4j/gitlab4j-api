@@ -13,9 +13,9 @@ import java.util.stream.Stream;
  * This class provides an entry point to all the GitLab ReleaseLinks API calls.
  * @see <a href="https://docs.gitlab.com/ce/api/releases/links.html">ReleaseLinks API at GitLab</a>
  */
-public class ReleasesLinkApi extends AbstractApi {
+public class ReleaseLinksApi extends AbstractApi {
 
-    public ReleasesLinkApi(GitLabApi gitLabApi) {
+    public ReleaseLinksApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
