@@ -10,6 +10,10 @@ public class Link {
     private Integer id;
     private String name;
     private String url;
+    /**
+     * @deprecated deprecated in GitLab 15.9, will be removed in GitLab 16.0.
+     */
+    @Deprecated
     private Boolean external;
     private String linkType;
 
@@ -37,10 +41,18 @@ public class Link {
         this.url = url;
     }
 
+    /**
+     * @deprecated deprecated in GitLab 15.9, will be removed in GitLab 16.0.
+     */
+    @Deprecated
     public Boolean getExternal() {
         return external;
     }
 
+    /**
+     * @deprecated deprecated in GitLab 15.9, will be removed in GitLab 16.0.
+     */
+    @Deprecated
     public void setExternal(Boolean external) {
         this.external = external;
     }
