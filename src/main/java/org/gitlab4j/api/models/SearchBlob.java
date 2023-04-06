@@ -7,7 +7,7 @@ public class SearchBlob {
     private String basename;
     private String data;
     private String filename;
-    private Long id;
+    private String id;
     private String ref;
     private Integer startline;
     private Long projectId;
@@ -36,11 +36,11 @@ public class SearchBlob {
         this.filename = filename;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
