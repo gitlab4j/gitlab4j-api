@@ -316,9 +316,30 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Issue> getGroupIssues(Object groupIdOrPath, IssueFilter filter) throws GitLabApiException {
-	return (getGroupIssues(groupIdOrPath, filter, getDefaultPerPage()).all());
+    	return (getGroupIssues(groupIdOrPath, filter, getDefaultPerPage()).all());
     }
 
+    
+    /**
+     * Get a list of a group’s issues.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/issues</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param filter {@link IssueFilter} a IssueFilter instance with the filter settings.
+     * @param page the page to get.
+     * @param perPage the number of projects per page.
+     * @return a List of issues for the specified group and filter
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Issue> getGroupIssues(Object groupIdOrPath, IssueFilter filter, int page, int perPage) throws GitLabApiException {
+    	GitLabApiForm formData = filter.getQueryParams(page, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "issues");
+        return (response.readEntity(new GenericType<List<Issue>>() {}));
+       
+    }
+
+    
     /**
      * Get a list of groups's issues.
      *
