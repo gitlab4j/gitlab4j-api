@@ -1071,4 +1071,29 @@ public class IssuesApi extends AbstractApi implements Constants {
         	"projects", this.getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "move");
         return (response.readEntity(Issue.class));
     }
-}
+    
+    
+    /**
+     * <p>Reorders an issue, you can see the results when sorting issues manually.</p>
+     * 
+     * * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid/reorder </code></pre>
+     * 
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param issueIid the IID of the issue to move
+     * @param moveAfterIssueId The global ID of a project’s issue that should be placed after this issue
+     * @param moveBeforeIssueId The global ID of a project’s issue that should be placed before this issue
+     * @param groupFullPath the group in the form of an Long(ID), String(path), or Group instance
+     * @throws GitLabApiException
+     */
+    public void reorder(Object projectIdOrPath, Long issueIid, Long moveBeforeIssueId, Long moveAfterIssueId, Object groupFullPath) throws GitLabApiException {
+    	GitLabApiForm formData = new GitLabApiForm()
+    			.withParam("move_before_id", moveBeforeIssueId)
+    			.withParam("move_after_id", moveAfterIssueId)
+    	        .withParam("group_full_path", getGroupIdOrPath(groupFullPath));
+    	
+    	 put(Response.Status.OK, formData.asMap(),
+    	        	"projects", this.getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "reorder");
+    	 
+
+    }
+} 
