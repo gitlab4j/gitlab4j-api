@@ -111,14 +111,14 @@ public interface Constants {
     /** Enum to use for ordering the results of getIssues(). */
     public enum IssueOrderBy {
 
-        CREATED_AT, UPDATED_AT;
+        CREATED_AT, DUE_DATE, LABEL_PRIORITY, MILESTONE_DUE, POPULARITY, PRIORITY, RELATIVE_POSITION,relative_position, TITLE, UPDATED_AT, WEIGHT;
 
         private static JacksonJsonEnumHelper<IssueOrderBy> enumHelper = new JacksonJsonEnumHelper<>(IssueOrderBy.class);
 
         @JsonCreator
         public static IssueOrderBy forValue(String value) {
             return enumHelper.forValue(value);
-        }
+        } 
 
         @JsonValue
         public String toValue() {
