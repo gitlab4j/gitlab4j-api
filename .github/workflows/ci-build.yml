@@ -9,8 +9,8 @@ on:
 
 jobs:
 
-  build-jdk8:
-    name: "Build JDK 8"
+  build-jdk11:
+    name: "Build JDK 11"
     runs-on: ubuntu-latest
     services:
       gitlab-instance:
@@ -23,11 +23,11 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Set up JDK 8
+      - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           distribution: adopt-hotspot
-          java-version: 8
+          java-version: 11
       - name: Get Date
         id: get-date
         run: |

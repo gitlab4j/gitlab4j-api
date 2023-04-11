@@ -10,7 +10,7 @@ GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume 
 ## Table of Contents
 * [GitLab Server Version Support](#gitLab-server-version-support)<br/>
 * [Using GitLab4J-API](#using-gitlab4j-api)<br/>
-  * [Java 8 Requirement](#java-8-requirement)<br/>
+  * [Java 11 Requirement](#java-11-requirement)<br/>
   * [Javadocs](#javadocs)<br/>
   * [Project Set Up](#project-set-up)<br/>
   * [Usage Examples](#usage-examples)<br/>
@@ -40,8 +40,8 @@ As of GitLab 11.0 support for the GitLab API v3 has been removed from the GitLab
 ---
 ## Using GitLab4J-API
 
-### **Java 8 Requirement**
-As of GitLab4J-API 4.8.0, Java 8+ is now required to use GitLab4J-API.
+### **Java 11 Requirement**
+As of GitLab4J-API 6.0.0, Java 11+ is now required to use GitLab4J-API.
 
 ### **Javadocs**
 Javadocs are available here: [![javadoc.io](https://javadoc.io/badge2/org.gitlab4j/gitlab4j-api/javadoc.io.svg)](https://javadoc.io/doc/org.gitlab4j/gitlab4j-api)
@@ -53,7 +53,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '5.1.0'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '6.0.0'
 }
 ```
 
@@ -64,7 +64,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>5.1.0</version>
+    <version>6.0.0</version>
 </dependency>
 ```
 
