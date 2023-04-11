@@ -1,9 +1,8 @@
 # GitLab4J&trade; API (gitlab4j-api)<br />Java Client Library for the GitLab REST API
 
 [![Maven Central](https://img.shields.io/maven-central/v/org.gitlab4j/gitlab4j-api.svg)](http://mvnrepository.com/artifact/org.gitlab4j/gitlab4j-api)
-[![Build Status](https://travis-ci.org/gitlab4j/gitlab4j-api.svg?branch=master)](https://travis-ci.org/gitlab4j/gitlab4j-api)
+[![Build Status](https://github.com/gitlab4j/gitlab4j-api/actions/workflows/ci-build.yml/badge.svg?branch=main)](https://github.com/gitlab4j/gitlab4j-api/actions/workflows/ci-build.yml)
 [![javadoc.io](https://javadoc.io/badge2/org.gitlab4j/gitlab4j-api/javadoc.io.svg)](https://javadoc.io/doc/org.gitlab4j/gitlab4j-api)
-
 
 GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume Java library for working with GitLab repositories via the GitLab REST API.  Additionally, full support for working with GitLab webhooks and system hooks is also provided.
 
