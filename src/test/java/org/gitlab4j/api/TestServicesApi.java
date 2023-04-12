@@ -11,6 +11,7 @@ import org.gitlab4j.api.services.BugzillaService;
 import org.gitlab4j.api.services.CustomIssueTrackerService;
 import org.gitlab4j.api.services.EmailOnPushService;
 import org.gitlab4j.api.services.ExternalWikiService;
+import org.gitlab4j.api.services.JenkinsService;
 import org.gitlab4j.api.services.JiraService;
 import org.gitlab4j.api.services.MattermostService;
 import org.gitlab4j.api.services.NotificationService.BranchesToBeNotified;
@@ -60,6 +61,10 @@ public class TestServicesApi extends AbstractIntegrationTest {
 			}
 			try {
 				gitLabApi.getServicesApi().deleteSlackService(testProject);
+			} catch (Exception ignore) {
+			}
+			try {
+				gitLabApi.getServicesApi().deleteJenkinsService(testProject);
 			} catch (Exception ignore) {
 			}
 		}
@@ -133,6 +138,49 @@ public class TestServicesApi extends AbstractIntegrationTest {
 
 		gitLabApi.getServicesApi().deleteJiraService(testProject);
 		JiraService deleteJiraService = gitLabApi.getServicesApi().getJiraService(testProject);
+		assertNotNull(deleteJiraService);
+		assertFalse(deleteJiraService.getActive());
+	}
+
+	@Test
+	public void testGetJenkinsService() throws GitLabApiException {
+		JenkinsService jenkinsService = gitLabApi.getServicesApi().getJenkinsService(testProject);
+		assertNotNull(jenkinsService);
+	}
+
+	@Test
+	public void testUpdateJenkinsService() throws GitLabApiException {
+
+		try {
+			JenkinsService jenkinsService = new JenkinsService()
+					.withUrl("http://jenkins.example.com/")
+					.withProjectName("my-jenkins-project")
+					.withUsername("foo")
+					.withPassword("bar");
+			JenkinsService updatedJenkinsService = gitLabApi.getServicesApi().updateJenkinsService(testProject, jenkinsService);
+			assertNotNull(updatedJenkinsService);
+		} finally {
+			try {
+				gitLabApi.getServicesApi().deleteJenkinsService(testProject);
+			} catch (Exception ignore) {
+			}
+		}
+	}
+
+	@Test
+	public void testDeleteJenkinsService() throws GitLabApiException {
+
+		JenkinsService jenkinsService = new JenkinsService()
+				.withUrl("http://jenkins.example.com/")
+				.withProjectName("my-jenkins-project")
+				.withUsername("foo")
+				.withPassword("bar");
+		JenkinsService updatedJenkinsService = gitLabApi.getServicesApi().updateJenkinsService(testProject, jenkinsService);
+		assertNotNull(updatedJenkinsService);
+		assertTrue(updatedJenkinsService.getActive());
+
+		gitLabApi.getServicesApi().deleteJenkinsService(testProject);
+		JenkinsService deleteJiraService = gitLabApi.getServicesApi().getJenkinsService(testProject);
 		assertNotNull(deleteJiraService);
 		assertFalse(deleteJiraService.getActive());
 	}
