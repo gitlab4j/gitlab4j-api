@@ -130,26 +130,6 @@ public class Pipeline {
     }
 
     /**
-     * @deprecated Replaced by {@link #getUpdatedAt()}
-     * @return the updated at Date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getUpdated_at() {
-        return updatedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #setUpdatedAt(Date)}
-     * @param updatedAt new updated at value
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setUpdated_at(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    /**
      * @deprecated Replaced by {@link #getStartedAt()}
      * @return the started at Date
      */
@@ -157,56 +137,6 @@ public class Pipeline {
     @JsonIgnore
     public Date getStarted_at() {
         return startedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #setStartedAt(Date)}
-     * @param startedAt new started at value
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setStarted_at(Date startedAt) {
-        this.startedAt = startedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #getFinishedAt()}
-     * @return the finished at Date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getFinished_at() {
-        return finishedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #setFinishedAt(Date)}
-     * @param finishedAt new finished at value
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setFinished_at(Date finishedAt) {
-        this.finishedAt = finishedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #getCommittedAt()}
-     * @return the committed at Date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getCommitted_at() {
-        return committedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #setCommittedAt(Date)}
-     * @param committedAt new committed at value
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setCommitted_at(Date committedAt) {
-        this.committedAt = committedAt;
     }
 
     public String getCoverage() {

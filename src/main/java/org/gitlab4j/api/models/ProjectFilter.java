@@ -227,19 +227,6 @@ public class ProjectFilter {
     }
 
     /**
-     * Limit by current user minimal access level
-     *
-     * @param minAccessLevel limit by current user minimal access level
-     * @return the reference to this ProjectFilter instance
-     * @deprecated Replaced by {@link #withMinAccessLevel(AccessLevel) getComponentAt}
-     */
-    @Deprecated
-	public ProjectFilter minAccessLevel(AccessLevel minAccessLevel) {
-        this.minAccessLevel = minAccessLevel;
-        return (this);
-    }
-
-    /**
      * Limit by current user minimal access level.
      *
      * @param minAccessLevel limit by current user minimal access level
