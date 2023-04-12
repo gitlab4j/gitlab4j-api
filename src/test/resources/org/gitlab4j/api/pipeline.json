@@ -18,6 +18,7 @@
   "updated_at": "2016-08-11T11:32:35.169Z",
   "finished_at": "2016-08-11T11:32:35.145Z",
   "coverage": "30.0",
+  "queued_duration": 0.010,
   "detailed_status": {
      "icon": "status_pending",
      "text": "pending",

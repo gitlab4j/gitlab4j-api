@@ -29,6 +29,7 @@ public class Job {
     private Boolean manual;
     private Boolean allowFailure;
     private Float duration;
+    private Float queuedDuration;
     private Project project;
 
     public Long getId() {
@@ -206,11 +207,18 @@ public class Job {
     public void setDuration(Float duration) {
         this.duration = duration;
     }
-    
+
+    public Float getQueuedDuration() {
+        return queuedDuration;
+    }
+
+    public void setQueuedDuration(Float queuedDuration) {
+        this.queuedDuration = queuedDuration;
+    }
+
     public Project getProject() {
         return project;
     }
-    
     public void setProject(Project project) {
         this.project = project;
     }
@@ -304,12 +312,16 @@ public class Job {
         this.allowFailure = allowFailure;
         return this;
     }
-    
     public Job withDuration(Float duration) {
         this.duration = duration;
         return this;
     }
-    
+
+    public Job withQueuedDuration(Float queuedDuration) {
+        this.queuedDuration = queuedDuration;
+        return this;
+    }
+
     public Job withProject(Project project) {
         this.project = project;
         return this;
