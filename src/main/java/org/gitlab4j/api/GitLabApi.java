@@ -83,6 +83,7 @@ public class GitLabApi implements AutoCloseable {
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
     private ProtectedBranchesApi protectedBranchesApi;
+	private ReleaseLinksApi releaseLinksApi;
     private ReleasesApi releasesApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
@@ -1444,6 +1445,25 @@ public class GitLabApi implements AutoCloseable {
         return (this.protectedBranchesApi);
     }
 
+    /**
+     * Gets the ReleaseLinksApi instance owned by this GitLabApi instance. The ReleaseLinksApi is used
+     * to perform all Release Links related API calls.
+     *
+     * @return the ReleaseLinksApi instance owned by this GitLabApi instance
+     */
+    public ReleaseLinksApi getReleaseLinksApi() {
+
+        if (releaseLinksApi == null) {
+            synchronized (this) {
+                if (releaseLinksApi == null) {
+                    releaseLinksApi = new ReleaseLinksApi(this);
+                }
+            }
+        }
+
+        return releaseLinksApi;
+    }
+    
     /**
      * Gets the ReleasesApi instance owned by this GitLabApi instance. The ReleasesApi is used
      * to perform all release related API calls.
