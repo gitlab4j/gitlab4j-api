@@ -107,18 +107,6 @@ public class Branch {
         return this;
     }
 
-    /**
-     * Set the merged attribute
-     * @param merged
-     * @deprecated Use {@link #withMerged(Boolean)} instead
-     * @return Current branch instance
-     */
-    @Deprecated
-    public Branch withDerged(Boolean merged) {
-        this.merged = merged;
-        return this;
-    }
-
     public Branch withMerged(Boolean merged) {
         this.merged = merged;
         return this;

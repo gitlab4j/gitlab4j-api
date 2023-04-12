@@ -34,14 +34,6 @@ public class GroupFilter {
     }
 
     /**
-     * @deprecated this method contains a typo, use {@link #withAllAvailable(Boolean)} instead
-     */
-    @Deprecated
-    public GroupFilter withAllAvailabley(Boolean allAvailable) {
-        return withAllAvailable(allAvailable);
-    }
-
-    /**
      * Show all the groups you have access to (defaults to false for authenticated users, true for admin).
      * Attributes owned and min_access_level have precedence
      *
