@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.models.OauthTokenResponse;
@@ -83,6 +83,7 @@ public class GitLabApi implements AutoCloseable {
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
     private ProtectedBranchesApi protectedBranchesApi;
+	private ReleaseLinksApi releaseLinksApi;
     private ReleasesApi releasesApi;
     private RepositoryApi repositoryApi;
     private RepositoryFileApi repositoryFileApi;
@@ -466,7 +467,7 @@ public class GitLabApi implements AutoCloseable {
     }
 
     /**
-     * Close the underlying {@link javax.ws.rs.client.Client} and its associated resources.
+     * Close the underlying {@link jakarta.ws.rs.client.Client} and its associated resources.
      */
     @Override
     public void close() {
@@ -1444,6 +1445,25 @@ public class GitLabApi implements AutoCloseable {
         return (this.protectedBranchesApi);
     }
 
+    /**
+     * Gets the ReleaseLinksApi instance owned by this GitLabApi instance. The ReleaseLinksApi is used
+     * to perform all Release Links related API calls.
+     *
+     * @return the ReleaseLinksApi instance owned by this GitLabApi instance
+     */
+    public ReleaseLinksApi getReleaseLinksApi() {
+
+        if (releaseLinksApi == null) {
+            synchronized (this) {
+                if (releaseLinksApi == null) {
+                    releaseLinksApi = new ReleaseLinksApi(this);
+                }
+            }
+        }
+
+        return releaseLinksApi;
+    }
+    
     /**
      * Gets the ReleasesApi instance owned by this GitLabApi instance. The ReleasesApi is used
      * to perform all release related API calls.

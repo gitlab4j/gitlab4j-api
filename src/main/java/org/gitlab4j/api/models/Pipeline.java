@@ -22,6 +22,7 @@ public class Pipeline {
     private Date committedAt;
     private String coverage;
     private Integer duration;
+    private Float queuedDuration;
     private String webUrl;
     private DetailedStatus detailedStatus;
 
@@ -223,6 +224,14 @@ public class Pipeline {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public Float getQueuedDuration() {
+        return queuedDuration;
+    }
+
+    public void setQueuedDuration(Float queuedDuration) {
+        this.queuedDuration = queuedDuration;
     }
 
     public String getWebUrl() {

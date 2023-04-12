@@ -47,8 +47,11 @@
     "title": "MS-Viewport",
     "created_at": "2013-12-03T17:23:34Z",
     "updated_at": "2013-12-03T17:23:34Z",
+    "milestone_id": 1,
     "state": "opened",
+    "blocking_discussions_resolved": true,
     "work_in_progress": false,
+    "first_contribution": true,
     "merge_status": "unchecked",
     "target_project_id": 14,
     "description": "",
@@ -95,7 +98,22 @@
         "email": "gitlabdev@dv6700.(none)"
       }
     },
-    "action": "open"
+    "labels": [
+      {
+        "id": 206,
+        "title": "API",
+        "color": "#ffffff",
+        "project_id": 14,
+        "created_at": "2013-12-03T17:15:43Z",
+        "updated_at": "2013-12-03T17:15:43Z",
+        "template": false,
+        "description": "API related issues",
+        "type": "ProjectLabel",
+        "group_id": 41
+      }
+    ],
+    "action": "open",
+    "detailed_merge_status": "mergeable"
   },
   "labels": [
     {
