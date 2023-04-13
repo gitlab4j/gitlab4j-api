@@ -63,6 +63,6 @@ public class TestReleaseLinksApi implements Constants {
         response = new MockResponse(Link.class, null, "links.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class))).thenReturn(response);
     }
 }
