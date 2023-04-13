@@ -16,6 +16,7 @@ import jakarta.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.RepositoryFileResponse;
 
 /**
  * This class provides an entry point to all the GitLab API repository files calls.
@@ -211,7 +212,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @return a RepositoryFile instance with the created file info
      * @throws GitLabApiException if any exception occurs
      */
-    public RepositoryFile createFile(Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage) throws GitLabApiException {
+    public RepositoryFileResponse createFile(Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage) throws GitLabApiException {
 
         Form formData = createForm(file, branchName, commitMessage);
         Response response;
@@ -223,7 +224,7 @@ public class RepositoryFileApi extends AbstractApi {
                     "projects", getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(file.getFilePath()));
         }
 
-        return (response.readEntity(RepositoryFile.class));
+        return (response.readEntity(RepositoryFileResponse.class));
     }
 
     /**
@@ -246,7 +247,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @deprecated  Will be removed in version 6.0, replaced by {@link #createFile(Object, RepositoryFile, String, String)}
      */
     @Deprecated
-    public RepositoryFile createFile(RepositoryFile file, Long projectId, String branchName, String commitMessage) throws GitLabApiException {
+    public RepositoryFileResponse createFile(RepositoryFile file, Long projectId, String branchName, String commitMessage) throws GitLabApiException {
         return (createFile(projectId, file, branchName, commitMessage));
     }
 
@@ -268,7 +269,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @return a RepositoryFile instance with the updated file info
      * @throws GitLabApiException if any exception occurs
      */
-    public RepositoryFile updateFile(Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage) throws GitLabApiException {
+    public RepositoryFileResponse updateFile(Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage) throws GitLabApiException {
 
         Form formData = createForm(file, branchName, commitMessage);
         Response response;
@@ -280,7 +281,7 @@ public class RepositoryFileApi extends AbstractApi {
                     "projects", getProjectIdOrPath(projectIdOrPath), "repository", "files", urlEncode(file.getFilePath()));
         }
 
-        return (response.readEntity(RepositoryFile.class));
+        return (response.readEntity(RepositoryFileResponse.class));
     }
 
     /**
@@ -303,7 +304,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @deprecated  Will be removed in version 6.0, replaced by {@link #updateFile(Object, RepositoryFile, String, String)}
      */
     @Deprecated
-    public RepositoryFile updateFile(RepositoryFile file, Long projectId, String branchName, String commitMessage) throws GitLabApiException {
+    public RepositoryFileResponse updateFile(RepositoryFile file, Long projectId, String branchName, String commitMessage) throws GitLabApiException {
         return (updateFile(projectId, file, branchName, commitMessage));
     }
 
