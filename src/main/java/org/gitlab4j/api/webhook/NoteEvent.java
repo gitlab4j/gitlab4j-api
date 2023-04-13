@@ -15,7 +15,7 @@ public class NoteEvent extends AbstractEvent {
     public static final String X_GITLAB_EVENT = "Note Hook";
     public static final String OBJECT_KIND = "note";
 
-    private User user;
+    private EventUser user;
     private Long projectId;
     private EventProject project;
     private EventRepository repository;
@@ -35,11 +35,11 @@ public class NoteEvent extends AbstractEvent {
             throw new RuntimeException("Invalid object_kind (" + objectKind + "), must be '" + OBJECT_KIND + "'");
     }
 
-    public User getUser() {
+    public EventUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(EventUser user) {
         this.user = user;
     }
 

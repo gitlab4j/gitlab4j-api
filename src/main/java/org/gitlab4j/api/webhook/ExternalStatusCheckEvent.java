@@ -11,7 +11,7 @@ public class ExternalStatusCheckEvent {
 
     private String objectKind;
     private String eventType;
-    private User user;
+    private EventUser user;
     private EventProject project;
     private EventRepository repository;
     private ObjectAttributes objectAttributes;
@@ -36,11 +36,11 @@ public class ExternalStatusCheckEvent {
         this.eventType = eventType;
     }
 
-    public User getUser() {
+    public EventUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(EventUser user) {
         this.user = user;
     }
 
