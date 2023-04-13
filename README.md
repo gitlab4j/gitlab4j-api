@@ -28,6 +28,11 @@ GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume 
   * [Available Sub APIs](#available-sub-apis)
 
 ---
+
+> **Warning**
+> If you are looking for our next major version `6.x.x` which is requiring **Java 11** as mimimal version and which is using Jakarta EE components using the `jakarta.*` packages instead of `javax.*` check the [`6.x` branch](https://github.com/gitlab4j/gitlab4j-api/tree/6.x).
+> The `6.x.x` version is the one you need if you are using Spring Boot 3 and Spring Framework 6.0, . 
+
 ## GitLab Server Version Support
 
 GitLab4J-API supports version 11.0+ of GitLab Community Edition [(gitlab-ce)](https://gitlab.com/gitlab-org/gitlab-ce/) and GitLab Enterprise Edition [(gitlab-ee)](https://gitlab.com/gitlab-org/gitlab-ee/). 
