@@ -51,7 +51,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<jersey.version>2.35</jersey.version>
-		<jackson.version>2.12.4</jackson.version>
+		<jackson.version>2.12.7.1</jackson.version>
 		<servlet.version>4.0.4</servlet.version>
 		<activation.version>1.2.2</activation.version>
 
