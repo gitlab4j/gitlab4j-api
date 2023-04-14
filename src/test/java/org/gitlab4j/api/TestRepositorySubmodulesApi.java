@@ -8,14 +8,10 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.Commit;
-import org.gitlab4j.api.models.Link;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -40,13 +36,13 @@ public class TestRepositorySubmodulesApi implements Constants {
         init();
         Commit result = new RepositorySubmodulesApi(gitLabApi).updateExistingSubmoduleReference(6L, "my-sub", "patch-1", "33e2ee8579fda5bc36accc9c6fbd0b4fefda9e30", "message");
         assertNotNull(result);
-        assertTrue(compareJson(result, "commits.json"));
+        assertTrue(compareJson(result, "commit.json"));
     }
 
     private void init() throws Exception, IOException {
-        response = new MockResponse(Commit.class, null, "commit.json");
+        response = new MockResponse(Commit.class, "commit.json", null);
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
+        when(gitLabApiClient.put(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
     }
 }
