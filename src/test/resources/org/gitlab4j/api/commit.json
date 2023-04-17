@@ -20,5 +20,18 @@
   },
   "status": "running",
   "url": "http://localhost/diaspora/diaspora-project-site/-/commit/9df4dd1f0dfae80c05eac4b2bd461b86db5c8e2d",
-  "web_url": "http://localhost/diaspora/diaspora-project-site/-/commit/9df4dd1f0dfae80c05eac4b2bd461b86db5c8e2d"
+  "web_url": "http://localhost/diaspora/diaspora-project-site/-/commit/9df4dd1f0dfae80c05eac4b2bd461b86db5c8e2d",
+  "project_id": 15,
+  "last_pipeline": {
+      "id": 16282,
+      "iid": 688,
+      "project_id": 15,
+      "sha": "6104942438c14ec7bd21c6cd5bd995272b3faff6",
+      "ref": "patch-1",
+      "status": "success",
+      "source": "external",
+      "created_at": "2023-04-03T21:17:04.026Z",
+      "updated_at": "2023-04-03T21:17:04.157Z",
+      "web_url": "http://localhost/diaspora/diaspora-project-site/-/pipelines/16282"
+  }
 }
