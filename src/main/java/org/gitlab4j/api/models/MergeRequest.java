@@ -334,9 +334,8 @@ public class MergeRequest {
         return headPipeline;
     }
 
-    public MergeRequest setHeadPipeline(Pipeline headPipeline) {
+    public void setHeadPipeline(Pipeline headPipeline) {
         this.headPipeline = headPipeline;
-        return this;
     }
 
     public Long getProjectId() {

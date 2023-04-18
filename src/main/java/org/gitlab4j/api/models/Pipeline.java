@@ -38,9 +38,8 @@ public class Pipeline {
         return projectId;
     }
 
-    public Pipeline setProjectId(Long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
-        return this;
     }
 
     public PipelineStatus getStatus() {
