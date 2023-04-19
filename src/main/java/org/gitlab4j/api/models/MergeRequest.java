@@ -54,6 +54,7 @@ public class MergeRequest {
     private String mergeError;
     private Milestone milestone;
     private Pipeline pipeline;
+    private Pipeline headPipeline;
     private Long projectId;
     private String sha;
     private Boolean shouldRemoveSourceBranch;
@@ -372,6 +373,14 @@ public class MergeRequest {
 
     public void setPipeline(Pipeline pipeline) {
         this.pipeline = pipeline;
+    }
+
+    public Pipeline getHeadPipeline() {
+        return headPipeline;
+    }
+
+    public void setHeadPipeline(Pipeline headPipeline) {
+        this.headPipeline = headPipeline;
     }
 
     public Long getProjectId() {
