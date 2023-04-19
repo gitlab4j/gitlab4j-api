@@ -131,56 +131,80 @@
   ],
   "changes": {
     "author_id": {
-       "current":2
+      "current": 2
     },
     "updated_at": {
-       "previous": "2013-09-15T16:50:55Z",
-       "current": "2013-12-03T17:23:34Z"
+      "previous": "2013-09-15T16:50:55Z",
+      "current": "2013-12-03T17:23:34Z"
     },
     "updated_by_id": {
-       "previous": 2,
-       "current": 6
+      "previous": 2,
+      "current": 6
     },
-    "id":{
-       "previous":123,
-       "current":456
-   	},
-    "iid":{
-       "previous":12,
-       "current":34
+    "id": {
+      "previous": 123,
+      "current": 456
+    },
+    "iid": {
+      "previous": 12,
+      "current": 34
     },
     "merge_status": {
-       "current": "unchecked"
+      "current": "unchecked"
     },
     "milestone_id": {
-       "previous":0,
-       "current":1
+      "previous": 0,
+      "current": 1
     },
     "labels": {
-      "previous": [{
-        "id": 206,
-        "title": "API",
-        "color": "#ffffff",
-        "project_id": 14,
-        "created_at": "2013-12-03T17:15:43Z",
-        "updated_at": "2013-12-03T17:15:43Z",
-        "template": false,
-        "description": "API related issues",
-        "type": "ProjectLabel",
-        "group_id": 41
-      }],
-      "current": [{
-        "id": 205,
-        "title": "Platform",
-        "color": "#123123",
-        "project_id": 14,
-        "created_at": "2013-12-03T17:15:43Z",
-        "updated_at": "2013-12-03T17:15:43Z",
-        "template": false,
-        "description": "Platform related issues",
-        "type": "ProjectLabel",
-        "group_id": 41
-      }]
+      "previous": [
+        {
+          "id": 206,
+          "title": "API",
+          "color": "#ffffff",
+          "project_id": 14,
+          "created_at": "2013-12-03T17:15:43Z",
+          "updated_at": "2013-12-03T17:15:43Z",
+          "template": false,
+          "description": "API related issues",
+          "type": "ProjectLabel",
+          "group_id": 41
+        }
+      ],
+      "current": [
+        {
+          "id": 205,
+          "title": "Platform",
+          "color": "#123123",
+          "project_id": 14,
+          "created_at": "2013-12-03T17:15:43Z",
+          "updated_at": "2013-12-03T17:15:43Z",
+          "template": false,
+          "description": "Platform related issues",
+          "type": "ProjectLabel",
+          "group_id": 41
+        }
+      ]
+    },
+    "reviewers": {
+      "previous": [
+        {
+          "id": 2,
+          "name": "John Doe",
+          "username": "jdoe",
+          "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+          "email": "jdoe@example.com"
+        }
+      ],
+      "current": [
+        {
+          "id": 3,
+          "name": "Paul Smith",
+          "username": "psmith",
+          "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+          "email": "psmith@example.com"
+        }
+      ]
     }
   },
   "assignees": [
