@@ -82,6 +82,10 @@ public class Issue {
     private String taskStatus;
     private TaskCompletionStatus taskCompletionStatus;
 
+    private LinkType linkType;
+    private Date linkCreatedAt;
+    private Date linkUpdatedAt;
+
     public Assignee getAssignee() {
         return assignee;
     }
@@ -349,6 +353,30 @@ public class Issue {
 
     public void setTaskCompletionStatus(TaskCompletionStatus taskCompletionStatus) {
         this.taskCompletionStatus = taskCompletionStatus;
+    }
+
+    public LinkType getLinkType() {
+        return linkType;
+    }
+
+    public void setLinkType(LinkType linkType) {
+        this.linkType = linkType;
+    }
+
+    public Date getLinkCreatedAt() {
+        return linkCreatedAt;
+    }
+
+    public void setLinkCreatedAt(Date linkCreatedAt) {
+        this.linkCreatedAt = linkCreatedAt;
+    }
+
+    public Date getLinkUpdatedAt() {
+        return linkUpdatedAt;
+    }
+
+    public void setLinkUpdatedAt(Date linkUpdatedAt) {
+        this.linkUpdatedAt = linkUpdatedAt;
     }
 
     @Override
