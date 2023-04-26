@@ -46,5 +46,6 @@
     "user_notes_count": 0,
     "web_url": "http://example.com/example/example/issues/14",
     "confidential": false
-  }
+  },
+  "link_type": "is_blocked_by"
 }
