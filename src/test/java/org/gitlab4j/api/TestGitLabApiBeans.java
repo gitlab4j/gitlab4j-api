@@ -79,6 +79,7 @@ import org.gitlab4j.api.models.Key;
 import org.gitlab4j.api.models.Label;
 import org.gitlab4j.api.models.LabelEvent;
 import org.gitlab4j.api.models.Link;
+import org.gitlab4j.api.models.LinkedIssue;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestDiff;
@@ -370,7 +371,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testLinkedIssues() throws Exception {
-        List<Issue> linkedIssues = unmarshalResourceList(Issue.class, "linked-issues.json");
+        List<LinkedIssue> linkedIssues = unmarshalResourceList(LinkedIssue.class, "linked-issues.json");
         assertTrue(compareJson(linkedIssues, "linked-issues.json"));
     }
 
