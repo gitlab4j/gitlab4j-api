@@ -6,6 +6,7 @@ public class IssueLink {
 
     private Issue sourceIssue;
     private Issue targetIssue;
+    private LinkType linkType;
 
     public Issue getSourceIssue() {
         return sourceIssue;
@@ -21,6 +22,14 @@ public class IssueLink {
 
     public void setTargetIssue(Issue targetIssue) {
         this.targetIssue = targetIssue;
+    }
+
+    public LinkType getLinkType() {
+        return linkType;
+    }
+
+    public void setLinkType(LinkType linkType) {
+        this.linkType = linkType;
     }
 
     @Override
