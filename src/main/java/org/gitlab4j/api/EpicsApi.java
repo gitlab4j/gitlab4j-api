@@ -368,9 +368,9 @@ public class EpicsApi extends AbstractApi {
      * @return a list of all issues belonging to the specified epic in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Epic> getEpicIssues(Object groupIdOrPath, Long epicIid, int page, int perPage) throws GitLabApiException {
+    public List<EpicIssue> getEpicIssues(Object groupIdOrPath, Long epicIid, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues");
-        return (response.readEntity(new GenericType<List<Epic>>() { }));
+        return (response.readEntity(new GenericType<List<EpicIssue>>() { }));
     }
 
     /**
