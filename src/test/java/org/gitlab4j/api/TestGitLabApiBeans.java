@@ -45,12 +45,14 @@ import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.Board;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.ChildEpic;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CommitStatus;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Contributor;
+import org.gitlab4j.api.models.CreatedChildEpic;
 import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.DeployToken;
 import org.gitlab4j.api.models.Deployment;
@@ -92,9 +94,9 @@ import org.gitlab4j.api.models.PackageFile;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.ProjectGroup;
 import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
+import org.gitlab4j.api.models.ProjectGroup;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.ProtectedBranch;
@@ -175,6 +177,18 @@ public class TestGitLabApiBeans {
 
         branch = unmarshalResource(Branch.class, "bad-branch.json");
         assertTrue(!Branch.isValid(branch));
+    }
+
+    @Test
+    public void testCreatedChildEpic() throws Exception {
+        CreatedChildEpic childEpic = unmarshalResource(CreatedChildEpic.class, "created-child-epic.json");
+        assertTrue(compareJson(childEpic, "created-child-epic.json"));
+    }
+
+    @Test
+    public void testChildEpic() throws Exception {
+        ChildEpic childEpic = unmarshalResource(ChildEpic.class, "child-epic.json");
+        assertTrue(compareJson(childEpic, "child-epic.json"));
     }
 
     @Test
