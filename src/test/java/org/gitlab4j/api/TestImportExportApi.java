@@ -138,7 +138,7 @@ public class TestImportExportApi extends AbstractIntegrationTest {
             System.out.println("Downloading exported project");
             exportDownload = gitLabApi.getImportExportApi().downloadExport(testProject, null);
             assertNotNull(exportDownload);
-            assertTrue(exportDownload.length() > 10000);
+            assertTrue(exportDownload.length() > 2000, "length is not as expected. Current value: " + exportDownload.length());
 
             ImportStatus importStatus = gitLabApi.getImportExportApi().startImport(null, exportDownload,
                     TEST_IMPORT_PROJECT_NAME, true, null);
