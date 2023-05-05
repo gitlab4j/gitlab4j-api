@@ -8,37 +8,13 @@ import org.gitlab4j.api.utils.JacksonJson;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EpicIssue extends Issue {
-
-    private Integer downvotes;
-    private Integer upvotes;
+public class EpicIssue extends AbstractIssue {
 
     @JsonProperty("_links")
     private Map<String, String> links;
 
-    private Boolean subscribed;
     private Long epicIssueId;
     private Integer relativePosition;
-
-    @Override
-	public Integer getDownvotes() {
-        return downvotes;
-    }
-
-    @Override
-	public void setDownvotes(Integer downvotes) {
-        this.downvotes = downvotes;
-    }
-
-    @Override
-	public Integer getUpvotes() {
-        return upvotes;
-    }
-
-    @Override
-	public void setUpvotes(Integer upvotes) {
-        this.upvotes = upvotes;
-    }
 
     public Map<String, String> getLinks() {
         return links;
@@ -55,16 +31,6 @@ public class EpicIssue extends Issue {
         }
 
         return (links.get(name));
-    }
-
-    @Override
-	public Boolean getSubscribed() {
-        return subscribed;
-    }
-
-    @Override
-	public void setSubscribed(Boolean subscribed) {
-        this.subscribed = subscribed;
     }
 
     public Long getEpicIssueId() {
