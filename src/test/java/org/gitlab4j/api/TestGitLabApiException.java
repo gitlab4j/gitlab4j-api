@@ -84,6 +84,8 @@ public class TestGitLabApiException extends AbstractIntegrationTest {
             assertFalse(gae.hasValidationErrors());
             assertEquals(404, gae.getHttpStatus());
             assertTrue(gae.getMessage().contains("404"));
+            assertFalse(gae.getHeaders().isEmpty());
+            assertTrue(gae.getHeaders().containsKey("X-Request-Id"), () -> "headers contains key 'X-Request-Id'. Available keys: " + String.join(", ", gae.getHeaders().keySet()));
         }
     }
 
