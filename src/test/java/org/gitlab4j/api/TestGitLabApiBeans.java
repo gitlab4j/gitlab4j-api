@@ -60,6 +60,7 @@ import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.Environment;
 import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
+import org.gitlab4j.api.models.EpicIssueLink;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.ExportStatus;
 import org.gitlab4j.api.models.ExternalStatusCheck;
@@ -253,6 +254,12 @@ public class TestGitLabApiBeans {
     public void testEpicIssue() throws Exception {
         EpicIssue epicIssue = unmarshalResource(EpicIssue.class, "epic-issue.json");
         assertTrue(compareJson(epicIssue, "epic-issue.json"));
+    }
+
+    @Test
+    public void testEpicIssueLink() throws Exception {
+        EpicIssueLink epicIssueLink = unmarshalResource(EpicIssueLink.class, "epic-issue-link.json");
+        assertTrue(compareJson(epicIssueLink, "epic-issue-link.json"));
     }
 
     @Test
