@@ -103,6 +103,8 @@ import org.gitlab4j.api.models.ProtectedBranch;
 import org.gitlab4j.api.models.ProtectedTag;
 import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.RegistryRepository;
+import org.gitlab4j.api.models.RelatedEpic;
+import org.gitlab4j.api.models.RelatedEpicLink;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.RemoteMirror;
 import org.gitlab4j.api.models.RepositoryFile;
@@ -549,6 +551,18 @@ public class TestGitLabApiBeans {
     public void testRegistryRepositories() throws Exception {
         List<RegistryRepository> repos = unmarshalResourceList(RegistryRepository.class, "registry-repositories.json");
         assertTrue(compareJson(repos, "registry-repositories.json"));
+    }
+
+    @Test
+    public void testRelatedEpicLink() throws Exception {
+        RelatedEpicLink relatedEpics = unmarshalResource(RelatedEpicLink.class, "related-epic-link.json");
+        assertTrue(compareJson(relatedEpics, "related-epic-link.json"));
+    }
+
+    @Test
+    public void testRelatedEpics() throws Exception {
+        List<RelatedEpic> relatedEpics = unmarshalResourceList(RelatedEpic.class, "related-epics.json");
+        assertTrue(compareJson(relatedEpics, "related-epics.json"));
     }
 
     @Test

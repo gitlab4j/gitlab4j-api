@@ -14,6 +14,9 @@ import org.gitlab4j.api.models.CreatedChildEpic;
 import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.EpicIssueLink;
+import org.gitlab4j.api.models.LinkType;
+import org.gitlab4j.api.models.RelatedEpic;
+import org.gitlab4j.api.models.RelatedEpicLink;
 
 /**
  * This class implements the client side API for the GitLab Epics and Epic Issues API calls.
@@ -461,7 +464,6 @@ public class EpicsApi extends AbstractApi {
         return response.readEntity(new GenericType<List<EpicIssue>>() {});
     }
 
-
     /**
      * Gets all child epics of an epic and the authenticated user has access to.
      *
@@ -581,4 +583,88 @@ public class EpicsApi extends AbstractApi {
                 "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "epics", childEpicId);
         return (response.readEntity(ChildEpic.class));
     }
+
+    /**
+     * Gets all linked epics of an epic filtered according to the user authorizations.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_iid/related_epics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param epicIid the IID of the epic to get child epics for
+     * @return a list of all related epics of the specified epic
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<RelatedEpic> getRelatedEpics(Object groupIdOrPath, Long epicIid) throws GitLabApiException {
+        return (getRelatedEpics(groupIdOrPath, epicIid, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of all linked epics of an epic filtered according to the user authorizations.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_iid/related_epics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param epicIid the IID of the epic to get child epics for
+     * @param itemsPerPage the number of child epics per page
+     * @return the Pager of all related epics of the specified epic
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<RelatedEpic> getRelatedEpics(Object groupIdOrPath, Long epicIid, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<RelatedEpic>(this, RelatedEpic.class, itemsPerPage, null, "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "related_epics"));
+    }
+
+    /**
+     * Gets all linked epics of an epic filtered according to the user authorizations to as a Stream.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_iid/related_epics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param epicIid the IID of the epic to get child epics for
+     * @return a Stream of all related epics of the specified epic
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<RelatedEpic> getRelatedEpicsStream(Object groupIdOrPath, Long epicIid) throws GitLabApiException {
+        return (getRelatedEpics(groupIdOrPath, epicIid, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Create a two-way relation between two epics. The user must have at least the Guest role for both groups.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/epics/:epic_iid/related_epics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param epicIid the Epic IID to assign the child epic to
+     * @param targetGroupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path of the target group’s epic
+     * @param targetEpicIid the Epic IID of the target group’s epic.
+     * @param linkType the type of the relation (optional), defaults to {@link LinkType#RELATES_TO}.
+     * @return an RelatedEpic instance containing info on the newly assigned child epic
+     * @throws GitLabApiException if any exception occurs
+     */
+    public RelatedEpicLink createRelatedEpicLink(Object groupIdOrPath, Long epicIid, Object targetGroupIdOrPath, Long targetEpicIid, LinkType linkType) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("target_group_id", getGroupIdOrPath(targetGroupIdOrPath), true)
+                .withParam("target_epic_iid", targetEpicIid, true)
+                .withParam("link_type", linkType);
+        Response response = post(Response.Status.CREATED, formData.asMap(),
+                "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "related_epics");
+        return (response.readEntity(RelatedEpicLink.class));
+    }
+
+    /**
+     * Delete a two-way relation between two epics. The user must have at least the Guest role for both groups.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/epics/:epic_iid/related_epics/:related_epic_link_id</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param epicIid the Epic IID to remove the child epic from
+     * @param relatedEpicLinkId the ID a related epic link.
+     * @return an RelatedEpicLink instance containing info on the removed related epic
+     * @throws GitLabApiException if any exception occurs
+     */
+    public RelatedEpicLink deleteRelatedEpicLink(Object groupIdOrPath, Long epicIid, Long relatedEpicLinkId) throws GitLabApiException {
+        Response response = delete(Response.Status.OK, null,
+                "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "related_epics", relatedEpicLinkId);
+        return (response.readEntity(RelatedEpicLink.class));
+    }
+
 }
