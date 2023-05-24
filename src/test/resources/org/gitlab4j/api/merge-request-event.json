@@ -112,8 +112,23 @@
         "group_id": 41
       }
     ],
+    "head_pipeline_id": 848574,
+    "last_edited_at": "2014-34-03T17:23:34Z",
+    "last_edited_by_id": 59,
+    "merge_commit_sha": "e3b7e97417fd6318a5c31b21b29d2acc5c86c3ae",
+    "merge_user_id": 59,
+    "merge_when_pipeline_succeeds": false,
+    "state_id": 1,
+    "time_estimate": 0,
+    "updated_by_id": 6,
+    "total_time_spent": 0,
+    "time_change": 0,
+    "human_total_time_spent": "30m",
+    "human_time_change": "30s",
+    "human_time_estimate": "30m",
     "action": "open",
-    "detailed_merge_status": "mergeable"
+    "detailed_merge_status": "mergeable",
+    "oldrev": "8ad9e9f37b007d15c102da002c2a7133a5ca3737"
   },
   "labels": [
     {
