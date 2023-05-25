@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
+import org.gitlab4j.api.models.EpicIssueLink;
 
 /**
  * This class implements the client side API for the GitLab Epics and Epic Issues API calls.
@@ -347,10 +348,10 @@ public class EpicsApi extends AbstractApi {
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param epicIid the IID of the epic to get issues for
-     * @return a list of all epic issues belonging to the specified epic
+     * @return a list of all issues belonging to the specified epic
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Epic> getEpicIssues(Object groupIdOrPath, Long epicIid) throws GitLabApiException {
+    public List<EpicIssue> getEpicIssues(Object groupIdOrPath, Long epicIid) throws GitLabApiException {
         return (getEpicIssues(groupIdOrPath, epicIid, getDefaultPerPage()).all());
     }
 
@@ -364,12 +365,12 @@ public class EpicsApi extends AbstractApi {
      * @param epicIid the IID of the epic to get issues for
      * @param page the page to get
      * @param perPage the number of issues per page
-     * @return a list of all epic issues belonging to the specified epic in the specified range
+     * @return a list of all issues belonging to the specified epic in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Epic> getEpicIssues(Object groupIdOrPath, Long epicIid, int page, int perPage) throws GitLabApiException {
+    public List<EpicIssue> getEpicIssues(Object groupIdOrPath, Long epicIid, int page, int perPage) throws GitLabApiException {
         Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues");
-        return (response.readEntity(new GenericType<List<Epic>>() { }));
+        return (response.readEntity(new GenericType<List<EpicIssue>>() { }));
     }
 
     /**
@@ -380,11 +381,11 @@ public class EpicsApi extends AbstractApi {
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param epicIid the IID of the epic to get issues for
      * @param itemsPerPage the number of issues per page
-     * @return the Pager of all epic issues belonging to the specified epic
+     * @return the Pager of all issues belonging to the specified epic
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Epic> getEpicIssues(Object groupIdOrPath, Long epicIid, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Epic>(this, Epic.class, itemsPerPage, null, "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues"));
+    public Pager<EpicIssue> getEpicIssues(Object groupIdOrPath, Long epicIid, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<EpicIssue>(this, EpicIssue.class, itemsPerPage, null, "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues"));
     }
 
     /**
@@ -394,10 +395,10 @@ public class EpicsApi extends AbstractApi {
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param epicIid the IID of the epic to get issues for
-     * @return a Stream of all epic issues belonging to the specified epic
+     * @return a Stream of all issues belonging to the specified epic
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Epic> getEpicIssuesStream(Object groupIdOrPath, Long epicIid) throws GitLabApiException {
+    public Stream<EpicIssue> getEpicIssuesStream(Object groupIdOrPath, Long epicIid) throws GitLabApiException {
         return (getEpicIssues(groupIdOrPath, epicIid, getDefaultPerPage()).stream());
     }
 
@@ -409,52 +410,52 @@ public class EpicsApi extends AbstractApi {
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param epicIid the Epic IID to assign the issue to
-     * @param issueIid the issue IID of the issue to assign to the epic
+     * @param issueId the issue ID of the issue to assign to the epic
      * @return an EpicIssue instance containing info on the newly assigned epic issue
      * @throws GitLabApiException if any exception occurs
      */
-    public EpicIssue assignIssue(Object groupIdOrPath, Long epicIid, Long issueIid) throws GitLabApiException {
+    public EpicIssue assignIssue(Object groupIdOrPath, Long epicIid, Long issueId) throws GitLabApiException {
         Response response = post(Response.Status.CREATED, (Form)null,
-                "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues", issueIid);
+                "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues", issueId);
         return (response.readEntity(EpicIssue.class));
     }
 
     /**
      * Remove an epic - issue association.
      *
-     * <pre><code>GitLab Endpoint: DELETE /groups/:id/epics/:epic_iid/issues/:issue_id</code></pre>
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/epics/:epic_iid/issues/:epic_issue_id</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param epicIid the Epic IID to remove the issue from
-     * @param issueIid the issue IID of the issue to remove from the epic
-     * @return an EpicIssue instance containing info on the removed issue
+     * @param epicIssueId the ID of the "issue - epic" association of the issue to remove from the epic
+     * @return an EpicIssueLink instance containing info on the removed issue
      * @throws GitLabApiException if any exception occurs
      */
-    public EpicIssue removeIssue(Object groupIdOrPath, Long epicIid, Long issueIid) throws GitLabApiException {
+    public EpicIssueLink removeIssue(Object groupIdOrPath, Long epicIid, Long epicIssueId) throws GitLabApiException {
         Response response = delete(Response.Status.OK, null,
-                "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues", issueIid);
-        return (response.readEntity(EpicIssue.class));
+                "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues", epicIssueId);
+        return (response.readEntity(EpicIssueLink.class));
     }
 
     /**
      * Updates an epic - issue association.
      *
-     * <pre><code>GitLab Endpoint: PUT /groups/:id/epics/:epic_iid/issues/:issue_id</code></pre>
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/epics/:epic_iid/issues/:epic_issue_id</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param epicIid the Epic IID that the issue is assigned to
-     * @param issueIid the issue IID to update
-     * @param moveBeforeId the ID of the issue - epic association that should be placed before the link in the question (optional)
-     * @param moveAfterId the ID of the issue - epic association that should be placed after the link in the question (optional)
-     * @return an EpicIssue instance containing info on the newly assigned epic issue
+     * @param epicIssueId the ID of the "issue - epic" association
+     * @param moveBeforeId the ID of the "issue - epic" association that should be placed before the link in the question (optional)
+     * @param moveAfterId the ID of the "issue - epic" association that should be placed after the link in the question (optional)
+     * @return a list of all issues belonging to the specified epic
      * @throws GitLabApiException if any exception occurs
      */
-    public EpicIssue updateIssue(Object groupIdOrPath, Long epicIid, Long issueIid, Long moveBeforeId, Long moveAfterId) throws GitLabApiException {
+    public List<EpicIssue> updateIssue(Object groupIdOrPath, Long epicIid, Long epicIssueId, Long moveBeforeId, Long moveAfterId) throws GitLabApiException {
         GitLabApiForm form = new GitLabApiForm()
             .withParam("move_before_id", moveBeforeId)
             .withParam("move_after_id", moveAfterId);
-        Response response = post(Response.Status.OK, form,
-                "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues", issueIid);
-        return (response.readEntity(EpicIssue.class));
+        Response response = put(Response.Status.OK, form,
+                "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid, "issues", epicIssueId);
+        return response.readEntity(new GenericType<List<EpicIssue>>() {});
     }
 }

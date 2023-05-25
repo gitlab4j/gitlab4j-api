@@ -1,12 +1,15 @@
 [
   {
+    "id": 8,
     "title": "no title",
     "project_id": 15,
     "action_name": "closed",
     "target_id": 830,
+    "target_iid": 160,
     "target_type": "Issue",
     "author_id": 1,
     "target_title": "Public project search field",
+    "created_at": "2017-02-09T10:43:19.667Z",
     "author": {
       "name": "Dmitriy Zaporozhets",
       "username": "root",
@@ -18,6 +21,7 @@
     "author_username": "root"
   },
   {
+    "id": 9,
     "title": "no title 2",
     "project_id": 15,
     "action_name": "pushed",
@@ -42,6 +46,7 @@
     }
   },
   {
+    "id": 21,
     "project_id": 15,
     "action_name": "closed",
     "target_id": 840,
@@ -59,10 +64,12 @@
     "author_username": "root"
   },
   {
+    "id": 10,
     "title": "no title again",
     "project_id": 15,
     "action_name": "commented on",
     "target_id": 1312,
+    "target_iid": 1312,
     "target_type": "Note",
     "author_id": 1,
     "created_at": "2015-12-04T10:33:58.089Z",
@@ -80,7 +87,8 @@
       "created_at": "2015-12-04T10:33:56.698Z",
       "system": false,
       "noteable_id": 377,
-      "noteable_type": "Issue"
+      "noteable_type": "Issue",
+      "noteable_iid": 377
     },
     "author": {
       "name": "Dmitriy Zaporozhets",

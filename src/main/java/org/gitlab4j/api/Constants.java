@@ -663,7 +663,7 @@ public interface Constants {
      */
     public enum CommitBuildState {
 
-        PENDING, RUNNING, SUCCESS, FAILED, CANCELED;
+        PENDING, RUNNING, SUCCESS, FAILED, CANCELED, SKIPPED;
 
         private static JacksonJsonEnumHelper<CommitBuildState> enumHelper = new JacksonJsonEnumHelper<>(CommitBuildState.class);
 
