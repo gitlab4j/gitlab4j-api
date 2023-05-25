@@ -107,7 +107,7 @@ public class DurationUtils {
             }
 
         } else {
-            buf.append(' ').append(seconds).append('s');
+            buf.append(seconds).append('s');
         }
 
         return (buf.toString());
