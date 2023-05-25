@@ -139,7 +139,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId) throws GitLabApiException {
-        return getJobsForPipeline(projectIdOrPath, pipelineId, false);
+        return getJobsForPipeline(projectIdOrPath, pipelineId, null);
     }
 
     /**
@@ -149,15 +149,12 @@ public class JobApi extends AbstractApi implements Constants {
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path to get the pipelines for
      * @param pipelineId the pipeline ID to get the list of jobs for
-     * @param includeRetried the includeRetried to get also retried jobs
+     * @param includeRetried Include retried jobs in the response
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, boolean includeRetried) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("include_retried", includeRetried).withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(),
-            "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs");
-        return (response.readEntity(new GenericType<List<Job>>() {}));
+    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, Boolean includeRetried) throws GitLabApiException {
+        return getJobsForPipeline(projectIdOrPath, pipelineId, null, includeRetried)
     }
 
     /**
@@ -183,11 +180,11 @@ public class JobApi extends AbstractApi implements Constants {
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path to get the pipelines for
      * @param pipelineId the pipeline ID to get the list of jobs for
      * @param scope the scope of jobs, one of: CREATED, PENDING, RUNNING, FAILED, SUCCESS, CANCELED, SKIPPED, MANUAL
-     * @param includeRetried the includeRetried to get also retried jobs
+     * @param includeRetried Include retried jobs in the response
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, JobScope scope, boolean includeRetried) throws GitLabApiException {
+    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, JobScope scope, Boolean includeRetried) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("scope", scope).withParam("include_retried", includeRetried).withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs");
         return (response.readEntity(new GenericType<List<Job>>() {}));
