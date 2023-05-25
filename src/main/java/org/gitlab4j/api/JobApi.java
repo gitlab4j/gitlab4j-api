@@ -139,7 +139,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId) throws GitLabApiException {
-        return getJobsForPipeline(projectIdOrPath, pipelineId, null);
+        return getJobsForPipeline(projectIdOrPath, pipelineId, (Boolean) null);
     }
 
     /**
@@ -154,7 +154,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, Boolean includeRetried) throws GitLabApiException {
-        return getJobsForPipeline(projectIdOrPath, pipelineId, null, includeRetried)
+        return getJobsForPipeline(projectIdOrPath, pipelineId, null, includeRetried);
     }
 
     /**
@@ -185,7 +185,10 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, JobScope scope, Boolean includeRetried) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("scope", scope).withParam("include_retried", includeRetried).withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("scope", scope)
+                .withParam("include_retried", includeRetried)
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs");
         return (response.readEntity(new GenericType<List<Job>>() {}));
     }
