@@ -8,7 +8,7 @@ public class WikiPageEvent extends AbstractEvent {
     public static final String X_GITLAB_EVENT = "Wiki Page Hook";
     public static final String OBJECT_KIND = "wiki_page";
 
-    private User user;
+    private EventUser user;
     private EventProject project;
     private Wiki wiki;
     private ObjectAttributes objectAttributes;
@@ -22,11 +22,11 @@ public class WikiPageEvent extends AbstractEvent {
             throw new RuntimeException("Invalid object_kind (" + objectKind + "), must be '" + OBJECT_KIND + "'");
     }
 
-    public User getUser() {
+    public EventUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(EventUser user) {
         this.user = user;
     }
 

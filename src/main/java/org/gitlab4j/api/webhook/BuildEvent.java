@@ -29,7 +29,7 @@ public class BuildEvent extends AbstractEvent {
     private String buildFailureReason;
     private Long projectId;
     private String projectName;
-    private User user;
+    private EventUser user;
     private BuildCommit commit;
     private EventRepository repository;
 
@@ -163,11 +163,11 @@ public class BuildEvent extends AbstractEvent {
         this.projectName = projectName;
     }
 
-    public User getUser() {
+    public EventUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(EventUser user) {
         this.user = user;
     }
 

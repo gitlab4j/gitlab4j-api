@@ -12,7 +12,7 @@ public class MergeRequestEvent extends AbstractEvent {
     public static final String X_GITLAB_EVENT = "Merge Request Hook";
     public static final String OBJECT_KIND = "merge_request";
 
-    private User user;
+    private EventUser user;
     private EventProject project;
     private EventRepository repository;
     private ObjectAttributes objectAttributes;
@@ -30,11 +30,11 @@ public class MergeRequestEvent extends AbstractEvent {
             throw new RuntimeException("Invalid object_kind (" + objectKind + "), must be '" + OBJECT_KIND + "'");
     }
 
-    public User getUser() {
+    public EventUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(EventUser user) {
         this.user = user;
     }
 
