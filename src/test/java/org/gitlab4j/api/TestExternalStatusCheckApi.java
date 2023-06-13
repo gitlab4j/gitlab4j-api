@@ -64,7 +64,7 @@ public class TestExternalStatusCheckApi implements Constants {
         response = new MockResponse(ExternalStatusCheck.class, null, "external-status-checks.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class))).thenReturn(response);
     }
 
     @Test
@@ -96,6 +96,6 @@ public class TestExternalStatusCheckApi implements Constants {
         response = new MockResponse(ExternalStatusCheckStatus.class, null, "external-status-check-statuses.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class))).thenReturn(response);
     }
 }

@@ -33,7 +33,7 @@ public class TestUnitMergeRequestApi {
         when(mockGitLabApi.getApiClient()).thenReturn(mockedGitLabApiClient);
 
         when(mockedGitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(mockedGitLabApiClient.put(attributeCaptor.capture(), Mockito.<Object>any()))
+        when(mockedGitLabApiClient.put(attributeCaptor.capture(), Mockito.any(Object[].class)))
                 .thenReturn(mockedResponse);
     }
 

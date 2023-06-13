@@ -43,6 +43,6 @@ public class TestRepositorySubmodulesApi implements Constants {
         response = new MockResponse(Commit.class, "commit.json", null);
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.put(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
+        when(gitLabApiClient.put(attributeCaptor.capture(), Mockito.any(Object[].class))).thenReturn(response);
     }
 }
