@@ -1,0 +1,12 @@
+{
+    "id": 42,
+    "iid": 3,
+    "title": "this is a test",
+    "group_id": 139,
+    "parent_id": 25,
+    "has_children": false,
+    "has_issues": false,
+    "reference": "&3",
+    "url": "https://gitlab.example.com/groups/a-group/-/epics/3",
+    "relation_url": "https://gitlab.example.com/groups/a-group/-/epics/1/links/42"
+}
