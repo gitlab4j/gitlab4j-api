@@ -105,6 +105,7 @@ import org.gitlab4j.api.models.RegistryRepository;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.RemoteMirror;
 import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.RepositoryFileResponse;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
 import org.gitlab4j.api.models.SearchBlob;
@@ -554,6 +555,12 @@ public class TestGitLabApiBeans {
     public void testRepositoryFile() throws Exception {
         RepositoryFile file = unmarshalResource(RepositoryFile.class, "repository-file.json");
         assertTrue(compareJson(file, "repository-file.json"));
+    }
+    
+    @Test
+    public void testRepositoryFileResponse() throws Exception {
+        RepositoryFileResponse file = unmarshalResource(RepositoryFileResponse.class, "repository-file-response.json");
+        assertTrue(compareJson(file, "repository-file-response.json"));
     }
 
     @Test

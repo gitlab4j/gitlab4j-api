@@ -17,6 +17,7 @@ import java.util.Optional;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.RepositoryFileResponse;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -156,7 +157,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
         file.setContent(TEST_CONTENT);
-        RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
+        RepositoryFileResponse createdFile = gitLabApi.getRepositoryFileApi().createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
 
         gitLabApi.getRepositoryFileApi().deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Testing deleteFile().");
@@ -175,7 +176,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
         file.setContent("");
-        RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
+        RepositoryFileResponse createdFile = gitLabApi.getRepositoryFileApi().createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
 
         gitLabApi.getRepositoryFileApi().deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Testing deleteFile().");
@@ -194,7 +195,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
         file.setContent(TEST_CONTENT);
-        RepositoryFile createdFile = gitLabApi.getRepositoryFileApi().createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
+        RepositoryFileResponse createdFile = gitLabApi.getRepositoryFileApi().createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
 
         Optional<RepositoryFile> optionalFile = gitLabApi.getRepositoryFileApi().getOptionalFile(project, TEST_FILEPATH, TEST_BRANCH_NAME);
