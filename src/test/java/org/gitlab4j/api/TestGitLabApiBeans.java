@@ -45,12 +45,14 @@ import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.Board;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.ChildEpic;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CommitStatus;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Contributor;
+import org.gitlab4j.api.models.CreatedChildEpic;
 import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.DeployToken;
 import org.gitlab4j.api.models.Deployment;
@@ -93,15 +95,17 @@ import org.gitlab4j.api.models.PackageFile;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.ProjectGroup;
 import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
+import org.gitlab4j.api.models.ProjectGroup;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.ProtectedBranch;
 import org.gitlab4j.api.models.ProtectedTag;
 import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.RegistryRepository;
+import org.gitlab4j.api.models.RelatedEpic;
+import org.gitlab4j.api.models.RelatedEpicLink;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.RemoteMirror;
 import org.gitlab4j.api.models.RepositoryFile;
@@ -177,6 +181,18 @@ public class TestGitLabApiBeans {
 
         branch = unmarshalResource(Branch.class, "bad-branch.json");
         assertTrue(!Branch.isValid(branch));
+    }
+
+    @Test
+    public void testCreatedChildEpic() throws Exception {
+        CreatedChildEpic childEpic = unmarshalResource(CreatedChildEpic.class, "created-child-epic.json");
+        assertTrue(compareJson(childEpic, "created-child-epic.json"));
+    }
+
+    @Test
+    public void testChildEpic() throws Exception {
+        ChildEpic childEpic = unmarshalResource(ChildEpic.class, "child-epic.json");
+        assertTrue(compareJson(childEpic, "child-epic.json"));
     }
 
     @Test
@@ -537,6 +553,18 @@ public class TestGitLabApiBeans {
     public void testRegistryRepositories() throws Exception {
         List<RegistryRepository> repos = unmarshalResourceList(RegistryRepository.class, "registry-repositories.json");
         assertTrue(compareJson(repos, "registry-repositories.json"));
+    }
+
+    @Test
+    public void testRelatedEpicLink() throws Exception {
+        RelatedEpicLink relatedEpics = unmarshalResource(RelatedEpicLink.class, "related-epic-link.json");
+        assertTrue(compareJson(relatedEpics, "related-epic-link.json"));
+    }
+
+    @Test
+    public void testRelatedEpics() throws Exception {
+        List<RelatedEpic> relatedEpics = unmarshalResourceList(RelatedEpic.class, "related-epics.json");
+        assertTrue(compareJson(relatedEpics, "related-epics.json"));
     }
 
     @Test

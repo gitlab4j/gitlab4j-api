@@ -4,12 +4,15 @@ import java.util.Date;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Epic extends AbstractEpic<Epic> {
+public class RelatedEpic extends AbstractEpic<RelatedEpic> {
 
     private Boolean startDateIsFixed;
     private Boolean dueDateIsFixed;
     private Date dueDateFromInheritedSource;
-    private Boolean subscribed;
+    private Long relatedEpicLinkId;
+    private LinkType linkType;
+    private Date linkCreatedAt;
+    private Date linkUpdatedAt;
 
     public Boolean getStartDateIsFixed() {
         return startDateIsFixed;
@@ -35,12 +38,36 @@ public class Epic extends AbstractEpic<Epic> {
         this.dueDateFromInheritedSource = dueDateFromInheritedSource;
     }
 
-    public Boolean getSubscribed() {
-        return subscribed;
+    public Long getRelatedEpicLinkId() {
+        return relatedEpicLinkId;
     }
 
-    public void setSubscribed(Boolean subscribed) {
-        this.subscribed = subscribed;
+    public void setRelatedEpicLinkId(Long relatedEpicLinkId) {
+        this.relatedEpicLinkId = relatedEpicLinkId;
+    }
+
+    public LinkType getLinkType() {
+        return linkType;
+    }
+
+    public void setLinkType(LinkType linkType) {
+        this.linkType = linkType;
+    }
+
+    public Date getLinkCreatedAt() {
+        return linkCreatedAt;
+    }
+
+    public void setLinkCreatedAt(Date linkCreatedAt) {
+        this.linkCreatedAt = linkCreatedAt;
+    }
+
+    public Date getLinkUpdatedAt() {
+        return linkUpdatedAt;
+    }
+
+    public void setLinkUpdatedAt(Date linkUpdatedAt) {
+        this.linkUpdatedAt = linkUpdatedAt;
     }
 
     public String toString() {
