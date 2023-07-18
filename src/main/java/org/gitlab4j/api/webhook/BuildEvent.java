@@ -25,6 +25,8 @@ public class BuildEvent extends AbstractEvent {
     private Date buildStarted_at;
     private Date buildFinished_at;
     private Float buildDuration;
+
+    private Float buildQueuedDuration;
     private Boolean buildAllowFailure;
     private String buildFailureReason;
     private Long projectId;
@@ -131,6 +133,14 @@ public class BuildEvent extends AbstractEvent {
 
     public void setBuildDuration(Float buildDuration) {
         this.buildDuration = buildDuration;
+    }
+
+    public Float getBuildQueuedDuration() {
+        return buildQueuedDuration;
+    }
+
+    public void setBuildQueuedDuration(Float buildQueuedDuration) {
+        this.buildQueuedDuration = buildQueuedDuration;
     }
 
     public Boolean getBuildAllowFailure() {
