@@ -415,7 +415,7 @@ public class TagsApi extends AbstractApi {
     /**
      * Protects a single repository tag or several project repository tags using a wildcard protected tag.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/protected_tags</code></pre>
+     * <pre><code>GitLab Endpoint: POST /projects/:id/protected_tags</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param name the name of the tag or wildcard
