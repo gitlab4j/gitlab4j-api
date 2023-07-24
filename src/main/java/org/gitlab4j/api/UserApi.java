@@ -170,6 +170,21 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Approves the specified user. Available only for admin.
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:id/approve</code></pre>
+     *
+     * @param userId the ID of the user to approve
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void approveUser(Long userId) throws GitLabApiException {
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+        post(Response.Status.CREATED, (Form) null, "users", userId, "approve");
+    }
+
+    /**
      * Blocks the specified user. Available only for admin.
      *
      * <pre><code>GitLab Endpoint: POST /users/:id/block</code></pre>
