@@ -59,7 +59,7 @@ public class ProjectAccessToken {
         this.id = id;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 
@@ -75,7 +75,7 @@ public class ProjectAccessToken {
         this.createdAt = createdAt;
     }
 
-    public Boolean getRevoked() {
+    public Boolean isRevoked() {
         return revoked;
     }
 
