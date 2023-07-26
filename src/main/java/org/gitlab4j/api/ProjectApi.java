@@ -3886,7 +3886,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public List<ProjectAccessToken> listProjectAccessTokens(Object projectIdOrPath) throws GitLabApiException {
-        Response response = post(Response.Status.OK, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens");
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens");
         return (response.readEntity(new GenericType<List<ProjectAccessToken>>() { }));
     }
 
@@ -3898,8 +3898,9 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @return the ProjectAccessToken. The token attribute of the object is unset.
      * @throws GitLabApiException if any exception occurs
      */
+    // TODO
     public ProjectAccessToken getProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
-        Response response = post(Response.Status.OK, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId);
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId);
         return (response.readEntity(ProjectAccessToken.class));
     }
 
@@ -3939,7 +3940,7 @@ public class ProjectApi extends AbstractApi implements Constants {
     public ProjectAccessToken createProjectAccessToken(Object projectIdOrPath, String name, List<Constants.ProjectAccessTokenScope> scopes, Date expiresAt) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
             .withParam("name", name, true)
-            .withParam("expires_at", expiresAt, true)
+            .withParam("expires_at", ISO8601.dateOnly(expiresAt), true)
             .withParam("scopes", scopes, true)
             .withParam("access_level", (Object) null, false);
         Response response = post(Response.Status.CREATED, formData,
