@@ -919,6 +919,28 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for specifying the project token scope. */
+    public enum ProjectAccessTokenScope {
+        API, READ_API, READ_REGISTRY, WRITE_REGISTRY, READ_REPOSITORY, WRITE_REPOSITORY, CREATE_RUNNER;
+
+        private static JacksonJsonEnumHelper<ProjectAccessTokenScope> enumHelper = new JacksonJsonEnumHelper<>(ProjectAccessTokenScope.class);
+
+        @JsonCreator
+        public static ProjectAccessTokenScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum for the build_git_strategy of the project instance. */
     enum SquashOption {
 

@@ -38,31 +38,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.AccessLevel;
-import org.gitlab4j.api.models.AccessRequest;
-import org.gitlab4j.api.models.ApprovalRule;
-import org.gitlab4j.api.models.ApprovalRuleParams;
-import org.gitlab4j.api.models.AuditEvent;
-import org.gitlab4j.api.models.Badge;
-import org.gitlab4j.api.models.CustomAttribute;
-import org.gitlab4j.api.models.Event;
-import org.gitlab4j.api.models.FileUpload;
-import org.gitlab4j.api.models.Issue;
-import org.gitlab4j.api.models.Member;
-import org.gitlab4j.api.models.Namespace;
-import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.ProjectApprovalsConfig;
-import org.gitlab4j.api.models.ProjectFetches;
-import org.gitlab4j.api.models.ProjectFilter;
-import org.gitlab4j.api.models.ProjectGroupsFilter;
-import org.gitlab4j.api.models.ProjectGroup;
-import org.gitlab4j.api.models.ProjectHook;
-import org.gitlab4j.api.models.ProjectUser;
-import org.gitlab4j.api.models.PushRules;
-import org.gitlab4j.api.models.RemoteMirror;
-import org.gitlab4j.api.models.Snippet;
-import org.gitlab4j.api.models.Variable;
-import org.gitlab4j.api.models.Visibility;
+import org.gitlab4j.api.models.*;
 import org.gitlab4j.api.utils.ISO8601;
 
 /**
@@ -3901,4 +3877,91 @@ public class ProjectApi extends AbstractApi implements Constants {
                 "projects", getProjectIdOrPath(projectIdOrPath), "remote_mirrors", mirrorId);
         return (response.readEntity(RemoteMirror.class));
     }
+
+    /**
+     * Lists the projects access tokens for the project.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @return the list of ProjectAccessTokens. The token and lastUsedAt attribute of each object is unset.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ProjectAccessToken> listProjectAccessTokens(Object projectIdOrPath) throws GitLabApiException {
+        Response response = post(Response.Status.OK, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens");
+        return (response.readEntity(new GenericType<List<ProjectAccessToken>>() { }));
+    }
+
+    /**
+     * Gets the specific project access token.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param tokenId the id of the token
+     * @return the ProjectAccessToken. The token attribute of the object is unset.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectAccessToken getProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
+        Response response = post(Response.Status.OK, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId);
+        return (response.readEntity(ProjectAccessToken.class));
+    }
+
+    /**
+     * Creates a new project access token.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param name the name of the token
+     * @param scopes the scope of the token
+     * @param expiresAt the date when the token should expire
+     * @param accessLevel The access level of the token is optional. It can either be 10, 20, 30, 40, or 50.
+     * @return the newly created ProjectAccessToken. The lastUsedAt attribute of each object is unset.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectAccessToken createProjectAccessToken(Object projectIdOrPath, String name, List<Constants.ProjectAccessTokenScope> scopes, Date expiresAt, Long accessLevel) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("name", name, true)
+            .withParam("expires_at", expiresAt, true)
+            .withParam("scopes", scopes, true)
+            .withParam("access_level", accessLevel, false);
+        Response response = post(Response.Status.CREATED, formData,
+            "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens");
+        return (response.readEntity(ProjectAccessToken.class));
+    }
+
+    /**
+     * Creates a new project access token.
+     * The default value for the accessLevel is used.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param name the name of the token
+     * @param scopes the scope of the token
+     * @param expiresAt the date when the token should expire
+     * @return the newly created ProjectAccessToken. The lastUsedAt attribute of each object is unset.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectAccessToken createProjectAccessToken(Object projectIdOrPath, String name, List<Constants.ProjectAccessTokenScope> scopes, Date expiresAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("name", name, true)
+            .withParam("expires_at", expiresAt, true)
+            .withParam("scopes", scopes, true)
+            .withParam("access_level", (Object) null, false);
+        Response response = post(Response.Status.CREATED, formData,
+            "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens");
+        return (response.readEntity(ProjectAccessToken.class));
+    }
+
+    // TODO
+    public ProjectAccessToken rotateProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
+        Response response = post(Response.Status.OK, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId, "rotate");
+        return (response.readEntity(ProjectAccessToken.class));
+    }
+
+    /**
+     * Revokes the project access token.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param tokenId the id of the token, which should be revoked
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void revokeProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId);
+    }
+
 }
