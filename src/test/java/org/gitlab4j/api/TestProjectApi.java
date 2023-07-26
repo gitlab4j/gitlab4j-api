@@ -23,31 +23,16 @@
 
 package org.gitlab4j.api;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.Instant;
+import java.util.*;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.models.AccessLevel;
-import org.gitlab4j.api.models.AccessRequest;
-import org.gitlab4j.api.models.Group;
-import org.gitlab4j.api.models.Member;
-import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.ProjectFetches;
-import org.gitlab4j.api.models.ProjectFilter;
-import org.gitlab4j.api.models.User;
-import org.gitlab4j.api.models.Variable;
-import org.gitlab4j.api.models.Visibility;
+import org.gitlab4j.api.models.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -883,5 +868,34 @@ public class TestProjectApi extends AbstractIntegrationTest {
         	throw glae;
             }
         }
+    }
+
+    @Test
+    public void testCreateProjectAccessTokens() throws GitLabApiException {
+        gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).forEach(System.out::println);
+
+        final String tokenName = "test-token-name";
+        final List<Constants.ProjectAccessTokenScope> scopes = Arrays.asList(Constants.ProjectAccessTokenScope.READ_API, Constants.ProjectAccessTokenScope.READ_REPOSITORY);
+        final Date expiresAt = Date.from(Instant.now().plusSeconds(60*60));
+        final int size = gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).size() + 1;
+        assertNotNull(testProject);
+
+        ProjectAccessToken token = gitLabApi.getProjectApi().createProjectAccessToken(testProject.getId(), tokenName, scopes, expiresAt);
+
+        assertEquals(size, gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).size());
+        assertNotNull(token.getCreatedAt());
+        // TODO: assertEquals(expiresAt, token.getExpiredAt());
+        assertNotNull(token.getId());
+        assertEquals(tokenName, token.getName());
+        assertFalse(token.isRevoked());
+        assertEquals(scopes, token.getScopes());
+        assertNotNull(token.getToken());
+        assertNotEquals(token.getToken(), "");
+        assertNotNull(token.getUserId());
+        // unset
+        assertNull(token.getLastUsedAt());
+
+        gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
+        assertFalse(gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).stream().filter(t -> !t.isRevoked()).anyMatch(t -> t.getId().equals(token.getId())));
     }
 }
