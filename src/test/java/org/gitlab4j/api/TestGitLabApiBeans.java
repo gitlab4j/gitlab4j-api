@@ -85,6 +85,7 @@ import org.gitlab4j.api.models.Link;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestDiff;
+import org.gitlab4j.api.models.MergeRequestVersion;
 import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.NotificationSettings;
@@ -654,6 +655,12 @@ public class TestGitLabApiBeans {
     public void testMergeRequestDiffs() throws Exception {
         List<MergeRequestDiff> diffs = unmarshalResourceList(MergeRequestDiff.class, "merge-request-diffs.json");
         assertTrue(compareJson(diffs, "merge-request-diffs.json"));
+    }
+
+    @Test
+    public void testMergeRequestVersions() throws Exception {
+        List<MergeRequestVersion> versions = unmarshalResourceList(MergeRequestVersion.class, "merge-request-versions.json");
+        assertTrue(compareJson(versions, "merge-request-diffs.json"));
     }
 
     @Test
