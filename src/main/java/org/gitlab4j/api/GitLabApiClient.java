@@ -264,7 +264,7 @@ public class GitLabApiClient implements AutoCloseable {
      *
      * @param logger the Logger instance to log to
      * @param level the logging level (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
-     * @param maxEntitySize maximum number of entity bytes to be logged.  When logging if the maxEntitySize
+     * @param maxEntityLength maximum number of entity bytes to be logged.  When logging if the maxEntitySize
      * is reached, the entity logging  will be truncated at maxEntitySize and "...more..." will be added at
      * the end of the log entry. If maxEntitySize is <= 0, entity logging will be disabled
      * @param maskedHeaderNames a list of header names that should have the values masked
