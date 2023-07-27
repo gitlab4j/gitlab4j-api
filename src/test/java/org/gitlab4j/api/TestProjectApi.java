@@ -310,7 +310,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     public void testListProjectsWithParams() throws GitLabApiException {
 
         List<Project> projects = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
-                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, false, true);
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, false, true,null,null);
         assertNotNull(projects);
         assertTrue(projects.size() >= 2);
 
@@ -336,7 +336,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     public void testListProjectsWithStatistics() throws GitLabApiException {
 
         List<Project> projects = gitLabApi.getProjectApi().getProjects(false, null,
-                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, false, false, false, false, true);
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, false, false, false, false, true,null,null);
         assertNotNull(projects);
         assertTrue(projects.size() >= 2);
 
@@ -353,7 +353,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     public void testListProjectsWithParamsViaPager() throws GitLabApiException {
 
         Pager<Project> pager = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
-                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, false, true, 10);
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, false, true, null,null,10);
         assertNotNull(pager);
         assertTrue(pager.getTotalItems() >= 2);
 
@@ -379,7 +379,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     public void testListProjectsWithParamByPage() throws GitLabApiException {
 
         List<Project> projects = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
-                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, false, true, 1, 10);
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, null, true, true, true, false, true,null,null, 1, 10);
         assertNotNull(projects);
         assertTrue(projects.size() >= 2);
 
@@ -434,7 +434,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         }
 
         List<Project> projects = gitLabApi.getProjectApi().getProjects(false, Visibility.PUBLIC,
-                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, TEST_PROJECT_NAME, true, true, true, true, true);
+                Constants.ProjectOrderBy.NAME, Constants.SortOrder.DESC, TEST_PROJECT_NAME, true, true, true, true, true,null,null);
 
         try {
             gitLabApi.getProjectApi().unstarProject(testProject);

@@ -80,7 +80,9 @@ public class Project {
     private Boolean snippetsEnabled;
     private String sshUrlToRepo;
     private Integer starCount;
+
     private List<String> tagList;
+    private List<String> topics;
     private Integer visibilityLevel;
     private Visibility visibility;
     private Boolean wallEnabled;
@@ -542,16 +544,41 @@ public class Project {
         this.starCount = starCount;
     }
 
+    /**
+     * Tags will be removed in API v5
+     */
+    @Deprecated
     public List<String> getTagList() {
         return tagList;
     }
 
+    /**
+     * Tags will be removed in API v5
+     */
+    @Deprecated
     public void setTagList(List<String> tagList) {
         this.tagList = tagList;
     }
 
+    /**
+     * Tags will be removed in API v5
+     */
+    @Deprecated
     public Project withTagList(List<String> tagList) {
         this.tagList = tagList;
+        return (this);
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
+    }
+
+    public Project withTopics(List<String> topics) {
+        this.topics = topics;
         return (this);
     }
 
@@ -733,7 +760,7 @@ public class Project {
      * Formats a fully qualified project path based on the provided namespace and project path.
      *
      * @param namespace the namespace, either a user name or group name
-     * @param path the project path
+     * @param path      the project path
      * @return a fully qualified project path based on the provided namespace and project path
      */
     public static final String getPathWithNammespace(String namespace, String path) {
