@@ -33,6 +33,7 @@ import java.util.stream.Stream;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.utils.ISO8601;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -872,11 +873,9 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
     @Test
     public void testCreateProjectAccessTokens() throws GitLabApiException {
-        gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).forEach(System.out::println);
-
-        final String tokenName = "test-token-name";
+        final String tokenName = "token-" + HelperUtils.getRandomInt(1000);;
         final List<Constants.ProjectAccessTokenScope> scopes = Arrays.asList(Constants.ProjectAccessTokenScope.READ_API, Constants.ProjectAccessTokenScope.READ_REPOSITORY);
-        final Date expiresAt = Date.from(Instant.now().plusSeconds(60*60));
+        final Date expiresAt = Date.from(Instant.now().plusSeconds(48*60*60));
         final int size = gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).size() + 1;
         assertNotNull(testProject);
 
@@ -884,7 +883,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
 
         assertEquals(size, gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).size());
         assertNotNull(token.getCreatedAt());
-        // TODO: assertEquals(expiresAt, token.getExpiredAt());
+        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiredAt()));
         assertNotNull(token.getId());
         assertEquals(tokenName, token.getName());
         assertFalse(token.isRevoked());

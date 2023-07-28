@@ -1,5 +1,7 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -10,6 +12,8 @@ public class ProjectAccessToken {
     private Long userId;
     private List<Constants.ProjectAccessTokenScope> scopes;
     private String name;
+    @JsonProperty("expires_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expiredAt;
     private Long id;
     private Boolean active;
