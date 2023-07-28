@@ -3950,7 +3950,7 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     // TODO
     public ProjectAccessToken rotateProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
-        Response response = post(Response.Status.OK, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId, "rotate");
+        Response response = post(Response.Status.OK, (Object) null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId, "rotate");
         return (response.readEntity(ProjectAccessToken.class));
     }
 

@@ -872,7 +872,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testCreateProjectAccessTokens() throws GitLabApiException {
+    public void testCreateProjectAccessToken() throws GitLabApiException {
         final String tokenName = "token-" + HelperUtils.getRandomInt(1000);;
         final List<Constants.ProjectAccessTokenScope> scopes = Arrays.asList(Constants.ProjectAccessTokenScope.READ_API, Constants.ProjectAccessTokenScope.READ_REPOSITORY);
         final Date expiresAt = Date.from(Instant.now().plusSeconds(48*60*60));
@@ -893,6 +893,34 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertNotNull(token.getUserId());
         // unset
         assertNull(token.getLastUsedAt());
+
+        gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
+        assertFalse(gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).stream().filter(t -> !t.isRevoked()).anyMatch(t -> t.getId().equals(token.getId())));
+    }
+
+    @Test
+    public void testRotateProjectAccessToken() throws GitLabApiException {
+        final String tokenName = "token-" + HelperUtils.getRandomInt(1000);;
+        final List<Constants.ProjectAccessTokenScope> scopes = Arrays.asList(Constants.ProjectAccessTokenScope.READ_API, Constants.ProjectAccessTokenScope.READ_REPOSITORY);
+        final Date expiresAt = Date.from(Instant.now().plusSeconds(7*24*60*60));
+        assertNotNull(testProject);
+
+        ProjectAccessToken rotatedToken = gitLabApi.getProjectApi().createProjectAccessToken(testProject.getId(), tokenName, scopes, expiresAt);
+        ProjectAccessToken token = gitLabApi.getProjectApi().rotateProjectAccessToken(testProject.getId(), rotatedToken.getId());
+        rotatedToken = gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), rotatedToken.getId());
+
+        assertNotNull(token.getCreatedAt());
+        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiredAt()));
+        assertNotNull(token.getId());
+        assertNotEquals(rotatedToken.getId(), token.getId());
+        assertEquals(tokenName, token.getName());
+        assertFalse(token.isRevoked());
+        assertTrue(rotatedToken.isRevoked());
+        assertEquals(scopes, token.getScopes());
+        assertNotNull(token.getToken());
+        assertNotEquals(token.getToken(), "");
+        assertNotEquals(rotatedToken.getToken(), token.getToken());
+        assertNotNull(token.getUserId());
 
         gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
         assertFalse(gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).stream().filter(t -> !t.isRevoked()).anyMatch(t -> t.getId().equals(token.getId())));
