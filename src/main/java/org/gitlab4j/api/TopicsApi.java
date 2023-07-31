@@ -2,7 +2,6 @@ package org.gitlab4j.api;
 
 import org.gitlab4j.api.models.Topic;
 import org.gitlab4j.api.models.TopicParams;
-import org.gitlab4j.api.models.User;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -11,9 +10,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class TopicApi extends AbstractApi{
+public class TopicsApi extends AbstractApi{
 
-    public TopicApi(GitLabApi gitLabApi) {
+    public TopicsApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 

@@ -1,15 +1,16 @@
 package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.TopicsApi;
 
 import java.io.File;
 
 /**
- * This class is utilized by the {@link org.gitlab4j.api.TopicApi#createTopic(TopicParams)}
- * and {@link org.gitlab4j.api.TopicApi#updateTopic(Integer, TopicParams)} methods to set
+ * This class is utilized by the {@link TopicsApi#createTopic(TopicParams)}
+ * and {@link TopicsApi#updateTopic(Integer, TopicParams)} methods to set
  * the parameters for the call to the GitLab API.
  *
- * Avatar Upload has its own Upload in {@link org.gitlab4j.api.TopicApi#setTopicAvatar(Integer,File)}
+ * Avatar Upload has its own Upload in {@link TopicsApi#setTopicAvatar(Integer,File)}
  */
 public class TopicParams {
 
