@@ -142,7 +142,7 @@ public class TopicsApi extends AbstractApi{
      * @return the updated Topic instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Topic setTopicAvatar(final Integer id, File avatarFile) throws GitLabApiException {
+    public Topic updateTopicAvatar(final Integer id, File avatarFile) throws GitLabApiException {
         Response response = putUpload(Response.Status.OK, "avatar", avatarFile,  "topics", id);
         return (response.readEntity(Topic.class));
     }
