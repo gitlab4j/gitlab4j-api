@@ -35,6 +35,9 @@ public class ProjectFilter {
     private Date lastActivityAfter;
     private Date lastActivityBefore;
     private String repositoryStorage;
+    private Boolean imported;
+    private String topic;
+    private Integer topic_id;
 
     /**
      * Limit by archived status.
@@ -306,6 +309,39 @@ public class ProjectFilter {
     }
 
     /**
+     * Limit results to projects which were imported from external systems by current user.
+     *
+     * @param imported limit results to projects imported from external systems by current user
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withImported(Boolean imported){
+        this.imported = imported;
+        return (this);
+    }
+
+    /**
+     *  Limit results to projects that match all of given topics.
+     *
+     * @param topic Comma-separated topic names.
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withTopic(String topic){
+        this.topic = topic;
+        return (this);
+    }
+
+    /**
+     *  Limit results to projects with the assigned topic given by the topic ID.
+     *
+     * @param topic_id the topic ID
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withTopicId(Integer topic_id){
+        this.topic_id = topic_id;
+        return (this);
+    }
+
+    /**
      * Get the query params specified by this filter.
      *
      * @param page specifies the page number
@@ -348,6 +384,9 @@ public class ProjectFilter {
             .withParam("last_activity_after", lastActivityAfter)
             .withParam("last_activity_before", lastActivityBefore)
             .withParam("repository_storage", repositoryStorage)
+            .withParam("imported",imported)
+            .withParam("topic",topic)
+            .withParam("topic_id",topic_id)
         );
     }
 }
