@@ -984,6 +984,7 @@ public class UserApi extends AbstractApi {
         String skipConfirmationFeildName = create ? "skip_confirmation" : "skip_reconfirmation";
 
         return (new GitLabApiForm()
+                .withParam("public_email", user.getPublicEmail(), false)
                 .withParam("email", user.getEmail(), create)
                 .withParam("password", password, false)
                 .withParam("reset_password", resetPassword, false)
