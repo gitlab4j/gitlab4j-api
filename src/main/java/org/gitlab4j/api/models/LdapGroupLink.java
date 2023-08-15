@@ -5,11 +5,6 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class LdapGroupLink {
 
-    // The GitLab REST API documentation (https://docs.gitlab.com/ee/api/groups.html#list-ldap-group-links)
-    // does not specify the attributes which are returned for a LDAP group link :-/.
-    // This are the attributes returned by our GitLab instance (15.10.2-ee).
-    // These seem fine because they match with the attributes which you can pass when adding a LDAP group link :-).
-
     private String cn;
 
     private AccessLevel groupAccess;

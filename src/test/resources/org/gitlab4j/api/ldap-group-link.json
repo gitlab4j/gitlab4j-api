@@ -1,0 +1,6 @@
+{
+    "cn": "My Group",
+    "group_access": 30,
+    "provider": "tertiary",
+    "filter": "(employeeType=developer)"
+}
