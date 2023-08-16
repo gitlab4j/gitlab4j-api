@@ -81,6 +81,7 @@ import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
 import org.gitlab4j.api.models.Label;
 import org.gitlab4j.api.models.LabelEvent;
+import org.gitlab4j.api.models.LdapGroupLink;
 import org.gitlab4j.api.models.Link;
 import org.gitlab4j.api.models.LinkedIssue;
 import org.gitlab4j.api.models.Member;
@@ -777,6 +778,12 @@ public class TestGitLabApiBeans {
     public void testLabels() throws Exception {
         List<Label> labels = unmarshalResourceList(Label.class, "labels.json");
         assertTrue(compareJson(labels, "labels.json"));
+    }
+
+    @Test
+    public void testLdapGroupLink() throws Exception {
+        LdapGroupLink link = unmarshalResource(LdapGroupLink.class, "ldap-group-link.json");
+        assertTrue(compareJson(link, "ldap-group-link.json"));
     }
 
     @Test

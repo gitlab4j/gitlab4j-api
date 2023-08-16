@@ -22,6 +22,7 @@ import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.GroupProjectsFilter;
+import org.gitlab4j.api.models.LdapGroupLink;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Variable;
@@ -1175,6 +1176,20 @@ public class GroupApi extends AbstractApi {
      */
     public void ldapSync(Object groupIdOrPath) throws GitLabApiException {
         post(Response.Status.NO_CONTENT, (Form)null, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_sync");
+    }
+
+    /**
+     * Get the list of LDAP group links.
+     * 
+     * <pre><code>GitLab Endpoint: GET /groups/:id/ldap_group_links</code></pre>
+     * 
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a list of LDAP group links
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<LdapGroupLink> getLdapGroupLinks(Object groupIdOrPath) throws GitLabApiException {
+         Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links");
+         return (response.readEntity(new GenericType<List<LdapGroupLink>>() {}));
     }
 
     /**
