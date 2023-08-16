@@ -10,15 +10,13 @@ import java.io.File;
  * and {@link TopicsApi#updateTopic(Integer, TopicParams)} methods to set
  * the parameters for the call to the GitLab API.
  *
- * Avatar Upload has its own Upload in {@link TopicsApi#setTopicAvatar(Integer,File)}
+ * Avatar Upload has its own Upload in {@link TopicsApi#updateTopicAvatar(Integer,File)}
  */
 public class TopicParams {
 
     private String name;
     private String title;
     private String description;
-
-
 
     public TopicParams withName(String name) {
         this.name = name;
@@ -34,8 +32,6 @@ public class TopicParams {
         this.description = description;
         return (this);
     }
-
-
 
     /**
      * Get the form params for a group create oir update call.

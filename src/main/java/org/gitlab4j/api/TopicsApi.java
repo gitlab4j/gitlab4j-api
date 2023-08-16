@@ -29,7 +29,6 @@ public class TopicsApi extends AbstractApi{
      * @throws GitLabApiException if any exception occurs
      */
     public List<Topic> getTopics() throws GitLabApiException {
-
         return (getTopics(getDefaultPerPage()).all());
     }
 
@@ -132,6 +131,7 @@ public class TopicsApi extends AbstractApi{
             params.getForm(false), "topics",  id);
         return (response.readEntity(Topic.class));
     }
+
     /**
      * Uploads and sets the topic's avatar for the specified topic.
      *
@@ -147,6 +147,28 @@ public class TopicsApi extends AbstractApi{
         return (response.readEntity(Topic.class));
     }
 
+    /**
+     * Delete the topic's avatar for the specified topic.
+     *
+     * <pre><code>PUT /topics/:id</code></pre>
+     *
+     * @param id the topic in the form of an Integer
+     * @return the updated Topic instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Topic deleteTopicAvatar(final Integer id) throws GitLabApiException {
+        Response response = putUpload(Response.Status.OK, "avatar", null,  "topics", id);
+        return (response.readEntity(Topic.class));
+    }
+
+    /**
+     * You must be an administrator to delete a project topic. When you delete a project topic, you also delete the topic assignment for projects.
+     *
+     * <pre><code>DELETE /topics/:id</code></pre>
+     *
+     * @param id the topic in the form of an Integer
+     * @throws GitLabApiException if any exception occurs
+     */
     public void deleteTopic(Integer id) throws GitLabApiException {
         if(isApiVersion(GitLabApi.ApiVersion.V3)){
             throw new GitLabApiException("Topics need api v4+");
@@ -154,12 +176,17 @@ public class TopicsApi extends AbstractApi{
         delete(Response.Status.NO_CONTENT,null, "topics", id);
     }
 
-
-
+    /**
+     * You must be an administrator to merge a source topic into a target topic. When you merge topics, you delete the source topic and move all assigned projects to the target topic.
+     *
+     * <pre><code>DELETE /topics/:id</code></pre>
+     *
+     * @param sourceTopicId ID of source project topic
+     * @param targetTopicId ID of target project topic
+     * @throws GitLabApiException if any exception occurs
+     */
     public Topic mergeTopics(Integer sourceTopicId, Integer targetTopicId) throws GitLabApiException {
         Response response = post(Response.Status.OK,new GitLabApiForm().withParam("source_topic_id",sourceTopicId).withParam("target_topic_id",targetTopicId),"topics/merge");
         return (response.readEntity(Topic.class));
     }
-
-
 }

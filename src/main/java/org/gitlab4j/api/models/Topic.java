@@ -12,9 +12,9 @@ public class Topic {
 
     private String description;
 
-    private int total_projects_count;
+    private int totalProjectsCount;
 
-    private String avatar_url;
+    private String avatarUrl;
 
     public Integer getId() {
         return id;
@@ -48,20 +48,20 @@ public class Topic {
         this.description = description;
     }
 
-    public int getTotal_projects_count() {
-        return total_projects_count;
+    public int getTotalProjectsCount() {
+        return totalProjectsCount;
     }
 
-    public void setTotal_projects_count(int total_projects_count) {
-        this.total_projects_count = total_projects_count;
+    public void setTotalProjectsCount(int totalProjectsCount) {
+        this.totalProjectsCount = totalProjectsCount;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     @Override

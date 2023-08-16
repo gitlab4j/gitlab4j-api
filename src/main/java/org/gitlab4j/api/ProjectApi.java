@@ -1043,6 +1043,10 @@ public class ProjectApi extends AbstractApi implements Constants {
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 throw new IllegalArgumentException("GitLab API v3 does not support tag lists when creating projects");
             }
+
+            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+                throw new IllegalArgumentException("GitLab API v3 does not support topics when creating projects");
+            }
         } else {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
                 project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
@@ -1050,6 +1054,10 @@ public class ProjectApi extends AbstractApi implements Constants {
 
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 formData.withParam("tag_list", String.join(",", project.getTagList()));
+            }
+
+            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+                formData.withParam("topics", String.join(",", project.getTopics()));
             }
         }
 
@@ -1314,6 +1322,10 @@ public class ProjectApi extends AbstractApi implements Constants {
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 throw new IllegalArgumentException("GitLab API v3 does not support tag lists when updating projects");
             }
+
+            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+                throw new IllegalArgumentException("GitLab API v3 does not support topics when updating projects");
+            }
         } else {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
                 project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
@@ -1321,6 +1333,10 @@ public class ProjectApi extends AbstractApi implements Constants {
 
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 formData.withParam("tag_list", String.join(",", project.getTagList()));
+            }
+
+            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+                formData.withParam("topics", String.join(",", project.getTopics()));
             }
         }
 
