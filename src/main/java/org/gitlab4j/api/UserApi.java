@@ -185,6 +185,21 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Rejects specified user that is pending approval. Available only for administrators.
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:id/reject</code></pre>
+     *
+     * @param userId the ID of the user to reject
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void rejectUser(Long userId) throws GitLabApiException {
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+        post(Response.Status.OK, (Form) null, "users", userId, "reject");
+    }
+
+    /**
      * Blocks the specified user. Available only for admin.
      *
      * <pre><code>GitLab Endpoint: POST /users/:id/block</code></pre>
