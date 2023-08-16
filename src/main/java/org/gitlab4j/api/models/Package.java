@@ -1,5 +1,7 @@
 package org.gitlab4j.api.models;
 
+import java.util.Date;
+
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class Package {
@@ -8,6 +10,7 @@ public class Package {
     private String name;
     private String version;
     private PackageType packageType;
+    private Date createdAt;
 
     public Long getId() {
         return id;
@@ -39,6 +42,14 @@ public class Package {
 
     public void setPackageType(PackageType packageType) {
         this.packageType = packageType;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
