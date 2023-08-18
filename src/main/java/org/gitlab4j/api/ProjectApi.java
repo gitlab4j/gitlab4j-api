@@ -3917,13 +3917,13 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Gets the specific project access token.
+     * Only working with GitLab 14.10 and above.
      *
      * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
      * @param tokenId the id of the token
      * @return the ProjectAccessToken. The token attribute of the object is unset.
      * @throws GitLabApiException if any exception occurs
      */
-    // TODO
     public ProjectAccessToken getProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId);
         return (response.readEntity(ProjectAccessToken.class));
@@ -3973,7 +3973,16 @@ public class ProjectApi extends AbstractApi implements Constants {
         return (response.readEntity(ProjectAccessToken.class));
     }
 
-    // TODO
+    /**
+     * Rotates the given project access token.
+     * The token is revoked and a new one which will expire in one week is created to replace it.
+     * Only working with GitLab 16.0 and above.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param tokenId the id
+     * @return the newly created ProjectAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
     public ProjectAccessToken rotateProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
         Response response = post(Response.Status.OK, (Object) null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId, "rotate");
         return (response.readEntity(ProjectAccessToken.class));

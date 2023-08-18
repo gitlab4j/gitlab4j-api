@@ -914,7 +914,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertNull(token.getLastUsedAt());
 
         gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
-        assertFalse(gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).stream().filter(t -> !t.isRevoked()).anyMatch(t -> t.getId().equals(token.getId())));
+        assertTrue(gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), token.getId()).isRevoked());
     }
 
     @Test
@@ -942,6 +942,6 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertNotNull(token.getUserId());
 
         gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
-        assertFalse(gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).stream().filter(t -> !t.isRevoked()).anyMatch(t -> t.getId().equals(token.getId())));
+        assertTrue(gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), token.getId()).isRevoked());
     }
 }
