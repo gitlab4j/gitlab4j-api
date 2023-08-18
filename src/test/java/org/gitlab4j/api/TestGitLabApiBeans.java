@@ -95,6 +95,7 @@ import org.gitlab4j.api.models.PackageFile;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectAccessToken;
 import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectGroup;
@@ -775,5 +776,11 @@ public class TestGitLabApiBeans {
     public void testSearchBlobs() throws Exception {
         List<SearchBlob> searchResults = unmarshalResourceList(SearchBlob.class, "wiki-blobs.json");
         assertTrue(compareJson(searchResults, "wiki-blobs.json"));
+    }
+
+    @Test
+    public void testProjectAccessToken() throws Exception {
+        ProjectAccessToken token = unmarshalResource(ProjectAccessToken.class, "project-access-token.json");
+        assertTrue(compareJson(token, "project-access-token.json"));
     }
 }
