@@ -142,4 +142,21 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
                 () -> gitLabApi.getProtectedBranchesApi().setCodeOwnerApprovalRequired(testProject, TEST_BRANCH_NAME, true));
         assertTrue(gae.getHttpStatus() == 404);
     }
+
+
+    @Test
+    public void testUpdateProtectedBranch() throws GitLabApiException {
+
+        assumeTrue(testProject != null);
+
+        ProtectedBranch branch = gitLabApi.getProtectedBranchesApi().getProtectedBranch(testProject, TEST_BRANCH_NAME);
+        assertNotNull(branch);
+        // current version returns null, but will return boolean (false) with newer Premium
+        assertFalse(branch.getAllowForcePush() != null);
+
+        // current version returns 404, but will return branch with "code_owner_approval_required = true" with newer Premium
+        GitLabApiException gae = assertThrowsExactly(GitLabApiException.class,
+            () -> gitLabApi.getProtectedBranchesApi().updateProtectedBranch(testProject, TEST_BRANCH_NAME, true));
+        assertTrue(gae.getHttpStatus() == 404);
+    }
 }

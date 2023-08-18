@@ -257,4 +257,96 @@ public class ProtectedBranchesApi extends AbstractApi {
                 "protected_branches", urlEncode(branchName));
         return (response.readEntity(ProtectedBranch.class));
     }
+
+    /**
+     * Updates a protected branch.
+     *
+     * <pre><code>GitLab Endpoint: PATCH /projects/:id/protected_branches/:name</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param branchName the name of the branch to protect, can be a wildcard
+     * @param allowForcePush When enabled, members who can push to this branch can also force push.
+     * @return the branch info for the protected branch
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProtectedBranch updateProtectedBranch(Object projectIdOrPath, String branchName, boolean allowForcePush) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+            .withParam("name", branchName, true)
+            .withParam("allow_force_push", allowForcePush);
+        Response response = patch(Response.Status.OK, formData.asMap(),
+            "projects", getProjectIdOrPath(projectIdOrPath),
+            "protected_branches", urlEncode(branchName));
+        return (response.readEntity(ProtectedBranch.class));
+    }
+
+    /**
+     * Updates a protected branch.
+     *
+     * <p>NOTE: This method is only available to GitLab Premium or higher.</p>
+     *
+     * <pre><code>GitLab Endpoint: PATCH /projects/:id/protected_branches/:name</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param branchName the name of the branch to protect, can be a wildcard
+     * @param allowForcePush When enabled, members who can push to this branch can also force push.
+     * @param allowedToMergeUserId user ID allowed to merge, can be null
+     * @param allowedToPushUserId user ID allowed to push, can be null
+     * @param allowedToUnprotectUserId user ID allowed to unprotect, can be null
+     * @param codeOwnerApprovalRequired prevent pushes to this branch if it matches an item in the CODEOWNERS file. (defaults: false)
+     * @return the branch info for the protected branch
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProtectedBranch updateProtectedBranch(Object projectIdOrPath, String branchName, boolean allowForcePush,
+        Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
+        Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+
+        Form formData = new GitLabApiForm()
+            .withParam("name", branchName, true)
+            .withParam("allow_force_push", allowForcePush)
+            .withParam("allowed_to_push[][user_id]", allowedToPushUserId)
+            .withParam("allowed_to_merge[][user_id]", allowedToMergeUserId)
+            .withParam("allowed_to_unprotect[][user_id]", allowedToUnprotectUserId)
+            .withParam("code_owner_approval_required", codeOwnerApprovalRequired);
+        Response response = patch(Response.Status.OK, formData.asMap(),
+            "projects", getProjectIdOrPath(projectIdOrPath), "protected_branches", urlEncode(branchName));
+        return (response.readEntity(ProtectedBranch.class));
+    }
+
+    /**
+     * Updates a protected branch.
+     *
+     * <p>NOTE: This method is only available to GitLab Premium or higher.</p>
+     *
+     * <pre><code>GitLab Endpoint: PATCH /projects/:id/protected_branches/:name</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param branchName the name of the branch to protect, can be a wildcard
+     * @param allowForcePush When enabled, members who can push to this branch can also force push.
+     * @param allowedToPush an AllowedTo instance holding the configuration for "allowed_to_push"
+     * @param allowedToMerge an AllowedTo instance holding the configuration for "allowed_to_merge"
+     * @param allowedToUnprotect an AllowedTo instance holding the configuration for "allowed_to_unprotect" be null
+     * @param codeOwnerApprovalRequired prevent pushes to this branch if it matches an item in the CODEOWNERS file. (defaults: false)
+     * @return the branch info for the protected branch
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProtectedBranch updateProtectedBranch(Object projectIdOrPath, String branchName, boolean allowForcePush,
+        AllowedTo allowedToPush, AllowedTo allowedToMerge, AllowedTo allowedToUnprotect,
+        Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("name", branchName, true)
+            .withParam("allow_force_push", allowForcePush)
+            .withParam("code_owner_approval_required", codeOwnerApprovalRequired);
+
+        if (allowedToPush != null)
+            allowedToPush.getForm(formData, "allowed_to_push");
+        if (allowedToMerge != null)
+            allowedToMerge.getForm(formData, "allowed_to_merge");
+        if (allowedToUnprotect != null)
+            allowedToUnprotect.getForm(formData, "allowed_to_unprotect");
+
+        Response response = patch(Response.Status.OK, formData.asMap(),
+            "projects", getProjectIdOrPath(projectIdOrPath), "protected_branches", urlEncode(branchName));
+        return (response.readEntity(ProtectedBranch.class));
+    }
 }
