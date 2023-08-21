@@ -33,13 +33,13 @@ public class TopicsApi extends AbstractApi{
     }
 
     /**
-     * Get a list of topics (As user: my , as admin: all groups) and in the specified page range.
+     * Get a list of topics in the specified page range.
      *
      * <pre><code>GitLab Endpoint: GET /topics</code></pre>
      *
      * @param page the page to get
      * @param perPage the number of Group instances per page
-     * @return the list of groups viewable by the authenticated userin the specified page range
+     * @return the list of topics
      * @throws GitLabApiException if any exception occurs
      */
     public List<Topic> getTopics(int page, int perPage) throws GitLabApiException {
@@ -48,12 +48,12 @@ public class TopicsApi extends AbstractApi{
     }
 
     /**
-     * Get a Pager of groups. (As user: my groups, as admin: all groups)
+     * Get a Pager of topics.
      *
      * <pre><code>GitLab Endpoint: GET /topics</code></pre>
      *
      * @param itemsPerPage the number of Group instances that will be fetched per page
-     * @return the list of groups viewable by the authenticated user
+     * @return the pager of topics
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Topic> getTopics(int itemsPerPage) throws GitLabApiException {
@@ -61,11 +61,11 @@ public class TopicsApi extends AbstractApi{
     }
 
     /**
-     * Get a Stream of groups. (As user: my groups, as admin: all groups)
+     * Get a Stream of topics.
      *
      * <pre><code>GitLab Endpoint: GET /topics</code></pre>
      *
-     * @return a Stream of groups viewable by the authenticated user
+     * @return the stream of topics
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<Topic> getGroupsStream() throws GitLabApiException {
@@ -73,12 +73,12 @@ public class TopicsApi extends AbstractApi{
     }
 
     /**
-     * Get all details of a group.
+     * Get all details of a topic.
      *
      * <pre><code>GitLab Endpoint: GET /topics/:id</code></pre>
      *
-     * @param id the group ID, path of the group, or a Group instance holding the group ID or path
-     * @return the Group instance for the specified group path
+     * @param id the topic ID
+     * @return the topic for the specified topic id
      * @throws GitLabApiException if any exception occurs
      */
     public Topic getTopic(Integer id) throws GitLabApiException {
@@ -87,14 +87,14 @@ public class TopicsApi extends AbstractApi{
     }
 
     /**
-     * Get all details of a group as an Optional instance.
+     * Get all details of a topic as an Optional instance.
      *
      * <pre><code>GitLab Endpoint: GET /topics/:id</code></pre>
      *
      * @param id the topic ID
      * @return the Topic for the specified topic id as an Optional instance
      */
-    public Optional<Topic> getOptionalGroup(Integer id) {
+    public Optional<Topic> getOptionalTopic(Integer id) {
         try {
             return (Optional.ofNullable(getTopic(id)));
         } catch (GitLabApiException glae) {
@@ -108,7 +108,7 @@ public class TopicsApi extends AbstractApi{
      * <pre><code>GitLab Endpoint: POST /topics</code></pre>
      *
      * @param params a TopicParams instance holding the parameters for the topic creation
-     * @return the created Group instance
+     * @return the created Topic instance
      * @throws GitLabApiException if any exception occurs
      */
     public Topic createTopic(TopicParams params) throws GitLabApiException {
@@ -117,13 +117,13 @@ public class TopicsApi extends AbstractApi{
     }
 
     /**
-     * Updates the project group. Only available to group owners and administrators.
+     * Update a project topic.
      *
-     * <pre><code>GitLab Endpoint: PUT /groups</code></pre>
+     * <pre><code>GitLab Endpoint: PUT /topics/:id</code></pre>
      *
-     * @param id the topic I
+     * @param id the topic id
      * @param params a TopicParams instance holding the properties to Update
-     * @return updated Group instance
+     * @return the updated Topic instance
      * @throws GitLabApiException at any exception
      */
     public Topic updateTopic(Integer id, TopicParams params) throws GitLabApiException {
@@ -135,7 +135,7 @@ public class TopicsApi extends AbstractApi{
     /**
      * Uploads and sets the topic's avatar for the specified topic.
      *
-     * <pre><code>PUT /topics/:id</code></pre>
+     * <pre><code>GitLab Endpoint: PUT /topics/:id</code></pre>
      *
      * @param id the topic in the form of an Integer
      * @param avatarFile the File instance of the avatar file to upload
@@ -150,7 +150,7 @@ public class TopicsApi extends AbstractApi{
     /**
      * Delete the topic's avatar for the specified topic.
      *
-     * <pre><code>PUT /topics/:id</code></pre>
+     * <pre><code>GitLab Endpoint: PUT /topics/:id</code></pre>
      *
      * @param id the topic in the form of an Integer
      * @return the updated Topic instance
@@ -162,11 +162,11 @@ public class TopicsApi extends AbstractApi{
     }
 
     /**
-     * You must be an administrator to delete a project topic. When you delete a project topic, you also delete the topic assignment for projects.
+     * Delete a topic. You must be an administrator to delete a project topic. When you delete a project topic, you also delete the topic assignment for projects.
      *
-     * <pre><code>DELETE /topics/:id</code></pre>
+     * <pre><code>GitLab Endpoint: DELETE /topics/:id</code></pre>
      *
-     * @param id the topic in the form of an Integer
+     * @param id the topic to deleted in the form of an Integer
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteTopic(Integer id) throws GitLabApiException {
@@ -177,12 +177,13 @@ public class TopicsApi extends AbstractApi{
     }
 
     /**
-     * You must be an administrator to merge a source topic into a target topic. When you merge topics, you delete the source topic and move all assigned projects to the target topic.
+     * Merge two topics together. You must be an administrator to merge a source topic into a target topic. When you merge topics, you delete the source topic and move all assigned projects to the target topic.
      *
-     * <pre><code>DELETE /topics/:id</code></pre>
+     * <pre><code>GitLab Endpoint: POST /topics/merge</code></pre>
      *
      * @param sourceTopicId ID of source project topic
      * @param targetTopicId ID of target project topic
+     * @return the merged Topic instance
      * @throws GitLabApiException if any exception occurs
      */
     public Topic mergeTopics(Integer sourceTopicId, Integer targetTopicId) throws GitLabApiException {
