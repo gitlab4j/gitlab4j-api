@@ -12,9 +12,7 @@ public class ProjectAccessToken {
     private Long userId;
     private List<Constants.ProjectAccessTokenScope> scopes;
     private String name;
-    @JsonProperty("expires_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date expiredAt;
+    private Date expiresAt;
     private Long id;
     private Boolean active;
     private Date createdAt;
@@ -47,12 +45,12 @@ public class ProjectAccessToken {
         this.name = name;
     }
 
-    public Date getExpiredAt() {
-        return expiredAt;
+    public Date getExpiresAt() {
+        return expiresAt;
     }
 
-    public void setExpiredAt(Date expiredAt) {
-        this.expiredAt = expiredAt;
+    public void setExpiresAt(Date expiredAt) {
+        this.expiresAt = expiredAt;
     }
 
     public Long getId() {

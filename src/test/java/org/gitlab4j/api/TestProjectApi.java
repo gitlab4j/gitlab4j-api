@@ -904,7 +904,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
 //
 //        assertEquals(size, gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).size());
 //        assertNotNull(token.getCreatedAt());
-//        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiredAt()));
+//        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiresAt()));
 //        assertNotNull(token.getId());
 //        assertEquals(tokenName, token.getName());
 //        assertFalse(token.isRevoked());
@@ -932,7 +932,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
 //        rotatedToken = gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), rotatedToken.getId());
 //
 //        assertNotNull(token.getCreatedAt());
-//        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiredAt()));
+//        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiresAt()));
 //        assertNotNull(token.getId());
 //        assertNotEquals(rotatedToken.getId(), token.getId());
 //        assertEquals(tokenName, token.getName());
