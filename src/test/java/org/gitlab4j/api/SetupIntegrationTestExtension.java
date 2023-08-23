@@ -168,7 +168,7 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
 
         GitLabApi gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, username, password, null, null, true);
 
-        // If the tester user doen't exists, create it
+        // If the tester user doesn't exist, create it
         Optional<User> optionalUser = gitLabApi.getUserApi().getOptionalUser(TEST_LOGIN_USERNAME);
         if (!optionalUser.isPresent()) {
             User userSettings = new User()
@@ -185,7 +185,7 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
         // so use OAUTH2 to get the GitLabApi instance
         gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, null, null, true);
 
-        // Create the sudo as user if it does not exists
+        // Create the sudo as user if it does not exist
         username = HelperUtils.getProperty(SUDO_AS_USERNAME_KEY, "user1");
         optionalUser = gitLabApi.getUserApi().getOptionalUser(username);
         if (!optionalUser.isPresent()) {

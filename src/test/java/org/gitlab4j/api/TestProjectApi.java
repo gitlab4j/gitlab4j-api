@@ -25,12 +25,15 @@ package org.gitlab4j.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,11 +46,13 @@ import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectAccessToken;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectFilter;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
+import org.gitlab4j.api.utils.ISO8601;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -883,5 +888,63 @@ public class TestProjectApi extends AbstractIntegrationTest {
         	throw glae;
             }
         }
+    }
+
+    @Test
+    public void testCreateProjectAccessToken() throws GitLabApiException {
+        final String tokenName = "token-" + HelperUtils.getRandomInt(1000);;
+        final List<Constants.ProjectAccessTokenScope> scopes = Arrays.asList(Constants.ProjectAccessTokenScope.READ_API, Constants.ProjectAccessTokenScope.READ_REPOSITORY);
+        final Date expiresAt = Date.from(Instant.now().plusSeconds(48*60*60));
+        assertNotNull(testProject);
+
+//        This does not work with the GitLab version used for the integration tests
+//        final int size = gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).size() + 1;
+//
+//        ProjectAccessToken token = gitLabApi.getProjectApi().createProjectAccessToken(testProject.getId(), tokenName, scopes, expiresAt);
+//
+//        assertEquals(size, gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).size());
+//        assertNotNull(token.getCreatedAt());
+//        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiresAt()));
+//        assertNotNull(token.getId());
+//        assertEquals(tokenName, token.getName());
+//        assertFalse(token.isRevoked());
+//        assertEquals(scopes, token.getScopes());
+//        assertNotNull(token.getToken());
+//        assertNotEquals(token.getToken(), "");
+//        assertNotNull(token.getUserId());
+//        // unset
+//        assertNull(token.getLastUsedAt());
+//
+//        gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
+//        assertTrue(gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), token.getId()).isRevoked());
+    }
+
+    @Test
+    public void testRotateProjectAccessToken() throws GitLabApiException {
+        final String tokenName = "token-" + HelperUtils.getRandomInt(1000);;
+        final List<Constants.ProjectAccessTokenScope> scopes = Arrays.asList(Constants.ProjectAccessTokenScope.READ_API, Constants.ProjectAccessTokenScope.READ_REPOSITORY);
+        final Date expiresAt = Date.from(Instant.now().plusSeconds(7*24*60*60));
+        assertNotNull(testProject);
+
+//        This does not work with the GitLab version used for the integration tests
+//        ProjectAccessToken rotatedToken = gitLabApi.getProjectApi().createProjectAccessToken(testProject.getId(), tokenName, scopes, expiresAt);
+//        ProjectAccessToken token = gitLabApi.getProjectApi().rotateProjectAccessToken(testProject.getId(), rotatedToken.getId());
+//        rotatedToken = gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), rotatedToken.getId());
+//
+//        assertNotNull(token.getCreatedAt());
+//        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiresAt()));
+//        assertNotNull(token.getId());
+//        assertNotEquals(rotatedToken.getId(), token.getId());
+//        assertEquals(tokenName, token.getName());
+//        assertFalse(token.isRevoked());
+//        assertTrue(rotatedToken.isRevoked());
+//        assertEquals(scopes, token.getScopes());
+//        assertNotNull(token.getToken());
+//        assertNotEquals(token.getToken(), "");
+//        assertNotEquals(rotatedToken.getToken(), token.getToken());
+//        assertNotNull(token.getUserId());
+//
+//        gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
+//        assertTrue(gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), token.getId()).isRevoked());
     }
 }
