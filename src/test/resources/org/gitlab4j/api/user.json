@@ -34,5 +34,6 @@
   "external": false,
   "private_profile": false,
   "shared_runners_minutes_limit": 133,
-  "extra_shared_runners_minutes_limit": 133
+  "extra_shared_runners_minutes_limit": 133,
+  "namespace_id": 1
 }

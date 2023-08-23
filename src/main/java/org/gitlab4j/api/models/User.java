@@ -24,6 +24,7 @@ public class User extends AbstractUser<User> {
     private Date lastSignInAt;
     private String linkedin;
     private String location;
+    private Long namespaceId;
     private String organization;
     private Boolean privateProfile;
     private Integer projectsLimit;
@@ -164,6 +165,14 @@ public class User extends AbstractUser<User> {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Long getNamespaceId() {
+        return namespaceId;
+    }
+
+    public void setNamespaceId(Long namespaceId) {
+        this.namespaceId = namespaceId;
     }
 
     public String getOrganization() {
