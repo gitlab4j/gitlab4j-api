@@ -46,6 +46,8 @@ import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.Board;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.ChildEpic;
+import org.gitlab4j.api.models.CiYamlTemplate;
+import org.gitlab4j.api.models.CiYamlTemplatesElement;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitPayload;
@@ -789,5 +791,17 @@ public class TestGitLabApiBeans {
     public void testProjectAccessToken() throws Exception {
         ProjectAccessToken token = unmarshalResource(ProjectAccessToken.class, "project-access-token.json");
         assertTrue(compareJson(token, "project-access-token.json"));
+    }
+
+    @Test
+    public void testCiYamlTemplatesElements() throws Exception {
+        List<CiYamlTemplatesElement> ciYamlTemplatesElements = unmarshalResourceList(CiYamlTemplatesElement.class, "ci-yaml-templates-elements.json");
+        assertTrue(compareJson(ciYamlTemplatesElements, "ci-yaml-templates-elements.json"));
+    }
+
+    @Test
+    public void testCiYamlTemplate() throws Exception {
+        CiYamlTemplate ciYamlTemplate = unmarshalResource(CiYamlTemplate.class, "ci-yaml-template.json");
+        assertTrue(compareJson(ciYamlTemplate, "ci-yaml-template.json"));
     }
 }
