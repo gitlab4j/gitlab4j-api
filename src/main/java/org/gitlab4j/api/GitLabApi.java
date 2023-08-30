@@ -99,6 +99,7 @@ public class GitLabApi implements AutoCloseable {
     private UserApi userApi;
     private WikisApi wikisApi;
     private KeysApi keysApi;
+    private MetadataApi metadataApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -1463,7 +1464,7 @@ public class GitLabApi implements AutoCloseable {
 
         return releaseLinksApi;
     }
-    
+
     /**
      * Gets the ReleasesApi instance owned by this GitLabApi instance. The ReleasesApi is used
      * to perform all release related API calls.
@@ -1737,6 +1738,21 @@ public class GitLabApi implements AutoCloseable {
             }
         }
         return keysApi;
+    }
+
+    /**
+     * Gets the MetadataApi instance owned by this GitlabApi instance. The MetadataApi is used to
+     * retrieve metadata information for this GitLab instance
+     *
+     * @return the MetadataApi instance owned by this GitlabApi instance
+     */
+    public MetadataApi getMetadataApi() {
+        synchronized (this) {
+            if (metadataApi == null) {
+                metadataApi = new MetadataApi(this);
+            }
+        }
+        return metadataApi;
     }
 
 
