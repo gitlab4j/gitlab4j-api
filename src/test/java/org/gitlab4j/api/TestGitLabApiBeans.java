@@ -88,6 +88,7 @@ import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestDiff;
 import org.gitlab4j.api.models.MergeRequestVersion;
+import org.gitlab4j.api.models.Metadata;
 import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.NotificationSettings;
@@ -797,5 +798,11 @@ public class TestGitLabApiBeans {
     public void testProjectAccessToken() throws Exception {
         ProjectAccessToken token = unmarshalResource(ProjectAccessToken.class, "project-access-token.json");
         assertTrue(compareJson(token, "project-access-token.json"));
+    }
+
+    @Test
+    public void testMetadata() throws Exception {
+        Metadata metadata = unmarshalResource(Metadata.class, "metadata.json");
+        assertTrue(compareJson(metadata, "metadata.json"));
     }
 }
