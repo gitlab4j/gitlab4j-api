@@ -758,7 +758,7 @@ public interface Constants {
      */
     public enum GroupSearchScope {
 
-        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, USERS;
+        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, WIKI_BLOBS, COMMITS, BLOBS, NOTES, USERS;
 
         private static JacksonJsonEnumHelper<GroupSearchScope> enumHelper = new JacksonJsonEnumHelper<>(GroupSearchScope.class);
 
