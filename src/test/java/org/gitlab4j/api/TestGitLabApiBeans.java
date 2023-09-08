@@ -89,6 +89,7 @@ import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestDiff;
 import org.gitlab4j.api.models.MergeRequestVersion;
+import org.gitlab4j.api.models.Metadata;
 import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.NotificationSettings;
@@ -328,6 +329,18 @@ public class TestGitLabApiBeans {
     public void testFileUpload() throws Exception {
         FileUpload fileUpload = unmarshalResource(FileUpload.class, "file-upload.json");
         assertTrue(compareJson(fileUpload, "file-upload.json"));
+    }
+
+    @Test
+    public void testGitLabCiTemplateElements() throws Exception {
+        List<GitLabCiTemplateElement> ciYamlTemplatesElements = unmarshalResourceList(GitLabCiTemplateElement.class, "gitlab-ci-template-elements.json");
+        assertTrue(compareJson(ciYamlTemplatesElements, "gitlab-ci-template-elements.json"));
+    }
+
+    @Test
+    public void testGitLabCiTemplate() throws Exception {
+        GitLabCiTemplate ciYamlTemplate = unmarshalResource(GitLabCiTemplate.class, "gitlab-ci-template.json");
+        assertTrue(compareJson(ciYamlTemplate, "gitlab-ci-template.json"));
     }
 
     @Test
@@ -794,14 +807,8 @@ public class TestGitLabApiBeans {
     }
 
     @Test
-    public void testGitLabCiTemplateElements() throws Exception {
-        List<GitLabCiTemplateElement> ciYamlTemplatesElements = unmarshalResourceList(GitLabCiTemplateElement.class, "gitlab-ci-template-elements.json");
-        assertTrue(compareJson(ciYamlTemplatesElements, "gitlab-ci-template-elements.json"));
-    }
-
-    @Test
-    public void testGitLabCiTemplate() throws Exception {
-        GitLabCiTemplate ciYamlTemplate = unmarshalResource(GitLabCiTemplate.class, "gitlab-ci-template.json");
-        assertTrue(compareJson(ciYamlTemplate, "gitlab-ci-template.json"));
+    public void testMetadata() throws Exception {
+        Metadata metadata = unmarshalResource(Metadata.class, "metadata.json");
+        assertTrue(compareJson(metadata, "metadata.json"));
     }
 }

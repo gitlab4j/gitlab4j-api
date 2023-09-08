@@ -1,0 +1,10 @@
+{
+  "version": "15.11.13",
+  "revision": "cc3748fcd2d",
+  "kas": {
+    "enabled": true,
+    "externalUrl": "ws://820bd8a8b4f6/-/kubernetes-agent/",
+    "version": "v15.11.0"
+  },
+  "enterprise": false
+}
