@@ -41,7 +41,7 @@ public class TestGitLabCiYamlApi extends AbstractIntegrationTest {
 
     @Test
     public void testGetAllCiYamlTemplates() throws GitLabApiException {
-        List<GitLabCiTemplateElement> ciYamlTemplatesElements = gitLabApi.getGitLabCiYamlApi().getAllCiYamlTemplates();
+        List<GitLabCiTemplateElement> ciYamlTemplatesElements = gitLabApi.getGitLabCiYamlApi().getAllGitLabCiYamlTemplates();
         assertAll(
             () -> assertNotNull(ciYamlTemplatesElements),
             () -> assertTrue(ciYamlTemplatesElements.size() > 0)
@@ -50,11 +50,11 @@ public class TestGitLabCiYamlApi extends AbstractIntegrationTest {
 
     @Test
     public void testGetSingleCiYamlTemplate() throws GitLabApiException {
-        List<GitLabCiTemplateElement> ciYamlTemplatesElements = gitLabApi.getGitLabCiYamlApi().getAllCiYamlTemplates();
+        List<GitLabCiTemplateElement> ciYamlTemplatesElements = gitLabApi.getGitLabCiYamlApi().getAllGitLabCiYamlTemplates();
         assumeTrue(ciYamlTemplatesElements != null);
         assumeTrue(ciYamlTemplatesElements.size() > 0);
         String templateKey = ciYamlTemplatesElements.get(0).getKey();
-        GitLabCiTemplate ciYamlTemplate = gitLabApi.getGitLabCiYamlApi().getSingleCiYamlTemplate(templateKey);
+        GitLabCiTemplate ciYamlTemplate = gitLabApi.getGitLabCiYamlApi().getSingleGitLabCiYamlTemplate(templateKey);
         assertAll(
             () -> assertNotNull(ciYamlTemplate),
             () -> assertNotNull(ciYamlTemplate.getContent()),

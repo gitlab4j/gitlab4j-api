@@ -27,7 +27,7 @@ public class GitLabCiYamlApi extends AbstractApi {
      * @return a list of Gitlab CI YAML Templates
      * @throws GitLabApiException if any exception occurs
      */
-    public List<GitLabCiTemplateElement> getAllCiYamlTemplates() throws GitLabApiException {
+    public List<GitLabCiTemplateElement> getAllGitLabCiYamlTemplates() throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "templates", "gitlab_ci_ymls");
         return (response.readEntity(new GenericType<List<GitLabCiTemplateElement>>() {}));
     }
@@ -41,7 +41,7 @@ public class GitLabCiYamlApi extends AbstractApi {
      * @return an Gitlab CI YAML Template
      * @throws GitLabApiException if any exception occurs
      */
-    public GitLabCiTemplate getSingleCiYamlTemplate(String key) throws GitLabApiException {
+    public GitLabCiTemplate getSingleGitLabCiYamlTemplate(String key) throws GitLabApiException {
         Response response = get(Status.OK, null, "templates", "gitlab_ci_ymls", key);
         return (response.readEntity(GitLabCiTemplate.class));
     }
