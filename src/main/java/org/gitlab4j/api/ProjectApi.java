@@ -48,6 +48,8 @@ import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.Iteration;
+import org.gitlab4j.api.models.IterationFilter;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Namespace;
 import org.gitlab4j.api.models.Project;
@@ -3999,4 +4001,19 @@ public class ProjectApi extends AbstractApi implements Constants {
         delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId);
     }
 
+    /**
+     * Lists project iterations.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/iterations</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param filter the iteration filter
+     * @return the list of project iterations
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Iteration> listProjectIterations(Object projectIdOrPath, IterationFilter filter) throws GitLabApiException {
+        MultivaluedMap<String,String> queryParams = (filter == null) ? null : filter.getQueryParams().asMap();
+        Response response = get(Response.Status.OK, queryParams, "projects", getProjectIdOrPath(projectIdOrPath), "iterations");
+        return (response.readEntity(new GenericType<List<Iteration>>() { }));
+    }
 }

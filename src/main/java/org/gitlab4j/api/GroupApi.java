@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -22,6 +23,8 @@ import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.GroupProjectsFilter;
+import org.gitlab4j.api.models.Iteration;
+import org.gitlab4j.api.models.IterationFilter;
 import org.gitlab4j.api.models.LdapGroupLink;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
@@ -1957,5 +1960,21 @@ public class GroupApi extends AbstractApi {
         }
 
         delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "custom_attributes", key);
+    }
+    
+    /**
+     * Lists group iterations.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/iterations</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param filter the iteration filter
+     * @return the list of group iterations
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Iteration> listGroupIterations(Object groupIdOrPath, IterationFilter filter) throws GitLabApiException {
+        MultivaluedMap<String,String> queryParams = (filter == null) ? null : filter.getQueryParams().asMap();
+        Response response = get(Response.Status.OK, queryParams, "groups", getGroupIdOrPath(groupIdOrPath), "iterations");
+        return (response.readEntity(new GenericType<List<Iteration>>() { }));
     }
 }

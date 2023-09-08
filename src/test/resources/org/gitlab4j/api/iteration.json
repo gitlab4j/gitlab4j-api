@@ -1,0 +1,14 @@
+{
+   "id": 90,
+   "iid": 4,
+   "sequence": 2,
+   "group_id": 162,
+   "title": "title",
+   "description": "description",
+   "state": 2,
+   "created_at": "2022-03-14T05:21:11.929Z",
+   "updated_at": "2022-03-14T05:21:11.929Z",
+   "start_date": "2022-03-08T00:00:00Z",
+   "due_date": "2022-03-14T00:00:00Z",
+   "web_url": "https://gitlab.com/groups/my-group/-/iterations/90"
+}
