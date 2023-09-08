@@ -1,0 +1,82 @@
+[
+  {
+    "key": "Android",
+    "name": "Android"
+  },
+  {
+    "key": "Android-Fastlane",
+    "name": "Android-Fastlane"
+  },
+  {
+    "key": "Auto-DevOps",
+    "name": "Auto-DevOps"
+  },
+  {
+    "key": "Bash",
+    "name": "Bash"
+  },
+  {
+    "key": "C++",
+    "name": "C++"
+  },
+  {
+    "key": "Chef",
+    "name": "Chef"
+  },
+  {
+    "key": "Clojure",
+    "name": "Clojure"
+  },
+  {
+    "key": "Code-Quality",
+    "name": "Code-Quality"
+  },
+  {
+    "key": "Crystal",
+    "name": "Crystal"
+  },
+  {
+    "key": "Deploy-ECS",
+    "name": "Deploy-ECS"
+  },
+  {
+    "key": "Django",
+    "name": "Django"
+  },
+  {
+    "key": "Docker",
+    "name": "Docker"
+  },
+  {
+    "key": "Elixir",
+    "name": "Elixir"
+  },
+  {
+    "key": "Go",
+    "name": "Go"
+  },
+  {
+    "key": "Gradle",
+    "name": "Gradle"
+  },
+  {
+    "key": "Grails",
+    "name": "Grails"
+  },
+  {
+    "key": "Julia",
+    "name": "Julia"
+  },
+  {
+    "key": "LaTeX",
+    "name": "LaTeX"
+  },
+  {
+    "key": "Laravel",
+    "name": "Laravel"
+  },
+  {
+    "key": "Managed-Cluster-Applications",
+    "name": "Managed-Cluster-Applications"
+  }
+]

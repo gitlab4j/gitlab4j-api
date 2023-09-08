@@ -65,6 +65,7 @@ public class GitLabApi implements AutoCloseable {
     private EpicsApi epicsApi;
     private EventsApi eventsApi;
     private ExternalStatusCheckApi externalStatusCheckApi;
+    private GitLabCiYamlApi gitLabCiYaml;
     private GroupApi groupApi;
     private HealthCheckApi healthCheckApi;
     private ImportExportApi importExportApi;
@@ -1107,6 +1108,20 @@ public class GitLabApi implements AutoCloseable {
         }
 
         return (externalStatusCheckApi);
+    }
+
+    /**
+     * Gets the GitLabCiYamlApi instance owned by this GitLabApi instance. The GitLabCiYamlApi is used to get Gitlab CI YAML templates.
+     *
+     * @return the GitLabCiYamlApi instance owned by this GitLabApi instance
+     */
+    public GitLabCiYamlApi getGitLabCiYamlApi() {
+        synchronized (this) {
+            if (gitLabCiYaml == null) {
+                gitLabCiYaml = new GitLabCiYamlApi(this);
+            }
+        }
+        return gitLabCiYaml;
     }
 
 

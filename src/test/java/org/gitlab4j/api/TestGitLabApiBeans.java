@@ -46,6 +46,8 @@ import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.Board;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.ChildEpic;
+import org.gitlab4j.api.models.GitLabCiTemplate;
+import org.gitlab4j.api.models.GitLabCiTemplateElement;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitPayload;
@@ -329,6 +331,18 @@ public class TestGitLabApiBeans {
     public void testFileUpload() throws Exception {
         FileUpload fileUpload = unmarshalResource(FileUpload.class, "file-upload.json");
         assertTrue(compareJson(fileUpload, "file-upload.json"));
+    }
+
+    @Test
+    public void testGitLabCiTemplateElements() throws Exception {
+        List<GitLabCiTemplateElement> ciYamlTemplatesElements = unmarshalResourceList(GitLabCiTemplateElement.class, "gitlab-ci-template-elements.json");
+        assertTrue(compareJson(ciYamlTemplatesElements, "gitlab-ci-template-elements.json"));
+    }
+
+    @Test
+    public void testGitLabCiTemplate() throws Exception {
+        GitLabCiTemplate ciYamlTemplate = unmarshalResource(GitLabCiTemplate.class, "gitlab-ci-template.json");
+        assertTrue(compareJson(ciYamlTemplate, "gitlab-ci-template.json"));
     }
 
     @Test
