@@ -1,21 +1,21 @@
-package org.gitlab4j.api.models;
+package org.gitlab4j.api;
 
 import java.util.List;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import org.gitlab4j.api.AbstractApi;
-import org.gitlab4j.api.GitLabApi;
-import org.gitlab4j.api.GitLabApiException;
+
+import org.gitlab4j.api.models.GitLabCiTemplate;
+import org.gitlab4j.api.models.GitLabCiTemplateElement;
 
 /**
  * This class provides an entry point to all the GitLab CI YAML API calls.
  *
- * @see <a href="https://https://docs.gitlab.com/ee/api/templates/gitlab_ci_ymls.html">GitLab CI YAML API</a>
+ * @see <a href="https://docs.gitlab.com/ee/api/templates/gitlab_ci_ymls.html">GitLab CI YAML API</a>
  */
-public class CiYamlTemplatesApi extends AbstractApi {
+public class GitLabCiYamlApi extends AbstractApi {
 
-    public CiYamlTemplatesApi(GitLabApi gitLabApi) {
+    public GitLabCiYamlApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -27,9 +27,9 @@ public class CiYamlTemplatesApi extends AbstractApi {
      * @return a list of Gitlab CI YAML Templates
      * @throws GitLabApiException if any exception occurs
      */
-    public List<CiYamlTemplatesElement> getAllCiYamlTemplates() throws GitLabApiException {
+    public List<GitLabCiTemplateElement> getAllCiYamlTemplates() throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "templates", "gitlab_ci_ymls");
-        return (response.readEntity(new GenericType<List<CiYamlTemplatesElement>>() {}));
+        return (response.readEntity(new GenericType<List<GitLabCiTemplateElement>>() {}));
     }
 
     /**
@@ -41,9 +41,9 @@ public class CiYamlTemplatesApi extends AbstractApi {
      * @return an Gitlab CI YAML Template
      * @throws GitLabApiException if any exception occurs
      */
-    public CiYamlTemplate getSingleCiYamlTemplate(String key) throws GitLabApiException {
+    public GitLabCiTemplate getSingleCiYamlTemplate(String key) throws GitLabApiException {
         Response response = get(Status.OK, null, "templates", "gitlab_ci_ymls", key);
-        return (response.readEntity(CiYamlTemplate.class));
+        return (response.readEntity(GitLabCiTemplate.class));
     }
 
 }

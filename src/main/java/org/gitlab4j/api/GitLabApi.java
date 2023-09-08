@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.Constants.TokenType;
-import org.gitlab4j.api.models.CiYamlTemplatesApi;
 import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Version;
@@ -66,6 +65,7 @@ public class GitLabApi implements AutoCloseable {
     private EpicsApi epicsApi;
     private EventsApi eventsApi;
     private ExternalStatusCheckApi externalStatusCheckApi;
+    private GitLabCiYamlApi gitLabCiYaml;
     private GroupApi groupApi;
     private HealthCheckApi healthCheckApi;
     private ImportExportApi importExportApi;
@@ -100,7 +100,6 @@ public class GitLabApi implements AutoCloseable {
     private UserApi userApi;
     private WikisApi wikisApi;
     private KeysApi keysApi;
-    private CiYamlTemplatesApi ciYamlTemplatesApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -1110,6 +1109,20 @@ public class GitLabApi implements AutoCloseable {
         return (externalStatusCheckApi);
     }
 
+    /**
+     * Gets the GitLabCiYamlApi instance owned by this GitLabApi instance. The GitLabCiYamlApi is used to get Gitlab CI YAML templates.
+     *
+     * @return the GitLabCiYamlApi instance owned by this GitLabApi instance
+     */
+    public GitLabCiYamlApi getGitLabCiYamlApi() {
+        synchronized (this) {
+            if (gitLabCiYaml == null) {
+                gitLabCiYaml = new GitLabCiYamlApi(this);
+            }
+        }
+        return gitLabCiYaml;
+    }
+
 
     /**
      * Gets the GroupApi instance owned by this GitLabApi instance. The GroupApi is used
@@ -1740,21 +1753,6 @@ public class GitLabApi implements AutoCloseable {
         }
         return keysApi;
     }
-
-    /**
-     * Gets the CiYamlTemplatesAPI instance owned by this GitLabApi instance. The CiYamlTemplatesAPI is used to get Gitlab CI YAML templates.
-     *
-     * @return the CiYamlTemplatesAPI instance owned by this GitLabApi instance
-     */
-    public CiYamlTemplatesApi getCiYamlTemplatesApi() {
-        synchronized (this) {
-            if (ciYamlTemplatesApi == null) {
-                ciYamlTemplatesApi = new CiYamlTemplatesApi(this);
-            }
-        }
-        return ciYamlTemplatesApi;
-    }
-
 
     /**
      * Create and return an Optional instance associated with a GitLabApiException.

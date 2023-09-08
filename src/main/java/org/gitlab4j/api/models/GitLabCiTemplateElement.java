@@ -2,7 +2,7 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class CiYamlTemplatesElement {
+public class GitLabCiTemplateElement {
 
     private String key;
     private String name;
