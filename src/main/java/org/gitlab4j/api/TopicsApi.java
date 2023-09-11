@@ -38,7 +38,7 @@ public class TopicsApi extends AbstractApi{
      * <pre><code>GitLab Endpoint: GET /topics</code></pre>
      *
      * @param page the page to get
-     * @param perPage the number of Group instances per page
+     * @param perPage the number of Topic instances per page
      * @return the list of topics
      * @throws GitLabApiException if any exception occurs
      */
@@ -52,7 +52,7 @@ public class TopicsApi extends AbstractApi{
      *
      * <pre><code>GitLab Endpoint: GET /topics</code></pre>
      *
-     * @param itemsPerPage the number of Group instances that will be fetched per page
+     * @param itemsPerPage the number of Topic instances that will be fetched per page
      * @return the pager of topics
      * @throws GitLabApiException if any exception occurs
      */
@@ -68,7 +68,7 @@ public class TopicsApi extends AbstractApi{
      * @return the stream of topics
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Topic> getGroupsStream() throws GitLabApiException {
+    public Stream<Topic> getTopicsStream() throws GitLabApiException {
         return (getTopics(getDefaultPerPage()).stream());
     }
 
