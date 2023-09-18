@@ -41,6 +41,7 @@ import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.Boundary;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -691,7 +692,11 @@ public class GitLabApiClient implements AutoCloseable {
     protected Response putUpload(String name, File fileToUpload, URL url) throws IOException {
 
         try (MultiPart multiPart = new FormDataMultiPart()) {
-            multiPart.bodyPart(new FileDataBodyPart(name, fileToUpload, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+            if(fileToUpload == null) {
+                multiPart.bodyPart(new FormDataBodyPart(name, "", MediaType.APPLICATION_OCTET_STREAM_TYPE));
+            } else {
+                multiPart.bodyPart(new FileDataBodyPart(name, fileToUpload, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+            }
             final Entity<?> entity = Entity.entity(multiPart, Boundary.addBoundary(multiPart.getMediaType()));
             return (invocation(url, null).put(entity));
         }
