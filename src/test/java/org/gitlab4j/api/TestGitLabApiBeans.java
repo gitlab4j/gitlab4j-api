@@ -122,6 +122,7 @@ import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.Todo;
+import org.gitlab4j.api.models.Topic;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.User;
@@ -750,6 +751,12 @@ public class TestGitLabApiBeans {
     public void testTodos() throws Exception {
         List<Todo> todos = unmarshalResourceList(Todo.class, "todos.json");
         assertTrue(compareJson(todos, "todos.json"));
+    }
+
+    @Test
+    public void testTopic() throws Exception {
+        Topic topic = unmarshalResource(Topic.class, "topic.json");
+        assertTrue(compareJson(topic, "topic.json"));
     }
 
     @Test
