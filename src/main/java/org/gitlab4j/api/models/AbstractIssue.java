@@ -78,6 +78,7 @@ public abstract class AbstractIssue {
     private Integer mergeRequestsCount;
     private Boolean hasTasks;
     private String taskStatus;
+    private Iteration iteration;
     private TaskCompletionStatus taskCompletionStatus;
 
     public Assignee getAssignee() {
@@ -325,7 +326,15 @@ public abstract class AbstractIssue {
         this.taskStatus = taskStatus;
     }
 
-    public TaskCompletionStatus getTaskCompletionStatus() {
+    public Iteration getIteration() {
+		return iteration;
+	}
+
+	public void setIteration(Iteration iteration) {
+		this.iteration = iteration;
+	}
+
+	public TaskCompletionStatus getTaskCompletionStatus() {
         return taskCompletionStatus;
     }
 

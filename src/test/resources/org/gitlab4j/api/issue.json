@@ -58,5 +58,19 @@
    "task_completion_status":{
       "count": 0,
       "completed_count": 0
-   }
+   },
+   "iteration": {
+      "id": 158,
+      "iid": 34,
+      "sequence": 9,
+      "group_id": 114,
+      "title": "title",
+      "description": "description",
+      "state": 1,
+      "created_at": "2023-08-07T00:05:06.739Z",
+      "updated_at": "2023-09-04T00:05:06.612Z",
+      "start_date": "2023-09-04T00:00:00Z",
+      "due_date": "2023-09-10T00:00:00Z",
+      "web_url": "http://example.com/example/-/iterations/158"
+  }
 }
