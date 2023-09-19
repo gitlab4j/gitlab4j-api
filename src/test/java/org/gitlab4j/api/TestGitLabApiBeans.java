@@ -79,6 +79,7 @@ import org.gitlab4j.api.models.ImportStatus;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueLink;
 import org.gitlab4j.api.models.IssuesStatistics;
+import org.gitlab4j.api.models.Iteration;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
 import org.gitlab4j.api.models.Label;
@@ -246,7 +247,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testDeployment() throws Exception {
-	Deployment deployment = unmarshalResource(Deployment.class, "deployment.json");
+    Deployment deployment = unmarshalResource(Deployment.class, "deployment.json");
         assertTrue(compareJson(deployment, "deployment.json"));
     }
 
@@ -348,7 +349,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testGpgSignature() throws Exception {
-	GpgSignature gpgSignature = unmarshalResource(GpgSignature.class, "gpg-signature.json");
+    GpgSignature gpgSignature = unmarshalResource(GpgSignature.class, "gpg-signature.json");
         assertTrue(compareJson(gpgSignature, "gpg-signature.json"));
     }
 
@@ -546,7 +547,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testProjectApprovalsCofig() throws Exception {
-	ProjectApprovalsConfig approvalsConfig = unmarshalResource(ProjectApprovalsConfig.class, "project-approvals-config.json");
+    ProjectApprovalsConfig approvalsConfig = unmarshalResource(ProjectApprovalsConfig.class, "project-approvals-config.json");
         assertTrue(compareJson(approvalsConfig, "project-approvals-config.json"));
     }
 
@@ -594,7 +595,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testRemoteMirror() throws Exception {
-	RemoteMirror remoteMirror = unmarshalResource(RemoteMirror.class, "remote-mirror.json");
+    RemoteMirror remoteMirror = unmarshalResource(RemoteMirror.class, "remote-mirror.json");
         assertTrue(compareJson(remoteMirror, "remote-mirror.json"));
     }
 
@@ -618,7 +619,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testSettings() throws Exception {
-	JsonNode json = readTreeFromResource("application-settings.json");
+    JsonNode json = readTreeFromResource("application-settings.json");
         ApplicationSettings applicationSettings = ApplicationSettingsApi.parseApplicationSettings(json);
         assertTrue(compareJson(applicationSettings.getSettings(), "application-settings.json"));
     }
@@ -661,7 +662,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testMergeRequestApprovalRule() throws Exception {
-	ApprovalRule approvalRule = unmarshalResource(ApprovalRule.class, "approval-rule.json");
+    ApprovalRule approvalRule = unmarshalResource(ApprovalRule.class, "approval-rule.json");
         assertTrue(compareJson(approvalRule, "approval-rule.json"));
     }
 
@@ -789,6 +790,12 @@ public class TestGitLabApiBeans {
     public void testImpersonationToken() throws Exception {
         ImpersonationToken token = unmarshalResource(ImpersonationToken.class, "impersonation-token.json");
         assertTrue(compareJson(token, "impersonation-token.json"));
+    }
+
+    @Test
+    public void testIteration() throws Exception {
+        Iteration token = unmarshalResource(Iteration.class, "iteration.json");
+        assertTrue(compareJson(token, "iteration.json"));
     }
 
     @Test
