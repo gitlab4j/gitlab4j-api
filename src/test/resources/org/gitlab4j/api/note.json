@@ -16,6 +16,7 @@
   "resolvable": true,
   "resolved": true,
   "resolved_at": "2021-09-14T09:03:50.221Z",
+  "internal": false,
   "system": false,
   "noteable_id": 52,
   "noteable_type": "Snippet",
