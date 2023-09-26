@@ -24,57 +24,6 @@ public class NotesApi extends AbstractApi {
      * @param issueIid the issue ID to get the notes for
      * @return a list of the issues's notes
      * @throws GitLabApiException if any exception occurs
-     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Object, Long)}
-     */
-    @Deprecated
-    public List<Note> getNotes(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
-        return (getIssueNotes(projectIdOrPath, issueIid));
-    }
-
-    /**
-     * Get a list of the issue's notes using the specified page and per page settings.
-     *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/notes</code></pre>
-     *
-     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
-     * @param issueIid the issue IID to get the notes for
-     * @param page the page to get
-     * @param perPage the number of notes per page
-     * @return the list of notes in the specified range
-     * @throws GitLabApiException if any exception occurs
-     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Object, Long, int, int)}
-     */
-    @Deprecated
-    public List<Note> getNotes(Object projectIdOrPath, Long issueIid, int page, int perPage) throws GitLabApiException {
-        return (getIssueNotes(projectIdOrPath, issueIid, page, perPage));
-    }
-
-    /**
-     * Get a Pager of issues's notes.
-     *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/notes</code></pre>
-     *
-     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
-     * @param issueIid the issue IID to get the notes for
-     * @param itemsPerPage the number of notes per page
-     * @return the list of notes in the specified range
-     * @throws GitLabApiException if any exception occurs
-     * @deprecated As of release 4.7.0, replaced by {@link #getIssueNotes(Object, Long, int)}
-     */
-    @Deprecated
-    public Pager<Note> getNotes(Object projectIdOrPath, Long issueIid, int itemsPerPage) throws GitLabApiException {
-        return (getIssueNotes(projectIdOrPath, issueIid, itemsPerPage));
-    }
-
-    /**
-     * Get a list of the issues's notes.
-     *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/notes</code></pre>
-     *
-     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
-     * @param issueIid the issue ID to get the notes for
-     * @return a list of the issues's notes
-     * @throws GitLabApiException if any exception occurs
      */
     public List<Note> getIssueNotes(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
         return (getIssueNotes(projectIdOrPath, issueIid, getDefaultPerPage()).all());
