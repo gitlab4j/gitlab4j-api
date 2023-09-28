@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -20,9 +21,12 @@ import org.gitlab4j.api.models.AuditEvent;
 import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.GroupAccessToken;
 import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.GroupProjectsFilter;
+import org.gitlab4j.api.models.ImpersonationToken;
+import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.Iteration;
 import org.gitlab4j.api.models.IterationFilter;
 import org.gitlab4j.api.models.LdapGroupLink;
@@ -1976,5 +1980,90 @@ public class GroupApi extends AbstractApi {
         MultivaluedMap<String,String> queryParams = (filter == null) ? null : filter.getQueryParams().asMap();
         Response response = get(Response.Status.OK, queryParams, "groups", getGroupIdOrPath(groupIdOrPath), "iterations");
         return (response.readEntity(new GenericType<List<Iteration>>() { }));
+    }
+
+    /**
+     * Get a list of group access tokens.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/access_tokens</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @return the list of GroupAccessToken instances
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<GroupAccessToken> getGroupAccessTokens(Object groupIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens");
+        return (response.readEntity(new GenericType<List<GroupAccessToken>>() { }));
+    }
+
+    /**
+     * Get a group access token by ID.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/access_tokens/:token_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param tokenId ID of the group access token
+     * @return the GroupAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GroupAccessToken getGroupAccessToken(Object groupIdOrPath, Long tokenId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId);
+        return (response.readEntity(GroupAccessToken.class));
+    }
+
+    /**
+     * Create a group access token. You must have the Owner role for the group to create group access tokens.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/access_tokens</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param name the name of the group access token, required
+     * @param expiresAt the expiration date of the group access token, optional
+     * @param scopes an array of scopes of the group access token
+     * @param accessLevel Access level. Valid values are {@link AccessLevel#GUEST}, {@link AccessLevel#REPORTER}, {@link AccessLevel#DEVELOPER}, {@link AccessLevel#MAINTAINER}, and {@link AccessLevel#OWNER}.
+     * @return the created GroupAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GroupAccessToken createGroupAccessToken(Object groupIdOrPath, String name, Date expiresAt, Scope[] scopes, AccessLevel accessLevel) throws GitLabApiException {
+        if (scopes == null || scopes.length == 0) {
+            throw new RuntimeException("scopes cannot be null or empty");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("scopes", Arrays.asList(scopes))
+                .withParam("expires_at", expiresAt)
+                .withParam("access_level", accessLevel);
+
+        Response response = post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens");
+        return (response.readEntity(GroupAccessToken.class));
+    }
+
+    /**
+     * Rotate a group access token. Revokes the previous token and creates a new token that expires in one week.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/access_tokens/:token_id/rotate</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param tokenId ID of the group access token
+     * @return the updated GroupAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GroupAccessToken rotateGroupAccessToken(Object groupIdOrPath, Long tokenId) throws GitLabApiException {
+        Response response = post(Response.Status.OK, (Form)null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId, "rotate");
+        return (response.readEntity(GroupAccessToken.class));
+    }
+
+    /**
+     * Revoke a group access token.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/access_tokens/:token_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param tokenId ID of the group access token
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void revokeGroupAccessToken(Object groupIdOrPath, Long tokenId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId);
     }
 }
