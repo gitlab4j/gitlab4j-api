@@ -117,6 +117,7 @@ import org.gitlab4j.api.models.RemoteMirror;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
+import org.gitlab4j.api.models.SamlGroupLink;
 import org.gitlab4j.api.models.SearchBlob;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.SshKey;
@@ -806,6 +807,12 @@ public class TestGitLabApiBeans {
     public void testLdapGroupLink() throws Exception {
         LdapGroupLink link = unmarshalResource(LdapGroupLink.class, "ldap-group-link.json");
         assertTrue(compareJson(link, "ldap-group-link.json"));
+    }
+
+    @Test
+    public void testSamlGroupLink() throws Exception {
+        SamlGroupLink link = unmarshalResource(SamlGroupLink.class, "saml-group-link.json");
+        assertTrue(compareJson(link, "saml-group-link.json"));
     }
 
     @Test
