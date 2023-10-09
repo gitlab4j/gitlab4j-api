@@ -30,7 +30,7 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
-     * Returns the project ID or path from the provided Integer, String, or Project instance.
+     * Returns the project ID or path from the provided Long, String, or Project instance.
      *
      * @param obj the object to determine the ID or path from
      * @return the project ID or path from the provided Long, String, or Project instance
@@ -65,7 +65,7 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
-     * Returns the group ID or path from the provided Integer, String, or Group instance.
+     * Returns the group ID or path from the provided Long, String, or Group instance.
      *
      * @param obj the object to determine the ID or path from
      * @return the group ID or path from the provided Long, String, or Group instance
@@ -100,10 +100,10 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
-     * Returns the user ID or path from the provided Integer, String, or User instance.
+     * Returns the user ID or path from the provided Long, String, or User instance.
      *
      * @param obj the object to determine the ID or username from
-     * @return the user ID or username from the provided Integer, String, or User instance
+     * @return the user ID or username from the provided Long, String, or User instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Object getUserIdOrUsername(Object obj) throws GitLabApiException {
@@ -130,15 +130,15 @@ public abstract class AbstractApi implements Constants {
 
         } else {
             throw (new RuntimeException("Cannot determine ID or username from provided " + obj.getClass().getSimpleName() +
-                    " instance, must be Integer, String, or a User instance"));
+                    " instance, must be Long, String, or a User instance"));
         }
     }
 
     /**
-     * Returns the label ID or name from the provided Integer, String, or Label instance.
+     * Returns the label ID or name from the provided Long, String, or Label instance.
      *
      * @param obj the object to determine the ID or name from
-     * @return the user ID or name from the provided Integer, String, or Label instance
+     * @return the user ID or name from the provided Long, String, or Label instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Object getLabelIdOrName(Object obj) throws GitLabApiException {
@@ -165,7 +165,7 @@ public abstract class AbstractApi implements Constants {
 
         } else {
             throw (new RuntimeException("Cannot determine ID or name from provided " + obj.getClass().getSimpleName() +
-                    " instance, must be Integer, String, or a Label instance"));
+                    " instance, must be Long, String, or a Label instance"));
         }
     }
 
