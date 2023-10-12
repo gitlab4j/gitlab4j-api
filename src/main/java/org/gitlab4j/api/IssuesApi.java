@@ -489,6 +489,27 @@ public class IssuesApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Reopens an existing project issue.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param issueIid the issue IID to update, required
+     * @return an instance of the updated Issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Issue reopenIssue(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
+
+        if (issueIid == null) {
+            throw new RuntimeException("issue IID cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("state_event", StateEvent.REOPEN);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
+        return (response.readEntity(Issue.class));
+    }
+
+    /**
      * Updates an existing project issue. This call can also be used to mark an issue as closed.
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
