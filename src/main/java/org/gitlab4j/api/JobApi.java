@@ -205,8 +205,27 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Pager<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Job>(this, Job.class, itemsPerPage, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs"));
+        return getJobsForPipeline(projectIdOrPath, pipelineId, itemsPerPage, null);
+    }
+
+    /**
+     * Get a Pager of jobs in a pipeline.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines/:pipeline_id/jobs</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path to get the pipelines for
+     * @param pipelineId      the pipeline ID to get the list of jobs for
+     * @param itemsPerPage    the number of Job instances that will be fetched per page
+     * @param includeRetried  Include retried jobs in the response
+     * @return a list containing the jobs for the specified project ID and pipeline ID
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Pager<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, int itemsPerPage, Boolean includeRetried) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("include_retried", includeRetried)
+            .withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        return (new Pager<Job>(this, Job.class, itemsPerPage, formData.asMap(),
+            "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs"));
     }
 
     /**
@@ -220,6 +239,20 @@ public class JobApi extends AbstractApi implements Constants {
      */
     public Stream<Job> getJobsStream(Object projectIdOrPath, long pipelineId) throws GitLabApiException {
         return (getJobsForPipeline(projectIdOrPath, pipelineId, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a Stream of jobs in a pipeline.
+     * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines/:pipeline_id/jobs</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param pipelineId      the pipeline ID to get the list of jobs for
+     * @param includeRetried  Include retried jobs in the response
+     * @return a Stream containing the jobs for the specified project ID
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Stream<Job> getJobsStream(Object projectIdOrPath, long pipelineId, Boolean includeRetried) throws GitLabApiException {
+        return (getJobsForPipeline(projectIdOrPath, pipelineId, getDefaultPerPage(), includeRetried).stream());
     }
 
     /**
