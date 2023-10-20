@@ -28,6 +28,7 @@ import org.gitlab4j.api.models.IterationFilter;
 import org.gitlab4j.api.models.LdapGroupLink;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.SamlGroupLink;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.ISO8601;
@@ -1183,9 +1184,9 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Get the list of LDAP group links.
-     * 
+     *
      * <pre><code>GitLab Endpoint: GET /groups/:id/ldap_group_links</code></pre>
-     * 
+     *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @return a list of LDAP group links
      * @throws GitLabApiException if any exception occurs
@@ -1273,6 +1274,74 @@ public class GroupApi extends AbstractApi {
         }
 
         delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links", provider, cn);
+    }
+
+    /**
+     * Get the list of SAML group links.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/saml_group_links</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a list of SAML group links
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<SamlGroupLink> getSamlGroupLinks(Object groupIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "saml_group_links");
+        return (response.readEntity(new GenericType<List<SamlGroupLink>>() {}));
+    }
+
+    /**
+     * Adds an SAML group link.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/saml_group_links</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param samlGroupName the name of the SAML group
+     * @param groupAccess the minimum access level for members of the SAML group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void addSamlGroupLink(Object groupIdOrPath, String samlGroupName, AccessLevel groupAccess) throws GitLabApiException {
+
+        if (groupAccess == null) {
+            throw new RuntimeException("groupAccess cannot be null or empty");
+        }
+
+        addSamlGroupLink(groupIdOrPath, samlGroupName, groupAccess.toValue());
+    }
+
+    /**
+     * Adds an SAML group link.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/saml_group_links</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param samlGroupName the name of the SAML group
+     * @param groupAccess the minimum access level for members of the SAML group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void addSamlGroupLink(Object groupIdOrPath, String samlGroupName, Integer groupAccess) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("saml_group_name",  samlGroupName, true)
+            .withParam("access_level", groupAccess, true);
+        post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "saml_group_links");
+    }
+
+    /**
+     * Deletes an SAML group link.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/saml_group_links/:cn</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param samlGroupName the name of the SAML group to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteSamlGroupLink(Object groupIdOrPath, String samlGroupName) throws GitLabApiException {
+
+        if (samlGroupName == null || samlGroupName.trim().isEmpty()) {
+            throw new RuntimeException("samlGroupName cannot be null or empty");
+        }
+
+        delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "saml_group_links", samlGroupName);
     }
 
     /**
@@ -1961,7 +2030,7 @@ public class GroupApi extends AbstractApi {
 
         delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "custom_attributes", key);
     }
-    
+
     /**
      * Lists group iterations.
      *
