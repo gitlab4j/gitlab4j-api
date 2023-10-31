@@ -28,6 +28,7 @@ public class Pipeline {
     private Float queuedDuration;
     private String webUrl;
     private DetailedStatus detailedStatus;
+    private String name;
 
     public Long getId() {
         return id;
@@ -205,6 +206,14 @@ public class Pipeline {
 
     public void setDetailedStatus(DetailedStatus detailedStatus) {
         this.detailedStatus = detailedStatus;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
