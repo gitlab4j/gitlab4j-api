@@ -32,5 +32,6 @@
      "favicon": "/assets/ci_favicons/favicon_status_pending-5bdf338420e5221ca24353b6bff1c9367189588750632e9a871b7af09ff6a2ae.png"
   },
   "coverage": "30.0",
-  "web_url": "https://example.com/foo/bar/pipelines/46"
+  "web_url": "https://example.com/foo/bar/pipelines/46",
+  "name": "Custom pipeline name"
 }
