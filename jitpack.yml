@@ -1,0 +1,4 @@
+jdk:
+  - openjdk11
+install:
+   - ./mvnw clean install -DskipTests -Ddocker.skip=true -Djacoco.skip=true
