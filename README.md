@@ -73,10 +73,96 @@ dependencies {
 </dependency>
 ```
 
+**Jbang:**
+
+ [Jbang](https://www.jbang.dev/) is very convinient to run scripts writen in Java having dependencies on third party libraries.
+
+ Just add this line at the top of your script:
+
+```java
+//DEPS org.gitlab4j:gitlab4j-api:5.3.0
+```
+
 **Ivy and SBT**<br/>
 There have been reports of problems resolving some dependencies when using Ivy or SBT, for help resolving those issues see:<br/>
 <a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/571">JAX-RS API Issue #571</a><br/>
 <a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/572">JAX-RS API Issue #572</a>
+
+### **Lastest version**
+
+While we are frequently creating releases, you might be interested by a feature that has not been published yet.
+You can use jars created by [jitpack](https://jitpack.io/) to get the newest version.
+
+**Usage with gradle:**
+
+```gradle
+repositories {
+    mavenCentral()
+    maven {
+        url "https://jitpack.io"
+        content {
+            includeGroup "com.github.gitlab4j"
+        }
+    }
+}
+
+dependencies {
+    // ...
+    implementation 'com.github.gitlab4j:gitlab4j-api:main-SNAPSHOT'
+    // ...
+}
+```
+
+**Usage with maven:**
+
+```xml
+<repositories>
+  <repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+  </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+    <groupId>com.github.gitlab4j</groupId>
+    <artifactId>gitlab4j-api</artifactId>
+    <version>main-SNAPSHOT</version>
+  </dependency>
+  <!-- ... -->
+</dependencies>
+```
+
+**Usage with jbang:**
+
+You just need to declare the dependency like this, instead of using the maven coordinates:
+
+```java
+//DEPS https://github.com/gitlab4j/gitlab4j-api/tree/main#:SNAPSHOT
+```
+
+**Using a specific commit**
+
+Version `main-SNAPSHOT` indicates that you would like to get the latest of the `main` branch.
+You can also point to a specific commit:
+
+```gradle
+dependencies {
+    implementation 'com.github.gitlab4j:gitlab4j-api:6561c93aaf'
+}
+```
+
+```xml
+<dependency>
+    <groupId>com.github.gitlab4j</groupId>
+    <artifactId>gitlab4j-api</artifactId>
+    <version>6561c93aaf</version>
+</dependency>
+```
+
+```java
+//DEPS https://github.com/gitlab4j/gitlab4j-api/tree/6561c93aafa6bf35cb9bad0617127a0c249a8f9f
+```
 
 ---
 
