@@ -8,9 +8,11 @@ public class ProjectApprovalsConfig {
 
     private Integer approvalsBeforeMerge;
     private Boolean resetApprovalsOnPush;
+    private Boolean selectiveCodeOwnerRemovals;
     private Boolean disableOverridingApproversPerMergeRequest;
     private Boolean mergeRequestsAuthorApproval;
     private Boolean mergeRequestsDisableCommittersApproval;
+    private Boolean requirePasswordToApprove;
 
     public Integer getApprovalsBeforeMerge() {
         return approvalsBeforeMerge;
@@ -36,6 +38,19 @@ public class ProjectApprovalsConfig {
     public ProjectApprovalsConfig withResetApprovalsOnPush(Boolean resetApprovalsOnPush) {
         this.resetApprovalsOnPush = resetApprovalsOnPush;
         return (this);
+    }
+
+    public Boolean getSelectiveCodeOwnerRemovals() {
+        return selectiveCodeOwnerRemovals;
+    }
+
+    public void setSelectiveCodeOwnerRemovals(Boolean selectiveCodeOwnerRemovals) {
+        this.selectiveCodeOwnerRemovals = selectiveCodeOwnerRemovals;
+    }
+
+    public ProjectApprovalsConfig withSelectiveCodeOwnerRemovals(Boolean selectiveCodeOwnerRemovals) {
+        this.selectiveCodeOwnerRemovals = selectiveCodeOwnerRemovals;
+        return this;
     }
 
     public Boolean getDisableOverridingApproversPerMergeRequest() {
@@ -77,6 +92,19 @@ public class ProjectApprovalsConfig {
         return (this);
     }
 
+    public Boolean getRequirePasswordToApprove() {
+        return requirePasswordToApprove;
+    }
+
+    public void setRequirePasswordToApprove(Boolean requirePasswordToApprove) {
+        this.requirePasswordToApprove = requirePasswordToApprove;
+    }
+
+    public ProjectApprovalsConfig withRequirePasswordToApprove(Boolean requirePasswordToApprove) {
+        this.requirePasswordToApprove = requirePasswordToApprove;
+        return this;
+    }
+
     /**
      * Get the form params specified by this instance.
      *
@@ -84,11 +112,13 @@ public class ProjectApprovalsConfig {
      */
     @JsonIgnore
     public GitLabApiForm getForm() {
-	return new GitLabApiForm()
+        return new GitLabApiForm()
             .withParam("approvals_before_merge", approvalsBeforeMerge)
             .withParam("reset_approvals_on_push", resetApprovalsOnPush)
+            .withParam("selective_code_owner_removals", selectiveCodeOwnerRemovals)
             .withParam("disable_overriding_approvers_per_merge_request", disableOverridingApproversPerMergeRequest)
             .withParam("merge_requests_author_approval", mergeRequestsAuthorApproval)
-            .withParam("merge_requests_disable_committers_approval", mergeRequestsDisableCommittersApproval);
+            .withParam("merge_requests_disable_committers_approval", mergeRequestsDisableCommittersApproval)
+            .withParam("require_password_to_approve", requirePasswordToApprove);
     }
 }
