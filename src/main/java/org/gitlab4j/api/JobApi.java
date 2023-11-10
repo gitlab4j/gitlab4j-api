@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
@@ -462,17 +461,16 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a File instance pointing to the download of the specified artifacts file
      * @throws GitLabApiException if any exception occurs
      */
-    public File downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, Path artifactPath, File directory) throws GitLabApiException {
+    public File downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, String artifactPath, File directory) throws GitLabApiException {
 
-        String path = artifactPath.toString().replace("\\", "/");
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", path);
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", artifactPath);
         try {
 
             if (directory == null)
                 directory = new File(System.getProperty("java.io.tmpdir"));
 
-            String filename = artifactPath.getFileName().toString();
+            String filename = artifactPath;
             File file = new File(directory, filename);
 
             InputStream in = response.readEntity(InputStream.class);
@@ -497,10 +495,9 @@ public class JobApi extends AbstractApi implements Constants {
      * @return an InputStream to read the specified artifacts file from
      * @throws GitLabApiException if any exception occurs
      */
-    public InputStream downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, Path artifactPath) throws GitLabApiException {
-        String path = artifactPath.toString().replace("\\", "/");
+    public InputStream downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, String artifactPath) throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", path);
+                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", artifactPath);
         return (response.readEntity(InputStream.class));
     }
 
