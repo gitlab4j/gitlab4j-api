@@ -159,8 +159,7 @@ public class GitLabApiForm extends Form {
         for (Entry<String, ?> variable : variables.entrySet()) {
             Object value = variable.getValue();
             if (value != null) {
-                this.param(name + "[][key]", variable.getKey());
-                this.param(name + "[][value]", value.toString());
+                this.param(name + "[" + variable.getKey() + "]", value.toString());
             }
         }
 

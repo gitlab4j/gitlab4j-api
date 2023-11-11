@@ -12,6 +12,7 @@ import jakarta.ws.rs.core.Response;
 import org.gitlab4j.api.models.ChildEpic;
 import org.gitlab4j.api.models.CreatedChildEpic;
 import org.gitlab4j.api.models.Epic;
+import org.gitlab4j.api.models.EpicFilter;
 import org.gitlab4j.api.models.EpicIssue;
 import org.gitlab4j.api.models.EpicIssueLink;
 import org.gitlab4j.api.models.LinkType;
@@ -54,7 +55,7 @@ public class EpicsApi extends AbstractApi {
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param page the page to get
-     * @param perPage the number of issues per page
+     * @param perPage the number of epics per page
      * @return a list of all epics of the requested group and its subgroups in the specified range
      * @throws GitLabApiException if any exception occurs
      */
@@ -69,7 +70,7 @@ public class EpicsApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: GET /groups/:id/epics</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
-     * @param itemsPerPage the number of issues per page
+     * @param itemsPerPage the number of epics per page
      * @return the Pager of all epics of the requested group and its subgroups
      * @throws GitLabApiException if any exception occurs
      */
@@ -123,20 +124,28 @@ public class EpicsApi extends AbstractApi {
      * @param sortOrder return epics sorted in ASC or DESC order. Default is DESC
      * @param search search epics against their title and description
      * @param page the page to get
-     * @param perPage the number of issues per page
+     * @param perPage the number of epics per page
      * @return a list of matching epics of the requested group and its subgroups in the specified range
      * @throws GitLabApiException if any exception occurs
      */
     public List<Epic> getEpics(Object groupIdOrPath, Long authorId, String labels,
             EpicOrderBy orderBy, SortOrder sortOrder, String search, int page, int perPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm(page, perPage)
-                .withParam("author_id", authorId)
-                .withParam("labels", labels)
-                .withParam("order_by", orderBy)
-                .withParam("sort", sortOrder)
-                .withParam("search", search);
-        Response response = get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epics");
-        return (response.readEntity(new GenericType<List<Epic>>() { }));
+        EpicFilter filter = createEpicFilter(authorId, labels, orderBy, sortOrder, search);
+        return getEpics(groupIdOrPath, filter);
+    }
+
+    /**
+     * Gets all epics of the requested group and its subgroups using the specified page and per page setting.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param filter epic filter
+     * @return a list of matching epics of the requested group and its subgroups in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Epic> getEpics(Object groupIdOrPath, EpicFilter filter) throws GitLabApiException {
+        return getEpics(groupIdOrPath, getDefaultPerPage(), filter).all();
     }
 
     /**
@@ -148,7 +157,7 @@ public class EpicsApi extends AbstractApi {
      * @param authorId returns epics created by the given user id
      * @param labels return epics matching a comma separated list of labels names.
      *        Label names from the epic group or a parent group can be used
-     * @param itemsPerPage the number of issues per page
+     * @param itemsPerPage the number of epics per page
      * @param orderBy return epics ordered by CREATED_AT or UPDATED_AT. Default is CREATED_AT
      * @param sortOrder return epics sorted in ASC or DESC order. Default is DESC
      * @param search search epics against their title and description
@@ -157,13 +166,32 @@ public class EpicsApi extends AbstractApi {
      */
     public Pager<Epic> getEpics(Object groupIdOrPath, Long authorId, String labels,
             EpicOrderBy orderBy, SortOrder sortOrder, String search, int itemsPerPage) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("author_id", authorId)
-                .withParam("labels", labels)
-                .withParam("order_by", orderBy)
-                .withParam("sort", sortOrder)
-                .withParam("search", search);
-        return (new Pager<Epic>(this, Epic.class, itemsPerPage, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epics"));
+        EpicFilter filter = createEpicFilter(authorId, labels, orderBy, sortOrder, search);
+        return getEpics(groupIdOrPath, itemsPerPage, filter);
+    }
+
+    /**
+     * Gets all epics of the requested group and its subgroups using the specified page and per page setting.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param filter epic filter
+     * @param itemsPerPage the number of epics per page
+     * @return a list of matching epics of the requested group and its subgroups in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Epic> getEpics(Object groupIdOrPath, int itemsPerPage, EpicFilter filter) throws GitLabApiException {
+        return (new Pager<Epic>(this, Epic.class, itemsPerPage, filter.getQueryParams().asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epics"));
+    }
+
+    private EpicFilter createEpicFilter(Long authorId, String labels, EpicOrderBy orderBy, SortOrder sortOrder, String search) {
+        return new EpicFilter()
+            .withAuthorId(authorId)
+            .withLabels(labels)
+            .withOrderBy(orderBy)
+            .withSortOrder(sortOrder)
+            .withSearch(search);
     }
 
     /**
@@ -369,7 +397,7 @@ public class EpicsApi extends AbstractApi {
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param epicIid the IID of the epic to get issues for
      * @param page the page to get
-     * @param perPage the number of issues per page
+     * @param perPage the number of epics per page
      * @return a list of all issues belonging to the specified epic in the specified range
      * @throws GitLabApiException if any exception occurs
      */
@@ -385,7 +413,7 @@ public class EpicsApi extends AbstractApi {
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
      * @param epicIid the IID of the epic to get issues for
-     * @param itemsPerPage the number of issues per page
+     * @param itemsPerPage the number of epics per page
      * @return the Pager of all issues belonging to the specified epic
      * @throws GitLabApiException if any exception occurs
      */
