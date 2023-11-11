@@ -20,5 +20,7 @@
     {
       "group_id": 2
     }
-  ]
+  ],
+  "allow_force_push": false,
+  "code_owner_approval_required": false
 }
