@@ -13,6 +13,7 @@ public class ProtectedBranch {
     private List<BranchAccessLevel> mergeAccessLevels;
     private List<BranchAccessLevel> unprotectAccessLevels;
     private Boolean codeOwnerApprovalRequired;
+    private Boolean allowForcePush;
 
     public Long getId() {
         return id;
@@ -83,6 +84,19 @@ public class ProtectedBranch {
 
     public ProtectedBranch withCodeOwnerApprovalRequired(Boolean codeOwnerApprovalRequired) {
         this.codeOwnerApprovalRequired = codeOwnerApprovalRequired;
+        return this;
+    }
+
+    public Boolean getAllowForcePush() {
+        return allowForcePush;
+    }
+
+    public void setAllowForcePush(Boolean allowForcePush) {
+        this.allowForcePush = allowForcePush;
+    }
+
+    public ProtectedBranch withAllowForcePush(Boolean allowForcePush) {
+        this.allowForcePush = allowForcePush;
         return this;
     }
 
