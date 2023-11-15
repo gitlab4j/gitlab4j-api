@@ -833,16 +833,19 @@ public class GitLabApi implements AutoCloseable {
      * @return the ApplicationsApi instance owned by this GitLabApi instance
      */
     public ApplicationsApi getApplicationsApi() {
-
-        if (applicationsApi == null) {
+        ApplicationsApi localRef = applicationsApi;
+    
+        if (localRef == null) {
             synchronized (this) {
-                if (applicationsApi == null) {
-                    applicationsApi = new ApplicationsApi(this);
+                localRef = applicationsApi;
+                if (localRef == null) {
+                    localRef = new ApplicationsApi(this);
+                    applicationsApi = localRef;
                 }
             }
         }
 
-        return (applicationsApi);
+        return localRef;
     }
 
     /**
@@ -852,16 +855,19 @@ public class GitLabApi implements AutoCloseable {
      * @return the ApplicationsApi instance owned by this GitLabApi instance
      */
     public ApplicationSettingsApi getApplicationSettingsApi() {
+        ApplicationSettingsApi localRef = applicationSettingsApi;
 
-        if (applicationSettingsApi == null) {
+        if (localRef == null) {
             synchronized (this) {
-                if (applicationSettingsApi == null) {
-                    applicationSettingsApi = new ApplicationSettingsApi(this);
+                localRef = applicationSettingsApi;
+                if (localRef == null) {
+                    localRef = new ApplicationSettingsApi(this);
+                    applicationSettingsApi = localRef;
                 }
             }
         }
 
-        return (applicationSettingsApi);
+        return localRef; 
     }
 
     /**
@@ -947,16 +953,18 @@ public class GitLabApi implements AutoCloseable {
      * @return the ContainerRegistryApi instance owned by this GitLabApi instance
      */
     public ContainerRegistryApi getContainerRegistryApi() {
-
-        if (containerRegistryApi == null) {
+        ContainerRegistryApi localInstance = containerRegistryApi; 
+    
+        if (localInstance == null) { 
             synchronized (this) {
-                if (containerRegistryApi == null) {
-                    containerRegistryApi = new ContainerRegistryApi(this);
+                localInstance = containerRegistryApi;
+                if (localInstance == null) {
+                    containerRegistryApi = localInstance = new ContainerRegistryApi(this);
                 }
             }
         }
-
-        return (containerRegistryApi);
+    
+        return localInstance;
     }
 
     /**
@@ -1222,16 +1230,17 @@ public class GitLabApi implements AutoCloseable {
     }
 
     public LabelsApi getLabelsApi() {
-
-        if (labelsApi == null) {
+        LabelsApi result = labelsApi;
+        if (result == null) {
             synchronized (this) {
-                if (labelsApi == null) {
-                    labelsApi = new LabelsApi(this);
+                result = labelsApi;
+                if (result == null) {
+                    result = new LabelsApi(this);
+                    labelsApi = result;
                 }
             }
         }
-
-        return (labelsApi);
+        return result;
     }
 
     /**
@@ -1336,16 +1345,16 @@ public class GitLabApi implements AutoCloseable {
      * @return the NamespaceApi instance owned by this GitLabApi instance
      */
     public NamespaceApi getNamespaceApi() {
-
-        if (namespaceApi == null) {
+        NamespaceApi result = namespaceApi; 
+        if (result == null) {
             synchronized (this) {
-                if (namespaceApi == null) {
-                    namespaceApi = new NamespaceApi(this);
+                result = namespaceApi;
+                if (result == null) {
+                    namespaceApi = result = new NamespaceApi(this);
                 }
             }
         }
-
-        return (namespaceApi);
+        return result;
     }
 
     /**
@@ -1507,16 +1516,17 @@ public class GitLabApi implements AutoCloseable {
      * @return the RepositoryApi instance owned by this GitLabApi instance
      */
     public RepositoryApi getRepositoryApi() {
-
-        if (repositoryApi == null) {
+        RepositoryApi localRef = repositoryApi;
+        if (localRef == null) {
             synchronized (this) {
-                if (repositoryApi == null) {
-                    repositoryApi = new RepositoryApi(this);
+                localRef = repositoryApi;
+                if (localRef == null) {
+                    localRef = new RepositoryApi(this);
+                    repositoryApi = localRef;
                 }
             }
         }
-
-        return (repositoryApi);
+        return localRef;
     }
 
     /**
@@ -1621,16 +1631,17 @@ public class GitLabApi implements AutoCloseable {
      * @return the ServicesApi instance owned by this GitLabApi instance
      */
     public ServicesApi getServicesApi() {
-
-        if (servicesApi == null) {
+        ServicesApi result = servicesApi;
+        if (result == null) {
             synchronized (this) {
-                if (servicesApi == null) {
-                    servicesApi = new ServicesApi(this);
+                result = servicesApi;
+                if (result == null) {
+                    result = new ServicesApi(this);
+                    servicesApi = result;
                 }
             }
         }
-
-        return (servicesApi);
+        return result;
     }
 
     /**
@@ -1714,15 +1725,17 @@ public class GitLabApi implements AutoCloseable {
      * @return the TodosApi instance owned by this GitLabApi instance
      */
     public TodosApi getTodosApi() {
-        if (todosApi == null) {
+        TodosApi result = todosApi;
+        if (result == null) {
             synchronized (this) {
-                if (todosApi == null) {
-                    todosApi = new TodosApi(this);
+                result = todosApi;
+                if (result == null) {
+                    result = new TodosApi(this);
+                    todosApi = result;
                 }
             }
         }
-
-        return todosApi;
+        return result;
     }
 
     /**
