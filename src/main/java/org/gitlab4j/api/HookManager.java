@@ -33,8 +33,8 @@ public interface HookManager {
     default public boolean isValidSecretToken(String secretToken) {
         String ourSecretToken = getSecretToken();
         return (ourSecretToken == null ||
-                ourSecretToken.trim().isEmpty() ||
-                ourSecretToken.equals(secretToken) ? true : false);
+            ourSecretToken.trim().isEmpty() ||
+            ourSecretToken.equals(secretToken));
     }
 
     /**

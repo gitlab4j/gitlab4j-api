@@ -22,6 +22,10 @@ public class EmailChecker {
      * @return true if the provided String is a valid email address, otherwise return false
      */
      public static final boolean isValidEmail(final String email) {
-         return (email == null ? false : EMAIL_REGEX_PATTERN.matcher(email).matches());
+        if (email == null) {
+            return false;
+        } else {
+            return EMAIL_REGEX_PATTERN.matcher(email).matches();
+        }
     }
 }
