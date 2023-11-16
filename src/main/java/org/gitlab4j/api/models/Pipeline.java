@@ -158,16 +158,6 @@ public class Pipeline {
         this.committedAt = committedAt;
     }
 
-    /**
-     * @deprecated Replaced by {@link #getStartedAt()}
-     * @return the started at Date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getStarted_at() {
-        return startedAt;
-    }
-
     public String getCoverage() {
         return coverage;
     }

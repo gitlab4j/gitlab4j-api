@@ -113,26 +113,6 @@ public class JobEvent extends AbstractEvent {
         this.jobStartedAt = jobStartedAt;
     }
 
-    /**
-     * @deprecated Replaced by {@link #getJobStartedAt()}
-     * @return the jobstarted at Date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getJobStarted_at() {
-        return jobStartedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #setJobStartedAt(Date)}
-     * @param jobStartedAt new jobstarted at value
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setJobStarted_at(Date jobStartedAt) {
-        this.jobStartedAt = jobStartedAt;
-    }
-
     public Date getJobFinishedAt() {
         return jobFinishedAt;
     }
@@ -141,25 +121,6 @@ public class JobEvent extends AbstractEvent {
         this.jobFinishedAt = jobFinishedAt;
     }
 
-    /**
-     * @deprecated Replaced by {@link #getJobFinishedAt()}
-     * @return the jobfinished at Date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getJobFinished_at() {
-        return jobFinishedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #setJobFinishedAt(Date)}
-     * @param jobFinishedAt new jobfinished at value
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setJobFinished_at(Date jobFinishedAt) {
-        this.jobFinishedAt = jobFinishedAt;
-    }
     public Integer getJobDuration() {
         return jobDuration;
     }
