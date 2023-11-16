@@ -76,7 +76,7 @@ public class Project {
     private Boolean requestAccessEnabled;
     private String runnersToken;
     private Boolean sharedRunnersEnabled;
-    private List<ProjectSharedGroup> sharedWithGroups;
+    private List<SharedGroup> sharedWithGroups;
     private Boolean snippetsEnabled;
     private String sshUrlToRepo;
     private Integer starCount;
@@ -502,11 +502,11 @@ public class Project {
         this.sharedRunnersEnabled = sharedRunnersEnabled;
     }
 
-    public List<ProjectSharedGroup> getSharedWithGroups() {
+    public List<SharedGroup> getSharedWithGroups() {
         return sharedWithGroups;
     }
 
-    public void setSharedWithGroups(List<ProjectSharedGroup> sharedWithGroups) {
+    public void setSharedWithGroups(List<SharedGroup> sharedWithGroups) {
         this.sharedWithGroups = sharedWithGroups;
     }
 
