@@ -17,6 +17,16 @@
     "lfs_objects_size" : 123,
     "job_artifacts_size" : 57
   },
+  "shared_with_groups": [
+        {
+            "group_id": 104,
+            "group_name": "A Group",
+            "group_full_path": "a-group",
+            "group_access_level": 10,
+            "expires_at": "2023-11-19"
+        }
+  ],
+  "runners_token": "GRnEE2mDc13489411jmS2d5R1XTfM",
   "projects": [
     {
       "id": 7,

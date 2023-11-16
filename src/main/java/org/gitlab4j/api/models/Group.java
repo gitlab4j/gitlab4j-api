@@ -60,6 +60,7 @@ public class Group extends AbstractGroup<Group> {
     private List<Project> projects;
     private List<Project> sharedProjects;
     private Date createdAt;
+    private List<SharedGroup> sharedWithGroups;
     private String runnersToken;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
@@ -159,6 +160,14 @@ public class Group extends AbstractGroup<Group> {
 
     public void setCreatedAt(Date createdAt) {
 	this.createdAt = createdAt;
+    }
+
+    public List<SharedGroup> getSharedWithGroups() {
+        return sharedWithGroups;
+    }
+
+    public void setSharedWithGroups(List<SharedGroup> sharedWithGroups) {
+        this.sharedWithGroups = sharedWithGroups;
     }
 
     public String getRunnersToken() {
