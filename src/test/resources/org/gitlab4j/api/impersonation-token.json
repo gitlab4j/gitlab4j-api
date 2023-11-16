@@ -1,4 +1,5 @@
 {
+  "user_id" : 141,
   "active" : false,
   "scopes" : [
      "read_user", "api"
@@ -7,6 +8,7 @@
   "token" : "ZcZRpLeEuQRprkRjYydY",
   "name" : "mytoken2",
   "created_at" : "2017-03-17T17:19:28.697Z",
+  "last_used_at": "2018-03-17T17:19:28.697Z",
   "id" : 3,
   "impersonation" : true,
   "expires_at" : "2017-04-14T00:00:00Z"
