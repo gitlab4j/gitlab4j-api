@@ -94,6 +94,15 @@
             }
          ],
          "evidence_file_path":"https://gitlab.example.com/root/awesome-app/-/releases/v0.2/evidence.json"
+      },
+      "_links": {
+        "closed_issues_url": "https://gitlab.example.com/root/awesome-app/-/issues?release_tag=v0.2&scope=all&state=closed",
+        "closed_merge_requests_url": "https://gitlab.example.com/root/awesome-app/-/merge_requests?release_tag=v0.2&scope=all&state=closed",
+        "edit_url": "https://gitlab.example.com/root/awesome-app/-/releases/v0.2/edit",
+        "merged_merge_requests_url": "https://gitlab.example.com/root/awesome-app/-/merge_requests?release_tag=v0.2&scope=all&state=merged",
+        "opened_issues_url": "https://gitlab.example.com/root/awesome-app/-/issues?release_tag=v0.2&scope=all&state=opened",
+        "opened_merge_requests_url": "https://gitlab.example.com/root/awesome-app/-/merge_requests?release_tag=v0.2&scope=all&state=opened",
+        "self": "https://gitlab.example.com/root/awesome-app/-/releases/v0.2"
       }
    },
    {
@@ -152,6 +161,15 @@
 
          ],
          "evidence_file_path":"https://gitlab.example.com/root/awesome-app/-/releases/v0.1/evidence.json"
+      },
+      "_links": {
+        "closed_issues_url": "https://gitlab.example.com/root/awesome-app/-/issues?release_tag=v0.1&scope=all&state=closed",
+        "closed_merge_requests_url": "https://gitlab.example.com/root/awesome-app/-/merge_requests?release_tag=v0.1&scope=all&state=closed",
+        "edit_url": "https://gitlab.example.com/root/awesome-app/-/releases/v0.1/edit",
+        "merged_merge_requests_url": "https://gitlab.example.com/root/awesome-app/-/merge_requests?release_tag=v0.1&scope=all&state=merged",
+        "opened_issues_url": "https://gitlab.example.com/root/awesome-app/-/issues?release_tag=v0.1&scope=all&state=opened",
+        "opened_merge_requests_url": "https://gitlab.example.com/root/awesome-app/-/merge_requests?release_tag=v0.1&scope=all&state=opened",
+        "self": "https://gitlab.example.com/root/awesome-app/-/releases/v0.1"
       }
    }
 ]
