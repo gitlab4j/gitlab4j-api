@@ -5,6 +5,8 @@ import java.util.Date;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class JobEvent extends AbstractEvent {
 
     public static final String JOB_HOOK_X_GITLAB_EVENT = "Job Hook";
@@ -18,8 +20,8 @@ public class JobEvent extends AbstractEvent {
     private String jobName;
     private String jobStage;
     private String jobStatus;
-    private Date jobStarted_at;
-    private Date jobFinished_at;
+    private Date jobStartedAt;
+    private Date jobFinishedAt;
     private Integer jobDuration;
     private Boolean jobAllowFailure;
     private String jobFailureReason;
@@ -103,22 +105,61 @@ public class JobEvent extends AbstractEvent {
         this.jobStatus = jobStatus;
     }
 
+    public Date getJobStartedAt() {
+        return jobStartedAt;
+    }
+
+    public void setJobStartedAt(Date jobStartedAt) {
+        this.jobStartedAt = jobStartedAt;
+    }
+
+    /**
+     * @deprecated Replaced by {@link #getJobStartedAt()}
+     * @return the jobstarted at Date
+     */
+    @Deprecated
+    @JsonIgnore
     public Date getJobStarted_at() {
-        return jobStarted_at;
+        return jobStartedAt;
     }
 
-    public void setJobStarted_at(Date jobStarted_at) {
-        this.jobStarted_at = jobStarted_at;
+    /**
+     * @deprecated Replaced by {@link #setJobStartedAt(Date)}
+     * @param jobStartedAt new jobstarted at value
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setJobStarted_at(Date jobStartedAt) {
+        this.jobStartedAt = jobStartedAt;
     }
 
+    public Date getJobFinishedAt() {
+        return jobFinishedAt;
+    }
+
+    public void setJobFinishedAt(Date jobFinishedAt) {
+        this.jobFinishedAt = jobFinishedAt;
+    }
+
+    /**
+     * @deprecated Replaced by {@link #getJobFinishedAt()}
+     * @return the jobfinished at Date
+     */
+    @Deprecated
+    @JsonIgnore
     public Date getJobFinished_at() {
-        return jobFinished_at;
+        return jobFinishedAt;
     }
 
-    public void setJobFinished_at(Date jobFinished_at) {
-        this.jobFinished_at = jobFinished_at;
+    /**
+     * @deprecated Replaced by {@link #setJobFinishedAt(Date)}
+     * @param jobFinishedAt new jobfinished at value
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setJobFinished_at(Date jobFinishedAt) {
+        this.jobFinishedAt = jobFinishedAt;
     }
-
     public Integer getJobDuration() {
         return jobDuration;
     }
