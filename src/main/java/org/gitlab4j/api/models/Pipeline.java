@@ -130,32 +130,32 @@ public class Pipeline {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updated_at) {
-        this.updatedAt = updated_at;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Date getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(Date started_at) {
-        this.startedAt = started_at;
+    public void setStartedAt(Date startedAt) {
+        this.startedAt = startedAt;
     }
 
     public Date getFinishedAt() {
         return finishedAt;
     }
 
-    public void setFinishedAt(Date finished_at) {
-        this.finishedAt = finished_at;
+    public void setFinishedAt(Date finishedAt) {
+        this.finishedAt = finishedAt;
     }
 
     public Date getCommittedAt() {
         return committedAt;
     }
 
-    public void setCommittedAt(Date committed_at) {
-        this.committedAt = committed_at;
+    public void setCommittedAt(Date committedAt) {
+        this.committedAt = committedAt;
     }
 
     /**
