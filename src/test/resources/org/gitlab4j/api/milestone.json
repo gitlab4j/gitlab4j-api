@@ -1,12 +1,14 @@
 {
-    "id":12,
-    "iid":3,
-    "project_id":16,
-    "title":"10.0",
-    "description":"Version",
-    "start_date":"2013-11-01T00:00:00Z",
-    "due_date":"2013-11-29T00:00:00Z",
-    "state":"active",
-    "updated_at":"2013-10-02T09:24:18Z",
-    "created_at":"2013-10-02T09:24:18Z"
+    "id": 12,
+    "iid": 3,
+    "project_id": 16,
+    "title": "1.0",
+    "description": "Version",
+    "state": "active",
+    "created_at": "2013-10-02T09:24:18Z",
+    "updated_at": "2013-10-02T09:24:18Z",
+    "due_date": "2013-11-29",
+    "start_date": "2013-11-01",
+    "expired": false,
+    "web_url": "http://gitlab.example.com/my-group/my-project/-/milestones/3"
 }
