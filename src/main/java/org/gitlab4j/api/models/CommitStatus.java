@@ -15,6 +15,7 @@ public class CommitStatus {
     private Date finishedAt;
     private Long id;
     private String name;
+    private Long pipelineId;
     private String ref;
     private String sha;
     private Date startedAt;
@@ -85,6 +86,14 @@ public class CommitStatus {
         this.name = name;
     }
 
+    public Long getPipelineId() {
+        return pipelineId;
+    }
+
+    public void setPipelineId(Long pipelineId) {
+        this.pipelineId = pipelineId;
+    }
+
     public String getRef() {
         return ref;
     }
@@ -137,6 +146,11 @@ public class CommitStatus {
 
     public CommitStatus withName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public CommitStatus withPipelineId(Long pipelineId) {
+        this.pipelineId = pipelineId;
         return this;
     }
 
