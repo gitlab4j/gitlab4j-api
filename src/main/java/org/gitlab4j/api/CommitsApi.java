@@ -612,8 +612,8 @@ public class CommitsApi extends AbstractApi {
                 .withParam("description", status.getDescription())
                 .withParam("coverage", status.getCoverage())
                 .withParam("pipeline_id", status.getPipelineId());
-            if (pipelineId != null && Objects.equals(status.getPipelineId(), pipelineId)) {
-                throw new IllegalArgumentException("The parameter 'pipelineId' and the pipelineId value the 'status' parameter are different. Set one of the two values to null.");
+            if (pipelineId != null && status.getPipelineId() != null && !Objects.equals(status.getPipelineId(), pipelineId)) {
+                throw new IllegalArgumentException("The parameter 'pipelineId' and the pipelineId value the 'status' parameter are different. Set the two values to be the same or one of the two values to null.");
             }
         }
 
