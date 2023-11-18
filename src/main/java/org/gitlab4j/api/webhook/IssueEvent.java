@@ -3,7 +3,6 @@ package org.gitlab4j.api.webhook;
 import java.util.List;
 
 import org.gitlab4j.api.models.Assignee;
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class IssueEvent extends AbstractEvent {

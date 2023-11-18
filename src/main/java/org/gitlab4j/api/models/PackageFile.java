@@ -4,8 +4,6 @@ import java.util.Date;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class PackageFile {
 
     private Long id;

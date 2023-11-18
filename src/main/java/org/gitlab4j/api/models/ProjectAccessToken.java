@@ -1,7 +1,5 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.utils.JacksonJson;
 

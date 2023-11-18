@@ -3,7 +3,6 @@ package org.gitlab4j.api.webhook;
 import java.util.Date;
 
 import org.gitlab4j.api.models.Diff;
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 

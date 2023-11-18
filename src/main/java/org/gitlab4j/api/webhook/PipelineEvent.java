@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.api.models.Job;
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.utils.JacksonJson;
 

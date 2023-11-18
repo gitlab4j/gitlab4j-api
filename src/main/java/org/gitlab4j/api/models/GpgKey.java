@@ -2,8 +2,6 @@ package org.gitlab4j.api.models;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class GpgKey {
 
     private Long id;

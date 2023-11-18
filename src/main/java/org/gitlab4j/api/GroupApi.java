@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import jakarta.ws.rs.core.Form;
@@ -25,7 +24,6 @@ import org.gitlab4j.api.models.GroupAccessToken;
 import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.GroupProjectsFilter;
-import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
 import org.gitlab4j.api.models.Iteration;
 import org.gitlab4j.api.models.IterationFilter;

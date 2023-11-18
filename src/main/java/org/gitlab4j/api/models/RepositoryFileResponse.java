@@ -1,12 +1,7 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Base64;
-
-import org.gitlab4j.api.Constants.Encoding;
 import org.gitlab4j.api.utils.JacksonJson;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class RepositoryFileResponse {
 

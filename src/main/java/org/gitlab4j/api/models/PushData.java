@@ -4,8 +4,6 @@ package org.gitlab4j.api.models;
 import org.gitlab4j.api.Constants.ActionType;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class PushData {
 
     private Integer commitCount;
