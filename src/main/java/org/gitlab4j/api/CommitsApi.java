@@ -3,7 +3,6 @@ package org.gitlab4j.api;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -563,39 +562,11 @@ public class CommitsApi extends AbstractApi {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance (required)
      * @param sha a commit SHA (required)
      * @param state the state of the status. Can be one of the following: PENDING, RUNNING, SUCCESS, FAILED, CANCELED (required)
-     * @param status the CommitSatus instance hoilding the optional parms: ref, name, target_url, description, and coverage
+     * @param status the CommitSatus instance holding the optional parameters: ref, name, target_url, description, and coverage
      * @return a CommitStatus instance with the updated info
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
      */
     public CommitStatus addCommitStatus(Object projectIdOrPath, String sha, CommitBuildState state, CommitStatus status) throws GitLabApiException {
-        return addCommitStatus(projectIdOrPath, sha, state, null, status);
-    }
-
-    /**
-     * <p>Add or update the build status of a commit.  The following fluent methods are available on the
-     * CommitStatus instance for setting up the status:</p>
-     * <pre><code>
-     * withCoverage(Float)
-     * withDescription(String)
-     * withName(String)
-     * withRef(String)
-     * withTargetUrl(String)
-     * </code></pre>
-     *
-     * <pre><code>GitLab Endpoint: POST /projects/:id/statuses/:sha</code></pre>
-     *
-     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance (required)
-     * @param sha a commit SHA (required)
-     * @param state the state of the status. Can be one of the following: PENDING, RUNNING, SUCCESS, FAILED, CANCELED (required)
-     * @param pipelineId 	The ID of the pipeline to set status. Use in case of several pipeline on same SHA (optional)
-     * @param status the CommitSatus instance hoilding the optional parms: ref, name, target_url, description, and coverage
-     * @return a CommitStatus instance with the updated info
-     * @throws GitLabApiException GitLabApiException if any exception occurs during execution
-     * @deprecated use {@link #addCommitStatus(Object, String, org.gitlab4j.api.Constants.CommitBuildState, CommitStatus)} and set the pipelineId value in the {@link CommitStatus} parameter
-     */
-    @Deprecated
-    public CommitStatus addCommitStatus(Object projectIdOrPath, String sha, CommitBuildState state, Long pipelineId, CommitStatus status) throws GitLabApiException {
-
         if (projectIdOrPath == null) {
             throw new RuntimeException("projectIdOrPath cannot be null");
         }
@@ -612,13 +583,6 @@ public class CommitsApi extends AbstractApi {
                 .withParam("description", status.getDescription())
                 .withParam("coverage", status.getCoverage())
                 .withParam("pipeline_id", status.getPipelineId());
-            if (pipelineId != null && status.getPipelineId() != null && !Objects.equals(status.getPipelineId(), pipelineId)) {
-                throw new IllegalArgumentException("The parameter 'pipelineId' and the pipelineId value the 'status' parameter are different. Set the two values to be the same or one of the two values to null.");
-            }
-        }
-
-        if (pipelineId != null) {
-            formData.withParam("pipeline_id", pipelineId);
         }
 
         Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "statuses", sha);
