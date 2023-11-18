@@ -2,10 +2,7 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class JobEvent extends AbstractEvent {
 

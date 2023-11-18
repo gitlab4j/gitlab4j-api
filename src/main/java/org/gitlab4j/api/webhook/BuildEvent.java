@@ -2,10 +2,7 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * The documentation at: <a href="https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#job-events">
