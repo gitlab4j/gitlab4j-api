@@ -53,7 +53,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '6.0.0-rc.2'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '6.0.0-rc.3'
 }
 ```
 
@@ -64,7 +64,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>6.0.0-rc.2</version>
+    <version>6.0.0-rc.3</version>
 </dependency>
 ```
 
@@ -75,7 +75,7 @@ dependencies {
  Just add this line at the top of your script:
 
 ```java
-//DEPS org.gitlab4j:gitlab4j-api:6.0.0-rc.2
+//DEPS org.gitlab4j:gitlab4j-api:6.0.0-rc.3
 ```
 
 **Ivy and SBT**<br/>
