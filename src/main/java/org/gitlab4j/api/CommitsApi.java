@@ -3,6 +3,7 @@ package org.gitlab4j.api;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -590,7 +591,9 @@ public class CommitsApi extends AbstractApi {
      * @param status the CommitSatus instance hoilding the optional parms: ref, name, target_url, description, and coverage
      * @return a CommitStatus instance with the updated info
      * @throws GitLabApiException GitLabApiException if any exception occurs during execution
+     * @deprecated use {@link #addCommitStatus(Object, String, org.gitlab4j.api.Constants.CommitBuildState, CommitStatus)} and set the pipelineId value in the {@link CommitStatus} parameter
      */
+    @Deprecated
     public CommitStatus addCommitStatus(Object projectIdOrPath, String sha, CommitBuildState state, Long pipelineId, CommitStatus status) throws GitLabApiException {
 
         if (projectIdOrPath == null) {
@@ -607,7 +610,11 @@ public class CommitsApi extends AbstractApi {
                 .withParam("name", status.getName())
                 .withParam("target_url", status.getTargetUrl())
                 .withParam("description", status.getDescription())
-                .withParam("coverage", status.getCoverage());
+                .withParam("coverage", status.getCoverage())
+                .withParam("pipeline_id", status.getPipelineId());
+            if (pipelineId != null && status.getPipelineId() != null && !Objects.equals(status.getPipelineId(), pipelineId)) {
+                throw new IllegalArgumentException("The parameter 'pipelineId' and the pipelineId value the 'status' parameter are different. Set the two values to be the same or one of the two values to null.");
+            }
         }
 
         if (pipelineId != null) {
