@@ -12,6 +12,7 @@ import org.gitlab4j.api.Constants.MergeRequestScope;
 import org.gitlab4j.api.Constants.MergeRequestSearchIn;
 import org.gitlab4j.api.Constants.MergeRequestState;
 import org.gitlab4j.api.Constants.SortOrder;
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -368,5 +369,10 @@ public class MergeRequestFilter {
             params.withParam("author_id", authorId);
         }
         return params;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
