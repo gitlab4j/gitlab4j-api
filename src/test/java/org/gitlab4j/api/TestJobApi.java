@@ -82,5 +82,4 @@ public class TestJobApi extends AbstractIntegrationTest {
         List<Job> jobs = gitLabApi.getJobApi().getJobs(testProject);
         assertNotNull(jobs);
     }
-
 }
