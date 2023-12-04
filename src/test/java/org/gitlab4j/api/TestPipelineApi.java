@@ -7,13 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.gitlab4j.api.models.Bridge;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
@@ -350,4 +348,11 @@ public class TestPipelineApi extends AbstractIntegrationTest {
             gitLabApi.getPipelineApi().deletePipeline(testProject, pipeline.getId());
         }
     }
+
+    @Test
+    public void testGetBridges() throws GitLabApiException {
+        Set<Bridge> bridges = gitLabApi.getPipelineApi().getBridgesStream(testProject, 4L, Constants.JobScope.SUCCESS).collect(Collectors.toSet());
+        assertNotNull(bridges);
+    }
+
 }

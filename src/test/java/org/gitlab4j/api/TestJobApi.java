@@ -83,10 +83,4 @@ public class TestJobApi extends AbstractIntegrationTest {
         assertNotNull(jobs);
     }
 
-    @Test
-    public void test() throws GitLabApiException {
-        Set<Bridge> bridges = gitLabApi.getJobApi().getBridgesStream(testProject, 4L, Constants.JobScope.SUCCESS).collect(Collectors.toSet());
-        assertNotNull(bridges);
-    }
-
 }
