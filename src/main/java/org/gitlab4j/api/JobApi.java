@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.gitlab4j.api.models.ArtifactsFile;
+import org.gitlab4j.api.models.Bridge;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.JobAttributes;
 
@@ -220,6 +221,36 @@ public class JobApi extends AbstractApi implements Constants {
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
+    }
+
+
+    /**
+     * Get a Pager of bridges in a pipeline.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines/:pipeline_id/bridges </code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path to get the pipelines for
+     * @param pipelineId      the pipeline ID to get the list of bridges for
+     * @param itemsPerPage    the number of Bridge instances that will be fetched per page
+     * @return a list containing the bridges for the specified project ID and pipeline ID
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Pager<Bridge> getBridgesForPipeline(Object projectIdOrPath, long pipelineId, int itemsPerPage, JobScope scope) throws GitLabApiException {
+        return (new Pager<>(this, Bridge.class, itemsPerPage, getDefaultPerPageParam(),
+            "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "bridges", scope));
+    }
+
+    /**
+     * Get a Stream of bridges in a pipeline.
+     * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines/:pipeline_id/bridges</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param pipelineId      the pipeline ID to get the list of bridges for
+     * @return a Stream containing the bridges for the specified project ID
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Stream<Bridge> getBridgesStream(Object projectIdOrPath, long pipelineId, JobScope scope) throws GitLabApiException {
+        return (getBridgesForPipeline(projectIdOrPath, pipelineId, getDefaultPerPage(), scope).stream());
     }
 
     /**

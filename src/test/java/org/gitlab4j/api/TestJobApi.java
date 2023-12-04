@@ -27,7 +27,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.gitlab4j.api.models.Bridge;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Project;
 import org.junit.jupiter.api.AfterAll;
@@ -79,4 +82,11 @@ public class TestJobApi extends AbstractIntegrationTest {
         List<Job> jobs = gitLabApi.getJobApi().getJobs(testProject);
         assertNotNull(jobs);
     }
+
+    @Test
+    public void test() throws GitLabApiException {
+        Set<Bridge> bridges = gitLabApi.getJobApi().getBridgesStream(testProject, 4L, Constants.JobScope.SUCCESS).collect(Collectors.toSet());
+        assertNotNull(bridges);
+    }
+
 }
