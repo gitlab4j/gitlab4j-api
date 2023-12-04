@@ -170,6 +170,36 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Approves the specified user. Available only for admin.
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:id/approve</code></pre>
+     *
+     * @param userId the ID of the user to approve
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void approveUser(Long userId) throws GitLabApiException {
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+        post(Response.Status.CREATED, (Form) null, "users", userId, "approve");
+    }
+
+    /**
+     * Rejects specified user that is pending approval. Available only for administrators.
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:id/reject</code></pre>
+     *
+     * @param userId the ID of the user to reject
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void rejectUser(Long userId) throws GitLabApiException {
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+        post(Response.Status.OK, (Form) null, "users", userId, "reject");
+    }
+
+    /**
      * Blocks the specified user. Available only for admin.
      *
      * <pre><code>GitLab Endpoint: POST /users/:id/block</code></pre>
@@ -904,21 +934,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ImpersonationToken createImpersonationToken(Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
-
-        if (scopes == null || scopes.length == 0) {
-            throw new RuntimeException("scopes cannot be null or empty");
-        }
-
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("name", name, true)
-                .withParam("expires_at", expiresAt);
-
-        for (Scope scope : scopes) {
-            formData.withParam("scopes[]", scope.toString());
-        }
-
-        Response response = post(Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), "impersonation_tokens");
-        return (response.readEntity(ImpersonationToken.class));
+        return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, expiresAt, scopes, true);
     }
 
     /**
@@ -938,6 +954,43 @@ public class UserApi extends AbstractApi {
 
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "users", getUserIdOrUsername(userIdOrUsername), "impersonation_tokens", tokenId);
+    }
+
+    /**
+     * Create a personal access token.  Available only for admin users.
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:user_id/personal_access_tokens</code></pre>
+     *
+     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param name the name of the personal access token, required
+     * @param expiresAt the expiration date of the personal access token, optional
+     * @param scopes an array of scopes of the personal access token
+     * @return the created PersonalAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ImpersonationToken createPersonalAccessToken(Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
+        return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, expiresAt, scopes, false);
+    }
+
+    // as per https://docs.gitlab.com/ee/api/README.html#impersonation-tokens, impersonation tokens are a type of
+    // personal access token
+    private ImpersonationToken createPersonalAccessTokenOrImpersonationToken(Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes, boolean impersonation) throws GitLabApiException {
+
+        if (scopes == null || scopes.length == 0) {
+            throw new RuntimeException("scopes cannot be null or empty");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("expires_at", expiresAt);
+
+        for (Scope scope : scopes) {
+            formData.withParam("scopes[]", scope.toString());
+        }
+
+        String tokenTypePathArg = impersonation ? "impersonation_tokens" : "personal_access_tokens";
+        Response response = post(Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), tokenTypePathArg);
+        return (response.readEntity(ImpersonationToken.class));
     }
 
     /**
@@ -961,6 +1014,7 @@ public class UserApi extends AbstractApi {
         String skipConfirmationFeildName = create ? "skip_confirmation" : "skip_reconfirmation";
 
         return (new GitLabApiForm()
+                .withParam("public_email", user.getPublicEmail(), false)
                 .withParam("email", user.getEmail(), create)
                 .withParam("password", password, false)
                 .withParam("reset_password", resetPassword, false)

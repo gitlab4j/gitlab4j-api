@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class MergeRequestFilter {
 
     private Long projectId;
+    private Long groupId;
     private List<Long> iids;
     private MergeRequestState state;
     private MergeRequestOrderBy orderBy;
@@ -313,6 +314,19 @@ public class MergeRequestFilter {
 
     public void setWip(Boolean wip) {
         this.wip = wip;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
+    public MergeRequestFilter withGroupId(Long groupId) {
+        this.groupId = groupId;
+        return (this);
     }
 
     public MergeRequestFilter withWip(Boolean wip) {

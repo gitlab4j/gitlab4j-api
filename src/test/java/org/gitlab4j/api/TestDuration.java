@@ -112,7 +112,10 @@ public class TestDuration {
     @Test
     public void testToString() {
 
-        String duration = DurationUtils.toString(60 + 1);
+        String duration = DurationUtils.toString(5);
+        assertEquals("5s", duration);
+
+        duration = DurationUtils.toString(60 + 1);
         assertEquals("1m1s", duration);
 
         duration = DurationUtils.toString(60 * 60 + 60 + 1);

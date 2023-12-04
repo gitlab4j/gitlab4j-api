@@ -326,7 +326,7 @@ public class EventsApi extends AbstractApi {
      * @return a list of events for the specified project and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getProjectEvents(Long projectIdOrPath, ActionType action, TargetType targetType,
+    public List<Event> getProjectEvents(Object projectIdOrPath, ActionType action, TargetType targetType,
             Date before, Date after, SortOrder sortOrder, int page, int perPage) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()

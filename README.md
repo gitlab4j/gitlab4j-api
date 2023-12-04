@@ -1,9 +1,8 @@
 # GitLab4J&trade; API (gitlab4j-api)<br />Java Client Library for the GitLab REST API
 
 [![Maven Central](https://img.shields.io/maven-central/v/org.gitlab4j/gitlab4j-api.svg)](http://mvnrepository.com/artifact/org.gitlab4j/gitlab4j-api)
-[![Build Status](https://travis-ci.org/gitlab4j/gitlab4j-api.svg?branch=master)](https://travis-ci.org/gitlab4j/gitlab4j-api)
+[![Build Status](https://github.com/gitlab4j/gitlab4j-api/actions/workflows/ci-build.yml/badge.svg?branch=main)](https://github.com/gitlab4j/gitlab4j-api/actions/workflows/ci-build.yml)
 [![javadoc.io](https://javadoc.io/badge2/org.gitlab4j/gitlab4j-api/javadoc.io.svg)](https://javadoc.io/doc/org.gitlab4j/gitlab4j-api)
-
 
 GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume Java library for working with GitLab repositories via the GitLab REST API.  Additionally, full support for working with GitLab webhooks and system hooks is also provided.
 
@@ -29,6 +28,11 @@ GitLab4J&trade; API (gitlab4j-api) provides a full featured and easy to consume 
   * [Available Sub APIs](#available-sub-apis)
 
 ---
+
+> **Warning**
+> If you are looking for our next major version `6.x.x` which is requiring **Java 11** as mimimal version and which is using Jakarta EE components using the `jakarta.*` packages instead of `javax.*` check the [`6.x` branch](https://github.com/gitlab4j/gitlab4j-api/tree/6.x).
+> The `6.x.x` version is the one you need if you are using Spring Boot 3 and Spring Framework 6.0, . 
+
 ## GitLab Server Version Support
 
 GitLab4J-API supports version 11.0+ of GitLab Community Edition [(gitlab-ce)](https://gitlab.com/gitlab-org/gitlab-ce/) and GitLab Enterprise Edition [(gitlab-ee)](https://gitlab.com/gitlab-org/gitlab-ee/). 
@@ -54,7 +58,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '5.0.1'
+    compile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '5.4.0'
 }
 ```
 
@@ -65,14 +69,100 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>5.0.1</version>
+    <version>5.4.0</version>
 </dependency>
+```
+
+**Jbang:**
+
+ [Jbang](https://www.jbang.dev/) is very convinient to run scripts writen in Java having dependencies on third party libraries.
+
+ Just add this line at the top of your script:
+
+```java
+//DEPS org.gitlab4j:gitlab4j-api:5.4.0
 ```
 
 **Ivy and SBT**<br/>
 There have been reports of problems resolving some dependencies when using Ivy or SBT, for help resolving those issues see:<br/>
 <a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/571">JAX-RS API Issue #571</a><br/>
 <a href="https://github.com/eclipse-ee4j/jaxrs-api/issues/572">JAX-RS API Issue #572</a>
+
+### **Lastest version**
+
+While we are frequently creating releases, you might be interested by a feature that has not been published yet.
+You can use jars created by [jitpack](https://jitpack.io/) to get the newest version.
+
+**Usage with gradle:**
+
+```gradle
+repositories {
+    mavenCentral()
+    maven {
+        url "https://jitpack.io"
+        content {
+            includeGroup "com.github.gitlab4j"
+        }
+    }
+}
+
+dependencies {
+    // ...
+    implementation 'com.github.gitlab4j:gitlab4j-api:main-SNAPSHOT'
+    // ...
+}
+```
+
+**Usage with maven:**
+
+```xml
+<repositories>
+  <repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+  </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+    <groupId>com.github.gitlab4j</groupId>
+    <artifactId>gitlab4j-api</artifactId>
+    <version>main-SNAPSHOT</version>
+  </dependency>
+  <!-- ... -->
+</dependencies>
+```
+
+**Usage with jbang:**
+
+You just need to declare the dependency like this, instead of using the maven coordinates:
+
+```java
+//DEPS https://github.com/gitlab4j/gitlab4j-api/tree/main#:SNAPSHOT
+```
+
+**Using a specific commit**
+
+Version `main-SNAPSHOT` indicates that you would like to get the latest of the `main` branch.
+You can also point to a specific commit:
+
+```gradle
+dependencies {
+    implementation 'com.github.gitlab4j:gitlab4j-api:6561c93aaf'
+}
+```
+
+```xml
+<dependency>
+    <groupId>com.github.gitlab4j</groupId>
+    <artifactId>gitlab4j-api</artifactId>
+    <version>6561c93aaf</version>
+</dependency>
+```
+
+```java
+//DEPS https://github.com/gitlab4j/gitlab4j-api/tree/6561c93aafa6bf35cb9bad0617127a0c249a8f9f
+```
 
 ---
 
@@ -175,10 +265,10 @@ GitLab4J-API provides an easy to use paging mechanism to page through lists of r
 Here are a couple of examples on how to use the Pager:
 ```java
 // Get a Pager instance that will page through the projects with 10 projects per page
-Pager<Project> projectPager = gitlabApi.getProjectsApi().getProjects(10);
+Pager<Project> projectPager = gitLabApi.getProjectApi().getProjects(10);
 
 // Iterate through the pages and print out the name and description
-while (projectsPager.hasNext())) {
+while (projectPager.hasNext()) {
     for (Project project : projectPager.next()) {
         System.out.println(project.getName() + " -: " + project.getDescription());
     }

@@ -184,6 +184,19 @@ public class SearchApi extends AbstractApi {
                 return (new Pager<Milestone>(this, Milestone.class, itemsPerPage, formData.asMap(),
                         "groups", getGroupIdOrPath(groupIdOrPath), "search"));
 
+            case BLOBS:
+            case WIKI_BLOBS:
+                return (new Pager<SearchBlob>(this, SearchBlob.class, itemsPerPage, formData.asMap(),
+                    "groups", getGroupIdOrPath(groupIdOrPath), "search"));
+
+            case COMMITS:
+                return (new Pager<Commit>(this, Commit.class, itemsPerPage, formData.asMap(),
+                    "groups", getGroupIdOrPath(groupIdOrPath), "search"));
+
+            case NOTES:
+                return (new Pager<Note>(this, Note.class, itemsPerPage, formData.asMap(),
+                    "groups", getGroupIdOrPath(groupIdOrPath), "search"));
+
             case USERS:
                 return (new Pager<User>(this, User.class, itemsPerPage, formData.asMap(),
                         "groups", getGroupIdOrPath(groupIdOrPath), "search"));

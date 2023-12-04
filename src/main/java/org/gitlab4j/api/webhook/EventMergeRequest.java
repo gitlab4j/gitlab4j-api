@@ -8,6 +8,8 @@ import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class EventMergeRequest {
 
     private Long assigneeId;
@@ -19,6 +21,7 @@ public class EventMergeRequest {
     private Long iid;
     private String mergeCommitSha;
     private String mergeStatus;
+    private String detailedMergeStatus;
     private Long milestoneId;
     private Integer position;
     private Date lockedAt;
@@ -28,6 +31,7 @@ public class EventMergeRequest {
     private String stCommits;
     private String stDiffs;
     private String state;
+    private Long stateId;
     private String targetBranch;
     private Long targetProjectId;
     private String title;
@@ -36,8 +40,11 @@ public class EventMergeRequest {
     private EventProject source;
     private EventProject target;
     private EventCommit lastCommit;
+    private Boolean blockingDiscussionsResolved;
     private Boolean workInProgress;
+    private Boolean firstContribution;
     private String url;
+    private List<EventLabel> labels;
     private String action;
     private Assignee assignee;
 
@@ -50,16 +57,20 @@ public class EventMergeRequest {
     private String inProgressMergeCommitSha;
     private Integer lockVersion;
 
-    private Date last_editedAt;
+    private Date lastEditedAt;
     private Long lastEditedById;
     private Long headPipelineId;
     private Boolean refFetched;
     private Long mergeIid;
     private Integer totalTimeSpent;
     private Duration humanTotalTimeSpent;
+    private Integer timeChange;
     private Integer timeEstimate;
     private Duration humanTimeEstimate;
+    private Duration humanTimeChange;
     private List<Long> assigneeIds;
+    private List<Long> reviewerIds;
+    private String oldrev;
 
     public Long getAssigneeId() {
         return this.assigneeId;
@@ -131,6 +142,14 @@ public class EventMergeRequest {
 
     public void setMergeStatus(String mergeStatus) {
         this.mergeStatus = mergeStatus;
+    }
+
+    public String getDetailedMergeStatus() {
+        return detailedMergeStatus;
+    }
+
+    public void setDetailedMergeStatus(String detailedMergeStatus) {
+        this.detailedMergeStatus = detailedMergeStatus;
     }
 
     public Long getMilestoneId() {
@@ -205,6 +224,14 @@ public class EventMergeRequest {
         this.state = state;
     }
 
+    public Long getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Long stateId) {
+        this.stateId = stateId;
+    }
+
     public String getTargetBranch() {
         return this.targetBranch;
     }
@@ -261,6 +288,14 @@ public class EventMergeRequest {
         this.lastCommit = lastCommit;
     }
 
+    public Boolean getBlockingDiscussionsResolved() {
+        return blockingDiscussionsResolved;
+    }
+
+    public void setBlockingDiscussionsResolved(Boolean blockingDiscussionsResolved) {
+        this.blockingDiscussionsResolved = blockingDiscussionsResolved;
+    }
+
     public Boolean getWorkInProgress() {
         return workInProgress;
     }
@@ -269,12 +304,28 @@ public class EventMergeRequest {
         this.workInProgress = workInProgress;
     }
 
+    public Boolean getFirstContribution() {
+        return firstContribution;
+    }
+
+    public void setFirstContribution(Boolean firstContribution) {
+        this.firstContribution = firstContribution;
+    }
+
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public List<EventLabel> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<EventLabel> labels) {
+        this.labels = labels;
     }
 
     public String getAction() {
@@ -357,12 +408,31 @@ public class EventMergeRequest {
         this.lockVersion = lockVersion;
     }
 
+    /**
+     * @deprecated used {@link #getLastEditedAt()}
+     * @return date
+     */
+    @Deprecated
+    @JsonIgnore
     public Date getLast_editedAt() {
-        return last_editedAt;
+        return getLastEditedAt();
     }
 
+    /**
+     * @deprecated used {@link #setLastEditedAt(Date)}
+     */
+    @Deprecated
+    @JsonIgnore
     public void setLast_editedAt(Date last_editedAt) {
-        this.last_editedAt = last_editedAt;
+        setLastEditedAt(last_editedAt);
+    }
+
+    public Date getLastEditedAt() {
+        return lastEditedAt;
+    }
+
+    public void setLastEditedAt(Date lastEditedAt) {
+        this.lastEditedAt = lastEditedAt;
     }
 
     public Long getLastEditedById() {
@@ -413,6 +483,14 @@ public class EventMergeRequest {
         this.humanTotalTimeSpent = humanTotalTimeSpent;
     }
 
+    public Integer getTimeChange() {
+        return timeChange;
+    }
+
+    public void setTimeChange(Integer timeChange) {
+        this.timeChange = timeChange;
+    }
+
     public Integer getTimeEstimate() {
         return timeEstimate;
     }
@@ -429,12 +507,36 @@ public class EventMergeRequest {
         this.humanTimeEstimate = humanTimeEstimate;
     }
 
+    public Duration getHumanTimeChange() {
+        return humanTimeChange;
+    }
+
+    public void setHumanTimeChange(Duration humanTimeChange) {
+        this.humanTimeChange = humanTimeChange;
+    }
+
     public List<Long> getAssigneeIds() {
         return assigneeIds;
     }
 
     public void setAssigneeIds(List<Long> assigneeIds) {
         this.assigneeIds = assigneeIds;
+    }
+
+    public List<Long> getReviewerIds() {
+        return reviewerIds;
+    }
+
+    public void setReviewerIds(List<Long> reviewerIds) {
+        this.reviewerIds = reviewerIds;
+    }
+
+    public String getOldrev() {
+        return oldrev;
+    }
+
+    public void setOldrev(String oldrev) {
+        this.oldrev = oldrev;
     }
 
     @Override

@@ -131,6 +131,8 @@ public class NotesApi extends AbstractApi {
     /**
      * Get the specified issues's note.
      *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/notes/:note_id</code></pre>
+     *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid the issue IID to get the notes for
      * @param noteId the ID of the Note to get
@@ -145,6 +147,9 @@ public class NotesApi extends AbstractApi {
 
     /**
      * Create a issues's note.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/notes/:note_id</code></pre>
+     *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance @param projectIdOrPath the project ID to create the issues for
      * @param issueIid the issue IID to create the notes for
      * @param body the content of note
@@ -152,11 +157,13 @@ public class NotesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body) throws GitLabApiException {
-        return (createIssueNote(projectIdOrPath, issueIid, body, null));
+        return (createIssueNote(projectIdOrPath, issueIid, body, null, null));
     }
 
     /**
      * Create a issues's note.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/notes/:note_id</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid the issue IID to create the notes for
@@ -166,10 +173,28 @@ public class NotesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body, Date createdAt) throws GitLabApiException {
+        return (createIssueNote(projectIdOrPath, issueIid, body, null, null));    }
+
+    /**
+     * Create a issues's note.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/notes/:note_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param issueIid the issue IID to create the notes for
+     * @param body the content of note
+     * @param createdAt the created time of note
+     * @param internal whether the note shall be marked 'internal'
+     * @return the created Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body, Date createdAt, Boolean internal) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true)
-                .withParam("created_at", createdAt);
+                .withParam("created_at", createdAt)
+                .withParam("internal", internal);
+        ;
         Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes");
         return (response.readEntity(Note.class));
@@ -177,6 +202,8 @@ public class NotesApi extends AbstractApi {
 
     /**
      * Update the specified issues's note.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid/notes/:note_id</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid the issue IID to update the notes for
@@ -195,6 +222,8 @@ public class NotesApi extends AbstractApi {
 
     /**
      * Delete the specified issues's note.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/issues/:issue_iid/notes/:note_id</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid the issue IID to delete the notes for
@@ -362,6 +391,8 @@ public class NotesApi extends AbstractApi {
     /**
      * Get the specified merge request's note.
      *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/notes/:note_id</code></pre>
+     *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid  the merge request IID to get the notes for
      * @param noteId the ID of the Note to get
@@ -376,6 +407,8 @@ public class NotesApi extends AbstractApi {
 
     /**
      * Create a merge request's note.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/notes/:note_id</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid  the merge request IID to create the notes for
@@ -392,6 +425,8 @@ public class NotesApi extends AbstractApi {
 
     /**
      * Update the specified merge request's note.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/merge_requests/:merge_request_iid/notes/:note_id</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid  the merge request IID to update the notes for
@@ -410,6 +445,8 @@ public class NotesApi extends AbstractApi {
 
     /**
      * Delete the specified merge request's note.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/merge_requests/:merge_request_iid/notes/:note_id</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the merge request IID to delete the notes for

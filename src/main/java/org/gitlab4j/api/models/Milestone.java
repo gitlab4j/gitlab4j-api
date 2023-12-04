@@ -4,11 +4,15 @@ import java.util.Date;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public class Milestone {
 
     private Date createdAt;
     private String description;
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
     private Long id;
     private Long iid;
@@ -17,6 +21,8 @@ public class Milestone {
     private String state;
     private String title;
     private Date updatedAt;
+    private Boolean expired;
+    private String webUrl;
 
     public Date getCreatedAt() {
         return this.createdAt;
@@ -104,6 +110,22 @@ public class Milestone {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Boolean getExpired() {
+        return expired;
+    }
+
+    public void setExpired(Boolean expired) {
+        this.expired = expired;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
     }
 
     @Override

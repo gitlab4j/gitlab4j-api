@@ -10,7 +10,9 @@ import java.util.Map.Entry;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.StatusType;
+import javax.ws.rs.core.MultivaluedMap;
 
+import java.util.Objects;
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,7 +28,8 @@ public class GitLabApiException extends Exception {
     private int httpStatus;
     private String message;
     private Map<String, List<String>> validationErrors;
-    
+    private MultivaluedMap<String, String> headers;
+
     /**
      * Create a GitLabApiException instance with the specified message.
      *
@@ -59,6 +62,7 @@ public class GitLabApiException extends Exception {
         super();
         statusInfo = response.getStatusInfo();
         httpStatus = response.getStatus();
+        headers = response.getStringHeaders();
 
         if (response.hasEntity()) {
 
@@ -87,7 +91,7 @@ public class GitLabApiException extends Exception {
                             while(fields.hasNext()) {
 
                                 Entry<String, JsonNode> field = fields.next();
-                                String fieldName = field.getKey();                                
+                                String fieldName = field.getKey();
                                 List<String> values = new ArrayList<>();
                                 validationErrors.put(fieldName, values);
                                 for (JsonNode value : field.getValue()) {
@@ -186,14 +190,23 @@ public class GitLabApiException extends Exception {
     }
 
     /**
-     * Returns a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException 
+     * Returns a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException
      * was caused by validation errors on the GitLab server, otherwise returns null.
      *
-     * @return a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException 
+     * @return a Map&lt;String, List&lt;String&gt;&gt; instance containing validation errors if this GitLabApiException
      * was caused by validation errors on the GitLab server, otherwise returns null
      */
     public Map<String, List<String>> getValidationErrors() {
         return (validationErrors);
+    }
+
+    /**
+     * Returns the response headers. Returns null if the causing error was not a response related exception.
+     *
+     * @return the response headers or null.
+     */
+    public final MultivaluedMap<String, String> getHeaders() {
+        return (headers);
     }
 
     @Override
@@ -204,6 +217,7 @@ public class GitLabApiException extends Exception {
         result = prime * result + ((message == null) ? 0 : message.hashCode());
         result = prime * result + ((statusInfo == null) ? 0 : statusInfo.hashCode());
         result = prime * result + ((validationErrors == null) ? 0 : validationErrors.hashCode());
+        result = prime * result + ((headers == null) ? 0 : headers.hashCode());
         return result;
     }
 
@@ -245,6 +259,10 @@ public class GitLabApiException extends Exception {
             if (other.validationErrors != null)
                 return false;
         } else if (!validationErrors.equals(other.validationErrors)) {
+            return false;
+        }
+
+        if (!Objects.equals(this.headers, other.headers)) {
             return false;
         }
 

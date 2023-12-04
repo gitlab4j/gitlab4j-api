@@ -7,7 +7,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.util.Date;
 import java.util.List;
 
-public class Group {
+public class Group extends AbstractGroup<Group> {
 
     public class Statistics {
         private Long storageSize;
@@ -49,43 +49,22 @@ public class Group {
     }
 
 
-    private Long id;
-    private String name;
     private String path;
     private String description;
     private Visibility visibility;
     private Boolean lfsEnabled;
-    private String avatarUrl;
-    private String webUrl;
     private Boolean requestAccessEnabled;
-    private String fullName;
-    private String fullPath;
     private Long parentId;
     private Integer sharedRunnersMinutesLimit;
     private Statistics statistics;
     private List<Project> projects;
     private List<Project> sharedProjects;
     private Date createdAt;
+    private List<SharedGroup> sharedWithGroups;
     private String runnersToken;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getPath() {
         return this.path;
@@ -119,44 +98,12 @@ public class Group {
         this.lfsEnabled = lfsEnabled;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getWebUrl() {
-        return webUrl;
-    }
-
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
-    }
-
     public Boolean getRequestAccessEnabled() {
         return requestAccessEnabled;
     }
 
     public void setRequestAccessEnabled(Boolean requestAccessEnabled) {
         this.requestAccessEnabled = requestAccessEnabled;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getFullPath() {
-        return fullPath;
-    }
-
-    public void setFullPath(String fullPath) {
-        this.fullPath = fullPath;
     }
 
     public Long getParentId() {
@@ -215,22 +162,20 @@ public class Group {
 	this.createdAt = createdAt;
     }
 
+    public List<SharedGroup> getSharedWithGroups() {
+        return sharedWithGroups;
+    }
+
+    public void setSharedWithGroups(List<SharedGroup> sharedWithGroups) {
+        this.sharedWithGroups = sharedWithGroups;
+    }
+
     public String getRunnersToken() {
         return runnersToken;
     }
 
     public void setRunnersToken(String runnersToken) {
         this.runnersToken = runnersToken;
-    }
-
-    public Group withId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public Group withName(String name) {
-        this.name = name;
-        return this;
     }
 
     public Group withPath(String path) {
@@ -253,28 +198,8 @@ public class Group {
         return this;
     }
 
-    public Group withAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-        return this;
-    }
-
-    public Group withWebUrl(String url) {
-        this.webUrl = url;
-        return this;
-    }
-
     public Group withRequestAccessEnabled(boolean requestAccessEnabled) {
         this.requestAccessEnabled = requestAccessEnabled;
-        return this;
-    }
-
-    public Group withFullName(String fullName) {
-        this.fullName = fullName;
-        return this;
-    }
-
-    public Group withFullPath(String fullPath) {
-        this.fullPath = fullPath;
         return this;
     }
 

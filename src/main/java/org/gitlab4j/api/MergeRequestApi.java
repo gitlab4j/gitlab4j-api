@@ -15,11 +15,13 @@ import org.gitlab4j.api.models.ApprovalRule;
 import org.gitlab4j.api.models.ApprovalRuleParams;
 import org.gitlab4j.api.models.ApprovalState;
 import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestDiff;
 import org.gitlab4j.api.models.MergeRequestFilter;
 import org.gitlab4j.api.models.MergeRequestParams;
+import org.gitlab4j.api.models.MergeRequestVersion;
 import org.gitlab4j.api.models.Participant;
 import org.gitlab4j.api.models.Pipeline;
 
@@ -85,20 +87,22 @@ public class MergeRequestApi extends AbstractApi {
      *
      * @param filter a MergeRequestFilter instance with the filter settings
      * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
-     * @return all merge requests for the specified project matching the filter
+     * @return all merge requests for the specified project/group matching the filter
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<MergeRequest> getMergeRequests(MergeRequestFilter filter, int itemsPerPage) throws GitLabApiException {
 
         MultivaluedMap<String, String> queryParams = (filter != null ? filter.getQueryParams().asMap() : null);
-        if (filter != null && (filter.getProjectId() != null && filter.getProjectId().intValue() > 0) ||
-                (filter.getIids() != null && filter.getIids().size() > 0)) {
+        if (filter != null && ((filter.getProjectId() != null && filter.getProjectId().intValue() > 0) ||
+                (filter.getIids() != null && filter.getIids().size() > 0))) {
 
             if (filter.getProjectId() == null || filter.getProjectId().intValue() == 0) {
                 throw new RuntimeException("project ID cannot be null or 0");
             }
 
             return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "projects", filter.getProjectId(), "merge_requests"));
+        } else if (filter != null && filter.getGroupId() != null && filter.getGroupId().intValue() > 0) {
+            return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "groups", filter.getGroupId(), "merge_requests"));
         } else {
             return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, queryParams, "merge_requests"));
         }
@@ -398,7 +402,9 @@ public class MergeRequestApi extends AbstractApi {
      * @param mergeRequestIid the internal ID of the merge request
      * @return a List of merge request diff versions for the specified merge request
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getDiffVersions(Object, Long)} instead
      */
+    @Deprecated
     public List<MergeRequestDiff> getMergeRequestDiffs(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
 	return (getMergeRequestDiffs(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).all());
     }
@@ -413,7 +419,9 @@ public class MergeRequestApi extends AbstractApi {
      * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
      * @return a Pager of merge request diff versions for the specified merge request
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getDiffVersions(Object, Long, int)} instead
      */
+    @Deprecated
     public Pager<MergeRequestDiff> getMergeRequestDiffs(Object projectIdOrPath, Long mergeRequestIid, int itemsPerPage) throws GitLabApiException {
         return (new Pager<MergeRequestDiff>(this, MergeRequestDiff.class, itemsPerPage, null,
         	"projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "versions"));
@@ -428,7 +436,9 @@ public class MergeRequestApi extends AbstractApi {
      * @param mergeRequestIid the internal ID of the merge request
      * @return a Stream of merge request diff versions for the specified merge request
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getDiffVersionsStream(Object, Long)} instead
      */
+    @Deprecated
     public Stream<MergeRequestDiff> getMergeRequestDiffsStream(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
         return (getMergeRequestDiffs(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).stream());
     }
@@ -443,9 +453,91 @@ public class MergeRequestApi extends AbstractApi {
      * @param versionId the ID of the merge request diff version
      * @return a MergeRequestDiff instance for the specified MR diff version
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getDiffVersion(Object, Long, Long)} instead
      */
+    @Deprecated
     public MergeRequestDiff getMergeRequestDiff(Object projectIdOrPath,
 	    Long mergeRequestIid, Long versionId) throws GitLabApiException {
+        return getDiffVersion(projectIdOrPath, mergeRequestIid, versionId);
+    }
+
+    /**
+     * Get a single merge request diff version as an Optional instance.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/versions/:version_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param versionId the ID of the merge request diff version
+     * @return the specified MergeRequestDiff as an Optional instance instance
+     * @deprecated use {@link #getOptionalDiffVersion(Object, Long, Long)} instead
+     */
+    @Deprecated
+    public Optional<MergeRequestDiff> getOptionalMergeRequestDiff(
+	    Object projectIdOrPath, Long mergeRequestIid, Long versionId) {
+        try {
+            return (Optional.ofNullable(getMergeRequestDiff(projectIdOrPath, mergeRequestIid, versionId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
+     * Get a list of merge request diff versions.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/versions</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a List of merge request diff versions for the specified merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<MergeRequestVersion> getDiffVersions(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
+        return (getDiffVersions(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of merge request diff versions.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/versions</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param itemsPerPage the number of MergeRequest instances that will be fetched per page
+     * @return a Pager of merge request diff versions for the specified merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<MergeRequestVersion> getDiffVersions(Object projectIdOrPath, Long mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<MergeRequestVersion>(this, MergeRequestVersion.class, itemsPerPage, null,
+            "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "versions"));
+    }
+
+    /**
+     * Get a Stream of merge request diff versions.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/versions</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a Stream of merge request diff versions for the specified merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<MergeRequestVersion> getDiffVersionsStream(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
+        return (getDiffVersions(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a single merge request diff version.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/versions/:version_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param versionId the ID of the merge request diff version
+     * @return a MergeRequestVersion instance for the specified MR diff version
+     * @throws GitLabApiException if any exception occurs
+     */
+    public MergeRequestDiff getDiffVersion(Object projectIdOrPath, Long mergeRequestIid, Long versionId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
                 "merge_requests", mergeRequestIid, "versions", versionId);
         return (response.readEntity(MergeRequestDiff.class));
@@ -459,15 +551,58 @@ public class MergeRequestApi extends AbstractApi {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
      * @param versionId the ID of the merge request diff version
-     * @return the specified MergeRequestDiff as an Optional instance instance
+     * @return the specified MergeRequestVersion as an Optional instance instance
      */
-    public Optional<MergeRequestDiff> getOptionalMergeRequestDiff(
-	    Object projectIdOrPath, Long mergeRequestIid, Long versionId) {
+    public Optional<MergeRequestDiff> getOptionalDiffVersion(Object projectIdOrPath, Long mergeRequestIid, Long versionId) {
         try {
-            return (Optional.ofNullable(getMergeRequestDiff(projectIdOrPath, mergeRequestIid, versionId)));
+            return (Optional.ofNullable(getDiffVersion(projectIdOrPath, mergeRequestIid, versionId)));
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
+    }
+
+    /**
+     * Get a list of merge request diffs.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/diffs</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a List of merge request diffs for the specified merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Diff> getDiffs(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
+        return (getDiffs(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of merge request diffs.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/diffs</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param itemsPerPage the number of Diff instances that will be fetched per page
+     * @return a Pager of merge request diffs for the specified merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Diff> getDiffs(Object projectIdOrPath, Long mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<>(this, Diff.class, itemsPerPage, null,
+            "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "diffs"));
+    }
+
+    /**
+     * Get a Stream of merge request diffs.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/diffs</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @return a Stream of merge request diffs for the specified merge request
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Diff> getDiffsStream(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
+        return (getDiffs(projectIdOrPath, mergeRequestIid, getDefaultPerPage()).stream());
     }
 
     /**
@@ -739,9 +874,9 @@ public class MergeRequestApi extends AbstractApi {
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
-     * @param mergeCommitMessage, custom merge commit message, optional
-     * @param shouldRemoveSourceBranch, if true removes the source branch, optional
-     * @param mergeWhenPipelineSucceeds, if true the MR is merged when the pipeline, optional
+     * @param mergeCommitMessage custom merge commit message, optional
+     * @param shouldRemoveSourceBranch if true removes the source branch, optional
+     * @param mergeWhenPipelineSucceeds if true the MR is merged when the pipeline, optional
      * @return the merged merge request
      * @throws GitLabApiException if any exception occurs
      */
@@ -767,9 +902,9 @@ public class MergeRequestApi extends AbstractApi {
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
-     * @param mergeCommitMessage, custom merge commit message, optional
-     * @param shouldRemoveSourceBranch, if true removes the source branch, optional
-     * @param mergeWhenPipelineSucceeds, if true the MR is merged when the pipeline, optional
+     * @param mergeCommitMessage custom merge commit message, optional
+     * @param shouldRemoveSourceBranch if true removes the source branch, optional
+     * @param mergeWhenPipelineSucceeds if true the MR is merged when the pipeline, optional
      * @param sha if present, then this SHA must match the HEAD of the source branch, otherwise the merge will fail, optional
      * @return the merged merge request
      * @throws GitLabApiException if any exception occurs
@@ -802,7 +937,7 @@ public class MergeRequestApi extends AbstractApi {
      *
      * <p>NOTE: GitLab API V4 uses IID (internal ID), V3 uses ID to identify the merge request.</p>
      *
-     * <pre><code>GitLab Endpoint: PUT /projects/:id/merge_requests/:merge_request_iid/cancel_merge_when_pipeline_succeeds</code></pre>
+     * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/cancel_merge_when_pipeline_succeeds</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid the internal ID of the merge request
@@ -815,7 +950,7 @@ public class MergeRequestApi extends AbstractApi {
             throw new RuntimeException("mergeRequestIid cannot be null");
         }
 
-        Response response = put(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "cancel_merge_when_pipeline_succeeds");
+        Response response = post(Response.Status.OK, (Form)null, "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "cancel_merge_when_pipeline_succeeds");
         return (response.readEntity(MergeRequest.class));
     }
 

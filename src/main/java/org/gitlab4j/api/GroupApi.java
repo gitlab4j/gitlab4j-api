@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +11,7 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -19,11 +21,18 @@ import org.gitlab4j.api.models.AuditEvent;
 import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.GroupAccessToken;
 import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.GroupProjectsFilter;
+import org.gitlab4j.api.models.ImpersonationToken;
+import org.gitlab4j.api.models.ImpersonationToken.Scope;
+import org.gitlab4j.api.models.Iteration;
+import org.gitlab4j.api.models.IterationFilter;
+import org.gitlab4j.api.models.LdapGroupLink;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.SamlGroupLink;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.ISO8601;
@@ -348,6 +357,50 @@ public class GroupApi extends AbstractApi {
     public Stream<Group> getSubGroupsStream(Object groupIdOrPath, List<Integer> skipGroups, Boolean allAvailable, String search,
             GroupOrderBy orderBy, SortOrder sortOrder, Boolean statistics, Boolean owned) throws GitLabApiException {
         return (getSubGroups(groupIdOrPath, skipGroups, allAvailable, search, orderBy, sortOrder, statistics, owned, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of visible descendant groups of a given group for the authenticated user using the provided filter.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/descendant_groups</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param filter the GroupFilter to match against
+     * @return a List&lt;Group&gt; of the matching groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Group> getDescendantGroups(Object groupIdOrPath, GroupFilter filter) throws GitLabApiException {
+        return (getDescendantGroups(groupIdOrPath, filter, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of visible descendant groups of a given group for the authenticated user using the provided filter.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/descendant_groups</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param filter the GroupFilter to match against
+     * @param itemsPerPage the number of Group instances that will be fetched per page
+     * @return a Pager containing matching Group instances
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Group> getDescendantGroups(Object groupIdOrPath, GroupFilter filter, int itemsPerPage) throws GitLabApiException {
+        GitLabApiForm formData = filter.getQueryParams();
+        return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "descendant_groups"));
+    }
+
+    /**
+     * Get a Stream of visible descendant groups of a given group for the authenticated user using the provided filter.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/descendant_groups</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param filter the GroupFilter to match against
+     * @return a Stream&lt;Group&gt; of the matching groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Group> getDescendantGroupsStream(Object groupIdOrPath, GroupFilter filter) throws GitLabApiException {
+        return (getDescendantGroups(groupIdOrPath, filter, getDefaultPerPage()).stream());
     }
 
     /**
@@ -1134,6 +1187,20 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
+     * Get the list of LDAP group links.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/ldap_group_links</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a list of LDAP group links
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<LdapGroupLink> getLdapGroupLinks(Object groupIdOrPath) throws GitLabApiException {
+         Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links");
+         return (response.readEntity(new GenericType<List<LdapGroupLink>>() {}));
+    }
+
+    /**
      * Adds an LDAP group link.
      *
      * <pre><code>GitLab Endpoint: POST /groups/:id/ldap_group_links</code></pre>
@@ -1211,6 +1278,74 @@ public class GroupApi extends AbstractApi {
         }
 
         delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "ldap_group_links", provider, cn);
+    }
+
+    /**
+     * Get the list of SAML group links.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/saml_group_links</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return a list of SAML group links
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<SamlGroupLink> getSamlGroupLinks(Object groupIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "saml_group_links");
+        return (response.readEntity(new GenericType<List<SamlGroupLink>>() {}));
+    }
+
+    /**
+     * Adds an SAML group link.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/saml_group_links</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param samlGroupName the name of the SAML group
+     * @param groupAccess the minimum access level for members of the SAML group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void addSamlGroupLink(Object groupIdOrPath, String samlGroupName, AccessLevel groupAccess) throws GitLabApiException {
+
+        if (groupAccess == null) {
+            throw new RuntimeException("groupAccess cannot be null or empty");
+        }
+
+        addSamlGroupLink(groupIdOrPath, samlGroupName, groupAccess.toValue());
+    }
+
+    /**
+     * Adds an SAML group link.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/saml_group_links</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param samlGroupName the name of the SAML group
+     * @param groupAccess the minimum access level for members of the SAML group
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void addSamlGroupLink(Object groupIdOrPath, String samlGroupName, Integer groupAccess) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("saml_group_name",  samlGroupName, true)
+            .withParam("access_level", groupAccess, true);
+        post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "saml_group_links");
+    }
+
+    /**
+     * Deletes an SAML group link.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/saml_group_links/:cn</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param samlGroupName the name of the SAML group to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteSamlGroupLink(Object groupIdOrPath, String samlGroupName) throws GitLabApiException {
+
+        if (samlGroupName == null || samlGroupName.trim().isEmpty()) {
+            throw new RuntimeException("samlGroupName cannot be null or empty");
+        }
+
+        delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "saml_group_links", samlGroupName);
     }
 
     /**
@@ -1898,5 +2033,106 @@ public class GroupApi extends AbstractApi {
         }
 
         delete(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "custom_attributes", key);
+    }
+
+    /**
+     * Lists group iterations.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/iterations</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param filter the iteration filter
+     * @return the list of group iterations
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Iteration> listGroupIterations(Object groupIdOrPath, IterationFilter filter) throws GitLabApiException {
+        MultivaluedMap<String,String> queryParams = (filter == null) ? null : filter.getQueryParams().asMap();
+        Response response = get(Response.Status.OK, queryParams, "groups", getGroupIdOrPath(groupIdOrPath), "iterations");
+        return (response.readEntity(new GenericType<List<Iteration>>() { }));
+    }
+
+    /**
+     * Get a list of group access tokens.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/access_tokens</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @return the list of GroupAccessToken instances
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<GroupAccessToken> getGroupAccessTokens(Object groupIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens");
+        return (response.readEntity(new GenericType<List<GroupAccessToken>>() { }));
+    }
+
+    /**
+     * Get a group access token by ID.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/access_tokens/:token_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param tokenId ID of the group access token
+     * @return the GroupAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GroupAccessToken getGroupAccessToken(Object groupIdOrPath, Long tokenId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId);
+        return (response.readEntity(GroupAccessToken.class));
+    }
+
+    /**
+     * Create a group access token. You must have the Owner role for the group to create group access tokens.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/access_tokens</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param name the name of the group access token, required
+     * @param expiresAt the expiration date of the group access token, optional
+     * @param scopes an array of scopes of the group access token
+     * @param accessLevel Access level. Valid values are {@link AccessLevel#GUEST}, {@link AccessLevel#REPORTER}, {@link AccessLevel#DEVELOPER}, {@link AccessLevel#MAINTAINER}, and {@link AccessLevel#OWNER}.
+     * @return the created GroupAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GroupAccessToken createGroupAccessToken(Object groupIdOrPath, String name, Date expiresAt, Scope[] scopes, AccessLevel accessLevel) throws GitLabApiException {
+        if (scopes == null || scopes.length == 0) {
+            throw new RuntimeException("scopes cannot be null or empty");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("scopes", Arrays.asList(scopes))
+                .withParam("expires_at", expiresAt)
+                .withParam("access_level", accessLevel);
+
+        Response response = post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens");
+        return (response.readEntity(GroupAccessToken.class));
+    }
+
+    /**
+     * Rotate a group access token. Revokes the previous token and creates a new token that expires in one week.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/access_tokens/:token_id/rotate</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param tokenId ID of the group access token
+     * @return the updated GroupAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GroupAccessToken rotateGroupAccessToken(Object groupIdOrPath, Long tokenId) throws GitLabApiException {
+        Response response = post(Response.Status.OK, (Form)null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId, "rotate");
+        return (response.readEntity(GroupAccessToken.class));
+    }
+
+    /**
+     * Revoke a group access token.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/access_tokens/:token_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param tokenId ID of the group access token
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void revokeGroupAccessToken(Object groupIdOrPath, Long tokenId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId);
     }
 }

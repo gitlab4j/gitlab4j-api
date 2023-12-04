@@ -1,0 +1,16 @@
+{
+    "id": 81,
+    "name": "jenkins",
+    "revoked": false,
+    "created_at": "2022-10-12T08:01:02.719Z",
+    "scopes": [
+        "api",
+        "read_repository",
+        "write_repository"
+    ],
+    "user_id": 79,
+    "last_used_at": "2023-09-28T19:26:26.675Z",
+    "active": true,
+    "expires_at": "2024-06-18T00:00:00Z",
+    "access_level": 40
+}

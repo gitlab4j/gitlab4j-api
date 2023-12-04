@@ -8,6 +8,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Event {
 
+    private Long id;
     private String actionName;
     private Author author;
     private Long authorId;
@@ -23,6 +24,14 @@ public class Event {
 
     private Note note;
     private PushData pushData;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getActionName() {
         return actionName;

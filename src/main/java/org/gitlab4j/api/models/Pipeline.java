@@ -8,7 +8,10 @@ import org.gitlab4j.api.utils.JacksonJson;
 public class Pipeline {
 
     private Long id;
+    private Long iid;
+    private Long projectId;
     private PipelineStatus status;
+    private String source;
     private String ref;
     private String sha;
     private String beforeSha;
@@ -22,8 +25,10 @@ public class Pipeline {
     private Date committedAt;
     private String coverage;
     private Integer duration;
+    private Float queuedDuration;
     private String webUrl;
     private DetailedStatus detailedStatus;
+    private String name;
 
     public Long getId() {
         return id;
@@ -33,12 +38,36 @@ public class Pipeline {
         this.id = id;
     }
 
+    public Long getIid() {
+        return iid;
+    }
+
+    public void setIid(Long iid) {
+        this.iid = iid;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
     public PipelineStatus getStatus() {
         return status;
     }
 
     public void setStatus(PipelineStatus status) {
         this.status = status;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getRef() {
@@ -101,32 +130,32 @@ public class Pipeline {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updated_at) {
-        this.updatedAt = updated_at;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Date getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(Date started_at) {
-        this.startedAt = started_at;
+    public void setStartedAt(Date startedAt) {
+        this.startedAt = startedAt;
     }
 
     public Date getFinishedAt() {
         return finishedAt;
     }
 
-    public void setFinishedAt(Date finished_at) {
-        this.finishedAt = finished_at;
+    public void setFinishedAt(Date finishedAt) {
+        this.finishedAt = finishedAt;
     }
 
     public Date getCommittedAt() {
         return committedAt;
     }
 
-    public void setCommittedAt(Date committed_at) {
-        this.committedAt = committed_at;
+    public void setCommittedAt(Date committedAt) {
+        this.committedAt = committedAt;
     }
 
     /**
@@ -225,6 +254,14 @@ public class Pipeline {
         this.duration = duration;
     }
 
+    public Float getQueuedDuration() {
+        return queuedDuration;
+    }
+
+    public void setQueuedDuration(Float queuedDuration) {
+        this.queuedDuration = queuedDuration;
+    }
+
     public String getWebUrl() {
         return webUrl;
     }
@@ -239,6 +276,14 @@ public class Pipeline {
 
     public void setDetailedStatus(DetailedStatus detailedStatus) {
         this.detailedStatus = detailedStatus;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

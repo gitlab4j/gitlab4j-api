@@ -5,8 +5,10 @@ import java.util.Date;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
- * The documentation at: <a href="https://docs.gitlab.com/ee/user/project/integrations/webhooks.html#job-events">
+ * The documentation at: <a href="https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#job-events">
  * Job Events</a> is incorrect, this class represents the actual content of the Job Hook event.
  */
 public class BuildEvent extends AbstractEvent {
@@ -22,12 +24,16 @@ public class BuildEvent extends AbstractEvent {
     private String buildName;
     private String buildStage;
     private String buildStatus;
-    private Date buildStarted_at;
-    private Date buildFinished_at;
+    private Date buildStartedAt;
+    private Date buildFinishedAt;
     private Float buildDuration;
+
+    private Float buildQueuedDuration;
     private Boolean buildAllowFailure;
     private String buildFailureReason;
     private Long projectId;
+
+    private Long pipelineId;
     private String projectName;
     private User user;
     private BuildCommit commit;
@@ -107,20 +113,60 @@ public class BuildEvent extends AbstractEvent {
         this.buildStatus = buildStatus;
     }
 
+    public Date getBuildStartedAt() {
+        return buildStartedAt;
+    }
+
+    public void setBuildStartedAt(Date buildStartedAt) {
+        this.buildStartedAt = buildStartedAt;
+    }
+
+    /**
+     * @deprecated Replaced by {@link #getBuildStartedAt()}
+     * @return the buildstarted at Date
+     */
+    @Deprecated
+    @JsonIgnore
     public Date getBuildStarted_at() {
-        return buildStarted_at;
+        return buildStartedAt;
     }
 
-    public void setBuildStarted_at(Date buildStarted_at) {
-        this.buildStarted_at = buildStarted_at;
+    /**
+     * @deprecated Replaced by {@link #setBuildStartedAt(Date)}
+     * @param buildStartedAt new buildstarted at value
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setBuildStarted_at(Date buildStartedAt) {
+        this.buildStartedAt = buildStartedAt;
     }
 
+    public Date getBuildFinishedAt() {
+        return buildFinishedAt;
+    }
+
+    public void setBuildFinishedAt(Date buildFinishedAt) {
+        this.buildFinishedAt = buildFinishedAt;
+    }
+
+    /**
+     * @deprecated Replaced by {@link #getBuildFinishedAt()}
+     * @return the buildfinished at Date
+     */
+    @Deprecated
+    @JsonIgnore
     public Date getBuildFinished_at() {
-        return buildFinished_at;
+        return buildFinishedAt;
     }
 
-    public void setBuildFinished_at(Date buildFinished_at) {
-        this.buildFinished_at = buildFinished_at;
+    /**
+     * @deprecated Replaced by {@link #setBuildFinishedAt(Date)}
+     * @param buildFinishedAt new buildfinished at value
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setBuildFinished_at(Date buildFinishedAt) {
+        this.buildFinishedAt = buildFinishedAt;
     }
 
     public Float getBuildDuration() {
@@ -129,6 +175,14 @@ public class BuildEvent extends AbstractEvent {
 
     public void setBuildDuration(Float buildDuration) {
         this.buildDuration = buildDuration;
+    }
+
+    public Float getBuildQueuedDuration() {
+        return buildQueuedDuration;
+    }
+
+    public void setBuildQueuedDuration(Float buildQueuedDuration) {
+        this.buildQueuedDuration = buildQueuedDuration;
     }
 
     public Boolean getBuildAllowFailure() {
@@ -153,6 +207,14 @@ public class BuildEvent extends AbstractEvent {
 
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
+    }
+
+    public Long getPipelineId() {
+        return pipelineId;
+    }
+
+    public void setPipelineId(Long pipelineId) {
+        this.pipelineId = pipelineId;
     }
 
     public String getProjectName() {

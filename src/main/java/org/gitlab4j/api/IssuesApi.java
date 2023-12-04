@@ -16,6 +16,7 @@ import org.gitlab4j.api.models.IssueFilter;
 import org.gitlab4j.api.models.IssueLink;
 import org.gitlab4j.api.models.IssuesStatistics;
 import org.gitlab4j.api.models.IssuesStatisticsFilter;
+import org.gitlab4j.api.models.LinkType;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Participant;
 import org.gitlab4j.api.models.TimeStats;
@@ -422,17 +423,46 @@ public class IssuesApi extends AbstractApi implements Constants {
     public Issue createIssue(Object projectIdOrPath, String title, String description, Boolean confidential, List<Long> assigneeIds, Long milestoneId, String labels,
             Date createdAt, Date dueDate, Long mergeRequestToResolveId, Long discussionToResolveId) throws GitLabApiException {
 
+        return (createIssue(projectIdOrPath, title, description, confidential, assigneeIds, milestoneId, labels, createdAt, dueDate, mergeRequestToResolveId, discussionToResolveId, null));
+    }
+
+    /**
+     * Create an issue for the project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param title the issue title of an issue, required
+     * @param description the description of an issue, optional
+     * @param confidential set the issue to be confidential, default is false, optional
+     * @param assigneeIds the IDs of the users to assign issue, optional
+     * @param milestoneId the ID of a milestone to assign issue, optional
+     * @param labels comma-separated label names for an issue, optional
+     * @param createdAt the date the issue was created at, optional
+     * @param dueDate the due date, optional
+     * @param mergeRequestToResolveId the IID of a merge request in which to resolve all issues. This will fill the issue with a default
+     *        description and mark all discussions as resolved. When passing a description or title, these values will take precedence over the default values. Optional
+     * @param discussionToResolveId the ID of a discussion to resolve. This will fill in the issue with a default description and mark the discussion as resolved.
+     *        Use in combination with merge_request_to_resolve_discussions_of. Optional
+     * @param iterationTitle the iteration title of an issue, optional
+     * @return an instance of Issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Issue createIssue(Object projectIdOrPath, String title, String description, Boolean confidential, List<Long> assigneeIds, Long milestoneId, String labels,
+        Date createdAt, Date dueDate, Long mergeRequestToResolveId, Long discussionToResolveId, String iterationTitle) throws GitLabApiException {
+
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("title", title, true)
-                .withParam("description", description)
-                .withParam("confidential", confidential)
-                .withParam("assignee_ids", assigneeIds)
-                .withParam("milestone_id", milestoneId)
-                .withParam("labels", labels)
-                .withParam("created_at", createdAt)
-                .withParam("due_date", dueDate)
-                .withParam("merge_request_to_resolve_discussions_of", mergeRequestToResolveId)
-                .withParam("discussion_to_resolve", discussionToResolveId);
+            .withParam("title", title, true)
+            .withParam("description", description)
+            .withParam("confidential", confidential)
+            .withParam("assignee_ids", assigneeIds)
+            .withParam("milestone_id", milestoneId)
+            .withParam("labels", labels)
+            .withParam("created_at", createdAt)
+            .withParam("due_date", dueDate)
+            .withParam("merge_request_to_resolve_discussions_of", mergeRequestToResolveId)
+            .withParam("discussion_to_resolve", discussionToResolveId)
+            .withParam("iteration_title", iterationTitle);
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "issues");
         return (response.readEntity(Issue.class));
     }
@@ -454,6 +484,27 @@ public class IssuesApi extends AbstractApi implements Constants {
         }
 
         GitLabApiForm formData = new GitLabApiForm().withParam("state_event", StateEvent.CLOSE);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
+        return (response.readEntity(Issue.class));
+    }
+
+    /**
+     * Reopens an existing project issue.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param issueIid the issue IID to update, required
+     * @return an instance of the updated Issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Issue reopenIssue(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
+
+        if (issueIid == null) {
+            throw new RuntimeException("issue IID cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("state_event", StateEvent.REOPEN);
         Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
         return (response.readEntity(Issue.class));
     }
@@ -860,10 +911,31 @@ public class IssuesApi extends AbstractApi implements Constants {
      */
     public IssueLink createIssueLink(Object projectIdOrPath, Long issueIid,
             Object targetProjectIdOrPath, Long targetIssueIid) throws GitLabApiException {
+        return createIssueLink(projectIdOrPath, issueIid, targetProjectIdOrPath, targetIssueIid, null);
+    }
+
+    /**
+     * Creates a two-way relation between two issues. User must be allowed to update both issues in order to succeed.
+     *
+     * <p>NOTE: Only available in GitLab Starter, GitLab Bronze, and higher tiers.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/links</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param issueIid the internal ID of a project's issue
+     * @param targetProjectIdOrPath the project in the form of an Long(ID), String(path), or Project instance of the target project
+     * @param targetIssueIid the internal ID of a target project’s issue
+     * @param linkType the type of the relation (optional), defaults to {@link LinkType#RELATES_TO}.
+     * @return an instance of IssueLink holding the link relationship
+     * @throws GitLabApiException if any exception occurs
+     */
+    public IssueLink createIssueLink(Object projectIdOrPath, Long issueIid,
+            Object targetProjectIdOrPath, Long targetIssueIid, LinkType linkType) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("target_project_id", getProjectIdOrPath(targetProjectIdOrPath), true)
-                .withParam("target_issue_iid", targetIssueIid, true);
+                .withParam("target_issue_iid", targetIssueIid, true)
+                .withParam("link_type", linkType, false);
 
         Response response = post(Response.Status.OK, formData.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "links");

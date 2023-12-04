@@ -98,6 +98,7 @@ public class Note {
     private Boolean resolvable;
     private Participant resolvedBy;
     private Date resolvedAt;
+    private Boolean internal;
     private Type type;
 
     private Position position;
@@ -270,7 +271,15 @@ public class Note {
         this.position = position;
     }
 
-    @Override
+    public Boolean getInternal() {
+		return internal;
+	}
+
+	public void setInternal(Boolean internal) {
+		this.internal = internal;
+	}
+
+	@Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }

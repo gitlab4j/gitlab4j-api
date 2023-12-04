@@ -26,6 +26,7 @@ public class Commit {
     private String title;
     private String url;
     private String webUrl;
+    private Long projectId;
     private Pipeline lastPipeline;
 
     public Author getAuthor() {
@@ -170,6 +171,14 @@ public class Commit {
 
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     public Pipeline getLastPipeline() {

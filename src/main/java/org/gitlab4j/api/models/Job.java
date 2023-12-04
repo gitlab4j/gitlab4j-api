@@ -12,6 +12,7 @@ public class Job {
     private String coverage;
     private Date createdAt;
     private Date finishedAt;
+    private Date erasedAt;
     private Date artifactsExpireAt;
     private String name;
     private Pipeline pipeline;
@@ -29,6 +30,7 @@ public class Job {
     private Boolean manual;
     private Boolean allowFailure;
     private Float duration;
+    private Float queuedDuration;
     private Project project;
 
     public Long getId() {
@@ -61,6 +63,23 @@ public class Job {
 
     public void setFinishedAt(Date finishedAt) {
         this.finishedAt = finishedAt;
+    }
+
+    /**
+     * When someone deletes job using
+     * <a href="https://docs.gitlab.com/ee/api/jobs.html#erase-a-job">job erase api</a>, you can
+     * detect it using this field. Normally erasing job does mean only that job artifacts and
+     * a job logs gets removed. Job metadata (started_at, duration, ....) stays in place.
+     *
+     * You can use this attribute to filter out such jobs, that have erased at non-null if you need
+     * to.
+     */
+    public Date getErasedAt() {
+        return erasedAt;
+    }
+
+    public void setErasedAt(Date erasedAt) {
+        this.erasedAt = erasedAt;
     }
 
     public Date getArtifactsExpireAt() {
@@ -206,11 +225,18 @@ public class Job {
     public void setDuration(Float duration) {
         this.duration = duration;
     }
-    
+
+    public Float getQueuedDuration() {
+        return queuedDuration;
+    }
+
+    public void setQueuedDuration(Float queuedDuration) {
+        this.queuedDuration = queuedDuration;
+    }
+
     public Project getProject() {
         return project;
     }
-    
     public void setProject(Project project) {
         this.project = project;
     }
@@ -237,6 +263,11 @@ public class Job {
 
     public Job withFinishedAt(Date finishedAt) {
         this.finishedAt = finishedAt;
+        return this;
+    }
+
+    public Job withErasedAt(Date erasedAt) {
+        this.erasedAt = erasedAt;
         return this;
     }
 
@@ -304,12 +335,16 @@ public class Job {
         this.allowFailure = allowFailure;
         return this;
     }
-    
     public Job withDuration(Float duration) {
         this.duration = duration;
         return this;
     }
-    
+
+    public Job withQueuedDuration(Float queuedDuration) {
+        this.queuedDuration = queuedDuration;
+        return this;
+    }
+
     public Job withProject(Project project) {
         this.project = project;
         return this;

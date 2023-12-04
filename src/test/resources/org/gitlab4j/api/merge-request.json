@@ -6,6 +6,7 @@
     "project_id":3,
     "title":"test1",
     "state":"merged",
+    "detailed_merge_status": "can_be_merged",
     "upvotes":0,
     "downvotes":0,
     "created_at": "2016-12-03T17:23:34Z",
@@ -19,6 +20,14 @@
         "state": "active",
         "avatar_url": "https://www.google.com/",
         "web_url": "https://www.google.com/"
+    },
+    "merge_user": {
+        "id": 87854,
+        "name": "Douwe Maan",
+        "username": "DouweM",
+        "state": "active",
+        "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/87854/avatar.png",
+        "web_url": "https://gitlab.com/DouweM"
     },
     "merge_error": "Merge request is not mergeable",
     "author":{
@@ -65,5 +74,34 @@
     "blocking_discussions_resolved": true,
     "diverged_commits_count": 2,
     "latest_build_started_at": "2018-09-07T07:27:38.472Z",
-    "latest_build_finished_at": "2018-09-07T08:07:06.012Z"
+    "latest_build_finished_at": "2018-09-07T08:07:06.012Z",
+    "head_pipeline": {
+        "id": 1,
+        "project_id": 3,
+        "sha": "2be7ddb704c7b6b83732fdd5b9f09d5a397b5f8f",
+        "ref": "test1",
+        "status": "pending",
+        "created_at": "2018-09-07T07:27:38.472Z",
+        "updated_at": "2018-09-07T07:27:38.472Z",
+        "web_url": "https://www.google.com/",
+        "before_sha": "0000000000000000000000000000000000000000",
+        "tag": false,
+        "user": {
+            "id":1,
+            "username": "admin",
+            "state": "active",
+            "email":"admin@local.host",
+            "name":"Administrator"
+        },
+        "detailed_status": {
+            "icon": "status_pending",
+            "text": "pending",
+            "label": "pending",
+            "group": "pending",
+            "tooltip": "pending",
+            "has_details": true,
+            "details_path": "/my-group/my-project/-/pipelines/1",
+            "favicon": "https://www.google.com/"
+        }
+    }
 }

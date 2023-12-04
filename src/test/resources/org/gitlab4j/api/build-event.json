@@ -10,8 +10,10 @@
 	"build_status": "running",
 	"build_started_at": "2019-05-17T18:09:21Z",
 	"build_duration": 0.05880817,
+	"build_queued_duration": 1095.5887,
 	"build_allow_failure": false,
 	"build_failure_reason": "unknown_failure",
+	"pipeline_id": 2366,	
 	"project_id": 3115610,
 	"project_name": "GitLab4J / test-project",
 	"user": {
