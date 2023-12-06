@@ -23,11 +23,7 @@ import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.Variable;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @Tag("integration")
@@ -355,6 +351,7 @@ public class TestPipelineApi extends AbstractIntegrationTest {
     }
 
     @Test
+    @Disabled("disable till 'Move the test infrastructure to Testcontainers #925'")
     public void testGetBridges() throws GitLabApiException {
         Set<Bridge> bridges = gitLabApi.getPipelineApi().getBridgesStream(testProject, 4L, Constants.JobScope.SUCCESS).collect(Collectors.toSet());
         assertNotNull(bridges);
