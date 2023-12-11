@@ -45,6 +45,7 @@ import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.Board;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.Bridge;
 import org.gitlab4j.api.models.ChildEpic;
 import org.gitlab4j.api.models.GitLabCiTemplate;
 import org.gitlab4j.api.models.GitLabCiTemplateElement;
@@ -497,6 +498,12 @@ public class TestGitLabApiBeans {
     public void testJob() throws Exception {
         Job job = unmarshalResource(Job.class, "job.json");
         assertTrue(compareJson(job, "job.json"));
+    }
+
+    @Test
+    public void testBridge() throws Exception {
+        Bridge bridge = unmarshalResource(Bridge.class, "bridge.json");
+        assertTrue(compareJson(bridge, "bridge.json"));
     }
 
     @Test
