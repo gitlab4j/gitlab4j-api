@@ -5,6 +5,7 @@ import java.util.Date;
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.ProjectOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
 
 /**
@@ -375,5 +376,10 @@ public class ProjectFilter {
             .withParam("topic",topic)
             .withParam("topic_id",topic_id)
         );
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

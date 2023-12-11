@@ -1,5 +1,7 @@
 package org.gitlab4j.api.models;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 public class Version {
 
     private String version;
@@ -19,5 +21,10 @@ public class Version {
 
     public void setRevision(String revision) {
         this.revision = revision;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

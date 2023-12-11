@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.gitlab4j.api.Constants.GroupOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
 
 /**
@@ -151,5 +152,10 @@ public class GroupFilter {
             .withParam("min_access_level", accessLevel)
             .withParam("top_level_only", topLevelOnly)
         );
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

@@ -1,5 +1,7 @@
 package org.gitlab4j.api.models;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 public class DiffRef {
     private String baseSha;
     private String headSha;
@@ -30,5 +32,10 @@ public class DiffRef {
 
     public void setStartSha(final String startSha) {
         this.startSha = startSha;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
