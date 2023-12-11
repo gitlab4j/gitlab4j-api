@@ -5,6 +5,7 @@ import java.util.Date;
 import org.gitlab4j.api.Constants.PipelineOrderBy;
 import org.gitlab4j.api.Constants.PipelineScope;
 import org.gitlab4j.api.Constants.SortOrder;
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -165,5 +166,10 @@ public class PipelineFilter {
                 .withParam("updated_before", updatedBefore)
                 .withParam("order_by", orderBy)
                 .withParam("sort", sort));
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
