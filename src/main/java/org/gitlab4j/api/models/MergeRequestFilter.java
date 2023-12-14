@@ -14,6 +14,7 @@ import org.gitlab4j.api.Constants.MergeRequestScope;
 import org.gitlab4j.api.Constants.MergeRequestSearchIn;
 import org.gitlab4j.api.Constants.MergeRequestState;
 import org.gitlab4j.api.Constants.SortOrder;
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
@@ -514,7 +515,7 @@ public class MergeRequestFilter {
         }
         return params;
     }
-
+  
     private Map<String, Object> toStringMap(Map<MergeRequestField, Object> map) {
         if(map == null) {
             return null;
@@ -524,5 +525,10 @@ public class MergeRequestFilter {
             result.put(entry.getKey().toString(), entry.getValue());
         }
         return result;
+    }
+  
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
