@@ -4,7 +4,9 @@ import static org.gitlab4j.api.Constants.MergeRequestScope.ALL;
 import static org.gitlab4j.api.Constants.MergeRequestScope.ASSIGNED_TO_ME;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.MergeRequestOrderBy;
@@ -13,8 +15,11 @@ import org.gitlab4j.api.Constants.MergeRequestSearchIn;
 import org.gitlab4j.api.Constants.MergeRequestState;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * This class is used to filter merge requests when getting lists of them.
@@ -47,6 +52,28 @@ public class MergeRequestFilter {
     private String search;
     private MergeRequestSearchIn in;
     private Boolean wip;
+    private Map<MergeRequestField, Object> not;
+
+    public enum MergeRequestField {
+        LABELS, MILESTONE, AUTHOR_ID, AUTHOR_USERNAME, ASSIGNEE_ID, ASSIGNEE_USERNAME, REVIEWER_ID, REVIEWER_USERNAME, MY_REACTION_EMOJI;
+
+        private static JacksonJsonEnumHelper<MergeRequestField> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestField.class);
+
+        @JsonCreator
+        public static MergeRequestField forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 
     public Long getProjectId() {
         return projectId;
@@ -334,6 +361,123 @@ public class MergeRequestFilter {
         return (this);
     }
 
+    /**
+     * Add 'not' filter.
+     *
+     * @param not the 'not' filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withNot(Map<MergeRequestField, Object> not) {
+        this.not = not;
+        return (this);
+    }
+
+    /**
+     * Add 'not' filter entry.
+     *
+     * @param field the field to be added to the 'not' value
+     * @param value the value for the entry
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withNot(MergeRequestField field, Object value) {
+        if(not == null) {
+            not = new LinkedHashMap<>();
+        }
+        not.put(field, value);
+        return (this);
+    }
+
+    /**
+     * Add author_id to the 'not' filter entry.
+     *
+     * @param authorId the id of the author to add to the filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withoutAuthorId(Long authorId) {
+        return withNot(MergeRequestField.AUTHOR_ID, authorId);
+    }
+
+    /**
+     * Add author_username to the 'not' filter entry.
+     *
+     * @param authorUsername the username of the author to add to the filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withoutAuthorUsername(String authorUsername) {
+        return withNot(MergeRequestField.AUTHOR_USERNAME, authorUsername);
+    }
+
+    /**
+     * Add assignee_id to the 'not' filter entry.
+     *
+     * @param assigneeId the id of the assignee to add to the filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withoutAssigneeId(Long assigneeId) {
+        return withNot(MergeRequestField.ASSIGNEE_ID, assigneeId);
+    }
+
+    /**
+     * Add assignee_username to the 'not' filter entry.
+     *
+     * @param assigneeUsername the username of the assignee to add to the filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withoutAssigneeUsername(String assigneeUsername) {
+        return withNot(MergeRequestField.ASSIGNEE_USERNAME, assigneeUsername);
+    }
+
+    /**
+     * Add reviewer_id to the 'not' filter entry.
+     *
+     * @param reviewerId the id of the reviewer to add to the filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withoutReviewerId(Long reviewerId) {
+        return withNot(MergeRequestField.REVIEWER_ID, reviewerId);
+    }
+
+    /**
+     * Add reviewer_username to the 'not' filter entry.
+     *
+     * @param reviewerUsername the username of the reviewer to add to the filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withoutReviewerUsername(String reviewerUsername) {
+        return withNot(MergeRequestField.REVIEWER_USERNAME, reviewerUsername);
+    }
+
+
+    /**
+     * Add my_reaction_emoji to the 'not' filter entry.
+     *
+     * @param myReactionEmoji the name of the reactionEmoji to add to the filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withoutMyReactionEmoji(String myReactionEmoji) {
+        return withNot(MergeRequestField.MY_REACTION_EMOJI, myReactionEmoji);
+    }
+
+    /**
+     * Add milestone to the 'not' filter entry.
+     *
+     * @param milestone the name of the milestone to add to the filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withoutMilestone(String milestone) {
+        return withNot(MergeRequestField.MILESTONE, milestone);
+    }
+
+    /**
+     * Add labels to the 'not' filter entry.
+     *
+     * @param labels the labels to add to the filter
+     * @return the reference to this MergeRequestFilter instance
+     */
+    public MergeRequestFilter withoutLabels(String... labels) {
+        return withNot(MergeRequestField.LABELS, String.join(",", labels));
+    }
+
     @JsonIgnore
     public GitLabApiForm getQueryParams(int page, int perPage) {
         return (getQueryParams()
@@ -362,11 +506,23 @@ public class MergeRequestFilter {
                 .withParam("target_branch", targetBranch)
                 .withParam("search", search)
                 .withParam("in", in)
-                .withParam("wip", (wip == null ? null : wip ? "yes" : "no"));
+                .withParam("wip", (wip == null ? null : wip ? "yes" : "no"))
+                .withParam("not", toStringMap(not), false);
 
         if (authorId != null && (scope == ALL || scope == ASSIGNED_TO_ME)) {
             params.withParam("author_id", authorId);
         }
         return params;
+    }
+
+    private Map<String, Object> toStringMap(Map<MergeRequestField, Object> map) {
+        if(map == null) {
+            return null;
+        }
+        Map<String, Object> result = new LinkedHashMap<>();
+        for (Map.Entry<MergeRequestField, Object> entry : map.entrySet()) {
+            result.put(entry.getKey().toString(), entry.getValue());
+        }
+        return result;
     }
 }
