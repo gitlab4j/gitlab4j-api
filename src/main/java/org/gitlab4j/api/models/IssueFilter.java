@@ -460,8 +460,8 @@ public class IssueFilter {
      * @param milestoneId the id of the milestone to add to the filter
      * @return the reference to this IssueFilter instance
      */
-    public IssueFilter withoutMilestoneId(Long iterationId) {
-        return withNot(IssueField.MILESTONE_ID, iterationId);
+    public IssueFilter withoutMilestoneId(Long milestoneId) {
+        return withNot(IssueField.MILESTONE_ID, milestoneId);
     }
 
     /**
@@ -470,8 +470,8 @@ public class IssueFilter {
      * @param milestone the title of the milestone to add to the filter
      * @return the reference to this IssueFilter instance
      */
-    public IssueFilter withoutMilestone(String iterationTitle) {
-        return withNot(IssueField.MILESTONE, iterationTitle);
+    public IssueFilter withoutMilestone(String milestone) {
+        return withNot(IssueField.MILESTONE, milestone);
     }
 
     /*- params generator -*/
