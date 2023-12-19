@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -39,6 +40,7 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.Boundary;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
@@ -212,6 +214,22 @@ public class GitLabApiClient implements AutoCloseable {
      * @param clientConfigProperties the properties given to Jersey's clientconfig
      */
     public GitLabApiClient(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties) {
+        this(apiVersion, hostUrl, tokenType, authToken, secretToken, clientConfigProperties, false);
+    }
+
+    /**
+     * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
+     * server URL and private token.
+     *
+     * @param apiVersion the ApiVersion specifying which version of the API to use
+     * @param hostUrl the URL to the GitLab API server
+     * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
+     * @param authToken the private token to authenticate with
+     * @param secretToken use this token to validate received payloads
+     * @param clientConfigProperties the properties given to Jersey's clientconfig
+     * @param debugging log http requests and responses
+     */
+    public GitLabApiClient(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties, boolean debugging) {
 
         // Remove the trailing "/" from the hostUrl if present
         this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl);
@@ -238,6 +256,11 @@ public class GitLabApiClient implements AutoCloseable {
             for (Map.Entry<String, Object> propertyEntry : clientConfigProperties.entrySet()) {
                 clientConfig.property(propertyEntry.getKey(), propertyEntry.getValue());
             }
+        }
+
+        if (debugging) {
+            clientConfig.register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), java.util.logging.Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 1024 * 50 /* Log payloads up to 50K */));
+            clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY, LoggingFeature.Verbosity.PAYLOAD_ANY);
         }
 
         // Disable auto-discovery of feature and services lookup, this will force Jersey
