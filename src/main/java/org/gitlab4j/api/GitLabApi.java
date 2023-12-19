@@ -430,6 +430,20 @@ public class GitLabApi implements AutoCloseable {
          this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, personalAccessToken, null, clientConfigProperties);
      }
 
+     /**
+      *  Constructs a GitLabApi instance set up to interact with the GitLab server specified by GitLab API version.
+      *
+      * @param apiVersion the ApiVersion specifying which version of the API to use
+      * @param hostUrl the URL of the GitLab server
+      * @param tokenType the type of auth the token is for, PRIVATE or ACCESS
+      * @param authToken to token to use for access to the API
+      * @param secretToken use this token to validate received payloads
+      * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+      */
+     public GitLabApi(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties) {
+         this(apiVersion, hostUrl, tokenType, authToken, secretToken, clientConfigProperties, false);
+     }
+
     /**
      *  Constructs a GitLabApi instance set up to interact with the GitLab server specified by GitLab API version.
      *
@@ -439,12 +453,13 @@ public class GitLabApi implements AutoCloseable {
      * @param authToken to token to use for access to the API
      * @param secretToken use this token to validate received payloads
      * @param clientConfigProperties Map instance with additional properties for the Jersey client connection
+     * @param debugging log http requests and responses
      */
-    public GitLabApi(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties) {
+    public GitLabApi(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties, boolean debugging) {
         this.apiVersion = apiVersion;
         this.gitLabServerUrl = hostUrl;
         this.clientConfigProperties = clientConfigProperties;
-        apiClient = new GitLabApiClient(apiVersion, hostUrl, tokenType, authToken, secretToken, clientConfigProperties);
+        apiClient = new GitLabApiClient(apiVersion, hostUrl, tokenType, authToken, secretToken, clientConfigProperties, debugging);
     }
 
     /**
