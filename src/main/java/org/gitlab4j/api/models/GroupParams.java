@@ -32,7 +32,9 @@ public class GroupParams {
     public enum DefaultBranchProtectionLevel {
         NOT_PROTECTED(0),
         PARTIALLY_PROTECTED(1),
-        FULLY_PROTECTED(2);
+        FULLY_PROTECTED(2),
+        PROTECTED_AGAINST_PUSHES(3),
+        FULL_PROTECTION_AFTER_INITIAL_PUSH(4);
 
         private final int value;
 
@@ -62,6 +64,9 @@ public class GroupParams {
     private Integer sharedRunnersMinutesLimit;
     private Integer extraSharedRunnersMinutesLimit;
     private DefaultBranchProtectionLevel defaultBranchProtection;
+
+    private Boolean preventSharingGroupsOutsideHierarchy;
+    private Boolean preventForkingOutsideGroup;
 
     private Boolean membershipLock;
     private Long fileTemplateProjectId;
@@ -179,6 +184,16 @@ public class GroupParams {
     return (this);
     }
 
+    public GroupParams withPreventSharingGroupsOutsideHierarchy(Boolean preventSharingGroupsOutsideHierarchy) {
+        this.preventSharingGroupsOutsideHierarchy = preventSharingGroupsOutsideHierarchy;
+        return (this);
+    }
+
+    public GroupParams withPreventForkingOutsideGroup(Boolean preventForkingOutsideGroup) {
+        this.preventForkingOutsideGroup = preventForkingOutsideGroup;
+        return (this);
+    }
+
     /**
      * Get the form params for a group create oir update call.
      *
@@ -204,7 +219,9 @@ public class GroupParams {
             .withParam("request_access_enabled", requestAccessEnabled)
             .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit)
             .withParam("extra_shared_runners_minutes_limit", extraSharedRunnersMinutesLimit)
-            .withParam("default_branch_protection", defaultBranchProtection);
+            .withParam("default_branch_protection", defaultBranchProtection)
+            .withParam("prevent_sharing_groups_outside_hierarchy", preventSharingGroupsOutsideHierarchy)
+            .withParam("prevent_forking_outside_group", preventForkingOutsideGroup);
 
         if (isCreate) {
             form.withParam("parent_id", parentId);
