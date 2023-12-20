@@ -36,8 +36,8 @@ public class ProjectFetches implements Serializable {
         }
     }
 
-    public static class Fetches {
-
+    public static class Fetches implements Serializable {
+        private static final long serialVersionUID = 4630780820005787008L;
         private Integer total;
         private List<DateCount> days;
 
