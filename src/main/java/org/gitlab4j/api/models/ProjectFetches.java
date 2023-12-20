@@ -1,16 +1,19 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.gitlab4j.api.utils.JacksonJson;
+public class ProjectFetches implements Serializable {
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+    private static final long serialVersionUID = -4872633634599186529L;
 
-public class ProjectFetches {
+    public static class DateCount implements Serializable {
 
-    public static class DateCount {
-
+        private static final long serialVersionUID = 4630780820005787004L;
         private Integer count;
 
         @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)

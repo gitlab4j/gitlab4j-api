@@ -1,6 +1,9 @@
 package org.gitlab4j.api.models;
 
-public class CustomAttribute {
+import java.io.Serializable;
+
+public class CustomAttribute implements Serializable {
+    private static final long serialVersionUID = -4021719541521426021L;
     private String key;
     private String value;
 

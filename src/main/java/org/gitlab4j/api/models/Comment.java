@@ -1,12 +1,13 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.Constants.LineType;
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Comment {
+import java.io.Serializable;
+import java.util.Date;
 
+public class Comment implements Serializable {
+    private static final long serialVersionUID = 1917643760458643525L;
     private Author author;
     private Date createdAt;
     private LineType lineType;

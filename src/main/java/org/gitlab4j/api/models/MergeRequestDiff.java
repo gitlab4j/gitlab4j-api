@@ -6,6 +6,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class MergeRequestDiff extends MergeRequestVersion {
 
+    private static final long serialVersionUID = 2764379071350671007L;
     private List<Commit> commits;
     private List<Diff> diffs;
 

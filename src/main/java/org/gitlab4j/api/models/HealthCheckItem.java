@@ -1,10 +1,12 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class HealthCheckItem {
+public class HealthCheckItem implements Serializable {
+    private static final long serialVersionUID = -9119476968963832367L;
     private HealthCheckStatus status;
     private Map<String, String> labels;
     private String message;

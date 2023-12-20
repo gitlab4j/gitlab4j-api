@@ -1,11 +1,13 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class PushRules {
+import java.io.Serializable;
+import java.util.Date;
 
+public class PushRules implements Serializable {
+
+    private static final long serialVersionUID = 2847496850414192432L;
     private Long id;
     private Long projectId;
     private String commitMessageRegex;

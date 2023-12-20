@@ -2,8 +2,11 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Topic {
+import java.io.Serializable;
 
+public class Topic implements Serializable {
+
+    private static final long serialVersionUID = -5509038784155015404L;
     private Integer id;
 
     private String name;

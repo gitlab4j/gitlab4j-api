@@ -2,10 +2,11 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ApprovalRule {
-
+public class ApprovalRule implements Serializable {
+    private static final long serialVersionUID = -5607473655312877909L;
     private Long id;
     private String name;
     private String ruleType;

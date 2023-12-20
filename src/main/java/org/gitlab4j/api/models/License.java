@@ -1,12 +1,14 @@
 package org.gitlab4j.api.models;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-import org.gitlab4j.api.utils.JacksonJson;
+public class License implements Serializable {
 
-public class License {
-
+    private static final long serialVersionUID = 8305426745567602018L;
     private Long id;
     private String plan;
     private Date createdAt;

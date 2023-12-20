@@ -1,17 +1,19 @@
 package org.gitlab4j.api.models;
 
-import java.util.List;
-
 import org.gitlab4j.api.Constants.ArchiveFormat;
 import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This class is part of the Release class model.
  */
-public class Assets {
+public class Assets implements Serializable {
+    private static final long serialVersionUID = 2384144246830837990L;
 
-    public static class Source {
-
+    public static class Source implements Serializable {
+        private static final long serialVersionUID = 3024534253186638188L;
         private ArchiveFormat format;
         private String url;
 
@@ -37,8 +39,8 @@ public class Assets {
         }
     }
 
-    public static class Link {
-
+    public static class Link implements Serializable {
+        private static final long serialVersionUID = -2722442615226967526L;
         private Long id;
         private String name;
         private String url;

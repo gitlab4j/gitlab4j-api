@@ -1,16 +1,16 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Date;
+import java.util.List;
 
 public class RunnerDetail extends Runner {
 
+    private static final long serialVersionUID = 7887700856425080720L;
     private String architecture;
     private String platform;
     private Date contactedAt;

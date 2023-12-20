@@ -1,12 +1,14 @@
 
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class ProtectedBranch {
+public class ProtectedBranch implements Serializable {
 
+    private static final long serialVersionUID = -3008917375248933687L;
     private Long id;
     private String name;
     private List<BranchAccessLevel> pushAccessLevels;

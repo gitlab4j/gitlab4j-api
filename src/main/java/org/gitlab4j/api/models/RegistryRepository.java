@@ -2,10 +2,12 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class RegistryRepository {
+public class RegistryRepository implements Serializable {
 
+    private static final long serialVersionUID = 6871803501873513792L;
     private Long id;
     private String name;
     private String path;

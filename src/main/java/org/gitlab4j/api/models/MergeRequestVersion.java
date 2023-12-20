@@ -1,11 +1,13 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class MergeRequestVersion {
+public class MergeRequestVersion implements Serializable {
 
+    private static final long serialVersionUID = 445636473281738033L;
     private Long id;
     private String headCommitSha;
     private String baseCommitSha;

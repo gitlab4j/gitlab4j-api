@@ -1,16 +1,17 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.gitlab4j.api.utils.JacksonJson;
+public class Release implements Serializable {
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class Release {
-
+    private static final long serialVersionUID = 1041533230334303476L;
     private String name;
     private String tagName;
     private String description;

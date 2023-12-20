@@ -1,12 +1,15 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
 
-public class NotificationSettings {
+public class NotificationSettings implements Serializable {
+
+    private static final long serialVersionUID = -3034906823726990473L;
 
     /** Notification level */
     public static enum Level {
@@ -31,8 +34,8 @@ public class NotificationSettings {
         }
     }
 
-    public static class Events {
-
+    public static class Events implements Serializable {
+        private static final long serialVersionUID = -7779451561897706339L;
         private Boolean newNote;
         private Boolean newIssue;
         private Boolean reopenIssue;

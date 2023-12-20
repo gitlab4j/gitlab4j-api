@@ -2,12 +2,16 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.GitLabApiForm;
 
+import java.io.Serializable;
+
 /**
  * This class is utilized by the {@link org.gitlab4j.api.GroupApi#createGroup(GroupParams)}
  * and {@link org.gitlab4j.api.GroupApi#updateGroup(Object, GroupParams)} methods to set
  * the parameters for the call to the GitLab API.
  */
-public class GroupParams {
+public class GroupParams implements Serializable {
+
+    private static final long serialVersionUID = 4980649800188221721L;
 
     /**
      * Constant to specify the project_creation_level for the group.

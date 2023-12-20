@@ -7,6 +7,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 public class Issue extends AbstractIssue {
 
+    private static final long serialVersionUID = 4408821491529505218L;
     private Boolean subscribed;
 
     private Long issueLinkId;

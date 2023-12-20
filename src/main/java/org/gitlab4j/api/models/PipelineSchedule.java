@@ -1,12 +1,14 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class PipelineSchedule {
+public class PipelineSchedule implements Serializable {
 
+    private static final long serialVersionUID = -4141121642006352696L;
     private Long id;
     private String description;
     private String ref;

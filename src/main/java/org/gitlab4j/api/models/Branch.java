@@ -3,8 +3,10 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Branch {
+import java.io.Serializable;
 
+public class Branch implements Serializable {
+    private static final long serialVersionUID = -8581563271712199201L;
     private Commit commit;
     private Boolean developersCanMerge;
     private Boolean developersCanPush;

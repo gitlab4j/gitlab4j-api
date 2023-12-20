@@ -2,8 +2,11 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class GpgSignature {
+import java.io.Serializable;
 
+public class GpgSignature implements Serializable {
+
+    private static final long serialVersionUID = -2146684278503477421L;
     private Long gpgKeyId;
     private String gpgKeyPrimaryKeyid;
     private String gpgKeyUserName;

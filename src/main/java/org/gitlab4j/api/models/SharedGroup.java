@@ -1,13 +1,14 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.io.Serializable;
+import java.util.Date;
 
-public class SharedGroup {
+public class SharedGroup implements Serializable {
 
+    private static final long serialVersionUID = 9147215839960756743L;
     private Long groupId;
     private String groupName;
     private String groupFullPath;

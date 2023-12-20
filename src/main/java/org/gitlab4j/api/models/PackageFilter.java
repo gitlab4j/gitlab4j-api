@@ -1,15 +1,18 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.Constants.PackageStatus;
 import org.gitlab4j.api.Constants.PackageOrderBy;
+import org.gitlab4j.api.Constants.PackageStatus;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
+
+import java.io.Serializable;
 
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified group.
  */
-public class PackageFilter {
+public class PackageFilter implements Serializable {
 
+    private static final long serialVersionUID = 7975549027581667807L;
     private Boolean excludeSubgroups;
     private PackageOrderBy orderBy;
     private SortOrder sort;

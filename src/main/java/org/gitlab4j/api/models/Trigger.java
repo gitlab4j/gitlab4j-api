@@ -1,9 +1,11 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Trigger {
+public class Trigger implements Serializable {
 
+    private static final long serialVersionUID = -5834519760065786408L;
     private Long id;
     private String description;
     private Date createdAt;

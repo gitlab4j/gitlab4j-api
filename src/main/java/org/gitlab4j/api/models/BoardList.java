@@ -2,8 +2,10 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class BoardList {
+import java.io.Serializable;
 
+public class BoardList implements Serializable {
+    private static final long serialVersionUID = 1576257929374124267L;
     private Long id;
     private Label label;
     private Integer position;

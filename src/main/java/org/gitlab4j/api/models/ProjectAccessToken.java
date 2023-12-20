@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class ProjectAccessToken {
+public class ProjectAccessToken implements Serializable {
+    private static final long serialVersionUID = -6898996649279891825L;
     private Long userId;
     private List<Constants.ProjectAccessTokenScope> scopes;
     private String name;

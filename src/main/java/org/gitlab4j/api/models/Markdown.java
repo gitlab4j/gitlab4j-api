@@ -2,8 +2,11 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Markdown {
+import java.io.Serializable;
 
+public class Markdown implements Serializable {
+
+    private static final long serialVersionUID = -5109074296844612091L;
     private String html;
 
     public String getHtml() {

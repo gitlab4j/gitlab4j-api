@@ -2,9 +2,11 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Bridge {
+public class Bridge implements Serializable {
+    private static final long serialVersionUID = 2971883600795290448L;
     private Commit commit;
     private boolean allowFailure;
     private Date createdAt;

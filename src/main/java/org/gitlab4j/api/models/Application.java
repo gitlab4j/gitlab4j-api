@@ -1,7 +1,9 @@
 package org.gitlab4j.api.models;
 
-public class Application {
+import java.io.Serializable;
 
+public class Application implements Serializable {
+    private static final long serialVersionUID = -3074887863851381131L;
     private Long id;
     private String applicationId;
     private String applicationName;

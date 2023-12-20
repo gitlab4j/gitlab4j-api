@@ -1,15 +1,16 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.gitlab4j.api.utils.JacksonJson;
+public class MergeRequest implements Serializable {
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-public class MergeRequest {
-
+    private static final long serialVersionUID = -8455782486451129179L;
     private Boolean allowCollaboration;
     private Boolean allowMaintainerToPush;
     private Integer approvalsBeforeMerge;

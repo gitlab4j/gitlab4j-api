@@ -1,12 +1,14 @@
 package org.gitlab4j.api.models;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.gitlab4j.api.utils.JacksonJson;
+public class Job implements Serializable {
 
-public class Job {
-
+    private static final long serialVersionUID = 3324086159440132520L;
     private Long id;
     private Commit commit;
     private String coverage;

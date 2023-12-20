@@ -2,8 +2,11 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class ProjectAccess {
+import java.io.Serializable;
 
+public class ProjectAccess implements Serializable {
+
+    private static final long serialVersionUID = 2586454914563312773L;
     private AccessLevel accessLevel;
     private int notificationLevel;
 

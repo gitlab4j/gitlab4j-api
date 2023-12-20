@@ -2,8 +2,10 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class GitLabCiTemplateElement {
+import java.io.Serializable;
 
+public class GitLabCiTemplateElement implements Serializable {
+    private static final long serialVersionUID = 5775478350942742711L;
     private String key;
     private String name;
 

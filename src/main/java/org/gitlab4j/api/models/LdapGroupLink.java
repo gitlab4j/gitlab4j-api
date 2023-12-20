@@ -3,8 +3,11 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class LdapGroupLink {
+import java.io.Serializable;
 
+public class LdapGroupLink implements Serializable {
+
+    private static final long serialVersionUID = -6725494282901246090L;
     private String cn;
 
     private AccessLevel groupAccess;

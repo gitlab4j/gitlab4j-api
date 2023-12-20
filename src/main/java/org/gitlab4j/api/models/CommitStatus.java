@@ -1,12 +1,13 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class CommitStatus {
+import java.io.Serializable;
+import java.util.Date;
 
+public class CommitStatus implements Serializable {
+    private static final long serialVersionUID = -4986890666487972709L;
     private Boolean allowFailure;
     private Author author;
     private Float coverage;

@@ -3,11 +3,12 @@ package org.gitlab4j.api.models;
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class DeployToken {
-
+public class DeployToken implements Serializable {
+    private static final long serialVersionUID = -2137975534650973309L;
     private Long id;
     private String name;
     private String username;

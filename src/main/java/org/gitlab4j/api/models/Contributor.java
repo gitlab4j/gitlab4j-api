@@ -4,8 +4,8 @@ package org.gitlab4j.api.models;
  * This class models the object for a repository contributor.
  * See <a href="https://docs.gitlab.com/ee/api/repositories.html#contributors">Contributors at GitLab</a>.
  */
-public class Contributor extends AbstractUser<Contributor> {
-
+public class Contributor extends AbstractUser<Contributor>{
+    private static final long serialVersionUID = -4198040423122732070L;
     private Integer commits;
     private Integer additions;
     private Integer deletions;

@@ -1,12 +1,14 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
 
-public class Artifact {
+public class Artifact implements Serializable {
+    private static final long serialVersionUID = 4700314154831526606L;
 
     public enum FileType {
         ARCHIVE, METADATA, TRACE, JUNIT;

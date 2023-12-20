@@ -1,12 +1,13 @@
 package org.gitlab4j.api.models;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
-public class CommitPayload {
-
+public class CommitPayload implements Serializable {
+    private static final long serialVersionUID = -909264239788934196L;
     private String branch;
     private String commitMessage;
     private String startBranch;
