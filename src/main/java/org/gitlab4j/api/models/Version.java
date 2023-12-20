@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class Version implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 7123100394598007342L;
     private String version;
     private String revision;
 

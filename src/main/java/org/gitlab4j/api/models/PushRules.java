@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class PushRules implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 2847496850414192432L;
     private Long id;
     private Long projectId;
     private String commitMessageRegex;

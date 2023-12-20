@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.util.Date;
 
 public class RelatedEpic extends AbstractEpic<RelatedEpic> {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 4735222753619924221L;
     private Boolean startDateIsFixed;
     private Boolean dueDateIsFixed;
     private Date dueDateFromInheritedSource;

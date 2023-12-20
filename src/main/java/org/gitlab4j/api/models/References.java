@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 
 public class References implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -4751755085772406441L;
     @JsonProperty("short")
     private String _short;
     private String relative;

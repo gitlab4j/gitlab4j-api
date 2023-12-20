@@ -5,11 +5,11 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class WikiAttachment implements Serializable {
-
-    private static final long serialVersionUID = -7916180068718971133L;
+    private static final long serialVersionUID = 1L;
 
     public static class Link implements Serializable {
-        private static final long serialVersionUID = -5037434183307088155L;
+        private static final long serialVersionUID = 1L;
+
         private String url;
         private String markdown;
 

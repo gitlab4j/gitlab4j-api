@@ -8,12 +8,12 @@ import java.util.Date;
 import java.util.List;
 
 public class ProjectFetches implements Serializable {
-
-    private static final long serialVersionUID = -4872633634599186529L;
+    private static final long serialVersionUID = 1L;
 
     public static class DateCount implements Serializable {
 
-        private static final long serialVersionUID = 4630780820005787004L;
+        private static final long serialVersionUID = 1L;
+
         private Integer count;
 
         @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
@@ -37,7 +37,8 @@ public class ProjectFetches implements Serializable {
     }
 
     public static class Fetches implements Serializable {
-        private static final long serialVersionUID = 4630780820005787008L;
+        private static final long serialVersionUID = 1L;
+
         private Integer total;
         private List<DateCount> days;
 

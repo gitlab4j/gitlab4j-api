@@ -6,7 +6,8 @@ import java.util.Date;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class RelatedEpicLink implements Serializable {
-    private static final long serialVersionUID = -5031693941135471316L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private EpicInLink sourceEpic;
     private EpicInLink targetEpic;

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ImpersonationToken implements Serializable {
-    private static final long serialVersionUID = -5437477855918094475L;
+    private static final long serialVersionUID = 1L;
 
     /** Enum to specify the scope of an ImpersonationToken. */
     public enum Scope {

@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Variable implements Serializable {
-
-    private static final long serialVersionUID = 5873211613037430191L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Enum for the various Commit build status values.

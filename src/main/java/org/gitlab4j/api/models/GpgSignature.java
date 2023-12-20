@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class GpgSignature implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -2146684278503477421L;
     private Long gpgKeyId;
     private String gpgKeyPrimaryKeyid;
     private String gpgKeyUserName;

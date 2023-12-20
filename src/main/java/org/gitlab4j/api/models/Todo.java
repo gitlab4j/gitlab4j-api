@@ -18,8 +18,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Todo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -1612489661279498902L;
     private Long id;
     private Project project;
     private Author author;

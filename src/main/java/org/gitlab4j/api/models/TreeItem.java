@@ -5,8 +5,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class TreeItem implements Serializable {
-
-    private static final long serialVersionUID = -6095523498844753989L;
+    private static final long serialVersionUID = 1L;
 
     public enum Type {
         TREE, BLOB, COMMIT;

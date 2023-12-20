@@ -6,7 +6,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class EpicIssueLink implements Serializable {
-    private static final long serialVersionUID = 8283764367558203361L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Integer relativePosition;
     private Epic epic;

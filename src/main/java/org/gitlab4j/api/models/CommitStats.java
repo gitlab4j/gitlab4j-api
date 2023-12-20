@@ -5,7 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class CommitStats implements Serializable {
-    private static final long serialVersionUID = -5607632904521556869L;
+    private static final long serialVersionUID = 1L;
+
     private Integer additions;
     private Integer deletions;
     private Integer total;

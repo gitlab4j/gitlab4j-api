@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class Tag implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -1006308726664414044L;
     private Commit commit;
     private String message;
     private String name;

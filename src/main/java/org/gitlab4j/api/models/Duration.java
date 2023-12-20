@@ -10,7 +10,8 @@ import java.io.Serializable;
  * This class represents a duration in time.
  */
 public class Duration implements Serializable {
-    private static final long serialVersionUID = 5088839932537037135L;
+    private static final long serialVersionUID = 1L;
+
     private int seconds;
     private String durationString;
 

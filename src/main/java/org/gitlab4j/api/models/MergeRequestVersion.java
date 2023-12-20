@@ -6,8 +6,8 @@ import java.util.Date;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class MergeRequestVersion implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 445636473281738033L;
     private Long id;
     private String headCommitSha;
     private String baseCommitSha;

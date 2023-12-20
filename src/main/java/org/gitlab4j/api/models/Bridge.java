@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Bridge implements Serializable {
-    private static final long serialVersionUID = 2971883600795290448L;
+    private static final long serialVersionUID = 1L;
+
     private Commit commit;
     private boolean allowFailure;
     private Date createdAt;

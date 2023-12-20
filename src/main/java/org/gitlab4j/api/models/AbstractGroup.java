@@ -8,7 +8,8 @@ import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractGroup<G extends AbstractGroup<G>> implements Serializable {
-    private static final long serialVersionUID = 2616198272324179140L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String name;
     private String avatarUrl;

@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SshKey implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -2559632392834817632L;
     private Long id;
     private String title;
     private String key;

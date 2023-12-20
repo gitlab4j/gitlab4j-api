@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class Namespace implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -393233581749936360L;
     private Long id;
     private String name;
     private String path;

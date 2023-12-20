@@ -3,7 +3,8 @@ package org.gitlab4j.api.models;
 import java.io.Serializable;
 
 public class Email implements Serializable {
-    private static final long serialVersionUID = -7852698606973146239L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String email;
 

@@ -9,7 +9,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
 public class ExternalStatusCheckStatus implements Serializable {
-    private static final long serialVersionUID = -4975275665782772237L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String name;
     private String externalUrl;

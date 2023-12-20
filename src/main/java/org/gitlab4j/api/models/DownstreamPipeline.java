@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class DownstreamPipeline implements Serializable {
-    private static final long serialVersionUID = 6808739921188206517L;
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String sha;
     private String ref;

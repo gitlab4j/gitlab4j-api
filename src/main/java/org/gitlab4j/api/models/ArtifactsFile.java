@@ -5,7 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class ArtifactsFile implements Serializable {
-    private static final long serialVersionUID = -6852156410785558385L;
+    private static final long serialVersionUID = 1L;
+
     private String filename;
     private Long size;
 

@@ -6,7 +6,8 @@ import java.util.List;
 import org.gitlab4j.api.GitLabApiForm;
 
 public class ApprovalRuleParams implements Serializable {
-    private static final long serialVersionUID = -1656517377374411043L;
+    private static final long serialVersionUID = 1L;
+
     private Integer approvalsRequired;
     private String name;
     private Boolean appliesToAllProtectedBranches;

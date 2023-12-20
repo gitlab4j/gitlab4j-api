@@ -8,7 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Deployable implements Serializable {
-    private static final long serialVersionUID = -2615572922445533790L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private DeploymentStatus status;
     private String stage;

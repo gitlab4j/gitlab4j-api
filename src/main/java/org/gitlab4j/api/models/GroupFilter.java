@@ -12,8 +12,8 @@ import java.util.List;
  *  This class is used to filter Groups when getting lists of groups.
  */
 public class GroupFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -6089683763762350454L;
     private List<Integer> skipGroups;
     private Boolean allAvailable;
     private String search;

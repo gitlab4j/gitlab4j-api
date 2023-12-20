@@ -5,7 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class AbstractMinimalEpic<E extends AbstractMinimalEpic<E>> implements Serializable {
-    private static final long serialVersionUID = -1988058935141973607L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Long iid;
     private Long groupId;

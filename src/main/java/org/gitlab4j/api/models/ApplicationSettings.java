@@ -19,7 +19,8 @@ import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
 public class ApplicationSettings implements Serializable {
-    private static final long serialVersionUID = -4830677378866003355L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Date createdAt;
     private Date updatedAt;

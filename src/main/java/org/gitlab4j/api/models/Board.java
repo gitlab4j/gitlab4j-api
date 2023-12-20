@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Board implements Serializable {
-    private static final long serialVersionUID = 2774787747056305357L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String name;
     private Project project;

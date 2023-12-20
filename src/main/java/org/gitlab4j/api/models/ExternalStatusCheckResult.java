@@ -5,7 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class ExternalStatusCheckResult implements Serializable {
-    private static final long serialVersionUID = 8696813682987928642L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private MergeRequest mergeRequest;
     private ExternalStatusCheck externalStatusCheck;

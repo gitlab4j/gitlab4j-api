@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class CommitStatus implements Serializable {
-    private static final long serialVersionUID = -4986890666487972709L;
+    private static final long serialVersionUID = 1L;
+
     private Boolean allowFailure;
     private Author author;
     private Float coverage;

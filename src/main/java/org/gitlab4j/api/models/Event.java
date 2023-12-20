@@ -8,7 +8,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Event implements Serializable {
-    private static final long serialVersionUID = -8324645348073849814L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String actionName;
     private Author author;

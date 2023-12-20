@@ -5,7 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class FileUpload implements Serializable {
-    private static final long serialVersionUID = 6666551122360550967L;
+    private static final long serialVersionUID = 1L;
+
     private String alt;
     private String url;
     private String markdown;

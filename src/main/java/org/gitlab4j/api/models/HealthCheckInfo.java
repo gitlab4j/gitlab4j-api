@@ -14,8 +14,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class HealthCheckInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 6099547960016518839L;
     @JsonDeserialize(using = HealthCheckItemDeserializer.class)
     private HealthCheckItem dbCheck;
 

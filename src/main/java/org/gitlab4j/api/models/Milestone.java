@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Milestone implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -3404019540574604663L;
     private Date createdAt;
     private String description;
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)

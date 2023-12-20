@@ -6,7 +6,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class AuditEventDetail implements Serializable {
-    private static final long serialVersionUID = -407430313828885637L;
+    private static final long serialVersionUID = 1L;
+
     private String change;
     private String from;
     private String to;

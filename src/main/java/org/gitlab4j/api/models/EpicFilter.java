@@ -18,7 +18,8 @@ import java.util.Map;
  *  This class is used to filter Groups when getting lists of epics.
  */
 public class EpicFilter implements Serializable {
-    private static final long serialVersionUID = 1020596795849193660L;
+    private static final long serialVersionUID = 1L;
+
     private Long authorId;
     private String authorUsername;
     private String labels;

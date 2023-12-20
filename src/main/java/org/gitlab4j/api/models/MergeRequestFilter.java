@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * This class is used to filter merge requests when getting lists of them.
  */
 public class MergeRequestFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -3786830402251866105L;
     private Long projectId;
     private Long groupId;
     private List<Long> iids;

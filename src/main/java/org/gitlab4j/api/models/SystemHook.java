@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SystemHook implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 5755753266987012078L;
     private Long id;
     private String url;
     private Date createdAt;

@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommitPayload implements Serializable {
-    private static final long serialVersionUID = -909264239788934196L;
+    private static final long serialVersionUID = 1L;
+
     private String branch;
     private String commitMessage;
     private String startBranch;

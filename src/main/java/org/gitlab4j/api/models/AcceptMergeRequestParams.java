@@ -5,7 +5,8 @@ import org.gitlab4j.api.GitLabApiForm;
 import java.io.Serializable;
 
 public class AcceptMergeRequestParams implements Serializable {
-    private static final long serialVersionUID = -2261999999404292928L;
+    private static final long serialVersionUID = 1L;
+
     private String mergeCommitMessage;
     private Boolean mergeWhenPipelineSucceeds;
     private String sha;

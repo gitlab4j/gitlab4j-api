@@ -8,7 +8,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import java.io.Serializable;
 
 public class Environment implements Serializable {
-    private static final long serialVersionUID = 5680655830549448926L;
+    private static final long serialVersionUID = 1L;
 
     public enum EnvironmentState {
 	AVAILABLE, STOPPED;

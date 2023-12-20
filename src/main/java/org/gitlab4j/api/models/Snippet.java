@@ -29,8 +29,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Snippet implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -3693726269760539889L;
     private Author author;
     private Date createdAt;
     private Date expiresAt;

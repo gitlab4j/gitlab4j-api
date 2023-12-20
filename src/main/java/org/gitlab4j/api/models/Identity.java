@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class Identity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -352988007246422134L;
     private String provider;
     private String externUid;
     private Integer samlProviderId;

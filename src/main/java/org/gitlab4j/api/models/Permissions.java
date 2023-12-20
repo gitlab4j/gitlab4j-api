@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class Permissions implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -2395045236486663658L;
     private ProjectAccess projectAccess;
     private ProjectAccess groupAccess;
 

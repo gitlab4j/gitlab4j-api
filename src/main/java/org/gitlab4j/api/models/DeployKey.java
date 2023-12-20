@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class DeployKey implements Serializable {
-    private static final long serialVersionUID = -5773240329719065765L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String title;
     private String key;

@@ -8,7 +8,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import java.io.Serializable;
 
 public class Badge implements Serializable {
-    private static final long serialVersionUID = -4358146293064711740L;
+    private static final long serialVersionUID = 1L;
 
     public enum BadgeKind {
         PROJECT, GROUP;

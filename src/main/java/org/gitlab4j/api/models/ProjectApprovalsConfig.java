@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 
 public class ProjectApprovalsConfig implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -4377250577067837024L;
     private Integer approvalsBeforeMerge;
     private Boolean resetApprovalsOnPush;
     private Boolean selectiveCodeOwnerRemovals;

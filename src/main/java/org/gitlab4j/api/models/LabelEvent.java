@@ -8,8 +8,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import java.io.Serializable;
 
 public class LabelEvent implements Serializable {
-
-    private static final long serialVersionUID = 2844189986730654608L;
+    private static final long serialVersionUID = 1L;
 
     /** Enum to use for specifying the label event resource type. */
     public enum ResourceType {

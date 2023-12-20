@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class RemoteMirror implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 3263293943076925633L;
     private Long id;
     private Boolean enabled;
     private String lastError;

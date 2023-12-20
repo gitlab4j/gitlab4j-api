@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ExternalStatusCheck implements Serializable {
-    private static final long serialVersionUID = 2079093664740067505L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String name;
     private Long projectId;

@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 public class ProjectAccessToken implements Serializable {
-    private static final long serialVersionUID = -6898996649279891825L;
+    private static final long serialVersionUID = 1L;
+
     private Long userId;
     private List<Constants.ProjectAccessTokenScope> scopes;
     private String name;

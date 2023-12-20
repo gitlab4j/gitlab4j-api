@@ -13,8 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class IterationFilter implements Serializable {
-
-    private static final long serialVersionUID = -8121837351844663183L;
+    private static final long serialVersionUID = 1L;
 
     public enum IterationFilterState {
         OPENED, UPCOMING, CURRENT, CLOSED, ALL;

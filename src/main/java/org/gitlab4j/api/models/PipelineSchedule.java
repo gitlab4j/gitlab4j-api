@@ -7,8 +7,8 @@ import java.util.List;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class PipelineSchedule implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -4141121642006352696L;
     private Long id;
     private String description;
     private String ref;

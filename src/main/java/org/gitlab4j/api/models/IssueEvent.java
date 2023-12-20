@@ -8,7 +8,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import java.io.Serializable;
 
 public class IssueEvent implements Serializable {
-    private static final long serialVersionUID = -9172768252733688801L;
+    private static final long serialVersionUID = 1L;
 
     /** Enum to use for specifying the state events resource type. */
     public enum ResourceType {

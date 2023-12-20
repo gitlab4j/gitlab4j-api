@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SharedGroup implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 9147215839960756743L;
     private Long groupId;
     private String groupName;
     private String groupFullPath;

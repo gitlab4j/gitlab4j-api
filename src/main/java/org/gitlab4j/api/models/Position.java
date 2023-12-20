@@ -8,8 +8,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import java.io.Serializable;
 
 public class Position implements Serializable {
-
-    private static final long serialVersionUID = 1720468299485697338L;
+    private static final long serialVersionUID = 1L;
 
     public static enum PositionType {
 

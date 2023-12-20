@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Job implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 3324086159440132520L;
     private Long id;
     private Commit commit;
     private String coverage;

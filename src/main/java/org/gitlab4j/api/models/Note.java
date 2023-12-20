@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Note implements Serializable {
-    private static final long serialVersionUID = 4604942317413087367L;
+    private static final long serialVersionUID = 1L;
 
     /** Enum to use for ordering the results. */
     public static enum OrderBy {

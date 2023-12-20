@@ -10,7 +10,8 @@ import java.io.Serializable;
  * This class is used to filter commit status when getting lists of them.
  */
 public class CommitStatusFilter implements Serializable {
-    private static final long serialVersionUID = -9065214362591834155L;
+    private static final long serialVersionUID = 1L;
+
     private String ref;
     private String stage;
     private String name;

@@ -11,8 +11,8 @@ import org.gitlab4j.api.GitLabApiForm;
  * This class provides the form parameters for creating and updating merge requests.
  */
 public class MergeRequestParams implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 3850045219649209460L;
     private String sourceBranch;
     private String targetBranch;
     private String title;

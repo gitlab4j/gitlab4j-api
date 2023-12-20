@@ -11,8 +11,8 @@ import java.io.Serializable;
  * which is only allowed for GitLab admins.
  */
 public class ProjectStatistics implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -6816978423517856645L;
     long commitCount;
     long storageSize;
     long repositorySize;

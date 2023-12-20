@@ -7,7 +7,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class Changes implements Serializable {
-    private static final long serialVersionUID = -1777640937801508683L;
+    private static final long serialVersionUID = 1L;
+
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonProperty("a_mode")
     private String a_mode;

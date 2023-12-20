@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class JobAttribute implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -1898697909418913296L;
     private String key;
   private String value;
 

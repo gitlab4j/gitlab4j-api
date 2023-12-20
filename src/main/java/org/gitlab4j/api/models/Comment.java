@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Comment implements Serializable {
-    private static final long serialVersionUID = 1917643760458643525L;
+    private static final long serialVersionUID = 1L;
+
     private Author author;
     private Date createdAt;
     private LineType lineType;

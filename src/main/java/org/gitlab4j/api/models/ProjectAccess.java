@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class ProjectAccess implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 2586454914563312773L;
     private AccessLevel accessLevel;
     private int notificationLevel;
 

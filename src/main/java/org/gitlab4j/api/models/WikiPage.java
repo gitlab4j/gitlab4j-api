@@ -28,8 +28,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class WikiPage implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1105471433119053382L;
     private String title;
     private String content;
     private String slug;

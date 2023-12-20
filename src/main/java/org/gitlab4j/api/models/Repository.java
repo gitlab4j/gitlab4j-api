@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class Repository implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -8079069832537320645L;
     private String description;
     private String homepage;
     private String name;

@@ -8,7 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Commit implements Serializable {
-    private static final long serialVersionUID = -5309295947818195004L;
+    private static final long serialVersionUID = 1L;
+
     private Author author;
     private Date authoredDate;
     private String authorEmail;

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ImportStatus implements Serializable {
-    private static final long serialVersionUID = -5437477855918094477L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Enum representing the status of the import.

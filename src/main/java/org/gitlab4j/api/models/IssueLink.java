@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class IssueLink implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -489517714860533257L;
     private Issue sourceIssue;
     private Issue targetIssue;
     private LinkType linkType;

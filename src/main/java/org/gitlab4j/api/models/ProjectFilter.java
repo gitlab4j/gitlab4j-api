@@ -13,8 +13,8 @@ import java.util.Date;
  *  This class is used to filter Projects when getting lists of projects for a specified user.
  */
 public class ProjectFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 6862041481569987088L;
     private Boolean archived;
     private Visibility visibility;
     private ProjectOrderBy orderBy;

@@ -9,7 +9,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ChangelogPayload implements Serializable {
-    private static final long serialVersionUID = -4430138739965401359L;
+    private static final long serialVersionUID = 1L;
+
     private String version;
     private String from;
     private String to;

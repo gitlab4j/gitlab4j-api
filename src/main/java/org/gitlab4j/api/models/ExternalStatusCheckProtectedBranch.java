@@ -8,7 +8,8 @@ import java.util.List;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class ExternalStatusCheckProtectedBranch implements Serializable {
-    private static final long serialVersionUID = 3702177459228966383L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Long projectId;
     private String name;

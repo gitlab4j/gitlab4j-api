@@ -13,7 +13,8 @@ import java.io.Serializable;
  * @since 4.19.0
  */
 public class ApprovedBy implements Serializable {
-    private static final long serialVersionUID = 7527083171275917542L;
+    private static final long serialVersionUID = 1L;
+
     private User user;
     private Group group;
 

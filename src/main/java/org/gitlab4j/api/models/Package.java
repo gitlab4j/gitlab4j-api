@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Package implements Serializable {
-    private static final long serialVersionUID = 5889634044963420636L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String name;
     private String version;

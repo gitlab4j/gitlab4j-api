@@ -5,7 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class BranchAccessLevel implements Serializable {
-    private static final long serialVersionUID = 5766241722141581577L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private AccessLevel accessLevel;
     private String accessLevelDescription;

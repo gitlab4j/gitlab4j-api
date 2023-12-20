@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.Map;
 
 public class License implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 8305426745567602018L;
     private Long id;
     private String plan;
     private Date createdAt;

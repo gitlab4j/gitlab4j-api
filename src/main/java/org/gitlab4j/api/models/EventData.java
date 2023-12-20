@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class EventData implements Serializable {
-    private static final long serialVersionUID = -1778675702778168859L;
+    private static final long serialVersionUID = 1L;
+
     private String after;
     private String before;
     private List<Commit> commits;

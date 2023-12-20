@@ -10,8 +10,7 @@ import java.io.Serializable;
  * the parameters for the call to the GitLab API.
  */
 public class GroupParams implements Serializable {
-
-    private static final long serialVersionUID = 4980649800188221721L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constant to specify the project_creation_level for the group.

@@ -8,7 +8,8 @@ import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractUser<U extends AbstractUser<U>> implements Serializable {
-    private static final long serialVersionUID = -9021980908269047845L;
+    private static final long serialVersionUID = 1L;
+
     private String avatarUrl;
     private Date createdAt;
     private String email;

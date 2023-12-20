@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 
 public class IssuesStatistics implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -6581608490410246889L;
     private Statistics statistics;
 
     public Statistics getStatistics() {
@@ -25,7 +25,8 @@ public class IssuesStatistics implements Serializable {
     }
 
     public static class Statistics implements Serializable {
-        private static final long serialVersionUID = 1578060206571773512L;
+        private static final long serialVersionUID = 1L;
+
         private Counts counts;
 
         public Counts getCounts() {
@@ -39,7 +40,8 @@ public class IssuesStatistics implements Serializable {
 
     public static class Counts implements Serializable {
 
-        private static final long serialVersionUID = -1397426876566422385L;
+        private static final long serialVersionUID = 1L;
+
         private Integer all;
         private Integer closed;
         private Integer opened;

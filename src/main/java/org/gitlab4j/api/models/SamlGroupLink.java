@@ -6,8 +6,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class SamlGroupLink implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -2373881527548802762L;
     private String name;
 
     private AccessLevel accessLevel;

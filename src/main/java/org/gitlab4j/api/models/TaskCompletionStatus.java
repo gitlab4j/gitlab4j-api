@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class TaskCompletionStatus implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 2425961171229796182L;
     private Integer count;
     private Integer completedCount;
 

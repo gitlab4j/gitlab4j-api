@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *  This class is used to filter issues when getting issue statistics. of them.
  */
 public class IssuesStatisticsFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -7501532011736965391L;
     private List<String> labels;
     private String milestone;
     private IssueScope scope;

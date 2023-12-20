@@ -8,8 +8,8 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import java.io.Serializable;
 
 public class Runner implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 8396377098769240666L;
     private Long id;
     private String description;
     private Boolean active;

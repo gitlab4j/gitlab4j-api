@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class CompareResults implements Serializable {
-    private static final long serialVersionUID = -2871624622998850399L;
+    private static final long serialVersionUID = 1L;
+
     private Commit commit;
     private List<Commit> commits;;
     private List<Diff> diffs;

@@ -14,8 +14,8 @@ import java.util.Date;
  *  This class is used to filter Pipelines when getting lists of them.
  */
 public class PipelineFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 578235335955620140L;
     /** {@link org.gitlab4j.api.Constants.PipelineScope} The scope of pipelines, one of: running, pending, finished, branches, tags */
     private PipelineScope scope;
 

@@ -8,8 +8,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import java.io.Serializable;
 
 public class NotificationSettings implements Serializable {
-
-    private static final long serialVersionUID = -3034906823726990473L;
+    private static final long serialVersionUID = 1L;
 
     /** Notification level */
     public static enum Level {
@@ -35,7 +34,8 @@ public class NotificationSettings implements Serializable {
     }
 
     public static class Events implements Serializable {
-        private static final long serialVersionUID = -7779451561897706339L;
+        private static final long serialVersionUID = 1L;
+
         private Boolean newNote;
         private Boolean newIssue;
         private Boolean reopenIssue;

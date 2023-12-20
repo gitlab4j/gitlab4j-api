@@ -8,7 +8,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class Diff implements Serializable {
-    private static final long serialVersionUID = -4483166688383479990L;
+    private static final long serialVersionUID = 1L;
+
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonProperty("a_mode")
     private String a_mode;

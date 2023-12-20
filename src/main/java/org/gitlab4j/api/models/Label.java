@@ -7,8 +7,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class Label implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 2920944591804197634L;
     private Long id;
     private String name;
     private String color;

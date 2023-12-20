@@ -5,7 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class GitLabCiTemplateElement implements Serializable {
-    private static final long serialVersionUID = 5775478350942742711L;
+    private static final long serialVersionUID = 1L;
+
     private String key;
     private String name;
 

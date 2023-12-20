@@ -13,7 +13,8 @@ import org.gitlab4j.api.utils.ISO8601;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class DeploymentFilter implements Serializable {
-    private static final long serialVersionUID = 7839110225941520941L;
+    private static final long serialVersionUID = 1L;
+
     /**
 	 * Return deployments ordered by either one of id, iid, created_at, updated_at or ref fields. Default is id.
 	 */

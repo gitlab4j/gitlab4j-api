@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Discussion implements Serializable {
-    private static final long serialVersionUID = 980803383743624987L;
+    private static final long serialVersionUID = 1L;
+
     private String id;
     private Boolean individualNote;
     private List<Note> notes;

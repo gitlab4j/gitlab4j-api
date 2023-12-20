@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 public class User extends AbstractUser<User> {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 5181333036356031840L;
     private String bio;
     private Boolean bot;
     private Boolean canCreateGroup;

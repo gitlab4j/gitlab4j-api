@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Project implements Serializable {
-    private static final long serialVersionUID = 7303989372756343383L;
+    private static final long serialVersionUID = 1L;
 
     // Enum for the merge_method of the Project instance.
     public enum MergeMethod {

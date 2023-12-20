@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Deployment implements Serializable {
-    private static final long serialVersionUID = -7687358667670668078L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Long iid;
     private String ref;

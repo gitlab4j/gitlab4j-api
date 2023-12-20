@@ -5,8 +5,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class TimeStats implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -2557491371640747430L;
     private Integer timeEstimate;
     private Integer totalTimeSpent;
     private Duration humanTimeEstimate;

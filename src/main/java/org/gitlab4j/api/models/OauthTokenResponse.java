@@ -3,8 +3,8 @@ package org.gitlab4j.api.models;
 import java.io.Serializable;
 
 public class OauthTokenResponse implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -6243821985046243075L;
     private String accessToken;
     private String tokenType;
     private String refreshToken;

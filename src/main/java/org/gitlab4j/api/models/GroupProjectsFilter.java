@@ -11,8 +11,8 @@ import java.io.Serializable;
  *  This class is used to filter Projects when getting lists of projects for a specified group.
  */
 public class GroupProjectsFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -2606395891055016971L;
     private Boolean archived;
     private Visibility visibility;
     private ProjectOrderBy orderBy;

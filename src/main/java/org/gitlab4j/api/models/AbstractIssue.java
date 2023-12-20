@@ -15,10 +15,11 @@ import java.util.Date;
 import java.util.List;
 
 public abstract class AbstractIssue implements Serializable {
-    private static final long serialVersionUID = -9116273927092802149L;
+    private static final long serialVersionUID = 1L;
 
     public static class TaskCompletionStatus implements Serializable {
-        private static final long serialVersionUID = -7685544544331694460L;
+        private static final long serialVersionUID = 1L;
+
         private Integer count;
         private Integer completedCount;
 

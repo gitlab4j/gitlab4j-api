@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class JobAttributes implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 8339758909744590549L;
     @JsonProperty("job_variables_attributes")
   private List<JobAttribute> jobAttributes;
 

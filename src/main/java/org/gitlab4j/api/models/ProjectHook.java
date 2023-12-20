@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ProjectHook implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 6412954444361160378L;
     private Boolean buildEvents;
     private Date createdAt;
     private Boolean enableSslVerification;

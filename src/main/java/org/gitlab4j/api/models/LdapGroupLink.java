@@ -6,8 +6,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 import java.io.Serializable;
 
 public class LdapGroupLink implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -6725494282901246090L;
     private String cn;
 
     private AccessLevel groupAccess;
