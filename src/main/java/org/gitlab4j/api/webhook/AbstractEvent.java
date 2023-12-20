@@ -3,8 +3,9 @@ package org.gitlab4j.api.webhook;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class AbstractEvent implements Event {
+    private static final long serialVersionUID = 1L;
 
-    private String requestUrl;
+	private String requestUrl;
     private String requestQueryString;
     private String secretToken;
 

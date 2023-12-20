@@ -4,6 +4,7 @@ import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class WikiPageEvent extends AbstractEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Wiki Page Hook";
     public static final String OBJECT_KIND = "wiki_page";
