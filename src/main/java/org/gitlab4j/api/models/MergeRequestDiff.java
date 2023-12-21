@@ -5,6 +5,7 @@ import java.util.List;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class MergeRequestDiff extends MergeRequestVersion {
+    private static final long serialVersionUID = 1L;
 
     private List<Commit> commits;
     private List<Diff> diffs;

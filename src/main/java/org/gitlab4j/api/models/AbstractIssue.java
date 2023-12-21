@@ -1,22 +1,24 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-import java.util.List;
-
-import org.gitlab4j.api.Constants.IssueState;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.LongNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
+import org.gitlab4j.api.Constants.IssueState;
+import org.gitlab4j.api.utils.JacksonJson;
 
-public abstract class AbstractIssue {
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-    public static class TaskCompletionStatus {
+public abstract class AbstractIssue implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public static class TaskCompletionStatus implements Serializable {
+        private static final long serialVersionUID = 1L;
 
         private Integer count;
         private Integer completedCount;

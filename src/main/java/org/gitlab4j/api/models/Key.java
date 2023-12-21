@@ -1,11 +1,13 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Key {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Key implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Date createdAt;
     private Long id;

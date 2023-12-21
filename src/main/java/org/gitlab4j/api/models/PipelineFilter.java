@@ -1,24 +1,25 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gitlab4j.api.Constants.PipelineOrderBy;
 import org.gitlab4j.api.Constants.PipelineScope;
 import org.gitlab4j.api.Constants.SortOrder;
-import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  *  This class is used to filter Pipelines when getting lists of them.
  */
-public class PipelineFilter {
+public class PipelineFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** {@link org.gitlab4j.api.Constants.PipelineScope} The scope of pipelines, one of: running, pending, finished, branches, tags */
     private PipelineScope scope;
 
-    /** {@link org.gitlab4j.api.Constants.PipelineScope} The status of pipelines, one of: running, pending, success, failed, canceled, skipped, created */    
+    /** {@link org.gitlab4j.api.Constants.PipelineScope} The status of pipelines, one of: running, pending, success, failed, canceled, skipped, created */
     private PipelineStatus status;
 
     /** The ref of pipelines. */

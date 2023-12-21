@@ -4,6 +4,7 @@ import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.TopicsApi;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * This class is utilized by the {@link TopicsApi#createTopic(TopicParams)}
@@ -12,7 +13,8 @@ import java.io.File;
  *
  * Avatar Upload has its own Upload in {@link TopicsApi#updateTopicAvatar(Integer,File)}
  */
-public class TopicParams {
+public class TopicParams implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String name;
     private String title;

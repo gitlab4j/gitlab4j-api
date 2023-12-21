@@ -1,10 +1,12 @@
 package org.gitlab4j.api.models;
 
-import java.util.List;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Discussion {
+import java.io.Serializable;
+import java.util.List;
+
+public class Discussion implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String id;
     private Boolean individualNote;

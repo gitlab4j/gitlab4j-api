@@ -3,7 +3,10 @@ package org.gitlab4j.api.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Metadata {
+import java.io.Serializable;
+
+public class Metadata implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String version;
     private String revision;
