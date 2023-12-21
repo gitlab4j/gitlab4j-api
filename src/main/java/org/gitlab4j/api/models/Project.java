@@ -1,9 +1,9 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gitlab4j.api.Constants.AutoDevopsDeployStrategy;
 import org.gitlab4j.api.Constants.BuildGitStrategy;
 import org.gitlab4j.api.Constants.SquashOption;
@@ -12,11 +12,12 @@ import org.gitlab4j.api.models.ImportStatus.Status;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-public class Project {
+public class Project implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     // Enum for the merge_method of the Project instance.
     public enum MergeMethod {

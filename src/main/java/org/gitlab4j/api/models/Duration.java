@@ -1,14 +1,16 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.DurationUtils;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.gitlab4j.api.utils.DurationUtils;
+
+import java.io.Serializable;
 
 /**
  * This class represents a duration in time.
  */
-public class Duration {
+public class Duration implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private int seconds;
     private String durationString;

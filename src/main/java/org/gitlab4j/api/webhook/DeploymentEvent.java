@@ -3,6 +3,7 @@ package org.gitlab4j.api.webhook;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class DeploymentEvent extends AbstractEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Deployment Hook";
     public static final String OBJECT_KIND = "deployment";

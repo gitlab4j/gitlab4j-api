@@ -2,7 +2,10 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class TaskCompletionStatus {
+import java.io.Serializable;
+
+public class TaskCompletionStatus implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Integer count;
     private Integer completedCount;

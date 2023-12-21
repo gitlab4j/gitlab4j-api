@@ -1,16 +1,18 @@
 package org.gitlab4j.api.models;
 
-import java.util.List;
-
 import org.gitlab4j.api.Constants.GroupOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
-import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *  This class is used to filter Groups when getting lists of groups.
  */
-public class GroupFilter {
+public class GroupFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private List<Integer> skipGroups;
     private Boolean allAvailable;

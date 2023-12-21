@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.api.Constants;
@@ -11,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class IterationFilter {
+public class IterationFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public enum IterationFilterState {
         OPENED, UPCOMING, CURRENT, CLOSED, ALL;

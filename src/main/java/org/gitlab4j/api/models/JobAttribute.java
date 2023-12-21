@@ -2,9 +2,12 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class JobAttribute {
+import java.io.Serializable;
 
-  private String key;
+public class JobAttribute implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private String key;
   private String value;
 
   public JobAttribute(String key, String value) {

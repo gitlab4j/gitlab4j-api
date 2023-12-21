@@ -3,6 +3,7 @@ package org.gitlab4j.api.systemhooks;
 import org.gitlab4j.api.webhook.MergeRequestEvent;
 
 public class MergeRequestSystemHookEvent extends MergeRequestEvent implements SystemHookEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "System Hook";
     public static final String MERGE_REQUEST_EVENT = "merge_request";

@@ -6,6 +6,7 @@ import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class IssueEvent extends AbstractEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Issue Hook";
     public static final String OBJECT_KIND = "issue";

@@ -2,10 +2,13 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.io.Serializable;
+
 /**
  * This class is part of the Pipeline message.
  */
-public class DetailedStatus {
+public class DetailedStatus implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String icon;
     private String text;

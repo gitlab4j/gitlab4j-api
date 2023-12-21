@@ -5,7 +5,8 @@ import java.util.Date;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class KeySystemHookEvent extends AbstractSystemHookEvent {
-    
+    private static final long serialVersionUID = 1L;
+
     public static final String KEY_CREATE_EVENT = "key_create";
     public static final String KEY_DESTROY_EVENT = "key_destroy";
     

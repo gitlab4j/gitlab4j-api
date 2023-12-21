@@ -1,14 +1,15 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Base64;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gitlab4j.api.Constants.Encoding;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.Base64;
 
-public class RepositoryFile {
+public class RepositoryFile implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String fileName; // file name only, Ex. class.rb
     private String filePath; // full path to file. Ex. lib/class.rb
@@ -103,7 +104,7 @@ public class RepositoryFile {
 
     /**
      * Returns the content as a String, base64 decoding it if necessary.
-     * For binary files it is recommended to use getDecodedContentAsBytes() 
+     * For binary files it is recommended to use getDecodedContentAsBytes()
      *
      * @return the content as a String, base64 decoding it if necessary
      */

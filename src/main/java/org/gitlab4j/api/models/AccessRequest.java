@@ -3,6 +3,7 @@ package org.gitlab4j.api.models;
 import java.util.Date;
 
 public class AccessRequest extends AbstractUser<AccessRequest> {
+    private static final long serialVersionUID = 1L;
 
     private Date requestedAt;
     private AccessLevel accessLevel;

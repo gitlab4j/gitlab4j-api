@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.JsonNode;
  * with a GitLab API endpoint.
  */
 public class GitLabApiException extends Exception {
-
     private static final long serialVersionUID = 1L;
+
     private StatusType statusInfo;
     private int httpStatus;
     private String message;

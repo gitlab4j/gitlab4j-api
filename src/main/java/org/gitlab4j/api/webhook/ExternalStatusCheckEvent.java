@@ -1,12 +1,14 @@
 package org.gitlab4j.api.webhook;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.webhook.MergeRequestEvent.ObjectAttributes;
 
-public class ExternalStatusCheckEvent {
+public class ExternalStatusCheckEvent implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String objectKind;
     private String eventType;

@@ -3,6 +3,7 @@ package org.gitlab4j.api.models;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class CreatedChildEpic extends AbstractMinimalEpic<CreatedChildEpic> {
+    private static final long serialVersionUID = 1L;
 
     private Boolean hasChildren;
     private Boolean hasIssues;

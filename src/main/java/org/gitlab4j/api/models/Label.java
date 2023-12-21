@@ -1,11 +1,13 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 
-public class Label {
+public class Label implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String name;

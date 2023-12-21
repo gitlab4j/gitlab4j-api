@@ -1,17 +1,19 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.ProjectOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
-import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified user.
  */
-public class ProjectFilter {
+public class ProjectFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Boolean archived;
     private Visibility visibility;

@@ -2,7 +2,10 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Link {
+import java.io.Serializable;
+
+public class Link implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Integer id;
     private String name;

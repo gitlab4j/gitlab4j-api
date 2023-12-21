@@ -1,20 +1,21 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.gitlab4j.api.utils.JacksonJson;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic<E> {
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-   public enum EpicState {
+public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic<E> implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public enum EpicState {
         OPENED, CLOSED, ALL;
 
        private static JacksonJsonEnumHelper<EpicState> enumHelper = new JacksonJsonEnumHelper<>(EpicState.class);

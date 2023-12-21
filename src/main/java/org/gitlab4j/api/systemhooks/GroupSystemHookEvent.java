@@ -5,6 +5,7 @@ import java.util.Date;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class GroupSystemHookEvent extends AbstractSystemHookEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String GROUP_CREATE_EVENT = "group_create";
     public static final String GROUP_DESTROY_EVENT = "group_destroy";

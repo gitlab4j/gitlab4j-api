@@ -4,6 +4,7 @@ package org.gitlab4j.api.models;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class Issue extends AbstractIssue {
+    private static final long serialVersionUID = 1L;
 
     private Boolean subscribed;
 

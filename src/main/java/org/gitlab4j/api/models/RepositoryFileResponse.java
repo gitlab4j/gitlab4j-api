@@ -1,9 +1,12 @@
 
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
+
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class RepositoryFileResponse {
+public class RepositoryFileResponse implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String filePath; // full path to file. Ex. lib/class.rb
     private String branch;

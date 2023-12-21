@@ -1,5 +1,6 @@
 package org.gitlab4j.api.webhook;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.api.utils.JacksonJson;
@@ -8,7 +9,8 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class EventLabel {
+public class EventLabel implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public enum LabelType {
 

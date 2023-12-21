@@ -1,15 +1,18 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.gitlab4j.api.utils.JacksonJson;
+public class ProjectFetches implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+    public static class DateCount implements Serializable {
 
-public class ProjectFetches {
-
-    public static class DateCount {
+        private static final long serialVersionUID = 1L;
 
         private Integer count;
 
@@ -33,7 +36,8 @@ public class ProjectFetches {
         }
     }
 
-    public static class Fetches {
+    public static class Fetches implements Serializable {
+        private static final long serialVersionUID = 1L;
 
         private Integer total;
         private List<DateCount> days;
