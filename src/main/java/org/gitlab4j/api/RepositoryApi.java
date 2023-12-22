@@ -22,6 +22,7 @@ import org.gitlab4j.api.models.ChangelogPayload;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Contributor;
+import org.gitlab4j.api.models.RepositoryArchiveParams;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.utils.FileUtils;
 
@@ -443,11 +444,30 @@ public class RepositoryApi extends AbstractApi {
      * @return an input stream that can be used to save as a file
      * or to read the content of the archive
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Use {@link #getRepositoryArchive(Object, RepositoryArchiveParams)}
      */
+    @Deprecated
     public InputStream getRepositoryArchive(Object projectIdOrPath, String sha) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive");
+        return (response.readEntity(InputStream.class));
+    }
+
+    /**
+     * Get an archive of the complete repository by SHA (optional) and Path (optional).
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param params params for getting file archive of the repository
+     * @return an input stream that can be used to save as a file or to read the content of the archive
+     * @throws GitLabApiException if any exception occurs
+     */
+    public InputStream getRepositoryArchive(Object projectIdOrPath, RepositoryArchiveParams params) throws GitLabApiException {
+        GitLabApiForm formData = params.getForm();
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
+            "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive");
         return (response.readEntity(InputStream.class));
     }
 
@@ -461,10 +481,28 @@ public class RepositoryApi extends AbstractApi {
      * @param format The archive format, defaults to "tar.gz" if null
      * @return an input stream that can be used to save as a file or to read the content of the archive
      * @throws GitLabApiException if format is not a valid archive format or any exception occurs
+     * @deprecated Use {@link #getRepositoryArchive(Object, RepositoryArchiveParams, String)}
      */
+    @Deprecated
     public InputStream getRepositoryArchive(Object projectIdOrPath, String sha, String format) throws GitLabApiException {
         ArchiveFormat archiveFormat = ArchiveFormat.forValue(format);
         return (getRepositoryArchive(projectIdOrPath, sha, archiveFormat));
+    }
+
+    /**
+     * Get an archive of the complete repository by SHA (optional) and Path (optional).
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param params params for getting file archive of the repository
+     * @param format The archive format, defaults to "tar.gz" if null
+     * @return an input stream that can be used to save as a file or to read the content of the archive
+     * @throws GitLabApiException if format is not a valid archive format or any exception occurs
+     */
+    public InputStream getRepositoryArchive(Object projectIdOrPath, RepositoryArchiveParams params, String format) throws GitLabApiException {
+        ArchiveFormat archiveFormat = ArchiveFormat.forValue(format);
+        return (getRepositoryArchive(projectIdOrPath, params, archiveFormat));
     }
 
     /**
@@ -477,7 +515,9 @@ public class RepositoryApi extends AbstractApi {
      * @param format The archive format, defaults to TAR_GZ if null
      * @return an input stream that can be used to save as a file or to read the content of the archive
      * @throws GitLabApiException if any exception occurs
+     * @deprecated User {@link #getRepositoryArchive(Object, RepositoryArchiveParams, ArchiveFormat)}
      */
+    @Deprecated
     public InputStream getRepositoryArchive(Object projectIdOrPath, String sha, ArchiveFormat format) throws GitLabApiException {
 
         if (format == null) {
@@ -498,6 +538,36 @@ public class RepositoryApi extends AbstractApi {
     }
 
     /**
+     * Get an archive of the complete repository by SHA (optional) and Path (optional).
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param params params for getting file archive of the repository
+     * @param format The archive format, defaults to TAR_GZ if null
+     * @return an input stream that can be used to save as a file or to read the content of the archive
+     * @throws GitLabApiException if any exception occurs
+     */
+    public InputStream getRepositoryArchive(Object projectIdOrPath, RepositoryArchiveParams params, ArchiveFormat format) throws GitLabApiException {
+
+        if (format == null) {
+            format = ArchiveFormat.TAR_GZ;
+        }
+
+        /*
+         * Gitlab-ce has a bug when you try to download file archives with format by using "&format=zip(or tar... etc.)",
+         * there is a solution to request .../archive.:format instead of .../archive?format=:format.
+         *
+         * Issue:  https://gitlab.com/gitlab-org/gitlab-ce/issues/45992
+         *         https://gitlab.com/gitlab-com/support-forum/issues/3067
+         */
+        Form formData = params.getForm();
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
+            "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive" + "." + format);
+        return (response.readEntity(InputStream.class));
+    }
+
+    /**
      * Get an archive of the complete repository by SHA (optional) and saves to the specified directory.
      * If the archive already exists in the directory it will be overwritten.
      *
@@ -508,12 +578,49 @@ public class RepositoryApi extends AbstractApi {
      * @param directory the File instance of the directory to save the archive to, if null will use "java.io.tmpdir"
      * @return a File instance pointing to the downloaded instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Use {@link #getRepositoryArchive(Object, RepositoryArchiveParams, File)}
      */
+    @Deprecated
     public File getRepositoryArchive(Object projectIdOrPath, String sha, File directory) throws GitLabApiException {
 
         Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive");
+
+        try {
+
+            if (directory == null)
+                directory = new File(System.getProperty("java.io.tmpdir"));
+
+            String filename = FileUtils.getFilenameFromContentDisposition(response);
+            File file = new File(directory, filename);
+
+            InputStream in = response.readEntity(InputStream.class);
+            Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return (file);
+
+        } catch (IOException ioe) {
+            throw new GitLabApiException(ioe);
+        }
+    }
+
+    /**
+     * Get an archive of the complete repository by SHA (optional) and Path (optional) and saves to the specified directory.
+     * If the archive already exists in the directory it will be overwritten.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param params params for getting file archive of the repository
+     * @param directory the File instance of the directory to save the archive to, if null will use "java.io.tmpdir"
+     * @return a File instance pointing to the downloaded instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public File getRepositoryArchive(Object projectIdOrPath, RepositoryArchiveParams params, File directory) throws GitLabApiException {
+
+        Form formData = params.getForm();
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
+            "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive");
 
         try {
 
@@ -544,10 +651,30 @@ public class RepositoryApi extends AbstractApi {
      * @param format The archive format, defaults to "tar.gz" if null
      * @return a File instance pointing to the downloaded instance
      * @throws GitLabApiException if format is not a valid archive format or any exception occurs
+     * @deprecated Use {@link #getRepositoryArchive(Object, RepositoryArchiveParams, File, String)}
      */
+    @Deprecated
     public File getRepositoryArchive(Object projectIdOrPath, String sha, File directory, String format) throws GitLabApiException {
         ArchiveFormat archiveFormat = ArchiveFormat.forValue(format);
         return (getRepositoryArchive(projectIdOrPath, sha, directory, archiveFormat));
+    }
+
+    /**
+     * Get an archive of the complete repository by SHA (optional) and Path (optional) and saves to the specified directory.
+     * If the archive already exists in the directory it will be overwritten.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param params params for getting file archive of the repository
+     * @param directory the File instance of the directory to save the archive to, if null will use "java.io.tmpdir"
+     * @param format The archive format, defaults to "tar.gz" if null
+     * @return a File instance pointing to the downloaded instance
+     * @throws GitLabApiException if format is not a valid archive format or any exception occurs
+     */
+    public File getRepositoryArchive(Object projectIdOrPath, RepositoryArchiveParams params, File directory, String format) throws GitLabApiException {
+        ArchiveFormat archiveFormat = ArchiveFormat.forValue(format);
+        return (getRepositoryArchive(projectIdOrPath, params, directory, archiveFormat));
     }
 
     /**
@@ -562,7 +689,9 @@ public class RepositoryApi extends AbstractApi {
      * @param format The archive format, defaults to TAR_GZ if null
      * @return a File instance pointing to the downloaded instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated Use {@link #getRepositoryArchive(Object, RepositoryArchiveParams, File, ArchiveFormat)}
      */
+    @Deprecated
     public File getRepositoryArchive(Object projectIdOrPath, String sha, File directory, ArchiveFormat format) throws GitLabApiException {
 
         if (format == null) {
@@ -579,6 +708,53 @@ public class RepositoryApi extends AbstractApi {
         Form formData = new GitLabApiForm().withParam("sha", sha);
         Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
                 "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive" + "." + format.toString());
+
+        try {
+
+            if (directory == null)
+                directory = new File(System.getProperty("java.io.tmpdir"));
+
+            String filename = FileUtils.getFilenameFromContentDisposition(response);
+            File file = new File(directory, filename);
+
+            InputStream in = response.readEntity(InputStream.class);
+            Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return (file);
+
+        } catch (IOException ioe) {
+            throw new GitLabApiException(ioe);
+        }
+    }
+
+    /**
+     * Get an archive of the complete repository by SHA (optional) and Path (optional) and saves to the specified directory.
+     * If the archive already exists in the directory it will be overwritten.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/archive</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param params params for getting file archive of the repository
+     * @param directory the File instance of the directory to save the archive to, if null will use "java.io.tmpdir"
+     * @param format The archive format, defaults to TAR_GZ if null
+     * @return a File instance pointing to the downloaded instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public File getRepositoryArchive(Object projectIdOrPath, RepositoryArchiveParams params, File directory, ArchiveFormat format) throws GitLabApiException {
+
+        if (format == null) {
+            format = ArchiveFormat.TAR_GZ;
+        }
+
+        /*
+         * Gitlab-ce has a bug when you try to download file archives with format by using "&format=zip(or tar... etc.)",
+         * there is a solution to request .../archive.:format instead of .../archive?format=:format.
+         *
+         * Issue:  https://gitlab.com/gitlab-org/gitlab-ce/issues/45992
+         *         https://gitlab.com/gitlab-com/support-forum/issues/3067
+         */
+        Form formData = params.getForm();
+        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.WILDCARD,
+            "projects", getProjectIdOrPath(projectIdOrPath), "repository", "archive" + "." + format.toString());
 
         try {
 
