@@ -1,10 +1,11 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.util.Date;
+
 public class RelatedEpic extends AbstractEpic<RelatedEpic> {
+    private static final long serialVersionUID = 1L;
 
     private Boolean startDateIsFixed;
     private Boolean dueDateIsFixed;

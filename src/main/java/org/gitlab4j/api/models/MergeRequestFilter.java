@@ -3,6 +3,7 @@ package org.gitlab4j.api.models;
 import static org.gitlab4j.api.Constants.MergeRequestScope.ALL;
 import static org.gitlab4j.api.Constants.MergeRequestScope.ASSIGNED_TO_ME;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * This class is used to filter merge requests when getting lists of them.
  */
-public class MergeRequestFilter {
+public class MergeRequestFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long projectId;
     private Long groupId;

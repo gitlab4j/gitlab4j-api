@@ -1,17 +1,19 @@
 
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.gitlab4j.api.utils.JacksonJson;
 
-public class Diff {
-    
+import java.io.Serializable;
+
+public class Diff implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonProperty("a_mode")
     private String a_mode;
-  
+
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonProperty("b_mode")
     private String b_mode;

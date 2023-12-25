@@ -1,13 +1,15 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
-import org.gitlab4j.api.utils.JacksonJson;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.gitlab4j.api.utils.JacksonJson;
 
-public class Iteration {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Iteration implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public enum IterationState {
         UPCOMMING(1), CURRENT(2), CLOSED(3);
 

@@ -5,10 +5,13 @@ import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
 
+import java.io.Serializable;
+
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified group.
  */
-public class GroupProjectsFilter {
+public class GroupProjectsFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Boolean archived;
     private Visibility visibility;
@@ -32,7 +35,7 @@ public class GroupProjectsFilter {
      */
     public GroupProjectsFilter withArchived(Boolean archived) {
         this.archived = archived;
-        return (this);  
+        return (this);
     }
 
     /**
@@ -43,7 +46,7 @@ public class GroupProjectsFilter {
      */
     public GroupProjectsFilter withVisibility(Visibility visibility) {
         this.visibility = visibility;
-        return (this);       
+        return (this);
     }
 
     /**
@@ -80,7 +83,7 @@ public class GroupProjectsFilter {
     }
 
     /**
-     * Return only limited fields for each project. This is a no-op without 
+     * Return only limited fields for each project. This is a no-op without
      * authentication as then only simple fields are returned.
      *
      * @param simple if true, return only limited fields for each project
@@ -115,7 +118,7 @@ public class GroupProjectsFilter {
 
     /**
      *  Include custom attributes in response (admins only).
-     * 
+     *
      * @param withCustomAttributes if true, include custom attributes in the repsonse
      * @return the reference to this ProjectFilter instance
      */

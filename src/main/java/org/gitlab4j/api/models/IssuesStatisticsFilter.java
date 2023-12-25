@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  *  This class is used to filter issues when getting issue statistics. of them.
  */
-public class IssuesStatisticsFilter {
+public class IssuesStatisticsFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private List<String> labels;
     private String milestone;

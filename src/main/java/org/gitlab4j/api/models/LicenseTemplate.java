@@ -1,10 +1,12 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class LicenseTemplate {
+public class LicenseTemplate implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String key;
     private String name;

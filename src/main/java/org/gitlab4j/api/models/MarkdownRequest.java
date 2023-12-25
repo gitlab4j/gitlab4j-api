@@ -1,6 +1,10 @@
 package org.gitlab4j.api.models;
 
-public class MarkdownRequest {
+import java.io.Serializable;
+
+public class MarkdownRequest implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String text;
     private boolean gfm;
 

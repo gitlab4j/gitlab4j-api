@@ -1,24 +1,24 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.gitlab4j.api.Constants.EpicOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
-
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.models.AbstractEpic.EpicState;
 import org.gitlab4j.api.utils.ISO8601;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *  This class is used to filter Groups when getting lists of epics.
  */
-public class EpicFilter {
+public class EpicFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long authorId;
     private String authorUsername;
@@ -78,7 +78,7 @@ public class EpicFilter {
         this.authorUsername = authorUsername;
         return (this);
     }
-    
+
     /**
      * Add 'labels' filter.
      *

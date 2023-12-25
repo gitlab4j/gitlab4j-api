@@ -2,11 +2,14 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.GitLabApiForm;
 
+import java.io.Serializable;
+
 /**
  * This class is used by the ProtectedBranchesAPi to set up the
  * allowed_to_push, allowed_to_merge, and allowed_to_unprotect values.
  */
-public class AllowedTo {
+public class AllowedTo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private AccessLevel accessLevel;
     private Long userId;
