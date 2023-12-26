@@ -4,6 +4,7 @@ package org.gitlab4j.api.webhook;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class PushEvent extends AbstractPushEvent implements Event {
+    private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Push Hook";
     public static final String OBJECT_KIND = "push";
