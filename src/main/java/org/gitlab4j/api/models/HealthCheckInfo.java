@@ -1,6 +1,7 @@
 package org.gitlab4j.api.models;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -12,7 +13,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-public class HealthCheckInfo {
+public class HealthCheckInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @JsonDeserialize(using = HealthCheckItemDeserializer.class)
     private HealthCheckItem dbCheck;

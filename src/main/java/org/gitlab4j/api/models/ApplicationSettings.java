@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,8 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
-public class ApplicationSettings {
+public class ApplicationSettings implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private Date createdAt;

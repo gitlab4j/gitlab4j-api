@@ -5,12 +5,15 @@ import org.gitlab4j.api.Constants.DefaultBranchProtectionLevel;
 import org.gitlab4j.api.Constants.ProjectCreationLevel;
 import org.gitlab4j.api.Constants.SubgroupCreationLevel;
 
+import java.io.Serializable;
+
 /**
  * This class is utilized by the {@link org.gitlab4j.api.GroupApi#createGroup(GroupParams)}
  * and {@link org.gitlab4j.api.GroupApi#updateGroup(Object, GroupParams)} methods to set
  * the parameters for the call to the GitLab API.
  */
-public class GroupParams {
+public class GroupParams implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String name;
     private String path;

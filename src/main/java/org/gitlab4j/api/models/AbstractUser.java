@@ -1,13 +1,14 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractUser<U extends AbstractUser<U>> {
+public abstract class AbstractUser<U extends AbstractUser<U>> implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String avatarUrl;
     private Date createdAt;

@@ -2,9 +2,13 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class WikiAttachment {
+import java.io.Serializable;
 
-    public static class Link {
+public class WikiAttachment implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public static class Link implements Serializable {
+        private static final long serialVersionUID = 1L;
 
         private String url;
         private String markdown;
@@ -12,15 +16,15 @@ public class WikiAttachment {
         public String getUrl() {
             return url;
         }
-    
+
         public void setUrl(String url) {
             this.url = url;
         }
-    
+
         public String getMarkdown() {
             return markdown;
         }
-    
+
         public void setMarkdown(String markdown) {
             this.markdown = markdown;
         }

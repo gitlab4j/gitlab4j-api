@@ -1,12 +1,15 @@
 package org.gitlab4j.api.models;
 
-import java.util.List;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class ProtectedTag {
+import java.io.Serializable;
+import java.util.List;
 
-    public static class CreateAccessLevel {
+public class ProtectedTag implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public static class CreateAccessLevel implements Serializable {
+        private static final long serialVersionUID = 1L;
 
         private AccessLevel access_level;
         private String accessLevelDescription;

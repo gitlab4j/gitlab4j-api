@@ -4,7 +4,10 @@ import org.gitlab4j.api.GitLabApiForm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class ProjectApprovalsConfig {
+import java.io.Serializable;
+
+public class ProjectApprovalsConfig implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Integer approvalsBeforeMerge;
     private Boolean resetApprovalsOnPush;
