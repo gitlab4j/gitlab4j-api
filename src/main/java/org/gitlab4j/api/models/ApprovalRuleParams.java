@@ -1,12 +1,14 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.gitlab4j.api.GitLabApiForm;
 
-public class ApprovalRuleParams {
+public class ApprovalRuleParams implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	private Integer approvalsRequired;
+    private Integer approvalsRequired;
     private String name;
     private Boolean appliesToAllProtectedBranches;
     private List<Long> groupIds;

@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.api.Constants;
@@ -11,9 +12,10 @@ import org.gitlab4j.api.utils.ISO8601;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class DeploymentFilter {
+public class DeploymentFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	/**
+    /**
 	 * Return deployments ordered by either one of id, iid, created_at, updated_at or ref fields. Default is id.
 	 */
 	private DeploymentOrderBy orderBy;

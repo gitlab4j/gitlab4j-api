@@ -3,6 +3,7 @@ package org.gitlab4j.api.systemhooks;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class AbstractSystemHookEvent implements SystemHookEvent {
+    private static final long serialVersionUID = 1L;
 
     private String requestUrl;
     private String requestQueryString;

@@ -1,12 +1,14 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
 
-public class Badge {
+public class Badge implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public enum BadgeKind {
         PROJECT, GROUP;

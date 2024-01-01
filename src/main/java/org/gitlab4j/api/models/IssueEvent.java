@@ -5,7 +5,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-public class IssueEvent {
+import java.io.Serializable;
+
+public class IssueEvent implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /** Enum to use for specifying the state events resource type. */
     public enum ResourceType {
 

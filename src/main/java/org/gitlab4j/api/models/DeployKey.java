@@ -1,18 +1,20 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class DeployKey {
+import java.io.Serializable;
+import java.util.Date;
+
+public class DeployKey implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String title;
     private String key;
     private Boolean canPush;
     private Date createdAt;
- 
+
     public Long getId() {
         return this.id;
     }
@@ -44,7 +46,7 @@ public class DeployKey {
     public void setCanPush(Boolean canPush) {
         this.canPush = canPush;
     }
-    
+
     public Date getCreatedAt() {
         return this.createdAt;
     }

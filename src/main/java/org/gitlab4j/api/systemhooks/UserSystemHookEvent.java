@@ -5,6 +5,7 @@ import java.util.Date;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class UserSystemHookEvent extends AbstractSystemHookEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String USER_CREATE_EVENT = "user_create";
     public static final String USER_DESTROY_EVENT = "user_destroy";

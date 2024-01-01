@@ -6,6 +6,7 @@ import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class ProjectSystemHookEvent extends AbstractSystemHookEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String PROJECT_CREATE_EVENT = "project_create";
     public static final String PROJECT_DESTROY_EVENT = "project_destroy";

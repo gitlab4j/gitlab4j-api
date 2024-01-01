@@ -1,49 +1,19 @@
 package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.Constants.DefaultBranchProtectionLevel;
+import org.gitlab4j.api.Constants.ProjectCreationLevel;
+import org.gitlab4j.api.Constants.SubgroupCreationLevel;
+
+import java.io.Serializable;
 
 /**
  * This class is utilized by the {@link org.gitlab4j.api.GroupApi#createGroup(GroupParams)}
  * and {@link org.gitlab4j.api.GroupApi#updateGroup(Object, GroupParams)} methods to set
  * the parameters for the call to the GitLab API.
  */
-public class GroupParams {
-
-    /**
-     * Constant to specify the project_creation_level for the group.
-     */
-    public enum ProjectCreationLevel {
-        NOONE, DEVELOPER, MAINTAINER;
-        public String toString() {
-            return (name().toLowerCase());
-        }
-    }
-
-    /**
-     * Constant to specify the subgroup_creation_level for the group.
-     */
-    public enum SubgroupCreationLevel {
-        OWNER, MAINTAINER;
-        public String toString() {
-            return (name().toLowerCase());
-        }
-    }
-
-    public enum DefaultBranchProtectionLevel {
-        NOT_PROTECTED(0),
-        PARTIALLY_PROTECTED(1),
-        FULLY_PROTECTED(2);
-
-        private final int value;
-
-        private DefaultBranchProtectionLevel(int value) {
-            this.value = value;
-        }
-
-        public String toString() {
-            return Integer.toString(value);
-        }
-    }
+public class GroupParams implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String name;
     private String path;
@@ -62,7 +32,8 @@ public class GroupParams {
     private Integer sharedRunnersMinutesLimit;
     private Integer extraSharedRunnersMinutesLimit;
     private DefaultBranchProtectionLevel defaultBranchProtection;
-
+    private Boolean preventSharingGroupsOutsideHierarchy;
+    private Boolean preventForkingOutsideGroup;
     private Boolean membershipLock;
     private Long fileTemplateProjectId;
 
@@ -73,8 +44,8 @@ public class GroupParams {
      * @return this GroupParms instance
      */
     public GroupParams withParentId(Long parentId) {
-	this.parentId = parentId;
-	return (this);
+        this.parentId = parentId;
+        return (this);
     }
 
     /**
@@ -84,8 +55,8 @@ public class GroupParams {
      * @return this GroupParms instance
      */
     public GroupParams withMembershipLock(Boolean membershipLock) {
-	this.membershipLock = membershipLock;
-	return (this);
+        this.membershipLock = membershipLock;
+        return (this);
     }
 
     /**
@@ -95,88 +66,98 @@ public class GroupParams {
      * @return this GroupParms instance
      */
     public GroupParams withFileTemplateProjectId(Long fileTemplateProjectId) {
-	this.fileTemplateProjectId = fileTemplateProjectId;
-	return (this);
+        this.fileTemplateProjectId = fileTemplateProjectId;
+        return (this);
     }
 
     public GroupParams withName(String name) {
-	this.name = name;
-	return (this);
+        this.name = name;
+        return (this);
     }
 
     public GroupParams withPath(String path) {
-	this.path = path;
-	return (this);
+        this.path = path;
+        return (this);
     }
 
     public GroupParams withDescription(String description) {
-	this.description = description;
-	return (this);
+        this.description = description;
+        return (this);
     }
 
     public GroupParams withVisibility(String visibility) {
-	this.visibility = visibility;
-	return (this);
+        this.visibility = visibility;
+        return (this);
     }
 
     public GroupParams withShareWithGroupLock(Boolean shareWithGroupLock) {
-	this.shareWithGroupLock = shareWithGroupLock;
-	return (this);
+        this.shareWithGroupLock = shareWithGroupLock;
+        return (this);
     }
 
     public GroupParams withRequireTwoFactorAuthentication(Boolean requireTwoFactorAuthentication) {
-	this.requireTwoFactorAuthentication = requireTwoFactorAuthentication;
-	return (this);
+        this.requireTwoFactorAuthentication = requireTwoFactorAuthentication;
+        return (this);
     }
 
     public GroupParams withTwoFactorGracePeriod(Integer twoFactorGracePeriod) {
-	this.twoFactorGracePeriod = twoFactorGracePeriod;
-	return (this);
+        this.twoFactorGracePeriod = twoFactorGracePeriod;
+        return (this);
     }
 
     public GroupParams withProjectCreationLevel(ProjectCreationLevel projectCreationLevel) {
-	this.projectCreationLevel = projectCreationLevel;
-	return (this);
+        this.projectCreationLevel = projectCreationLevel;
+        return (this);
     }
 
     public GroupParams withAutoDevopsEnabled(Boolean autoDevopsEnabled) {
-	this.autoDevopsEnabled = autoDevopsEnabled;
-	return (this);
+        this.autoDevopsEnabled = autoDevopsEnabled;
+        return (this);
     }
 
     public GroupParams withSubgroupCreationLevel(SubgroupCreationLevel subgroupCreationLevel) {
-	this.subgroupCreationLevel = subgroupCreationLevel;
-	return (this);
+        this.subgroupCreationLevel = subgroupCreationLevel;
+        return (this);
     }
 
     public GroupParams withEmailsDisabled(Boolean emailsDisabled) {
-	this.emailsDisabled = emailsDisabled;
-	return (this);
+        this.emailsDisabled = emailsDisabled;
+        return (this);
     }
 
     public GroupParams withLfsEnabled(Boolean lfsEnabled) {
-	this.lfsEnabled = lfsEnabled;
-	return (this);
+        this.lfsEnabled = lfsEnabled;
+        return (this);
     }
 
     public GroupParams withRequestAccessEnabled(Boolean requestAccessEnabled) {
-	this.requestAccessEnabled = requestAccessEnabled;
-	return (this);
+        this.requestAccessEnabled = requestAccessEnabled;
+        return (this);
     }
 
     public GroupParams withSharedRunnersMinutesLimit(Integer sharedRunnersMinutesLimit) {
-	this.sharedRunnersMinutesLimit = sharedRunnersMinutesLimit;
-	return (this);
+        this.sharedRunnersMinutesLimit = sharedRunnersMinutesLimit;
+        return (this);
     }
 
     public GroupParams withExtraSharedRunnersMinutesLimit(Integer extraSharedRunnersMinutesLimit) {
-	this.extraSharedRunnersMinutesLimit = extraSharedRunnersMinutesLimit;
-	return (this);
+        this.extraSharedRunnersMinutesLimit = extraSharedRunnersMinutesLimit;
+        return (this);
     }
 
     public GroupParams withDefaultBranchProtection(DefaultBranchProtectionLevel defaultBranchProtection) {
-    this.defaultBranchProtection = defaultBranchProtection;
-    return (this);
+        this.defaultBranchProtection = defaultBranchProtection;
+        return (this);
+    }
+
+    public GroupParams withPreventSharingGroupsOutsideHierarchy(Boolean preventSharingGroupsOutsideHierarchy) {
+        this.preventSharingGroupsOutsideHierarchy = preventSharingGroupsOutsideHierarchy;
+        return (this);
+    }
+
+    public GroupParams withPreventForkingOutsideGroup(Boolean preventForkingOutsideGroup) {
+        this.preventForkingOutsideGroup = preventForkingOutsideGroup;
+        return (this);
     }
 
     /**
@@ -204,7 +185,9 @@ public class GroupParams {
             .withParam("request_access_enabled", requestAccessEnabled)
             .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit)
             .withParam("extra_shared_runners_minutes_limit", extraSharedRunnersMinutesLimit)
-            .withParam("default_branch_protection", defaultBranchProtection);
+            .withParam("default_branch_protection", defaultBranchProtection)
+            .withParam("prevent_sharing_groups_outside_hierarchy", preventSharingGroupsOutsideHierarchy)
+            .withParam("prevent_forking_outside_group", preventForkingOutsideGroup);
 
         if (isCreate) {
             form.withParam("parent_id", parentId);

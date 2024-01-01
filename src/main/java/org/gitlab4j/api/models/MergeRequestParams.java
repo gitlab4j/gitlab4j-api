@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,7 +10,8 @@ import org.gitlab4j.api.GitLabApiForm;
 /**
  * This class provides the form parameters for creating and updating merge requests.
  */
-public class MergeRequestParams {
+public class MergeRequestParams implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String sourceBranch;
     private String targetBranch;

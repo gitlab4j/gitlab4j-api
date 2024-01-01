@@ -1,5 +1,6 @@
 package org.gitlab4j.api.services;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,8 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public abstract class NotificationService {
+public abstract class NotificationService implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     public static final String NOTIFY_ONLY_BROKEN_PIPELINES_PROP = "notify_only_broken_pipelines";
     public static final String NOTIFY_ONLY_DEFAULT_BRANCH_PROP = "notify_only_default_branch";

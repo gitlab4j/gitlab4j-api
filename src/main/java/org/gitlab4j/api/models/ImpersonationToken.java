@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,8 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class ImpersonationToken {
+public class ImpersonationToken implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** Enum to specify the scope of an ImpersonationToken. */
     public enum Scope {

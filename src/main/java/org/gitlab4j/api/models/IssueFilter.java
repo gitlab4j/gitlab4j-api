@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.IssueOrderBy;
 import org.gitlab4j.api.Constants.IssueScope;
@@ -18,10 +18,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
 /**
  *  This class is used to filter issues when getting lists of them.
  */
-public class IssueFilter {
+public class IssueFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Return only the milestone having the given iid.

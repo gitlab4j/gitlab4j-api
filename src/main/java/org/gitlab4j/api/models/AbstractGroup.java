@@ -1,12 +1,14 @@
 
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractGroup<G extends AbstractGroup<G>> {
+public abstract class AbstractGroup<G extends AbstractGroup<G>> implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String name;

@@ -15,10 +15,12 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 
+import org.gitlab4j.api.Constants.ArchiveFormat;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.RepositoryArchiveParams;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -143,6 +145,47 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
     }
 
     @Test
+    public void testRepositoryArchiveByPathAndSha() throws IOException, GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        RepositoryArchiveParams params = new RepositoryArchiveParams()
+            .withPath(project.getPath())
+            .withSha("master");
+
+        InputStream in = gitLabApi.getRepositoryApi()
+            .getRepositoryArchive(project.getId(), params);
+
+        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-", ".tar.gz");
+        Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+
+        assertTrue(target.toFile().length() > 0);
+        Files.delete(target);
+
+    }
+
+    @Test
+    public void testRepositoryArchiveByPathAndShaAndFormat() throws GitLabApiException, IOException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        RepositoryArchiveParams params = new RepositoryArchiveParams()
+            .withPath(project.getPath())
+            .withSha("master");
+
+        InputStream in = gitLabApi.getRepositoryApi()
+            .getRepositoryArchive(project.getId(), params, ArchiveFormat.TAR_GZ.toString());
+
+        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-", ".tar.gz");
+        Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+
+        assertTrue(target.toFile().length() > 0);
+        Files.delete(target);
+    }
+
+    @Test
     public void testRepositoryArchiveViaFile() throws GitLabApiException, IOException {
 
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
@@ -153,6 +196,44 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         file.delete();
 
         file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), "master", new File("."));
+        assertTrue(file.length() > 0);
+        file.delete();
+    }
+
+    @Test
+    public void testRepositoryArchiveByPathAndShaViaFile() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        RepositoryArchiveParams params = new RepositoryArchiveParams()
+            .withPath(project.getPath())
+            .withSha("master");
+
+        File file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), params, (File)null);
+        assertTrue(file.length() > 0);
+        file.delete();
+
+        file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), params, new File("."));
+        assertTrue(file.length() > 0);
+        file.delete();
+    }
+
+    @Test
+    public void testRepositoryArchiveByPathAndShaAndFormatViaFile() throws GitLabApiException {
+
+        Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        assertNotNull(project);
+
+        RepositoryArchiveParams params = new RepositoryArchiveParams()
+            .withPath(project.getPath())
+            .withSha("master");
+
+        File file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), params, null, ArchiveFormat.TAR_GZ.toString());
+        assertTrue(file.length() > 0);
+        file.delete();
+
+        file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), params, new File("."), ArchiveFormat.TAR_GZ.toString());
         assertTrue(file.length() > 0);
         file.delete();
     }
