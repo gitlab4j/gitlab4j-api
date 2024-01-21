@@ -155,7 +155,7 @@ public class NamespaceApi extends AbstractApi {
      * @param namespaceIdOrPath the namespace ID, path of the namespace, or a Namespace instance holding the namespace ID or path
      * @return the Group for the specified group path as an Optional instance
      */
-    public Optional<Namespace> getOptionalGroup(Object namespaceIdOrPath) {
+    public Optional<Namespace> getOptionalNamespace(Object namespaceIdOrPath) {
         try {
             return (Optional.ofNullable(getNamespace(namespaceIdOrPath)));
         } catch (GitLabApiException glae) {
