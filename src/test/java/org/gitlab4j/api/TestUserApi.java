@@ -59,6 +59,8 @@ public class TestUserApi extends AbstractIntegrationTest {
     // The following needs to be set to your test repository
     private static final String TEST_USERNAME = HelperUtils.getProperty(USERNAME_KEY);
     private static final String TEST_BLOCK_USERNAME = HelperUtils.getProperty(BLOCK_USERNAME_KEY);
+
+    private static final String TEST_DEACTIVATE_USERNAME = HelperUtils.getProperty(DEACTIVATE_USERNAME_KEY);
     private static final String TEST_SUDO_AS_USERNAME = HelperUtils.getProperty(SUDO_AS_USERNAME_KEY);
 
     private static final String TEST_IMPERSONATION_TOKEN_NAME = "ipt_1";
@@ -130,6 +132,8 @@ public class TestUserApi extends AbstractIntegrationTest {
     private static GitLabApi gitLabApi;
     private static User blockUser;
 
+    private static User deactivateUser;
+
     public TestUserApi() {
         super();
     }
@@ -166,6 +170,16 @@ public class TestUserApi extends AbstractIntegrationTest {
                         }
                     } catch (Exception ignore) {}
                 }
+
+                if (TEST_DEACTIVATE_USERNAME != null) {
+                    try {
+                        deactivateUser = gitLabApi.getUserApi().getUser(TEST_DEACTIVATE_USERNAME);
+                        if (deactivateUser != null) {
+                            gitLabApi.getUserApi().unblockUser(deactivateUser.getId());
+                        }
+                    } catch (Exception ignore) {}
+                }
+
 
                 if (TEST_SSH_KEY != null) {
                     try {
@@ -235,6 +249,20 @@ public class TestUserApi extends AbstractIntegrationTest {
         gitLabApi.getUserApi().unblockUser(blockUser.getId());
         user = gitLabApi.getUserApi().getUser(blockUser.getId());
         assertNotEquals("blocked", user.getState());
+    }
+
+    @Test
+    public void testActivateDeactivateUser() throws GitLabApiException {
+        assumeTrue(deactivateUser != null);
+
+        assertNotEquals("deactivated", deactivateUser.getState());
+        gitLabApi.getUserApi().deactivateUser(deactivateUser.getId());
+        User user = gitLabApi.getUserApi().getUser(deactivateUser.getId());
+        assertEquals("deactivated", user.getState());
+
+        gitLabApi.getUserApi().activateUser(deactivateUser.getId());
+        user = gitLabApi.getUserApi().getUser(deactivateUser.getId());
+        assertNotEquals("deactivated", user.getState());
     }
 
     @Test

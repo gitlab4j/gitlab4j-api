@@ -1381,4 +1381,36 @@ public class UserApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm();
         return (new Pager<>(this, Membership.class, itemsPerPage, formData.asMap(), "users", userId, "memberships"));
     }
+
+    /**
+     * Activates the given user (admin only)
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:id/activate</code></pre>
+     *
+     * @param userId the ID of the user to activate
+     * @throws GitLabApiException if any exception occurs.
+     * @since GitLab 12.4
+     */
+    public void activateUser(Long userId) throws GitLabApiException {
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+        post(Response.Status.CREATED, (Form) null, "users", userId, "activate");
+    }
+
+    /**
+     * Deactivates the given user (admin only)
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:id/deactivate</code></pre>
+     *
+     * @param userId the ID of the user to deactivate
+     * @throws GitLabApiException if any exception occurs.
+     * @since GitLab 12.4
+     */
+    public void deactivateUser(Long userId) throws GitLabApiException {
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+        post(Response.Status.CREATED, (Form) null, "users", userId, "deactivate");
+    }
 }
