@@ -246,7 +246,15 @@ public class Commit implements Serializable {
         return this;
     }
 
+    /**
+     * @deprecated use {@link #withShortId(String)} instead
+     */
+    @Deprecated
     public Commit withShorwId(String shortId) {
+        return withShortId(shortId);
+    }
+
+    public Commit withShortId(String shortId) {
         this.shortId = shortId;
         return this;
     }
