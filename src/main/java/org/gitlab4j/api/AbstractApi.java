@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.StreamingOutput;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Label;
+import org.gitlab4j.api.models.Namespace;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.UrlEncoder;
@@ -166,6 +167,34 @@ public abstract class AbstractApi implements Constants {
         } else {
             throw (new RuntimeException("Cannot determine ID or name from provided " + obj.getClass().getSimpleName() +
                     " instance, must be Long, String, or a Label instance"));
+        }
+    }
+
+    public Object getNamespaceIdOrPath(Object obj) throws GitLabApiException {
+
+        if (obj == null) {
+            throw (new RuntimeException("Cannot determine ID or path from null object"));
+        } else if (obj instanceof Long) {
+            return (obj);
+        } else if (obj instanceof String) {
+            return (urlEncode(((String) obj).trim()));
+        } else if (obj instanceof Namespace) {
+
+            Long id = ((Namespace) obj).getId();
+            if (id != null && id.longValue() > 0) {
+                return (id);
+            }
+
+            String path = ((Namespace) obj).getFullPath();
+            if (path != null && path.trim().length() > 0) {
+                return (urlEncode(path.trim()));
+            }
+
+            throw (new RuntimeException("Cannot determine ID or path from provided Namespace instance"));
+
+        } else {
+            throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
+                    " instance, must be Long, String, or a Namespace instance"));
         }
     }
 
