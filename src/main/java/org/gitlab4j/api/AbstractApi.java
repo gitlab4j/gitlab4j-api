@@ -43,6 +43,9 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or path from null object"));
         } else if (obj instanceof Long) {
             return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Project) {
@@ -78,6 +81,9 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or path from null object"));
         } else if (obj instanceof Long) {
             return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Group) {
@@ -113,6 +119,9 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or username from null object"));
         } else if (obj instanceof Long) {
             return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof User) {
@@ -148,6 +157,9 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or name from null object"));
         } else if (obj instanceof Long) {
             return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Label) {
@@ -176,6 +188,9 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or path from null object"));
         } else if (obj instanceof Long) {
             return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Namespace) {
