@@ -1333,6 +1333,9 @@ public class ProjectApi extends AbstractApi implements Constants {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
                 project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
             formData.withParam("visibility", visibility);
+            formData.withParam("issue_branch_template", project.getIssueBranchTemplate());
+            formData.withParam("merge_commit_template", project.getMergeCommitTemplate());
+            formData.withParam("squash_commit_template", project.getSquashCommitTemplate());
 
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 formData.withParam("tag_list", String.join(",", project.getTagList()));
