@@ -2,6 +2,8 @@
 package org.gitlab4j.api.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gitlab4j.api.Constants.AutoDevopsDeployStrategy;
@@ -15,6 +17,7 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -113,6 +116,11 @@ public class Project implements Serializable {
     private Boolean emailsDisabled;
     private String suggestionCommitMessage;
     private SquashOption squashOption;
+    private String mergeCommitTemplate;
+    private String squashCommitTemplate;
+    private String issueBranchTemplate;
+    @JsonProperty("_links")
+    private Map<String, String> links;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -916,5 +924,46 @@ public class Project implements Serializable {
     public Project withSquashOption(SquashOption squashOption) {
         this.squashOption = squashOption;
         return this;
+    }
+
+    public String getMergeCommitTemplate() {
+        return mergeCommitTemplate;
+    }
+
+    public void setMergeCommitTemplate(String mergeCommitTemplate) {
+        this.mergeCommitTemplate = mergeCommitTemplate;
+    }
+
+    public String getSquashCommitTemplate() {
+        return squashCommitTemplate;
+    }
+
+    public void setSquashCommitTemplate(String squashCommitTemplate) {
+        this.squashCommitTemplate = squashCommitTemplate;
+    }
+
+    public String getIssueBranchTemplate() {
+        return issueBranchTemplate;
+    }
+
+    public void setIssueBranchTemplate(String issueBranchTemplate) {
+        this.issueBranchTemplate = issueBranchTemplate;
+    }
+
+    public Map<String, String> getLinks() {
+        return links;
+    }
+
+    public void setLinks(Map<String, String> links) {
+        this.links = links;
+    }
+
+    @JsonIgnore
+    public String getLinkByName(String name) {
+        if (links == null || links.isEmpty()) {
+            return (null);
+        }
+
+        return (links.get(name));
     }
 }

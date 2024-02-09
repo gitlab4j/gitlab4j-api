@@ -12,6 +12,7 @@ public class Namespace implements Serializable {
     private String path;
     private String kind;
     private String fullPath;
+    private Long parentId;
     private String avatarUrl;
     private String webUrl;
 
@@ -53,6 +54,14 @@ public class Namespace implements Serializable {
 
     public void setFullPath(String fullPath) {
         this.fullPath = fullPath;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public Namespace withId(Long id) {
