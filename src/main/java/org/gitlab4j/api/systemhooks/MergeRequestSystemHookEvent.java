@@ -9,6 +9,7 @@ public class MergeRequestSystemHookEvent extends MergeRequestEvent implements Sy
     public static final String MERGE_REQUEST_EVENT = "merge_request";
 
     private String eventType;
+    private String eventName;
 
     @Override
     public String getObjectKind() {
@@ -17,14 +18,27 @@ public class MergeRequestSystemHookEvent extends MergeRequestEvent implements Sy
 
     @Override
     public String getEventName() {
-        return (MERGE_REQUEST_EVENT);
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
     public String getEventType() {
         return eventType;
     }
-
-    public void setEvent_type(String eventType) {
+    
+    public void setEventType(String eventType) {
         this.eventType = eventType;
+    }
+
+    /**
+     * @deprecated use {@link #setEventType(String)} instead
+     * @param eventType
+     */
+    @Deprecated
+    public void setEvent_type(String eventType) {
+        setEventType(eventType);
     }
 }
