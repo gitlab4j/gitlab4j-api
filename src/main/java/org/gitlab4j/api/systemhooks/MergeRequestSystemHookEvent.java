@@ -2,6 +2,8 @@ package org.gitlab4j.api.systemhooks;
 
 import org.gitlab4j.api.webhook.MergeRequestEvent;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class MergeRequestSystemHookEvent extends MergeRequestEvent implements SystemHookEvent {
     private static final long serialVersionUID = 1L;
 
@@ -38,6 +40,7 @@ public class MergeRequestSystemHookEvent extends MergeRequestEvent implements Sy
      * @param eventType
      */
     @Deprecated
+    @JsonIgnore
     public void setEvent_type(String eventType) {
         setEventType(eventType);
     }
