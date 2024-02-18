@@ -14,7 +14,7 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
     private Date createdAt;
     private Date updatedAt;
     private String eventName;
-    private String projectAccess;
+    private String accessLevel;
     private String projectName;
     private String projectPath;
     private Long projectId;
@@ -50,12 +50,12 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
         this.eventName = eventName;
     }
 
-    public String getProjectAccess() {
-        return projectAccess;
+    public String getAccessLevel() {
+        return accessLevel;
     }
 
-    public void setProjectAccess(String projectAccess) {
-        this.projectAccess = projectAccess;
+    public void setAccessLevel(String accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     public String getProjectName() {
