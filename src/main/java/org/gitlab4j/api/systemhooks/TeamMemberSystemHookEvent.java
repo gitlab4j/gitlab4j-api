@@ -14,6 +14,8 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
     private Date createdAt;
     private Date updatedAt;
     private String eventName;
+    @Deprecated
+    private String projectAccess;
     private String accessLevel;
     private String projectName;
     private String projectPath;
@@ -48,6 +50,22 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    /**
+     * No longer used. Probably replaced by {@link #getAccessLevel()}
+     */
+    @Deprecated
+    public String getProjectAccess() {
+        return projectAccess;
+    }
+
+    /**
+     * No longer used. Probably replaced by {@link #setAccessLevel(String)}
+     */
+    @Deprecated
+    public void setProjectAccess(String projectAccess) {
+        this.projectAccess = projectAccess;
     }
 
     public String getAccessLevel() {
