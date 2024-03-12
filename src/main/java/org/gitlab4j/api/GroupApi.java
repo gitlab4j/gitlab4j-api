@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
@@ -1879,6 +1881,23 @@ public class GroupApi extends AbstractApi {
         Response response = putUpload(Response.Status.OK,
                 "avatar", avatarFile, "groups", getGroupIdOrPath(groupIdOrPath));
         return (response.readEntity(Group.class));
+    }
+
+    /**
+     * Gets the group avatar.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/avatar</code></pre>
+     * 
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @return an InputStream to read the raw file from
+     * @throws GitLabApiException if any exception occurs
+     */
+    public InputStream getAvatar(Object groupIdOrPath) throws GitLabApiException {
+
+        Response response = getWithAccepts(Response.Status.OK, null,  MediaType.MEDIA_TYPE_WILDCARD,
+                "groups", getGroupIdOrPath(groupIdOrPath), "avatar");
+        return (response.readEntity(InputStream.class));
+
     }
 
     /**
