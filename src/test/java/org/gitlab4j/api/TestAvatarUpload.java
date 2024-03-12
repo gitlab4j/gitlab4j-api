@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import java.io.File;
 import java.util.Map;
 
+import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,6 +46,7 @@ public class TestAvatarUpload extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
+    private static Group testGroup;
 
     public TestAvatarUpload() {
         super();
@@ -52,9 +54,10 @@ public class TestAvatarUpload extends AbstractIntegrationTest {
 
     @BeforeAll
     public static void setup() {
-        // Must setup the connection to the GitLab test server and get the test Project instance
+        // Must setup the connection to the GitLab test server and get the test Project and Group instances
         gitLabApi = baseTestSetup();
         testProject = getTestProject();
+        testGroup = getTestGroup();
     }
 
     @Test
@@ -99,5 +102,16 @@ public class TestAvatarUpload extends AbstractIntegrationTest {
         User updatedUser = gitLabApi.getUserApi().setUserAvatar(user, avatarFile);
         assertNotNull(updatedUser);
         assertTrue(updatedUser.getAvatarUrl().endsWith(AVATAR_FILENAME));
+    }
+
+    @Test
+    public void testSetGroupAvatar() throws GitLabApiException {
+
+        assumeTrue(testGroup != null);
+
+        File avatarFile = new File("src/test/resources/org/gitlab4j/api", AVATAR_FILENAME);
+        Group updatedGroup = gitLabApi.getGroupApi().setGroupAvatar(testGroup.getId(), avatarFile);
+        assertNotNull(updatedGroup);
+        assertTrue(updatedGroup.getAvatarUrl().endsWith(AVATAR_FILENAME));
     }
 }
