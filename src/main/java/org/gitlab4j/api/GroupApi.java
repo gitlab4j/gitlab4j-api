@@ -1885,6 +1885,7 @@ public class GroupApi extends AbstractApi {
 
     /**
      * Gets the group avatar.
+     * Only working with GitLab 14.0 and above.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/avatar</code></pre>
      * 
