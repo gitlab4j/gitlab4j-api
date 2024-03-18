@@ -496,7 +496,7 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<MergeRequest> getMergeRequest(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
-        return getMergeRequest(projectIdOrPath, milestoneId, getDefaultPerPage()).all();
+        return (getMergeRequest(projectIdOrPath, milestoneId, getDefaultPerPage()).all());
     }
     
     /**
