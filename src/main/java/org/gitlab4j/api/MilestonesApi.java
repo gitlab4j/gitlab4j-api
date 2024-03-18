@@ -496,11 +496,37 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<MergeRequest> getMergeRequest(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId, "merge_requests");
-        return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
+        return (getMergeRequest(projectIdOrPath, milestoneId, getDefaultPerPage()).all());
     }
-
+    
+    /**
+     * Get a Pager of merge requests associated with the specified milestone.
+     * 
+     * <pre><code>GitLab Endpoint: GET /projects/:id/milestones/:milestone_id/merge_requests</code></pre>
+     * 
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param milestoneId the milestone ID to get the merge requests for
+     * @return a Pager of merge requests associated with the specified milestone
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<MergeRequest> getMergeRequest(Object projectIdOrPath, Long milestoneId, int itemsPerPage) throws GitLabApiException {
+    	return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, null,  "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId, "merge_requests"));
+    }
+    
+    /**
+     * Get a Stream of merge requests associated with the specified milestone.
+     * 
+     * <pre><code>GitLab Endpoint: GET /projects/:id/milestones/:milestone_id/merge_requests</code></pre>
+     * 
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param milestoneId the milestone ID to get the merge requests for
+     * @return a Stream of merge requests associated with the specified milestone
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<MergeRequest> getMergeRequestStream(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
+    	return (getMergeRequest(projectIdOrPath, milestoneId, getDefaultPerPage()).stream());
+    }
+    
     /**
      * Create a milestone.
      *
