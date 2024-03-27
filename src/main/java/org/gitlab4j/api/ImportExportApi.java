@@ -239,7 +239,8 @@ public class ImportExportApi extends AbstractApi {
                 .withParam("packages_enabled", overrideParams.getPackagesEnabled())
                 .withParam("build_git_strategy", overrideParams.getBuildGitStrategy())
                 .withParam("build_coverage_regex", overrideParams.getBuildCoverageRegex())
-                .withParam("squash_option", overrideParams.getSquashOption());
+                .withParam("squash_option", overrideParams.getSquashOption())
+                .withParam("name", overrideParams.getName());
         }
 
         Response response = upload(Response.Status.CREATED, "file", exportFile, null, formData, url);
@@ -251,7 +252,7 @@ public class ImportExportApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/import</code></pre>
      *
-     * @param projectIdOrPath the new (imported) project identifier in the form of an Long(ID), String(path), or Project instance 
+     * @param projectIdOrPath the new (imported) project identifier in the form of an Long(ID), String(path), or Project instance
      * @return an ImportStatus instance holding information on the import status
      * @throws GitLabApiException if any exception occurs
      */
