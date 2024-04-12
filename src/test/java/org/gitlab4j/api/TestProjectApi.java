@@ -30,6 +30,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
@@ -53,6 +59,7 @@ import org.gitlab4j.api.models.Visibility;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -90,6 +97,8 @@ public class TestProjectApi extends AbstractIntegrationTest {
     private static final String TEST_PROJECT_NAME_UPDATE = "test-gitlab4j-create-project-update";
     private static final String TEST_XFER_PROJECT_NAME = "test-gitlab4j-xfer-project";
     private static final String TEST_VARIABLE_KEY_PREFIX = "TEST_VARIABLE_KEY_";
+
+    private static final String AVATAR_FILENAME = "avatar.png";
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
@@ -306,6 +315,25 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertEquals(2, projects.size());
         assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
         assertEquals(TEST_PROJECT_NAME_1, projects.get(1).getName());
+    }
+
+    @Test
+    @Disabled("Required Gitlab version not less then 16.9")
+    public void testGetAvatar() throws GitLabApiException, IOException {
+        
+        assumeTrue(testProject != null);
+
+        File avatarFile = new File("src/test/resources/org/gitlab4j/api", AVATAR_FILENAME);
+        gitLabApi.getProjectApi().setProjectAvatar(testProject.getId(), avatarFile);
+
+        // Get the avatar of the test project
+        InputStream in = gitLabApi.getProjectApi().getAvatar(testProject);
+
+        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-avatar", "png");
+        Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+
+        assertTrue(target.toFile().length() > 0);
+        Files.delete(target);
     }
 
     @Test

@@ -35,6 +35,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -1066,6 +1067,24 @@ public class ProjectApi extends AbstractApi implements Constants {
 
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Gets the project avatar.
+     * Only working with GitLab 16.9 and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/avatar</code></pre>
+     * 
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @return an InputStream to read the raw file from
+     * @throws GitLabApiException if any exception occurs
+     */
+    public InputStream getAvatar(Object projectIdOrPath) throws GitLabApiException {
+
+        Response response = getWithAccepts(Response.Status.OK, null,  MediaType.MEDIA_TYPE_WILDCARD,
+                "projects", getProjectIdOrPath(projectIdOrPath), "avatar");
+        return (response.readEntity(InputStream.class));
+
     }
 
     /**
