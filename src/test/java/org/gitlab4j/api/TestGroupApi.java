@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.User;
@@ -191,6 +192,21 @@ public class TestGroupApi extends AbstractIntegrationTest {
     public void getGroup() throws GitLabApiException {
         Group group = gitLabApi.getGroupApi().getGroup(TEST_GROUP);
         assertNotNull(group);
+    }
+
+    @Test
+    public void getGroupsWithCustomAttribute() throws GitLabApiException {
+        gitLabApi.getGroupApi().setCustomAttribute(TEST_GROUP, "test_key", "test_value");
+
+        GroupFilter wrongKeyFilter = new GroupFilter().withCustomAttributeFilter("other_key", "test_value");
+        GroupFilter multipleFilter = new GroupFilter().withCustomAttributeFilter("test_key", "test_value").withCustomAttributeFilter("other_key", "test_value");
+        GroupFilter matchingFilter = new GroupFilter().withCustomAttributeFilter("test_key", "test_value");
+
+        assertEquals(1, gitLabApi.getGroupApi().getGroups(matchingFilter).size());
+        assertTrue(gitLabApi.getGroupApi().getGroups(wrongKeyFilter).isEmpty());
+        assertTrue(gitLabApi.getGroupApi().getGroups(multipleFilter).isEmpty());
+
+        gitLabApi.getGroupApi().deleteCustomAttribute(TEST_GROUP, "test_key");
     }
 
     @Test
