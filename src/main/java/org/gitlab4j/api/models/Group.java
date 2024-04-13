@@ -66,6 +66,7 @@ public class Group extends AbstractGroup<Group> {
     private List<Project> sharedProjects;
     private Date createdAt;
     private List<SharedGroup> sharedWithGroups;
+    private List<CustomAttribute> customAttributes;
     private String runnersToken;
     private Boolean preventSharingGroupsOutsideHierarchy;
     private Boolean preventForkingOutsideGroup;
@@ -228,6 +229,14 @@ public class Group extends AbstractGroup<Group> {
         this.defaultBranchProtection = defaultBranchProtection;
     }
 
+    public List<CustomAttribute> getCustomAttributes() {
+        return customAttributes;
+    }
+
+    public void setCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
+    }
+
     public Group withPath(String path) {
         this.path = path;
         return this;
@@ -300,6 +309,11 @@ public class Group extends AbstractGroup<Group> {
 
     public Group withDefaultBranchProtection(DefaultBranchProtectionLevel defaultBranchProtection) {
         this.defaultBranchProtection = defaultBranchProtection;
+        return this;
+    }
+
+    public Group withCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
         return this;
     }
 
