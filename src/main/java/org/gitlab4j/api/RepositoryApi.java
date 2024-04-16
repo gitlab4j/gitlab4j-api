@@ -237,7 +237,7 @@ public class RepositoryApi extends AbstractApi {
      * Unprotects a single project repository branch. This is an idempotent function, unprotecting an
      * already unprotected repository branch will not produce an error.
      *
-     * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/branches/:branch/unprotect</code></pre>
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/repository/branches/:branch/unprotect</code></pre>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param branchName the name of the branch to un-protect
@@ -245,7 +245,7 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Branch unprotectBranch(Object projectIdOrPath, String branchName) throws GitLabApiException {
-        Response response = put(Response.Status.OK, null, "projects",
+        Response response = delete(Response.Status.OK, null, "projects",
                 getProjectIdOrPath(projectIdOrPath), "repository", "branches", urlEncode(branchName), "unprotect");
         return (response.readEntity(Branch.class));
     }
