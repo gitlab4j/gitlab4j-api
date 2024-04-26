@@ -12,7 +12,7 @@ public class Position implements Serializable {
 
     public static enum PositionType {
 
-        TEXT, IMAGE;
+        TEXT, IMAGE, FILE;
         private static JacksonJsonEnumHelper<PositionType> enumHelper = new JacksonJsonEnumHelper<>(PositionType.class,
                 false, false);
 
