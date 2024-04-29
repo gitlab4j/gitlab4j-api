@@ -196,6 +196,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * <p>NOTE: This method is only available to GitLab Starter, Bronze, or higher.</p>
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/protected_branches</code></pre>
+     * @deprecated
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param branchName the name of the branch to protect, can be a wildcard
@@ -206,8 +207,31 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @return the branch info for the protected branch
      * @throws GitLabApiException if any exception occurs
      */
+    @Deprecated
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
             Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
+            Boolean codeOwnerApprovalRequired) throws GitLabApiException {
+        return protectBranch(projectIdOrPath, branchName, allowedToPushUserId, allowedToMergeUserId, allowedToUnprotectUserId, codeOwnerApprovalRequired, null);
+    }
+
+   /**
+     * Protects a single repository branch or several project repository branches using a wildcard protected branch.
+     *
+     * <p>NOTE: This method is only available to GitLab Starter, Bronze, or higher.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/protected_branches</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param branchName the name of the branch to protect, can be a wildcard
+     * @param allowedToPushUserId user ID allowed to push, can be null
+     * @param allowedToMergeUserId user ID allowed to merge, can be null
+     * @param allowedToUnprotectUserId user ID allowed to unprotect, can be null
+     * @param codeOwnerApprovalRequired prevent pushes to this branch if it matches an item in the CODEOWNERS file. (defaults: false)
+     * @return the branch info for the protected branch
+     * @throws GitLabApiException if any exception occurs
+    */
+    public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
+            Long allowedToPushUserId, Long allowedToMergeUserId, Long allowedToUnprotectUserId,
             Boolean codeOwnerApprovalRequired) throws GitLabApiException {
         return protectBranch(projectIdOrPath, branchName, allowedToPushUserId, allowedToMergeUserId, allowedToUnprotectUserId, codeOwnerApprovalRequired, null);
     }
