@@ -1074,7 +1074,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * Only working with GitLab 16.9 and above.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/avatar</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return an InputStream to read the raw file from
      * @throws GitLabApiException if any exception occurs
@@ -2250,13 +2250,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public ProjectHook addHook(Object projectIdOrPath, String url, boolean doPushEvents,
-            boolean doIssuesEvents, boolean doMergeRequestsEvents) throws GitLabApiException {
+            boolean doIssuesEvents, boolean doMergeRequestsEvents, boolean doNoteEvents) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", url)
                 .withParam("push_events", doPushEvents)
                 .withParam("issues_events", doIssuesEvents)
-                .withParam("merge_requests_events", doMergeRequestsEvents);
+                .withParam("merge_requests_events", doMergeRequestsEvents)
+                .withParam("note_events", doNoteEvents);
 
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
         return (response.readEntity(ProjectHook.class));
