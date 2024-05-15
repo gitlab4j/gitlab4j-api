@@ -1360,7 +1360,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 formData.withParam("tag_list", String.join(",", project.getTagList()));
             }
 
-            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+            if (project.getTopics() != null) {
                 formData.withParam("topics", String.join(",", project.getTopics()));
             }
         }
