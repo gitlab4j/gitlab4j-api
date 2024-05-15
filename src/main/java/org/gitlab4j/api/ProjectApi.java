@@ -4024,7 +4024,25 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public ProjectAccessToken rotateProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
-        Response response = post(Response.Status.OK, (Object) null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId, "rotate");
+        return rotateProjectAccessToken(projectIdOrPath, tokenId, null);
+    }
+    
+    /**
+     * Rotates the given project access token.
+     * The token is revoked and a new one which will expire in one week is created to replace it.
+     * Only working with GitLab 16.0 and above.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param tokenId the id
+     * @param expiresAt Expiration date of the access token
+     * @return the newly created ProjectAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectAccessToken rotateProjectAccessToken(Object projectIdOrPath, Long tokenId, Date expiresAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("expires_at", ISO8601.dateOnly(expiresAt));
+
+        Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId, "rotate");
         return (response.readEntity(ProjectAccessToken.class));
     }
 
