@@ -2238,7 +2238,7 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Adds a hook to project.
-     * Convenience method for {@link org.gitlab4j.api.ProjectApi.addHook(Object, String, ProjectHook, Boolean, String)}
+     * Convenience method for {@link #addHook(Object, String, ProjectHook, Boolean, String)}
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/hooks</code></pre>
      *
@@ -2257,7 +2257,7 @@ public class ProjectApi extends AbstractApi implements Constants {
     
     /**
      * Adds a hook to project.
-     * Convenience method for {@link org.gitlab4j.api.ProjectApi.addHook(Object, String, ProjectHook, Boolean, String)}
+     * Convenience method for {@link #addHook(Object, String, ProjectHook, Boolean, String)}
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/hooks</code></pre>
      *
