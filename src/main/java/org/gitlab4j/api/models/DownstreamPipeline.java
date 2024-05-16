@@ -8,7 +8,7 @@ import java.util.Date;
 public class DownstreamPipeline implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private int id;
+    private Long id;
     private String sha;
     private String ref;
     private String status;
@@ -16,11 +16,11 @@ public class DownstreamPipeline implements Serializable {
     private Date updatedAt;
     private String webUrl;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Bridge;
+import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineFilter;
 import org.gitlab4j.api.models.PipelineSchedule;
@@ -859,6 +860,35 @@ public class PipelineApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a List of bridges in a pipeline.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines/:pipeline_id/bridges </code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path to get the pipelines for
+     * @param pipelineId      the pipeline ID to get the list of bridges for
+     * @return a list containing the bridges for the specified project ID and pipeline ID
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public List<Bridge> getBridgesForPipeline(Object projectIdOrPath, long pipelineId) throws GitLabApiException {
+        return (getBridgesForPipeline(projectIdOrPath, pipelineId, getDefaultPerPage(), null).all());
+    }
+
+    /**
+     * Get a List of bridges in a pipeline.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines/:pipeline_id/bridges </code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path to get the pipelines for
+     * @param pipelineId      the pipeline ID to get the list of bridges for
+     * @param scope           the scope of the jobs to list
+     * @return a list containing the bridges for the specified project ID and pipeline ID
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public List<Bridge> getBridgesForPipeline(Object projectIdOrPath, long pipelineId, JobScope scope) throws GitLabApiException {
+        return (getBridgesForPipeline(projectIdOrPath, pipelineId, getDefaultPerPage(), scope).all());
+    }
+
+    /**
      * Get a Pager of bridges in a pipeline.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/pipelines/:pipeline_id/bridges </code></pre>
@@ -866,6 +896,7 @@ public class PipelineApi extends AbstractApi implements Constants {
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path to get the pipelines for
      * @param pipelineId      the pipeline ID to get the list of bridges for
      * @param itemsPerPage    the number of Bridge instances that will be fetched per page
+     * @param scope           the scope of the jobs to list
      * @return a list containing the bridges for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */

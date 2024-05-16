@@ -16,7 +16,7 @@ public class Bridge implements Serializable {
     private Date erasedAt;
     private Double duration;
     private Double queuedDuration;
-    private int id;
+    private Long id;
     private String name;
     private String coverage;
     private Pipeline pipeline;
@@ -92,11 +92,11 @@ public class Bridge implements Serializable {
         this.queuedDuration = queuedDuration;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
