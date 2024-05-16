@@ -2211,7 +2211,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public ProjectHook addHook(Object projectIdOrPath, String url, ProjectHook enabledHooks,
-            boolean enableSslVerification, String secretToken) throws GitLabApiException {
+            Boolean enableSslVerification, String secretToken) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", url, true)
@@ -2238,6 +2238,7 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Adds a hook to project.
+     * Convenience method for {@link org.gitlab4j.api.ProjectApi.addHook(Object, String, ProjectHook, Boolean, String)}
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/hooks</code></pre>
      *
@@ -2250,17 +2251,33 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public ProjectHook addHook(Object projectIdOrPath, String url, boolean doPushEvents,
-            boolean doIssuesEvents, boolean doMergeRequestsEvents, boolean doNoteEvents) throws GitLabApiException {
-
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("url", url)
-                .withParam("push_events", doPushEvents)
-                .withParam("issues_events", doIssuesEvents)
-                .withParam("merge_requests_events", doMergeRequestsEvents)
-                .withParam("note_events", doNoteEvents);
-
-        Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
-        return (response.readEntity(ProjectHook.class));
+            boolean doIssuesEvents, boolean doMergeRequestsEvents) throws GitLabApiException {
+        return addHook(projectIdOrPath, url, doPushEvents, doIssuesEvents, doMergeRequestsEvents, null);
+    }
+    
+    /**
+     * Adds a hook to project.
+     * Convenience method for {@link org.gitlab4j.api.ProjectApi.addHook(Object, String, ProjectHook, Boolean, String)}
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/hooks</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param url the callback URL for the hook
+     * @param doPushEvents flag specifying whether to do push events
+     * @param doIssuesEvents flag specifying whether to do issues events
+     * @param doMergeRequestsEvents flag specifying whether to do merge requests events
+     * @param doNoteEvents flag specifying whether to do note events
+     * @return the added ProjectHook instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectHook addHook(Object projectIdOrPath, String url, Boolean doPushEvents,
+            Boolean doIssuesEvents, Boolean doMergeRequestsEvents, Boolean doNoteEvents) throws GitLabApiException {
+        ProjectHook enabledHooks = new ProjectHook()
+            .withPushEvents(doPushEvents)
+            .withIssuesEvents(doIssuesEvents)
+            .withMergeRequestsEvents(doMergeRequestsEvents)
+            .withNoteEvents(doNoteEvents);
+        return addHook(projectIdOrPath, url, enabledHooks , null, null);
     }
 
     /**
