@@ -1031,6 +1031,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
             .withParam("ci_config_path", project.getCiConfigPath())
+            .withParam("repository_object_format", project.getRepositoryObjectFormat())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
             .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
             .withParam("squash_option", project.getSquashOption());
@@ -2254,7 +2255,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             boolean doIssuesEvents, boolean doMergeRequestsEvents) throws GitLabApiException {
         return addHook(projectIdOrPath, url, doPushEvents, doIssuesEvents, doMergeRequestsEvents, null);
     }
-    
+
     /**
      * Adds a hook to project.
      * Convenience method for {@link #addHook(Object, String, ProjectHook, Boolean, String)}
@@ -4044,7 +4045,7 @@ public class ProjectApi extends AbstractApi implements Constants {
     public ProjectAccessToken rotateProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
         return rotateProjectAccessToken(projectIdOrPath, tokenId, null);
     }
-    
+
     /**
      * Rotates the given project access token.
      * The token is revoked and a new one which will expire in one week is created to replace it.
