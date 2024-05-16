@@ -2121,7 +2121,7 @@ public class GroupApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
                 .withParam("scopes", Arrays.asList(scopes))
-                .withParam("expires_at", expiresAt)
+                .withParam("expires_at", ISO8601.dateOnly(expiresAt))
                 .withParam("access_level", accessLevel);
 
         Response response = post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens");
@@ -2139,9 +2139,29 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public GroupAccessToken rotateGroupAccessToken(Object groupIdOrPath, Long tokenId) throws GitLabApiException {
-        Response response = post(Response.Status.OK, (Form)null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId, "rotate");
+        return rotateGroupAccessToken(groupIdOrPath, tokenId, null);
+    }
+    
+
+    /**
+     * Rotate a group access token. Revokes the previous token and creates a new token that expires in one week.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/access_tokens/:token_id/rotate</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param tokenId ID of the group access token
+     * @param expiresAt Expiration date of the access token
+     * @return the updated GroupAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GroupAccessToken rotateGroupAccessToken(Object groupIdOrPath, Long tokenId, Date expiresAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("expires_at", ISO8601.dateOnly(expiresAt));
+
+        Response response = post(Response.Status.OK, formData, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId, "rotate");
         return (response.readEntity(GroupAccessToken.class));
     }
+
 
     /**
      * Revoke a group access token.
