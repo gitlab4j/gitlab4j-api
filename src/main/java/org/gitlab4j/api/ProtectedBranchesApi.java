@@ -190,7 +190,7 @@ public class ProtectedBranchesApi extends AbstractApi {
         return (response.readEntity(ProtectedBranch.class));
     }
 
-    /**
+   /**
      * Protects a single repository branch or several project repository branches using a wildcard protected branch.
      *
      * <p>NOTE: This method is only available to GitLab Starter, Bronze, or higher.</p>
@@ -205,9 +205,9 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @param codeOwnerApprovalRequired prevent pushes to this branch if it matches an item in the CODEOWNERS file. (defaults: false)
      * @return the branch info for the protected branch
      * @throws GitLabApiException if any exception occurs
-     */
+    */
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
-            Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
+            Long allowedToPushUserId, Long allowedToMergeUserId, Long allowedToUnprotectUserId,
             Boolean codeOwnerApprovalRequired) throws GitLabApiException {
         return protectBranch(projectIdOrPath, branchName, allowedToPushUserId, allowedToMergeUserId, allowedToUnprotectUserId, codeOwnerApprovalRequired, null);
     }
@@ -230,7 +230,7 @@ public class ProtectedBranchesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public ProtectedBranch protectBranch(Object projectIdOrPath, String branchName,
-            Integer allowedToPushUserId, Integer allowedToMergeUserId, Integer allowedToUnprotectUserId,
+            Long allowedToPushUserId, Long allowedToMergeUserId, Long allowedToUnprotectUserId,
             Boolean codeOwnerApprovalRequired, Boolean allowForcedPush) throws GitLabApiException {
 
         Form formData = new GitLabApiForm()
