@@ -1,4 +1,5 @@
 {
     "access_level": 30,
-    "name": "A_GITLAB_DEVELOPER"
+    "name": "A_GITLAB_DEVELOPER",
+    "member_role_id": 6
 }
