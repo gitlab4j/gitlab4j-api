@@ -12,6 +12,8 @@ public class SamlGroupLink implements Serializable {
 
     private AccessLevel accessLevel;
 
+    private int memberRoleId;
+
     public String getName() {
         return name;
     }
@@ -26,6 +28,14 @@ public class SamlGroupLink implements Serializable {
 
     public void setAccessLevel(AccessLevel aAccessLevel) {
         accessLevel = aAccessLevel;
+    }
+
+    public int getMemberRoleId() {
+        return memberRoleId;
+    }
+
+    public void setMemberRoleId(int aMemberRoleId) {
+        memberRoleId = aMemberRoleId;
     }
 
     @Override
