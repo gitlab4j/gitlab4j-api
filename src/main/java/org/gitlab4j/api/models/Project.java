@@ -119,6 +119,9 @@ public class Project implements Serializable {
     private String mergeCommitTemplate;
     private String squashCommitTemplate;
     private String issueBranchTemplate;
+    private String mergeRequestsTemplate;
+    private String issuesTemplate;
+
     @JsonProperty("_links")
     private Map<String, String> links;
 
@@ -948,6 +951,22 @@ public class Project implements Serializable {
 
     public void setIssueBranchTemplate(String issueBranchTemplate) {
         this.issueBranchTemplate = issueBranchTemplate;
+    }
+
+    public String getMergeRequestsTemplate() {
+        return mergeRequestsTemplate;
+    }
+
+    public void setMergeRequestsTemplate(String mergeRequestsTemplate) {
+        this.mergeRequestsTemplate = mergeRequestsTemplate;
+    }
+
+    public String getIssuesTemplate() {
+        return issuesTemplate;
+    }
+
+    public void setIssuesTemplate(String issuesTemplate) {
+        this.issuesTemplate = issuesTemplate;
     }
 
     public Map<String, String> getLinks() {
