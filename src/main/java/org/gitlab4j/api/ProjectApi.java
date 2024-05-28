@@ -1355,6 +1355,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             formData.withParam("issue_branch_template", project.getIssueBranchTemplate());
             formData.withParam("merge_commit_template", project.getMergeCommitTemplate());
             formData.withParam("squash_commit_template", project.getSquashCommitTemplate());
+            formData.withParam("merge_requests_template", project.getMergeRequestsTemplate());
+            formData.withParam("issues_template", project.getIssuesTemplate());
 
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 formData.withParam("tag_list", String.join(",", project.getTagList()));
