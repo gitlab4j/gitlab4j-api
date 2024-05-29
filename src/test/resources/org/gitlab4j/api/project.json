@@ -96,6 +96,8 @@
   "merge_commit_template": "Merge branch '%{source_branch}' into '%{target_branch}'",
   "squash_commit_template": "Commit %{title}",
   "issue_branch_template" : "issue-%{id}",
+  "merge_requests_template": "",
+  "issues_template": "",
   "autoclose_referenced_issues" : true,
   "permissions" : {
     "project_access" : {
