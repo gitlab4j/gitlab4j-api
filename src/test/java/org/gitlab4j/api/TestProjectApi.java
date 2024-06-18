@@ -224,6 +224,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
                 .withMergeRequestsEnabled(true)
                 .withWikiEnabled(true)
                 .withSnippetsEnabled(true)
+                .withRepositoryObjectFormat("sha1")
                 .withVisibility(Visibility.PUBLIC)
                 .withTagList(Arrays.asList("tag1", "tag2"));
 
@@ -235,6 +236,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertEquals(project.getMergeRequestsEnabled(), newProject.getMergeRequestsEnabled());
         assertEquals(project.getWikiEnabled(), newProject.getWikiEnabled());
         assertEquals(project.getSnippetsEnabled(), newProject.getSnippetsEnabled());
+        assertEquals(project.getRepositoryObjectFormat(), newProject.getRepositoryObjectFormat());
         assertEquals(project.getTagList(), newProject.getTagList());
         assertTrue(Visibility.PUBLIC == newProject.getVisibility() || Boolean.TRUE == newProject.getPublic());
     }
@@ -323,7 +325,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
     @Test
     @Disabled("Required Gitlab version not less then 16.9")
     public void testGetAvatar() throws GitLabApiException, IOException {
-        
+
         assumeTrue(testProject != null);
 
         File avatarFile = new File("src/test/resources/org/gitlab4j/api", AVATAR_FILENAME);
