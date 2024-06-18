@@ -33,6 +33,8 @@ public class ProjectHook implements Serializable {
     private Boolean deploymentEvents;
     private Boolean releasesEvents;
 
+    private String description;
+
     public Boolean getBuildEvents() {
         return buildEvents;
     }
@@ -175,6 +177,14 @@ public class ProjectHook implements Serializable {
 
     public void setReleasesEvents(Boolean releasesEvents) {
         this.releasesEvents = releasesEvents;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Boolean getConfidentialIssuesEvents() {
