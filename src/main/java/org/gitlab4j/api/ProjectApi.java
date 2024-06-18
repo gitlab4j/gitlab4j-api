@@ -2233,6 +2233,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
                 .withParam("releases_events", enabledHooks.getReleasesEvents(), false)
                 .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
+                .withParam("description", enabledHooks.getDescription(), false)
                 .withParam("token", secretToken, false);
         Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
         return (response.readEntity(ProjectHook.class));
@@ -2336,6 +2337,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("repository_update_events", hook.getRepositoryUpdateEvents(), false)
             .withParam("releases_events", hook.getReleasesEvents(), false)
             .withParam("deployment_events", hook.getDeploymentEvents(), false)
+            .withParam("description", hook.getDescription(), false)
             .withParam("token", hook.getToken(), false);
 
         Response response = put(Response.Status.OK, formData.asMap(), "projects", hook.getProjectId(), "hooks", hook.getId());
