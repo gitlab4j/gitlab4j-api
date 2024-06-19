@@ -2,12 +2,15 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class SearchBlob {
+import java.io.Serializable;
+
+public class SearchBlob implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String basename;
     private String data;
     private String filename;
-    private Long id;
+    private String id;
     private String ref;
     private Integer startline;
     private Long projectId;
@@ -36,11 +39,11 @@ public class SearchBlob {
         this.filename = filename;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

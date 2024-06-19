@@ -47,8 +47,11 @@
     "title": "MS-Viewport",
     "created_at": "2013-12-03T17:23:34Z",
     "updated_at": "2013-12-03T17:23:34Z",
+    "milestone_id": 1,
     "state": "opened",
+    "blocking_discussions_resolved": true,
     "work_in_progress": false,
+    "first_contribution": true,
     "merge_status": "unchecked",
     "target_project_id": 14,
     "description": "",
@@ -95,7 +98,37 @@
         "email": "gitlabdev@dv6700.(none)"
       }
     },
-    "action": "open"
+    "labels": [
+      {
+        "id": 206,
+        "title": "API",
+        "color": "#ffffff",
+        "project_id": 14,
+        "created_at": "2013-12-03T17:15:43Z",
+        "updated_at": "2013-12-03T17:15:43Z",
+        "template": false,
+        "description": "API related issues",
+        "type": "ProjectLabel",
+        "group_id": 41
+      }
+    ],
+    "head_pipeline_id": 848574,
+    "last_edited_at": "2014-04-03T17:23:34Z",
+    "last_edited_by_id": 59,
+    "merge_commit_sha": "e3b7e97417fd6318a5c31b21b29d2acc5c86c3ae",
+    "merge_user_id": 59,
+    "merge_when_pipeline_succeeds": false,
+    "state_id": 1,
+    "time_estimate": 0,
+    "updated_by_id": 6,
+    "total_time_spent": 0,
+    "time_change": 0,
+    "human_total_time_spent": "30m",
+    "human_time_change": "30s",
+    "human_time_estimate": "30m",
+    "action": "open",
+    "detailed_merge_status": "mergeable",
+    "oldrev": "8ad9e9f37b007d15c102da002c2a7133a5ca3737"
   },
   "labels": [
     {
@@ -113,56 +146,80 @@
   ],
   "changes": {
     "author_id": {
-       "current":2
+      "current": 2
     },
     "updated_at": {
-       "previous": "2013-09-15T16:50:55Z",
-       "current": "2013-12-03T17:23:34Z"
+      "previous": "2013-09-15T16:50:55Z",
+      "current": "2013-12-03T17:23:34Z"
     },
     "updated_by_id": {
-       "previous": 2,
-       "current": 6
+      "previous": 2,
+      "current": 6
     },
-    "id":{
-       "previous":123,
-       "current":456
-   	},
-    "iid":{
-       "previous":12,
-       "current":34
+    "id": {
+      "previous": 123,
+      "current": 456
+    },
+    "iid": {
+      "previous": 12,
+      "current": 34
     },
     "merge_status": {
-       "current": "unchecked"
+      "current": "unchecked"
     },
     "milestone_id": {
-       "previous":0,
-       "current":1
+      "previous": 0,
+      "current": 1
     },
     "labels": {
-      "previous": [{
-        "id": 206,
-        "title": "API",
-        "color": "#ffffff",
-        "project_id": 14,
-        "created_at": "2013-12-03T17:15:43Z",
-        "updated_at": "2013-12-03T17:15:43Z",
-        "template": false,
-        "description": "API related issues",
-        "type": "ProjectLabel",
-        "group_id": 41
-      }],
-      "current": [{
-        "id": 205,
-        "title": "Platform",
-        "color": "#123123",
-        "project_id": 14,
-        "created_at": "2013-12-03T17:15:43Z",
-        "updated_at": "2013-12-03T17:15:43Z",
-        "template": false,
-        "description": "Platform related issues",
-        "type": "ProjectLabel",
-        "group_id": 41
-      }]
+      "previous": [
+        {
+          "id": 206,
+          "title": "API",
+          "color": "#ffffff",
+          "project_id": 14,
+          "created_at": "2013-12-03T17:15:43Z",
+          "updated_at": "2013-12-03T17:15:43Z",
+          "template": false,
+          "description": "API related issues",
+          "type": "ProjectLabel",
+          "group_id": 41
+        }
+      ],
+      "current": [
+        {
+          "id": 205,
+          "title": "Platform",
+          "color": "#123123",
+          "project_id": 14,
+          "created_at": "2013-12-03T17:15:43Z",
+          "updated_at": "2013-12-03T17:15:43Z",
+          "template": false,
+          "description": "Platform related issues",
+          "type": "ProjectLabel",
+          "group_id": 41
+        }
+      ]
+    },
+    "reviewers": {
+      "previous": [
+        {
+          "id": 2,
+          "name": "John Doe",
+          "username": "jdoe",
+          "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+          "email": "jdoe@example.com"
+        }
+      ],
+      "current": [
+        {
+          "id": 3,
+          "name": "Paul Smith",
+          "username": "psmith",
+          "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+          "email": "psmith@example.com"
+        }
+      ]
     }
   },
   "assignees": [

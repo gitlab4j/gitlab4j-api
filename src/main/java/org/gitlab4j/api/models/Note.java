@@ -1,14 +1,15 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
+import java.util.Date;
 
-public class Note {
+public class Note implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** Enum to use for ordering the results. */
     public static enum OrderBy {
@@ -98,6 +99,7 @@ public class Note {
     private Boolean resolvable;
     private Participant resolvedBy;
     private Date resolvedAt;
+    private Boolean internal;
     private Type type;
 
     private Position position;
@@ -270,7 +272,15 @@ public class Note {
         this.position = position;
     }
 
-    @Override
+    public Boolean getInternal() {
+		return internal;
+	}
+
+	public void setInternal(Boolean internal) {
+		this.internal = internal;
+	}
+
+	@Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }

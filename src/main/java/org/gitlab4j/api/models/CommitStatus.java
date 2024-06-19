@@ -1,11 +1,13 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class CommitStatus {
+import java.io.Serializable;
+import java.util.Date;
+
+public class CommitStatus implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Boolean allowFailure;
     private Author author;
@@ -15,6 +17,7 @@ public class CommitStatus {
     private Date finishedAt;
     private Long id;
     private String name;
+    private Long pipelineId;
     private String ref;
     private String sha;
     private Date startedAt;
@@ -85,6 +88,14 @@ public class CommitStatus {
         this.name = name;
     }
 
+    public Long getPipelineId() {
+        return pipelineId;
+    }
+
+    public void setPipelineId(Long pipelineId) {
+        this.pipelineId = pipelineId;
+    }
+
     public String getRef() {
         return ref;
     }
@@ -137,6 +148,11 @@ public class CommitStatus {
 
     public CommitStatus withName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public CommitStatus withPipelineId(Long pipelineId) {
+        this.pipelineId = pipelineId;
         return this;
     }
 

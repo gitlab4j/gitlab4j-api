@@ -1,13 +1,16 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.Constants.TargetType;
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Event {
+import java.io.Serializable;
+import java.util.Date;
 
+public class Event implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
     private String actionName;
     private Author author;
     private Long authorId;
@@ -23,6 +26,14 @@ public class Event {
 
     private Note note;
     private PushData pushData;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getActionName() {
         return actionName;

@@ -663,7 +663,7 @@ public interface Constants {
      */
     public enum CommitBuildState {
 
-        PENDING, RUNNING, SUCCESS, FAILED, CANCELED;
+        PENDING, RUNNING, SUCCESS, FAILED, CANCELED, SKIPPED;
 
         private static JacksonJsonEnumHelper<CommitBuildState> enumHelper = new JacksonJsonEnumHelper<>(CommitBuildState.class);
 
@@ -758,7 +758,7 @@ public interface Constants {
      */
     public enum GroupSearchScope {
 
-        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, USERS;
+        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, WIKI_BLOBS, COMMITS, BLOBS, NOTES, USERS;
 
         private static JacksonJsonEnumHelper<GroupSearchScope> enumHelper = new JacksonJsonEnumHelper<>(GroupSearchScope.class);
 
@@ -919,6 +919,28 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for specifying the project token scope. */
+    public enum ProjectAccessTokenScope {
+        API, READ_API, READ_REGISTRY, WRITE_REGISTRY, READ_REPOSITORY, WRITE_REPOSITORY, CREATE_RUNNER;
+
+        private static JacksonJsonEnumHelper<ProjectAccessTokenScope> enumHelper = new JacksonJsonEnumHelper<>(ProjectAccessTokenScope.class);
+
+        @JsonCreator
+        public static ProjectAccessTokenScope forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum for the build_git_strategy of the project instance. */
     enum SquashOption {
 
@@ -1005,6 +1027,74 @@ public interface Constants {
         @Override
         public String toString() {
             return (enumHelper.toString(this));
+        }
+    }
+
+    /**
+     * Constant to specify the project_creation_level for the group.
+     */
+    public enum ProjectCreationLevel {
+        NOONE, DEVELOPER, MAINTAINER;
+
+        private static JacksonJsonEnumHelper<ProjectCreationLevel> enumHelper = new JacksonJsonEnumHelper<>(ProjectCreationLevel.class);
+
+        @JsonCreator
+        public static ProjectCreationLevel forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /**
+     * Constant to specify the subgroup_creation_level for the group.
+     */
+    public enum SubgroupCreationLevel {
+        OWNER, MAINTAINER;
+
+        private static JacksonJsonEnumHelper<SubgroupCreationLevel> enumHelper = new JacksonJsonEnumHelper<>(SubgroupCreationLevel.class);
+
+        @JsonCreator
+        public static SubgroupCreationLevel forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    public enum DefaultBranchProtectionLevel {
+        NOT_PROTECTED(0),
+        PARTIALLY_PROTECTED(1),
+        FULLY_PROTECTED(2),
+        PROTECTED_AGAINST_PUSHES(3),
+        FULL_PROTECTION_AFTER_INITIAL_PUSH(4);
+        
+        @JsonValue
+        private final int value;
+        
+        private DefaultBranchProtectionLevel(int value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return Integer.toString(value);
         }
     }
 }

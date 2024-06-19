@@ -1,11 +1,16 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Release {
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+public class Release implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String name;
     private String tagName;
@@ -20,6 +25,8 @@ public class Release {
     private String tagPath;
     private String evidenceSha;
     private Assets assets;
+    @JsonProperty("_links")
+    private Map<String, String> links;
 
     public String getName() {
         return name;
@@ -123,6 +130,23 @@ public class Release {
 
     public void setAssets(Assets assets) {
         this.assets = assets;
+    }
+
+    public Map<String, String> getLinks() {
+        return links;
+    }
+
+    public void setLinks(Map<String, String> links) {
+        this.links = links;
+    }
+
+    @JsonIgnore
+    public String getLinkByName(String name) {
+        if (links == null || links.isEmpty()) {
+            return (null);
+        }
+
+        return (links.get(name));
     }
 
     @Override

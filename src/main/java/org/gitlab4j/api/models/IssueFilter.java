@@ -1,8 +1,10 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.IssueOrderBy;
 import org.gitlab4j.api.Constants.IssueScope;
@@ -10,11 +12,21 @@ import org.gitlab4j.api.Constants.IssueState;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.ISO8601;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  *  This class is used to filter issues when getting lists of them.
  */
-public class IssueFilter {
+public class IssueFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Return only the milestone having the given iid.
@@ -95,6 +107,32 @@ public class IssueFilter {
      * Return issues in current iteration.
      */
     private String iterationTitle;
+
+    /*
+     * Return issues without these parameters
+     */
+    private Map<IssueField, Object> not;
+
+    public enum IssueField {
+    	ASSIGNEE_ID, ASSIGNEE_USERNAME, AUTHOR_ID, AUTHOR_USERNAME, IIDS, ITERATION_ID, ITERATION_TITLE, LABELS, MILESTONE, MILESTONE_ID;
+
+    	private static JacksonJsonEnumHelper<IssueField> enumHelper = new JacksonJsonEnumHelper<>(IssueField.class);
+
+    	@JsonCreator
+        public static IssueField forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+    	@JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 
 
     /*- properties -*/
@@ -226,6 +264,14 @@ public class IssueFilter {
         this.iterationTitle = iterationTitle;
     }
 
+    public Map<IssueField, Object> getNot() {
+    	return not;
+    }
+
+    public void setNot(Map<IssueField, Object> not) {
+    	this.not = not;
+    }
+
     /*- builder -*/
     public IssueFilter withIids(List<String> iids) {
         this.iids = iids;
@@ -307,6 +353,132 @@ public class IssueFilter {
         return (this);
     }
 
+    /**
+     * Add 'not' filter.
+     *
+     * @param not the 'not' filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withNot(Map<IssueField, Object> not) {
+        this.not = not;
+        return (this);
+    }
+
+    /**
+     * Add 'not' filter entry.
+     *
+     * @param field the field to be added to the 'not' value
+     * @param value the value for the entry
+     * @return the reference to this IssueField instance
+     */
+    public IssueFilter withNot(IssueField field, Object value) {
+        if(not == null) {
+            not = new LinkedHashMap<>();
+        }
+        not.put(field, value);
+        return (this);
+    }
+
+    /**
+     * Add labels to the 'not' filter entry.
+     *
+     * @param labels the labels to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutLabels(String... labels) {
+        return withNot(IssueField.LABELS, String.join(",", labels));
+    }
+
+    /*
+     * Add iids to the 'not' filter entry.
+     *
+     * @param iids the iids to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutIids(String... iids) {
+    	return withNot(IssueField.IIDS, String.join(",", iids));
+    }
+
+    /**
+     * Add author_id to the 'not' filter entry.
+     *
+     * @param authorId the id of the author to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutAuthorId(Long authorId) {
+        return withNot(IssueField.AUTHOR_ID, authorId);
+    }
+
+    /**
+     * Add author_username to the 'not' filter entry.
+     *
+     * @param authorUsername the username of the author to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutAuthorUsername(String authorUsername) {
+        return withNot(IssueField.AUTHOR_USERNAME, authorUsername);
+    }
+
+    /**
+     * Add assignee_id to the 'not' filter entry.
+     *
+     * @param assigneeId the id of the assignee to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutAssigneeId(Long assigneeId) {
+        return withNot(IssueField.ASSIGNEE_ID, assigneeId);
+    }
+
+    /**
+     * Add assignee_username to the 'not' filter entry.
+     *
+     * @param assigneeUsername the username of the assignee to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutAssigneeUsername(String assigneeUsername) {
+        return withNot(IssueField.ASSIGNEE_USERNAME, assigneeUsername);
+    }
+
+    /**
+     * Add iteration_id to the 'not' filter entry.
+     *
+     * @param iterationId the id of the iteration to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutIterationId(Long iterationId) {
+        return withNot(IssueField.ITERATION_ID, iterationId);
+    }
+
+    /**
+     * Add iteration_title to the 'not' filter entry.
+     *
+     * @param iterationTitle the title of the iteration to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutIterationTitle(String iterationTitle) {
+        return withNot(IssueField.ITERATION_TITLE, iterationTitle);
+    }
+
+    /**
+     * Add milestone_id to the 'not' filter entry.
+     *
+     * @param milestoneId the id of the milestone to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutMilestoneId(Long milestoneId) {
+        return withNot(IssueField.MILESTONE_ID, milestoneId);
+    }
+
+    /**
+     * Add milestone to the 'not' filter entry.
+     *
+     * @param milestone the title of the milestone to add to the filter
+     * @return the reference to this IssueFilter instance
+     */
+    public IssueFilter withoutMilestone(String milestone) {
+        return withNot(IssueField.MILESTONE, milestone);
+    }
+
     /*- params generator -*/
     @JsonIgnore
     public GitLabApiForm getQueryParams(int page, int perPage) {
@@ -333,6 +505,18 @@ public class IssueFilter {
                 .withParam("created_before", ISO8601.toString(createdBefore, false))
                 .withParam("updated_after", ISO8601.toString(updatedAfter, false))
                 .withParam("updated_before", ISO8601.toString(updatedBefore, false)))
-                .withParam("iteration_title", iterationTitle);
+                .withParam("iteration_title", iterationTitle)
+                .withParam("not", toStringMap(not), false);
+    }
+
+    private Map<String, Object> toStringMap(Map<IssueField, Object> map) {
+        if(map == null) {
+            return null;
+        }
+        Map<String, Object> result = new LinkedHashMap<>();
+        for (Map.Entry<IssueField, Object> entry : map.entrySet()) {
+            result.put(entry.getKey().toString(), entry.getValue());
+        }
+        return result;
     }
 }

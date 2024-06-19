@@ -9,6 +9,7 @@ import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class PipelineEvent extends AbstractEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Pipeline Hook";
     public static final String OBJECT_KIND = "pipeline";
@@ -81,6 +82,7 @@ public class PipelineEvent extends AbstractEvent {
         private Date createdAt;
         private Date finishedAt;
         private Integer duration;
+        private Float queuedDuration;
         private List<Variable> variables;
 
         public Long getId() {
@@ -169,6 +171,14 @@ public class PipelineEvent extends AbstractEvent {
 
         public void setDuration(Integer duration) {
             this.duration = duration;
+        }
+
+        public Float getQueuedDuration() {
+            return queuedDuration;
+        }
+
+        public void setQueuedDuration(Float queuedDuration) {
+            this.queuedDuration = queuedDuration;
         }
 
         public List<Variable> getVariables() {

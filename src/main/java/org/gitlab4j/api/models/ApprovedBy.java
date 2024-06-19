@@ -2,6 +2,9 @@
 package org.gitlab4j.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
 
 /**
  * This class is used by various models to represent the approved_by property,
@@ -9,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  * @since 4.19.0
  */
-public class ApprovedBy {
+public class ApprovedBy implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private User user;
     private Group group;
@@ -47,5 +51,10 @@ public class ApprovedBy {
     @JsonIgnore
     public Object getApprovedBy() {
 	return (user != null ? user : group);
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

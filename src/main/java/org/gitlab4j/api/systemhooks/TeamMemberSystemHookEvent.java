@@ -6,6 +6,7 @@ import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String NEW_TEAM_MEMBER_EVENT = "user_add_to_team";
     public static final String TEAM_MEMBER_REMOVED_EVENT = "user_remove_from_team";
@@ -13,7 +14,9 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
     private Date createdAt;
     private Date updatedAt;
     private String eventName;
+    @Deprecated
     private String projectAccess;
+    private String accessLevel;
     private String projectName;
     private String projectPath;
     private Long projectId;
@@ -49,12 +52,28 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
         this.eventName = eventName;
     }
 
+    /**
+     * No longer used. Probably replaced by {@link #getAccessLevel()}
+     */
+    @Deprecated
     public String getProjectAccess() {
         return projectAccess;
     }
 
+    /**
+     * No longer used. Probably replaced by {@link #setAccessLevel(String)}
+     */
+    @Deprecated
     public void setProjectAccess(String projectAccess) {
         this.projectAccess = projectAccess;
+    }
+
+    public String getAccessLevel() {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(String accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     public String getProjectName() {

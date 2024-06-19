@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.GenericType;
@@ -129,5 +130,36 @@ public class NamespaceApi extends AbstractApi {
      */
     public Stream<Namespace> findNamespacesStream(String query) throws GitLabApiException {
         return (findNamespaces(query, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get all details of a namespace.
+     *
+     * <pre><code>GitLab Endpoint: GET /namespaces/:id</code></pre>
+     *
+     * @param namespaceIdOrPath the namespace ID, path of the namespace, or a Namespace instance holding the namespace ID or path
+     * @return the Namespace instance for the specified path
+     * @throws GitLabApiException if any exception occurs
+     */
+
+    public Namespace getNamespace(Object namespaceIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "namespaces", getNamespaceIdOrPath(namespaceIdOrPath));
+        return (response.readEntity(Namespace .class));
+    }
+
+    /**
+     * Get all details of a namespace as an Optional instance.
+     *
+     * <pre><code>GitLab Endpoint: GET /namespaces/:id</code></pre>
+     *
+     * @param namespaceIdOrPath the namespace ID, path of the namespace, or a Namespace instance holding the namespace ID or path
+     * @return the Group for the specified group path as an Optional instance
+     */
+    public Optional<Namespace> getOptionalNamespace(Object namespaceIdOrPath) {
+        try {
+            return (Optional.ofNullable(getNamespace(namespaceIdOrPath)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 }

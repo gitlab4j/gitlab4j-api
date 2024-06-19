@@ -6,7 +6,10 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class ExternalStatusCheckStatus {
+import java.io.Serializable;
+
+public class ExternalStatusCheckStatus implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String name;
@@ -33,7 +36,7 @@ public class ExternalStatusCheckStatus {
             return (enumHelper.toString(this));
         }
     }
-    
+
     public Long getId() {
         return id;
     }

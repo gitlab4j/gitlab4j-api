@@ -12,19 +12,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.gitlab4j.api.models.Bridge;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.Variable;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @Tag("integration")
@@ -350,4 +349,12 @@ public class TestPipelineApi extends AbstractIntegrationTest {
             gitLabApi.getPipelineApi().deletePipeline(testProject, pipeline.getId());
         }
     }
+
+    @Test
+    @Disabled("disable till 'Move the test infrastructure to Testcontainers #925'")
+    public void testGetBridges() throws GitLabApiException {
+        Set<Bridge> bridges = gitLabApi.getPipelineApi().getBridgesStream(testProject, 4L, Constants.JobScope.SUCCESS).collect(Collectors.toSet());
+        assertNotNull(bridges);
+    }
+
 }

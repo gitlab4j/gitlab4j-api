@@ -5,9 +5,11 @@ import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.ISO8601;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ChangelogPayload {
+public class ChangelogPayload implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String version;
     private String from;

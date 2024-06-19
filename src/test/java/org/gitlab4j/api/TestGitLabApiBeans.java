@@ -45,12 +45,17 @@ import org.gitlab4j.api.models.Badge;
 import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.Board;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.Bridge;
+import org.gitlab4j.api.models.ChildEpic;
+import org.gitlab4j.api.models.GitLabCiTemplate;
+import org.gitlab4j.api.models.GitLabCiTemplateElement;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitPayload;
 import org.gitlab4j.api.models.CommitStatus;
 import org.gitlab4j.api.models.CompareResults;
 import org.gitlab4j.api.models.Contributor;
+import org.gitlab4j.api.models.CreatedChildEpic;
 import org.gitlab4j.api.models.DeployKey;
 import org.gitlab4j.api.models.DeployToken;
 import org.gitlab4j.api.models.Deployment;
@@ -60,6 +65,7 @@ import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.Environment;
 import org.gitlab4j.api.models.Epic;
 import org.gitlab4j.api.models.EpicIssue;
+import org.gitlab4j.api.models.EpicIssueLink;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.ExportStatus;
 import org.gitlab4j.api.models.ExternalStatusCheck;
@@ -68,19 +74,25 @@ import org.gitlab4j.api.models.ExternalStatusCheckStatus;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.GpgSignature;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.GroupAccessToken;
 import org.gitlab4j.api.models.HealthCheckInfo;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImportStatus;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueLink;
 import org.gitlab4j.api.models.IssuesStatistics;
+import org.gitlab4j.api.models.Iteration;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Key;
 import org.gitlab4j.api.models.Label;
 import org.gitlab4j.api.models.LabelEvent;
+import org.gitlab4j.api.models.LdapGroupLink;
+import org.gitlab4j.api.models.Link;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.MergeRequestDiff;
+import org.gitlab4j.api.models.MergeRequestVersion;
+import org.gitlab4j.api.models.Metadata;
 import org.gitlab4j.api.models.Milestone;
 import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.NotificationSettings;
@@ -90,26 +102,31 @@ import org.gitlab4j.api.models.PackageFile;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.ProjectGroup;
+import org.gitlab4j.api.models.ProjectAccessToken;
 import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
+import org.gitlab4j.api.models.ProjectGroup;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.ProtectedBranch;
 import org.gitlab4j.api.models.ProtectedTag;
 import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.RegistryRepository;
+import org.gitlab4j.api.models.RelatedEpic;
+import org.gitlab4j.api.models.RelatedEpicLink;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.RemoteMirror;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.api.models.RunnerDetail;
+import org.gitlab4j.api.models.SamlGroupLink;
 import org.gitlab4j.api.models.SearchBlob;
 import org.gitlab4j.api.models.Snippet;
 import org.gitlab4j.api.models.SshKey;
 import org.gitlab4j.api.models.SystemHook;
 import org.gitlab4j.api.models.Tag;
 import org.gitlab4j.api.models.Todo;
+import org.gitlab4j.api.models.Topic;
 import org.gitlab4j.api.models.TreeItem;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.User;
@@ -176,6 +193,18 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testCreatedChildEpic() throws Exception {
+        CreatedChildEpic childEpic = unmarshalResource(CreatedChildEpic.class, "created-child-epic.json");
+        assertTrue(compareJson(childEpic, "created-child-epic.json"));
+    }
+
+    @Test
+    public void testChildEpic() throws Exception {
+        ChildEpic childEpic = unmarshalResource(ChildEpic.class, "child-epic.json");
+        assertTrue(compareJson(childEpic, "child-epic.json"));
+    }
+
+    @Test
     public void testCommit() throws Exception {
         Commit commit = unmarshalResource(Commit.class, "commit.json");
         assertTrue(compareJson(commit, "commit.json"));
@@ -219,7 +248,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testDeployment() throws Exception {
-	Deployment deployment = unmarshalResource(Deployment.class, "deployment.json");
+    Deployment deployment = unmarshalResource(Deployment.class, "deployment.json");
         assertTrue(compareJson(deployment, "deployment.json"));
     }
 
@@ -251,6 +280,12 @@ public class TestGitLabApiBeans {
     public void testEpicIssue() throws Exception {
         EpicIssue epicIssue = unmarshalResource(EpicIssue.class, "epic-issue.json");
         assertTrue(compareJson(epicIssue, "epic-issue.json"));
+    }
+
+    @Test
+    public void testEpicIssueLink() throws Exception {
+        EpicIssueLink epicIssueLink = unmarshalResource(EpicIssueLink.class, "epic-issue-link.json");
+        assertTrue(compareJson(epicIssueLink, "epic-issue-link.json"));
     }
 
     @Test
@@ -302,8 +337,20 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testGitLabCiTemplateElements() throws Exception {
+        List<GitLabCiTemplateElement> ciYamlTemplatesElements = unmarshalResourceList(GitLabCiTemplateElement.class, "gitlab-ci-template-elements.json");
+        assertTrue(compareJson(ciYamlTemplatesElements, "gitlab-ci-template-elements.json"));
+    }
+
+    @Test
+    public void testGitLabCiTemplate() throws Exception {
+        GitLabCiTemplate ciYamlTemplate = unmarshalResource(GitLabCiTemplate.class, "gitlab-ci-template.json");
+        assertTrue(compareJson(ciYamlTemplate, "gitlab-ci-template.json"));
+    }
+
+    @Test
     public void testGpgSignature() throws Exception {
-	GpgSignature gpgSignature = unmarshalResource(GpgSignature.class, "gpg-signature.json");
+    GpgSignature gpgSignature = unmarshalResource(GpgSignature.class, "gpg-signature.json");
         assertTrue(compareJson(gpgSignature, "gpg-signature.json"));
     }
 
@@ -371,6 +418,12 @@ public class TestGitLabApiBeans {
     public void testLinkedIssues() throws Exception {
         List<Issue> linkedIssues = unmarshalResourceList(Issue.class, "linked-issues.json");
         assertTrue(compareJson(linkedIssues, "linked-issues.json"));
+    }
+
+    @Test
+    public void testLinks() throws Exception {
+        List<Link> links = unmarshalResourceList(Link.class, "links.json");
+        assertTrue(compareJson(links, "links.json"));
     }
 
     @Test
@@ -446,6 +499,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testBridge() throws Exception {
+        Bridge bridge = unmarshalResource(Bridge.class, "bridge.json");
+        assertTrue(compareJson(bridge, "bridge.json"));
+    }
+
+    @Test
     public void testDeployKeys() throws Exception {
         List<DeployKey> deployKeys = unmarshalResourceList(DeployKey.class, "deploy-keys.json");
         assertTrue(compareJson(deployKeys, "deploy-keys.json"));
@@ -495,7 +554,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testProjectApprovalsCofig() throws Exception {
-	ProjectApprovalsConfig approvalsConfig = unmarshalResource(ProjectApprovalsConfig.class, "project-approvals-config.json");
+    ProjectApprovalsConfig approvalsConfig = unmarshalResource(ProjectApprovalsConfig.class, "project-approvals-config.json");
         assertTrue(compareJson(approvalsConfig, "project-approvals-config.json"));
     }
 
@@ -524,6 +583,18 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testRelatedEpicLink() throws Exception {
+        RelatedEpicLink relatedEpics = unmarshalResource(RelatedEpicLink.class, "related-epic-link.json");
+        assertTrue(compareJson(relatedEpics, "related-epic-link.json"));
+    }
+
+    @Test
+    public void testRelatedEpics() throws Exception {
+        List<RelatedEpic> relatedEpics = unmarshalResourceList(RelatedEpic.class, "related-epics.json");
+        assertTrue(compareJson(relatedEpics, "related-epics.json"));
+    }
+
+    @Test
     public void testReleases() throws Exception {
         List<Release> releases = unmarshalResourceList(Release.class, "releases.json");
         assertTrue(compareJson(releases, "releases.json"));
@@ -531,7 +602,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testRemoteMirror() throws Exception {
-	RemoteMirror remoteMirror = unmarshalResource(RemoteMirror.class, "remote-mirror.json");
+    RemoteMirror remoteMirror = unmarshalResource(RemoteMirror.class, "remote-mirror.json");
         assertTrue(compareJson(remoteMirror, "remote-mirror.json"));
     }
 
@@ -549,7 +620,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testSettings() throws Exception {
-	JsonNode json = readTreeFromResource("application-settings.json");
+    JsonNode json = readTreeFromResource("application-settings.json");
         ApplicationSettings applicationSettings = ApplicationSettingsApi.parseApplicationSettings(json);
         assertTrue(compareJson(applicationSettings.getSettings(), "application-settings.json"));
     }
@@ -592,7 +663,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testMergeRequestApprovalRule() throws Exception {
-	ApprovalRule approvalRule = unmarshalResource(ApprovalRule.class, "approval-rule.json");
+    ApprovalRule approvalRule = unmarshalResource(ApprovalRule.class, "approval-rule.json");
         assertTrue(compareJson(approvalRule, "approval-rule.json"));
     }
 
@@ -612,6 +683,12 @@ public class TestGitLabApiBeans {
     public void testMergeRequestDiffs() throws Exception {
         List<MergeRequestDiff> diffs = unmarshalResourceList(MergeRequestDiff.class, "merge-request-diffs.json");
         assertTrue(compareJson(diffs, "merge-request-diffs.json"));
+    }
+
+    @Test
+    public void testMergeRequestVersions() throws Exception {
+        List<MergeRequestVersion> versions = unmarshalResourceList(MergeRequestVersion.class, "merge-request-versions.json");
+        assertTrue(compareJson(versions, "merge-request-diffs.json"));
     }
 
     @Test
@@ -687,6 +764,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testTopic() throws Exception {
+        Topic topic = unmarshalResource(Topic.class, "topic.json");
+        assertTrue(compareJson(topic, "topic.json"));
+    }
+
+    @Test
     public void testTree() throws Exception {
         List<TreeItem> tree = unmarshalResourceList(TreeItem.class, "tree.json");
         assertTrue(compareJson(tree, "tree.json"));
@@ -711,6 +794,18 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testGroupAccessToken() throws Exception {
+        ImpersonationToken token = unmarshalResource(GroupAccessToken.class, "group-access-token.json");
+        assertTrue(compareJson(token, "group-access-token.json"));
+    }
+
+    @Test
+    public void testIteration() throws Exception {
+        Iteration token = unmarshalResource(Iteration.class, "iteration.json");
+        assertTrue(compareJson(token, "iteration.json"));
+    }
+
+    @Test
     public void testOauthToken() throws Exception {
         OauthTokenResponse token = unmarshalResource(OauthTokenResponse.class, "oauth-token.json");
         assertTrue(compareJson(token, "oauth-token.json"));
@@ -723,8 +818,32 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testLdapGroupLink() throws Exception {
+        LdapGroupLink link = unmarshalResource(LdapGroupLink.class, "ldap-group-link.json");
+        assertTrue(compareJson(link, "ldap-group-link.json"));
+    }
+
+    @Test
+    public void testSamlGroupLink() throws Exception {
+        SamlGroupLink link = unmarshalResource(SamlGroupLink.class, "saml-group-link.json");
+        assertTrue(compareJson(link, "saml-group-link.json"));
+    }
+
+    @Test
     public void testSearchBlobs() throws Exception {
         List<SearchBlob> searchResults = unmarshalResourceList(SearchBlob.class, "wiki-blobs.json");
         assertTrue(compareJson(searchResults, "wiki-blobs.json"));
+    }
+
+    @Test
+    public void testProjectAccessToken() throws Exception {
+        ProjectAccessToken token = unmarshalResource(ProjectAccessToken.class, "project-access-token.json");
+        assertTrue(compareJson(token, "project-access-token.json"));
+    }
+
+    @Test
+    public void testMetadata() throws Exception {
+        Metadata metadata = unmarshalResource(Metadata.class, "metadata.json");
+        assertTrue(compareJson(metadata, "metadata.json"));
     }
 }

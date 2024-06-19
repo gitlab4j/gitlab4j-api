@@ -1,12 +1,15 @@
 package org.gitlab4j.api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class JobAttributes {
+import java.io.Serializable;
+import java.util.List;
 
-  @JsonProperty("job_variables_attributes")
+public class JobAttributes implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @JsonProperty("job_variables_attributes")
   private List<JobAttribute> jobAttributes;
 
   public JobAttributes(List<JobAttribute> jobAttributes) {

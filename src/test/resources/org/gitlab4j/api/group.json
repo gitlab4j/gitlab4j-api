@@ -6,6 +6,11 @@
   "visibility": "public",
   "web_url": "https://gitlab.example.com/groups/twitter",
   "request_access_enabled": false,
+  "prevent_sharing_groups_outside_hierarchy": false,
+  "prevent_forking_outside_group": false,
+  "project_creation_level": "developer",
+  "subgroup_creation_level": "owner",
+  "default_branch_protection": 2,
   "full_name": "Twitter",
   "full_path": "twitter",
   "parent_id": 1234,
@@ -17,6 +22,22 @@
     "lfs_objects_size" : 123,
     "job_artifacts_size" : 57
   },
+  "custom_attributes": [
+    {
+      "key": "flagged",
+      "value": "YAY"
+    }
+  ],
+  "shared_with_groups": [
+        {
+            "group_id": 104,
+            "group_name": "A Group",
+            "group_full_path": "a-group",
+            "group_access_level": 10,
+            "expires_at": "2023-11-19"
+        }
+  ],
+  "runners_token": "GRnEE2mDc13489411jmS2d5R1XTfM",
   "projects": [
     {
       "id": 7,

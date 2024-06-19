@@ -1,20 +1,22 @@
 package org.gitlab4j.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.GitLabApiForm;
+
+import java.io.Serializable;
 
 /**
  * This class is used to filter commit status when getting lists of them.
  */
-public class CommitStatusFilter {
+public class CommitStatusFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String ref;
     private String stage;
     private String name;
     private Boolean all;
-    
+
     public CommitStatusFilter withRef(String ref) {
         this.ref = ref;
         return this;
@@ -30,7 +32,7 @@ public class CommitStatusFilter {
         return this;
     }
 
-    
+
     public CommitStatusFilter withAll(Boolean all) {
         this.all = all;
         return this;
@@ -43,12 +45,12 @@ public class CommitStatusFilter {
             .withParam(Constants.PER_PAGE_PARAM, perPage));
     }
 
-    @JsonIgnore 
+    @JsonIgnore
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
             .withParam("ref", ref)
             .withParam("stage", stage)
             .withParam("name", name)
-            .withParam("all", all));  
+            .withParam("all", all));
     }
 }

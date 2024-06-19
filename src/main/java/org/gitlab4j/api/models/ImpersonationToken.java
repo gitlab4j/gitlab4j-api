@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,12 +10,13 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class ImpersonationToken {
+public class ImpersonationToken implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** Enum to specify the scope of an ImpersonationToken. */
     public enum Scope {
 
-        API, READ_USER, READ_REPOSITORY, WRITE_REPOSITORY, READ_REGISTRY, SUDO;
+        API, READ_API, READ_USER, READ_REPOSITORY, WRITE_REPOSITORY, READ_REGISTRY, WRITE_REGISTRY, SUDO;
 
         private static JacksonJsonEnumHelper<Scope> enumHelper = new JacksonJsonEnumHelper<>(Scope.class);
 
@@ -37,10 +39,12 @@ public class ImpersonationToken {
     private Boolean active;
     private String token;
     private List<Scope> scopes;
+    private Long userId;
     private Boolean revoked;
     private String name;
     private Long id;
     private Date createdAt;
+    private Date lastUsedAt;
     private Boolean impersonation;
     private Date expiresAt;
 
@@ -66,6 +70,14 @@ public class ImpersonationToken {
 
     public void setScopes(List<Scope> scopes) {
         this.scopes = scopes;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Boolean getRevoked() {
@@ -98,6 +110,14 @@ public class ImpersonationToken {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Date getLastUsedAt() {
+        return lastUsedAt;
+    }
+
+    public void setLastUsedAt(Date lastUsedAt) {
+        this.lastUsedAt = lastUsedAt;
     }
 
     public Boolean getImpersonation() {

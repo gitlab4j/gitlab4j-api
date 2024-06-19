@@ -25,12 +25,21 @@ package org.gitlab4j.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,14 +52,17 @@ import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectAccessToken;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectFilter;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
+import org.gitlab4j.api.utils.ISO8601;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -88,6 +100,8 @@ public class TestProjectApi extends AbstractIntegrationTest {
     private static final String TEST_PROJECT_NAME_UPDATE = "test-gitlab4j-create-project-update";
     private static final String TEST_XFER_PROJECT_NAME = "test-gitlab4j-xfer-project";
     private static final String TEST_VARIABLE_KEY_PREFIX = "TEST_VARIABLE_KEY_";
+
+    private static final String AVATAR_FILENAME = "avatar.png";
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
@@ -304,6 +318,25 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertEquals(2, projects.size());
         assertEquals(TEST_PROJECT_NAME_2, projects.get(0).getName());
         assertEquals(TEST_PROJECT_NAME_1, projects.get(1).getName());
+    }
+
+    @Test
+    @Disabled("Required Gitlab version not less then 16.9")
+    public void testGetAvatar() throws GitLabApiException, IOException {
+        
+        assumeTrue(testProject != null);
+
+        File avatarFile = new File("src/test/resources/org/gitlab4j/api", AVATAR_FILENAME);
+        gitLabApi.getProjectApi().setProjectAvatar(testProject.getId(), avatarFile);
+
+        // Get the avatar of the test project
+        InputStream in = gitLabApi.getProjectApi().getAvatar(testProject);
+
+        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-avatar", "png");
+        Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+
+        assertTrue(target.toFile().length() > 0);
+        Files.delete(target);
     }
 
     @Test
@@ -883,5 +916,63 @@ public class TestProjectApi extends AbstractIntegrationTest {
         	throw glae;
             }
         }
+    }
+
+    @Test
+    public void testCreateProjectAccessToken() throws GitLabApiException {
+        final String tokenName = "token-" + HelperUtils.getRandomInt(1000);;
+        final List<Constants.ProjectAccessTokenScope> scopes = Arrays.asList(Constants.ProjectAccessTokenScope.READ_API, Constants.ProjectAccessTokenScope.READ_REPOSITORY);
+        final Date expiresAt = Date.from(Instant.now().plusSeconds(48*60*60));
+        assertNotNull(testProject);
+
+//        This does not work with the GitLab version used for the integration tests
+//        final int size = gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).size() + 1;
+//
+//        ProjectAccessToken token = gitLabApi.getProjectApi().createProjectAccessToken(testProject.getId(), tokenName, scopes, expiresAt);
+//
+//        assertEquals(size, gitLabApi.getProjectApi().listProjectAccessTokens(testProject.getId()).size());
+//        assertNotNull(token.getCreatedAt());
+//        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiresAt()));
+//        assertNotNull(token.getId());
+//        assertEquals(tokenName, token.getName());
+//        assertFalse(token.isRevoked());
+//        assertEquals(scopes, token.getScopes());
+//        assertNotNull(token.getToken());
+//        assertNotEquals(token.getToken(), "");
+//        assertNotNull(token.getUserId());
+//        // unset
+//        assertNull(token.getLastUsedAt());
+//
+//        gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
+//        assertTrue(gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), token.getId()).isRevoked());
+    }
+
+    @Test
+    public void testRotateProjectAccessToken() throws GitLabApiException {
+        final String tokenName = "token-" + HelperUtils.getRandomInt(1000);;
+        final List<Constants.ProjectAccessTokenScope> scopes = Arrays.asList(Constants.ProjectAccessTokenScope.READ_API, Constants.ProjectAccessTokenScope.READ_REPOSITORY);
+        final Date expiresAt = Date.from(Instant.now().plusSeconds(7*24*60*60));
+        assertNotNull(testProject);
+
+//        This does not work with the GitLab version used for the integration tests
+//        ProjectAccessToken rotatedToken = gitLabApi.getProjectApi().createProjectAccessToken(testProject.getId(), tokenName, scopes, expiresAt);
+//        ProjectAccessToken token = gitLabApi.getProjectApi().rotateProjectAccessToken(testProject.getId(), rotatedToken.getId());
+//        rotatedToken = gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), rotatedToken.getId());
+//
+//        assertNotNull(token.getCreatedAt());
+//        assertEquals(ISO8601.dateOnly(expiresAt), ISO8601.dateOnly(token.getExpiresAt()));
+//        assertNotNull(token.getId());
+//        assertNotEquals(rotatedToken.getId(), token.getId());
+//        assertEquals(tokenName, token.getName());
+//        assertFalse(token.isRevoked());
+//        assertTrue(rotatedToken.isRevoked());
+//        assertEquals(scopes, token.getScopes());
+//        assertNotNull(token.getToken());
+//        assertNotEquals(token.getToken(), "");
+//        assertNotEquals(rotatedToken.getToken(), token.getToken());
+//        assertNotNull(token.getUserId());
+//
+//        gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
+//        assertTrue(gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(), token.getId()).isRevoked());
     }
 }

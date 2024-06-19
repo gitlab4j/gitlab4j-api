@@ -2,7 +2,10 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.GitLabApiForm;
 
-public class AcceptMergeRequestParams {
+import java.io.Serializable;
+
+public class AcceptMergeRequestParams implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String mergeCommitMessage;
     private Boolean mergeWhenPipelineSucceeds;

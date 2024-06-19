@@ -6,6 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -15,12 +21,14 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Group;
+import org.gitlab4j.api.models.GroupFilter;
 import org.gitlab4j.api.models.GroupParams;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.User;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,6 +53,8 @@ public class TestGroupApi extends AbstractIntegrationTest {
     private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
     private static final String TEST_GROUP_MEMBER_USERNAME = HelperUtils.getProperty(GROUP_MEMBER_USERNAME_KEY);
     private static final String TEST_REQUEST_ACCESS_USERNAME = HelperUtils.getProperty(TEST_REQUEST_ACCESS_USERNAME_KEY);
+
+    private static final String AVATAR_FILENAME = "avatar.png";
 
     private static GitLabApi gitLabApi;
     private static Group testGroup;
@@ -185,6 +195,21 @@ public class TestGroupApi extends AbstractIntegrationTest {
     }
 
     @Test
+    public void getGroupsWithCustomAttribute() throws GitLabApiException {
+        gitLabApi.getGroupApi().setCustomAttribute(TEST_GROUP, "test_key", "test_value");
+
+        GroupFilter wrongKeyFilter = new GroupFilter().withCustomAttributeFilter("other_key", "test_value");
+        GroupFilter multipleFilter = new GroupFilter().withCustomAttributeFilter("test_key", "test_value").withCustomAttributeFilter("other_key", "test_value");
+        GroupFilter matchingFilter = new GroupFilter().withCustomAttributeFilter("test_key", "test_value");
+
+        assertEquals(1, gitLabApi.getGroupApi().getGroups(matchingFilter).size());
+        assertTrue(gitLabApi.getGroupApi().getGroups(wrongKeyFilter).isEmpty());
+        assertTrue(gitLabApi.getGroupApi().getGroups(multipleFilter).isEmpty());
+
+        gitLabApi.getGroupApi().deleteCustomAttribute(TEST_GROUP, "test_key");
+    }
+
+    @Test
     public void getOptionalGroup() {
         Optional<Group> optional = gitLabApi.getGroupApi().getOptionalGroup(TEST_GROUP);
         assertTrue(optional.isPresent());
@@ -194,6 +219,25 @@ public class TestGroupApi extends AbstractIntegrationTest {
         assertNotNull(optional);
         assertFalse(optional.isPresent());
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), GitLabApi.getOptionalException(optional).getHttpStatus());
+    }
+
+    @Test
+    @Disabled("Required Gitlab version not less then 14.0")
+    public void testGetAvatar() throws GitLabApiException, IOException {
+        
+        assumeTrue(testGroup != null);
+
+        File avatarFile = new File("src/test/resources/org/gitlab4j/api", AVATAR_FILENAME);
+        gitLabApi.getGroupApi().setGroupAvatar(testGroup.getId(), avatarFile);
+
+        // Get the avatar of the test Group
+        InputStream in = gitLabApi.getGroupApi().getAvatar(testGroup);
+
+        Path target = Files.createTempFile(TEST_PROJECT_NAME + "-avatar", "png");
+        Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+
+        assertTrue(target.toFile().length() > 0);
+        Files.delete(target);
     }
 
 

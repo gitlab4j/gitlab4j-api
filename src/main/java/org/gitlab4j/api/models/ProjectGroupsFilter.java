@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.gitlab4j.api.GitLabApiForm;
@@ -7,7 +8,8 @@ import org.gitlab4j.api.GitLabApiForm;
 /**
  *  This class is used to filter Groups when getting lists of groups for a specified project.
  */
-public class ProjectGroupsFilter {
+public class ProjectGroupsFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String search;
     private AccessLevel sharedMinAccessLevel;

@@ -2,7 +2,10 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class Identity {
+import java.io.Serializable;
+
+public class Identity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String provider;
     private String externUid;

@@ -1,11 +1,13 @@
 
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class ProtectedBranch {
+public class ProtectedBranch implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String name;
@@ -13,6 +15,7 @@ public class ProtectedBranch {
     private List<BranchAccessLevel> mergeAccessLevels;
     private List<BranchAccessLevel> unprotectAccessLevels;
     private Boolean codeOwnerApprovalRequired;
+    private Boolean allowForcePush;
 
     public Long getId() {
         return id;
@@ -83,6 +86,19 @@ public class ProtectedBranch {
 
     public ProtectedBranch withCodeOwnerApprovalRequired(Boolean codeOwnerApprovalRequired) {
         this.codeOwnerApprovalRequired = codeOwnerApprovalRequired;
+        return this;
+    }
+
+    public Boolean getAllowForcePush() {
+        return allowForcePush;
+    }
+
+    public void setAllowForcePush(Boolean allowForcePush) {
+        this.allowForcePush = allowForcePush;
+    }
+
+    public ProtectedBranch withAllowForcePush(Boolean allowForcePush) {
+        this.allowForcePush = allowForcePush;
         return this;
     }
 

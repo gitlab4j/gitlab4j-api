@@ -1,11 +1,12 @@
 package org.gitlab4j.api.models;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
 import java.util.Date;
 import java.util.List;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 public class User extends AbstractUser<User> {
+    private static final long serialVersionUID = 1L;
 
     private String bio;
     private Boolean bot;
@@ -24,6 +25,7 @@ public class User extends AbstractUser<User> {
     private Date lastSignInAt;
     private String linkedin;
     private String location;
+    private Long namespaceId;
     private String organization;
     private Boolean privateProfile;
     private Integer projectsLimit;
@@ -164,6 +166,14 @@ public class User extends AbstractUser<User> {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Long getNamespaceId() {
+        return namespaceId;
+    }
+
+    public void setNamespaceId(Long namespaceId) {
+        this.namespaceId = namespaceId;
     }
 
     public String getOrganization() {

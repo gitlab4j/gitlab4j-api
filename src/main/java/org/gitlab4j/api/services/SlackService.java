@@ -5,7 +5,8 @@ import org.gitlab4j.api.GitLabApiForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class SlackService extends NotificationService {
-    
+    private static final long serialVersionUID = 1L;
+
     private String defaultChannel;
 
     /**

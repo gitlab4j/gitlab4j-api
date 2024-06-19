@@ -2,12 +2,17 @@
 package org.gitlab4j.api.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import org.gitlab4j.api.Constants.DefaultBranchProtectionLevel;
+import org.gitlab4j.api.Constants.ProjectCreationLevel;
+import org.gitlab4j.api.Constants.SubgroupCreationLevel;
 import org.gitlab4j.api.utils.JacksonJson;
 
 import java.util.Date;
 import java.util.List;
 
 public class Group extends AbstractGroup<Group> {
+    private static final long serialVersionUID = 1L;
 
     public class Statistics {
         private Long storageSize;
@@ -60,7 +65,14 @@ public class Group extends AbstractGroup<Group> {
     private List<Project> projects;
     private List<Project> sharedProjects;
     private Date createdAt;
+    private List<SharedGroup> sharedWithGroups;
+    private List<CustomAttribute> customAttributes;
     private String runnersToken;
+    private Boolean preventSharingGroupsOutsideHierarchy;
+    private Boolean preventForkingOutsideGroup;
+    private ProjectCreationLevel projectCreationLevel;
+    private SubgroupCreationLevel subgroupCreationLevel;
+    private DefaultBranchProtectionLevel defaultBranchProtection;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -161,12 +173,68 @@ public class Group extends AbstractGroup<Group> {
 	this.createdAt = createdAt;
     }
 
+    public List<SharedGroup> getSharedWithGroups() {
+        return sharedWithGroups;
+    }
+
+    public void setSharedWithGroups(List<SharedGroup> sharedWithGroups) {
+        this.sharedWithGroups = sharedWithGroups;
+    }
+
     public String getRunnersToken() {
         return runnersToken;
     }
 
     public void setRunnersToken(String runnersToken) {
         this.runnersToken = runnersToken;
+    }
+
+    public Boolean getPreventSharingGroupsOutsideHierarchy() {
+        return preventSharingGroupsOutsideHierarchy;
+    }
+
+    public void setPreventSharingGroupsOutsideHierarchy(Boolean preventSharingGroupsOutsideHierarchy) {
+        this.preventSharingGroupsOutsideHierarchy = preventSharingGroupsOutsideHierarchy;
+    }
+
+    public Boolean getPreventForkingOutsideGroup() {
+        return preventForkingOutsideGroup;
+    }
+
+    public void setPreventForkingOutsideGroup(Boolean preventForkingOutsideGroup) {
+        this.preventForkingOutsideGroup = preventForkingOutsideGroup;
+    }
+
+    public ProjectCreationLevel getProjectCreationLevel() {
+        return this.projectCreationLevel;
+    }
+
+    public void setProjectCreationLevel(ProjectCreationLevel projectCreationLevel) {
+        this.projectCreationLevel = projectCreationLevel;
+    }
+
+    public SubgroupCreationLevel getSubgroupCreationLevel() {
+        return this.subgroupCreationLevel;
+    }
+
+    public void setSubgroupCreationLevel(SubgroupCreationLevel subgroupCreationLevel) {
+        this.subgroupCreationLevel = subgroupCreationLevel;
+    }
+
+    public DefaultBranchProtectionLevel getDefaultBranchProtection() {
+        return this.defaultBranchProtection;
+    }
+
+    public void setDefaultBranchProtection(DefaultBranchProtectionLevel defaultBranchProtection) {
+        this.defaultBranchProtection = defaultBranchProtection;
+    }
+
+    public List<CustomAttribute> getCustomAttributes() {
+        return customAttributes;
+    }
+
+    public void setCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
     }
 
     public Group withPath(String path) {
@@ -216,6 +284,36 @@ public class Group extends AbstractGroup<Group> {
 
     public Group withSharedProjects(List<Project> sharedProjects) {
         this.sharedProjects = sharedProjects;
+        return this;
+    }
+
+    public Group withPreventSharingGroupsOutsideHierarchy(Boolean preventSharingGroupsOutsideHierarchy) {
+        this.preventSharingGroupsOutsideHierarchy = preventSharingGroupsOutsideHierarchy;
+        return this;
+    }
+
+    public Group withPreventForkingOutsideGroup(Boolean preventForkingOutsideGroup) {
+        this.preventForkingOutsideGroup = preventForkingOutsideGroup;
+        return this;
+    }
+
+    public Group withProjectCreationLevel(ProjectCreationLevel projectCreationLevel) {
+        this.projectCreationLevel = projectCreationLevel;
+        return this;
+    }
+
+    public Group withSubgroupCreationLevel(SubgroupCreationLevel subgroupCreationLevel) {
+        this.subgroupCreationLevel = subgroupCreationLevel;
+        return this;
+    }
+
+    public Group withDefaultBranchProtection(DefaultBranchProtectionLevel defaultBranchProtection) {
+        this.defaultBranchProtection = defaultBranchProtection;
+        return this;
+    }
+
+    public Group withCustomAttributes(List<CustomAttribute> customAttributes) {
+        this.customAttributes = customAttributes;
         return this;
     }
 

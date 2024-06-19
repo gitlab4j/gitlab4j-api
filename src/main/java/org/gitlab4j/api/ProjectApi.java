@@ -35,6 +35,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
@@ -48,9 +49,12 @@ import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.Iteration;
+import org.gitlab4j.api.models.IterationFilter;
 import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Namespace;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.ProjectAccessToken;
 import org.gitlab4j.api.models.ProjectApprovalsConfig;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectFilter;
@@ -1043,6 +1047,10 @@ public class ProjectApi extends AbstractApi implements Constants {
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 throw new IllegalArgumentException("GitLab API v3 does not support tag lists when creating projects");
             }
+
+            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+                throw new IllegalArgumentException("GitLab API v3 does not support topics when creating projects");
+            }
         } else {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
                 project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
@@ -1051,10 +1059,32 @@ public class ProjectApi extends AbstractApi implements Constants {
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 formData.withParam("tag_list", String.join(",", project.getTagList()));
             }
+
+            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+                formData.withParam("topics", String.join(",", project.getTopics()));
+            }
         }
 
         Response response = post(Response.Status.CREATED, formData, "projects");
         return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Gets the project avatar.
+     * Only working with GitLab 16.9 and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/avatar</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @return an InputStream to read the raw file from
+     * @throws GitLabApiException if any exception occurs
+     */
+    public InputStream getAvatar(Object projectIdOrPath) throws GitLabApiException {
+
+        Response response = getWithAccepts(Response.Status.OK, null,  MediaType.MEDIA_TYPE_WILDCARD,
+                "projects", getProjectIdOrPath(projectIdOrPath), "avatar");
+        return (response.readEntity(InputStream.class));
+
     }
 
     /**
@@ -1314,13 +1344,26 @@ public class ProjectApi extends AbstractApi implements Constants {
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 throw new IllegalArgumentException("GitLab API v3 does not support tag lists when updating projects");
             }
+
+            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+                throw new IllegalArgumentException("GitLab API v3 does not support topics when updating projects");
+            }
         } else {
             Visibility visibility = (project.getVisibility() != null ? project.getVisibility() :
                 project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
             formData.withParam("visibility", visibility);
+            formData.withParam("issue_branch_template", project.getIssueBranchTemplate());
+            formData.withParam("merge_commit_template", project.getMergeCommitTemplate());
+            formData.withParam("squash_commit_template", project.getSquashCommitTemplate());
+            formData.withParam("merge_requests_template", project.getMergeRequestsTemplate());
+            formData.withParam("issues_template", project.getIssuesTemplate());
 
             if (project.getTagList() != null && !project.getTagList().isEmpty()) {
                 formData.withParam("tag_list", String.join(",", project.getTagList()));
+            }
+
+            if (project.getTopics() != null) {
+                formData.withParam("topics", String.join(",", project.getTopics()));
             }
         }
 
@@ -2170,7 +2213,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public ProjectHook addHook(Object projectIdOrPath, String url, ProjectHook enabledHooks,
-            boolean enableSslVerification, String secretToken) throws GitLabApiException {
+            Boolean enableSslVerification, String secretToken) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", url, true)
@@ -2197,6 +2240,7 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Adds a hook to project.
+     * Convenience method for {@link #addHook(Object, String, ProjectHook, Boolean, String)}
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/hooks</code></pre>
      *
@@ -2210,15 +2254,32 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     public ProjectHook addHook(Object projectIdOrPath, String url, boolean doPushEvents,
             boolean doIssuesEvents, boolean doMergeRequestsEvents) throws GitLabApiException {
+        return addHook(projectIdOrPath, url, doPushEvents, doIssuesEvents, doMergeRequestsEvents, null);
+    }
 
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("url", url)
-                .withParam("push_events", doPushEvents)
-                .withParam("issues_events", doIssuesEvents)
-                .withParam("merge_requests_events", doMergeRequestsEvents);
-
-        Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
-        return (response.readEntity(ProjectHook.class));
+    /**
+     * Adds a hook to project.
+     * Convenience method for {@link #addHook(Object, String, ProjectHook, Boolean, String)}
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/hooks</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param url the callback URL for the hook
+     * @param doPushEvents flag specifying whether to do push events
+     * @param doIssuesEvents flag specifying whether to do issues events
+     * @param doMergeRequestsEvents flag specifying whether to do merge requests events
+     * @param doNoteEvents flag specifying whether to do note events
+     * @return the added ProjectHook instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectHook addHook(Object projectIdOrPath, String url, Boolean doPushEvents,
+            Boolean doIssuesEvents, Boolean doMergeRequestsEvents, Boolean doNoteEvents) throws GitLabApiException {
+        ProjectHook enabledHooks = new ProjectHook()
+            .withPushEvents(doPushEvents)
+            .withIssuesEvents(doIssuesEvents)
+            .withMergeRequestsEvents(doMergeRequestsEvents)
+            .withNoteEvents(doNoteEvents);
+        return addHook(projectIdOrPath, url, enabledHooks , null, null);
     }
 
     /**
@@ -3900,5 +3961,135 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response response = putWithFormData(Response.Status.OK, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "remote_mirrors", mirrorId);
         return (response.readEntity(RemoteMirror.class));
+    }
+
+    /**
+     * Lists the projects access tokens for the project.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @return the list of ProjectAccessTokens. The token and lastUsedAt attribute of each object is unset.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ProjectAccessToken> listProjectAccessTokens(Object projectIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens");
+        return (response.readEntity(new GenericType<List<ProjectAccessToken>>() { }));
+    }
+
+    /**
+     * Gets the specific project access token.
+     * Only working with GitLab 14.10 and above.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param tokenId the id of the token
+     * @return the ProjectAccessToken. The token attribute of the object is unset.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectAccessToken getProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId);
+        return (response.readEntity(ProjectAccessToken.class));
+    }
+
+    /**
+     * Creates a new project access token.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param name the name of the token
+     * @param scopes the scope of the token
+     * @param expiresAt the date when the token should expire
+     * @param accessLevel The access level of the token is optional. It can either be 10, 20, 30, 40, or 50.
+     * @return the newly created ProjectAccessToken. The lastUsedAt attribute of each object is unset.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectAccessToken createProjectAccessToken(Object projectIdOrPath, String name, List<Constants.ProjectAccessTokenScope> scopes, Date expiresAt, Long accessLevel) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("name", name, true)
+            .withParam("expires_at", expiresAt, true)
+            .withParam("scopes", scopes, true)
+            .withParam("access_level", accessLevel, false);
+        Response response = post(Response.Status.CREATED, formData,
+            "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens");
+        return (response.readEntity(ProjectAccessToken.class));
+    }
+
+    /**
+     * Creates a new project access token.
+     * The default value for the accessLevel is used.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param name the name of the token
+     * @param scopes the scope of the token
+     * @param expiresAt the date when the token should expire
+     * @return the newly created ProjectAccessToken. The lastUsedAt attribute of each object is unset.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectAccessToken createProjectAccessToken(Object projectIdOrPath, String name, List<Constants.ProjectAccessTokenScope> scopes, Date expiresAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+            .withParam("name", name, true)
+            .withParam("expires_at", ISO8601.dateOnly(expiresAt), true)
+            .withParam("scopes", scopes, true)
+            .withParam("access_level", (Object) null, false);
+        Response response = post(Response.Status.CREATED, formData,
+            "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens");
+        return (response.readEntity(ProjectAccessToken.class));
+    }
+
+    /**
+     * Rotates the given project access token.
+     * The token is revoked and a new one which will expire in one week is created to replace it.
+     * Only working with GitLab 16.0 and above.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param tokenId the id
+     * @return the newly created ProjectAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectAccessToken rotateProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
+        return rotateProjectAccessToken(projectIdOrPath, tokenId, null);
+    }
+
+    /**
+     * Rotates the given project access token.
+     * The token is revoked and a new one which will expire in one week is created to replace it.
+     * Only working with GitLab 16.0 and above.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param tokenId the id
+     * @param expiresAt Expiration date of the access token
+     * @return the newly created ProjectAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectAccessToken rotateProjectAccessToken(Object projectIdOrPath, Long tokenId, Date expiresAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("expires_at", ISO8601.dateOnly(expiresAt));
+
+        Response response = post(Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId, "rotate");
+        return (response.readEntity(ProjectAccessToken.class));
+    }
+
+    /**
+     * Revokes the project access token.
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param tokenId the id of the token, which should be revoked
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void revokeProjectAccessToken(Object projectIdOrPath, Long tokenId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "access_tokens", tokenId);
+    }
+
+    /**
+     * Lists project iterations.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/iterations</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param filter the iteration filter
+     * @return the list of project iterations
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Iteration> listProjectIterations(Object projectIdOrPath, IterationFilter filter) throws GitLabApiException {
+        MultivaluedMap<String,String> queryParams = (filter == null) ? null : filter.getQueryParams().asMap();
+        Response response = get(Response.Status.OK, queryParams, "projects", getProjectIdOrPath(projectIdOrPath), "iterations");
+        return (response.readEntity(new GenericType<List<Iteration>>() { }));
     }
 }

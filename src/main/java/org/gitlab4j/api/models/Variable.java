@@ -1,17 +1,18 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.gitlab4j.api.utils.JacksonJson;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.gitlab4j.api.utils.JacksonJson;
-import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-
-public class Variable {
+public class Variable implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Enum for the various Commit build status values.

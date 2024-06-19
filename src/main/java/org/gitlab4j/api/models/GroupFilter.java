@@ -1,15 +1,19 @@
 package org.gitlab4j.api.models;
 
-import java.util.List;
-
 import org.gitlab4j.api.Constants.GroupOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  This class is used to filter Groups when getting lists of groups.
  */
-public class GroupFilter {
+public class GroupFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private List<Integer> skipGroups;
     private Boolean allAvailable;
@@ -21,6 +25,7 @@ public class GroupFilter {
     private Boolean owned;
     private AccessLevel accessLevel;
     private Boolean topLevelOnly;
+    private List<CustomAttribute> customAttributesFilter = new ArrayList<>();
 
     /**
      * Do not include the provided groups IDs.
@@ -109,6 +114,18 @@ public class GroupFilter {
     }
 
     /**
+     *  Results must have custom attribute (admins only). Can be chained to combine multiple attribute checks.
+     *
+     * @param key the assets returned must have the specified custom attribute key
+     * @param value the assets returned must have the specified value for the custom attribute key
+     * @return the reference to this GroupFilter instance
+     */
+    public GroupFilter withCustomAttributeFilter(String key, String value) {
+        this.customAttributesFilter.add(new CustomAttribute().withKey(key).withValue(value));
+        return (this);
+    }
+
+    /**
      * Limit by groups explicitly owned by the current user
      *
      * @param owned if true, limit to groups explicitly owned by the current user
@@ -147,17 +164,24 @@ public class GroupFilter {
      * @return a GitLabApiForm instance holding the query parameters for this GroupFilter instance
      */
     public GitLabApiForm getQueryParams() {
-        return (new GitLabApiForm()
-            .withParam("skip_groups", skipGroups)
-            .withParam("all_available", allAvailable)
-            .withParam("search", search)
-            .withParam("order_by", orderBy)
-            .withParam("sort", sort)
-            .withParam("statistics", statistics)
-            .withParam("with_custom_attributes", withCustomAttributes)
-            .withParam("owned", owned)
-            .withParam("min_access_level", accessLevel)
-            .withParam("top_level_only", topLevelOnly)
-        );
+        GitLabApiForm form = new GitLabApiForm().withParam("skip_groups", skipGroups)
+                                                         .withParam("all_available", allAvailable)
+                                                         .withParam("search", search)
+                                                         .withParam("order_by", orderBy)
+                                                         .withParam("sort", sort)
+                                                         .withParam("statistics", statistics)
+                                                         .withParam("with_custom_attributes", withCustomAttributes)
+                                                         .withParam("owned", owned)
+                                                         .withParam("min_access_level", accessLevel)
+                                                         .withParam("top_level_only", topLevelOnly);
+        for (CustomAttribute customAttribute : customAttributesFilter) {
+            form.withParam(String.format("custom_attributes[%s]", customAttribute.getKey()), customAttribute.getValue());
+        }
+        return form;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

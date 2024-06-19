@@ -16,6 +16,7 @@ import org.gitlab4j.api.models.IssueFilter;
 import org.gitlab4j.api.models.IssueLink;
 import org.gitlab4j.api.models.IssuesStatistics;
 import org.gitlab4j.api.models.IssuesStatisticsFilter;
+import org.gitlab4j.api.models.LinkType;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Participant;
 import org.gitlab4j.api.models.TimeStats;
@@ -509,6 +510,27 @@ public class IssuesApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Reopens an existing project issue.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param issueIid the issue IID to update, required
+     * @return an instance of the updated Issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Issue reopenIssue(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
+
+        if (issueIid == null) {
+            throw new RuntimeException("issue IID cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("state_event", StateEvent.REOPEN);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
+        return (response.readEntity(Issue.class));
+    }
+
+    /**
      * Updates an existing project issue. This call can also be used to mark an issue as closed.
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
@@ -910,10 +932,31 @@ public class IssuesApi extends AbstractApi implements Constants {
      */
     public IssueLink createIssueLink(Object projectIdOrPath, Long issueIid,
             Object targetProjectIdOrPath, Long targetIssueIid) throws GitLabApiException {
+        return createIssueLink(projectIdOrPath, issueIid, targetProjectIdOrPath, targetIssueIid, null);
+    }
+
+    /**
+     * Creates a two-way relation between two issues. User must be allowed to update both issues in order to succeed.
+     *
+     * <p>NOTE: Only available in GitLab Starter, GitLab Bronze, and higher tiers.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/issues/:issue_iid/links</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param issueIid the internal ID of a project's issue
+     * @param targetProjectIdOrPath the project in the form of an Long(ID), String(path), or Project instance of the target project
+     * @param targetIssueIid the internal ID of a target project’s issue
+     * @param linkType the type of the relation (optional), defaults to {@link LinkType#RELATES_TO}.
+     * @return an instance of IssueLink holding the link relationship
+     * @throws GitLabApiException if any exception occurs
+     */
+    public IssueLink createIssueLink(Object projectIdOrPath, Long issueIid,
+            Object targetProjectIdOrPath, Long targetIssueIid, LinkType linkType) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("target_project_id", getProjectIdOrPath(targetProjectIdOrPath), true)
-                .withParam("target_issue_iid", targetIssueIid, true);
+                .withParam("target_issue_iid", targetIssueIid, true)
+                .withParam("link_type", linkType, false);
 
         Response response = post(Response.Status.OK, formData.asMap(),
                 "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "links");

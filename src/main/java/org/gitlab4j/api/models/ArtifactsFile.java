@@ -2,7 +2,10 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class ArtifactsFile {
+import java.io.Serializable;
+
+public class ArtifactsFile implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String filename;
     private Long size;

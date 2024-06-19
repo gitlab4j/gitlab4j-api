@@ -1,16 +1,19 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.ProjectOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified user.
  */
-public class ProjectFilter {
+public class ProjectFilter implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Boolean archived;
     private Visibility visibility;
@@ -35,6 +38,9 @@ public class ProjectFilter {
     private Date lastActivityAfter;
     private Date lastActivityBefore;
     private String repositoryStorage;
+    private Boolean imported;
+    private String topic;
+    private Integer topic_id;
 
     /**
      * Limit by archived status.
@@ -306,6 +312,39 @@ public class ProjectFilter {
     }
 
     /**
+     * Limit results to projects which were imported from external systems by current user.
+     *
+     * @param imported limit results to projects imported from external systems by current user
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withImported(Boolean imported){
+        this.imported = imported;
+        return (this);
+    }
+
+    /**
+     *  Limit results to projects that match all of given topics.
+     *
+     * @param topic Comma-separated topic names.
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withTopic(String topic){
+        this.topic = topic;
+        return (this);
+    }
+
+    /**
+     *  Limit results to projects with the assigned topic given by the topic ID.
+     *
+     * @param topic_id the topic ID
+     * @return the reference to this ProjectFilter instance
+     */
+    public ProjectFilter withTopicId(Integer topic_id){
+        this.topic_id = topic_id;
+        return (this);
+    }
+
+    /**
      * Get the query params specified by this filter.
      *
      * @param page specifies the page number
@@ -348,6 +387,14 @@ public class ProjectFilter {
             .withParam("last_activity_after", lastActivityAfter)
             .withParam("last_activity_before", lastActivityBefore)
             .withParam("repository_storage", repositoryStorage)
+            .withParam("imported",imported)
+            .withParam("topic",topic)
+            .withParam("topic_id",topic_id)
         );
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

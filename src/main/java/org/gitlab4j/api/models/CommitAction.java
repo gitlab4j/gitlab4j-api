@@ -1,18 +1,19 @@
 package org.gitlab4j.api.models;
 
-import java.io.File;
-import java.io.IOException;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.gitlab4j.api.Constants.Encoding;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.utils.FileUtils;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 
-public class CommitAction {
+public class CommitAction implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public enum Action {
 
@@ -142,7 +143,7 @@ public class CommitAction {
 
     public CommitAction withFileContent(File file, String filePath, Encoding encoding) throws GitLabApiException {
 
-        this.encoding = (encoding != null ? encoding : Encoding.TEXT); 
+        this.encoding = (encoding != null ? encoding : Encoding.TEXT);
         this.filePath = filePath;
 
         try {

@@ -1,11 +1,12 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.util.Date;
+
 public class Member extends AbstractUser<Member> {
+    private static final long serialVersionUID = 1L;
 
     private AccessLevel accessLevel;
     private Date expiresAt;

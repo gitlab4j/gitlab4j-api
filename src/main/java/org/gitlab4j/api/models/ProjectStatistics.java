@@ -3,12 +3,15 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import java.io.Serializable;
+
 /**
  * This class contains the sizing information from the project. To get this information,
  * ProjectApi.getProject() has to be called with parameter statistics=true
  * which is only allowed for GitLab admins.
  */
-public class ProjectStatistics {
+public class ProjectStatistics implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     long commitCount;
     long storageSize;

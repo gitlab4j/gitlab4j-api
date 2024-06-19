@@ -46,6 +46,11 @@ local.properties
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
+### Gradle ###
+.gradle
+build/
+!/gradle/wrapper/gradle-wrapper.jar
+
 # Test properties file for gitlab4j
 test-gitlab4j.properties
 !src/test/resources/test-gitlab4j.properties

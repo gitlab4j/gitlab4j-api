@@ -1,9 +1,11 @@
 
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gitlab4j.api.Constants.AutoDevopsDeployStrategy;
 import org.gitlab4j.api.Constants.BuildGitStrategy;
 import org.gitlab4j.api.Constants.SquashOption;
@@ -12,11 +14,13 @@ import org.gitlab4j.api.models.ImportStatus.Status;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-public class Project {
+public class Project implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     // Enum for the merge_method of the Project instance.
     public enum MergeMethod {
@@ -80,7 +84,9 @@ public class Project {
     private Boolean snippetsEnabled;
     private String sshUrlToRepo;
     private Integer starCount;
+
     private List<String> tagList;
+    private List<String> topics;
     private Integer visibilityLevel;
     private Visibility visibility;
     private Boolean wallEnabled;
@@ -110,6 +116,14 @@ public class Project {
     private Boolean emailsDisabled;
     private String suggestionCommitMessage;
     private SquashOption squashOption;
+    private String mergeCommitTemplate;
+    private String squashCommitTemplate;
+    private String issueBranchTemplate;
+    private String mergeRequestsTemplate;
+    private String issuesTemplate;
+
+    @JsonProperty("_links")
+    private Map<String, String> links;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
@@ -542,16 +556,41 @@ public class Project {
         this.starCount = starCount;
     }
 
+    /**
+     * Tags will be removed in API v5
+     */
+    @Deprecated
     public List<String> getTagList() {
         return tagList;
     }
 
+    /**
+     * Tags will be removed in API v5
+     */
+    @Deprecated
     public void setTagList(List<String> tagList) {
         this.tagList = tagList;
     }
 
+    /**
+     * Tags will be removed in API v5
+     */
+    @Deprecated
     public Project withTagList(List<String> tagList) {
         this.tagList = tagList;
+        return (this);
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
+    }
+
+    public Project withTopics(List<String> topics) {
+        this.topics = topics;
         return (this);
     }
 
@@ -733,7 +772,7 @@ public class Project {
      * Formats a fully qualified project path based on the provided namespace and project path.
      *
      * @param namespace the namespace, either a user name or group name
-     * @param path the project path
+     * @param path      the project path
      * @return a fully qualified project path based on the provided namespace and project path
      */
     public static final String getPathWithNammespace(String namespace, String path) {
@@ -888,5 +927,62 @@ public class Project {
     public Project withSquashOption(SquashOption squashOption) {
         this.squashOption = squashOption;
         return this;
+    }
+
+    public String getMergeCommitTemplate() {
+        return mergeCommitTemplate;
+    }
+
+    public void setMergeCommitTemplate(String mergeCommitTemplate) {
+        this.mergeCommitTemplate = mergeCommitTemplate;
+    }
+
+    public String getSquashCommitTemplate() {
+        return squashCommitTemplate;
+    }
+
+    public void setSquashCommitTemplate(String squashCommitTemplate) {
+        this.squashCommitTemplate = squashCommitTemplate;
+    }
+
+    public String getIssueBranchTemplate() {
+        return issueBranchTemplate;
+    }
+
+    public void setIssueBranchTemplate(String issueBranchTemplate) {
+        this.issueBranchTemplate = issueBranchTemplate;
+    }
+
+    public String getMergeRequestsTemplate() {
+        return mergeRequestsTemplate;
+    }
+
+    public void setMergeRequestsTemplate(String mergeRequestsTemplate) {
+        this.mergeRequestsTemplate = mergeRequestsTemplate;
+    }
+
+    public String getIssuesTemplate() {
+        return issuesTemplate;
+    }
+
+    public void setIssuesTemplate(String issuesTemplate) {
+        this.issuesTemplate = issuesTemplate;
+    }
+
+    public Map<String, String> getLinks() {
+        return links;
+    }
+
+    public void setLinks(Map<String, String> links) {
+        this.links = links;
+    }
+
+    @JsonIgnore
+    public String getLinkByName(String name) {
+        if (links == null || links.isEmpty()) {
+            return (null);
+        }
+
+        return (links.get(name));
     }
 }

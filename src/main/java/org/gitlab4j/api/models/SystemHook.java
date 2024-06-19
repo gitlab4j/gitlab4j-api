@@ -1,10 +1,12 @@
 package org.gitlab4j.api.models;
 
-import java.util.Date;
-
 import org.gitlab4j.api.utils.JacksonJson;
 
-public class SystemHook {
+import java.io.Serializable;
+import java.util.Date;
+
+public class SystemHook implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String url;

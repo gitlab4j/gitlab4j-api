@@ -37,7 +37,9 @@
     "tag": false,
     "web_url": "https://example.com/foo/bar/-/jobs/7",
     "allow_failure": false,
+    "erased_at": "2016-01-11T11:30:19.914Z",
     "duration": 0.465,
+    "queued_duration": 0.010,
     "user": {
       "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
       "created_at": "2015-12-21T13:14:24.077Z",

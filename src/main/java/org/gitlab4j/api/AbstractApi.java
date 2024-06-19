@@ -13,6 +13,7 @@ import javax.ws.rs.core.StreamingOutput;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.Label;
+import org.gitlab4j.api.models.Namespace;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.UrlEncoder;
@@ -30,7 +31,7 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
-     * Returns the project ID or path from the provided Integer, String, or Project instance.
+     * Returns the project ID or path from the provided Long, String, or Project instance.
      *
      * @param obj the object to determine the ID or path from
      * @return the project ID or path from the provided Long, String, or Project instance
@@ -42,6 +43,9 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or path from null object"));
         } else if (obj instanceof Long) {
             return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Project) {
@@ -65,7 +69,7 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
-     * Returns the group ID or path from the provided Integer, String, or Group instance.
+     * Returns the group ID or path from the provided Long, String, or Group instance.
      *
      * @param obj the object to determine the ID or path from
      * @return the group ID or path from the provided Long, String, or Group instance
@@ -77,6 +81,9 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or path from null object"));
         } else if (obj instanceof Long) {
             return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Group) {
@@ -100,10 +107,10 @@ public abstract class AbstractApi implements Constants {
     }
 
     /**
-     * Returns the user ID or path from the provided Integer, String, or User instance.
+     * Returns the user ID or path from the provided Long, String, or User instance.
      *
      * @param obj the object to determine the ID or username from
-     * @return the user ID or username from the provided Integer, String, or User instance
+     * @return the user ID or username from the provided Long, String, or User instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Object getUserIdOrUsername(Object obj) throws GitLabApiException {
@@ -112,6 +119,9 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or username from null object"));
         } else if (obj instanceof Long) {
             return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof User) {
@@ -130,15 +140,15 @@ public abstract class AbstractApi implements Constants {
 
         } else {
             throw (new RuntimeException("Cannot determine ID or username from provided " + obj.getClass().getSimpleName() +
-                    " instance, must be Integer, String, or a User instance"));
+                    " instance, must be Long, String, or a User instance"));
         }
     }
 
     /**
-     * Returns the label ID or name from the provided Integer, String, or Label instance.
+     * Returns the label ID or name from the provided Long, String, or Label instance.
      *
      * @param obj the object to determine the ID or name from
-     * @return the user ID or name from the provided Integer, String, or Label instance
+     * @return the user ID or name from the provided Long, String, or Label instance
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Object getLabelIdOrName(Object obj) throws GitLabApiException {
@@ -147,6 +157,9 @@ public abstract class AbstractApi implements Constants {
             throw (new RuntimeException("Cannot determine ID or name from null object"));
         } else if (obj instanceof Long) {
             return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
         } else if (obj instanceof String) {
             return (urlEncode(((String) obj).trim()));
         } else if (obj instanceof Label) {
@@ -165,7 +178,38 @@ public abstract class AbstractApi implements Constants {
 
         } else {
             throw (new RuntimeException("Cannot determine ID or name from provided " + obj.getClass().getSimpleName() +
-                    " instance, must be Integer, String, or a Label instance"));
+                    " instance, must be Long, String, or a Label instance"));
+        }
+    }
+
+    public Object getNamespaceIdOrPath(Object obj) throws GitLabApiException {
+
+        if (obj == null) {
+            throw (new RuntimeException("Cannot determine ID or path from null object"));
+        } else if (obj instanceof Long) {
+            return (obj);
+        } else if (obj instanceof Integer) {
+            //Compatibility with older version of gitlab4j-api:
+            return Long.valueOf(((Integer) obj).longValue());
+        } else if (obj instanceof String) {
+            return (urlEncode(((String) obj).trim()));
+        } else if (obj instanceof Namespace) {
+
+            Long id = ((Namespace) obj).getId();
+            if (id != null && id.longValue() > 0) {
+                return (id);
+            }
+
+            String path = ((Namespace) obj).getFullPath();
+            if (path != null && path.trim().length() > 0) {
+                return (urlEncode(path.trim()));
+            }
+
+            throw (new RuntimeException("Cannot determine ID or path from provided Namespace instance"));
+
+        } else {
+            throw (new RuntimeException("Cannot determine ID or path from provided " + obj.getClass().getSimpleName() +
+                    " instance, must be Long, String, or a Namespace instance"));
         }
     }
 

@@ -69,7 +69,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      * @param pathArgs HTTP path arguments
      * @throws GitLabApiException if any error occurs
      */
-    Pager(AbstractApi api, Class<T> type, int itemsPerPage, MultivaluedMap<String, String> queryParams, Object... pathArgs) throws GitLabApiException {
+    public Pager(AbstractApi api, Class<T> type, int itemsPerPage, MultivaluedMap<String, String> queryParams, Object... pathArgs) throws GitLabApiException {
 
         javaType = mapper.getTypeFactory().constructCollectionType(List.class, type);
 

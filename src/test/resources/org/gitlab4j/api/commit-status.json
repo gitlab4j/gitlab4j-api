@@ -1,21 +1,23 @@
 {
-    "status" : "pending",
-    "created_at" : "2016-01-19T08:40:25.934Z",
-    "started_at" :  "2016-01-19T08:40:25.934Z",
-    "name" : "bundler:audit",
-    "allow_failure" : true,
-    "author" : {
-       "username" : "thedude",
-       "state" : "active",
-       "web_url" : "https://gitlab.example.com/thedude",
-       "avatar_url" : "https://gitlab.example.com/uploads/user/avatar/28/The-Big-Lebowski-400-400.png",
-       "id" : 28,
-       "name" : "Jeff Lebowski"
-    },
-    "description" : "this is a description",
-    "sha" : "18f3e63d05582537db6d183d9d557be09e1f90c8",
-    "target_url" : "https://gitlab.example.com/thedude/gitlab-ce/builds/91",
-    "finished_at" :  "2016-01-19T08:40:25.934Z",
-    "id" : 2148826854,
-    "ref" : "master"
- }
+    "id": 78919,
+    "sha": "6b9fec60e107f1f323dfa6674b317facd996cb0a",
+    "ref": "cccct",
+    "status": "failed",
+    "name": "extci",
+    "target_url": "https://example.com/ext/6b9fec60e107f1f323dfa6674b317facd996cb0a/",
+    "description": "External check",
+    "created_at": "2023-04-03T11:05:27.792Z",
+    "started_at": "2023-04-03T11:05:29.205Z",
+    "finished_at": "2023-04-03T11:16:05.803Z",
+    "allow_failure": false,
+    "coverage": 10.8,
+    "pipeline_id": 15641,
+    "author": {
+        "id": 7,
+        "name": "Pamella Huel",
+        "username": "arnita",
+        "state": "active",
+        "avatar_url": "http://www.gravatar.com/avatar/a2f5c6fcef64c9c69cb8779cb292be1b?s=80&d=identicon",
+        "web_url": "http://gitlab.example.com/arnita"
+    }
+}

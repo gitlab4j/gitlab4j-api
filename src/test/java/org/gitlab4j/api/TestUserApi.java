@@ -59,9 +59,12 @@ public class TestUserApi extends AbstractIntegrationTest {
     // The following needs to be set to your test repository
     private static final String TEST_USERNAME = HelperUtils.getProperty(USERNAME_KEY);
     private static final String TEST_BLOCK_USERNAME = HelperUtils.getProperty(BLOCK_USERNAME_KEY);
+
+    private static final String TEST_DEACTIVATE_USERNAME = HelperUtils.getProperty(DEACTIVATE_USERNAME_KEY);
     private static final String TEST_SUDO_AS_USERNAME = HelperUtils.getProperty(SUDO_AS_USERNAME_KEY);
 
-    private static final String TEST_IMPERSONATION_TOKEN_NAME = "token1";
+    private static final String TEST_IMPERSONATION_TOKEN_NAME = "ipt_1";
+    private static final String TEST_PERSONAL_ACCESS_TOKEN_NAME = "pat_1";
     private static final String TEST_SSH_KEY =
 	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3rWzl/oPAD+Em2iGTmR81HcYZsopvnKp7jelI4XS91fT1NjCRrGsxf5Mw/" +
         "KnmtBjhk+kQjkhIrnsBDcs6DZWtNcHJtyWJZrYsfxMTqWCaQv+OTRwVboqS2pmPcbK3gizUd5GCLFTKbg4OMpdywTwi6NAPwQ" +
@@ -129,6 +132,8 @@ public class TestUserApi extends AbstractIntegrationTest {
     private static GitLabApi gitLabApi;
     private static User blockUser;
 
+    private static User deactivateUser;
+
     public TestUserApi() {
         super();
     }
@@ -165,6 +170,16 @@ public class TestUserApi extends AbstractIntegrationTest {
                         }
                     } catch (Exception ignore) {}
                 }
+
+                if (TEST_DEACTIVATE_USERNAME != null) {
+                    try {
+                        deactivateUser = gitLabApi.getUserApi().getUser(TEST_DEACTIVATE_USERNAME);
+                        if (deactivateUser != null) {
+                            gitLabApi.getUserApi().unblockUser(deactivateUser.getId());
+                        }
+                    } catch (Exception ignore) {}
+                }
+
 
                 if (TEST_SSH_KEY != null) {
                     try {
@@ -234,6 +249,20 @@ public class TestUserApi extends AbstractIntegrationTest {
         gitLabApi.getUserApi().unblockUser(blockUser.getId());
         user = gitLabApi.getUserApi().getUser(blockUser.getId());
         assertNotEquals("blocked", user.getState());
+    }
+
+    @Test
+    public void testActivateDeactivateUser() throws GitLabApiException {
+        assumeTrue(deactivateUser != null);
+
+        assertNotEquals("deactivated", deactivateUser.getState());
+        gitLabApi.getUserApi().deactivateUser(deactivateUser.getId());
+        User user = gitLabApi.getUserApi().getUser(deactivateUser.getId());
+        assertEquals("deactivated", user.getState());
+
+        gitLabApi.getUserApi().activateUser(deactivateUser.getId());
+        user = gitLabApi.getUserApi().getUser(deactivateUser.getId());
+        assertNotEquals("deactivated", user.getState());
     }
 
     @Test
@@ -325,8 +354,8 @@ public class TestUserApi extends AbstractIntegrationTest {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
 
-        // NOTE: READ_REGISTRY scope is left out because the GitLab server docker instance does not have the
-        // registry configured and the test would thus fail.
+        // NOTE: READ_API, READ_REGISTRY & WRITE_REGISTRY scopes are left out because the GitLab server docker instance does not
+        // have the registry configured and the test would thus fail.
         Scope[] scopes = {Scope.API, Scope.READ_USER, Scope.READ_REPOSITORY, Scope.WRITE_REPOSITORY, Scope.SUDO};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
 
@@ -401,7 +430,7 @@ public class TestUserApi extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testDeleteImpersonationTokens() throws GitLabApiException, ParseException {
+    public void testRevokeImpersonationToken() throws GitLabApiException, ParseException {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
         Scope[] scopes = {Scope.API, Scope.READ_USER};
@@ -416,6 +445,38 @@ public class TestUserApi extends AbstractIntegrationTest {
         gitLabApi.getUserApi().revokeImpersonationToken(user.getId(), createdToken.getId());
         token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
         assertFalse(token.getActive());
+    }
+
+    @Test
+    public void testCreatePersonalAccessToken() throws GitLabApiException, ParseException {
+
+        User user = gitLabApi.getUserApi().getCurrentUser();
+
+        // NOTE: READ_REGISTRY & WRITE_REGISTRY scopes are left out because the GitLab server docker instance does not
+        // have the registry configured and the test would thus fail.
+        Scope[] scopes = {Scope.API, Scope.READ_API, Scope.READ_USER, Scope.READ_REPOSITORY, Scope.WRITE_REPOSITORY, Scope.SUDO};
+        Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
+
+// This does not work with the GitLab version we are using in the integration tests
+//        ImpersonationToken token = null;
+//        try {
+//
+//            token = gitLabApi.getUserApi().createPersonalAccessToken(user, TEST_PERSONAL_ACCESS_TOKEN_NAME, expiresAt, scopes);
+//
+//            assertNotNull(token);
+//            assertNotNull(token.getId());
+//            assertEquals(TEST_PERSONAL_ACCESS_TOKEN_NAME, token.getName());
+//            assertEquals(expiresAt.getTime(), token.getExpiresAt().getTime());
+//            assertEquals(scopes.length, token.getScopes().size());
+//            assertThat(token.getScopes(), contains(scopes));
+//
+//        } finally {
+//            if (user != null && token != null) {
+//                // GitLab doesn't have this API method yet - not a big issue since multiple tokens with the same name
+//                // can be created. Note that you won't see a token in the UI unless the expiry date is in the future.
+//                // gitLabApi.getUserApi().revokePersonalAccessToken(user.getId(), token.getId());
+//            }
+//        }
     }
 
     @Test
