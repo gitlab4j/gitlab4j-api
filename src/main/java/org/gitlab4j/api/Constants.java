@@ -1,8 +1,20 @@
 package org.gitlab4j.api;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.gitlab4j.api.models.Commit;
+import org.gitlab4j.api.models.Issue;
+import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.models.Milestone;
+import org.gitlab4j.api.models.Note;
+import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.SearchBlob;
+import org.gitlab4j.api.models.Snippet;
+import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -730,78 +742,146 @@ public interface Constants {
     /**
      * Enum for the search scope when doing a globalSearch() with the SearchApi.
      */
-    public enum SearchScope {
+    public static class SearchScope<T> {
 
-        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, SNIPPET_TITLES, SNIPPET_BLOBS, USERS,
-            BLOBS, COMMITS, WIKI_BLOBS;
+        private final String jsonName;
+        private final Class<T> resultType;
 
-        private static JacksonJsonEnumHelper<SearchScope> enumHelper = new JacksonJsonEnumHelper<>(SearchScope.class);
+        private SearchScope(String jsonName, Class<T> resultType) {
+            this.jsonName = jsonName;
+            this.resultType = resultType;
+        }
+
+        public Class<T> getResultType() {
+            return resultType;
+        }
+
+        public static final SearchScope<Project> PROJECTS = new SearchScope<>("projects", Project.class);
+        public static final SearchScope<Issue> ISSUES = new SearchScope<>("issues", Issue.class);
+        public static final SearchScope<MergeRequest> MERGE_REQUESTS = new SearchScope<>("merge_requests", MergeRequest.class);
+        public static final SearchScope<Milestone> MILESTONES = new SearchScope<>("milestones", Milestone.class);
+        public static final SearchScope<Snippet> SNIPPET_TITLES = new SearchScope<>("snippet_titles", Snippet.class);
+        public static final SearchScope<Snippet> SNIPPET_BLOBS = new SearchScope<>("snippet_blobs", Snippet.class);
+        public static final SearchScope<User> USERS = new SearchScope<>("users", User.class);
+        public static final SearchScope<SearchBlob> BLOBS = new SearchScope<>("blobs", SearchBlob.class);
+        public static final SearchScope<Commit> COMMITS = new SearchScope<>("commits", Commit.class);
+        public static final SearchScope<SearchBlob> WIKI_BLOBS = new SearchScope<>("wiki_blobs", SearchBlob.class);
+
+        private static final Map<String, SearchScope> jsonLookup = Arrays.stream(new SearchScope[]{PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, SNIPPET_TITLES, SNIPPET_BLOBS, USERS, BLOBS, COMMITS, WIKI_BLOBS})
+            .collect(Collectors.toMap(searchScope -> searchScope.jsonName, Function.identity()));
 
         @JsonCreator
-        public static SearchScope forValue(String value) {
-            return enumHelper.forValue(value);
+        public static <T> SearchScope<T> forValue(String value) {
+            return (SearchScope<T>) jsonLookup.get(value);
         }
 
         @JsonValue
         public String toValue() {
-            return (enumHelper.toString(this));
+            return jsonName;
         }
 
         @Override
         public String toString() {
-            return (enumHelper.toString(this));
+            return jsonName;
         }
     }
 
     /**
      * Enum for the search scope when doing a groupSearch() with the SearchApi.
      */
-    public enum GroupSearchScope {
+    public static class GroupSearchScope<T> {
 
-        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, WIKI_BLOBS, COMMITS, BLOBS, NOTES, USERS;
+        private final String jsonName;
+        private final Class<T> resultType;
 
-        private static JacksonJsonEnumHelper<GroupSearchScope> enumHelper = new JacksonJsonEnumHelper<>(GroupSearchScope.class);
+        public GroupSearchScope(String jsonName, Class<T> resultType) {
+            this.jsonName = jsonName;
+            this.resultType = resultType;
+        }
+
+        public Class<T> getResultType() {
+            return resultType;
+        }
+
+        public static final GroupSearchScope<Project> PROJECTS = new GroupSearchScope<>("projects", Project.class);
+        public static final GroupSearchScope<Issue> ISSUES = new GroupSearchScope<>("issues", Issue.class);
+        public static final GroupSearchScope<MergeRequest> MERGE_REQUESTS = new GroupSearchScope<>("merge_requests", MergeRequest.class);
+        public static final GroupSearchScope<Milestone> MILESTONES = new GroupSearchScope<>("milestones", Milestone.class);
+        public static final GroupSearchScope<SearchBlob> WIKI_BLOBS = new GroupSearchScope<>("wiki_blobs", SearchBlob.class);
+        public static final GroupSearchScope<Commit> COMMITS = new GroupSearchScope<>("commits", Commit.class);
+        public static final GroupSearchScope<SearchBlob> BLOBS = new GroupSearchScope<>("blobs", SearchBlob.class);
+        public static final GroupSearchScope<Note> NOTES = new GroupSearchScope<>("notes", Note.class);
+        public static final GroupSearchScope<User> USERS = new GroupSearchScope<>("users", User.class);
+
+        private static final Map<String, GroupSearchScope> jsonLookup = Arrays.stream(new GroupSearchScope[]{
+                PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, WIKI_BLOBS, COMMITS, BLOBS, NOTES, USERS,
+            })
+            .collect(Collectors.toMap(searchScope -> searchScope.jsonName, Function.identity()));
 
         @JsonCreator
-        public static GroupSearchScope forValue(String value) {
-            return enumHelper.forValue(value);
+        public static <T> GroupSearchScope<T> forValue(String value) {
+            return (GroupSearchScope<T>) jsonLookup.get(value);
         }
 
         @JsonValue
         public String toValue() {
-            return (enumHelper.toString(this));
+            return jsonName;
         }
 
         @Override
         public String toString() {
-            return (enumHelper.toString(this));
+            return jsonName;
         }
     }
 
     /**
      * Enum for the search scope when doing a projectSearch() with the SearchApi.
      */
-    public enum ProjectSearchScope {
+    public static class ProjectSearchScope<T> {
 
-        BLOBS, COMMITS, ISSUES, MERGE_REQUESTS, MILESTONES, NOTES, WIKI_BLOBS, USERS;
+        private final String jsonName;
+        private final Class<T> resultType;
 
-        private static JacksonJsonEnumHelper<ProjectSearchScope> enumHelper = new JacksonJsonEnumHelper<>(ProjectSearchScope.class);
+        public ProjectSearchScope(String jsonName, Class<T> resultType) {
+            this.jsonName = jsonName;
+            this.resultType = resultType;
+        }
+
+        public Class<T> getResultType() {
+            return resultType;
+        }
+
+        public static final ProjectSearchScope<SearchBlob> BLOBS = new ProjectSearchScope<>("blobs", SearchBlob.class);
+        public static final ProjectSearchScope<Commit> COMMITS = new ProjectSearchScope<>("commits", Commit.class);
+        public static final ProjectSearchScope<Issue> ISSUES = new ProjectSearchScope<>("issues", Issue.class);
+        public static final ProjectSearchScope<MergeRequest> MERGE_REQUESTS = new ProjectSearchScope<>("merge_requests", MergeRequest.class);
+        public static final ProjectSearchScope<Milestone> MILESTONES = new ProjectSearchScope<>("milestones", Milestone.class);
+        public static final ProjectSearchScope<Note> NOTES = new ProjectSearchScope<>("notes", Note.class);
+        public static final ProjectSearchScope<SearchBlob> WIKI_BLOBS = new ProjectSearchScope<>("wiki_blobs", SearchBlob.class);
+        public static final ProjectSearchScope<User> USERS = new ProjectSearchScope<>("users", User.class);
+
+
+        private static final Map<String, ProjectSearchScope> jsonLookup = Arrays.stream(new ProjectSearchScope[]{
+                BLOBS, COMMITS, ISSUES, MERGE_REQUESTS, MILESTONES, NOTES, WIKI_BLOBS, USERS,
+            })
+            .collect(Collectors.toMap(searchScope -> searchScope.jsonName, Function.identity()));
 
         @JsonCreator
-        public static ProjectSearchScope forValue(String value) {
-            return enumHelper.forValue(value);
+        public static <T> ProjectSearchScope<T> forValue(String value) {
+            return (ProjectSearchScope<T>) jsonLookup.get(value);
         }
 
         @JsonValue
         public String toValue() {
-            return (enumHelper.toString(this));
+            return jsonName;
         }
 
         @Override
         public String toString() {
-            return (enumHelper.toString(this));
+            return jsonName;
         }
     }
+
 
     /** Enum to use for specifying the action when doing a getTodos() with the TodosApi. */
     public enum TodoAction {
@@ -1084,10 +1164,10 @@ public interface Constants {
         FULLY_PROTECTED(2),
         PROTECTED_AGAINST_PUSHES(3),
         FULL_PROTECTION_AFTER_INITIAL_PUSH(4);
-        
+
         @JsonValue
         private final int value;
-        
+
         private DefaultBranchProtectionLevel(int value) {
             this.value = value;
         }
