@@ -38,7 +38,7 @@ public class TestEnvironmentsApi extends AbstractIntegrationTest {
 
     private static final String ENVIRONMENT_NAME = "gitlab4j-testing";
     private static final String EXTERNAL_URL = "https:/testing.example.com/";
-    private static final String TIER = "development";
+    private static final String TIER = "testing";
     private static Random randomNumberGenerator = new Random();
 
     public TestEnvironmentsApi() {
