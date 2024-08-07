@@ -20,6 +20,7 @@ public class PackageFilter implements Serializable {
     private String packageName;
     private Boolean includeVersionless;
     private PackageStatus status;
+    private String packageVersion;
 
     /**
      * Exclude Subgroups.
@@ -97,6 +98,15 @@ public class PackageFilter implements Serializable {
     }
 
     /**
+     * Filter the returned packages by version.
+     * @param packageVersion package packageVersion
+     * @return the reference to this ProjectFilter instance
+     */
+    public PackageFilter withPackageVersion(String packageVersion) {
+        this.packageVersion = packageVersion;
+        return (this);
+    }
+    /**
      * Get the query params specified by this filter.
      *
      * @return a GitLabApiForm instance holding the query parameters for this ProjectFilter instance
@@ -110,6 +120,7 @@ public class PackageFilter implements Serializable {
             .withParam("package_name", packageName)
             .withParam("include_versionless", includeVersionless)
             .withParam("status", status)
+            .withParam("package_version", packageVersion)
         );
     }
 }
