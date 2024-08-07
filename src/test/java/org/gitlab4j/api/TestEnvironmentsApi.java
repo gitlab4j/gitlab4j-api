@@ -38,6 +38,7 @@ public class TestEnvironmentsApi extends AbstractIntegrationTest {
 
     private static final String ENVIRONMENT_NAME = "gitlab4j-testing";
     private static final String EXTERNAL_URL = "https:/testing.example.com/";
+    private static final String TIER = "testing";
     private static Random randomNumberGenerator = new Random();
 
     public TestEnvironmentsApi() {
@@ -94,7 +95,7 @@ public class TestEnvironmentsApi extends AbstractIntegrationTest {
     public void testGetEnvironments() throws GitLabApiException {
 
 	final Environment env = gitLabApi.getEnvironmentsApi().createEnvironment(
-		testProject, getUniqueName(), EXTERNAL_URL);
+		testProject, getUniqueName(), EXTERNAL_URL, TIER);
 
 	List<Environment> envs = gitLabApi.getEnvironmentsApi().getEnvironments(testProject);
 	assertTrue(envs.size() > 0);
@@ -108,7 +109,7 @@ public class TestEnvironmentsApi extends AbstractIntegrationTest {
     public void testStopAndDeleteEnvironment() throws GitLabApiException {
 
 	final Environment env = gitLabApi.getEnvironmentsApi().createEnvironment(
-		testProject, getUniqueName(), EXTERNAL_URL);
+		testProject, getUniqueName(), EXTERNAL_URL, TIER);
 
 	gitLabApi.getEnvironmentsApi().stopEnvironment(testProject, env.getId());
 	gitLabApi.getEnvironmentsApi().deleteEnvironment(testProject, env.getId());
@@ -122,7 +123,7 @@ public class TestEnvironmentsApi extends AbstractIntegrationTest {
     public void testOptionalEnvironment() throws GitLabApiException {
 
 	final Environment env = gitLabApi.getEnvironmentsApi().createEnvironment(
-		testProject, getUniqueName(), EXTERNAL_URL);
+		testProject, getUniqueName(), EXTERNAL_URL, TIER);
 	Optional<Environment> optionalEnv =
 		gitLabApi.getEnvironmentsApi().getOptionalEnvironment(testProject, env.getId());
 	assertTrue(optionalEnv.isPresent());

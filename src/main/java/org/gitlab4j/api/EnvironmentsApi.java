@@ -93,18 +93,19 @@ public class EnvironmentsApi extends AbstractApi {
     }
 
     /**
-     * Create a new environment with the given name and external_url.
+     * Create a new environment with the given name, external_url and tier.
      *
      * <pre><code>GitLab Endpoint:POST /projects/:id/environments</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      * @param name the name of the environment
      * @param externalUrl the place to link to for this environment
+     * @param tier the tier of the environment
      * @return the created Environment instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Environment createEnvironment(Object projectIdOrPath, String name, String externalUrl) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm().withParam("name", name, true).withParam("external_url", externalUrl);
+    public Environment createEnvironment(Object projectIdOrPath, String name, String externalUrl, String tier) throws GitLabApiException {
+	GitLabApiForm formData = new GitLabApiForm().withParam("name", name, true).withParam("external_url", externalUrl).withParam("tier", tier);
 	Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "environments");
 	return (response.readEntity(Environment.class));
@@ -119,11 +120,12 @@ public class EnvironmentsApi extends AbstractApi {
      * @param environmentId the ID of the environment to update
      * @param name the name of the environment
      * @param externalUrl the place to link to for this environment
+     * @param tier the tier of the environment
      * @return the created Environment instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Environment updateEnvironment(Object projectIdOrPath, Long environmentId, String name, String externalUrl) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm().withParam("name", name).withParam("external_url", externalUrl);
+    public Environment updateEnvironment(Object projectIdOrPath, Long environmentId, String name, String externalUrl, String tier) throws GitLabApiException {
+	GitLabApiForm formData = new GitLabApiForm().withParam("name", name).withParam("external_url", externalUrl).withParam("tier", tier);
 	Response response = putWithFormData(Response.Status.OK, formData, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "environments", environmentId);
 	return (response.readEntity(Environment.class));

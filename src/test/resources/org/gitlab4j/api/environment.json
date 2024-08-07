@@ -4,6 +4,7 @@
   "slug": "review-fix-foo-dfjre3",
   "external_url": "https://review-fix-foo-dfjre3.example.gitlab.com",
   "state": "available",
+  "tier": "testing",
   "last_deployment": {
     "id": 100,
     "iid": 34,
