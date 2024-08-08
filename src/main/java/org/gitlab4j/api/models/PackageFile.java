@@ -15,6 +15,7 @@ public class PackageFile implements Serializable {
     private Long size;
     private String fileMd5;
     private String fileSha1;
+    private String fileSha256;
 
     public Long getId() {
         return id;
@@ -70,6 +71,14 @@ public class PackageFile implements Serializable {
 
     public void setFileSha1(String fileSha1) {
         this.fileSha1 = fileSha1;
+    }
+
+    public String getFileSha256() {
+        return fileSha256;
+    }
+
+    public void setFileSha256(String fileSha256) {
+        this.fileSha256 = fileSha256;
     }
 
     @Override
