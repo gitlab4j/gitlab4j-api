@@ -81,6 +81,7 @@ public class GitLabApi implements AutoCloseable {
     private NotesApi notesApi;
     private NotificationSettingsApi notificationSettingsApi;
     private PackagesApi packagesApi;
+    private PersonalAccessTokenApi personalAccessTokenApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
     private ProtectedBranchesApi protectedBranchesApi;
@@ -1403,6 +1404,25 @@ public class GitLabApi implements AutoCloseable {
         }
 
         return (packagesApi);
+    }
+
+    /**
+     * Gets the PersonalAccessTokenApi instance owned by this GitLabApi instance. The PersonalAccessTokenApi is used
+     * to perform all personalAccessToken related API calls.
+     *
+     * @return the PersonalAccessTokenApi instance owned by this GitLabApi instance
+     */
+    public PersonalAccessTokenApi getPersonalAccessTokenApi() {
+
+        if (personalAccessTokenApi == null) {
+            synchronized (this) {
+                if (personalAccessTokenApi == null) {
+                    personalAccessTokenApi = new PersonalAccessTokenApi(this);
+                }
+            }
+        }
+
+        return (personalAccessTokenApi);
     }
 
     /**
