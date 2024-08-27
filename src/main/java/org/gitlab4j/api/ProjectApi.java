@@ -2213,7 +2213,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public ProjectHook addHook(Object projectIdOrPath, String url, ProjectHook enabledHooks,
-            Boolean enableSslVerification, String secretToken) throws GitLabApiException {
+            boolean enableSslVerification, String secretToken) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", url, true)
@@ -2260,7 +2260,7 @@ public class ProjectApi extends AbstractApi implements Constants {
 
     /**
      * Adds a hook to project.
-     * Convenience method for {@link #addHook(Object, String, ProjectHook, Boolean, String)}
+     * Convenience method for {@link #addHook(Object, String, ProjectHook, boolean, String)}
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/hooks</code></pre>
      *
@@ -2280,7 +2280,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withIssuesEvents(doIssuesEvents)
             .withMergeRequestsEvents(doMergeRequestsEvents)
             .withNoteEvents(doNoteEvents);
-        return addHook(projectIdOrPath, url, enabledHooks , null, null);
+        return addHook(projectIdOrPath, url, enabledHooks , false, null);
     }
 
     /**
