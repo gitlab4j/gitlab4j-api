@@ -1,8 +1,11 @@
 package org.gitlab4j.api.models;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.api.GitLabApiException;
@@ -93,7 +96,7 @@ public class ApplicationSettings implements Serializable {
     public Object addSetting(Setting setting, Object value) throws GitLabApiException {
 
         if (value instanceof JsonNode) {
-            value = jsonNodeToValue((JsonNode)value);
+            value = jsonNodeToValue((JsonNode)value, setting);
         }
 
         setting.validate(value);
@@ -113,7 +116,7 @@ public class ApplicationSettings implements Serializable {
         settings.clear();
     }
 
-    private Object jsonNodeToValue(JsonNode node) {
+    private Object jsonNodeToValue(JsonNode node, Setting setting) {
 
         Object value = node;
         if (node instanceof NullNode) {
@@ -129,14 +132,17 @@ public class ApplicationSettings implements Serializable {
         } else if (node instanceof DoubleNode) {
             value = (float)((DoubleNode)node).asDouble();
         } else if (node instanceof ArrayNode) {
-
-            int numItems = node.size();
-            String[] values = new String[numItems];
-            for (int i = 0; i < numItems; i++) {
-                values[i] = node.path(i).asText();
+            if (node.isEmpty()) {
+                value = setting.emptyArrayValue();
+            } else {
+                List<Object> values = new ArrayList<>(node.size());
+                node.forEach(element -> values.add(jsonNodeToValue(element, setting)));
+                Class<?> type = values.get(0).getClass();
+                value = Array.newInstance(type, values.size());
+                for (int i = 0; i < values.size(); i++) {
+                    Array.set(value, i, type.cast(values.get(i)));
+                }
             }
-
-            value = values;
         }
 
         return (value);

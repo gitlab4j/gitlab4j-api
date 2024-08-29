@@ -1,5 +1,9 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
@@ -15,14 +19,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum Setting {
 
     /**
-     * Abuse reports will be sent to this address if it is set. Abuse reports are
-     * always available in the admin area.
+     * Require administrators to enable Admin Mode by re-authenticating for administrative tasks.
      */
+    ADMIN_MODE(Boolean.class),
+
+    /**
+     * If set, abuse reports will be sent to this
+     * address if it is set. Abuse reports are always available in the admin area.
+     * @deprecated Use abuse_notification_email instead.
+     */
+    @Deprecated
     ADMIN_NOTIFICATION_EMAIL(String.class),
+
+    /**
+     * If set, abuse reports are sent to this address. Abuse reports are always available in the
+     * Admin area.
+     */
+    ABUSE_NOTIFICATION_EMAIL(String.class),
+
+    /**
+     * Enable sending notification if sign in from unknown IP address happens.
+     */
+    NOTIFY_ON_UNKNOWN_SIGN_IN(Boolean.class),
 
     /**
      * Where to redirect users after logout.
      */
+
     AFTER_SIGN_OUT_PATH(String.class),
 
     /**
@@ -57,14 +80,25 @@ public enum Setting {
      * Allow requests to the local network from system hooks.
      */
     ALLOW_LOCAL_REQUESTS_FROM_SYSTEM_HOOKS(Boolean.class),
-    
+
     /**
      * Allow requests to the local network from web hooks and services.
      */
     ALLOW_LOCAL_REQUESTS_FROM_WEB_HOOKS_AND_SERVICES(Boolean.class),
 
     /**
-     * Set the duration for which the jobs will be considered as old and expired. 
+     * Indicates whether users assigned up to the Guest role can create groups and personal
+     * projects. Defaults to true.
+     */
+    ALLOW_PROJECT_CREATION_FOR_GUEST_AND_BELOW(Boolean.class),
+
+    /**
+     * Allow using a registration token to create a runner. Defaults to true.
+     */
+    ALLOW_RUNNER_REGISTRATION_TOKEN(Boolean.class),
+
+    /**
+     * Set the duration for which the jobs will be considered as old and expired.
      * Once that time passes, the jobs will be archived and no longer able to be  retried.
      * Make it empty to never expire jobs. It has to be no less than 1 day,
      * for example: 15 days, 1 month, 2 years.
@@ -78,6 +112,11 @@ public enum Setting {
     ASSET_PROXY_ENABLED(Boolean.class),
 
     /**
+     * Shared secret with the asset proxy server. GitLab restart is required to apply changes.
+     */
+    ASSET_PROXY_SECRET_KEY(String.class),
+
+    /**
      * URL of the asset proxy server. GitLab restart is required to apply changes.
      */
     ASSET_PROXY_URL(String.class),
@@ -86,8 +125,17 @@ public enum Setting {
      * Assets that match these domain(s) will NOT be proxied. Wildcards allowed.
      * Your GitLab installation URL is automatically whitelisted. GitLab restart
      * is required to apply changes.
+     * @deprecated Use asset_proxy_allowlist instead
      */
-    ASSET_PROXY_WHITELIST(new Class<?>[]{String.class, String[].class}), 
+    @Deprecated
+    ASSET_PROXY_WHITELIST(new Class<?>[]{String.class, String[].class}),
+
+    /**
+     * Assets that match these domains are not proxied. Wildcards allowed. Your
+     * GitLab installation URL is automatically allowlisted. GitLab restart is
+     * required to apply changes.
+     */
+    ASSET_PROXY_ALLOWLIST(new Class<?>[]{String.class, String[].class}),
 
     /**
      * By default, we write to the authorized_keys file to support Git over SSH
@@ -108,7 +156,7 @@ public enum Setting {
      * test, and deploy applications based on a predefined CI/CD configuration.
      */
     AUTO_DEVOPS_ENABLED(Boolean.class),
-    
+
     /**
      * (PREMIUM | SILVER) Enabling this will make only licensed EE features
      * available to projects if the project namespace’s plan includes the feature
@@ -123,14 +171,14 @@ public enum Setting {
      */
     @Deprecated
     CLIENTSIDE_SENTRY_DSN(String.class),
-    
+
     /**
      * (<strong>If enabled, requires:</strong> {@link #CLIENTSIDE_SENTRY_DSN}) Enable Sentry error reporting for the client side.
      * @deprecated Will be removed in a future version of gitlab4j-api
      */
     @Deprecated
     CLIENTSIDE_SENTRY_ENABLED(Boolean.class),
-    
+
     /**
      * Custom hostname (for private commit emails).
      */
@@ -211,7 +259,7 @@ public enum Setting {
     DOMAIN_BLACKLIST(String[].class),
 
     /**
-     * (<strong>If enabled, requires:</strong>  {@link #DOMAIN_BLACKLIST}) Allows 
+     * (<strong>If enabled, requires:</strong>  {@link #DOMAIN_BLACKLIST}) Allows
      * blocking sign-ups from emails from specific domains.
      */
     DOMAIN_BLACKLIST_ENABLED(Boolean.class),
@@ -258,7 +306,7 @@ public enum Setting {
 
     /**
      * (PREMIUM | SILVER) Enable the use of AWS hosted Elasticsearch
-     */    
+     */
     ELASTICSEARCH_AWS(Boolean.class),
 
     /**
@@ -297,14 +345,14 @@ public enum Setting {
     EKS_SECRET_ACCESS_KEY(String.class),
 
     /**
-     * (PREMIUM | SILVER) Use the experimental elasticsearch indexer. More info: 
+     * (PREMIUM | SILVER) Use the experimental elasticsearch indexer. More info:
      * https://gitlab.com/gitlab-org/gitlab-elasticsearch-indexer
      * Ruby indexer was removed and go indexer is no more experimental.
      * @deprecated removed in Gitlab 12.3. see https://gitlab.com/gitlab-org/gitlab/commit/82ba4a6a5c78501413012a9f2a918aa7353917a0?view=parallel#fbf64e6b8170f05f1b940fb05902d29f9eba3633_223_223
      */
     @Deprecated
     ELASTICSEARCH_EXPERIMENTAL_INDEXER(Boolean.class),
-    
+
     /**
      * (PREMIUM | SILVER) Enable Elasticsearch indexing
      */
@@ -317,7 +365,7 @@ public enum Setting {
     ELASTICSEARCH_LIMIT_INDEXING(Boolean.class),
 
     /**
-     * (PREMIUM | SILVER) The namespaces to index via Elasticsearch if 
+     * (PREMIUM | SILVER) The namespaces to index via Elasticsearch if
      * {@link #ELASTICSEARCH_LIMIT_INDEXING} is enabled.
      */
     ELASTICSEARCH_NAMESPACE_IDS(Integer[].class),
@@ -514,7 +562,7 @@ public enum Setting {
     HOUSEKEEPING_BITMAPS_ENABLED(Boolean.class),
 
     /**
-     * (<strong>If enabled, requires:</strong> {@link #HOUSEKEEPING_BITMAPS_ENABLED}, 
+     * (<strong>If enabled, requires:</strong> {@link #HOUSEKEEPING_BITMAPS_ENABLED},
      * {@link #HOUSEKEEPING_FULL_REPACK_PERIOD}, {@link #HOUSEKEEPING_GC_PERIOD}, and
      * {@link #HOUSEKEEPING_INCREMENTAL_REPACK_PERIOD}) Enable or disable Git housekeeping.
      */
@@ -588,8 +636,8 @@ public enum Setting {
     MAX_PAGES_SIZE(Integer.class),
 
     /**
-     * (<strong>If enabled, requires:</strong> {@link #METRICS_HOST}, 
-     * {@link #METRICS_METHOD_CALL_THRESHOLD}, {@link #METRICS_PACKET_SIZE}, 
+     * (<strong>If enabled, requires:</strong> {@link #METRICS_HOST},
+     * {@link #METRICS_METHOD_CALL_THRESHOLD}, {@link #METRICS_PACKET_SIZE},
      * {@link #METRICS_POOL_SIZE}, {@link #METRICS_PORT}, {@link #METRICS_SAMPLE_INTERVAL} and
      * {@link #METRICS_TIMEOUT}) Enable influxDB metrics.
      */
@@ -661,7 +709,7 @@ public enum Setting {
      * local requests for hooks and services are disabled.
      */
     OUTBOUND_LOCAL_REQUESTS_WHITELIST(String[].class),
-    
+
     /**
      * NOT DOCUMENTED: but it's returned by a call to /api/v4/application/settings
      * Added with this commit https://gitlab.com/gitlab-org/gitlab/commit/336046254cfe69d795bc8ea454daaf5a35b60eac
@@ -704,7 +752,7 @@ public enum Setting {
      * Path of the group that is allowed to toggle the performance bar.
      */
     PERFORMANCE_BAR_ALLOWED_GROUP_PATH(String.class),
-    
+
     /**
      * Allow enabling the performance bar.
      * @deprecated Pass performance_bar_allowed_group_path: nil instead
@@ -735,6 +783,12 @@ public enum Setting {
     PROJECT_EXPORT_ENABLED(Boolean.class),
 
     /**
+     * Maximum authenticated requests to /project/:id/jobs per minute. Introduced in GitLab 16.5.
+     * Default: 600.
+     */
+    PROJECT_JOBS_API_RATE_LIMIT(Integer.class),
+
+    /**
      * Enable Prometheus metrics.
      */
     PROMETHEUS_METRICS_ENABLED(Boolean.class),
@@ -750,24 +804,24 @@ public enum Setting {
      * object storage directory.
      */
     PSEUDONYMIZER_ENABLED(Boolean.class),
-    
+
     /**
      * Number of changes (branches or tags) in a single push to determine whether webhooks
      * and services will be fired or not. Webhooks and services won’t be submitted if it
      * surpasses that value.
      */
     PUSH_EVENT_HOOKS_LIMIT(Integer.class),
-    
+
     /**
      * Number of changes (branches or tags) in a single push to determine whether individual
-     * push events or bulk push events will be created. 
+     * push events or bulk push events will be created.
      * <a href="https://docs.gitlab.com/ee/user/admin_area/settings/push_event_activities_limit.html">
      * Bulk push events will be created</a> if it surpasses that value.
      */
     PUSH_EVENT_ACTIVITIES_LIMIT(Integer.class),
 
     /**
-     * (<strong>If enabled, requires:</strong> {@link #RECAPTCHA_PRIVATE_KEY} and 
+     * (<strong>If enabled, requires:</strong> {@link #RECAPTCHA_PRIVATE_KEY} and
      * {@link #RECAPTCHA_SITE_KEY}) Enable reCAPTCHA.
      */
     RECAPTCHA_ENABLED(Boolean.class),
@@ -843,13 +897,13 @@ public enum Setting {
      * (PREMIUM | SILVER) required by: {@link #SHARED_RUNNERS_ENABLED} Set the maximum number
      * of pipeline minutes that a group can use on shared Runners per month.
      */
-    SHARED_RUNNERS_MINUTES(Integer.class), 
-    
+    SHARED_RUNNERS_MINUTES(Integer.class),
+
     /**
      * required by: {@link #SHARED_RUNNERS_ENABLED} Shared runners text.
      */
     SHARED_RUNNERS_TEXT(String.class),
-    
+
     /**
      * Text on the login page.
      */
@@ -878,13 +932,13 @@ public enum Setting {
      * (PREMIUM | SILVER) required by: {@link #SLACK_APP_ENABLED} The app id of the Slack-app.
      */
     SLACK_APP_ID(String.class),
-    
+
     /**
      * (PREMIUM | SILVER) required by: {@link #SLACK_APP_ENABLED} The app secret of the
      * Slack-app.
      */
     SLACK_APP_SECRET(String.class),
-    
+
     /**
      * (PREMIUM | SILVER) required by: {@link #SLACK_APP_ENABLED}  The verification token of
      * the Slack-app.
@@ -908,7 +962,7 @@ public enum Setting {
     SNOWPLOW_COOKIE_DOMAIN(String.class),
 
     /**
-     * (<strong>If enabled, requires:</strong> {@link #SNOWPLOW_COLLECTOR_HOSTNAME}) 
+     * (<strong>If enabled, requires:</strong> {@link #SNOWPLOW_COLLECTOR_HOSTNAME})
      * Enable snowplow tracking.
      */
     SNOWPLOW_ENABLED(Boolean.class),
@@ -949,7 +1003,7 @@ public enum Setting {
     SPAM_CHECK_ENDPOINT_URL(String.class),
 
     /**
-     * required by: {@link #PENDO_ENABLED} The Pendo endpoint url with js snippet. 
+     * required by: {@link #PENDO_ENABLED} The Pendo endpoint url with js snippet.
      * (e.g. https://cdn.pendo.io/agent/static/your-api-key/pendo.js)
      */
     PENDO_URL(String.class),
@@ -1107,7 +1161,7 @@ public enum Setting {
     THROTTLE_PROTECTED_PATHS_ENABLED(Boolean.class),
     THROTTLE_PROTECTED_PATHS_PERIOD_IN_SECONDS(Integer.class),
     THROTTLE_PROTECTED_PATHS_REQUESTS_PER_PERIOD(Integer.class),
-  
+
     /*
      * Undocumented settings as of GitLab 12.8
      * These are reported but not documented.
@@ -1176,7 +1230,7 @@ public enum Setting {
 	if (type != null) {
 	    return (valueType == type);
 	}
-	
+
 	for (Class<?> type : types) {
 	    if (valueType == type) {
 		return (true);
@@ -1212,5 +1266,20 @@ public enum Setting {
         String errorMsg = String.format("'%s' value is of incorrect type, is %s, should be %s",
                 toValue(), value.getClass().getSimpleName(), shouldBe.toString());
         throw new GitLabApiException(errorMsg);
+    }
+
+    public Object emptyArrayValue() {
+        if (type != null) {
+            if (type.isArray()) {
+                return Array.newInstance(type.getComponentType(), 0);
+            }
+        } else {
+            for(Class<?> possibleType: types) {
+                if (possibleType.isArray()) {
+                    return Array.newInstance(possibleType.getComponentType(), 0);
+                }
+            }
+        }
+        return null;
     }
 }

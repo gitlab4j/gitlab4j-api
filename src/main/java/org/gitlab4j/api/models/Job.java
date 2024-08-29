@@ -28,6 +28,7 @@ public class Job implements Serializable {
     private String webUrl;
     private String stage;
     private JobStatus status;
+    private String failureReason;
     private String when;
     private Boolean manual;
     private Boolean allowFailure;
@@ -162,6 +163,14 @@ public class Job implements Serializable {
 
     public void setStatus(JobStatus status) {
         this.status = status;
+    }
+
+    public String getFailureReason() {
+        return this.failureReason;
+    }
+
+    public void setFailureReason(String failureReason) {
+        this.failureReason = failureReason;
     }
 
     public String getCoverage() {
