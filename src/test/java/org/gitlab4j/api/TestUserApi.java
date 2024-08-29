@@ -606,6 +606,16 @@ public class TestUserApi extends AbstractIntegrationTest {
         assertNull(found);
     }
 
+    @Test
+    public void testUserExists() throws GitLabApiException {
+        User currentUser = gitLabApi.getUserApi().getCurrentUser();
+        assertNotNull(currentUser);
+        assertEquals(TEST_USERNAME, currentUser.getUsername());
+
+        assertTrue(gitLabApi.getUserApi().exists(currentUser.getUsername()));
+        assertFalse(gitLabApi.getUserApi().exists("doesnotexist"));
+    }
+
     public void testGetMemberships() throws GitLabApiException {
         User currentUser = gitLabApi.getUserApi().getCurrentUser();
         assertNotNull(currentUser);
