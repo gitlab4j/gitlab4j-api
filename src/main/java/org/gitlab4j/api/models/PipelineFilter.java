@@ -3,6 +3,7 @@ package org.gitlab4j.api.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gitlab4j.api.Constants.PipelineOrderBy;
 import org.gitlab4j.api.Constants.PipelineScope;
+import org.gitlab4j.api.Constants.PipelineSource;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.JacksonJson;
@@ -21,6 +22,9 @@ public class PipelineFilter implements Serializable {
 
     /** {@link org.gitlab4j.api.Constants.PipelineScope} The status of pipelines, one of: running, pending, success, failed, canceled, skipped, created */
     private PipelineStatus status;
+
+    /** {@link org.gitlab4j.api.Constants.PipelineSource} The source of pipelines */
+    private PipelineSource source;
 
     /** The ref of pipelines. */
     private String ref;
@@ -60,6 +64,10 @@ public class PipelineFilter implements Serializable {
 
     public void setStatus(PipelineStatus status) {
         this.status = status;
+    }
+
+    public void setSource(PipelineSource source) {
+        this.source = source;
     }
 
     public void setRef(String ref) {
@@ -105,6 +113,11 @@ public class PipelineFilter implements Serializable {
 
     public PipelineFilter withStatus(PipelineStatus status) {
         this.status = status;
+        return this;
+    }
+
+    public PipelineFilter withSource(PipelineSource source) {
+        this.source = source;
         return this;
     }
 
@@ -158,6 +171,7 @@ public class PipelineFilter implements Serializable {
         return (new GitLabApiForm()
                 .withParam("scope", scope)
                 .withParam("status", status)
+                .withParam("source", source)
                 .withParam("ref", ref)
                 .withParam("sha", sha)
                 .withParam("yaml_errors", yamlErrors)
