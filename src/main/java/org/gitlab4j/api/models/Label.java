@@ -13,11 +13,13 @@ public class Label implements Serializable {
     private String name;
     private String color;
     private String description;
+    private String descriptionHtml;
     private Integer openIssuesCount;
     private Integer closedIssuesCount;
     private Integer openMergeRequestsCount;
     private Boolean subscribed;
     private Integer priority;
+    private Boolean isProjectLabel;
 
     public Long getId() {
         return id;
@@ -66,6 +68,14 @@ public class Label implements Serializable {
         return (this);
     }
 
+    public String getDescriptionHtml() {
+          return descriptionHtml;
+     }
+
+    public void setDescriptionHtml(String descriptionHtml) {
+          this.descriptionHtml = descriptionHtml;
+     }
+
     public Integer getOpenIssuesCount() {
         return openIssuesCount;
     }
@@ -109,6 +119,14 @@ public class Label implements Serializable {
     public Label withPriority(Integer priority) {
         this.priority = priority;
         return (this);
+    }
+
+    public Boolean getIsProjectLabel() {
+        return isProjectLabel;
+    }
+
+    public void setIsProjectLabel(Boolean isProjectLabel) {
+        this.isProjectLabel = isProjectLabel;
     }
 
     @Override
