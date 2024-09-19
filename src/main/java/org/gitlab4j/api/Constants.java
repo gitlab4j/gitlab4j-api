@@ -357,6 +357,29 @@ public interface Constants {
         }
     }
 
+    /** Enum to use for specifying the source when calling getPipelines(). */
+    public enum PipelineSource {
+
+        PUSH, WEB, TRIGGER, SCHEDULE, API, EXTERNAL, PIPELINE, CHAT, WEBIDE, MERGE_REQUEST_EVENT, EXTERNAL_PULL_REQUEST_EVENT;
+
+        private static JacksonJsonEnumHelper<PipelineSource> enumHelper = new JacksonJsonEnumHelper<>(PipelineSource.class);
+
+        @JsonCreator
+        public static PipelineSource forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for specifying the scope when calling getJobs(). */
     public enum JobScope {
 
@@ -1098,4 +1121,3 @@ public interface Constants {
         }
     }
 }
-
