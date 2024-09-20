@@ -63,11 +63,6 @@
 		<changelog-lib.version>1.59</changelog-lib.version>
 		<bnd.version>5.3.0</bnd.version>
 
-		<gitlab.version>12.9.2-ce.0</gitlab.version>
-		<gitlab.autoremove-container>true</gitlab.autoremove-container>
-		<gitlab.skip-docker-start>true</gitlab.skip-docker-start>
-		<gitlab.port>8090</gitlab.port>
-
 		<sonar.projectKey>gitlab4j_gitlab4j-api</sonar.projectKey>
 		<sonar.organization>gitlab4j</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -302,51 +297,6 @@
 						<artifactId>java1${java.level}</artifactId>
 					</signature>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.43.0</version>
-				<configuration>
-					<images>
-						<image>
-							<name>gitlab/gitlab-ce:${gitlab.version}</name>
-							<alias>gitlab</alias>
-							<run>
-								<skip>${gitlab.skip-docker-start}</skip>
-								<env>
-									<GITLAB_OMNIBUS_CONFIG>gitlab_rails['initial_root_password']="password";
-										gitlab_rails['lfs_enabled']=false;</GITLAB_OMNIBUS_CONFIG>
-								</env>
-								<ports>
-									<port>${gitlab.port}:80</port>
-								</ports>
-								<wait>
-									<healthy>true</healthy>
-									<time>300000</time>
-								</wait>
-							</run>
-						</image>
-					</images>
-					<removeVolumes>true</removeVolumes>
-				</configuration>
-				<executions>
-					<execution>
-						<id>start</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>stop</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 
