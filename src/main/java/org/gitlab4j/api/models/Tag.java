@@ -1,5 +1,6 @@
 package org.gitlab4j.api.models;
 
+import java.util.Date;
 import org.gitlab4j.api.utils.JacksonJson;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ public class Tag implements Serializable {
     private String message;
     private String name;
     private Release release;
+    private Date createdAt;
 
     public Commit getCommit() {
         return this.commit;
@@ -42,6 +44,14 @@ public class Tag implements Serializable {
 
     public void setRelease(Release release) {
         this.release = release;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
