@@ -550,7 +550,7 @@ public class IssuesApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Updates an existing project issue. This call can also be used to mark an issue as closed.
+     * Updates an existing project issue to change the assignee.
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
      *
@@ -561,12 +561,32 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Issue assignIssue(Object projectIdOrPath, Long issueIid, Long assigneeId) throws GitLabApiException {
+        return assignIssue(projectIdOrPath, issueIid, Collections.singletonList(assigneeId));
+    }
+
+    /**
+     * Updates an existing project issue to change the assignees.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/issues/:issue_iid</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param issueIid the issue IID to update, required
+     * @param assigneeIds the IDs of the user to assign issue to, required, use an empty list to clear the assignees
+     * @return an instance of the updated Issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Issue assignIssue(Object projectIdOrPath, Long issueIid, List<Long> assigneeIds) throws GitLabApiException {
 
         if (issueIid == null) {
             throw new RuntimeException("issue IID cannot be null");
         }
 
-        GitLabApiForm formData = new GitLabApiForm().withParam("assignee_ids", Collections.singletonList(assigneeId));
+        // replace empty list with an invalid userId (clears the assignees in gitlab)
+        if (assigneeIds.isEmpty()) {
+            assigneeIds = Collections.singletonList(0L);
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("assignee_ids", assigneeIds);
         Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid);
         return (response.readEntity(Issue.class));
     }
