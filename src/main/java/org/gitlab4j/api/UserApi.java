@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
+import org.gitlab4j.api.models.Exists;
 import org.gitlab4j.api.models.GpgKey;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
@@ -1412,5 +1414,25 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("userId cannot be null");
         }
         post(Response.Status.CREATED, (Form) null, "users", userId, "deactivate");
+    }
+
+    /**
+     * Check if the given user exists.
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:username/exists</code></pre>
+     *
+     * @param username the name of the user to check
+     * @throws GitLabApiException if any exception occurs.
+     */
+    public boolean exists(String username) throws GitLabApiException {
+        if (username == null) {
+            throw new RuntimeException("username cannot be null");
+        }
+        try {
+            Response response = get(Response.Status.OK, null, getApiClient().getUrlWithBase("users", username, "exists"));
+            return response.readEntity(Exists.class).getExists();
+        } catch (IOException e) {
+            throw new GitLabApiException(e);
+        }
     }
 }
