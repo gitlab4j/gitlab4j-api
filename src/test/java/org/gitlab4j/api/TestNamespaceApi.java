@@ -28,6 +28,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
+@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestNamespaceApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
