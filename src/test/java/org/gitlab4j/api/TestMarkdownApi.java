@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
+@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestMarkdownApi extends AbstractIntegrationTest {
 
     private static final String EXPECTED_HTML_FOR_SPECIAL = "<p data-sourcepos=\"1:1-1:104\" dir=\"auto\">Hello world! <gl-emoji title=\"party popper\" data-name=\"tada\" data-unicode-version=\"6.0\">🎉</gl-emoji> <code>xml &lt;profiles&gt; &lt;version&gt;${maven-surefire-plugin.version}&lt;/version&gt; &lt;/profiles&gt;</code></p>";
