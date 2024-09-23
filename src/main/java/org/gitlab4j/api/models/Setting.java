@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
@@ -387,7 +389,7 @@ public enum Setting {
      * http://localhost:9201"). If your Elasticsearch instance is password
      * protected, pass the username:password in the URL (e.g., http://username:password@elastic_host:9200/).
      */
-    ELASTICSEARCH_URL(String.class),
+    ELASTICSEARCH_URL(String[].class),
 
     /**
      * (PREMIUM | SILVER) Additional text added to the bottom of every email for
@@ -1152,6 +1154,869 @@ public enum Setting {
      */
     WEB_IDE_CLIENTSIDE_PREVIEW_ENABLED(Boolean.class),
 
+    /**
+     * Maximum number of simultaneous import jobs for the GitHub importer. Default is 1000.
+     * Introduced in GitLab 16.11.
+     */
+    CONCURRENT_GITHUB_IMPORT_JOBS_LIMIT(Integer.class),
+
+    /**
+     * Maximum number of simultaneous import jobs for the Bitbucket Cloud importer. Default is 100.
+     * Introduced in GitLab 16.11.
+     */
+    CONCURRENT_BITBUCKET_IMPORT_JOBS_LIMIT(Integer.class),
+
+    /**
+     * Maximum number of simultaneous import jobs for the Bitbucket Server importer. Default is 100.
+     * Introduced in GitLab 16.11.
+     */
+    CONCURRENT_BITBUCKET_SERVER_IMPORT_JOBS_LIMIT(Integer.class),
+
+    /**
+     * Caching during the execution of cleanup policies.
+     */
+    CONTAINER_REGISTRY_EXPIRATION_POLICIES_CACHING(Boolean.class),
+
+    /**
+     * Default timeout for decompressing archived files, in seconds. Set to 0 to disable timeouts.
+     * Introduced in GitLab 16.4.
+     */
+    DECOMPRESS_ARCHIVE_FILE_TIMEOUT(Integer.class),
+
+    /**
+     * Instance-level custom initial branch name.
+     */
+    DEFAULT_BRANCH_NAME(String.class),
+
+    /**
+     * Introduced in GitLab 17.0. For available options,
+     * see Options for default_branch_protection_defaults.
+     */
+    DEFAULT_BRANCH_PROTECTION_DEFAULTS(HashMap.class),
+
+    /**
+     * Default preferred language for users who are not logged in.
+     */
+    DEFAULT_PREFERRED_LANGUAGE(String.class),
+
+    /**
+     * Default syntax highlighting theme for users who are new or not signed in.
+     * See IDs of available themes.
+     */
+    DEFAULT_SYNTAX_HIGHLIGHTING_THEME(Integer.class),
+
+    /**
+     * Enable inactive project deletion. Default is false.
+     * Became operational without feature flag in GitLab 15.4.
+     */
+    DELETE_INACTIVE_PROJECTS(Boolean.class),
+
+    /**
+     * Stops administrators from connecting their GitLab accounts to non-trusted OAuth 2.0
+     * applications that have the api, read_api, read_repository, write_repository, read_registry,
+     * write_registry, or sudo scopes. Introduced in GitLab 15.6.
+     */
+    DISABLE_ADMIN_OAUTH_SCOPES(Boolean.class),
+
+    /**
+     * Disable display of RSS/Atom and calendar feed tokens.
+     */
+    DISABLE_FEED_TOKEN(Boolean.class),
+
+    /**
+     * Users with email addresses that match these domains cannot sign up. Wildcards allowed.
+     * Enter multiple entries on separate lines. For example: domain.com, *.domain.com.
+     */
+    DOMAIN_DENYLIST(String[].class),
+
+    /**
+     * (If enabled, requires: domain_denylist) Allows blocking sign-ups from emails from specific
+     * domains.
+     */
+    DOMAIN_DENYLIST_ENABLED(Boolean.class),
+
+    /**
+     * Force people to use only corporate emails for sign-up. Default is null, meaning there is no
+     * restriction.
+     */
+    DOMAIN_ALLOWLIST(String[].class),
+
+    /**
+     * The minimum allowed curve size (in bits) of an uploaded ECDSA_SK key.
+     * Default is 0 (no restriction). -1 disables ECDSA_SK keys.
+     */
+    ECDSA_SK_KEY_RESTRICTION(Integer.class),
+
+    /**
+     * The minimum allowed curve size (in bits) of an uploaded ED25519_SK key.
+     * Default is 0 (no restriction). -1 disables ED25519_SK keys.
+     */
+    ED25519_SK_KEY_RESTRICTION(Integer.class),
+
+    /**
+     * Specifies whether users must confirm their email before sign in. Possible values are off,
+     * soft, and hard.
+     */
+    EMAIL_CONFIRMATION_SETTING(String.class),
+
+    /**
+     * How long to wait for a response from the pipeline validation service.
+     * Assumes OK if it times out.
+     */
+    EXTERNAL_PIPELINE_VALIDATION_SERVICE_TIMEOUT(Integer.class),
+
+    /**
+     * Optional. Token to include as the X-Gitlab-Token header in requests to the URL in
+     * external_pipeline_validation_service_url.
+     */
+    EXTERNAL_PIPELINE_VALIDATION_SERVICE_TOKEN(String.class),
+
+    /**
+     * URL to use for pipeline validation requests.
+     */
+    EXTERNAL_PIPELINE_VALIDATION_SERVICE_URL(String.class),
+
+    /**
+     * Time period in minutes after which the user is unlocked when maximum number of failed
+     * sign-in attempts reached.
+     */
+    FAILED_LOGIN_ATTEMPTS_UNLOCK_PERIOD_IN_MINUTES(Integer.class),
+
+    /**
+     * (If enabled, requires: gitpod_url) Enable Gitpod integration. Default is false.
+     */
+    GITPOD_ENABLED(Boolean.class),
+
+    /**
+     * The Gitpod instance URL for integration.
+     */
+    GITPOD_URL(String.class),
+
+    /**
+     * Number of Git pushes after which an incremental git repack is run.
+     */
+    HOUSEKEEPING_OPTIMIZE_REPOSITORY_PERIOD(Integer.class),
+
+    /**
+     * If delete_inactive_projects is true, the time (in months) to wait before deleting inactive
+     * projects. Default is 2. Became operational in GitLab 15.0.
+     */
+    INACTIVE_PROJECTS_DELETE_AFTER_MONTHS(Integer.class),
+
+    /**
+     * If delete_inactive_projects is true, the minimum repository size for projects to be checked
+     * for inactivity. Default is 0. Became operational in GitLab 15.0.
+     */
+    INACTIVE_PROJECTS_MIN_SIZE_MB(Integer.class),
+
+    /**
+     * If delete_inactive_projects is true, sets the time (in months) to wait before emailing
+     * maintainers that the project is scheduled be deleted because it is inactive. Default is 1.
+     * Became operational in GitLab 15.0.
+     */
+    INACTIVE_PROJECTS_SEND_WARNING_EMAIL_AFTER_MONTHS(Integer.class),
+
+    /**
+     * Whether or not optional metrics are enabled in Service Ping. Introduced in GitLab 16.10.
+     */
+    INCLUDE_OPTIONAL_METRICS_IN_SERVICE_PING(Boolean.class),
+
+    /**
+     * Enable Invisible CAPTCHA spam detection during sign-up. Disabled by default.
+     */
+    INVISIBLE_CAPTCHA_ENABLED(Boolean.class),
+
+    /**
+     * ID of the OAuth application used to authenticate with the GitLab for Jira Cloud app.
+     */
+    JIRA_CONNECT_APPLICATION_KEY(String.class),
+
+    /**
+     * Enable public key storage for the GitLab for Jira Cloud app.
+     */
+    JIRA_CONNECT_PUBLIC_KEY_STORAGE_ENABLED(Boolean.class),
+
+    /**
+     * URL of the GitLab instance used as a proxy for the GitLab for Jira Cloud app.
+     */
+    JIRA_CONNECT_PROXY_URL(String.class),
+
+    /**
+     * Maximum decompressed file size for imported archives in MB. Set to 0 for unlimited.
+     * Default is 25600.
+     */
+    MAX_DECOMPRESSED_ARCHIVE_SIZE(Integer.class),
+
+    /**
+     * Maximum export size in MB. 0 for unlimited. Default = 0 (unlimited).
+     */
+    MAX_EXPORT_SIZE(Integer.class),
+
+    /**
+     * Maximum remote file size for imports from external object storages.
+     * Introduced in GitLab 16.3.
+     */
+    MAX_IMPORT_REMOTE_FILE_SIZE(Integer.class),
+
+    /**
+     * Maximum number of sign-in attempts before locking out the user.
+     */
+    MAX_LOGIN_ATTEMPTS(Integer.class),
+
+    /**
+     * Maximum size in bytes of the Terraform state files. Set this to 0 for unlimited file size.
+     */
+    MAX_TERRAFORM_STATE_SIZE_BYTES(Integer.class),
+
+    /**
+     * 	The maximum size in bytes of a single CI/CD configuration file. Default: 2097152.
+     */
+    MAX_YAML_SIZE_BYTES(Integer.class),
+
+    /**
+     * The maximum depth of nested CI/CD configuration added with the include keyword. Default: 100.
+     */
+    MAX_YAML_DEPTH(Integer.class),
+
+    /**
+     * personal_access_token_prefix
+     */
+    PERSONAL_ACCESS_TOKEN_PREFIX(String.class),
+
+    /**
+     * (If enabled, requires: kroki_url) Enable Kroki integration. Default is false.
+     */
+    KROKI_ENABLED(Boolean.class),
+
+    /**
+     * The Kroki instance URL for integration.
+     */
+    KROKI_URL(String.class),
+
+    /**
+     * 	Additional formats supported by the Kroki instance. Possible values are true or false for
+     * 	formats bpmn, blockdiag, and excalidraw in the format &lt;format$gt;: true or &lt;format&gt;: false.
+     */
+    KROKI_FORMATS(HashMap.class),
+
+    /**
+     * 	(If enabled, requires diagramsnet_url) Enable Diagrams.net integration. Default is true.
+     */
+    DIAGRAMSNET_ENABLED(Boolean.class),
+
+    /**
+     * The Diagrams.net instance URL for integration.
+     */
+    DIAGRAMSNET_URL(String.class),
+
+    /**
+     * When enabled, any user that signs up for an account using the registration form is placed
+     * under a Pending approval state and has to be explicitly approved by an administrator.
+     */
+    REQUIRE_ADMIN_APPROVAL_AFTER_USER_SIGNUP(Boolean.class),
+
+    /**
+     * Allow administrators to require 2FA for all administrators on the instance.
+     */
+    REQUIRE_ADMIN_TWO_FACTOR_AUTHENTICATION(Boolean.class),
+
+    /**
+     * Enable Remember me setting. Introduced in GitLab 16.0.
+     */
+    REMEMBER_ME_ENABLED(Boolean.class),
+
+    /**
+     * 	Enable Silent mode. Default is false.
+     */
+    SILENT_MODE_ENABLED(Boolean.class),
+
+    /**
+     * The signing secret of the GitLab for Slack app. Used for authenticating API requests from
+     * the app.
+     */
+    SLACK_APP_SIGNING_SECRET(String.class),
+
+    /**
+     * API key used by GitLab for accessing the Spam Check service endpoint.
+     */
+    SPAM_CHECK_API_KEY(String.class),
+
+    /**
+     * (If enabled, requires: throttle_authenticated_packages_api_period_in_seconds and
+     * throttle_authenticated_packages_api_requests_per_period) Enable authenticated API request
+     * rate limit. Helps reduce request volume (for example, from crawlers or abusive bots).
+     * View Package Registry rate limits for more details.
+     */
+    THROTTLE_AUTHENTICATED_PACKAGES_API_ENABLED(Boolean.class),
+
+    /**
+     * Rate limit period (in seconds). View Package Registry rate limits for more details.
+     */
+    THROTTLE_AUTHENTICATED_PACKAGES_API_PERIOD_IN_SECONDS(Integer.class),
+
+    /**
+     * Maximum requests per period per user. View Package Registry rate limits for more details.
+     */
+    THROTTLE_AUTHENTICATED_PACKAGES_API_REQUESTS_PER_PERIOD(Integer.class),
+
+    /**
+     * (If enabled, requires: throttle_unauthenticated_api_period_in_seconds and
+     * throttle_unauthenticated_api_requests_per_period) Enable unauthenticated API request rate
+     * limit. Helps reduce request volume (for example, from crawlers or abusive bots).
+     */
+    THROTTLE_UNAUTHENTICATED_API_ENABLED(Boolean.class),
+
+    /**
+     * Rate limit period in seconds.
+     */
+    THROTTLE_UNAUTHENTICATED_API_PERIOD_IN_SECONDS(Integer.class),
+
+    /**
+     * Max requests per period per IP.
+     */
+    THROTTLE_UNAUTHENTICATED_API_REQUESTS_PER_PERIOD(Integer.class),
+
+    /**
+     * (If enabled, requires: throttle_unauthenticated_packages_api_period_in_seconds and
+     * throttle_unauthenticated_packages_api_requests_per_period) Enable authenticated API request
+     * rate limit. Helps reduce request volume (for example, from crawlers or abusive bots). View
+     * Package Registry rate limits for more details.
+     */
+    THROTTLE_UNAUTHENTICATED_PACKAGES_API_ENABLED(Boolean.class),
+
+    /**
+     * Rate limit period (in seconds). View Package Registry rate limits for more details.
+     */
+    THROTTLE_UNAUTHENTICATED_PACKAGES_API_PERIOD_IN_SECONDS(Integer.class),
+
+    /**
+     * Maximum requests per period per user. View Package Registry rate limits for more details.
+     */
+    THROTTLE_UNAUTHENTICATED_PACKAGES_API_REQUESTS_PER_PERIOD(Integer.class),
+
+    /**
+     * 	Fetch GitLab Runner release version data from GitLab.com. For more information, see how to
+     * 	determine which runners need to be upgraded.
+     */
+    UPDATE_RUNNER_VERSIONS_ENABLED(Boolean.class),
+
+    /**
+     * Maximum files in a diff.
+     */
+    DIFF_MAX_FILES(Integer.class),
+
+    /**
+     * Maximum lines in a diff.
+     */
+    DIFF_MAX_LINES(Integer.class),
+
+    /**
+     * The Mailgun HTTP webhook signing key for receiving events from webhook.
+     */
+    MAILGUN_SIGNING_KEY(String.class),
+
+    /**
+     * Enable Mailgun event receiver.
+     */
+    MAILGUN_EVENTS_ENABLED(Boolean.class),
+
+    /**
+     * The Snowplow collector for database events hostname.
+     * (for example, db-snowplow.trx.gitlab.net)
+     */
+    SNOWPLOW_DATABASE_COLLECTOR_HOSTNAME(String.class),
+
+    /**
+     * Maximum wiki page content size in bytes. Default: 52428800 Bytes (50 MB). The minimum value
+     * is 1024 bytes.
+     */
+    WIKI_PAGE_MAX_CONTENT_BYTES(Integer.class),
+
+    /**
+     * The maximum time, in seconds, that the cleanup process can take to delete a batch of tags
+     * for cleanup policies.
+     */
+    CONTAINER_REGISTRY_DELETE_TAGS_SERVICE_TIMEOUT(Integer.class),
+
+    /**
+     * When rate limiting is enabled via the throttle_* settings, send this plain text response
+     * when a rate limit is exceeded. ‘Retry later’ is sent if this is blank.
+     */
+    RATE_LIMITING_RESPONSE_TEXT(String.class),
+
+    /**
+     * Enable to allow anyone to pull from Package Registry visible and changeable.
+     */
+    PACKAGE_REGISTRY_ALLOW_ANYONE_TO_PULL_OPTION(Boolean.class),
+
+    /**
+     * Number of workers assigned to the packages cleanup policies.
+     */
+    PACKAGE_REGISTRY_CLEANUP_POLICIES_WORKER_CAPACITY(Integer.class),
+
+    /**
+     * Number of workers for cleanup policies.
+     */
+    CONTAINER_REGISTRY_EXPIRATION_POLICIES_WORKER_CAPACITY(Integer.class),
+
+    /**
+     * The maximum number of tags that can be deleted in a single execution of cleanup policies.
+     */
+    CONTAINER_REGISTRY_CLEANUP_TAGS_SERVICE_MAX_LIST_SIZE(Integer.class),
+
+    /**
+     * Prevent the deletion of the artifacts from the most recent successful jobs, regardless of
+     * the expiry time. Enabled by default.
+     */
+    KEEP_LATEST_ARTIFACT(Boolean.class),
+
+    /**
+     * What’s new variant, possible values: all_tiers, current_tier, and disabled.
+     */
+    WHATS_NEW_VARIANT(String.class),
+
+    /**
+     * Send an email to users upon account deactivation.
+     */
+    USER_DEACTIVATION_EMAILS_ENABLED(Boolean.class),
+
+    /**
+     * track or compress. Sets the behavior for Sidekiq job size limits. Default: ‘compress’.
+     */
+    SIDEKIQ_JOB_LIMITER_MODE(String.class),
+
+    /**
+     * The threshold in bytes at which Sidekiq jobs are compressed before being stored in Redis.
+     * Default: 100,000 bytes (100 KB).
+     */
+    SIDEKIQ_JOB_LIMITER_COMPRESSION_THRESHOLD_BYTES(Integer.class),
+
+    /**
+     * The threshold in bytes at which Sidekiq jobs are rejected. Default: 0 bytes (doesn’t reject any job).
+     */
+    SIDEKIQ_JOB_LIMITER_LIMIT_BYTES(Integer.class),
+
+    /**
+     * Enable pipeline suggestion banner.
+     */
+    SUGGEST_PIPELINE_ENABLED(Boolean.class),
+
+    /**
+     * Show the external redirect page that warns you about user-generated content in GitLab Pages.
+     */
+    ENABLE_ARTIFACT_EXTERNAL_REDIRECT_WARNING_PAGE(Boolean.class),
+
+    /**
+     * Max number of requests per minute for performing a search while authenticated. Default: 30.
+     * To disable throttling set to 0.
+     */
+    SEARCH_RATE_LIMIT(Integer.class),
+
+    /**
+     * Max number of requests per minute for performing a search while unauthenticated.
+     * Default: 10. To disable throttling set to 0.
+     */
+    SEARCH_RATE_LIMIT_UNAUTHENTICATED(Integer.class),
+
+    /**
+     *Set the expiration time (in seconds) of authentication tokens of newly registered instance
+     * runners. Minimum value is 7200 seconds. For more information, see Automatically rotate
+     * authentication tokens.
+     */
+    RUNNER_TOKEN_EXPIRATION_INTERVAL(Integer.class),
+
+    /**
+     * Set the expiration time (in seconds) of authentication tokens of newly registered group
+     * runners. Minimum value is 7200 seconds. For more information, see Automatically rotate
+     * authentication tokens.
+     */
+    GROUP_RUNNER_TOKEN_EXPIRATION_INTERVAL(Integer.class),
+
+    /**
+     * Set the expiration time (in seconds) of authentication tokens of newly registered project
+     * runners. Minimum value is 7200 seconds. For more information, see Automatically rotate
+     * authentication tokens.
+     */
+    PROJECT_RUNNER_TOKEN_EXPIRATION_INTERVAL(Integer.class),
+
+    /**
+     * Maximum number of pipeline creation requests per minute per user and commit.
+     * Disabled by default.
+     */
+    PIPELINE_LIMIT_PER_PROJECT_USER_SHA(Integer.class),
+
+    /**
+     * Indicates whether users can create top-level groups. Introduced in GitLab 15.5.
+     * Defaults to true.
+     */
+    CAN_CREATE_GROUP(Boolean.class),
+
+    /**
+     * Maximum simultaneous Direct Transfer batches to process.
+     */
+    BULK_IMPORT_CONCURRENT_PIPELINE_BATCH_LIMIT(Integer.class),
+
+    /**
+     * Enable migrating GitLab groups by direct transfer. Introduced in GitLab 15.8. Setting also
+     * available in the Admin area.
+     */
+    BULK_IMPORT_ENABLED(Boolean.class),
+
+    /**
+     * Maximum download file size when importing from source GitLab instances by direct transfer.
+     * Introduced in GitLab 16.3.
+     */
+    BULK_IMPORT_MAX_DOWNLOAD_FILE_SIZE(Integer.class),
+
+    /**
+     * Enable Silent admin exports. Default is false.
+     */
+    SILENT_ADMIN_EXPORTS_ENABLED(Boolean.class),
+
+    /**
+     * Newly created users have private profile by default. Introduced in GitLab 15.8.
+     * Defaults to false.
+     */
+    USER_DEFAULTS_TO_PRIVATE_PROFILE(Boolean.class),
+
+    /**
+     * Introduced in GitLab 15.10. Max number of requests per 10 minutes per IP address for
+     * unauthenticated requests to the list all projects API. Default: 400. To disable throttling
+     * set to 0.
+     */
+    PROJECTS_API_RATE_LIMIT_UNAUTHENTICATED(Integer.class),
+
+    /**
+     * Indicates whether the instance was provisioned for GitLab Dedicated.
+     */
+    GITLAB_DEDICATED_INSTANCE(Boolean.class),
+
+    /**
+     * Indicates whether the instance was provisioned with the GitLab Environment Toolkit for
+     * Service Ping reporting.
+     */
+    GITLAB_ENVIRONMENT_TOOLKIT_INSTANCE(Boolean.class),
+
+    /**
+     * The maximum number of includes per pipeline. Default is 150.
+     */
+    CI_MAX_INCLUDES(Integer.class),
+
+    /**
+     * Enable users to delete their accounts.
+     */
+    ALLOW_ACCOUNT_DELETION(Boolean.class),
+
+    /**
+     * Maximum number of Git operations per minute a user can perform. Default: 600.
+     * Introduced in GitLab 16.2.
+     */
+    GITLAB_SHELL_OPERATION_LIMIT(Integer.class),
+
+    /**
+     * The maximum amount of memory, in bytes, that can be allocated for the pipeline configuration,
+     * with all included YAML configuration files.
+     */
+    CI_MAX_TOTAL_YAML_SIZE_BYTES(Integer.class),
+
+    /**
+     * Public security contact information. Introduced in GitLab 16.7.
+     */
+    SECURITY_TXT_CONTENT(String.class),
+
+    /**
+     * Maximum downstream pipeline trigger rate. Default: 0 (no restriction).
+     * Introduced in GitLab 16.10.
+     */
+    DOWNSTREAM_PIPELINE_TRIGGER_LIMIT_PER_PROJECT_USER_SHA(Integer.class),
+
+    /**
+     * Maximum limit of AsciiDoc include directives being processed in any one document.
+     * Default: 32. Maximum: 64.
+     */
+    ASCIIDOC_MAX_INCLUDES(Integer.class),
+
+    /**
+     * When enabled, users must set an expiration date when creating a group or project access
+     * token, or a personal access token owned by a non-service account.
+     */
+    REQUIRE_PERSONAL_ACCESS_TOKEN_EXPIRY(Boolean.class),
+
+    /**
+     * Enable automatic deactivation of dormant users.
+     */
+    DEACTIVATE_DORMANT_USERS(Boolean.class),
+
+    /**
+     * Length of time (in days) after which a user is considered dormant. Introduced in GitLab 15.3.
+     */
+    DEACTIVATE_DORMANT_USERS_PERIOD(Integer.class),
+
+    /**
+     * Indicates whether to skip metadata URL validation for the NuGet package.
+     * Introduced in GitLab 17.0.
+     */
+    NUGET_SKIP_METADATA_URL_VALIDATION(Boolean.class),
+
+    /**
+     * Enabling this permits automatic allocation of purchased storage in a namespace.
+     * Relevant only to EE distributions.
+     */
+    AUTOMATIC_PURCHASED_STORAGE_ALLOCATION(Boolean.class),
+
+    /**
+     * Maximum size of text fields to index by Elasticsearch. 0 value means no limit.
+     * This does not apply to repository and wiki indexing. Premium and Ultimate only.
+     */
+    ELASTICSEARCH_INDEXED_FIELD_LENGTH_LIMIT(Integer.class),
+
+    /**
+     * Maximum size of repository and wiki files that are indexed by Elasticsearch.
+     * Premium and Ultimate only.
+     */
+    ELASTICSEARCH_INDEXED_FILE_SIZE_LIMIT_KB(Integer.class),
+
+    /**
+     * Enable automatic requeuing of indexing workers. This improves non-code indexing throughput
+     * by enqueuing Sidekiq jobs until all documents are processed. Premium and Ultimate only.
+     */
+    ELASTICSEARCH_REQUEUE_WORKERS(Boolean.class),
+
+    /**
+     * Number of indexing worker shards. This improves non-code indexing throughput by enqueuing
+     * more parallel Sidekiq jobs. Default is 2. Premium and Ultimate only.
+     */
+    ELASTICSEARCH_WORKER_NUMBER_OF_SHARDS(Integer.class),
+
+    /**
+     * Maximum concurrency of Elasticsearch bulk requests per indexing operation. This only applies
+     * to repository indexing operations. Premium and Ultimate only.
+     */
+    ELASTICSEARCH_MAX_BULK_CONCURRENCY(Integer.class),
+
+    /**
+     * Maximum size of Elasticsearch bulk indexing requests in MB. This only applies to repository
+     * indexing operations. Premium and Ultimate only.
+     */
+    ELASTICSEARCH_MAX_BULK_SIZE_MB(Integer.class),
+
+    /**
+     * Maximum concurrency of Elasticsearch code indexing background jobs. This only applies to
+     * repository indexing operations. Premium and Ultimate only.
+     */
+    ELASTICSEARCH_MAX_CODE_INDEXING_CONCURRENCY(Integer.class),
+
+    /**
+     * The username of your Elasticsearch instance. Premium and Ultimate only.
+     */
+    ELASTICSEARCH_USERNAME(String.class),
+
+    /**
+     * The password of your Elasticsearch instance. Premium and Ultimate only.
+     */
+    ELASTICSEARCH_PASSWORD(String.class),
+
+    /**
+     * Enabling this permits enforcement of namespace storage limits.
+     */
+    ENFORCE_NAMESPACE_STORAGE_LIMIT(Boolean.class),
+
+    /**
+     * Maximum allowable lifetime for access tokens in days. When left blank, default value of 365
+     * is applied. When set, value must be 365 or less. When changed, existing access tokens with
+     * an expiration date beyond the maximum allowable lifetime are revoked.
+     * Self-managed, Ultimate only.
+     */
+    MAX_PERSONAL_ACCESS_TOKEN_LIFETIME(Integer.class),
+
+    /**
+     * Maximum allowable lifetime for SSH keys in days. Self-managed, Ultimate only.
+     */
+    MAX_SSH_KEY_LIFETIME(Integer.class),
+
+    /**
+     * List of package registry metadata to sync. See the list of the available values.
+     * Self-managed, Ultimate only.
+     */
+    PACKAGE_METADATA_PURL_TYPES(Integer[].class),
+
+    /**
+     * Whether to look up merge request approval policy approval groups globally or within project
+     * hierarchies.
+     */
+    SECURITY_POLICY_GLOBAL_GROUP_APPROVERS_ENABLED(Boolean.class),
+
+    /**
+     * Maximum number of active merge request approval policies per security policy project.
+     * Default: 5. Maximum: 20
+     */
+    SECURITY_APPROVAL_POLICIES_LIMIT(Integer.class),
+
+    /**
+     * Enables ClickHouse as a data source for analytics reports. ClickHouse must be configured
+     * for this setting to take effect. Available on Premium and Ultimate only.
+     */
+    USE_CLICKHOUSE_FOR_ANALYTICS(Boolean.class),
+
+    /**
+     * Indicates whether GitLab Duo features are enabled for this instance. Introduced in GitLab
+     * 16.10. Self-managed, Premium and Ultimate only.
+     */
+    DUO_FEATURES_ENABLED(Boolean.class),
+
+    /**
+     * Indicates whether the GitLab Duo features enabled setting is enforced for all subgroups.
+     * Introduced in GitLab 16.10. Self-managed, Premium and Ultimate only.
+     */
+    LOCK_DUO_FEATURES_ENABLED(Boolean.class),
+
+    /**
+     * List of types which are allowed to register a GitLab Runner. Can be [], ['group'],
+     * ['project'] or ['group', 'project'].
+     */
+    VALID_RUNNER_REGISTRARS(String[].class),
+
+    /**
+     * (If enabled, requires: throttle_unauthenticated_web_period_in_seconds and
+     * throttle_unauthenticated_web_requests_per_period) Enable unauthenticated web request rate
+     * limit. Helps reduce request volume (for example, from crawlers or abusive bots).
+     */
+    THROTTLE_UNAUTHENTICATED_WEB_ENABLED(Boolean.class),
+
+    /**
+     * Rate limit period in seconds.
+     */
+    THROTTLE_UNAUTHENTICATED_WEB_PERIOD_IN_SECONDS(Integer.class),
+
+    /**
+     * Max requests per period per IP.
+     */
+    THROTTLE_UNAUTHENTICATED_WEB_REQUESTS_PER_PERIOD(Integer.class),
+
+    /**
+     * Hash of names of taken from gitlab.yml to weights. New projects are created in one of
+     * these stores, chosen by a weighted random selection.
+     */
+    REPOSITORY_STORAGES_WEIGHTED(HashMap.class),
+
+    /**
+     * Prevent editing approval rules in projects and merge requests.
+     */
+    DISABLE_OVERRIDING_APPROVERS_PER_MERGE_REQUEST(Boolean.class),
+
+    /**
+     * Prevent approval by author
+     */
+    PREVENT_MERGE_REQUESTS_AUTHOR_APPROVAL(Boolean.class),
+
+    /**
+     * Prevent approval by committers to merge requests
+     */
+    PREVENT_MERGE_REQUESTS_COMMITTERS_APPROVAL(Boolean.class),
+
+    /**
+     * Indicates whether passwords require at least one number. Introduced in GitLab 15.1.
+     * Premium and Ultimate only.
+     */
+    PASSWORD_NUMBER_REQUIRED(Boolean.class),
+
+    /**
+     * Indicates whether passwords require at least one symbol character. Introduced in GitLab 15.1.
+     * Premium and Ultimate only.
+     */
+    PASSWORD_SYMBOL_REQUIRED(Boolean.class),
+
+    /**
+     * Indicates whether passwords require at least one uppercase letter. Introduced in GitLab 15.1.
+     * Premium and Ultimate only.
+     */
+    PASSWORD_UPPERCASE_REQUIRED(Boolean.class),
+
+    /**
+     * Indicates whether passwords require at least one lowercase letter. Introduced in GitLab 15.1.
+     * Premium and Ultimate only.
+     */
+    PASSWORD_LOWERCASE_REQUIRED(Boolean.class),
+
+    /**
+     * Enable default project deletion protection so only administrators can delete projects.
+     * Default is false. Self-managed, Premium and Ultimate only.
+     */
+    DEFAULT_PROJECT_DELETION_PROTECTION(Boolean.class),
+
+    /**
+     * Number of days to wait before deleting a project or group that is marked for deletion.
+     * Value must be between 1 and 90. Defaults to 7. Self-managed, Premium and Ultimate only.
+     */
+    DELETION_ADJOURNED_PERIOD(Integer.class),
+
+    /**
+     * Disable personal access tokens. Introduced in GitLab 15.7. Self-managed, Premium and
+     * Ultimate only. There is no method available to enable a personal access token that’s been
+     * disabled through the API. This is a known issue. For more information about available
+     * workarounds, see Workaround.
+     */
+    DISABLE_PERSONAL_ACCESS_TOKENS(Boolean.class),
+
+    /**
+     * Disable user profile name changes.
+     */
+    UPDATING_NAME_DISABLED_FOR_USERS(Boolean.class),
+
+    /**
+     * Use repo.maven.apache.org as a default remote repository when the package is not found in
+     * the GitLab Package Registry for Maven. Premium and Ultimate only.
+     */
+    MAVEN_PACKAGE_REQUESTS_FORWARDING(Boolean.class),
+
+    /**
+     * Use npmjs.org as a default remote repository when the package is not found in the GitLab
+     * Package Registry for npm. Premium and Ultimate only.
+     */
+    NPM_PACKAGE_REQUESTS_FORWARDING(Boolean.class),
+
+    /**
+     * Use pypi.org as a default remote repository when the package is not found in the GitLab
+     * Package Registry for PyPI. Premium and Ultimate only.
+     */
+    PYPI_PACKAGE_REQUESTS_FORWARDING(Boolean.class),
+
+    /**
+     * Prevent overrides of default branch protection. Self-managed, Premium and Ultimate only.
+     */
+    GROUP_OWNERS_CAN_MANAGE_DEFAULT_BRANCH_PROTECTION(Boolean.class),
+
+    /**
+     * When instance is in maintenance mode, non-administrative users can sign in with read-only
+     * access and make read-only API requests. Premium and Ultimate only.
+     */
+    MAINTENANCE_MODE(Boolean.class),
+
+    /**
+     * 	Message displayed when instance is in maintenance mode. Premium and Ultimate only.
+     */
+    MAINTENANCE_MODE_MESSAGE(String.class),
+
+    /**
+     * Flag to indicate if token expiry date can be optional for service account users
+     */
+    SERVICE_ACCESS_TOKENS_EXPIRATION_ENFORCED(Boolean.class),
+
+    /**
+     * Specifies whether users who have not confirmed their email should be deleted. Default is
+     * false. When set to true, unconfirmed users are deleted after
+     * unconfirmed_users_delete_after_days days. Introduced in GitLab 16.1.
+     * Self-managed, Premium and Ultimate only.
+     */
+    DELETE_UNCONFIRMED_USERS(Boolean.class),
+
+    /**
+     * Specifies how many days after sign-up to delete users who have not confirmed their email.
+     * Only applicable if delete_unconfirmed_users is set to true. Must be 1 or greater.
+     * Default is 7. Introduced in GitLab 16.1. Self-managed, Premium and Ultimate only.
+     */
+    UNCONFIRMED_USERS_DELETE_AFTER_DAYS(Integer.class),
+
     /*
      * Undocumented settings as of GitLab 12.4
      * These are reported but not documented.
@@ -1183,8 +2048,121 @@ public enum Setting {
      */
     CONTAINER_EXPIRATION_POLICIES_ENABLE_HISTORIC_ENTRIES(Boolean.class),
     ISSUES_CREATE_LIMIT(Integer.class),
-    RAW_BLOB_REQUEST_LIMIT(Integer.class);
+    RAW_BLOB_REQUEST_LIMIT(Integer.class),
 
+    /*
+     * Undocumented settings as of GitLab 17.3
+     * These are reported but not documented.
+     */
+    ALLOW_POSSIBLE_SPAM(Boolean.class),
+    DENY_ALL_REQUESTS_EXCEPT_ALLOWED(Boolean.class),
+    DOMAIN_DENYLIST_RAW(String.class),
+    DOMAIN_ALLOWLIST_RAW(String.class),
+    OUTBOUND_LOCAL_REQUESTS_ALLOWLIST_RAW(String.class),
+    ERROR_TRACKING_ENABLED(Boolean.class),
+    ERROR_TRACKING_API_URL(String.class),
+    FLOC_ENABLED(Boolean.class),
+    HELP_PAGE_DOCUMENTATION_BASE_URL(String.class),
+    MATH_RENDERING_LIMITS_ENABLED(Boolean.class),
+    MAX_ARTIFACTS_CONTENT_INCLUDE_SIZE(Integer.class),
+    MAX_PAGES_CUSTOM_DOMAINS_PER_PROJECT(Integer.class),
+    THROTTLE_AUTHENTICATED_GIT_LFS_ENABLED(Boolean.class),
+    THROTTLE_AUTHENTICATED_GIT_LFS_PERIOD_IN_SECONDS(Integer.class),
+    THROTTLE_AUTHENTICATED_GIT_LFS_REQUESTS_PER_PERIOD(Integer.class),
+    THROTTLE_AUTHENTICATED_FILES_API_ENABLED(Boolean.class),
+    THROTTLE_AUTHENTICATED_FILES_API_PERIOD_IN_SECONDS(Integer.class),
+    THROTTLE_AUTHENTICATED_FILES_API_REQUESTS_PER_PERIOD(Integer.class),
+    THROTTLE_AUTHENTICATED_DEPRECATED_API_ENABLED(Boolean.class),
+    THROTTLE_AUTHENTICATED_DEPRECATED_API_PERIOD_IN_SECONDS(Integer.class),
+    THROTTLE_AUTHENTICATED_DEPRECATED_API_REQUESTS_PER_PERIOD(Integer.class),
+    THROTTLE_UNAUTHENTICATED_FILES_API_ENABLED(Boolean.class),
+    THROTTLE_UNAUTHENTICATED_FILES_API_PERIOD_IN_SECONDS(Integer.class),
+    THROTTLE_UNAUTHENTICATED_FILES_API_REQUESTS_PER_PERIOD(Integer.class),
+    THROTTLE_UNAUTHENTICATED_GIT_HTTP_ENABLED(Boolean.class),
+    THROTTLE_UNAUTHENTICATED_GIT_HTTP_PERIOD_IN_SECONDS(Integer.class),
+    THROTTLE_UNAUTHENTICATED_GIT_HTTP_REQUESTS_PER_PERIOD(Integer.class),
+    THROTTLE_UNAUTHENTICATED_DEPRECATED_API_ENABLED(Boolean.class),
+    THROTTLE_UNAUTHENTICATED_DEPRECATED_API_PERIOD_IN_SECONDS(Integer.class),
+    THROTTLE_UNAUTHENTICATED_DEPRECATED_API_REQUESTS_PER_PERIOD(Integer.class),
+    PROTECTED_PATHS_FOR_GET_REQUEST_RAW(String.class),
+    USAGE_PING_FEATURES_ENABLED(Boolean.class),
+    NOTES_CREATE_LIMIT(Integer.class),
+    NOTES_CREATE_LIMIT_ALLOWLIST_RAW(String.class),
+    MEMBERS_DELETE_LIMIT(Integer.class),
+    PROJECT_IMPORT_LIMIT(Integer.class),
+    PROJECT_EXPORT_LIMIT(Integer.class),
+    PROJECT_DOWNLOAD_EXPORT_LIMIT(Integer.class),
+    GROUP_IMPORT_LIMIT(Integer.class),
+    GROUP_EXPORT_LIMIT(Integer.class),
+    GROUP_DOWNLOAD_EXPORT_LIMIT(Integer.class),
+    WIKI_ASCIIDOC_ALLOW_URI_INCLUDES(Boolean.class),
+    SENTRY_ENABLED(Boolean.class),
+    SENTRY_DSN(String.class),
+    SENTRY_CLIENTSIDE_DSN(String.class),
+    SENTRY_ENVIRONMENT(String.class),
+    SENTRY_CLIENTSIDE_TRACES_SAMPLE_RATE(Float.class),
+    SEARCH_RATE_LIMIT_ALLOWLIST_RAW(String.class),
+    USERS_GET_BY_ID_LIMIT(Integer.class),
+    USERS_GET_BY_ID_LIMIT_ALLOWLIST_RAW(String.class),
+    INVITATION_FLOW_ENFORCEMENT(Boolean.class),
+    DEACTIVATION_EMAIL_ADDITIONAL_TEXT(String.class),
+    GROUP_API_LIMIT(Integer.class),
+    GROUP_INVITED_GROUPS_API_LIMIT(Integer.class),
+    GROUP_SHARED_GROUPS_API_LIMIT(Integer.class),
+    GROUP_PROJECTS_API_LIMIT(Integer.class),
+    GROUPS_API_LIMIT(Integer.class),
+    PROJECT_API_LIMIT(Integer.class),
+    PROJECTS_API_LIMIT(Integer.class),
+    USER_CONTRIBUTED_PROJECTS_API_LIMIT(Integer.class),
+    USER_PROJECTS_API_LIMIT(Integer.class),
+    USER_STARRED_PROJECTS_API_LIMIT(Integer.class),
+    NAMESPACE_AGGREGATION_SCHEDULE_LEASE_DURATION_IN_SECONDS(Integer.class),
+    AI_ACTION_API_RATE_LIMIT(Integer.class),
+    CODE_SUGGESTIONS_API_RATE_LIMIT(Integer.class),
+    ELASTICSEARCH_CLIENT_REQUEST_TIMEOUT(Integer.class),
+    ELASTICSEARCH_PAUSE_INDEXING(Boolean.class),
+    ELASTICSEARCH_REPLICAS(Integer.class),
+    ELASTICSEARCH_SHARDS(Integer.class),
+    ELASTICSEARCH_ANALYZERS_SMARTCN_ENABLED(Boolean.class),
+    ELASTICSEARCH_ANALYZERS_SMARTCN_SEARCH(Boolean.class),
+    ELASTICSEARCH_ANALYZERS_KUROMOJI_ENABLED(Boolean.class),
+    ELASTICSEARCH_ANALYZERS_KUROMOJI_SEARCH(Boolean.class),
+    INSTANCE_LEVEL_AI_BETA_FEATURES_ENABLED(Boolean.class),
+    LOCK_MEMBERSHIPS_TO_LDAP(Boolean.class),
+    LOCK_MEMBERSHIPS_TO_SAML(Boolean.class),
+    SEARCH_MAX_SHARD_SIZE_GB(Integer.class),
+    SEARCH_MAX_DOCS_DENOMINATOR(Integer.class),
+    SEARCH_MIN_DOCS_BEFORE_ROLLOVER(Integer.class),
+    SECRET_DETECTION_TOKEN_REVOCATION_ENABLED(Boolean.class),
+    SECRET_DETECTION_TOKEN_REVOCATION_URL(String.class),
+    SECRET_DETECTION_TOKEN_REVOCATION_TOKEN(String.class),
+    SECRET_DETECTION_REVOCATION_TOKEN_TYPES_URL(String.class),
+    SECURITY_POLICY_SCHEDULED_SCANS_MAX_CONCURRENCY(Integer.class),
+    THROTTLE_INCIDENT_MANAGEMENT_NOTIFICATION_ENABLED(Boolean.class),
+    THROTTLE_INCIDENT_MANAGEMENT_NOTIFICATION_PER_PERIOD(Integer.class),
+    THROTTLE_INCIDENT_MANAGEMENT_NOTIFICATION_PERIOD_IN_SECONDS(Integer.class),
+    PRODUCT_ANALYTICS_ENABLED(Boolean.class),
+    PRODUCT_ANALYTICS_DATA_COLLECTOR_HOST(String.class),
+    PRODUCT_ANALYTICS_CONFIGURATOR_CONNECTION_STRING(String.class),
+    CUBE_API_BASE_URL(String.class),
+    CUBE_API_KEY(String.class),
+    DUO_AVAILABILITY(String.class),
+    ZOEKT_AUTO_INDEX_ROOT_NAMESPACE(Boolean.class),
+    ZOEKT_INDEXING_ENABLED(Boolean.class),
+    ZOEKT_INDEXING_PAUSED(Boolean.class),
+    ZOEKT_SEARCH_ENABLED(Boolean.class),
+    DUO_WORKFLOW_OAUTH_APPLICATION_ID(String.class),
+    ALLOW_DEPLOY_TOKENS_AND_KEYS_WITH_EXTERNAL_AUTHN(Boolean.class),
+    CONTAINER_REGISTRY_IMPORT_MAX_TAGS_COUNT(Integer.class),
+    CONTAINER_REGISTRY_IMPORT_MAX_RETRIES(Integer.class),
+    CONTAINER_REGISTRY_IMPORT_START_MAX_RETRIES(Integer.class),
+    CONTAINER_REGISTRY_IMPORT_MAX_STEP_DURATION(Integer.class),
+    CONTAINER_REGISTRY_PRE_IMPORT_TAGS_RATE(Integer.class),
+    CONTAINER_REGISTRY_PRE_IMPORT_TIMEOUT(Integer.class),
+    CONTAINER_REGISTRY_IMPORT_TIMEOUT(Integer.class),
+    CONTAINER_REGISTRY_IMPORT_TARGET_PLAN(String.class),
+    CONTAINER_REGISTRY_IMPORT_CREATED_BEFORE(String.class),
+    ;
 
     private static JacksonJsonEnumHelper<Setting> enumHelper = new JacksonJsonEnumHelper<>(Setting.class);
 

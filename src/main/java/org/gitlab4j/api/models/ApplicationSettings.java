@@ -1,5 +1,7 @@
 package org.gitlab4j.api.models;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -143,6 +145,9 @@ public class ApplicationSettings implements Serializable {
                     Array.set(value, i, type.cast(values.get(i)));
                 }
             }
+        } else if (node instanceof ObjectNode) {
+            ObjectMapper mapper = new ObjectMapper();
+            value = mapper.convertValue(node, HashMap.class);
         }
 
         return (value);
