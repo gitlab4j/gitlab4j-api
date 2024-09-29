@@ -114,6 +114,7 @@ public class Project implements Serializable {
     private AutoDevopsDeployStrategy autoDevopsDeployStrategy;
     private Boolean autocloseReferencedIssues;
     private Boolean emailsDisabled;
+    private String repositoryObjectFormat;
     private String suggestionCommitMessage;
     private SquashOption squashOption;
     private String mergeCommitTemplate;
@@ -900,6 +901,19 @@ public class Project implements Serializable {
 
     public Project withEmailsDisabled(Boolean emailsDisabled) {
         this.emailsDisabled = emailsDisabled;
+        return this;
+    }
+
+    public String getRepositoryObjectFormat() {
+        return repositoryObjectFormat;
+    }
+
+    public void setRepositoryObjectFormat(String repositoryObjectFormat) {
+        this.repositoryObjectFormat = repositoryObjectFormat;
+    }
+
+    public Project withRepositoryObjectFormat(String repositoryObjectFormat) {
+        this.repositoryObjectFormat = repositoryObjectFormat;
         return this;
     }
 

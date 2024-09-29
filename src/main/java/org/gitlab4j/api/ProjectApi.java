@@ -1031,6 +1031,7 @@ public class ProjectApi extends AbstractApi implements Constants {
             .withParam("build_git_strategy", project.getBuildGitStrategy())
             .withParam("build_coverage_regex", project.getBuildCoverageRegex())
             .withParam("ci_config_path", project.getCiConfigPath())
+            .withParam("repository_object_format", project.getRepositoryObjectFormat())
             .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
             .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
             .withParam("squash_option", project.getSquashOption());
