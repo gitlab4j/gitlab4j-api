@@ -74,6 +74,9 @@ public abstract class AbstractIssue implements Serializable {
     private Integer weight;
     private Boolean discussionLocked;
     private TimeStats timeStats;
+    private String severity;
+    private String issueType;
+    private IssueEpic epic;
 
     private Integer upvotes;
     private Integer downvotes;
@@ -342,6 +345,30 @@ public abstract class AbstractIssue implements Serializable {
 
     public void setTaskCompletionStatus(TaskCompletionStatus taskCompletionStatus) {
         this.taskCompletionStatus = taskCompletionStatus;
+    }
+
+    public String getIssueType() {
+        return issueType;
+    }
+
+    public void setIssueType(String issueType) {
+        this.issueType = issueType;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public IssueEpic getEpic() {
+        return epic;
+    }
+
+    public void setEpic(IssueEpic epic) {
+        this.epic = epic;
     }
 
     @Override
