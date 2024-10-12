@@ -636,7 +636,7 @@ List<Runner> runners = gitLabApi.getRunnersApi().getAllRunners();
 #### SearchApi
 ```java
 // Do a global search for Projects
-List<?> projects = gitLabApi.getSearchApi().globalSearch(SearchScope.PROJECTS, "text-to-search-for");
+List<Project> projects = gitLabApi.getSearchApi().globalSearch(SearchScope.PROJECTS, "text-to-search-for");
 ```
 
 #### ServicesApi
