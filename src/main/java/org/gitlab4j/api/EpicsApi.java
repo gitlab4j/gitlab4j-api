@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
+import org.gitlab4j.api.Constants.StateEvent;
 import org.gitlab4j.api.models.ChildEpic;
 import org.gitlab4j.api.models.CreatedChildEpic;
 import org.gitlab4j.api.models.Epic;
@@ -259,15 +260,38 @@ public class EpicsApi extends AbstractApi {
      * @param endDate the end date of the epic (optional)
      * @return an Epic instance containing info on the newly created epic
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #createEpic(Object, String, String, String, Date, Date, Date)} instead
      */
+    @Deprecated
     public Epic createEpic(Object groupIdOrPath, String title, String labels, String description,
             Date startDate, Date endDate) throws GitLabApiException {
+        return createEpic(groupIdOrPath, title, labels, description, startDate, endDate, null);
+    }
+
+    /**
+     * Creates a new epic.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/epics</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param title the title of the epic (required)
+     * @param labels comma separated list of labels (optional)
+     * @param description the description of the epic (optional)
+     * @param startDate the start date of the epic (optional)
+     * @param endDate the end date of the epic (optional)
+     * @param createdAt the end date when the epic was created. Requires administrator or project/group owner privileges (optional)
+     * @return an Epic instance containing info on the newly created epic
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Epic createEpic(Object groupIdOrPath, String title, String labels, String description,
+            Date startDate, Date endDate, Date createdAt) throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("labels", labels)
                 .withParam("description", description)
                 .withParam("start_date", startDate)
-                .withParam("end_date", endDate);
+                .withParam("end_date", endDate)
+                .withParam("created_at", createdAt);
         Response response = post(Response.Status.CREATED, formData.asMap(),
                 "groups", getGroupIdOrPath(groupIdOrPath), "epics");
         return (response.readEntity(Epic.class));
@@ -297,7 +321,8 @@ public class EpicsApi extends AbstractApi {
                 .withParam("labels", epic.getLabels())
                 .withParam("description", epic.getDescription())
                 .withParam("start_date", epic.getStartDate())
-                .withParam("end_date", epic.getEndDate());
+                .withParam("end_date", epic.getEndDate())
+                .withParam("created_at", epic.getCreatedAt());
         Response response = post(Response.Status.CREATED, formData.asMap(),
                 "groups", getGroupIdOrPath(groupIdOrPath), "epics");
         return (response.readEntity(Epic.class));
@@ -317,15 +342,43 @@ public class EpicsApi extends AbstractApi {
      * @param endDate the end date of the epic (optional)
      * @return an Epic instance containing info on the newly created epic
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #updateEpic(Object, Long, String, String, String, Date, Date, StateEvent, Boolean, Long)} instead
      */
+    @Deprecated
     public Epic updateEpic(Object groupIdOrPath, Long epicIid, String title, String labels, String description,
             Date startDate, Date endDate) throws GitLabApiException {
+        return updateEpic(groupIdOrPath, epicIid, title, labels, description, startDate, endDate, null, null, null);
+    }
+    
+    /**
+     * Updates an existing epic.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/epics/:epic_iid</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param epicIid the IID of the epic to update
+     * @param title the title of the epic (optional)
+     * @param labels comma separated list of labels (optional)
+     * @param description the description of the epic (optional)
+     * @param startDate the start date of the epic (optional)
+     * @param endDate the end date of the epic (optional)
+     * @param stateEvent State event for an epic. Set close to {@link StateEvent#CLOSE}L the epic and {@link StateEvent#REOPEN} to reopen it (optional)
+     * @param confidential Whether the epic should be confidential (optional)
+     * @param parentId The ID of a parent epic (optional)
+     * @return an Epic instance containing info on the newly created epic
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Epic updateEpic(Object groupIdOrPath, Long epicIid, String title, String labels, String description,
+            Date startDate, Date endDate, StateEvent stateEvent, Boolean confidential, Long parentId) throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("labels", labels)
                 .withParam("description", description)
                 .withParam("start_date", startDate)
-                .withParam("end_date", endDate);
+                .withParam("end_date", endDate)
+                .withParam("state_event", stateEvent)
+                .withParam("confidential", confidential)
+                .withParam("parent_id", parentId);
         Response response = put(Response.Status.OK, formData.asMap(),
                 "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid);
         return (response.readEntity(Epic.class));
@@ -355,7 +408,8 @@ public class EpicsApi extends AbstractApi {
                 .withParam("labels", epic.getLabels())
                 .withParam("description", epic.getDescription())
                 .withParam("start_date", epic.getStartDate())
-                .withParam("end_date", epic.getEndDate());
+                .withParam("end_date", epic.getEndDate())
+                .withParam("parent_id", epic.getParentId());
         Response response = put(Response.Status.OK, formData.asMap(),
                 "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicIid);
         return (response.readEntity(Epic.class));
