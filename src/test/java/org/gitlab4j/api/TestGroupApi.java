@@ -18,13 +18,8 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
 
-import org.gitlab4j.api.models.AccessLevel;
-import org.gitlab4j.api.models.AccessRequest;
-import org.gitlab4j.api.models.Group;
-import org.gitlab4j.api.models.GroupFilter;
-import org.gitlab4j.api.models.GroupParams;
-import org.gitlab4j.api.models.Member;
-import org.gitlab4j.api.models.User;
+import org.gitlab4j.api.models.*;
+import org.gitlab4j.api.models.GroupHook;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -357,5 +352,42 @@ public class TestGroupApi extends AbstractIntegrationTest {
         assertTrue(optional.isPresent());
         assertEquals(testGroup.getId(), optional.get().getId());
         assertEquals(description, optional.get().getDescription());
+    }
+
+    @Test
+    public void addGroupHook() throws GitLabApiException {
+        // Given
+        GroupHookParams groupHookParams = new GroupHookParams();
+        groupHookParams
+                .setUrl("")
+                .setName("My Webhook")
+                .setDescription("")
+                .setBranchFilterStrategy("")
+                .setConfidentialIssuesEvents(true)
+                .setIssuesEvents(true)
+                .setConfidentialNoteEvents(true)
+                .setEnableSslVerification(true)
+                .setFeatureFlagEvents(true)
+                .setPushEvents(true)
+                .setJobEvents(true)
+                .setToken("token")
+                .setSubgroupEvents(true)
+                .setWikiPageEvents(true)
+                .setTagPushEvents(true)
+                .setReleasesEvents(true)
+                .setMemberEvents(true)
+                .setResourceAccessTokenEvents(true)
+                .setDeploymentEvents(true)
+                .setPipelineEvents(true)
+                .setNoteEvents(true)
+                .setMergeRequestsEvents(true)
+                .setPushEventsBranchFilter("wildcard")
+                .setCustomWebhookTemplate("{\"event\":\"{{object_kind}}\"}");
+
+        // When
+        GroupHook createdWebhook = gitLabApi.getGroupApi().addWebhook(testGroup.getId(), groupHookParams);
+
+        // Then
+        assertEquals("My Webhook", createdWebhook.getName());
     }
 }
