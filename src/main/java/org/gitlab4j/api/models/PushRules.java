@@ -21,6 +21,7 @@ public class PushRules implements Serializable {
     private String fileNameRegex;
     private Integer maxFileSize;
     private Boolean commitCommitterCheck;
+    private Boolean commitCommitterNameCheck;
     private Boolean rejectUnsignedCommits;
 
     public Long getId() {
@@ -171,6 +172,14 @@ public class PushRules implements Serializable {
 
     public Boolean getCommitCommitterCheck() {
         return commitCommitterCheck;
+    }
+
+    public Boolean getCommitCommitterNameCheck() {
+        return commitCommitterNameCheck;
+    }
+
+    public void setCommitCommitterNameCheck(Boolean commitCommitterNameCheck) {
+        this.commitCommitterNameCheck = commitCommitterNameCheck;
     }
 
     public void setCommitCommitterCheck(Boolean commitCommitterCheck) {
