@@ -1,10 +1,9 @@
-
 package org.gitlab4j.api.models;
-
-import org.gitlab4j.api.utils.JacksonJson;
 
 import java.io.Serializable;
 import java.util.List;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class EventData implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -81,7 +80,6 @@ public class EventData implements Serializable {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
 
     public EventData withAfter(String after) {
         this.after = after;

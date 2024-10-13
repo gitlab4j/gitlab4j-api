@@ -13,8 +13,7 @@ public class ExternalWikiService extends NotificationService {
      */
     @Override
     public GitLabApiForm servicePropertiesForm() {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("external_wiki_url", getExternalWikiUrl(), true);
+        GitLabApiForm formData = new GitLabApiForm().withParam("external_wiki_url", getExternalWikiUrl(), true);
         return formData;
     }
 
@@ -25,7 +24,6 @@ public class ExternalWikiService extends NotificationService {
     public void setExternalWikiUrl(String endpoint) {
         this.setProperty(WIKIURL_KEY_PROP, endpoint);
     }
-
 
     public ExternalWikiService withExternalWikiUrl(String endpoint) {
         setExternalWikiUrl(endpoint);

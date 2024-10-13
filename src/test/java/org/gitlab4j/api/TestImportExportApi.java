@@ -56,7 +56,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestImportExportApi extends AbstractIntegrationTest {
 
@@ -81,18 +82,19 @@ public class TestImportExportApi extends AbstractIntegrationTest {
     @AfterAll
     public static void teardown() throws GitLabApiException {
         deleteAllTestProjects();
-     }
+    }
 
-     private static void deleteAllTestProjects() {
-         if (gitLabApi == null) {
-             return;
-         }
+    private static void deleteAllTestProjects() {
+        if (gitLabApi == null) {
+            return;
+        }
 
-         try {
-             Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_IMPORT_PROJECT_NAME);
-             gitLabApi.getProjectApi().deleteProject(project);
-         } catch (GitLabApiException ignore) {}
-     }
+        try {
+            Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_IMPORT_PROJECT_NAME);
+            gitLabApi.getProjectApi().deleteProject(project);
+        } catch (GitLabApiException ignore) {
+        }
+    }
 
     @BeforeEach
     public void beforeMethod() {
@@ -139,10 +141,13 @@ public class TestImportExportApi extends AbstractIntegrationTest {
             System.out.println("Downloading exported project");
             exportDownload = gitLabApi.getImportExportApi().downloadExport(testProject, null);
             assertNotNull(exportDownload);
-            assertTrue(exportDownload.length() > 2000, "length is not as expected. Current value: " + exportDownload.length());
+            assertTrue(
+                    exportDownload.length() > 2000,
+                    "length is not as expected. Current value: " + exportDownload.length());
 
-            ImportStatus importStatus = gitLabApi.getImportExportApi().startImport(null, exportDownload,
-                    TEST_IMPORT_PROJECT_NAME, true, null);
+            ImportStatus importStatus = gitLabApi
+                    .getImportExportApi()
+                    .startImport(null, exportDownload, TEST_IMPORT_PROJECT_NAME, true, null);
             assertNotNull(importStatus);
             Long newProjectId = importStatus.getId();
 

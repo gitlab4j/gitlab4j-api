@@ -1,5 +1,11 @@
 package org.gitlab4j.api;
 
+import static org.gitlab4j.api.TestIssuesApi.deleteAllTestIssues;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.List;
+
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueEvent;
 import org.gitlab4j.api.models.Project;
@@ -10,15 +16,10 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.util.List;
-
-import static org.gitlab4j.api.TestIssuesApi.deleteAllTestIssues;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestResourceStateEventsApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -51,32 +52,47 @@ public class TestResourceStateEventsApi extends AbstractIntegrationTest {
         Issue closedIssue = gitLabApi.getIssuesApi().closeIssue(projectId, issue.getIid());
         assertEquals(closedIssue.getState(), Constants.IssueState.CLOSED);
 
-        List<IssueEvent> issueEvents = gitLabApi.getResourceStateEventsApi().getIssueStateEvents(projectId, issue.getIid());
+        List<IssueEvent> issueEvents =
+                gitLabApi.getResourceStateEventsApi().getIssueStateEvents(projectId, issue.getIid());
         assertNotNull(issueEvents);
         assertEquals(1, issueEvents.size());
 
-        assertEquals(1, issueEvents.stream()
-            .filter(issueEvent -> issueEvent.getState().equals(Constants.IssueState.CLOSED.toValue()))
-            .count());
+        assertEquals(
+                1,
+                issueEvents.stream()
+                        .filter(issueEvent -> issueEvent.getState().equals(Constants.IssueState.CLOSED.toValue()))
+                        .count());
 
-        Issue reopenedIssue = gitLabApi.getIssuesApi()
-            .updateIssue(projectId,
-                issue.getIid(),
-                null, null, null, null, null, null,
-                Constants.StateEvent.REOPEN,
-                null, null);
-        assertEquals(Constants.IssueState.OPENED.toValue(), reopenedIssue.getState().toValue());
+        Issue reopenedIssue = gitLabApi
+                .getIssuesApi()
+                .updateIssue(
+                        projectId,
+                        issue.getIid(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        Constants.StateEvent.REOPEN,
+                        null,
+                        null);
+        assertEquals(
+                Constants.IssueState.OPENED.toValue(), reopenedIssue.getState().toValue());
 
         issueEvents = gitLabApi.getResourceStateEventsApi().getIssueStateEvents(projectId, issue.getIid());
         assertNotNull(issueEvents);
         assertEquals(2, issueEvents.size());
 
-        assertEquals(1, issueEvents.stream()
-            .filter(issueEvent -> issueEvent.getState().equals(Constants.IssueState.CLOSED.toValue()))
-            .count());
-        assertEquals(1, issueEvents.stream()
-            .filter(issueEvent -> issueEvent.getState().equals(Constants.IssueState.REOPENED.toValue()))
-            .count());
+        assertEquals(
+                1,
+                issueEvents.stream()
+                        .filter(issueEvent -> issueEvent.getState().equals(Constants.IssueState.CLOSED.toValue()))
+                        .count());
+        assertEquals(
+                1,
+                issueEvents.stream()
+                        .filter(issueEvent -> issueEvent.getState().equals(Constants.IssueState.REOPENED.toValue()))
+                        .count());
     }
-
 }

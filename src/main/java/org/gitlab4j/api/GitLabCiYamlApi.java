@@ -1,6 +1,7 @@
 package org.gitlab4j.api;
 
 import java.util.List;
+
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -45,5 +46,4 @@ public class GitLabCiYamlApi extends AbstractApi {
         Response response = get(Status.OK, null, "templates", "gitlab_ci_ymls", key);
         return (response.readEntity(GitLabCiTemplate.class));
     }
-
 }

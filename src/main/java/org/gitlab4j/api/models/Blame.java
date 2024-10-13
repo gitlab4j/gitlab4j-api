@@ -1,9 +1,9 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.List;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class Blame implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,19 +12,19 @@ public class Blame implements Serializable {
     private List<String> lines;
 
     public Commit getCommit() {
-	return commit;
+        return commit;
     }
 
     public void setCommit(Commit commit) {
-	this.commit = commit;
+        this.commit = commit;
     }
 
     public List<String> getLines() {
-	return lines;
+        return lines;
     }
 
     public void setLines(List<String> lines) {
-	this.lines = lines;
+        this.lines = lines;
     }
 
     @Override

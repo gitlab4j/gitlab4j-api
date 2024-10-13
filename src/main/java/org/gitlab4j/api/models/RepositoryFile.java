@@ -1,12 +1,12 @@
-
 package org.gitlab4j.api.models;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.gitlab4j.api.Constants.Encoding;
-import org.gitlab4j.api.utils.JacksonJson;
 
 import java.io.Serializable;
 import java.util.Base64;
+
+import org.gitlab4j.api.Constants.Encoding;
+import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class RepositoryFile implements Serializable {
     private static final long serialVersionUID = 1L;

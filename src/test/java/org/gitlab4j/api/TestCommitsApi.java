@@ -37,7 +37,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
@@ -48,7 +48,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestCommitsApi extends AbstractIntegrationTest {
 
@@ -66,13 +67,17 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         gitLabApi = baseTestSetup();
         testProject = getTestProject();
 
-        if (!gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_PROJECT_SUBDIRECTORY_PATH, "master").isPresent()) {
+        if (!gitLabApi
+                .getRepositoryFileApi()
+                .getOptionalFile(testProject, TEST_PROJECT_SUBDIRECTORY_PATH, "master")
+                .isPresent()) {
             try {
                 RepositoryFile repoFile = new RepositoryFile();
                 repoFile.setFilePath(TEST_PROJECT_SUBDIRECTORY_PATH);
                 repoFile.setContent("This is a test project used to test GitLab4J-API.");
                 gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, "master", "Initial commit.");
-            } catch (GitLabApiException ignore) {}
+            } catch (GitLabApiException ignore) {
+            }
         }
     }
 
@@ -90,11 +95,16 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
-        List<Diff> diffs = gitLabApi.getCommitsApi().getDiff(testProject.getId(), commits.get(0).getId());
+        List<Diff> diffs = gitLabApi
+                .getCommitsApi()
+                .getDiff(testProject.getId(), commits.get(0).getId());
         assertNotNull(diffs);
         assertTrue(diffs.size() > 0);
 
-        diffs = gitLabApi.getCommitsApi().getDiff(TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(0).getId());
+        diffs = gitLabApi
+                .getCommitsApi()
+                .getDiff(
+                        TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(0).getId());
         assertNotNull(diffs);
         assertTrue(diffs.size() > 0);
     }
@@ -107,7 +117,9 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId());
         assertTrue(commits.size() > 0);
 
-        Stream<Diff> diffs = gitLabApi.getCommitsApi().getDiffStream(testProject.getId(), commits.get(0).getId());
+        Stream<Diff> diffs = gitLabApi
+                .getCommitsApi()
+                .getDiffStream(testProject.getId(), commits.get(0).getId());
         assertTrue(diffs.count() > 0);
     }
 
@@ -116,16 +128,22 @@ public class TestCommitsApi extends AbstractIntegrationTest {
 
         assertNotNull(testProject);
 
-        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(testProject.getId(), null, ISO8601.toDate("2000-01-01"), new Date());
+        List<Commit> commits = gitLabApi
+                .getCommitsApi()
+                .getCommits(testProject.getId(), null, ISO8601.toDate("2000-01-01"), new Date());
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
         String note = "This is a note.";
-        Comment addedComment = gitLabApi.getCommitsApi().addComment(testProject.getId(), commits.get(0).getId(), note);
+        Comment addedComment = gitLabApi
+                .getCommitsApi()
+                .addComment(testProject.getId(), commits.get(0).getId(), note);
         assertNotNull(addedComment);
         assertEquals(note, addedComment.getNote());
 
-        List<Comment> comments = gitLabApi.getCommitsApi().getComments(testProject.getId(), commits.get(0).getId());
+        List<Comment> comments = gitLabApi
+                .getCommitsApi()
+                .getComments(testProject.getId(), commits.get(0).getId());
         assertNotNull(comments);
         assertTrue(comments.size() > 0);
     }
@@ -161,10 +179,14 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
 
-        List<CommitRef> commitRefs = gitLabApi.getCommitsApi().getCommitRefs(testProject.getId(), commits.get(0).getId());
+        List<CommitRef> commitRefs = gitLabApi
+                .getCommitsApi()
+                .getCommitRefs(testProject.getId(), commits.get(0).getId());
         assertNotNull(commitRefs);
 
-        Stream<CommitRef> commitRefsStream = gitLabApi.getCommitsApi().getCommitRefsStream(testProject.getId(), commits.get(0).getId());
+        Stream<CommitRef> commitRefsStream = gitLabApi
+                .getCommitsApi()
+                .getCommitRefsStream(testProject.getId(), commits.get(0).getId());
         assertNotNull(commitRefsStream);
     }
 
@@ -173,8 +195,14 @@ public class TestCommitsApi extends AbstractIntegrationTest {
 
         assertNotNull(testProject);
 
-        List<Commit> commits = gitLabApi.getCommitsApi().getCommits(
-                testProject.getId(), null, ISO8601.toDate("2000-01-01"), new Date(), TEST_PROJECT_SUBDIRECTORY_PATH);
+        List<Commit> commits = gitLabApi
+                .getCommitsApi()
+                .getCommits(
+                        testProject.getId(),
+                        null,
+                        ISO8601.toDate("2000-01-01"),
+                        new Date(),
+                        TEST_PROJECT_SUBDIRECTORY_PATH);
         assertNotNull(commits);
         assertTrue(commits.size() > 0);
     }
@@ -203,8 +231,9 @@ public class TestCommitsApi extends AbstractIntegrationTest {
     public void testCommitsByPathNotFound() throws GitLabApiException {
 
         try {
-            List<Commit> commits = gitLabApi.getCommitsApi().getCommits(
-                    testProject, "master", "this-file-does-not-exist.an-extension");
+            List<Commit> commits = gitLabApi
+                    .getCommitsApi()
+                    .getCommits(testProject, "master", "this-file-does-not-exist.an-extension");
             assertTrue(commits == null || commits.isEmpty());
         } catch (GitLabApiException gle) {
             assertEquals(Response.Status.NOT_FOUND, gle.getHttpStatus());
@@ -215,8 +244,13 @@ public class TestCommitsApi extends AbstractIntegrationTest {
     public void testCreateCommit() throws GitLabApiException {
 
         // Make sure the file to create does not exist.
-        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master").isPresent()) {
-            gitLabApi.getRepositoryFileApi().deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master", "Deleted test file");
+        if (gitLabApi
+                .getRepositoryFileApi()
+                .getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master")
+                .isPresent()) {
+            gitLabApi
+                    .getRepositoryFileApi()
+                    .deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master", "Deleted test file");
         }
 
         // Arrange
@@ -226,25 +260,40 @@ public class TestCommitsApi extends AbstractIntegrationTest {
                 .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
 
         // Act
-        Commit commit = gitLabApi.getCommitsApi().createCommit(
-                testProject, "master", "Testing createCommit() create action", null, null, null, Arrays.asList(commitAction));
+        Commit commit = gitLabApi
+                .getCommitsApi()
+                .createCommit(
+                        testProject,
+                        "master",
+                        "Testing createCommit() create action",
+                        null,
+                        null,
+                        null,
+                        Arrays.asList(commitAction));
 
         // Assert
         assertNotNull(commit);
 
         // Arrange
-        commitAction = new CommitAction()
-                .withAction(Action.DELETE)
-                .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
+        commitAction = new CommitAction().withAction(Action.DELETE).withFilePath(TEST_CREATE_COMMIT_FILEPATH);
 
         // Act
-        commit = gitLabApi.getCommitsApi().createCommit(
-                testProject, "master", "Testing createCommit() delete action", null, null, null, Arrays.asList(commitAction));
+        commit = gitLabApi
+                .getCommitsApi()
+                .createCommit(
+                        testProject,
+                        "master",
+                        "Testing createCommit() delete action",
+                        null,
+                        null,
+                        null,
+                        Arrays.asList(commitAction));
 
         // Assert
         assertNotNull(commit);
 
-        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master");
+        Optional<RepositoryFile> repoFile =
+                gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master");
         assertFalse(repoFile.isPresent());
     }
 
@@ -252,10 +301,16 @@ public class TestCommitsApi extends AbstractIntegrationTest {
     public void testCreateCommitFromFile() throws GitLabApiException {
 
         // Make sure the file to create does not exist.
-        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master").isPresent()) {
+        if (gitLabApi
+                .getRepositoryFileApi()
+                .getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master")
+                .isPresent()) {
             try {
-                gitLabApi.getRepositoryFileApi().deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master", "Deleted test file");
-            } catch (GitLabApiException ignore) {}
+                gitLabApi
+                        .getRepositoryFileApi()
+                        .deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master", "Deleted test file");
+            } catch (GitLabApiException ignore) {
+            }
         }
 
         // Arrange
@@ -265,25 +320,40 @@ public class TestCommitsApi extends AbstractIntegrationTest {
                 .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
 
         // Act
-        Commit commit = gitLabApi.getCommitsApi().createCommit(
-                testProject, "master", "Testing createCommit() create action", null, null, null, Arrays.asList(commitAction));
+        Commit commit = gitLabApi
+                .getCommitsApi()
+                .createCommit(
+                        testProject,
+                        "master",
+                        "Testing createCommit() create action",
+                        null,
+                        null,
+                        null,
+                        Arrays.asList(commitAction));
 
         // Assert
         assertNotNull(commit);
 
         // Arrange
-        commitAction = new CommitAction()
-                .withAction(Action.DELETE)
-                .withFilePath(TEST_CREATE_COMMIT_FILEPATH);
+        commitAction = new CommitAction().withAction(Action.DELETE).withFilePath(TEST_CREATE_COMMIT_FILEPATH);
 
         // Act
-        commit = gitLabApi.getCommitsApi().createCommit(
-                testProject, "master", "Testing createCommit() delete action", null, null, null, Arrays.asList(commitAction));
+        commit = gitLabApi
+                .getCommitsApi()
+                .createCommit(
+                        testProject,
+                        "master",
+                        "Testing createCommit() delete action",
+                        null,
+                        null,
+                        null,
+                        Arrays.asList(commitAction));
 
         // Assert
         assertNotNull(commit);
 
-        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master");
+        Optional<RepositoryFile> repoFile =
+                gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, "master");
         assertFalse(repoFile.isPresent());
     }
 
@@ -298,8 +368,16 @@ public class TestCommitsApi extends AbstractIntegrationTest {
 
         // Act - expecting exception
         try {
-            gitLabApi.getCommitsApi().createCommit(testProject, "master", "Testing createCommit() create action",
-                    null, null, null, Arrays.asList(commitAction));
+            gitLabApi
+                    .getCommitsApi()
+                    .createCommit(
+                            testProject,
+                            "master",
+                            "Testing createCommit() create action",
+                            null,
+                            null,
+                            null,
+                            Arrays.asList(commitAction));
             fail("Commit should have been rejected due to no content.");
         } catch (GitLabApiException ignore) {
         }
@@ -315,10 +393,16 @@ public class TestCommitsApi extends AbstractIntegrationTest {
             gitLabApi.getRepositoryApi().createBranch(testProject, TEST_BRANCH, "master");
         }
 
-        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH).isPresent()) {
+        if (gitLabApi
+                .getRepositoryFileApi()
+                .getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH)
+                .isPresent()) {
             try {
-                gitLabApi.getRepositoryFileApi().deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH, "Deleted test file");
-            } catch (GitLabApiException ignore) {}
+                gitLabApi
+                        .getRepositoryFileApi()
+                        .deleteFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH, "Deleted test file");
+            } catch (GitLabApiException ignore) {
+            }
         }
 
         // Arrange
@@ -345,7 +429,8 @@ public class TestCommitsApi extends AbstractIntegrationTest {
         // Assert
         assertNotNull(commit);
 
-        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH);
+        Optional<RepositoryFile> repoFile =
+                gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, TEST_CREATE_COMMIT_FILEPATH, TEST_BRANCH);
         assertFalse(repoFile.isPresent());
     }
 
@@ -354,7 +439,10 @@ public class TestCommitsApi extends AbstractIntegrationTest {
 
         // Make sure the file to create does not exist.
         String filePath = TEST_CREATE_COMMIT_FILEPATH + ".test";
-        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master").isPresent()) {
+        if (gitLabApi
+                .getRepositoryFileApi()
+                .getOptionalFile(testProject, filePath, "master")
+                .isPresent()) {
             gitLabApi.getRepositoryFileApi().deleteFile(testProject, filePath, "master", "Deleted test file");
         }
 
@@ -365,12 +453,15 @@ public class TestCommitsApi extends AbstractIntegrationTest {
                 .withFilePath(filePath);
 
         // Act
-        Commit commit = gitLabApi.getCommitsApi().createCommit(
-                testProject, "master", "Testing createCommit() create action", null, null, null, commitAction);
+        Commit commit = gitLabApi
+                .getCommitsApi()
+                .createCommit(
+                        testProject, "master", "Testing createCommit() create action", null, null, null, commitAction);
 
         // Assert
         assertNotNull(commit);
-        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
+        Optional<RepositoryFile> repoFile =
+                gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
         assertTrue(repoFile.isPresent());
 
         // Act
@@ -386,13 +477,19 @@ public class TestCommitsApi extends AbstractIntegrationTest {
     public void testCherryPickCommit() throws GitLabApiException {
 
         // Make sure the branch to cherry pick does not exist
-        if(gitLabApi.getRepositoryApi().getOptionalBranch(testProject, "cherry-pick-branch").isPresent()) {
-           gitLabApi.getRepositoryApi().deleteBranch(testProject, "cherry-pick-branch");
+        if (gitLabApi
+                .getRepositoryApi()
+                .getOptionalBranch(testProject, "cherry-pick-branch")
+                .isPresent()) {
+            gitLabApi.getRepositoryApi().deleteBranch(testProject, "cherry-pick-branch");
         }
 
         // Make sure the file to create does not exist.
         String filePath = TEST_CREATE_COMMIT_FILEPATH + ".test";
-        if (gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master").isPresent()) {
+        if (gitLabApi
+                .getRepositoryFileApi()
+                .getOptionalFile(testProject, filePath, "master")
+                .isPresent()) {
             gitLabApi.getRepositoryFileApi().deleteFile(testProject, filePath, "master", "Deleted test file");
         }
 
@@ -401,7 +498,8 @@ public class TestCommitsApi extends AbstractIntegrationTest {
 
         // Assert
         assertNotNull(branch);
-        Optional<RepositoryFile> repoFileBranch = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, branch.getName());
+        Optional<RepositoryFile> repoFileBranch =
+                gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, branch.getName());
         assertFalse(repoFileBranch.isPresent());
 
         // Arrange
@@ -411,20 +509,25 @@ public class TestCommitsApi extends AbstractIntegrationTest {
                 .withFilePath(filePath);
 
         // Act
-        Commit commit = gitLabApi.getCommitsApi().createCommit(
-                testProject, "master", "Testing createCommit() create action", null, null, null, commitAction);
+        Commit commit = gitLabApi
+                .getCommitsApi()
+                .createCommit(
+                        testProject, "master", "Testing createCommit() create action", null, null, null, commitAction);
 
         // Assert
         assertNotNull(commit);
-        Optional<RepositoryFile> repoFile = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
+        Optional<RepositoryFile> repoFile =
+                gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, "master");
         assertTrue(repoFile.isPresent());
 
         // Act
-        Commit cherryPickedCommit = gitLabApi.getCommitsApi().cherryPickCommit(testProject, commit.getId(), "cherry-pick-branch");
+        Commit cherryPickedCommit =
+                gitLabApi.getCommitsApi().cherryPickCommit(testProject, commit.getId(), "cherry-pick-branch");
 
         // Assert
         assertNotNull(cherryPickedCommit);
-        Optional<RepositoryFile> repoFileBranchCherryPicked = gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, branch.getName());
+        Optional<RepositoryFile> repoFileBranchCherryPicked =
+                gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, filePath, branch.getName());
         assertTrue(repoFileBranchCherryPicked.isPresent());
     }
 }

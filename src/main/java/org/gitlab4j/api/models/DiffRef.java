@@ -1,8 +1,8 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class DiffRef implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -11,8 +11,7 @@ public class DiffRef implements Serializable {
     private String headSha;
     private String startSha;
 
-    public DiffRef() {
-    }
+    public DiffRef() {}
 
     public String getBaseSha() {
         return baseSha;

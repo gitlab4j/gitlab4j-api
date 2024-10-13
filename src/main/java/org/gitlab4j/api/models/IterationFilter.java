@@ -16,9 +16,14 @@ public class IterationFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public enum IterationFilterState {
-        OPENED, UPCOMING, CURRENT, CLOSED, ALL;
+        OPENED,
+        UPCOMING,
+        CURRENT,
+        CLOSED,
+        ALL;
 
-        private static JacksonJsonEnumHelper<IterationFilterState> enumHelper = new JacksonJsonEnumHelper<>(IterationFilterState.class, false, true);
+        private static JacksonJsonEnumHelper<IterationFilterState> enumHelper =
+                new JacksonJsonEnumHelper<>(IterationFilterState.class, false, true);
 
         @JsonCreator
         public static IterationFilterState forValue(String value) {
@@ -37,9 +42,11 @@ public class IterationFilter implements Serializable {
     }
 
     public enum IterationFilterIn {
-        TITLE, CADENCE_TITLE;
+        TITLE,
+        CADENCE_TITLE;
 
-        private static JacksonJsonEnumHelper<IterationFilterIn> enumHelper = new JacksonJsonEnumHelper<>(IterationFilterIn.class, false, false, true);
+        private static JacksonJsonEnumHelper<IterationFilterIn> enumHelper =
+                new JacksonJsonEnumHelper<>(IterationFilterIn.class, false, false, true);
 
         @JsonCreator
         public static IterationFilterIn forValue(String value) {
@@ -167,9 +174,7 @@ public class IterationFilter implements Serializable {
 
     @JsonIgnore
     public GitLabApiForm getQueryParams(int page, int perPage) {
-        return (getQueryParams()
-                .withParam(Constants.PAGE_PARAM, page)
-                .withParam(Constants.PER_PAGE_PARAM, perPage));
+        return (getQueryParams().withParam(Constants.PAGE_PARAM, page).withParam(Constants.PER_PAGE_PARAM, perPage));
     }
 
     @JsonIgnore

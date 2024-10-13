@@ -23,9 +23,9 @@
 
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class WikiPage implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -35,8 +35,7 @@ public class WikiPage implements Serializable {
     private String slug;
     private String format;
 
-    public WikiPage() {
-    }
+    public WikiPage() {}
 
     public WikiPage(String title, String slug, String content) {
         this.title = title;

@@ -21,19 +21,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  * NOTE: &amp;FixMethodOrder(MethodSorters.NAME_ASCENDING) is very important to insure that the tests are in the correct order
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestPager extends AbstractIntegrationTest {
 
@@ -72,12 +73,13 @@ public class TestPager extends AbstractIntegrationTest {
             pageIndex++;
             assertEquals(pageIndex, pager.getCurrentPage());
 
-            if (pageIndex < pager.getTotalPages())
-                assertEquals(10, projects.size());
+            if (pageIndex < pager.getTotalPages()) assertEquals(10, projects.size());
 
             for (Project project : projects) {
                 itemNumber++;
-                System.out.format("page=%d, item=%d, projectId=%d, projectName=%s%n", pageIndex, itemNumber, project.getId(), project.getName());
+                System.out.format(
+                        "page=%d, item=%d, projectId=%d, projectName=%s%n",
+                        pageIndex, itemNumber, project.getId(), project.getName());
             }
         }
     }
@@ -100,12 +102,13 @@ public class TestPager extends AbstractIntegrationTest {
             pageIndex++;
             assertEquals(pageIndex, pager.getCurrentPage());
 
-            if (pageIndex < pager.getTotalPages())
-                assertEquals(2, projects.size());
+            if (pageIndex < pager.getTotalPages()) assertEquals(2, projects.size());
 
             for (Project project : projects) {
                 itemNumber++;
-                System.out.format("page=%d, item=%d, projectId=%d, projectName=%s%n", pageIndex, itemNumber, project.getId(), project.getName());
+                System.out.format(
+                        "page=%d, item=%d, projectId=%d, projectName=%s%n",
+                        pageIndex, itemNumber, project.getId(), project.getName());
             }
         }
     }
@@ -131,12 +134,13 @@ public class TestPager extends AbstractIntegrationTest {
             pageIndex++;
             assertEquals(pageIndex, pager.getCurrentPage());
 
-            if (pageIndex < pager.getTotalPages())
-                assertEquals(2, branches.size());
+            if (pageIndex < pager.getTotalPages()) assertEquals(2, branches.size());
 
             for (Branch branch : branches) {
                 itemNumber++;
-                System.out.format("page=%d, item=%d, branchName=%s, isMerged=%b%n", pageIndex, itemNumber, branch.getName(), branch.getMerged());
+                System.out.format(
+                        "page=%d, item=%d, branchName=%s, isMerged=%b%n",
+                        pageIndex, itemNumber, branch.getName(), branch.getMerged());
             }
         }
     }
@@ -162,12 +166,13 @@ public class TestPager extends AbstractIntegrationTest {
             pageIndex++;
             assertEquals(pageIndex, pager.getCurrentPage());
 
-            if (pageIndex < pager.getTotalPages())
-                assertEquals(2, members.size());
+            if (pageIndex < pager.getTotalPages()) assertEquals(2, members.size());
 
             for (Member member : members) {
                 itemNumber++;
-                System.out.format("page=%d, item=%d, name=%s, username=%s%n", pageIndex, itemNumber, member.getName(), member.getUsername());
+                System.out.format(
+                        "page=%d, item=%d, name=%s, username=%s%n",
+                        pageIndex, itemNumber, member.getName(), member.getUsername());
             }
         }
     }
@@ -208,6 +213,8 @@ public class TestPager extends AbstractIntegrationTest {
         assertTrue(0 < numCommits);
 
         System.out.println("Streamed commits:");
-       assertEquals(numCommits, pager.stream().map(Commit::getId).peek(System.out::println).count());
+        assertEquals(
+                numCommits,
+                pager.stream().map(Commit::getId).peek(System.out::println).count());
     }
 }

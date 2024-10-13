@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.gitlab4j.api.utils.JacksonJson;
-import org.junit.jupiter.api.Assertions;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,8 +28,9 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JsonUtils {
-    
+
     private static JacksonJson jacksonJson;
+
     static {
         jacksonJson = new JacksonJson();
         jacksonJson.getObjectMapper().configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
@@ -38,11 +38,12 @@ public class JsonUtils {
         jacksonJson.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
     }
 
-    static JsonNode readTreeFromMap(Map<String, Object> map) throws JsonParseException, JsonMappingException, IOException {
+    static JsonNode readTreeFromMap(Map<String, Object> map)
+            throws JsonParseException, JsonMappingException, IOException {
         String jsonString = jacksonJson.getObjectMapper().writeValueAsString(map);
         return (jacksonJson.readTree(jsonString));
     }
-    
+
     static JsonNode readTreeFromString(String jsonString) throws JsonParseException, JsonMappingException, IOException {
         return (jacksonJson.readTree(jsonString));
     }
@@ -52,64 +53,75 @@ public class JsonUtils {
         return (jacksonJson.readTree(reader));
     }
 
-    static <T> T unmarshalResource(Class<T> returnType, String filename) throws JsonParseException, JsonMappingException, IOException {
+    static <T> T unmarshalResource(Class<T> returnType, String filename)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
         return (jacksonJson.unmarshal(returnType, reader));
     }
 
-    static <T> List<T> unmarshalResourceList(Class<T> returnType, String filename) throws JsonParseException, JsonMappingException, IOException {
+    static <T> List<T> unmarshalResourceList(Class<T> returnType, String filename)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
         return (JsonUtils.unmarshalList(returnType, reader));
     }
 
-    static <T> Map<String, T> unmarshalResourceMap(Class<T> returnType, String filename) throws JsonParseException, JsonMappingException, IOException {
+    static <T> Map<String, T> unmarshalResourceMap(Class<T> returnType, String filename)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         InputStreamReader reader = new InputStreamReader(TestGitLabApiBeans.class.getResourceAsStream(filename));
         return (jacksonJson.unmarshalMap(returnType, reader));
     }
 
-    static <T> T unmarshal(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
+    static <T> T unmarshal(Class<T> returnType, Reader reader)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         return (jacksonJson.unmarshal(returnType, reader));
     }
 
-    static <T> T unmarshal(Class<T> returnType, JsonNode tree) throws JsonParseException, JsonMappingException, IOException {
+    static <T> T unmarshal(Class<T> returnType, JsonNode tree)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         return (jacksonJson.unmarshal(returnType, tree));
     }
 
-    static <T> T unmarshal(Class<T> returnType, String json) throws JsonParseException, JsonMappingException, IOException {
+    static <T> T unmarshal(Class<T> returnType, String json)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         return (jacksonJson.unmarshal(returnType, json));
     }
 
-    static <T> List<T> unmarshalList(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
+    static <T> List<T> unmarshalList(Class<T> returnType, Reader reader)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         return (jacksonJson.unmarshalList(returnType, reader));
     }
 
-    static <T> List<T> unmarshalList(Class<T> returnType, String json) throws JsonParseException, JsonMappingException, IOException {
+    static <T> List<T> unmarshalList(Class<T> returnType, String json)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         return (jacksonJson.unmarshalList(returnType, json));
     }
 
-    static <T> Map<String, T> unmarshalMap(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
+    static <T> Map<String, T> unmarshalMap(Class<T> returnType, Reader reader)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         return (jacksonJson.unmarshalMap(returnType, reader));
     }
 
-    static <T> Map<String, T> unmarshalMap(Class<T> returnType, String json) throws JsonParseException, JsonMappingException, IOException {
+    static <T> Map<String, T> unmarshalMap(Class<T> returnType, String json)
+            throws JsonParseException, JsonMappingException, IOException {
         checkSerializable(returnType);
         return (jacksonJson.unmarshalMap(returnType, json));
     }
 
     static <T> void checkSerializable(Class<T> cls) {
-        if(!isSerializable(cls, new HashSet<>())) {
+        if (!isSerializable(cls, new HashSet<>())) {
             fail("Class " + cls.getCanonicalName() + " or one of its member does not implement Serializable");
         }
     }
+
     static <T> boolean isSerializable(Class<T> cls, Set<Class<?>> checkedTypes) {
         if (checkedTypes.contains(cls)) {
             return true;
@@ -124,7 +136,9 @@ public class JsonUtils {
         for (Field field : fields) {
             if (!Modifier.isStatic(field.getModifiers()) && !Modifier.isTransient(field.getModifiers())) {
                 Class<?> fieldClass = field.getType();
-                if (!isSimpleType(fieldClass) && !isSerializable(fieldClass, checkedTypes) && !isCollectionSerializable(field, checkedTypes)) {
+                if (!isSimpleType(fieldClass)
+                        && !isSerializable(fieldClass, checkedTypes)
+                        && !isCollectionSerializable(field, checkedTypes)) {
                     return false;
                 }
             }
@@ -133,18 +147,18 @@ public class JsonUtils {
     }
 
     private static boolean isSimpleType(Class<?> type) {
-        return type.isPrimitive() ||
-               type.equals(String.class) ||
-               type.equals(Integer.class) ||
-               type.equals(Long.class) ||
-               type.equals(Double.class) ||
-               type.equals(Float.class) ||
-               type.equals(Boolean.class) ||
-               type.equals(Character.class) ||
-               type.equals(Byte.class) ||
-               type.equals(Short.class);
+        return type.isPrimitive()
+                || type.equals(String.class)
+                || type.equals(Integer.class)
+                || type.equals(Long.class)
+                || type.equals(Double.class)
+                || type.equals(Float.class)
+                || type.equals(Boolean.class)
+                || type.equals(Character.class)
+                || type.equals(Byte.class)
+                || type.equals(Short.class);
     }
-    
+
     private static boolean isCollectionSerializable(Field field, Set<Class<?>> checkedTypes) {
         Class<?> fieldType = field.getType();
         if (Collection.class.isAssignableFrom(fieldType) || Map.class.isAssignableFrom(fieldType)) {

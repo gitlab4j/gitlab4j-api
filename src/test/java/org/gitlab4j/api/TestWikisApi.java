@@ -53,7 +53,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestWikisApi extends AbstractIntegrationTest {
 
     private static final String TEST_WIKI_TITLE_PREFIX = "Test Wiki: ";
@@ -85,12 +86,15 @@ public class TestWikisApi extends AbstractIntegrationTest {
         if (testProject != null) {
             try {
                 List<WikiPage> wikiPages = gitLabApi.getWikisApi().getPages(testProject);
-                wikiPages.stream().filter(wp -> wp.getTitle().startsWith(TEST_WIKI_TITLE_PREFIX)).map(WikiPage::getSlug).forEach(slug -> {
-                    try {
-                        gitLabApi.getWikisApi().deletePage(testProject, slug);
-                    } catch (GitLabApiException ignored) {
-                    }
-                });
+                wikiPages.stream()
+                        .filter(wp -> wp.getTitle().startsWith(TEST_WIKI_TITLE_PREFIX))
+                        .map(WikiPage::getSlug)
+                        .forEach(slug -> {
+                            try {
+                                gitLabApi.getWikisApi().deletePage(testProject, slug);
+                            } catch (GitLabApiException ignored) {
+                            }
+                        });
             } catch (GitLabApiException ignore) {
 
             }

@@ -15,16 +15,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  *
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestIgnoreCertificateErrors implements PropertyConstants {
 
     // The following needs to be set to your test repository
@@ -69,7 +70,9 @@ public class TestIgnoreCertificateErrors implements PropertyConstants {
         assertFalse(gitLabApi.getIgnoreCertificateErrors());
         Version version = gitLabApi.getVersion();
         assertNotNull(version);
-        System.out.format("ignoreCertErrors: %b, version=%s, revision=%s%n", gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
+        System.out.format(
+                "ignoreCertErrors: %b, version=%s, revision=%s%n",
+                gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
 
@@ -77,7 +80,9 @@ public class TestIgnoreCertificateErrors implements PropertyConstants {
         assertTrue(gitLabApi.getIgnoreCertificateErrors());
         version = gitLabApi.getVersion();
         assertNotNull(version);
-        System.out.format("ignoreCertErrors:  %b, version=%s, revision=%s%n", gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
+        System.out.format(
+                "ignoreCertErrors:  %b, version=%s, revision=%s%n",
+                gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
 
@@ -85,7 +90,9 @@ public class TestIgnoreCertificateErrors implements PropertyConstants {
         assertFalse(gitLabApi.getIgnoreCertificateErrors());
         version = gitLabApi.getVersion();
         assertNotNull(version);
-        System.out.format("ignoreCertErrors: %b, version=%s, revision=%s%n", gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
+        System.out.format(
+                "ignoreCertErrors: %b, version=%s, revision=%s%n",
+                gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
         gitLabApi.close();
@@ -95,7 +102,9 @@ public class TestIgnoreCertificateErrors implements PropertyConstants {
         assertTrue(gitLabApi.getIgnoreCertificateErrors());
         version = gitLabApi.getVersion();
         assertNotNull(version);
-        System.out.format("ignoreCertErrors:  %b, version=%s, revision=%s%n", gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
+        System.out.format(
+                "ignoreCertErrors:  %b, version=%s, revision=%s%n",
+                gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
 
@@ -103,7 +112,9 @@ public class TestIgnoreCertificateErrors implements PropertyConstants {
         assertFalse(gitLabApi.getIgnoreCertificateErrors());
         version = gitLabApi.getVersion();
         assertNotNull(version);
-        System.out.format("ignoreCertErrors: %b, version=%s, revision=%s%n", gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
+        System.out.format(
+                "ignoreCertErrors: %b, version=%s, revision=%s%n",
+                gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
 

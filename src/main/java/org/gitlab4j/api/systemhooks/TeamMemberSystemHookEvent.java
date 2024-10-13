@@ -42,7 +42,7 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
     }
 
     @Override
-	public String getEventName() {
+    public String getEventName() {
         return this.eventName;
     }
 

@@ -79,11 +79,10 @@ public class ProjectGroupsFilter implements Serializable {
      */
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
-            .withParam("search", search)
-            .withParam("shared_min_access_level", sharedMinAccessLevel)
-            .withParam("shared_visible_only", sharedVisibleOnly)
-            .withParam("skip_groups", skipGroups)
-            .withParam("with_shared", withShared)
-        );
+                .withParam("search", search)
+                .withParam("shared_min_access_level", sharedMinAccessLevel)
+                .withParam("shared_visible_only", sharedVisibleOnly)
+                .withParam("skip_groups", skipGroups)
+                .withParam("with_shared", withShared));
     }
 }

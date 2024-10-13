@@ -1,10 +1,11 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractUser<U extends AbstractUser<U>> implements Serializable {
@@ -86,49 +87,49 @@ public abstract class AbstractUser<U extends AbstractUser<U>> implements Seriali
     @SuppressWarnings("unchecked")
     public U withAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
-        return (U)this;
+        return (U) this;
     }
 
     @SuppressWarnings("unchecked")
     public U withCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-        return (U)this;
+        return (U) this;
     }
 
     @SuppressWarnings("unchecked")
     public U withEmail(String email) {
         this.email = email;
-        return (U)this;
+        return (U) this;
     }
 
     @SuppressWarnings("unchecked")
     public U withId(Long id) {
         this.id = id;
-        return (U)this;
+        return (U) this;
     }
 
     @SuppressWarnings("unchecked")
     public U withName(String name) {
         this.name = name;
-        return (U)this;
+        return (U) this;
     }
 
     @SuppressWarnings("unchecked")
     public U withState(String state) {
         this.state = state;
-        return (U)this;
+        return (U) this;
     }
 
     @SuppressWarnings("unchecked")
     public U withUsername(String username) {
         this.username = username;
-        return (U)this;
+        return (U) this;
     }
 
     @SuppressWarnings("unchecked")
     public U withWebUrl(String webUrl) {
         this.webUrl = webUrl;
-        return (U)this;
+        return (U) this;
     }
 
     @Override

@@ -27,7 +27,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestAccessTokenUtils {
 
     // The following needs to be set to your test repository
@@ -86,9 +87,10 @@ public class TestAccessTokenUtils {
         // Go ahead and revoke (delete) the just created access token
         try {
             AccessTokenUtils.revokePersonalAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, tokenName, scopes);
+                    TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, tokenName, scopes);
             System.out.format("Revoked '%s' personal access token: %s%n", tokenName, accessToken);
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+        }
     }
 
     @Test
@@ -96,8 +98,11 @@ public class TestAccessTokenUtils {
 
         try {
             AccessTokenUtils.createPersonalAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, "INVALID PASSWORD",
-                "Testing Token Creation", Arrays.asList(Scope.API, Scope.SUDO));
+                    TEST_HOST_URL,
+                    TEST_LOGIN_USERNAME,
+                    "INVALID PASSWORD",
+                    "Testing Token Creation",
+                    Arrays.asList(Scope.API, Scope.SUDO));
             fail("Expected a failure, but personal access token was created.");
         } catch (GitLabApiException glae) {
             assertEquals(401, glae.getHttpStatus());
@@ -110,23 +115,28 @@ public class TestAccessTokenUtils {
         final String tokenName = "Testing Token Revoke-" + HelperUtils.getRandomInt(1000);
 
         String accessToken = AccessTokenUtils.createPersonalAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                tokenName, Arrays.asList(Scope.API, Scope.SUDO));
+                TEST_HOST_URL,
+                TEST_LOGIN_USERNAME,
+                TEST_LOGIN_PASSWORD,
+                tokenName,
+                Arrays.asList(Scope.API, Scope.SUDO));
         System.out.format("Created '%s' personal access token: %s%n", tokenName, accessToken);
         assertNotNull(accessToken);
         assertFalse(accessToken.trim().isEmpty());
 
         AccessTokenUtils.revokePersonalAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                tokenName, Arrays.asList(Scope.API, Scope.SUDO));
+                TEST_HOST_URL,
+                TEST_LOGIN_USERNAME,
+                TEST_LOGIN_PASSWORD,
+                tokenName,
+                Arrays.asList(Scope.API, Scope.SUDO));
         System.out.format("Revoked '%s' personal access token: %s%n", tokenName, accessToken);
     }
 
     @Test
     public void testGetFeedToken() throws GitLabApiException {
 
-        String feedToken = AccessTokenUtils.getFeedToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD);
+        String feedToken = AccessTokenUtils.getFeedToken(TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD);
         System.out.println("Fetched Feed token: " + feedToken);
         assertNotNull(feedToken);
         assertFalse(feedToken.trim().isEmpty());
@@ -135,8 +145,8 @@ public class TestAccessTokenUtils {
     @Test
     public void testGetHealthCheckAccessToken() throws GitLabApiException {
 
-        String accessToken = AccessTokenUtils.getHealthCheckAccessToken(
-                TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD);
+        String accessToken =
+                AccessTokenUtils.getHealthCheckAccessToken(TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD);
         System.out.println("Fetched health check access token: " + accessToken);
         assertNotNull(accessToken);
         assertFalse(accessToken.trim().isEmpty());

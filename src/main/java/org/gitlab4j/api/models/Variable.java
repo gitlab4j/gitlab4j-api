@@ -1,15 +1,16 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import org.gitlab4j.api.utils.JacksonJson;
-import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.gitlab4j.api.utils.JacksonJson;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Variable implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -18,8 +19,8 @@ public class Variable implements Serializable {
      * Enum for the various Commit build status values.
      */
     public enum Type {
-
-        ENV_VAR, FILE;
+        ENV_VAR,
+        FILE;
 
         private static JacksonJsonEnumHelper<Type> enumHelper = new JacksonJsonEnumHelper<>(Type.class);
 
@@ -42,14 +43,16 @@ public class Variable implements Serializable {
     private String key;
     private String value;
     private Type variableType;
+
     @JsonProperty("protected")
     private Boolean isProtected;
+
     @JsonProperty("masked")
     private Boolean isMasked;
+
     private String environmentScope;
 
-    public Variable() {
-    }
+    public Variable() {}
 
     public Variable(String key, String value) {
         this.key = key;

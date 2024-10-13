@@ -37,8 +37,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withSourceBranch(String sourceBranch) {
-	this.sourceBranch = sourceBranch;
-	return (this);
+        this.sourceBranch = sourceBranch;
+        return (this);
     }
 
     /**
@@ -48,8 +48,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withTargetBranch(String targetBranch) {
-	this.targetBranch = targetBranch;
-	return (this);
+        this.targetBranch = targetBranch;
+        return (this);
     }
 
     /**
@@ -59,8 +59,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withTitle(String title) {
-	this.title = title;
-	return (this);
+        this.title = title;
+        return (this);
     }
 
     /**
@@ -70,8 +70,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withAssigneeId(Long assigneeId) {
-	this.assigneeId = assigneeId;
-	return (this);
+        this.assigneeId = assigneeId;
+        return (this);
     }
 
     /**
@@ -82,8 +82,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withAssigneeIds(List<Long> assigneeIds) {
-	this.assigneeIds = assigneeIds;
-	return (this);
+        this.assigneeIds = assigneeIds;
+        return (this);
     }
 
     /**
@@ -105,8 +105,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withMilestoneId(Long milestoneId) {
-	this.milestoneId = milestoneId;
-	return (this);
+        this.milestoneId = milestoneId;
+        return (this);
     }
 
     /**
@@ -116,8 +116,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withLabels(List<String> labels) {
-	this.labels = labels;
-	return (this);
+        this.labels = labels;
+        return (this);
     }
 
     /**
@@ -127,8 +127,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withLabels(String[] labels) {
-	this.labels = (labels != null ? Arrays.asList(labels) : null);
-	return (this);
+        this.labels = (labels != null ? Arrays.asList(labels) : null);
+        return (this);
     }
 
     /**
@@ -138,8 +138,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withDescription(String description) {
-	this.description = description;
-	return (this);
+        this.description = description;
+        return (this);
     }
 
     /**
@@ -149,8 +149,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withTargetProjectId(Long targetProjectId) {
-	this.targetProjectId = targetProjectId;
-	return (this);
+        this.targetProjectId = targetProjectId;
+        return (this);
     }
 
     /**
@@ -160,8 +160,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withStateEvent(StateEvent stateEvent) {
-	this.stateEvent = stateEvent;
-	return (this);
+        this.stateEvent = stateEvent;
+        return (this);
     }
 
     /**
@@ -171,8 +171,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withRemoveSourceBranch(Boolean removeSourceBranch) {
-	this.removeSourceBranch = removeSourceBranch;
-	return (this);
+        this.removeSourceBranch = removeSourceBranch;
+        return (this);
     }
 
     /**
@@ -182,8 +182,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withSquash(Boolean squash) {
-	this.squash = squash;
-	return (this);
+        this.squash = squash;
+        return (this);
     }
 
     /**
@@ -194,8 +194,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withDiscussionLocked(Boolean discussionLocked) {
-	this.discussionLocked = discussionLocked;
-	return (this);
+        this.discussionLocked = discussionLocked;
+        return (this);
     }
 
     /**
@@ -205,8 +205,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withAllowCollaboration(Boolean allowCollaboration) {
-	this.allowCollaboration = allowCollaboration;
-	return (this);
+        this.allowCollaboration = allowCollaboration;
+        return (this);
     }
 
     /**
@@ -216,8 +216,8 @@ public class MergeRequestParams implements Serializable {
      * @return the reference to this MergeRequestParams instance
      */
     public MergeRequestParams withApprovalsBeforeMerge(Integer approvalsBeforeMerge) {
-	this.approvalsBeforeMerge = approvalsBeforeMerge;
-	return (this);
+        this.approvalsBeforeMerge = approvalsBeforeMerge;
+        return (this);
     }
 
     /**
@@ -229,28 +229,27 @@ public class MergeRequestParams implements Serializable {
      */
     public GitLabApiForm getForm(boolean isCreate) {
 
-	GitLabApiForm form = new GitLabApiForm()
-            .withParam("target_branch", targetBranch, isCreate)
-            .withParam("title", title, isCreate)
-            .withParam("assignee_id", assigneeId)
-            .withParam("assignee_ids", assigneeIds)
-            .withParam("reviewer_ids", reviewerIds)
-            .withParam("milestone_id", milestoneId)
-            .withParam("labels", (labels != null ? String.join(",", labels) : null))
-            .withParam("description", description)
-            .withParam("remove_source_branch", removeSourceBranch)
-            .withParam("squash", squash)
-            .withParam("allow_collaboration", allowCollaboration);
+        GitLabApiForm form = new GitLabApiForm()
+                .withParam("target_branch", targetBranch, isCreate)
+                .withParam("title", title, isCreate)
+                .withParam("assignee_id", assigneeId)
+                .withParam("assignee_ids", assigneeIds)
+                .withParam("reviewer_ids", reviewerIds)
+                .withParam("milestone_id", milestoneId)
+                .withParam("labels", (labels != null ? String.join(",", labels) : null))
+                .withParam("description", description)
+                .withParam("remove_source_branch", removeSourceBranch)
+                .withParam("squash", squash)
+                .withParam("allow_collaboration", allowCollaboration);
 
-	if (isCreate) {
-	    form.withParam("source_branch", sourceBranch, true)
-		.withParam("target_project_id", targetProjectId)
-		.withParam("approvals_before_merge", approvalsBeforeMerge);
-	} else {
-	    form.withParam("state_event", stateEvent)
-	        .withParam("discussion_locked", discussionLocked);
-	}
+        if (isCreate) {
+            form.withParam("source_branch", sourceBranch, true)
+                    .withParam("target_project_id", targetProjectId)
+                    .withParam("approvals_before_merge", approvalsBeforeMerge);
+        } else {
+            form.withParam("state_event", stateEvent).withParam("discussion_locked", discussionLocked);
+        }
 
-	return (form);
+        return (form);
     }
 }

@@ -1,9 +1,8 @@
-
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class SamlGroupLink implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,7 +22,7 @@ public class SamlGroupLink implements Serializable {
     }
 
     public AccessLevel getAccessLevel() {
-       return accessLevel;
+        return accessLevel;
     }
 
     public void setAccessLevel(AccessLevel aAccessLevel) {

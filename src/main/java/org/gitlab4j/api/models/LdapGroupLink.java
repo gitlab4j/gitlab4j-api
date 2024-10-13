@@ -1,9 +1,8 @@
-
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class LdapGroupLink implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -25,7 +24,7 @@ public class LdapGroupLink implements Serializable {
     }
 
     public AccessLevel getGroupAccess() {
-       return groupAccess;
+        return groupAccess;
     }
 
     public void setGroupAccess(AccessLevel aGroupAccess) {
@@ -34,7 +33,7 @@ public class LdapGroupLink implements Serializable {
 
     public String getProvider() {
         return provider;
-     }
+    }
 
     public void setProvider(String aProvider) {
         provider = aProvider;

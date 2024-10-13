@@ -48,8 +48,12 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Milestone> getGroupMilestones(Object groupIdOrPath, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones");
+        Response response = get(
+                Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {}));
     }
 
@@ -64,8 +68,8 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Milestone> getGroupMilestones(Object groupIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Milestone>(this, Milestone.class, itemsPerPage, null,
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones"));
+        return (new Pager<Milestone>(
+                this, Milestone.class, itemsPerPage, null, "groups", getGroupIdOrPath(groupIdOrPath), "milestones"));
     }
 
     /**
@@ -93,8 +97,8 @@ public class MilestonesApi extends AbstractApi {
      */
     public List<Milestone> getGroupMilestones(Object groupIdOrPath, MilestoneState state) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("state", state).withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(),
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones");
+        Response response =
+                get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {}));
     }
 
@@ -110,8 +114,8 @@ public class MilestonesApi extends AbstractApi {
      */
     public List<Milestone> getGroupMilestones(Object groupIdOrPath, String search) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("search", search).withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(),
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones");
+        Response response =
+                get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {}));
     }
 
@@ -126,13 +130,14 @@ public class MilestonesApi extends AbstractApi {
      * @return the milestones associated with the specified group
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Milestone> getGroupMilestones(Object groupIdOrPath, MilestoneState state, String search) throws GitLabApiException {
+    public List<Milestone> getGroupMilestones(Object groupIdOrPath, MilestoneState state, String search)
+            throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("state", state)
                 .withParam("search", search)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(),
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones");
+        Response response =
+                get(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {}));
     }
 
@@ -147,8 +152,13 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Milestone getGroupMilestone(Object groupIdOrPath, Long milestoneId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId);
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "milestones",
+                milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -177,9 +187,18 @@ public class MilestonesApi extends AbstractApi {
      * @return a Pager of Issue for the milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Issue> getGroupIssues(Object groupIdOrPath, Long milestoneId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Issue>(this, Issue.class, itemsPerPage, null,
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId, "issues"));
+    public Pager<Issue> getGroupIssues(Object groupIdOrPath, Long milestoneId, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<Issue>(
+                this,
+                Issue.class,
+                itemsPerPage,
+                null,
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "milestones",
+                milestoneId,
+                "issues"));
     }
 
     /**
@@ -207,8 +226,14 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<MergeRequest> getGroupMergeRequest(Object groupIdOrPath, Long milestoneId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId, "merge_requests");
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "milestones",
+                milestoneId,
+                "merge_requests");
         return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
     }
 
@@ -225,13 +250,16 @@ public class MilestonesApi extends AbstractApi {
      * @return the created Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone createGroupMilestone(Object groupIdOrPath, String title, String description, Date dueDate, Date startDate) throws GitLabApiException {
+    public Milestone createGroupMilestone(
+            Object groupIdOrPath, String title, String description, Date dueDate, Date startDate)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("description", description)
                 .withParam("due_date", dueDate)
                 .withParam("start_date", startDate);
-        Response response = post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "milestones");
+        Response response =
+                post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "milestones");
         return (response.readEntity(Milestone.class));
     }
 
@@ -252,8 +280,13 @@ public class MilestonesApi extends AbstractApi {
         }
 
         GitLabApiForm formData = new GitLabApiForm().withParam("state_event", MilestoneState.CLOSE);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "milestones",
+                milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -274,8 +307,13 @@ public class MilestonesApi extends AbstractApi {
         }
 
         GitLabApiForm formData = new GitLabApiForm().withParam("state_event", MilestoneState.ACTIVATE);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "milestones",
+                milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -294,8 +332,15 @@ public class MilestonesApi extends AbstractApi {
      * @return the updated Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone updateGroupMilestone(Object groupIdOrPath, Long milestoneId, String title, String description,
-                                     Date dueDate, Date startDate, MilestoneState milestoneState) throws GitLabApiException {
+    public Milestone updateGroupMilestone(
+            Object groupIdOrPath,
+            Long milestoneId,
+            String title,
+            String description,
+            Date dueDate,
+            Date startDate,
+            MilestoneState milestoneState)
+            throws GitLabApiException {
 
         if (milestoneId == null) {
             throw new RuntimeException("milestoneId cannot be null");
@@ -307,8 +352,13 @@ public class MilestonesApi extends AbstractApi {
                 .withParam("due_date", dueDate)
                 .withParam("start_date", startDate)
                 .withParam("state_event", milestoneState);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "groups", getGroupIdOrPath(groupIdOrPath), "milestones", milestoneId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "milestones",
+                milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -337,8 +387,12 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Milestone> getMilestones(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones");
+        Response response = get(
+                Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {}));
     }
 
@@ -353,8 +407,14 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Milestone> getMilestones(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Milestone>(this, Milestone.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones"));
+        return (new Pager<Milestone>(
+                this,
+                Milestone.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "milestones"));
     }
 
     /**
@@ -382,8 +442,8 @@ public class MilestonesApi extends AbstractApi {
      */
     public List<Milestone> getMilestones(Object projectIdOrPath, MilestoneState state) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("state", state).withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones");
+        Response response = get(
+                Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {}));
     }
 
@@ -399,8 +459,8 @@ public class MilestonesApi extends AbstractApi {
      */
     public List<Milestone> getMilestones(Object projectIdOrPath, String search) throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("search", search).withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones");
+        Response response = get(
+                Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {}));
     }
 
@@ -415,13 +475,14 @@ public class MilestonesApi extends AbstractApi {
      * @return the milestones associated with the specified project
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Milestone> getMilestones(Object projectIdOrPath, MilestoneState state, String search) throws GitLabApiException {
+    public List<Milestone> getMilestones(Object projectIdOrPath, MilestoneState state, String search)
+            throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("state", state)
                 .withParam("search", search)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones");
+        Response response = get(
+                Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {}));
     }
 
@@ -436,8 +497,13 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Milestone getMilestone(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId);
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "milestones",
+                milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -466,9 +532,18 @@ public class MilestonesApi extends AbstractApi {
      * @return a Pager of Issue for the milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Issue> getIssues(Object projectIdOrPath, Long milestoneId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Issue>(this, Issue.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId, "issues"));
+    public Pager<Issue> getIssues(Object projectIdOrPath, Long milestoneId, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<Issue>(
+                this,
+                Issue.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "milestones",
+                milestoneId,
+                "issues"));
     }
 
     /**
@@ -496,37 +571,49 @@ public class MilestonesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<MergeRequest> getMergeRequest(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
-        return (getMergeRequest(projectIdOrPath, milestoneId, getDefaultPerPage()).all());
+        return (getMergeRequest(projectIdOrPath, milestoneId, getDefaultPerPage())
+                .all());
     }
-    
+
     /**
      * Get a Pager of merge requests associated with the specified milestone.
-     * 
+     *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones/:milestone_id/merge_requests</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to get the merge requests for
      * @return a Pager of merge requests associated with the specified milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<MergeRequest> getMergeRequest(Object projectIdOrPath, Long milestoneId, int itemsPerPage) throws GitLabApiException {
-    	return (new Pager<MergeRequest>(this, MergeRequest.class, itemsPerPage, null,  "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId, "merge_requests"));
+    public Pager<MergeRequest> getMergeRequest(Object projectIdOrPath, Long milestoneId, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<MergeRequest>(
+                this,
+                MergeRequest.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "milestones",
+                milestoneId,
+                "merge_requests"));
     }
-    
+
     /**
      * Get a Stream of merge requests associated with the specified milestone.
-     * 
+     *
      * <pre><code>GitLab Endpoint: GET /projects/:id/milestones/:milestone_id/merge_requests</code></pre>
-     * 
+     *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param milestoneId the milestone ID to get the merge requests for
      * @return a Stream of merge requests associated with the specified milestone
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<MergeRequest> getMergeRequestStream(Object projectIdOrPath, Long milestoneId) throws GitLabApiException {
-    	return (getMergeRequest(projectIdOrPath, milestoneId, getDefaultPerPage()).stream());
+    public Stream<MergeRequest> getMergeRequestStream(Object projectIdOrPath, Long milestoneId)
+            throws GitLabApiException {
+        return (getMergeRequest(projectIdOrPath, milestoneId, getDefaultPerPage()).stream());
     }
-    
+
     /**
      * Create a milestone.
      *
@@ -540,14 +627,16 @@ public class MilestonesApi extends AbstractApi {
      * @return the created Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone createMilestone(Object projectIdOrPath, String title, String description, Date dueDate, Date startDate) throws GitLabApiException {
+    public Milestone createMilestone(
+            Object projectIdOrPath, String title, String description, Date dueDate, Date startDate)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("description", description)
                 .withParam("due_date", dueDate)
                 .withParam("start_date", startDate);
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones");
+        Response response =
+                post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "milestones");
         return (response.readEntity(Milestone.class));
     }
 
@@ -568,8 +657,13 @@ public class MilestonesApi extends AbstractApi {
         }
 
         GitLabApiForm formData = new GitLabApiForm().withParam("state_event", MilestoneState.CLOSE);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "milestones",
+                milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -590,8 +684,13 @@ public class MilestonesApi extends AbstractApi {
         }
 
         GitLabApiForm formData = new GitLabApiForm().withParam("state_event", MilestoneState.ACTIVATE);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "milestones",
+                milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -610,8 +709,15 @@ public class MilestonesApi extends AbstractApi {
      * @return the updated Milestone instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Milestone updateMilestone(Object projectIdOrPath, Long milestoneId, String title, String description,
-            Date dueDate, Date startDate, MilestoneState milestoneState) throws GitLabApiException {
+    public Milestone updateMilestone(
+            Object projectIdOrPath,
+            Long milestoneId,
+            String title,
+            String description,
+            Date dueDate,
+            Date startDate,
+            MilestoneState milestoneState)
+            throws GitLabApiException {
 
         if (milestoneId == null) {
             throw new RuntimeException("milestoneId cannot be null");
@@ -623,8 +729,13 @@ public class MilestonesApi extends AbstractApi {
                 .withParam("due_date", dueDate)
                 .withParam("start_date", startDate)
                 .withParam("state_event", milestoneState);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "milestones", milestoneId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "milestones",
+                milestoneId);
         return (response.readEntity(Milestone.class));
     }
 

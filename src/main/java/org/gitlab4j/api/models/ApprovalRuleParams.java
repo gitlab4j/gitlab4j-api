@@ -106,14 +106,14 @@ public class ApprovalRuleParams implements Serializable {
      */
     public GitLabApiForm getForm() {
         return new GitLabApiForm()
-            .withParam("approvals_required", approvalsRequired, true)
-            .withParam("name", name, true)
-            .withParam("applies_to_all_protected_branches", appliesToAllProtectedBranches)
-            .withParam("group_ids", groupIds)
-            .withParam("protected_branch_ids", protectedBranchIds)
-            .withParam("report_type", reportType)
-            .withParam("rule_type", ruleType)
-            .withParam("user_ids", userIds)
-            .withParam("usernames", usernames);
+                .withParam("approvals_required", approvalsRequired, true)
+                .withParam("name", name, true)
+                .withParam("applies_to_all_protected_branches", appliesToAllProtectedBranches)
+                .withParam("group_ids", groupIds)
+                .withParam("protected_branch_ids", protectedBranchIds)
+                .withParam("report_type", reportType)
+                .withParam("rule_type", ruleType)
+                .withParam("user_ids", userIds)
+                .withParam("usernames", usernames);
     }
 }

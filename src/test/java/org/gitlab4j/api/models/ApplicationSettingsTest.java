@@ -2,11 +2,12 @@ package org.gitlab4j.api.models;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.gitlab4j.api.GitLabApiException;
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.gitlab4j.api.GitLabApiException;
-import org.junit.jupiter.api.Test;
 
 class ApplicationSettingsTest {
     ApplicationSettings settings = new ApplicationSettings();
@@ -19,14 +20,14 @@ class ApplicationSettingsTest {
         Object value = settings.addSetting(Setting.REPOSITORY_STORAGES, arrayNode);
 
         assertInstanceOf(String[].class, value);
-        assertArrayEquals(new String[]{}, (String[])value);
+        assertArrayEquals(new String[] {}, (String[]) value);
 
         arrayNode.add("value1");
         arrayNode.add("value2");
 
         value = settings.addSetting(Setting.REPOSITORY_STORAGES, arrayNode);
         assertInstanceOf(String[].class, value);
-        assertArrayEquals(new String[]{"value1", "value2"}, (String[])value);
+        assertArrayEquals(new String[] {"value1", "value2"}, (String[]) value);
     }
 
     @Test
@@ -37,14 +38,14 @@ class ApplicationSettingsTest {
         Object value = settings.addSetting(Setting.ELASTICSEARCH_NAMESPACE_IDS, arrayNode);
 
         assertInstanceOf(Integer[].class, value);
-        assertArrayEquals(new Integer[]{}, (Integer[])value);
+        assertArrayEquals(new Integer[] {}, (Integer[]) value);
 
         arrayNode.add(1);
         arrayNode.add(2);
 
         value = settings.addSetting(Setting.ELASTICSEARCH_NAMESPACE_IDS, arrayNode);
         assertInstanceOf(Integer[].class, value);
-        assertArrayEquals(new Integer[]{1, 2}, (Integer[])value);
+        assertArrayEquals(new Integer[] {1, 2}, (Integer[]) value);
     }
 
     @Test
@@ -55,14 +56,14 @@ class ApplicationSettingsTest {
         Object value = settings.addSetting(Setting.ASSET_PROXY_ALLOWLIST, arrayNode);
 
         assertInstanceOf(String[].class, value);
-        assertArrayEquals(new String[]{}, (String[])value);
+        assertArrayEquals(new String[] {}, (String[]) value);
 
         arrayNode.add("host1");
         arrayNode.add("host2");
 
         value = settings.addSetting(Setting.ASSET_PROXY_ALLOWLIST, arrayNode);
         assertInstanceOf(String[].class, value);
-        assertArrayEquals(new String[]{"host1", "host2"}, (String[])value);
+        assertArrayEquals(new String[] {"host1", "host2"}, (String[]) value);
     }
 
     @Test

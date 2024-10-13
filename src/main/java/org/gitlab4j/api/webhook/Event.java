@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-    include=JsonTypeInfo.As.PROPERTY,
-    visible = true,
-    property="object_kind")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, visible = true, property = "object_kind")
 @JsonSubTypes({
     @JsonSubTypes.Type(value = BuildEvent.class, name = BuildEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = IssueEvent.class, name = IssueEvent.OBJECT_KIND),

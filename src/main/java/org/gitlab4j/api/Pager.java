@@ -69,7 +69,13 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
      * @param pathArgs HTTP path arguments
      * @throws GitLabApiException if any error occurs
      */
-    public Pager(AbstractApi api, Class<T> type, int itemsPerPage, MultivaluedMap<String, String> queryParams, Object... pathArgs) throws GitLabApiException {
+    public Pager(
+            AbstractApi api,
+            Class<T> type,
+            int itemsPerPage,
+            MultivaluedMap<String, String> queryParams,
+            Object... pathArgs)
+            throws GitLabApiException {
 
         javaType = mapper.getTypeFactory().constructCollectionType(List.class, type);
 
@@ -79,7 +85,8 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
 
         // Make sure the per_page parameter is present
         if (queryParams == null) {
-            queryParams = new GitLabApiForm().withParam(PER_PAGE_PARAM, itemsPerPage).asMap();
+            queryParams =
+                    new GitLabApiForm().withParam(PER_PAGE_PARAM, itemsPerPage).asMap();
         } else {
             queryParams.remove(PER_PAGE_PARAM);
             queryParams.add(PER_PAGE_PARAM, Integer.toString(itemsPerPage));
@@ -106,7 +113,8 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
         this.pathArgs = pathArgs;
         this.itemsPerPage = getIntHeaderValue(response, PER_PAGE);
 
-        // Some API endpoints do not return the "X-Per-Page" header when there is only 1 page, check for that condition and act accordingly
+        // Some API endpoints do not return the "X-Per-Page" header when there is only 1 page, check for that condition
+        // and act accordingly
         if (this.itemsPerPage == -1) {
             this.itemsPerPage = itemsPerPage;
             totalPages = 1;
@@ -130,7 +138,7 @@ public class Pager<T> implements Iterator<List<T>>, Constants {
                 kaminariNextPage = 2;
             }
         }
-     }
+    }
 
     /**
      * Get the specified header value from the Response instance.

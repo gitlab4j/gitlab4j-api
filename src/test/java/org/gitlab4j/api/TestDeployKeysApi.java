@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
@@ -19,7 +19,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestDeployKeysApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository

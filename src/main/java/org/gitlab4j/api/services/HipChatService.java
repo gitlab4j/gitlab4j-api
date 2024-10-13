@@ -22,21 +22,21 @@ public class HipChatService extends NotificationService {
     @Override
     public GitLabApiForm servicePropertiesForm() {
         GitLabApiForm formData = new GitLabApiForm()
-            .withParam("push_events", getPushEvents())
-            .withParam("issues_events", getIssuesEvents())
-            .withParam("confidential_issues_events", getConfidentialIssuesEvents())
-            .withParam("merge_requests_events", getMergeRequestsEvents())
-            .withParam("tag_push_events", getTagPushEvents())
-            .withParam("note_events", getNoteEvents())
-            .withParam("confidential_note_events", getConfidentialNoteEvents())
-            .withParam("pipeline_events", getPipelineEvents())
-            .withParam("token", getToken(), true)
-            .withParam("color", getColor())
-            .withParam("notify", getNotify())
-            .withParam("room", getRoom())
-            .withParam("api_version", getApiVersion())
-            .withParam("server", getServer())
-            .withParam("notify_only_broken_pipelines", getNotifyOnlyBrokenPipelines());
+                .withParam("push_events", getPushEvents())
+                .withParam("issues_events", getIssuesEvents())
+                .withParam("confidential_issues_events", getConfidentialIssuesEvents())
+                .withParam("merge_requests_events", getMergeRequestsEvents())
+                .withParam("tag_push_events", getTagPushEvents())
+                .withParam("note_events", getNoteEvents())
+                .withParam("confidential_note_events", getConfidentialNoteEvents())
+                .withParam("pipeline_events", getPipelineEvents())
+                .withParam("token", getToken(), true)
+                .withParam("color", getColor())
+                .withParam("notify", getNotify())
+                .withParam("room", getRoom())
+                .withParam("api_version", getApiVersion())
+                .withParam("server", getServer())
+                .withParam("notify_only_broken_pipelines", getNotifyOnlyBrokenPipelines());
         return formData;
     }
 
@@ -107,7 +107,7 @@ public class HipChatService extends NotificationService {
     }
 
     public Boolean getNotify() {
-        return (getProperty(NOTIFY_PROP, (Boolean)null));
+        return (getProperty(NOTIFY_PROP, (Boolean) null));
     }
 
     public void setNotify(Boolean notify) {

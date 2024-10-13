@@ -25,7 +25,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestSearchApi extends AbstractIntegrationTest {
 
     private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
@@ -74,7 +75,8 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testGlobalMergeRequestsSearch() throws GitLabApiException {
-        List<MergeRequest> results = gitLabApi.getSearchApi().globalSearch(SearchScope.MERGE_REQUESTS, TEST_PROJECT_NAME);
+        List<MergeRequest> results =
+                gitLabApi.getSearchApi().globalSearch(SearchScope.MERGE_REQUESTS, TEST_PROJECT_NAME);
         assertNotNull(results);
         if (results.size() > 0) {
             assertTrue(results.get(0).getClass() == MergeRequest.class);
@@ -117,14 +119,16 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testGroupProjectSearch() throws GitLabApiException {
-        List<Project> results = gitLabApi.getSearchApi().groupSearch(testGroup, GroupSearchScope.PROJECTS, TEST_GROUP_PROJECT_NAME);
+        List<Project> results =
+                gitLabApi.getSearchApi().groupSearch(testGroup, GroupSearchScope.PROJECTS, TEST_GROUP_PROJECT_NAME);
         assertNotNull(results);
         assertTrue(results.get(0).getClass() == Project.class);
     }
 
     @Test
     public void testGroupIssuesSearch() throws GitLabApiException {
-        List<Issue> results = gitLabApi.getSearchApi().groupSearch(testGroup, GroupSearchScope.ISSUES, TEST_GROUP_PROJECT_NAME);
+        List<Issue> results =
+                gitLabApi.getSearchApi().groupSearch(testGroup, GroupSearchScope.ISSUES, TEST_GROUP_PROJECT_NAME);
         assertNotNull(results);
         if (results.size() > 0) {
             assertTrue(results.get(0).getClass() == Issue.class);
@@ -133,7 +137,9 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testGrouplMergeRequestsSearch() throws GitLabApiException {
-        List<MergeRequest> results = gitLabApi.getSearchApi().groupSearch(testGroup, GroupSearchScope.MERGE_REQUESTS, TEST_GROUP_PROJECT_NAME);
+        List<MergeRequest> results = gitLabApi
+                .getSearchApi()
+                .groupSearch(testGroup, GroupSearchScope.MERGE_REQUESTS, TEST_GROUP_PROJECT_NAME);
         assertNotNull(results);
         if (results.size() > 0) {
             assertTrue(results.get(0).getClass() == MergeRequest.class);
@@ -142,7 +148,8 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testGroupMilestonesSearch() throws GitLabApiException {
-        List<Milestone> results = gitLabApi.getSearchApi().groupSearch(testGroup, GroupSearchScope.MILESTONES, TEST_GROUP_PROJECT_NAME);
+        List<Milestone> results =
+                gitLabApi.getSearchApi().groupSearch(testGroup, GroupSearchScope.MILESTONES, TEST_GROUP_PROJECT_NAME);
         assertNotNull(results);
         if (results.size() > 0) {
             assertTrue(results.get(0).getClass() == Milestone.class);
@@ -151,15 +158,16 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testGrouplUsersSearch() throws GitLabApiException {
-        List<User> results = gitLabApi.getSearchApi().groupSearch(testGroup, GroupSearchScope.USERS, TEST_LOGIN_USERNAME);
+        List<User> results =
+                gitLabApi.getSearchApi().groupSearch(testGroup, GroupSearchScope.USERS, TEST_LOGIN_USERNAME);
         assertNotNull(results);
         assertTrue(results.get(0).getClass() == User.class);
     }
 
     @Test
     public void testProjectIssuesSearch() throws GitLabApiException {
-        List<Issue> results = gitLabApi.getSearchApi().projectSearch(
-                testProject, ProjectSearchScope.ISSUES, TEST_PROJECT_NAME);
+        List<Issue> results =
+                gitLabApi.getSearchApi().projectSearch(testProject, ProjectSearchScope.ISSUES, TEST_PROJECT_NAME);
         assertNotNull(results);
         if (results.size() > 0) {
             assertTrue(results.get(0).getClass() == Issue.class);
@@ -168,8 +176,9 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testProjectlMergeRequestsSearch() throws GitLabApiException {
-        List<MergeRequest> results = gitLabApi.getSearchApi().projectSearch(
-                testProject, ProjectSearchScope.MERGE_REQUESTS, TEST_PROJECT_NAME);
+        List<MergeRequest> results = gitLabApi
+                .getSearchApi()
+                .projectSearch(testProject, ProjectSearchScope.MERGE_REQUESTS, TEST_PROJECT_NAME);
         assertNotNull(results);
         if (results.size() > 0) {
             assertTrue(results.get(0).getClass() == MergeRequest.class);
@@ -178,8 +187,8 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testProjectMilestonesSearch() throws GitLabApiException {
-        List<Milestone> results = gitLabApi.getSearchApi().projectSearch(
-                testProject, ProjectSearchScope.MILESTONES, TEST_PROJECT_NAME);
+        List<Milestone> results =
+                gitLabApi.getSearchApi().projectSearch(testProject, ProjectSearchScope.MILESTONES, TEST_PROJECT_NAME);
         assertNotNull(results);
         if (results.size() > 0) {
             assertTrue(results.get(0).getClass() == Milestone.class);
@@ -188,8 +197,8 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testProjectNotesSearch() throws GitLabApiException {
-        List<Note> results = gitLabApi.getSearchApi().projectSearch(
-                testProject, ProjectSearchScope.NOTES, TEST_PROJECT_NAME);
+        List<Note> results =
+                gitLabApi.getSearchApi().projectSearch(testProject, ProjectSearchScope.NOTES, TEST_PROJECT_NAME);
         assertNotNull(results);
         if (results.size() > 0) {
             assertTrue(results.get(0).getClass() == Note.class);
@@ -198,8 +207,8 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testProjectWikiBlobsSearch() throws GitLabApiException {
-        List<SearchBlob> results = gitLabApi.getSearchApi().projectSearch(
-                testProject, ProjectSearchScope.WIKI_BLOBS, TEST_PROJECT_NAME);
+        List<SearchBlob> results =
+                gitLabApi.getSearchApi().projectSearch(testProject, ProjectSearchScope.WIKI_BLOBS, TEST_PROJECT_NAME);
         assertNotNull(results);
         if (results.size() > 0) {
             assertTrue(results.get(0).getClass() == SearchBlob.class);
@@ -208,8 +217,8 @@ public class TestSearchApi extends AbstractIntegrationTest {
 
     @Test
     public void testProjectlUsersSearch() throws GitLabApiException {
-        List<User> results = gitLabApi.getSearchApi().projectSearch(
-                testProject, ProjectSearchScope.USERS, TEST_LOGIN_USERNAME);
+        List<User> results =
+                gitLabApi.getSearchApi().projectSearch(testProject, ProjectSearchScope.USERS, TEST_LOGIN_USERNAME);
         assertNotNull(results);
         assertTrue(results.get(0).getClass() == User.class);
     }

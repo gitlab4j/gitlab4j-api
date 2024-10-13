@@ -123,4 +123,3 @@ public class PipelineSchedule implements Serializable {
         return (JacksonJson.toJsonString(this));
     }
 }
-

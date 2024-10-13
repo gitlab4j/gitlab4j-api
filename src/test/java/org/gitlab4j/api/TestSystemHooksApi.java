@@ -18,7 +18,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
@@ -27,7 +27,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestSystemHooksApi extends AbstractIntegrationTest {
 
@@ -61,7 +62,8 @@ public class TestSystemHooksApi extends AbstractIntegrationTest {
     @Test
     public void testAddSystemHook() throws GitLabApiException {
 
-        SystemHook hook = gitLabApi.getSystemHooksApi().addSystemHook(TEST_HOOK_URL, TEST_SECRET_TOKEN, true, false, true);
+        SystemHook hook =
+                gitLabApi.getSystemHooksApi().addSystemHook(TEST_HOOK_URL, TEST_SECRET_TOKEN, true, false, true);
         try {
             assertNotNull(hook);
             assertEquals(TEST_HOOK_URL, hook.getUrl());
@@ -81,10 +83,10 @@ public class TestSystemHooksApi extends AbstractIntegrationTest {
         }
 
         hook.withPushEvents(false)
-            .withTagPushEvents(true)
-            .withMergeRequestsEvents(true)
-            .withRepositoryUpdateEvents(false)
-            .withEnableSslVerification(false);
+                .withTagPushEvents(true)
+                .withMergeRequestsEvents(true)
+                .withRepositoryUpdateEvents(false)
+                .withEnableSslVerification(false);
 
         SystemHook updatedHook = gitLabApi.getSystemHooksApi().addSystemHook(TEST_HOOK_URL, TEST_SECRET_TOKEN, hook);
         try {
@@ -104,13 +106,13 @@ public class TestSystemHooksApi extends AbstractIntegrationTest {
             // Ensure we remove the hook we added even if we had failures
             gitLabApi.getSystemHooksApi().deleteSystemHook(updatedHook);
         }
-
     }
 
     @Test
     public void testGetSystemHooks() throws GitLabApiException {
 
-        SystemHook hook = gitLabApi.getSystemHooksApi().addSystemHook(TEST_HOOK_URL, TEST_SECRET_TOKEN, true, false, true);
+        SystemHook hook =
+                gitLabApi.getSystemHooksApi().addSystemHook(TEST_HOOK_URL, TEST_SECRET_TOKEN, true, false, true);
         assertNotNull(hook);
 
         List<SystemHook> hooks = gitLabApi.getSystemHooksApi().getSystemHooks();

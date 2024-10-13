@@ -1,37 +1,37 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
+
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class IssueEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Enum to use for specifying the state events resource type. */
     public enum ResourceType {
+        ISSUE;
 
-	ISSUE;
+        private static JacksonJsonEnumHelper<ResourceType> enumHelper =
+                new JacksonJsonEnumHelper<>(ResourceType.class, true, true);
 
-	private static JacksonJsonEnumHelper<ResourceType> enumHelper = new JacksonJsonEnumHelper<>(ResourceType.class,
-	        true, true);
+        @JsonCreator
+        public static ResourceType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
 
-	@JsonCreator
-	public static ResourceType forValue(String value) {
-	    return enumHelper.forValue(value);
-	}
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
 
-	@JsonValue
-	public String toValue() {
-	    return (enumHelper.toString(this));
-	}
-
-	@Override
-	public String toString() {
-	    return (enumHelper.toString(this));
-	}
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
     }
 
     private Long id;
@@ -42,43 +42,43 @@ public class IssueEvent implements Serializable {
     private String state;
 
     public Long getId() {
-	return id;
+        return id;
     }
 
     public void setId(Long id) {
-	this.id = id;
+        this.id = id;
     }
 
     public User getUser() {
-	return user;
+        return user;
     }
 
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 
     public String getCreatedAt() {
-	return createdAt;
+        return createdAt;
     }
 
     public void setCreatedAt(String createdAt) {
-	this.createdAt = createdAt;
+        this.createdAt = createdAt;
     }
 
     public ResourceType getResourceType() {
-	return resourceType;
+        return resourceType;
     }
 
     public void setResourceType(ResourceType resourceType) {
-	this.resourceType = resourceType;
+        this.resourceType = resourceType;
     }
 
     public Long getResourceId() {
-	return resourceId;
+        return resourceId;
     }
 
     public void setResourceId(Long resourceId) {
-	this.resourceId = resourceId;
+        this.resourceId = resourceId;
     }
 
     public String getState() {
@@ -88,7 +88,6 @@ public class IssueEvent implements Serializable {
     public void setState(String state) {
         this.state = state;
     }
-
 
     @Override
     public String toString() {

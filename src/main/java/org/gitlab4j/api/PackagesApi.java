@@ -37,7 +37,7 @@ import org.gitlab4j.api.models.PackageFilter;
 /**
  * <p>This class implements the client side API for the GitLab Packages API.
  * See <a href="https://docs.gitlab.com/ee/api/packages.html">Packages API at GitLab</a> for more information.</p>
- * 
+ *
  * NOTE: This API is not available in the Community edition of GitLab.
  */
 public class PackagesApi extends AbstractApi {
@@ -73,8 +73,12 @@ public class PackagesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Package> getPackages(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
-                "projects", getProjectIdOrPath(projectIdOrPath), "packages");
+        Response response = get(
+                Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "packages");
         return response.readEntity(new GenericType<List<Package>>() {});
     }
 
@@ -89,8 +93,8 @@ public class PackagesApi extends AbstractApi {
      * @return a Pager of project packages for the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Package> getPackages(Object projectIdOrPath,  int itemsPerPage) throws GitLabApiException {
-        return getPackages(projectIdOrPath,null,itemsPerPage);
+    public Pager<Package> getPackages(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return getPackages(projectIdOrPath, null, itemsPerPage);
     }
 
     /**
@@ -105,10 +109,11 @@ public class PackagesApi extends AbstractApi {
      * @return a Pager of project packages for the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Package> getPackages(Object projectIdOrPath, PackageFilter filter, int itemsPerPage) throws GitLabApiException {
-        MultivaluedMap query = filter!=null?filter.getQueryParams().asMap():null;
-        return (new Pager<Package>(this, Package.class, itemsPerPage, query,
-            "projects", getProjectIdOrPath(projectIdOrPath), "packages"));
+    public Pager<Package> getPackages(Object projectIdOrPath, PackageFilter filter, int itemsPerPage)
+            throws GitLabApiException {
+        MultivaluedMap query = filter != null ? filter.getQueryParams().asMap() : null;
+        return (new Pager<Package>(
+                this, Package.class, itemsPerPage, query, "projects", getProjectIdOrPath(projectIdOrPath), "packages"));
     }
 
     /**
@@ -151,8 +156,8 @@ public class PackagesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Package getPackage(Object projectIdOrPath, Long packageId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "packages", packageId);
+        Response response =
+                get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "packages", packageId);
         return (response.readEntity(Package.class));
     }
 
@@ -182,14 +187,21 @@ public class PackagesApi extends AbstractApi {
      * @return a list of PackageFile instances for the specified package ID
      * @throws GitLabApiException if any exception occurs
      */
-    public List<PackageFile> getPackageFiles(Object projectIdOrPath, Long packageId, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
-                "projects", getProjectIdOrPath(projectIdOrPath), "packages", packageId, "package_files");
+    public List<PackageFile> getPackageFiles(Object projectIdOrPath, Long packageId, int page, int perPage)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "packages",
+                packageId,
+                "package_files");
         return response.readEntity(new GenericType<List<PackageFile>>() {});
     }
 
     /**
-     * Get a Pager of project package files. 
+     * Get a Pager of project package files.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages/:package_id/package_files</code></pre>
      *
@@ -199,13 +211,22 @@ public class PackagesApi extends AbstractApi {
      * @return a Pager of PackageFile instances for the specified package ID
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<PackageFile> getPackageFiles(Object projectIdOrPath,  Long packageId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<PackageFile>(this, PackageFile.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "packages", packageId, "package_files"));
+    public Pager<PackageFile> getPackageFiles(Object projectIdOrPath, Long packageId, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<PackageFile>(
+                this,
+                PackageFile.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "packages",
+                packageId,
+                "package_files"));
     }
 
     /**
-     * Get a Stream of project package files. 
+     * Get a Stream of project package files.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/packages/:package_id/package_files</code></pre>
      *
@@ -233,6 +254,12 @@ public class PackagesApi extends AbstractApi {
             throw new RuntimeException("packageId cannot be null");
         }
 
-        delete(Response.Status.NO_CONTENT, null,"projects", getProjectIdOrPath(projectIdOrPath), "packages", packageId);
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "packages",
+                packageId);
     }
 }

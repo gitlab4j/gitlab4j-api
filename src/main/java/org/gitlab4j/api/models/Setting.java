@@ -1,17 +1,13 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
+
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
 
 /**
  * This enum provides constants and value validation for the available GitLab application settings.
@@ -47,7 +43,6 @@ public enum Setting {
     /**
      * Where to redirect users after logout.
      */
-
     AFTER_SIGN_OUT_PATH(String.class),
 
     /**
@@ -130,14 +125,14 @@ public enum Setting {
      * @deprecated Use asset_proxy_allowlist instead
      */
     @Deprecated
-    ASSET_PROXY_WHITELIST(new Class<?>[]{String.class, String[].class}),
+    ASSET_PROXY_WHITELIST(new Class<?>[] {String.class, String[].class}),
 
     /**
      * Assets that match these domains are not proxied. Wildcards allowed. Your
      * GitLab installation URL is automatically allowlisted. GitLab restart is
      * required to apply changes.
      */
-    ASSET_PROXY_ALLOWLIST(new Class<?>[]{String.class, String[].class}),
+    ASSET_PROXY_ALLOWLIST(new Class<?>[] {String.class, String[].class}),
 
     /**
      * By default, we write to the authorized_keys file to support Git over SSH
@@ -207,7 +202,6 @@ public enum Setting {
     DEFAULT_BRANCH_PROTECTION(Integer.class),
 
     DEFAULT_CI_CONFIG_PATH(String.class),
-
 
     /**
      * What visibility level new groups receive. Can take private, internal and
@@ -2168,6 +2162,7 @@ public enum Setting {
 
     private Class<?> type;
     private Class<?>[] types;
+
     private Setting(Class<?> type) {
         this.type = type;
     }
@@ -2200,22 +2195,22 @@ public enum Setting {
      */
     public final boolean isValid(Object value) {
 
-	if (value == null) {
-	    return (true);
-	}
+        if (value == null) {
+            return (true);
+        }
 
-	Class<?> valueType = value.getClass();
-	if (type != null) {
-	    return (valueType == type);
-	}
+        Class<?> valueType = value.getClass();
+        if (type != null) {
+            return (valueType == type);
+        }
 
-	for (Class<?> type : types) {
-	    if (valueType == type) {
-		return (true);
-	    }
-	}
+        for (Class<?> type : types) {
+            if (valueType == type) {
+                return (true);
+            }
+        }
 
-	return (false);
+        return (false);
     }
 
     /**
@@ -2241,7 +2236,8 @@ public enum Setting {
             }
         }
 
-        String errorMsg = String.format("'%s' value is of incorrect type, is %s, should be %s",
+        String errorMsg = String.format(
+                "'%s' value is of incorrect type, is %s, should be %s",
                 toValue(), value.getClass().getSimpleName(), shouldBe.toString());
         throw new GitLabApiException(errorMsg);
     }
@@ -2252,7 +2248,7 @@ public enum Setting {
                 return Array.newInstance(type.getComponentType(), 0);
             }
         } else {
-            for(Class<?> possibleType: types) {
+            for (Class<?> possibleType : types) {
                 if (possibleType.isArray()) {
                     return Array.newInstance(possibleType.getComponentType(), 0);
                 }

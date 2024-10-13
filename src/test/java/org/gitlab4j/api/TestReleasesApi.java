@@ -24,7 +24,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestReleasesApi extends AbstractIntegrationTest {
 
     private static final String TEST_TAG_NAME = "test-release/1.0.0";
@@ -60,20 +61,26 @@ public class TestReleasesApi extends AbstractIntegrationTest {
         if (testProject != null) {
             try {
                 gitLabApi.getReleasesApi().deleteRelease(testProject, TEST_TAG_NAME);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 gitLabApi.getTagsApi().deleteTag(testProject, TEST_TAG_NAME);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 List<Milestone> milestones = gitLabApi.getMilestonesApi().getMilestones(testProject);
-                Optional<Milestone> testMilestone = milestones.stream().
-                        filter(m -> m.getTitle().equals(TEST_MILESTONE_TITLE)).findFirst();
+                Optional<Milestone> testMilestone = milestones.stream()
+                        .filter(m -> m.getTitle().equals(TEST_MILESTONE_TITLE))
+                        .findFirst();
                 if (testMilestone.isPresent()) {
-                    gitLabApi.getMilestonesApi().deleteMilestone(testProject, testMilestone.get().getId());
+                    gitLabApi
+                            .getMilestonesApi()
+                            .deleteMilestone(testProject, testMilestone.get().getId());
                 }
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -85,7 +92,8 @@ public class TestReleasesApi extends AbstractIntegrationTest {
     @Test
     public void testCreateAndDeleteRelease() throws GitLabApiException {
 
-        Milestone testMilestone = gitLabApi.getMilestonesApi().createMilestone(testProject, TEST_MILESTONE_TITLE, null, null, null);
+        Milestone testMilestone =
+                gitLabApi.getMilestonesApi().createMilestone(testProject, TEST_MILESTONE_TITLE, null, null, null);
         assertNotNull(testMilestone);
 
         try {
@@ -100,7 +108,8 @@ public class TestReleasesApi extends AbstractIntegrationTest {
             assertNotNull(testRelease);
             assertEquals(TEST_RELEASE_NAME, testRelease.getName());
             assertEquals(TEST_TAG_NAME, testRelease.getTagName());
-            assertTrue(testRelease.getMilestones().stream().map(Milestone::getId)
+            assertTrue(testRelease.getMilestones().stream()
+                    .map(Milestone::getId)
                     .anyMatch(id -> id.equals(testMilestone.getId())));
 
             List<Release> releases = gitLabApi.getReleasesApi().getReleases(testProject);
@@ -116,7 +125,8 @@ public class TestReleasesApi extends AbstractIntegrationTest {
         } finally {
             try {
                 gitLabApi.getMilestonesApi().deleteMilestone(testProject, testMilestone.getId());
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -132,12 +142,14 @@ public class TestReleasesApi extends AbstractIntegrationTest {
         assertNotNull(testRelease);
         assertEquals(TEST_RELEASE_NAME, testRelease.getName());
         assertEquals(TEST_TAG_NAME, testRelease.getTagName());
-        assertTrue(testRelease.getMilestones() == null || testRelease.getMilestones().isEmpty());
+        assertTrue(testRelease.getMilestones() == null
+                || testRelease.getMilestones().isEmpty());
 
         Optional<Release> release = gitLabApi.getReleasesApi().getOptionalRelease(testProject, TEST_TAG_NAME);
         assertTrue(release.isPresent());
 
-        Milestone testMilestone = gitLabApi.getMilestonesApi().createMilestone(testProject, TEST_MILESTONE_TITLE, null, null, null);
+        Milestone testMilestone =
+                gitLabApi.getMilestonesApi().createMilestone(testProject, TEST_MILESTONE_TITLE, null, null, null);
         assertNotNull(testMilestone);
 
         try {
@@ -154,7 +166,8 @@ public class TestReleasesApi extends AbstractIntegrationTest {
             assertEquals(TEST_TAG_NAME, testRelease.getTagName());
             assertEquals(TEST_UPDATED_RELEASE_DESCRIPTION, testRelease.getDescription());
             assertEquals(releasedAt, testRelease.getReleasedAt());
-            assertTrue(testRelease.getMilestones().stream().map(Milestone::getId)
+            assertTrue(testRelease.getMilestones().stream()
+                    .map(Milestone::getId)
                     .anyMatch(id -> id.equals(testMilestone.getId())));
 
             release = gitLabApi.getReleasesApi().getOptionalRelease(testProject, TEST_TAG_NAME);
@@ -164,7 +177,8 @@ public class TestReleasesApi extends AbstractIntegrationTest {
             assertEquals(TEST_TAG_NAME, testRelease.getTagName());
             assertEquals(TEST_UPDATED_RELEASE_DESCRIPTION, testRelease.getDescription());
             assertEquals(releasedAt, testRelease.getReleasedAt());
-            assertTrue(testRelease.getMilestones().stream().map(Milestone::getId)
+            assertTrue(testRelease.getMilestones().stream()
+                    .map(Milestone::getId)
                     .anyMatch(id -> id.equals(testMilestone.getId())));
 
             gitLabApi.getReleasesApi().deleteRelease(testProject, TEST_TAG_NAME);
@@ -174,7 +188,8 @@ public class TestReleasesApi extends AbstractIntegrationTest {
         } finally {
             try {
                 gitLabApi.getMilestonesApi().deleteMilestone(testProject, testMilestone.getId());
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 }

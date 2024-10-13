@@ -1,4 +1,3 @@
-
 package org.gitlab4j.api.models;
 
 import java.io.Serializable;

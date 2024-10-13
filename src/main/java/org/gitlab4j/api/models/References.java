@@ -1,16 +1,17 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class References implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("short")
     private String _short;
+
     private String relative;
     private String full;
 

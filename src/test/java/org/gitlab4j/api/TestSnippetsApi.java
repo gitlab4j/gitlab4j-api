@@ -18,7 +18,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestSnippetsApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -41,8 +42,8 @@ public class TestSnippetsApi extends AbstractIntegrationTest {
 
     @Test
     public void testCreate() throws GitLabApiException {
-        Snippet snippet = createSnippet(
-                new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_1));
+        Snippet snippet =
+                createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_1));
         assertEquals(TEST_SNIPPET_TITLE_1, snippet.getTitle());
         assertEquals(TEST_SNIPPET_FILE_NAME_1, snippet.getFileName());
         assertNull(snippet.getContent());
@@ -52,8 +53,8 @@ public class TestSnippetsApi extends AbstractIntegrationTest {
 
     @Test
     public void testDelete() throws GitLabApiException {
-        Snippet snippet = createSnippet(
-                new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_1));
+        Snippet snippet =
+                createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_1));
         deleteSnippet(snippet);
 
         SnippetsApi api = gitLabApi.getSnippetApi();
@@ -64,8 +65,10 @@ public class TestSnippetsApi extends AbstractIntegrationTest {
 
     @Test
     public void testList() throws GitLabApiException {
-        Snippet snippet1 = createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_1));
-        Snippet snippet2 = createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_2));
+        Snippet snippet1 =
+                createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_1));
+        Snippet snippet2 =
+                createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_2));
 
         SnippetsApi api = gitLabApi.getSnippetApi();
         List<Snippet> snippets = api.getSnippets(true);
@@ -80,8 +83,8 @@ public class TestSnippetsApi extends AbstractIntegrationTest {
 
     @Test
     public void testSnippetContent() throws GitLabApiException {
-        Snippet snippet = createSnippet(
-                new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_1));
+        Snippet snippet =
+                createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1, TEST_SNIPPET_CONTENT_1));
         SnippetsApi api = gitLabApi.getSnippetApi();
         String snippetContent = api.getSnippetContent(snippet.getId());
         assertEquals(TEST_SNIPPET_CONTENT_1, snippetContent);
@@ -90,8 +93,12 @@ public class TestSnippetsApi extends AbstractIntegrationTest {
 
     @Test
     public void testRetrieveSnippet() throws GitLabApiException {
-        Snippet snippet = createSnippet(new Snippet(TEST_SNIPPET_TITLE_1, TEST_SNIPPET_FILE_NAME_1,
-                TEST_SNIPPET_CONTENT_1, Visibility.INTERNAL, TEST_SNIPPET_DESCRIPTION_1));
+        Snippet snippet = createSnippet(new Snippet(
+                TEST_SNIPPET_TITLE_1,
+                TEST_SNIPPET_FILE_NAME_1,
+                TEST_SNIPPET_CONTENT_1,
+                Visibility.INTERNAL,
+                TEST_SNIPPET_DESCRIPTION_1));
 
         SnippetsApi api = gitLabApi.getSnippetApi();
         Snippet savedSnippet = api.getSnippet(snippet.getId(), true);
@@ -111,8 +118,11 @@ public class TestSnippetsApi extends AbstractIntegrationTest {
 
     public Snippet createSnippet(Snippet snippet) throws GitLabApiException {
         SnippetsApi api = gitLabApi.getSnippetApi();
-        return api.createSnippet(snippet.getTitle(), snippet.getFileName(), snippet.getContent(),
-                snippet.getVisibility(), snippet.getDescription());
+        return api.createSnippet(
+                snippet.getTitle(),
+                snippet.getFileName(),
+                snippet.getContent(),
+                snippet.getVisibility(),
+                snippet.getDescription());
     }
-
 }

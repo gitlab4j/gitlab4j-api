@@ -32,7 +32,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestDeploymentsApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
@@ -73,12 +74,15 @@ public class TestDeploymentsApi extends AbstractIntegrationTest {
 
         assertTrue(commits.size() > 0, "Commits list should not be empty.");
 
-        Deployment deployment = gitLabApi.getDeploymentsApi().addDeployment(testProject,
-            environment,
-            commits.get(0).getId(),
-            testProject.getDefaultBranch(),
-            false,
-            DeploymentStatus.RUNNING);
+        Deployment deployment = gitLabApi
+                .getDeploymentsApi()
+                .addDeployment(
+                        testProject,
+                        environment,
+                        commits.get(0).getId(),
+                        testProject.getDefaultBranch(),
+                        false,
+                        DeploymentStatus.RUNNING);
 
         assertNotNull(deployment);
         assertEquals(environment, deployment.getEnvironment().getName());
@@ -97,12 +101,15 @@ public class TestDeploymentsApi extends AbstractIntegrationTest {
 
         assertTrue(commits.size() > 0, "Commits list should not be empty.");
 
-        Deployment deployment = gitLabApi.getDeploymentsApi().addDeployment(testProject,
-            environment,
-            commits.get(0).getId(),
-            testProject.getDefaultBranch(),
-            false,
-            DeploymentStatus.RUNNING);
+        Deployment deployment = gitLabApi
+                .getDeploymentsApi()
+                .addDeployment(
+                        testProject,
+                        environment,
+                        commits.get(0).getId(),
+                        testProject.getDefaultBranch(),
+                        false,
+                        DeploymentStatus.RUNNING);
 
         assertNotNull(deployment);
         assertEquals(environment, deployment.getEnvironment().getName());
@@ -110,8 +117,9 @@ public class TestDeploymentsApi extends AbstractIntegrationTest {
         assertEquals(testProject.getDefaultBranch(), deployment.getRef());
         assertEquals(DeploymentStatus.RUNNING, deployment.getStatus());
 
-        Deployment updatedDeployment = gitLabApi.getDeploymentsApi().updateDeployment(testProject, deployment.getId(),
-            DeploymentStatus.SUCCESS);
+        Deployment updatedDeployment = gitLabApi
+                .getDeploymentsApi()
+                .updateDeployment(testProject, deployment.getId(), DeploymentStatus.SUCCESS);
 
         assertNotNull(updatedDeployment);
         assertEquals(environment, updatedDeployment.getEnvironment().getName());
@@ -131,12 +139,15 @@ public class TestDeploymentsApi extends AbstractIntegrationTest {
 
         assertTrue(commits.size() > 0, "Commits list should not be empty.");
 
-        Deployment deployment = gitLabApi.getDeploymentsApi().addDeployment(testProject,
-            environment,
-            commits.get(0).getId(),
-            testProject.getDefaultBranch(),
-            false,
-            DeploymentStatus.SUCCESS);
+        Deployment deployment = gitLabApi
+                .getDeploymentsApi()
+                .addDeployment(
+                        testProject,
+                        environment,
+                        commits.get(0).getId(),
+                        testProject.getDefaultBranch(),
+                        false,
+                        DeploymentStatus.SUCCESS);
 
         assertNotNull(deployment);
         assertEquals(environment, deployment.getEnvironment().getName());
@@ -153,8 +164,8 @@ public class TestDeploymentsApi extends AbstractIntegrationTest {
         assertEquals(DeploymentStatus.SUCCESS, getDeployment.getStatus());
         assertEquals(deployment.getCreatedAt(), getDeployment.getCreatedAt());
 
-        Optional<Deployment> optionalDeployment = gitLabApi.getDeploymentsApi().getOptionalDeployment(testProject,
-            getDeployment.getId());
+        Optional<Deployment> optionalDeployment =
+                gitLabApi.getDeploymentsApi().getOptionalDeployment(testProject, getDeployment.getId());
 
         optionalDeployment.ifPresent(d -> {
             assertEquals(environment, d.getEnvironment().getName());
@@ -181,20 +192,26 @@ public class TestDeploymentsApi extends AbstractIntegrationTest {
         assertTrue(commits.size() > 0, "Commits list should not be empty.");
 
         for (int i = 0; i < 20; i++) {
-            gitLabApi.getDeploymentsApi().addDeployment(testProject,
-                environment,
-                commits.get(0).getId(),
-                testProject.getDefaultBranch(),
-                false,
-                DeploymentStatus.SUCCESS);
+            gitLabApi
+                    .getDeploymentsApi()
+                    .addDeployment(
+                            testProject,
+                            environment,
+                            commits.get(0).getId(),
+                            testProject.getDefaultBranch(),
+                            false,
+                            DeploymentStatus.SUCCESS);
         }
 
-        gitLabApi.getDeploymentsApi().addDeployment(testProject,
-            environment + "-other",
-            commits.get(0).getId(),
-            testProject.getDefaultBranch(),
-            false,
-            DeploymentStatus.SUCCESS);
+        gitLabApi
+                .getDeploymentsApi()
+                .addDeployment(
+                        testProject,
+                        environment + "-other",
+                        commits.get(0).getId(),
+                        testProject.getDefaultBranch(),
+                        false,
+                        DeploymentStatus.SUCCESS);
 
         Pager<Deployment> pager = gitLabApi.getDeploymentsApi().getProjectDeployments(testProject, 2);
         while (pager.hasNext()) {
@@ -209,10 +226,12 @@ public class TestDeploymentsApi extends AbstractIntegrationTest {
         DeploymentFilter deploymentFilter = new DeploymentFilter();
         deploymentFilter.setEnvironment(environment);
 
-        Pager<Deployment> filteredPager = gitLabApi.getDeploymentsApi().getProjectDeployments(testProject, deploymentFilter);
+        Pager<Deployment> filteredPager =
+                gitLabApi.getDeploymentsApi().getProjectDeployments(testProject, deploymentFilter);
         while (filteredPager.hasNext()) {
             filteredPager.next();
-            assertTrue(filteredPager.current().size() > 1 && filteredPager.current().size() < unfilteredeploymentNb);
+            assertTrue(filteredPager.current().size() > 1
+                    && filteredPager.current().size() < unfilteredeploymentNb);
         }
 
         deploymentFilter.setEnvironment("none");
@@ -223,12 +242,12 @@ public class TestDeploymentsApi extends AbstractIntegrationTest {
             assertTrue(filteredPager.current().size() == 0, "Should be no deployments for environment `none`");
         }
 
-        Stream<Deployment> projectDeploymentsStream = gitLabApi.getDeploymentsApi().getProjectDeploymentsStream(testProject);
+        Stream<Deployment> projectDeploymentsStream =
+                gitLabApi.getDeploymentsApi().getProjectDeploymentsStream(testProject);
         assertTrue(projectDeploymentsStream.count() >= 10);
 
-        projectDeploymentsStream = gitLabApi.getDeploymentsApi().getProjectDeploymentsStream(testProject, deploymentFilter);
+        projectDeploymentsStream =
+                gitLabApi.getDeploymentsApi().getProjectDeploymentsStream(testProject, deploymentFilter);
         assertEquals(0L, projectDeploymentsStream.count());
-
     }
-
 }

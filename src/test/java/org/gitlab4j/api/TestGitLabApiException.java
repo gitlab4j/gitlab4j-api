@@ -32,15 +32,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestGitLabApiException extends AbstractIntegrationTest {
 
     private static final String TEST_PROJECT_NAME_DUPLICATE = "test-gitlab4j-create-project-duplicate";
-    private static final String TEST_ERROR_MESSAGE = "Another open merge request already exists for this source branch: !6";
+    private static final String TEST_ERROR_MESSAGE =
+            "Another open merge request already exists for this source branch: !6";
     private static final String TEST_RESPONSE_JSON_STRING = "{\"message\": \"" + TEST_ERROR_MESSAGE + "\"}";
     private static final String TEST_RESPONSE_JSON_ARRAY = "{\"message\": [\"" + TEST_ERROR_MESSAGE + "\"]}";
     private static final String TEST_RESPONSE_ERROR_JSON_STRING = "{\"error\": \"" + TEST_ERROR_MESSAGE + "\"}";
-
 
     private static GitLabApi gitLabApi;
 
@@ -66,7 +67,8 @@ public class TestGitLabApiException extends AbstractIntegrationTest {
             try {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_DUPLICATE);
                 gitLabApi.getProjectApi().deleteProject(project);
-            } catch (GitLabApiException ignore) {}
+            } catch (GitLabApiException ignore) {
+            }
         }
     }
 
@@ -86,7 +88,10 @@ public class TestGitLabApiException extends AbstractIntegrationTest {
             assertEquals(404, gae.getHttpStatus());
             assertTrue(gae.getMessage().contains("404"));
             assertFalse(gae.getHeaders().isEmpty());
-            assertTrue(gae.getHeaders().containsKey("X-Request-Id"), () -> "headers contains key 'X-Request-Id'. Available keys: " + String.join(", ", gae.getHeaders().keySet()));
+            assertTrue(
+                    gae.getHeaders().containsKey("X-Request-Id"),
+                    () -> "headers contains key 'X-Request-Id'. Available keys: "
+                            + String.join(", ", gae.getHeaders().keySet()));
         }
     }
 

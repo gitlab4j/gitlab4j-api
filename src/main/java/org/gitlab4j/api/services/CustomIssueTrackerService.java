@@ -12,12 +12,12 @@ public class CustomIssueTrackerService extends NotificationService {
     @Override
     public GitLabApiForm servicePropertiesForm() {
         GitLabApiForm formData = new GitLabApiForm()
-            .withParam(DESCRIPTION_PROP, getDescription())
-            .withParam(ISSUES_URL_PROP, getIssuesUrl(), true)
-            .withParam(NEW_ISSUE_URL_PROP, getNewIssueUrl(), true)
-            .withParam(PROJECT_URL_PROP, getProjectUrl(), true)
-            .withParam(PUSH_EVENTS_PROP, getPushEvents())
-            .withParam(TITLE_PROP, getTitle());
+                .withParam(DESCRIPTION_PROP, getDescription())
+                .withParam(ISSUES_URL_PROP, getIssuesUrl(), true)
+                .withParam(NEW_ISSUE_URL_PROP, getNewIssueUrl(), true)
+                .withParam(PROJECT_URL_PROP, getProjectUrl(), true)
+                .withParam(PUSH_EVENTS_PROP, getPushEvents())
+                .withParam(TITLE_PROP, getTitle());
         return formData;
     }
 

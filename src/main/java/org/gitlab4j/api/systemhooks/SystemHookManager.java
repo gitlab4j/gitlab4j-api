@@ -1,4 +1,3 @@
-
 package org.gitlab4j.api.systemhooks;
 
 import java.io.InputStreamReader;
@@ -22,7 +21,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 public class SystemHookManager implements HookManager {
 
-    private final static Logger LOGGER = Logger.getLogger(SystemHookManager.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SystemHookManager.class.getName());
     public static final String SYSTEM_HOOK_EVENT = "System Hook";
     private final JacksonJson jacksonJson = new JacksonJson();
 
@@ -34,8 +33,7 @@ public class SystemHookManager implements HookManager {
     /**
      * Create a HookManager to handle GitLab system hook events.
      */
-    public SystemHookManager() {
-    }
+    public SystemHookManager() {}
 
     /**
      * Create a HookManager to handle GitLab system hook events which will be verified
@@ -45,25 +43,25 @@ public class SystemHookManager implements HookManager {
      */
     public SystemHookManager(String secretToken) {
         this.secretToken = secretToken;
-     }
+    }
 
-     /**
-      * Get the secret token that received hook events should be validated against.
-      *
-      * @return the secret token that received hook events should be validated against
-      */
-     public String getSecretToken() {
-         return (secretToken);
-     }
+    /**
+     * Get the secret token that received hook events should be validated against.
+     *
+     * @return the secret token that received hook events should be validated against
+     */
+    public String getSecretToken() {
+        return (secretToken);
+    }
 
-     /**
-      * Set the secret token that received hook events should be validated against.
-      *
-      * @param secretToken the secret token to verify against
-      */
-     public void setSecretToken(String secretToken) {
-         this.secretToken = secretToken;
-     }
+    /**
+     * Set the secret token that received hook events should be validated against.
+     *
+     * @param secretToken the secret token to verify against
+     */
+    public void setSecretToken(String secretToken) {
+        this.secretToken = secretToken;
+    }
 
     /**
      * Parses and verifies an SystemHookEvent instance from the HTTP request and
@@ -123,8 +121,8 @@ public class SystemHookManager implements HookManager {
             }
 
         } catch (Exception e) {
-            LOGGER.warning("Error reading JSON data, exception=" +
-                    e.getClass().getSimpleName() + ", error=" + e.getMessage());
+            LOGGER.warning(
+                    "Error reading JSON data, exception=" + e.getClass().getSimpleName() + ", error=" + e.getMessage());
             throw new GitLabApiException(e);
         }
 
@@ -136,7 +134,7 @@ public class SystemHookManager implements HookManager {
 
             String objectKind = tree.get("object_kind").asText();
             if (MergeRequestSystemHookEvent.MERGE_REQUEST_EVENT.equals(objectKind)) {
-                ObjectNode node = (ObjectNode)tree;
+                ObjectNode node = (ObjectNode) tree;
                 node.put("event_name", MergeRequestSystemHookEvent.MERGE_REQUEST_EVENT);
             } else {
                 String message = "Unsupported object_kind for system hook event, object_kind=" + objectKind;
@@ -162,7 +160,8 @@ public class SystemHookManager implements HookManager {
             event.setRequestSecretToken(secretToken);
 
         } catch (Exception e) {
-            LOGGER.warning(String.format("Error processing JSON data, exception=%s, error=%s",
+            LOGGER.warning(String.format(
+                    "Error processing JSON data, exception=%s, error=%s",
                     e.getClass().getSimpleName(), e.getMessage()));
             throw new GitLabApiException(e);
         }
@@ -173,7 +172,8 @@ public class SystemHookManager implements HookManager {
             return (event);
 
         } catch (Exception e) {
-            LOGGER.warning(String.format("Error processing event, exception=%s, error=%s",
+            LOGGER.warning(String.format(
+                    "Error processing event, exception=%s, error=%s",
                     e.getClass().getSimpleName(), e.getMessage()));
             throw new GitLabApiException(e);
         }
@@ -181,7 +181,7 @@ public class SystemHookManager implements HookManager {
 
     /**
      * Verifies the provided Event and fires it off to the registered listeners.
-     * 
+     *
      * @param event the Event instance to handle
      * @throws GitLabApiException if the event is not supported
      */
@@ -217,7 +217,7 @@ public class SystemHookManager implements HookManager {
 
     /**
      * Fire the event to the registered listeners.
-     * 
+     *
      * @param event the SystemHookEvent instance to fire to the registered event listeners
      * @throws GitLabApiException if the event is not supported
      */

@@ -1,7 +1,5 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -15,12 +13,14 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.fasterxml.jackson.databind.node.FloatNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
 public class ApplicationSettings implements Serializable {
@@ -98,7 +98,7 @@ public class ApplicationSettings implements Serializable {
     public Object addSetting(Setting setting, Object value) throws GitLabApiException {
 
         if (value instanceof JsonNode) {
-            value = jsonNodeToValue((JsonNode)value, setting);
+            value = jsonNodeToValue((JsonNode) value, setting);
         }
 
         setting.validate(value);
@@ -130,9 +130,9 @@ public class ApplicationSettings implements Serializable {
         } else if (node instanceof IntNode) {
             value = node.asInt();
         } else if (node instanceof FloatNode) {
-            value = (float)((FloatNode)node).asDouble();
+            value = (float) ((FloatNode) node).asDouble();
         } else if (node instanceof DoubleNode) {
-            value = (float)((DoubleNode)node).asDouble();
+            value = (float) ((DoubleNode) node).asDouble();
         } else if (node instanceof ArrayNode) {
             if (node.isEmpty()) {
                 value = setting.emptyArrayValue();

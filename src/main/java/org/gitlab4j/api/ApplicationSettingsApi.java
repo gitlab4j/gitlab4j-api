@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.models.Setting;
 import org.gitlab4j.api.models.ApplicationSettings;
+import org.gitlab4j.api.models.Setting;
 import org.gitlab4j.api.utils.ISO8601;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -53,7 +53,7 @@ public class ApplicationSettingsApi extends AbstractApi {
         }
 
         final GitLabApiForm form = new GitLabApiForm();
-        appSettings.getSettings().forEach((s, v) -> form.withParam(s,  v));
+        appSettings.getSettings().forEach((s, v) -> form.withParam(s, v));
         Response response = put(Response.Status.OK, form.asMap(), "application", "settings");
         JsonNode root = response.readEntity(JsonNode.class);
         return (parseApplicationSettings(root));
@@ -116,40 +116,42 @@ public class ApplicationSettingsApi extends AbstractApi {
 
             String fieldName = fieldNames.next();
             switch (fieldName) {
-            case "id":
-                appSettings.setId(root.path(fieldName).asLong());
-                break;
+                case "id":
+                    appSettings.setId(root.path(fieldName).asLong());
+                    break;
 
-            case "created_at":
-                try {
-                    String value = root.path(fieldName).asText();
-                    appSettings.setCreatedAt(ISO8601.toDate(value));
-                } catch (ParseException pe) {
-                    throw new GitLabApiException(pe);
-                }
-                break;
+                case "created_at":
+                    try {
+                        String value = root.path(fieldName).asText();
+                        appSettings.setCreatedAt(ISO8601.toDate(value));
+                    } catch (ParseException pe) {
+                        throw new GitLabApiException(pe);
+                    }
+                    break;
 
-            case "updated_at":
-                try {
-                    String value = root.path(fieldName).asText();
-                    appSettings.setUpdatedAt(ISO8601.toDate(value));
-                } catch (ParseException pe) {
-                    throw new GitLabApiException(pe);
-                }
-                break;
+                case "updated_at":
+                    try {
+                        String value = root.path(fieldName).asText();
+                        appSettings.setUpdatedAt(ISO8601.toDate(value));
+                    } catch (ParseException pe) {
+                        throw new GitLabApiException(pe);
+                    }
+                    break;
 
-            default:
+                default:
+                    Setting setting = Setting.forValue(fieldName);
+                    if (setting != null) {
+                        appSettings.addSetting(setting, root.path(fieldName));
+                    } else {
+                        GitLabApi.getLogger()
+                                .warning(String.format(
+                                        "Unknown setting: %s, type: %s",
+                                        fieldName,
+                                        root.path(fieldName).getClass().getSimpleName()));
+                        appSettings.addSetting(fieldName, root.path(fieldName));
+                    }
 
-                Setting setting = Setting.forValue(fieldName);
-                if (setting != null) {
-                    appSettings.addSetting(setting, root.path(fieldName));
-                } else {
-                    GitLabApi.getLogger().warning(String.format("Unknown setting: %s, type: %s",
-                            fieldName, root.path(fieldName).getClass().getSimpleName()));
-                    appSettings.addSetting(fieldName, root.path(fieldName));
-                }
-
-                break;
+                    break;
             }
         }
 

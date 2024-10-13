@@ -1,11 +1,11 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
+
 import org.gitlab4j.api.Constants.ProjectOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
-import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
-
-import java.io.Serializable;
+import org.gitlab4j.api.utils.JacksonJson;
 
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified group.
@@ -178,20 +178,19 @@ public class GroupProjectsFilter implements Serializable {
      */
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
-            .withParam("archived", archived)
-            .withParam("visibility", visibility)
-            .withParam("order_by", orderBy)
-            .withParam("sort", sort)
-            .withParam("search", search)
-            .withParam("simple", simple)
-            .withParam("owned", owned)
-            .withParam("starred", starred)
-            .withParam("with_custom_attributes", withCustomAttributes)
-            .withParam("with_issues_enabled", withIssuesEnabled)
-            .withParam("with_merge_requests_enabled ", withMergeRequestsEnabled)
-            .withParam("with_shared", withShared)
-            .withParam("include_subgroups", includeSubGroups)
-        );
+                .withParam("archived", archived)
+                .withParam("visibility", visibility)
+                .withParam("order_by", orderBy)
+                .withParam("sort", sort)
+                .withParam("search", search)
+                .withParam("simple", simple)
+                .withParam("owned", owned)
+                .withParam("starred", starred)
+                .withParam("with_custom_attributes", withCustomAttributes)
+                .withParam("with_issues_enabled", withIssuesEnabled)
+                .withParam("with_merge_requests_enabled ", withMergeRequestsEnabled)
+                .withParam("with_shared", withShared)
+                .withParam("include_subgroups", includeSubGroups));
     }
 
     @Override

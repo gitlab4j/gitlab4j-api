@@ -24,7 +24,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestAccessToken extends AbstractIntegrationTest {
 
     // TEST_ACCESS_TOKEN must be defined to run this test
@@ -57,7 +58,9 @@ public class TestAccessToken extends AbstractIntegrationTest {
         // This test uses the GitLabApi instance created in setup()
         Version version = gitLabApi.getVersion();
         assertNotNull(version);
-        System.out.format("tokenType: %s, version=%s, revision=%s%n", TokenType.PRIVATE, gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
+        System.out.format(
+                "tokenType: %s, version=%s, revision=%s%n",
+                TokenType.PRIVATE, gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
     }
@@ -68,7 +71,9 @@ public class TestAccessToken extends AbstractIntegrationTest {
         GitLabApi gitLabApi = new GitLabApi(ApiVersion.V4, TEST_HOST_URL, TokenType.ACCESS, TEST_ACCESS_TOKEN);
         Version version = gitLabApi.getVersion();
         assertNotNull(version);
-        System.out.format("tokenType: %s, version=%s, revision=%s%n", TokenType.ACCESS, gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
+        System.out.format(
+                "tokenType: %s, version=%s, revision=%s%n",
+                TokenType.ACCESS, gitLabApi.getIgnoreCertificateErrors(), version.getVersion(), version.getRevision());
         assertNotNull(version.getVersion());
         assertNotNull(version.getRevision());
 

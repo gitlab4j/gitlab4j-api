@@ -1,6 +1,7 @@
 
 plugins {
     id 'java-library'
+    id 'com.diffplug.spotless' version '6.25.0'
     id 'signing'
     id 'maven-publish'
     id 'de.marcphilipp.nexus-publish' version '0.4.0'
@@ -52,6 +53,14 @@ java {
 
 repositories {
     mavenCentral()
+}
+
+spotless {
+    java {
+        palantirJavaFormat()
+        importOrder 'java', 'javax', 'jakarta', 'org', 'com', ''
+        removeUnusedImports()
+    }
 }
 
 nexusPublishing {

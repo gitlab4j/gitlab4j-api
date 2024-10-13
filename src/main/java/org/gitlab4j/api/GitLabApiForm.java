@@ -33,13 +33,13 @@ public class GitLabApiForm extends Form {
      */
     public GitLabApiForm(int page, int perPage) {
         super();
-        withParam(AbstractApi.PAGE_PARAM,  page);
-        withParam(AbstractApi.PER_PAGE_PARAM, (Integer)perPage);
+        withParam(AbstractApi.PAGE_PARAM, page);
+        withParam(AbstractApi.PER_PAGE_PARAM, (Integer) perPage);
     }
 
     /**
      * Fluent method for adding query and form parameters to a get() or post() call.
-     * 
+     *
      * @param name the name of the field/attribute to add
      * @param value the value of the field/attribute to add
      * @return this GitLabAPiForm instance
@@ -146,7 +146,8 @@ public class GitLabApiForm extends Form {
      * @return this GitLabAPiForm instance
      * @throws IllegalArgumentException if a required parameter is null or empty
      */
-    public GitLabApiForm withParam(String name, Map<String, ?> variables, boolean required) throws IllegalArgumentException {
+    public GitLabApiForm withParam(String name, Map<String, ?> variables, boolean required)
+            throws IllegalArgumentException {
 
         if (variables == null || variables.isEmpty()) {
             if (required) {

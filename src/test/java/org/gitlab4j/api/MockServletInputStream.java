@@ -17,7 +17,7 @@ public class MockServletInputStream extends ServletInputStream {
 
     @Override
     public boolean isFinished() {
-        return (lastIndexRetrieved == inputBytes.length-1);
+        return (lastIndexRetrieved == inputBytes.length - 1);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MockServletInputStream extends ServletInputStream {
     public int read() throws IOException {
         int i;
         if (!isFinished()) {
-            i = inputBytes[lastIndexRetrieved+1];
+            i = inputBytes[lastIndexRetrieved + 1];
             lastIndexRetrieved++;
             if (isFinished() && (readListener != null)) {
                 try {

@@ -5,14 +5,14 @@ import java.util.regex.Pattern;
 
 public class DurationUtils {
 
-    private static final String[] TIME_UNITS = { "mo", "w", "d", "h", "m", "s" };
-    private static final int[] TIME_UNIT_MULTIPLIERS = { 
-            60 * 60 * 8 * 5 * 4, // 4 weeks = 1 month
-            60 * 60 * 8 * 5,     // 5 days = 1 week
-            60 * 60 * 8,         // 8 hours = 1 day
-            60 * 60,             // 60 minutes = 1 hours
-            60,                  // 60 seconds = 1 minute
-            1
+    private static final String[] TIME_UNITS = {"mo", "w", "d", "h", "m", "s"};
+    private static final int[] TIME_UNIT_MULTIPLIERS = {
+        60 * 60 * 8 * 5 * 4, // 4 weeks = 1 month
+        60 * 60 * 8 * 5, // 5 days = 1 week
+        60 * 60 * 8, // 8 hours = 1 day
+        60 * 60, // 60 minutes = 1 hours
+        60, // 60 seconds = 1 minute
+        1
     };
     private static Pattern durationPattern = Pattern.compile("(\\s*(\\d+)(mo|[wdhms]))");
 
@@ -57,9 +57,21 @@ public class DurationUtils {
             }
 
             if (seconds > 0) {
-                buf.append(days).append('d').append(hours).append('h').append(minutes).append('m').append(seconds).append('s');
+                buf.append(days)
+                        .append('d')
+                        .append(hours)
+                        .append('h')
+                        .append(minutes)
+                        .append('m')
+                        .append(seconds)
+                        .append('s');
             } else if (minutes > 0) {
-                buf.append(days).append('d').append(hours).append('h').append(minutes).append('m');
+                buf.append(days)
+                        .append('d')
+                        .append(hours)
+                        .append('h')
+                        .append(minutes)
+                        .append('m');
             } else if (hours > 0) {
                 buf.append(days).append('d').append(hours).append('h');
             } else if (days > 0) {
@@ -70,20 +82,37 @@ public class DurationUtils {
 
             buf.append(weeks).append('w');
             if (seconds > 0) {
-                buf.append(days).append('d').append(hours).append('h').append(minutes).append('m').append(seconds).append('s');
+                buf.append(days)
+                        .append('d')
+                        .append(hours)
+                        .append('h')
+                        .append(minutes)
+                        .append('m')
+                        .append(seconds)
+                        .append('s');
             } else if (minutes > 0) {
-                buf.append(days).append('d').append(hours).append('h').append(minutes).append('m');
+                buf.append(days)
+                        .append('d')
+                        .append(hours)
+                        .append('h')
+                        .append(minutes)
+                        .append('m');
             } else if (hours > 0) {
                 buf.append(days).append('d').append(hours).append('h');
-            }  else if (days > 0) {
+            } else if (days > 0) {
                 buf.append(days).append('d');
             }
 
-        } else  if (days > 0) {
+        } else if (days > 0) {
 
             buf.append(days).append('d');
             if (seconds > 0) {
-                buf.append(hours).append('h').append(minutes).append('m').append(seconds).append('s');
+                buf.append(hours)
+                        .append('h')
+                        .append(minutes)
+                        .append('m')
+                        .append(seconds)
+                        .append('s');
             } else if (minutes > 0) {
                 buf.append(hours).append('h').append(minutes).append('m');
             } else if (hours > 0) {
@@ -129,7 +158,7 @@ public class DurationUtils {
         Boolean validDuration = null;
 
         while (matcher.find() && validDuration != Boolean.FALSE) {
-            
+
             validDuration = true;
 
             int numGroups = matcher.groupCount();
@@ -164,8 +193,7 @@ public class DurationUtils {
     private static final int getUnitIndex(String unit) {
 
         for (int i = 0; i < TIME_UNITS.length; i++) {
-            if (unit.equals(TIME_UNITS[i]))
-                return (i);
+            if (unit.equals(TIME_UNITS[i])) return (i);
         }
 
         return (-1);

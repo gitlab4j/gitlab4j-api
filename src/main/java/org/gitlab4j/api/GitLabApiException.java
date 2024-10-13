@@ -6,13 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.StatusType;
-import jakarta.ws.rs.core.MultivaluedMap;
 
-import java.util.Objects;
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -88,7 +88,7 @@ public class GitLabApiException extends Exception {
                             StringBuilder buf = new StringBuilder();
                             validationErrors = new HashMap<>();
                             Iterator<Entry<String, JsonNode>> fields = jsonMessage.fields();
-                            while(fields.hasNext()) {
+                            while (fields.hasNext()) {
 
                                 Entry<String, JsonNode> field = fields.next();
                                 String fieldName = field.getKey();
@@ -109,14 +109,14 @@ public class GitLabApiException extends Exception {
 
                         } else if (jsonMessage.isArray()) {
 
-                           List<String> values = new ArrayList<>();
-                           for (JsonNode value : jsonMessage) {
+                            List<String> values = new ArrayList<>();
+                            for (JsonNode value : jsonMessage) {
                                 values.add(value.asText());
-                           }
+                            }
 
-                           if (values.size() > 0) {
-                               this.message = String.join("\n", values);
-                           }
+                            if (values.size() > 0) {
+                                this.message = String.join("\n", values);
+                            }
 
                         } else if (jsonMessage.isTextual()) {
                             this.message = jsonMessage.asText();
@@ -242,22 +242,19 @@ public class GitLabApiException extends Exception {
         }
 
         if (message == null) {
-            if (other.message != null)
-                return false;
+            if (other.message != null) return false;
         } else if (!message.equals(other.message)) {
             return false;
         }
 
         if (statusInfo == null) {
-            if (other.statusInfo != null)
-                return false;
+            if (other.statusInfo != null) return false;
         } else if (!statusInfo.equals(other.statusInfo)) {
             return false;
         }
 
         if (validationErrors == null) {
-            if (other.validationErrors != null)
-                return false;
+            if (other.validationErrors != null) return false;
         } else if (!validationErrors.equals(other.validationErrors)) {
             return false;
         }

@@ -20,19 +20,20 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_GROUP
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestNotificationSettingsApi extends AbstractIntegrationTest {
 
@@ -66,7 +67,8 @@ public class TestNotificationSettingsApi extends AbstractIntegrationTest {
     public void testSetGlobalNotificationSettings() throws GitLabApiException {
         NotificationSettings settings = new NotificationSettings();
         settings.setLevel(NotificationSettings.Level.DISABLED);
-        NotificationSettings newSettings = gitLabApi.getNotificationSettingsApi().updateGlobalNotificationSettings(settings);
+        NotificationSettings newSettings =
+                gitLabApi.getNotificationSettingsApi().updateGlobalNotificationSettings(settings);
         assertNotNull(newSettings);
         assertEquals(NotificationSettings.Level.DISABLED, newSettings.getLevel());
     }
@@ -77,7 +79,9 @@ public class TestNotificationSettingsApi extends AbstractIntegrationTest {
         List<Group> groups = gitLabApi.getGroupApi().getGroups(TEST_GROUP);
         assertNotNull(groups);
         assertFalse(groups.isEmpty());
-        NotificationSettings settings = gitLabApi.getNotificationSettingsApi().getGroupNotificationSettings(groups.get(0).getId());
+        NotificationSettings settings = gitLabApi
+                .getNotificationSettingsApi()
+                .getGroupNotificationSettings(groups.get(0).getId());
         assertNotNull(settings);
     }
 
@@ -85,7 +89,8 @@ public class TestNotificationSettingsApi extends AbstractIntegrationTest {
     public void testProjectNotificationSettings() throws GitLabApiException {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
-        NotificationSettings settings = gitLabApi.getNotificationSettingsApi().getProjectNotificationSettings(project.getId());
+        NotificationSettings settings =
+                gitLabApi.getNotificationSettingsApi().getProjectNotificationSettings(project.getId());
         assertNotNull(settings);
     }
 }

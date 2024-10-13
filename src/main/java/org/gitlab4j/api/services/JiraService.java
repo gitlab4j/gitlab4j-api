@@ -25,14 +25,14 @@ public class JiraService extends NotificationService {
     @Override
     public GitLabApiForm servicePropertiesForm() {
         GitLabApiForm formData = new GitLabApiForm()
-            .withParam("merge_requests_events", getMergeRequestsEvents())
-            .withParam(COMMIT_EVENTS_PROP, getCommitEvents())
-            .withParam(URL_PROP, getUrl(), true)
-            .withParam(API_URL_PROP, getApiUrl())
-            .withParam(PROJECT_KEY_PROP, getProjectKey())
-            .withParam(USERNAME_PROP, getUsername(), true)
-            .withParam("password", getPassword(), true)
-            .withParam(JIRA_ISSUE_TRANSITION_ID_PROP, getJiraIssueTransitionId());
+                .withParam("merge_requests_events", getMergeRequestsEvents())
+                .withParam(COMMIT_EVENTS_PROP, getCommitEvents())
+                .withParam(URL_PROP, getUrl(), true)
+                .withParam(API_URL_PROP, getApiUrl())
+                .withParam(PROJECT_KEY_PROP, getProjectKey())
+                .withParam(USERNAME_PROP, getUsername(), true)
+                .withParam("password", getPassword(), true)
+                .withParam(JIRA_ISSUE_TRANSITION_ID_PROP, getJiraIssueTransitionId());
         return formData;
     }
 
@@ -153,10 +153,10 @@ public class JiraService extends NotificationService {
         if (properties != null) {
             Object jiraIssueTransitionId = properties.get(JIRA_ISSUE_TRANSITION_ID_PROP);
             if (jiraIssueTransitionId instanceof String) {
-                if (((String)jiraIssueTransitionId).trim().isEmpty()) {
+                if (((String) jiraIssueTransitionId).trim().isEmpty()) {
                     properties.put(JIRA_ISSUE_TRANSITION_ID_PROP, null);
                 } else {
-                    properties.put(JIRA_ISSUE_TRANSITION_ID_PROP, Integer.valueOf((String)jiraIssueTransitionId));
+                    properties.put(JIRA_ISSUE_TRANSITION_ID_PROP, Integer.valueOf((String) jiraIssueTransitionId));
                 }
             }
         }

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
@@ -23,7 +23,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestGitLabApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
@@ -63,7 +64,8 @@ public class TestGitLabApi extends AbstractIntegrationTest {
         assumeTrue(TEST_PROXY_URI.length() > 0 && TEST_PROXY_USERNAME.length() > 0 && TEST_PROXY_PASSWORD.length() > 0);
 
         // Setup a GitLabApi instance to use a proxy
-        Map<String, Object> clientConfig = ProxyClientConfig.createProxyClientConfig(TEST_PROXY_URI, TEST_PROXY_USERNAME, TEST_PROXY_PASSWORD);
+        Map<String, Object> clientConfig =
+                ProxyClientConfig.createProxyClientConfig(TEST_PROXY_URI, TEST_PROXY_USERNAME, TEST_PROXY_PASSWORD);
         GitLabApi gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN, null, clientConfig);
 
         Version version = gitLabApi.getVersion();

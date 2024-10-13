@@ -24,7 +24,6 @@ public class GpgKey {
         this.key = key;
     }
 
-
     public Date getCreatedAt() {
         return createdAt;
     }

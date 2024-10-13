@@ -31,7 +31,7 @@ public class SnippetsApi extends AbstractApi {
     public List<Snippet> getSnippets(boolean downloadContent) throws GitLabApiException {
 
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "snippets");
-        List<Snippet> snippets = (response.readEntity(new GenericType<List<Snippet>>(){}));
+        List<Snippet> snippets = (response.readEntity(new GenericType<List<Snippet>>() {}));
 
         if (downloadContent) {
             for (Snippet snippet : snippets) {
@@ -186,7 +186,9 @@ public class SnippetsApi extends AbstractApi {
      * @return the created Snippet
      * @throws GitLabApiException if any exception occurs
      */
-    public Snippet createSnippet(String title, String fileName, String content, Visibility visibility, String description) throws GitLabApiException {
+    public Snippet createSnippet(
+            String title, String fileName, String content, Visibility visibility, String description)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("title", title, true)
                 .withParam("file_name", fileName, true)

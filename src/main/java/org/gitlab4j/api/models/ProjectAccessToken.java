@@ -1,11 +1,11 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.Constants;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import org.gitlab4j.api.Constants;
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class ProjectAccessToken implements Serializable {
     private static final long serialVersionUID = 1L;

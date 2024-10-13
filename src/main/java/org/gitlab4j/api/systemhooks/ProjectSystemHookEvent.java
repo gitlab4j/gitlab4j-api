@@ -43,7 +43,7 @@ public class ProjectSystemHookEvent extends AbstractSystemHookEvent {
     }
 
     @Override
-	public String getEventName() {
+    public String getEventName() {
         return this.eventName;
     }
 

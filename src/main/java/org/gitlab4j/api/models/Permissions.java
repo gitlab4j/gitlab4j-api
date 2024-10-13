@@ -1,8 +1,8 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class Permissions implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -1,6 +1,8 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.Date;
+
 import org.gitlab4j.api.Constants.PipelineOrderBy;
 import org.gitlab4j.api.Constants.PipelineScope;
 import org.gitlab4j.api.Constants.PipelineSource;
@@ -8,8 +10,7 @@ import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *  This class is used to filter Pipelines when getting lists of them.
@@ -56,7 +57,6 @@ public class PipelineFilter implements Serializable {
      * {@link org.gitlab4j.api.Constants.SortOrder} Return issues sorted in asc or desc order. Default is desc.
      */
     private SortOrder sort;
-
 
     public void setScope(PipelineScope scope) {
         this.scope = scope;

@@ -23,18 +23,25 @@ import org.mockito.Mockito;
 
 public class TestEpicDiscussionsApi implements Constants {
 
-    @Mock private GitLabApi gitLabApi;
-    @Mock private GitLabApiClient gitLabApiClient;
-    @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    @Mock
+    private GitLabApi gitLabApi;
+
+    @Mock
+    private GitLabApiClient gitLabApiClient;
+
+    @Captor
+    private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+
     private MockResponse response;
 
     @BeforeEach
     public void setUp() throws Exception {
-    	openMocks(this);
-        response = new MockResponse(Discussion.class,  null,  "epic-discussions.json");
+        openMocks(this);
+        response = new MockResponse(Discussion.class, null, "epic-discussions.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class))).thenReturn(response);
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
+                .thenReturn(response);
     }
 
     @Test

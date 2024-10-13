@@ -18,9 +18,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
@@ -31,7 +30,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestEventsApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -71,7 +71,9 @@ public class TestEventsApi extends AbstractIntegrationTest {
 
     @Test
     public void testGetAuthenticatedUserEventsWithScope() throws GitLabApiException {
-        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null, 1, 10, Constants.EventScope.ALL);
+        List<Event> events = gitLabApi
+                .getEventsApi()
+                .getAuthenticatedUserEvents(null, null, null, null, null, 1, 10, Constants.EventScope.ALL);
         assertNotNull(events);
     }
 
@@ -97,10 +99,14 @@ public class TestEventsApi extends AbstractIntegrationTest {
     public void testGetAuthenticatedUserEventsWithDatesAndScope() throws GitLabApiException {
         Date after = new Date(0);
         Date now = new Date();
-        List<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, now, after, null, 1, 10, Constants.EventScope.ALL);
+        List<Event> events = gitLabApi
+                .getEventsApi()
+                .getAuthenticatedUserEvents(null, null, now, after, null, 1, 10, Constants.EventScope.ALL);
         assertNotNull(events);
 
-        events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, after, null, null, 1, 10, Constants.EventScope.ALL);
+        events = gitLabApi
+                .getEventsApi()
+                .getAuthenticatedUserEvents(null, null, after, null, null, 1, 10, Constants.EventScope.ALL);
         assertNotNull(events);
         assertEquals(0, events.size());
     }
@@ -108,7 +114,8 @@ public class TestEventsApi extends AbstractIntegrationTest {
     @Test
     public void testGetUserEvents() throws GitLabApiException {
         assertNotNull(testUser);
-        List<Event> events = gitLabApi.getEventsApi().getUserEvents(testUser.getId(), null, null, null, null, null, 1, 10);
+        List<Event> events =
+                gitLabApi.getEventsApi().getUserEvents(testUser.getId(), null, null, null, null, null, 1, 10);
         assertNotNull(events);
     }
 
@@ -117,15 +124,25 @@ public class TestEventsApi extends AbstractIntegrationTest {
         assertNotNull(testUser);
         Date before = ISO8601.toDate("2017-06-02");
         Date after = new Date();
-        List<Event> events = gitLabApi.getEventsApi().getUserEvents(
-                testUser.getId(), Constants.ActionType.CREATED, Constants.TargetType.PROJECT, before, after, Constants.SortOrder.DESC, 1, 10);
+        List<Event> events = gitLabApi
+                .getEventsApi()
+                .getUserEvents(
+                        testUser.getId(),
+                        Constants.ActionType.CREATED,
+                        Constants.TargetType.PROJECT,
+                        before,
+                        after,
+                        Constants.SortOrder.DESC,
+                        1,
+                        10);
         assertNotNull(events);
     }
 
     @Test
     public void testGetProjectEvents() throws GitLabApiException {
         assertNotNull(testProject);
-        List<Event> events = gitLabApi.getEventsApi().getProjectEvents(testProject.getId(), null, null, null, null, null, 1, 10);
+        List<Event> events =
+                gitLabApi.getEventsApi().getProjectEvents(testProject.getId(), null, null, null, null, null, 1, 10);
         assertNotNull(events);
     }
 
@@ -137,21 +154,25 @@ public class TestEventsApi extends AbstractIntegrationTest {
 
     @Test
     public void testPagedGetAuthenticatedUserEventsWithScope() throws GitLabApiException {
-        Pager<Event> events = gitLabApi.getEventsApi().getAuthenticatedUserEvents(null, null, null, null, null, 10, Constants.EventScope.ALL);
+        Pager<Event> events = gitLabApi
+                .getEventsApi()
+                .getAuthenticatedUserEvents(null, null, null, null, null, 10, Constants.EventScope.ALL);
         assertNotNull(events);
     }
 
     @Test
     public void testPagedGetUserEvents() throws GitLabApiException {
         assertNotNull(testUser);
-        Pager<Event> events = gitLabApi.getEventsApi().getUserEvents(testUser.getId(), null, null, null, null, null, 10);
+        Pager<Event> events =
+                gitLabApi.getEventsApi().getUserEvents(testUser.getId(), null, null, null, null, null, 10);
         assertNotNull(events);
     }
 
     @Test
     public void testPagedGetProjectEvents() throws GitLabApiException {
         assertNotNull(testProject);
-        Pager<Event> events = gitLabApi.getEventsApi().getProjectEvents(testProject.getId(), null, null, null, null, null, 10);
+        Pager<Event> events =
+                gitLabApi.getEventsApi().getProjectEvents(testProject.getId(), null, null, null, null, null, 10);
         assertNotNull(events);
     }
 }

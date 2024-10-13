@@ -41,7 +41,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestRepositoryFileApi extends AbstractIntegrationTest {
 
@@ -73,7 +74,9 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
                 Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
 
                 try {
-                    gitLabApi.getRepositoryFileApi().deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Cleanup test files.");
+                    gitLabApi
+                            .getRepositoryFileApi()
+                            .deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Cleanup test files.");
                 } catch (GitLabApiException ignore) {
                 }
 
@@ -135,7 +138,8 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        Optional<RepositoryFile> fileInfo = gitLabApi.getRepositoryFileApi().getOptionalFileInfo(project.getId(), "README.md", "master");
+        Optional<RepositoryFile> fileInfo =
+                gitLabApi.getRepositoryFileApi().getOptionalFileInfo(project.getId(), "README.md", "master");
         assertNotNull(fileInfo.get());
 
         fileInfo = gitLabApi.getRepositoryFileApi().getOptionalFileInfo(project.getId(), "I-DONT-EXIST", "master");
@@ -158,10 +162,14 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
         file.setContent(TEST_CONTENT);
-        RepositoryFileResponse createdFile = gitLabApi.getRepositoryFileApi().createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
+        RepositoryFileResponse createdFile = gitLabApi
+                .getRepositoryFileApi()
+                .createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
 
-        gitLabApi.getRepositoryFileApi().deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Testing deleteFile().");
+        gitLabApi
+                .getRepositoryFileApi()
+                .deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Testing deleteFile().");
         gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
     }
 
@@ -177,10 +185,14 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
         file.setContent("");
-        RepositoryFileResponse createdFile = gitLabApi.getRepositoryFileApi().createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
+        RepositoryFileResponse createdFile = gitLabApi
+                .getRepositoryFileApi()
+                .createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
 
-        gitLabApi.getRepositoryFileApi().deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Testing deleteFile().");
+        gitLabApi
+                .getRepositoryFileApi()
+                .deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Testing deleteFile().");
         gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
     }
 
@@ -196,10 +208,13 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
         file.setContent(TEST_CONTENT);
-        RepositoryFileResponse createdFile = gitLabApi.getRepositoryFileApi().createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
+        RepositoryFileResponse createdFile = gitLabApi
+                .getRepositoryFileApi()
+                .createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
 
-        Optional<RepositoryFile> optionalFile = gitLabApi.getRepositoryFileApi().getOptionalFile(project, TEST_FILEPATH, TEST_BRANCH_NAME);
+        Optional<RepositoryFile> optionalFile =
+                gitLabApi.getRepositoryFileApi().getOptionalFile(project, TEST_FILEPATH, TEST_BRANCH_NAME);
         assertTrue(optionalFile.isPresent());
         RepositoryFile newFile = optionalFile.get();
         assertEquals(TEST_CONTENT, newFile.getDecodedContentAsString());
@@ -215,7 +230,9 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile updatedFile = optionalFile.get();
         assertEquals(newContent, updatedFile.getDecodedContentAsString());
 
-        gitLabApi.getRepositoryFileApi().deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Testing deleteFile().");
+        gitLabApi
+                .getRepositoryFileApi()
+                .deleteFile(project.getId(), TEST_FILEPATH, TEST_BRANCH_NAME, "Testing deleteFile().");
         gitLabApi.getRepositoryApi().deleteBranch(project.getId(), TEST_BRANCH_NAME);
     }
 }

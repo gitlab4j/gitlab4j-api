@@ -65,8 +65,13 @@ public class ImportExportApi extends AbstractApi {
      *                          Only PUT and POST methods allowed. Default is PUT
      * @throws GitLabApiException if any exception occurs
      */
-    public void scheduleExport(Object projectIdOrPath, String description,
-            Map<String, String> upload, String uploadUrl, String uploadHttpMethod) throws GitLabApiException {
+    public void scheduleExport(
+            Object projectIdOrPath,
+            String description,
+            Map<String, String> upload,
+            String uploadUrl,
+            String uploadHttpMethod)
+            throws GitLabApiException {
 
         Form formData = new GitLabApiForm()
                 .withParam("description", description)
@@ -118,8 +123,14 @@ public class ImportExportApi extends AbstractApi {
      */
     public File downloadExport(Object projectIdOrPath, File directory, String filename) throws GitLabApiException {
 
-        Response response = getWithAccepts(Response.Status.OK, null, MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "export", "download");
+        Response response = getWithAccepts(
+                Response.Status.OK,
+                null,
+                MediaType.MEDIA_TYPE_WILDCARD,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "export",
+                "download");
 
         if (directory == null) {
             directory = new File(System.getProperty("java.io.tmpdir"));
@@ -135,15 +146,15 @@ public class ImportExportApi extends AbstractApi {
                 String name = null;
                 if (projectIdOrPath instanceof Project) {
                     name = ((Project) projectIdOrPath).getPathWithNamespace().replace('/', '_');
-                } else if(projectIdOrPath instanceof String) {
-                    name = (String)projectIdOrPath;
-                } else if(projectIdOrPath instanceof Integer) {
+                } else if (projectIdOrPath instanceof String) {
+                    name = (String) projectIdOrPath;
+                } else if (projectIdOrPath instanceof Integer) {
                     name = "projectid-" + projectIdOrPath;
                 }
 
                 // template = "YYYY-MM-DD_HH-MM-SS_{name}_export.tar.gz"
                 final String template = "%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS_%2$s_export.tar.gz";
-                filename = String.format(template,  new Date(), name);
+                filename = String.format(template, new Date(), name);
 
             } else {
                 filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
@@ -200,7 +211,9 @@ public class ImportExportApi extends AbstractApi {
      * @return an Importstatus instance with info for the project being imported to
      * @throws GitLabApiException if any exception occurs
      */
-    public ImportStatus startImport(Object namespaceIdOrPath, File exportFile, String path, Boolean overwrite, Project overrideParams) throws GitLabApiException {
+    public ImportStatus startImport(
+            Object namespaceIdOrPath, File exportFile, String path, Boolean overwrite, Project overrideParams)
+            throws GitLabApiException {
 
         URL url;
         try {
@@ -216,31 +229,36 @@ public class ImportExportApi extends AbstractApi {
 
         if (overrideParams != null) {
             formData.withParam("default_branch", overrideParams.getDefaultBranch())
-                .withParam("description", overrideParams.getDescription())
-                .withParam("issues_enabled", overrideParams.getIssuesEnabled())
-                .withParam("merge_method",  overrideParams.getMergeMethod())
-                .withParam("merge_requests_enabled", overrideParams.getMergeRequestsEnabled())
-                .withParam("jobs_enabled", overrideParams.getJobsEnabled())
-                .withParam("wiki_enabled", overrideParams.getWikiEnabled())
-                .withParam("container_registry_enabled", overrideParams.getContainerRegistryEnabled())
-                .withParam("snippets_enabled", overrideParams.getSnippetsEnabled())
-                .withParam("shared_runners_enabled", overrideParams.getSharedRunnersEnabled())
-                .withParam("public_jobs", overrideParams.getPublicJobs())
-                .withParam("visibility_level", overrideParams.getVisibilityLevel())
-                .withParam("only_allow_merge_if_pipeline_succeeds", overrideParams.getOnlyAllowMergeIfPipelineSucceeds())
-                .withParam("only_allow_merge_if_all_discussions_are_resolved", overrideParams.getOnlyAllowMergeIfAllDiscussionsAreResolved())
-                .withParam("lfs_enabled", overrideParams.getLfsEnabled())
-                .withParam("request_access_enabled", overrideParams.getRequestAccessEnabled())
-                .withParam("repository_storage", overrideParams.getRepositoryStorage())
-                .withParam("approvals_before_merge", overrideParams.getApprovalsBeforeMerge())
-                .withParam("printing_merge_request_link_enabled", overrideParams.getPrintingMergeRequestLinkEnabled())
-                .withParam("resolve_outdated_diff_discussions", overrideParams.getResolveOutdatedDiffDiscussions())
-                .withParam("initialize_with_readme", overrideParams.getInitializeWithReadme())
-                .withParam("packages_enabled", overrideParams.getPackagesEnabled())
-                .withParam("build_git_strategy", overrideParams.getBuildGitStrategy())
-                .withParam("build_coverage_regex", overrideParams.getBuildCoverageRegex())
-                .withParam("squash_option", overrideParams.getSquashOption())
-                .withParam("name", overrideParams.getName());
+                    .withParam("description", overrideParams.getDescription())
+                    .withParam("issues_enabled", overrideParams.getIssuesEnabled())
+                    .withParam("merge_method", overrideParams.getMergeMethod())
+                    .withParam("merge_requests_enabled", overrideParams.getMergeRequestsEnabled())
+                    .withParam("jobs_enabled", overrideParams.getJobsEnabled())
+                    .withParam("wiki_enabled", overrideParams.getWikiEnabled())
+                    .withParam("container_registry_enabled", overrideParams.getContainerRegistryEnabled())
+                    .withParam("snippets_enabled", overrideParams.getSnippetsEnabled())
+                    .withParam("shared_runners_enabled", overrideParams.getSharedRunnersEnabled())
+                    .withParam("public_jobs", overrideParams.getPublicJobs())
+                    .withParam("visibility_level", overrideParams.getVisibilityLevel())
+                    .withParam(
+                            "only_allow_merge_if_pipeline_succeeds",
+                            overrideParams.getOnlyAllowMergeIfPipelineSucceeds())
+                    .withParam(
+                            "only_allow_merge_if_all_discussions_are_resolved",
+                            overrideParams.getOnlyAllowMergeIfAllDiscussionsAreResolved())
+                    .withParam("lfs_enabled", overrideParams.getLfsEnabled())
+                    .withParam("request_access_enabled", overrideParams.getRequestAccessEnabled())
+                    .withParam("repository_storage", overrideParams.getRepositoryStorage())
+                    .withParam("approvals_before_merge", overrideParams.getApprovalsBeforeMerge())
+                    .withParam(
+                            "printing_merge_request_link_enabled", overrideParams.getPrintingMergeRequestLinkEnabled())
+                    .withParam("resolve_outdated_diff_discussions", overrideParams.getResolveOutdatedDiffDiscussions())
+                    .withParam("initialize_with_readme", overrideParams.getInitializeWithReadme())
+                    .withParam("packages_enabled", overrideParams.getPackagesEnabled())
+                    .withParam("build_git_strategy", overrideParams.getBuildGitStrategy())
+                    .withParam("build_coverage_regex", overrideParams.getBuildCoverageRegex())
+                    .withParam("squash_option", overrideParams.getSquashOption())
+                    .withParam("name", overrideParams.getName());
         }
 
         Response response = upload(Response.Status.CREATED, "file", exportFile, null, formData, url);

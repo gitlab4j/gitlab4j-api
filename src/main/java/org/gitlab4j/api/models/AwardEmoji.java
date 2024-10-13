@@ -1,21 +1,25 @@
-
 package org.gitlab4j.api.models;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import org.gitlab4j.api.utils.JacksonJson;
-import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import org.gitlab4j.api.utils.JacksonJson;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class AwardEmoji implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public enum AwardableType {
-        ISSUE, MERGE_REQUEST, NOTE, SNIPPET;
+        ISSUE,
+        MERGE_REQUEST,
+        NOTE,
+        SNIPPET;
 
-        private static JacksonJsonEnumHelper<AwardableType> enumHelper = new JacksonJsonEnumHelper<>(AwardableType.class, true);
+        private static JacksonJsonEnumHelper<AwardableType> enumHelper =
+                new JacksonJsonEnumHelper<>(AwardableType.class, true);
 
         @JsonCreator
         public static AwardableType forValue(String value) {

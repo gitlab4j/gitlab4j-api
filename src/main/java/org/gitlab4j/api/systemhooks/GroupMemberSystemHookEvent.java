@@ -39,7 +39,7 @@ public class GroupMemberSystemHookEvent extends AbstractSystemHookEvent {
     }
 
     @Override
-	public String getEventName() {
+    public String getEventName() {
         return this.eventName;
     }
 

@@ -19,18 +19,19 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
- * 
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
- * 
+ *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestNotesApi extends AbstractIntegrationTest {
 
@@ -94,7 +95,9 @@ public class TestNotesApi extends AbstractIntegrationTest {
         assertNotNull(project);
 
         for (MergeRequest mr : gitLabApi.getMergeRequestApi().getMergeRequests(project.getId())) {
-            Pager<Note> pager = gitLabApi.getNotesApi().getMergeRequestNotes(project.getId(), mr.getIid(), SortOrder.DESC, Note.OrderBy.CREATED_AT, 10);
+            Pager<Note> pager = gitLabApi
+                    .getNotesApi()
+                    .getMergeRequestNotes(project.getId(), mr.getIid(), SortOrder.DESC, Note.OrderBy.CREATED_AT, 10);
             assertNotNull(pager);
         }
     }

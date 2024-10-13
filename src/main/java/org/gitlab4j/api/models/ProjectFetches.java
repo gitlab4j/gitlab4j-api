@@ -1,11 +1,12 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class ProjectFetches implements Serializable {
     private static final long serialVersionUID = 1L;

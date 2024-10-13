@@ -1,5 +1,14 @@
 package org.gitlab4j.api.models;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Date;
+
+import org.gitlab4j.api.Constants.TodoAction;
+import org.gitlab4j.api.Constants.TodoState;
+import org.gitlab4j.api.Constants.TodoType;
+import org.gitlab4j.api.utils.JacksonJson;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,14 +17,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.gitlab4j.api.Constants.TodoAction;
-import org.gitlab4j.api.Constants.TodoState;
-import org.gitlab4j.api.Constants.TodoType;
-import org.gitlab4j.api.utils.JacksonJson;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.Date;
 
 public class Todo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -139,11 +140,12 @@ public class Todo implements Serializable {
         return (JacksonJson.toJsonString(this));
     }
 
-    // This deserializer will determine the target type and deserialize to the correct class (either MergeRequest or Issue).
+    // This deserializer will determine the target type and deserialize to the correct class (either MergeRequest or
+    // Issue).
     private static class TargetDeserializer extends JsonDeserializer<Object> {
 
         @Override
-        public Object deserialize(JsonParser jp,  DeserializationContext context)
+        public Object deserialize(JsonParser jp, DeserializationContext context)
                 throws IOException, JsonProcessingException {
 
             ObjectMapper mapper = (ObjectMapper) jp.getCodec();

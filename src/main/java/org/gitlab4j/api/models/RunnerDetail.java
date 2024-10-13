@@ -1,12 +1,13 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Date;
+import java.util.List;
+
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.util.Date;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class RunnerDetail extends Runner {
     private static final long serialVersionUID = 1L;
@@ -25,8 +26,8 @@ public class RunnerDetail extends Runner {
      * Enum to use for RunnerDetail accessLevel property.
      */
     public enum RunnerAccessLevel {
-
-        NOT_PROTECTED, REF_PROTECTED;
+        NOT_PROTECTED,
+        REF_PROTECTED;
         private static JacksonJsonEnumHelper<RunnerAccessLevel> enumHelper =
                 new JacksonJsonEnumHelper<>(RunnerAccessLevel.class);
 

@@ -48,12 +48,19 @@ public class DiscussionsApi extends AbstractApi {
      * @return a list containing the discussions for the specified issue
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getIssueDiscussions(Object projectIdOrPath, Long issueIid, int maxItems) throws GitLabApiException {
+    public List<Discussion> getIssueDiscussions(Object projectIdOrPath, Long issueIid, int maxItems)
+            throws GitLabApiException {
         if (maxItems < 1) {
             return (getIssueDiscussions(projectIdOrPath, issueIid));
         } else {
-            Response response = get(Response.Status.OK, getPerPageQueryParam(maxItems),
-                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions");
+            Response response = get(
+                    Response.Status.OK,
+                    getPerPageQueryParam(maxItems),
+                    "projects",
+                    getProjectIdOrPath(projectIdOrPath),
+                    "issues",
+                    issueIid,
+                    "discussions");
             return (response.readEntity(new GenericType<List<Discussion>>() {}));
         }
     }
@@ -69,9 +76,18 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Pager containing the Discussion instances for the specified issue
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getIssueDiscussionsPager(Object projectIdOrPath, Long issueIid, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
-              "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions"));
+    public Pager<Discussion> getIssueDiscussionsPager(Object projectIdOrPath, Long issueIid, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<Discussion>(
+                this,
+                Discussion.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "discussions"));
     }
 
     /**
@@ -84,7 +100,8 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Stream instance containing the Discussion instances for the specified issue
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Discussion> getIssueDiscussionsStream(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
+    public Stream<Discussion> getIssueDiscussionsStream(Object projectIdOrPath, Long issueIid)
+            throws GitLabApiException {
         Pager<Discussion> pager = getIssueDiscussionsPager(projectIdOrPath, issueIid, getDefaultPerPage());
         return (pager.stream());
     }
@@ -115,12 +132,19 @@ public class DiscussionsApi extends AbstractApi {
      * @return a list containing the discussions for the specified snippet
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getSnippetDiscussions(Object projectIdOrPath, Long snippetId, int maxItems) throws GitLabApiException {
+    public List<Discussion> getSnippetDiscussions(Object projectIdOrPath, Long snippetId, int maxItems)
+            throws GitLabApiException {
         if (maxItems < 1) {
             return (getSnippetDiscussions(projectIdOrPath, snippetId));
         } else {
-            Response response = get(Response.Status.OK, getPerPageQueryParam(maxItems),
-                "projects", getProjectIdOrPath(projectIdOrPath), "snippets", snippetId, "discussions");
+            Response response = get(
+                    Response.Status.OK,
+                    getPerPageQueryParam(maxItems),
+                    "projects",
+                    getProjectIdOrPath(projectIdOrPath),
+                    "snippets",
+                    snippetId,
+                    "discussions");
             return (response.readEntity(new GenericType<List<Discussion>>() {}));
         }
     }
@@ -136,9 +160,18 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Pager containing the Discussion instances for the specified snippet
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getSnippetDiscussionsPager(Object projectIdOrPath, Long snippetId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
-              "projects", getProjectIdOrPath(projectIdOrPath), "snippets", snippetId, "discussions"));
+    public Pager<Discussion> getSnippetDiscussionsPager(Object projectIdOrPath, Long snippetId, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<Discussion>(
+                this,
+                Discussion.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "snippets",
+                snippetId,
+                "discussions"));
     }
 
     /**
@@ -151,11 +184,11 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Stream instance containing the Discussion instances for the specified snippet
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Discussion> getSnippetDiscussionsStream(Object projectIdOrPath, Long snippetId) throws GitLabApiException {
+    public Stream<Discussion> getSnippetDiscussionsStream(Object projectIdOrPath, Long snippetId)
+            throws GitLabApiException {
         Pager<Discussion> pager = getSnippetDiscussionsPager(projectIdOrPath, snippetId, getDefaultPerPage());
         return (pager.stream());
     }
-
 
     /**
      * Get a list of all discussions for the specified epic.
@@ -183,12 +216,19 @@ public class DiscussionsApi extends AbstractApi {
      * @return a list containing the discussions for the specified epic
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getEpicDiscussions(Object projectIdOrPath, Long epicId, int maxItems) throws GitLabApiException {
+    public List<Discussion> getEpicDiscussions(Object projectIdOrPath, Long epicId, int maxItems)
+            throws GitLabApiException {
         if (maxItems < 1) {
             return (getEpicDiscussions(projectIdOrPath, epicId));
         } else {
-            Response response = get(Response.Status.OK, getPerPageQueryParam(maxItems),
-                "projects", getProjectIdOrPath(projectIdOrPath), "epics", epicId, "discussions");
+            Response response = get(
+                    Response.Status.OK,
+                    getPerPageQueryParam(maxItems),
+                    "projects",
+                    getProjectIdOrPath(projectIdOrPath),
+                    "epics",
+                    epicId,
+                    "discussions");
             return (response.readEntity(new GenericType<List<Discussion>>() {}));
         }
     }
@@ -204,9 +244,18 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Pager containing the Discussion instances for the specified epic
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getEpicDiscussionsPager(Object projectIdOrPath, Long epicId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
-              "projects", getProjectIdOrPath(projectIdOrPath), "epics", epicId, "discussions"));
+    public Pager<Discussion> getEpicDiscussionsPager(Object projectIdOrPath, Long epicId, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<Discussion>(
+                this,
+                Discussion.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "epics",
+                epicId,
+                "discussions"));
     }
 
     /**
@@ -234,8 +283,10 @@ public class DiscussionsApi extends AbstractApi {
      * @return a list containing all the discussions for the specified merge request
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getMergeRequestDiscussions(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
-        Pager<Discussion> pager = getMergeRequestDiscussionsPager(projectIdOrPath, mergeRequestIid, getDefaultPerPage());
+    public List<Discussion> getMergeRequestDiscussions(Object projectIdOrPath, Long mergeRequestIid)
+            throws GitLabApiException {
+        Pager<Discussion> pager =
+                getMergeRequestDiscussionsPager(projectIdOrPath, mergeRequestIid, getDefaultPerPage());
         return (pager.all());
     }
 
@@ -250,12 +301,19 @@ public class DiscussionsApi extends AbstractApi {
      * @return a list containing the discussions for the specified merge request
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getMergeRequestDiscussions(Object projectIdOrPath, Long mergeRequestIid, int maxItems) throws GitLabApiException {
+    public List<Discussion> getMergeRequestDiscussions(Object projectIdOrPath, Long mergeRequestIid, int maxItems)
+            throws GitLabApiException {
         if (maxItems < 1) {
             return (getMergeRequestDiscussions(projectIdOrPath, mergeRequestIid));
         } else {
-            Response response = get(Response.Status.OK, getPerPageQueryParam(maxItems),
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "discussions");
+            Response response = get(
+                    Response.Status.OK,
+                    getPerPageQueryParam(maxItems),
+                    "projects",
+                    getProjectIdOrPath(projectIdOrPath),
+                    "merge_requests",
+                    mergeRequestIid,
+                    "discussions");
             return (response.readEntity(new GenericType<List<Discussion>>() {}));
         }
     }
@@ -271,9 +329,18 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Pager containing the Discussion instances for the specified merge request
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getMergeRequestDiscussionsPager(Object projectIdOrPath, Long mergeRequestIid, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
-              "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "discussions"));
+    public Pager<Discussion> getMergeRequestDiscussionsPager(
+            Object projectIdOrPath, Long mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Discussion>(
+                this,
+                Discussion.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "discussions"));
     }
 
     /**
@@ -286,8 +353,10 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Stream instance containing the Discussion instances for the specified issue
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Discussion> getMergeRequestDiscussionsStream(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
-        Pager<Discussion> pager = getMergeRequestDiscussionsPager(projectIdOrPath, mergeRequestIid, getDefaultPerPage());
+    public Stream<Discussion> getMergeRequestDiscussionsStream(Object projectIdOrPath, Long mergeRequestIid)
+            throws GitLabApiException {
+        Pager<Discussion> pager =
+                getMergeRequestDiscussionsPager(projectIdOrPath, mergeRequestIid, getDefaultPerPage());
         return (pager.stream());
     }
 
@@ -306,8 +375,14 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Discussion instance containing the newly created discussion
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Discussion createMergeRequestDiscussion(Object projectIdOrPath, Long mergeRequestIid,
-            String body, Date createdAt, String positionHash, Position position) throws GitLabApiException {
+    public Discussion createMergeRequestDiscussion(
+            Object projectIdOrPath,
+            Long mergeRequestIid,
+            String body,
+            Date createdAt,
+            String positionHash,
+            Position position)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true)
@@ -316,21 +391,27 @@ public class DiscussionsApi extends AbstractApi {
 
         if (position != null) {
             formData.withParam("position[base_sha]", position.getBaseSha(), true)
-                .withParam("position[start_sha]", position.getStartSha(), true)
-                .withParam("position[head_sha]", position.getHeadSha(), true)
-                .withParam("position[position_type]", position.getPositionType(), true)
-                .withParam("position[new_path]", position.getNewPath())
-                .withParam("position[new_line]", position.getNewLine())
-                .withParam("position[old_path]", position.getOldPath())
-                .withParam("position[old_line]", position.getOldLine())
-                .withParam("position[width]", position.getWidth())
-                .withParam("position[height]", position.getHeight())
-                .withParam("position[x]", position.getX())
-                .withParam("position[y]", position.getY());
+                    .withParam("position[start_sha]", position.getStartSha(), true)
+                    .withParam("position[head_sha]", position.getHeadSha(), true)
+                    .withParam("position[position_type]", position.getPositionType(), true)
+                    .withParam("position[new_path]", position.getNewPath())
+                    .withParam("position[new_line]", position.getNewLine())
+                    .withParam("position[old_path]", position.getOldPath())
+                    .withParam("position[old_line]", position.getOldLine())
+                    .withParam("position[width]", position.getWidth())
+                    .withParam("position[height]", position.getHeight())
+                    .withParam("position[x]", position.getX())
+                    .withParam("position[y]", position.getY());
         }
 
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "discussions");
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "discussions");
         return (response.readEntity(Discussion.class));
     }
 
@@ -346,11 +427,19 @@ public class DiscussionsApi extends AbstractApi {
      * @return the updated DIscussion instance
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Discussion resolveMergeRequestDiscussion(Object projectIdOrPath, Long mergeRequestIid,
-            String discussionId, Boolean resolved)  throws GitLabApiException {
+    public Discussion resolveMergeRequestDiscussion(
+            Object projectIdOrPath, Long mergeRequestIid, String discussionId, Boolean resolved)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("resolved", resolved, true);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "discussions", discussionId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "discussions",
+                discussionId);
         return (response.readEntity(Discussion.class));
     }
 
@@ -365,10 +454,19 @@ public class DiscussionsApi extends AbstractApi {
      * @param noteId the note ID to delete
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public void deleteMergeRequestDiscussionNote(Object projectIdOrPath, Long mergeRequestIid,
-            String discussionId, Long noteId)  throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
-                "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
+    public void deleteMergeRequestDiscussionNote(
+            Object projectIdOrPath, Long mergeRequestIid, String discussionId, Long noteId) throws GitLabApiException {
+        delete(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "discussions",
+                discussionId,
+                "notes",
+                noteId);
     }
 
     /**
@@ -397,12 +495,20 @@ public class DiscussionsApi extends AbstractApi {
      * @return a list containing the discussions for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Discussion> getCommitDiscussions(Object projectIdOrPath, String commitSha, int maxItems) throws GitLabApiException {
+    public List<Discussion> getCommitDiscussions(Object projectIdOrPath, String commitSha, int maxItems)
+            throws GitLabApiException {
         if (maxItems < 1) {
             return (getCommitDiscussions(projectIdOrPath, commitSha));
         } else {
-            Response response = get(Response.Status.OK, getPerPageQueryParam(maxItems),
-                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", commitSha, "discussions");
+            Response response = get(
+                    Response.Status.OK,
+                    getPerPageQueryParam(maxItems),
+                    "projects",
+                    getProjectIdOrPath(projectIdOrPath),
+                    "repository",
+                    "commits",
+                    commitSha,
+                    "discussions");
             return (response.readEntity(new GenericType<List<Discussion>>() {}));
         }
     }
@@ -418,9 +524,19 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Pager containing the Discussion instances for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Discussion> getCommitDiscussionsPager(Object projectIdOrPath, String commitSha, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Discussion>(this, Discussion.class, itemsPerPage, null,
-              "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", commitSha, "discussions"));
+    public Pager<Discussion> getCommitDiscussionsPager(Object projectIdOrPath, String commitSha, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<Discussion>(
+                this,
+                Discussion.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "repository",
+                "commits",
+                commitSha,
+                "discussions"));
     }
 
     /**
@@ -433,7 +549,8 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Stream instance containing the Discussion instances for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Discussion> getCommitDiscussionsStream(Object projectIdOrPath, String commitSha) throws GitLabApiException {
+    public Stream<Discussion> getCommitDiscussionsStream(Object projectIdOrPath, String commitSha)
+            throws GitLabApiException {
         Pager<Discussion> pager = getCommitDiscussionsPager(projectIdOrPath, commitSha, getDefaultPerPage());
         return (pager.stream());
     }
@@ -449,9 +566,18 @@ public class DiscussionsApi extends AbstractApi {
      * @return the Discussion instance specified by discussionId for the specified commit
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Discussion getCommitDiscussion(Object projectIdOrPath, String commitSha, String discussionId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null,
-            "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", commitSha, "discussions", discussionId);
+    public Discussion getCommitDiscussion(Object projectIdOrPath, String commitSha, String discussionId)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "repository",
+                "commits",
+                commitSha,
+                "discussions",
+                discussionId);
         return (response.readEntity(Discussion.class));
     }
 
@@ -465,7 +591,8 @@ public class DiscussionsApi extends AbstractApi {
      * @param discussionId the ID of the discussion
      * @return an Optional instance with the specified Discussion instance as a value
      */
-    public Optional<Discussion> getOptionalCommitDiscussion(Object projectIdOrPath, String commitSha, String discussionId) {
+    public Optional<Discussion> getOptionalCommitDiscussion(
+            Object projectIdOrPath, String commitSha, String discussionId) {
         try {
             return (Optional.ofNullable(getCommitDiscussion(projectIdOrPath, commitSha, discussionId)));
         } catch (GitLabApiException glae) {
@@ -488,8 +615,14 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Discussion instance containing the newly created discussion
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Discussion createCommitDiscussion(Object projectIdOrPath, String commitSha,
-            String body, Date createdAt, String positionHash, Position position) throws GitLabApiException {
+    public Discussion createCommitDiscussion(
+            Object projectIdOrPath,
+            String commitSha,
+            String body,
+            Date createdAt,
+            String positionHash,
+            Position position)
+            throws GitLabApiException {
 
         if (position == null) {
             throw new GitLabApiException("position instance can not be null");
@@ -512,8 +645,15 @@ public class DiscussionsApi extends AbstractApi {
                 .withParam("position[x]", position.getX())
                 .withParam("position[y]", position.getY());
 
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "repository", "commits", commitSha, "discussions");
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "repository",
+                "commits",
+                commitSha,
+                "discussions");
         return (response.readEntity(Discussion.class));
     }
 
@@ -530,16 +670,24 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the newly created discussion note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note addCommitDiscussionNote(Object projectIdOrPath, String commitSha, String discussionId,
-            String body, Date createdAt) throws GitLabApiException {
+    public Note addCommitDiscussionNote(
+            Object projectIdOrPath, String commitSha, String discussionId, String body, Date createdAt)
+            throws GitLabApiException {
 
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("body", body, true)
-                .withParam("created_at", createdAt);
+        GitLabApiForm formData =
+                new GitLabApiForm().withParam("body", body, true).withParam("created_at", createdAt);
 
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath),
-                "repository", "commits", commitSha, "discussions", discussionId, "notes");
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "repository",
+                "commits",
+                commitSha,
+                "discussions",
+                discussionId,
+                "notes");
         return (response.readEntity(Note.class));
     }
 
@@ -556,13 +704,23 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the updated discussion note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note modifyCommitDiscussionNote(Object projectIdOrPath,
-            String commitSha, String discussionId, Long noteId, String body) throws GitLabApiException {
+    public Note modifyCommitDiscussionNote(
+            Object projectIdOrPath, String commitSha, String discussionId, Long noteId, String body)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
-        Response response = this.putWithFormData(Response.Status.OK, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath),
-                "repository", "commits", commitSha, "discussions", discussionId, "notes", noteId);
+        Response response = this.putWithFormData(
+                Response.Status.OK,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "repository",
+                "commits",
+                commitSha,
+                "discussions",
+                discussionId,
+                "notes",
+                noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -579,13 +737,23 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the updated discussion note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note resolveCommitDiscussionNote(Object projectIdOrPath,
-            String commitSha, String discussionId, Long noteId, Boolean resolved) throws GitLabApiException {
+    public Note resolveCommitDiscussionNote(
+            Object projectIdOrPath, String commitSha, String discussionId, Long noteId, Boolean resolved)
+            throws GitLabApiException {
 
         GitLabApiForm queryParams = new GitLabApiForm().withParam("resolved", resolved);
-        Response response = this.put(Response.Status.OK, queryParams.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath),
-                "repository", "commits", commitSha, "discussions", discussionId, "notes", noteId);
+        Response response = this.put(
+                Response.Status.OK,
+                queryParams.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "repository",
+                "commits",
+                commitSha,
+                "discussions",
+                discussionId,
+                "notes",
+                noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -600,10 +768,20 @@ public class DiscussionsApi extends AbstractApi {
      * @param noteId the note ID to delete
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public void deleteCommitDiscussionNote(Object projectIdOrPath, String commitSha,
-            String discussionId, Long noteId)  throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
-                "repository", "commits", commitSha, "discussions", discussionId, "notes", noteId);
+    public void deleteCommitDiscussionNote(Object projectIdOrPath, String commitSha, String discussionId, Long noteId)
+            throws GitLabApiException {
+        delete(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "repository",
+                "commits",
+                commitSha,
+                "discussions",
+                discussionId,
+                "notes",
+                noteId);
     }
 
     /**
@@ -619,15 +797,22 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the newly created discussion note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note addMergeRequestThreadNote(Object projectIdOrPath, Long mergeRequestIid,
-	    String discussionId, String body, Date createdAt) throws GitLabApiException {
+    public Note addMergeRequestThreadNote(
+            Object projectIdOrPath, Long mergeRequestIid, String discussionId, String body, Date createdAt)
+            throws GitLabApiException {
 
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("body", body, true)
-                .withParam("created_at", createdAt);
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath),
-                "merge_requests", mergeRequestIid, "discussions", discussionId, "notes");
+        GitLabApiForm formData =
+                new GitLabApiForm().withParam("body", body, true).withParam("created_at", createdAt);
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "discussions",
+                discussionId,
+                "notes");
         return (response.readEntity(Note.class));
     }
 
@@ -645,13 +830,27 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the updated discussion note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note modifyMergeRequestThreadNote(Object projectIdOrPath, Long mergeRequestIid,
-	    String discussionId, Long noteId, String body, Boolean resolved) throws GitLabApiException {
+    public Note modifyMergeRequestThreadNote(
+            Object projectIdOrPath,
+            Long mergeRequestIid,
+            String discussionId,
+            Long noteId,
+            String body,
+            Boolean resolved)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body).withParam("resolved", resolved);
-        Response response = this.putWithFormData(Response.Status.OK, formData,
-               "projects", getProjectIdOrPath(projectIdOrPath),
-               "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
+        Response response = this.putWithFormData(
+                Response.Status.OK,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "discussions",
+                discussionId,
+                "notes",
+                noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -666,10 +865,19 @@ public class DiscussionsApi extends AbstractApi {
      * @param noteId the note ID to delete
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public void deleteMergeRequestThreadNote(Object projectIdOrPath, Long mergeRequestIid,
-	    String discussionId, Long noteId)  throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath),
-                "merge_requests", mergeRequestIid, "discussions", discussionId, "notes", noteId);
+    public void deleteMergeRequestThreadNote(
+            Object projectIdOrPath, Long mergeRequestIid, String discussionId, Long noteId) throws GitLabApiException {
+        delete(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "discussions",
+                discussionId,
+                "notes",
+                noteId);
     }
 
     /**
@@ -684,12 +892,18 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Discussion instance containing the newly created discussion
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Discussion createIssueDiscussion(Object projectIdOrPath, Long issueIid, String body, Date createdAt) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("body", body, true)
-                .withParam("created_at", createdAt);
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions");
+    public Discussion createIssueDiscussion(Object projectIdOrPath, Long issueIid, String body, Date createdAt)
+            throws GitLabApiException {
+        GitLabApiForm formData =
+                new GitLabApiForm().withParam("body", body, true).withParam("created_at", createdAt);
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "discussions");
         return (response.readEntity(Discussion.class));
     }
 
@@ -706,13 +920,21 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the newly created note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note addIssueThreadNote(Object projectIdOrPath, Long issueIid,
-                                   String discussionId, String body, Date createdAt) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("body", body, true)
-                .withParam("created_at", createdAt);
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions", discussionId, "notes");
+    public Note addIssueThreadNote(
+            Object projectIdOrPath, Long issueIid, String discussionId, String body, Date createdAt)
+            throws GitLabApiException {
+        GitLabApiForm formData =
+                new GitLabApiForm().withParam("body", body, true).withParam("created_at", createdAt);
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "discussions",
+                discussionId,
+                "notes");
         return (response.readEntity(Note.class));
     }
 
@@ -729,12 +951,21 @@ public class DiscussionsApi extends AbstractApi {
      * @return a Note instance containing the modified note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Note modifyIssueThreadNote(Object projectIdOrPath, Long issueIid,
-                                      String discussionId, Long noteId, String body) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("body", body, true);
-        Response response = putWithFormData(Response.Status.OK, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions", discussionId, "notes", noteId);
+    public Note modifyIssueThreadNote(
+            Object projectIdOrPath, Long issueIid, String discussionId, Long noteId, String body)
+            throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
+        Response response = putWithFormData(
+                Response.Status.OK,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "discussions",
+                discussionId,
+                "notes",
+                noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -749,9 +980,18 @@ public class DiscussionsApi extends AbstractApi {
      * @param noteId the id of the note
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public void deleteIssueThreadNote(Object projectIdOrPath, Long issueIid,
-                                      String discussionId, Long noteId) throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "discussions", discussionId, "notes", noteId);
+    public void deleteIssueThreadNote(Object projectIdOrPath, Long issueIid, String discussionId, Long noteId)
+            throws GitLabApiException {
+        delete(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "discussions",
+                discussionId,
+                "notes",
+                noteId);
     }
-
 }

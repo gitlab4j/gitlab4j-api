@@ -1,10 +1,11 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+
 import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Label implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -69,12 +70,12 @@ public class Label implements Serializable {
     }
 
     public String getDescriptionHtml() {
-          return descriptionHtml;
-     }
+        return descriptionHtml;
+    }
 
     public void setDescriptionHtml(String descriptionHtml) {
-          this.descriptionHtml = descriptionHtml;
-     }
+        this.descriptionHtml = descriptionHtml;
+    }
 
     public Integer getOpenIssuesCount() {
         return openIssuesCount;
@@ -142,17 +143,17 @@ public class Label implements Serializable {
      */
     @JsonIgnore
     public GitLabApiForm getForm(boolean isCreate) {
-	GitLabApiForm form = new GitLabApiForm()
-            .withParam("description", description)
-            .withParam("color", color, isCreate)
-            .withParam("priority", priority);
+        GitLabApiForm form = new GitLabApiForm()
+                .withParam("description", description)
+                .withParam("color", color, isCreate)
+                .withParam("priority", priority);
 
-	if (isCreate) {
-	    form.withParam("name", name, true);
-	} else {
-	    form.withParam("new_name", name);
-	}
+        if (isCreate) {
+            form.withParam("name", name, true);
+        } else {
+            form.withParam("new_name", name);
+        }
 
-	return (form);
+        return (form);
     }
 }

@@ -1,38 +1,41 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import org.gitlab4j.api.utils.JacksonJson;
-import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.gitlab4j.api.utils.JacksonJson;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic<E> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public enum EpicState {
-        OPENED, CLOSED, ALL;
+        OPENED,
+        CLOSED,
+        ALL;
 
-       private static JacksonJsonEnumHelper<EpicState> enumHelper = new JacksonJsonEnumHelper<>(EpicState.class);
+        private static JacksonJsonEnumHelper<EpicState> enumHelper = new JacksonJsonEnumHelper<>(EpicState.class);
 
-       @JsonCreator
-       public static EpicState forValue(String value) {
-           return enumHelper.forValue(value);
-       }
+        @JsonCreator
+        public static EpicState forValue(String value) {
+            return enumHelper.forValue(value);
+        }
 
-       @JsonValue
-       public String toValue() {
-           return (enumHelper.toString(this));
-       }
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
 
-          public String toString() {
-           return (enumHelper.toString(this));
-       }
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
     }
 
     private Long parentIid;
@@ -51,6 +54,7 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
     private Integer downvotes;
     private Integer upvotes;
     private String color;
+
     @JsonProperty("_links")
     private Map<String, String> links;
 
@@ -77,11 +81,11 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
     }
 
     public EpicState getState() {
-	    return state;
+        return state;
     }
 
     public void setState(EpicState state) {
-	    this.state = state;
+        this.state = state;
     }
 
     public String getWebUrl() {
@@ -188,19 +192,19 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
         this.closedAt = closedAt;
     }
 
-	public Integer getDownvotes() {
+    public Integer getDownvotes() {
         return downvotes;
     }
 
-	public void setDownvotes(Integer downvotes) {
+    public void setDownvotes(Integer downvotes) {
         this.downvotes = downvotes;
     }
 
-	public Integer getUpvotes() {
+    public Integer getUpvotes() {
         return upvotes;
     }
 
-	public void setUpvotes(Integer upvotes) {
+    public void setUpvotes(Integer upvotes) {
         this.upvotes = upvotes;
     }
 

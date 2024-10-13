@@ -25,9 +25,15 @@ import org.mockito.Mockito;
 
 public class TestExternalStatusCheckApi implements Constants {
 
-    @Mock private GitLabApi gitLabApi;
-    @Mock private GitLabApiClient gitLabApiClient;
-    @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    @Mock
+    private GitLabApi gitLabApi;
+
+    @Mock
+    private GitLabApiClient gitLabApiClient;
+
+    @Captor
+    private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+
     private MockResponse response;
 
     @BeforeEach
@@ -64,13 +70,15 @@ public class TestExternalStatusCheckApi implements Constants {
         response = new MockResponse(ExternalStatusCheck.class, null, "external-status-checks.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class))).thenReturn(response);
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
+                .thenReturn(response);
     }
 
     @Test
     public void testGetExternalStatusCheckStatuses() throws Exception {
         initGetExternalStatusCheckStatuses();
-        List<ExternalStatusCheckStatus> result = new ExternalStatusCheckApi(gitLabApi).getExternalStatusCheckStatuses(6L, 23L);
+        List<ExternalStatusCheckStatus> result =
+                new ExternalStatusCheckApi(gitLabApi).getExternalStatusCheckStatuses(6L, 23L);
         assertNotNull(result);
         assertTrue(compareJson(result, "external-status-check-statuses.json"));
     }
@@ -78,7 +86,8 @@ public class TestExternalStatusCheckApi implements Constants {
     @Test
     public void testGetExternalStatusCheckStatusesByPager() throws Exception {
         initGetExternalStatusCheckStatuses();
-        Pager<ExternalStatusCheckStatus> pager = new ExternalStatusCheckApi(gitLabApi).getExternalStatusCheckStatuses(6L, 23L, 20);
+        Pager<ExternalStatusCheckStatus> pager =
+                new ExternalStatusCheckApi(gitLabApi).getExternalStatusCheckStatuses(6L, 23L, 20);
         assertNotNull(pager);
         assertTrue(compareJson(pager.all(), "external-status-check-statuses.json"));
     }
@@ -86,7 +95,8 @@ public class TestExternalStatusCheckApi implements Constants {
     @Test
     public void testGetExternalStatusCheckStatusesByStream() throws Exception {
         initGetExternalStatusCheckStatuses();
-        Stream<ExternalStatusCheckStatus> stream = new ExternalStatusCheckApi(gitLabApi).getExternalStatusCheckStatusesStream(6L, 23L);
+        Stream<ExternalStatusCheckStatus> stream =
+                new ExternalStatusCheckApi(gitLabApi).getExternalStatusCheckStatusesStream(6L, 23L);
         assertNotNull(stream);
         List<ExternalStatusCheckStatus> list = stream.collect(Collectors.toList());
         assertTrue(compareJson(list, "external-status-check-statuses.json"));
@@ -96,6 +106,7 @@ public class TestExternalStatusCheckApi implements Constants {
         response = new MockResponse(ExternalStatusCheckStatus.class, null, "external-status-check-statuses.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class))).thenReturn(response);
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
+                .thenReturn(response);
     }
 }

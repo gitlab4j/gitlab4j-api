@@ -21,14 +21,20 @@ import org.mockito.Mockito;
 
 public class TestUnitMergeRequestApi {
 
-    @Mock private GitLabApi mockGitLabApi;
-    @Mock private GitLabApiClient mockedGitLabApiClient;
-    @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    @Mock
+    private GitLabApi mockGitLabApi;
+
+    @Mock
+    private GitLabApiClient mockedGitLabApiClient;
+
+    @Captor
+    private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+
     private MockResponse mockedResponse;
 
     @BeforeEach
     public void setUp() throws Exception {
-    	openMocks(this);
+        openMocks(this);
         mockedResponse = new MockResponse(MergeRequest.class, "merge-request.json", null);
         when(mockGitLabApi.getApiClient()).thenReturn(mockedGitLabApiClient);
 
@@ -39,24 +45,22 @@ public class TestUnitMergeRequestApi {
 
     @Test
     public void whenAllArgumentsNull_thenNoAttributesSent() throws Exception {
-        new MergeRequestApi(mockGitLabApi).updateMergeRequest(1L, 2L, null, null, null, null, null, null,
-                null, null, null, null, null);
+        new MergeRequestApi(mockGitLabApi)
+                .updateMergeRequest(1L, 2L, null, null, null, null, null, null, null, null, null, null, null);
         assertEquals(0, attributeCaptor.getValue().size());
     }
 
     @Test
     public void falseBooleansAreSerializedCorrectly() throws Exception {
-        new MergeRequestApi(mockGitLabApi).updateMergeRequest(1L, 2L, null, null, null, null, null, null,
-                null, null, null, null, false);
-        assertThat(attributeCaptor.getValue(),
-                hasEntry("allow_collaboration", Collections.singletonList("false")));
+        new MergeRequestApi(mockGitLabApi)
+                .updateMergeRequest(1L, 2L, null, null, null, null, null, null, null, null, null, null, false);
+        assertThat(attributeCaptor.getValue(), hasEntry("allow_collaboration", Collections.singletonList("false")));
     }
 
     @Test
     public void trueBooleansAreSerializedCorrectly() throws Exception {
-        new MergeRequestApi(mockGitLabApi).updateMergeRequest(1L, 2L, null, null, null, null, null, null,
-                null, null, null, null, true);
-        assertThat(attributeCaptor.getValue(),
-                hasEntry("allow_collaboration", Collections.singletonList("true")));
+        new MergeRequestApi(mockGitLabApi)
+                .updateMergeRequest(1L, 2L, null, null, null, null, null, null, null, null, null, null, true);
+        assertThat(attributeCaptor.getValue(), hasEntry("allow_collaboration", Collections.singletonList("true")));
     }
 }

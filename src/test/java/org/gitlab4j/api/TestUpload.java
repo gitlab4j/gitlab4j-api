@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Map;
+
 import org.gitlab4j.api.models.FileUpload;
 import org.gitlab4j.api.models.Project;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,7 +22,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
@@ -30,10 +31,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
  *
  * If any of the above are NULL, all tests in this class will be skipped.
  */
-
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestUpload extends AbstractIntegrationTest {
 
@@ -88,7 +89,8 @@ public class TestUpload extends AbstractIntegrationTest {
         assumeTrue(TEST_PROXY_URI.length() > 0 && TEST_PROXY_USERNAME.length() > 0 && TEST_PROXY_PASSWORD.length() > 0);
 
         // Setup a GitLabApi instance to use a proxy
-        Map<String, Object> clientConfig = ProxyClientConfig.createProxyClientConfig(TEST_PROXY_URI, TEST_PROXY_USERNAME, TEST_PROXY_PASSWORD);
+        Map<String, Object> clientConfig =
+                ProxyClientConfig.createProxyClientConfig(TEST_PROXY_URI, TEST_PROXY_USERNAME, TEST_PROXY_PASSWORD);
         GitLabApi gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN, null, clientConfig);
 
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
@@ -109,12 +111,12 @@ public class TestUpload extends AbstractIntegrationTest {
 
         String filename = "README.md";
         File fileToUpload = new File(filename);
-        FileUpload fileUpload = gitLabApi.getProjectApi().uploadFile(
-            project.getId(), new FileInputStream(fileToUpload), filename, null);
+        FileUpload fileUpload = gitLabApi
+                .getProjectApi()
+                .uploadFile(project.getId(), new FileInputStream(fileToUpload), filename, null);
 
         assertNotNull(fileUpload);
         assertThat(fileUpload.getUrl(), endsWith(filename));
         assertThat(fileUpload.getAlt(), equalTo(filename));
     }
-
 }

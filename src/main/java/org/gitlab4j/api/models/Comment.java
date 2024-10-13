@@ -1,10 +1,10 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.Constants.LineType;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.gitlab4j.api.Constants.LineType;
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;

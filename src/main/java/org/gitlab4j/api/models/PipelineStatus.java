@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Enum for the various Pipeline status values.
  */
 public enum PipelineStatus {
-
     CREATED,
     WAITING_FOR_RESOURCE,
     PREPARING,
@@ -24,9 +23,9 @@ public enum PipelineStatus {
     SCHEDULED;
 
     private static Map<String, PipelineStatus> valuesMap = new HashMap<>(11);
+
     static {
-        for (PipelineStatus status : PipelineStatus.values())
-            valuesMap.put(status.toValue(), status);
+        for (PipelineStatus status : PipelineStatus.values()) valuesMap.put(status.toValue(), status);
     }
 
     @JsonCreator

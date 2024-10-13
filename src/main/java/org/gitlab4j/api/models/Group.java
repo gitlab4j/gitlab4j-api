@@ -1,15 +1,14 @@
-
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.Date;
+import java.util.List;
 
 import org.gitlab4j.api.Constants.DefaultBranchProtectionLevel;
 import org.gitlab4j.api.Constants.ProjectCreationLevel;
 import org.gitlab4j.api.Constants.SubgroupCreationLevel;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import java.util.Date;
-import java.util.List;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Group extends AbstractGroup<Group> {
     private static final long serialVersionUID = 1L;
@@ -52,7 +51,6 @@ public class Group extends AbstractGroup<Group> {
             this.jobArtifactsSize = jobArtifactsSize;
         }
     }
-
 
     private String path;
     private String description;
@@ -166,11 +164,11 @@ public class Group extends AbstractGroup<Group> {
     }
 
     public Date getCreatedAt() {
-	return createdAt;
+        return createdAt;
     }
 
     public void setCreatedAt(Date createdAt) {
-	this.createdAt = createdAt;
+        this.createdAt = createdAt;
     }
 
     public List<SharedGroup> getSharedWithGroups() {

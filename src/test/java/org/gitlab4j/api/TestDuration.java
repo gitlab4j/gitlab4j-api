@@ -50,7 +50,6 @@ public class TestDuration {
         assertEquals("2mo1w1d2h5m", duration.toString());
     }
 
-
     @Test
     public void testParseWithSpaces() {
 
@@ -72,28 +71,28 @@ public class TestDuration {
 
     @Test
     public void testBadParse() {
-        
+
         try {
             DurationUtils.parse("1m1h");
             fail("Should have received an exception for the bad duration");
         } catch (IllegalArgumentException iae) {
             System.out.println("Recieved expected exception: " + iae.getMessage());
         }
-        
+
         try {
             DurationUtils.parse("1z");
             fail("Should have received an exception for the bad duration");
         } catch (IllegalArgumentException iae) {
             System.out.println("Recieved expected exception: " + iae.getMessage());
         }
-        
+
         try {
             DurationUtils.parse("2d2h2s2m");
             fail("Should have received an exception for the bad duration");
         } catch (IllegalArgumentException iae) {
             System.out.println("Recieved expected exception: " + iae.getMessage());
         }
-        
+
         try {
             DurationUtils.parse("2d2h2m2m");
             fail("Should have received an exception for the bad duration");
@@ -108,7 +107,7 @@ public class TestDuration {
             System.out.println("Recieved expected exception: " + iae.getMessage());
         }
     }
-    
+
     @Test
     public void testToString() {
 

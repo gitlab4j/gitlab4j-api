@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  *
  * TEST_HOST_URL
  * TEST_PRIVATE_TOKEN
@@ -35,7 +35,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestDeployTokensApi extends AbstractIntegrationTest {
 
     // The following needs to be set to your test repository
@@ -89,23 +90,32 @@ public class TestDeployTokensApi extends AbstractIntegrationTest {
 
         String name = "token-test-" + HelperUtils.getRandomInt(1000);
 
-        int initialSize = gitLabApi.getDeployTokensApi().getProjectDeployTokens(testProject).size();
+        int initialSize = gitLabApi
+                .getDeployTokensApi()
+                .getProjectDeployTokens(testProject)
+                .size();
 
-        DeployToken test = gitLabApi.getDeployTokensApi().addProjectDeployToken(
-                testProject,
-                name,
-                Date.from(Instant.now().plus(1, ChronoUnit.DAYS)),
-                "test-user-name", // Currently ignored by the API but correction is on the way
-                                           // See: https://gitlab.com/gitlab-org/gitlab/-/issues/211963
-                Collections.singletonList(DeployTokenScope.READ_REGISTRY));
+        DeployToken test = gitLabApi
+                .getDeployTokensApi()
+                .addProjectDeployToken(
+                        testProject,
+                        name,
+                        Date.from(Instant.now().plus(1, ChronoUnit.DAYS)),
+                        "test-user-name", // Currently ignored by the API but correction is on the way
+                        // See: https://gitlab.com/gitlab-org/gitlab/-/issues/211963
+                        Collections.singletonList(DeployTokenScope.READ_REGISTRY));
         assertNotNull(test);
         assertEquals(test.getName(), name);
         assertNotNull(test.getToken());
         assertNotEquals(test.getToken(), "");
         gitLabApi.getDeployTokensApi().deleteProjectDeployToken(testProject, test.getId());
 
-        assertEquals(initialSize, gitLabApi.getDeployTokensApi().getProjectDeployTokens(testProject).size());
-
+        assertEquals(
+                initialSize,
+                gitLabApi
+                        .getDeployTokensApi()
+                        .getProjectDeployTokens(testProject)
+                        .size());
     }
 
     @Test
@@ -115,15 +125,18 @@ public class TestDeployTokensApi extends AbstractIntegrationTest {
 
         String name = "token-test-" + HelperUtils.getRandomInt(1000);
 
-        int initialSize = gitLabApi.getDeployTokensApi().getGroupDeployTokens(testGroup).size();
+        int initialSize =
+                gitLabApi.getDeployTokensApi().getGroupDeployTokens(testGroup).size();
 
-        DeployToken test = gitLabApi.getDeployTokensApi().addGroupDeployToken(
-                testGroup,
-                name,
-                Date.from(Instant.now().plus(1, ChronoUnit.DAYS)),
-                "test-user-name", // Currently ignored by the API but correction is on the way
-                // See: https://gitlab.com/gitlab-org/gitlab/-/issues/211963
-                Arrays.asList(DeployTokenScope.READ_REPOSITORY, DeployTokenScope.READ_REGISTRY));
+        DeployToken test = gitLabApi
+                .getDeployTokensApi()
+                .addGroupDeployToken(
+                        testGroup,
+                        name,
+                        Date.from(Instant.now().plus(1, ChronoUnit.DAYS)),
+                        "test-user-name", // Currently ignored by the API but correction is on the way
+                        // See: https://gitlab.com/gitlab-org/gitlab/-/issues/211963
+                        Arrays.asList(DeployTokenScope.READ_REPOSITORY, DeployTokenScope.READ_REGISTRY));
         assertNotNull(test);
         assertEquals(test.getName(), name);
         assertNotNull(test.getToken());
@@ -132,6 +145,5 @@ public class TestDeployTokensApi extends AbstractIntegrationTest {
 
         List<DeployToken> deployTokens = gitLabApi.getDeployTokensApi().getGroupDeployTokens(testGroup);
         assertEquals(initialSize, deployTokens.size());
-
     }
 }

@@ -167,7 +167,6 @@ public abstract class AbstractPushEvent {
         return (requestQueryString);
     }
 
-
     public void setRequestSecretToken(String secretToken) {
         this.requestSecretToken = secretToken;
     }

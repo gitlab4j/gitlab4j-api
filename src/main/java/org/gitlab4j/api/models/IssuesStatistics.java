@@ -1,10 +1,10 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
+
 import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.io.Serializable;
 
 public class IssuesStatistics implements Serializable {
     private static final long serialVersionUID = 1L;

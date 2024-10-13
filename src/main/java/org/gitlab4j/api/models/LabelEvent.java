@@ -1,37 +1,39 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
+
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class LabelEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Enum to use for specifying the label event resource type. */
     public enum ResourceType {
+        ISSUE,
+        EPIC,
+        MERGE_REQUEST;
 
-	ISSUE, EPIC, MERGE_REQUEST;
+        private static JacksonJsonEnumHelper<ResourceType> enumHelper =
+                new JacksonJsonEnumHelper<>(ResourceType.class, true, true);
 
-	private static JacksonJsonEnumHelper<ResourceType> enumHelper = new JacksonJsonEnumHelper<>(ResourceType.class,
-	        true, true);
+        @JsonCreator
+        public static ResourceType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
 
-	@JsonCreator
-	public static ResourceType forValue(String value) {
-	    return enumHelper.forValue(value);
-	}
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
 
-	@JsonValue
-	public String toValue() {
-	    return (enumHelper.toString(this));
-	}
-
-	@Override
-	public String toString() {
-	    return (enumHelper.toString(this));
-	}
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
     }
 
     private Long id;
@@ -43,59 +45,59 @@ public class LabelEvent implements Serializable {
     private String action;
 
     public Long getId() {
-	return id;
+        return id;
     }
 
     public void setId(Long id) {
-	this.id = id;
+        this.id = id;
     }
 
     public User getUser() {
-	return user;
+        return user;
     }
 
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 
     public String getCreatedAt() {
-	return createdAt;
+        return createdAt;
     }
 
     public void setCreatedAt(String createdAt) {
-	this.createdAt = createdAt;
+        this.createdAt = createdAt;
     }
 
     public ResourceType getResourceType() {
-	return resourceType;
+        return resourceType;
     }
 
     public void setResourceType(ResourceType resourceType) {
-	this.resourceType = resourceType;
+        this.resourceType = resourceType;
     }
 
     public Long getResourceId() {
-	return resourceId;
+        return resourceId;
     }
 
     public void setResourceId(Long resourceId) {
-	this.resourceId = resourceId;
+        this.resourceId = resourceId;
     }
 
     public Label getLabel() {
-	return label;
+        return label;
     }
 
     public void setLabel(Label label) {
-	this.label = label;
+        this.label = label;
     }
 
     public String getAction() {
-	return action;
+        return action;
     }
 
     public void setAction(String action) {
-	this.action = action;
+        this.action = action;
     }
 
     @Override

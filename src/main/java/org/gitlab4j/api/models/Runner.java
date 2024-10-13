@@ -1,11 +1,12 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
+
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Runner implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,11 +24,12 @@ public class Runner implements Serializable {
      * Enum to use for RunnersApi filtering on status.
      */
     public enum RunnerStatus {
+        ACTIVE,
+        ONLINE,
+        PAUSED,
+        OFFLINE;
 
-        ACTIVE, ONLINE, PAUSED, OFFLINE;
-
-        private static JacksonJsonEnumHelper<RunnerStatus> enumHelper =
-                new JacksonJsonEnumHelper<>(RunnerStatus.class);
+        private static JacksonJsonEnumHelper<RunnerStatus> enumHelper = new JacksonJsonEnumHelper<>(RunnerStatus.class);
 
         @JsonCreator
         public static RunnerStatus forValue(String value) {
@@ -49,9 +51,10 @@ public class Runner implements Serializable {
      * Enum to use for RunnersApi filtering on type.
      */
     public enum RunnerType {
-        INSTANCE_TYPE, GROUP_TYPE, PROJECT_TYPE;
-        private static JacksonJsonEnumHelper<RunnerType> enumHelper =
-                new JacksonJsonEnumHelper<>(RunnerType.class);
+        INSTANCE_TYPE,
+        GROUP_TYPE,
+        PROJECT_TYPE;
+        private static JacksonJsonEnumHelper<RunnerType> enumHelper = new JacksonJsonEnumHelper<>(RunnerType.class);
 
         @JsonCreator
         public static RunnerType forValue(String value) {
@@ -132,7 +135,6 @@ public class Runner implements Serializable {
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
-
 
     public Runner withId(Long id) {
         this.id = id;

@@ -14,12 +14,14 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509ExtendedTrustManager;
+
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -30,6 +32,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.StreamingOutput;
+
 import org.gitlab4j.api.Constants.TokenType;
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.utils.JacksonJson;
@@ -48,15 +51,14 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 
-
 /**
  * This class utilizes the Jersey client package to communicate with a GitLab API endpoint.
  */
 public class GitLabApiClient implements AutoCloseable {
 
-    protected static final String PRIVATE_TOKEN_HEADER  = "PRIVATE-TOKEN";
-    protected static final String SUDO_HEADER           = "Sudo";
-    protected static final String AUTHORIZATION_HEADER  = "Authorization";
+    protected static final String PRIVATE_TOKEN_HEADER = "PRIVATE-TOKEN";
+    protected static final String SUDO_HEADER = "Sudo";
+    protected static final String AUTHORIZATION_HEADER = "Authorization";
     protected static final String X_GITLAB_TOKEN_HEADER = "X-Gitlab-Token";
 
     private ClientConfig clientConfig;
@@ -144,7 +146,8 @@ public class GitLabApiClient implements AutoCloseable {
      * @param authToken the token to authenticate with
      * @param secretToken use this token to validate received payloads
      */
-    public GitLabApiClient(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken) {
+    public GitLabApiClient(
+            ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken) {
         this(apiVersion, hostUrl, tokenType, authToken, secretToken, null);
     }
 
@@ -182,7 +185,8 @@ public class GitLabApiClient implements AutoCloseable {
      * @param secretToken use this token to validate received payloads
      * @param clientConfigProperties the properties given to Jersey's clientconfig
      */
-    public GitLabApiClient(String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
+    public GitLabApiClient(
+            String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
         this(ApiVersion.V4, hostUrl, TokenType.PRIVATE, privateToken, secretToken, clientConfigProperties);
     }
 
@@ -196,7 +200,12 @@ public class GitLabApiClient implements AutoCloseable {
      * @param secretToken use this token to validate received payloads
      * @param clientConfigProperties the properties given to Jersey's clientconfig
      */
-    public GitLabApiClient(ApiVersion apiVersion, String hostUrl, String privateToken, String secretToken, Map<String, Object> clientConfigProperties) {
+    public GitLabApiClient(
+            ApiVersion apiVersion,
+            String hostUrl,
+            String privateToken,
+            String secretToken,
+            Map<String, Object> clientConfigProperties) {
         this(apiVersion, hostUrl, TokenType.PRIVATE, privateToken, secretToken, clientConfigProperties);
     }
 
@@ -211,7 +220,13 @@ public class GitLabApiClient implements AutoCloseable {
      * @param secretToken use this token to validate received payloads
      * @param clientConfigProperties the properties given to Jersey's clientconfig
      */
-    public GitLabApiClient(ApiVersion apiVersion, String hostUrl, TokenType tokenType, String authToken, String secretToken, Map<String, Object> clientConfigProperties) {
+    public GitLabApiClient(
+            ApiVersion apiVersion,
+            String hostUrl,
+            TokenType tokenType,
+            String authToken,
+            String secretToken,
+            Map<String, Object> clientConfigProperties) {
 
         // Remove the trailing "/" from the hostUrl if present
         this.hostUrl = (hostUrl.endsWith("/") ? hostUrl.replaceAll("/$", "") : hostUrl);
@@ -272,7 +287,8 @@ public class GitLabApiClient implements AutoCloseable {
      */
     void enableRequestResponseLogging(Logger logger, Level level, int maxEntityLength, List<String> maskedHeaderNames) {
 
-        MaskingLoggingFilter loggingFilter = new MaskingLoggingFilter(logger, level, maxEntityLength, maskedHeaderNames);
+        MaskingLoggingFilter loggingFilter =
+                new MaskingLoggingFilter(logger, level, maxEntityLength, maskedHeaderNames);
         clientConfig.register(loggingFilter);
 
         // Recreate the Client instance if already created.
@@ -381,12 +397,10 @@ public class GitLabApiClient implements AutoCloseable {
      */
     protected boolean validateSecretToken(Response response) {
 
-        if (this.secretToken == null)
-            return (true);
+        if (this.secretToken == null) return (true);
 
         String secretToken = response.getHeaderString(X_GITLAB_TOKEN_HEADER);
-        if (secretToken == null)
-            return (false);
+        if (secretToken == null) return (false);
 
         return (this.secretToken.equals(secretToken));
     }
@@ -427,7 +441,8 @@ public class GitLabApiClient implements AutoCloseable {
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
-    protected Response getWithAccepts(MultivaluedMap<String, String> queryParams, String accepts, Object... pathArgs) throws IOException {
+    protected Response getWithAccepts(MultivaluedMap<String, String> queryParams, String accepts, Object... pathArgs)
+            throws IOException {
         URL url = getApiUrl(pathArgs);
         return (getWithAccepts(queryParams, url, accepts));
     }
@@ -497,7 +512,8 @@ public class GitLabApiClient implements AutoCloseable {
         Entity<?> empty = Entity.text("");
         // use "X-HTTP-Method-Override" header on POST to override to unsupported PATCH
         return (invocation(url, queryParams)
-                .header("X-HTTP-Method-Override", "PATCH").post(empty));
+                .header("X-HTTP-Method-Override", "PATCH")
+                .post(empty));
     }
 
     /**
@@ -538,7 +554,8 @@ public class GitLabApiClient implements AutoCloseable {
      */
     protected Response post(Form formData, URL url) {
         if (formData instanceof GitLabApiForm) {
-            return (invocation(url, null).post(Entity.entity(formData.asMap(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+            return (invocation(url, null)
+                    .post(Entity.entity(formData.asMap(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
         } else if (formData != null) {
             return (invocation(url, null).post(Entity.entity(formData, MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
         } else {
@@ -555,7 +572,8 @@ public class GitLabApiClient implements AutoCloseable {
      * @return a ClientResponse instance with the data returned from the endpoint
      */
     protected Response post(MultivaluedMap<String, String> queryParams, URL url) {
-        return (invocation(url, queryParams).post(Entity.entity(new Form(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+        return (invocation(url, queryParams)
+                .post(Entity.entity(new Form(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
     }
 
     /**
@@ -599,7 +617,8 @@ public class GitLabApiClient implements AutoCloseable {
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
-    protected Response upload(String name, File fileToUpload, String mediaTypeString, Object... pathArgs) throws IOException {
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, Object... pathArgs)
+            throws IOException {
         return upload(name, fileToUpload, mediaTypeString, null, pathArgs);
     }
 
@@ -615,7 +634,8 @@ public class GitLabApiClient implements AutoCloseable {
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
-    protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, Object... pathArgs) throws IOException {
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, Object... pathArgs)
+            throws IOException {
         URL url = getApiUrl(pathArgs);
         return (upload(name, fileToUpload, mediaTypeString, formData, url));
     }
@@ -632,17 +652,22 @@ public class GitLabApiClient implements AutoCloseable {
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
      */
-    protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, URL url) throws IOException {
+    protected Response upload(String name, File fileToUpload, String mediaTypeString, Form formData, URL url)
+            throws IOException {
         FileDataBodyPart filePart = new FileDataBodyPart(name, fileToUpload);
         return upload(filePart, formData, url);
     }
 
-    protected Response upload(String name, InputStream inputStream, String filename, String mediaTypeString, Object... pathArgs) throws IOException {
+    protected Response upload(
+            String name, InputStream inputStream, String filename, String mediaTypeString, Object... pathArgs)
+            throws IOException {
         URL url = getApiUrl(pathArgs);
         return (upload(name, inputStream, filename, mediaTypeString, null, url));
     }
 
-    protected Response upload(String name, InputStream inputStream, String filename, String mediaTypeString, Form formData, URL url) throws IOException {
+    protected Response upload(
+            String name, InputStream inputStream, String filename, String mediaTypeString, Form formData, URL url)
+            throws IOException {
         StreamDataBodyPart streamDataBodyPart = new StreamDataBodyPart(name, inputStream, filename);
         return upload(streamDataBodyPart, formData, url);
     }
@@ -684,7 +709,7 @@ public class GitLabApiClient implements AutoCloseable {
      *
      * @param name the name for the form field that contains the file name
      * @param fileToUpload a File instance pointing to the file to upload
-
+     *
      * @param url the fully formed path to the GitLab API endpoint
      * @return a ClientResponse instance with the data returned from the endpoint
      * @throws IOException if an error occurs while constructing the URL
@@ -692,7 +717,7 @@ public class GitLabApiClient implements AutoCloseable {
     protected Response putUpload(String name, File fileToUpload, URL url) throws IOException {
 
         try (MultiPart multiPart = new FormDataMultiPart()) {
-            if(fileToUpload == null) {
+            if (fileToUpload == null) {
                 multiPart.bodyPart(new FormDataBodyPart(name, "", MediaType.APPLICATION_OCTET_STREAM_TYPE));
             } else {
                 multiPart.bodyPart(new FileDataBodyPart(name, fileToUpload, MediaType.APPLICATION_OCTET_STREAM_TYPE));
@@ -757,9 +782,9 @@ public class GitLabApiClient implements AutoCloseable {
      */
     protected Response put(Form formData, URL url) {
         if (formData instanceof GitLabApiForm)
-            return (invocation(url, null).put(Entity.entity(formData.asMap(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
-        else
-            return (invocation(url, null).put(Entity.entity(formData, MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+            return (invocation(url, null)
+                    .put(Entity.entity(formData.asMap(), MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
+        else return (invocation(url, null).put(Entity.entity(formData, MediaType.APPLICATION_FORM_URLENCODED_TYPE)));
     }
 
     /**
@@ -847,8 +872,7 @@ public class GitLabApiClient implements AutoCloseable {
         }
 
         // If sudo as ID is set add the Sudo header
-        if (sudoAsId != null && sudoAsId.intValue() > 0)
-            builder = builder.header(SUDO_HEADER,  sudoAsId);
+        if (sudoAsId != null && sudoAsId.intValue() > 0) builder = builder.header(SUDO_HEADER, sudoAsId);
 
         // Set the per request connect timeout
         if (connectTimeout != null) {
@@ -918,36 +942,36 @@ public class GitLabApiClient implements AutoCloseable {
     private boolean setupIgnoreCertificateErrors() {
 
         // Create a TrustManager that trusts all certificates
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509ExtendedTrustManager() {
-            @Override
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
+        TrustManager[] trustAllCerts = new TrustManager[] {
+            new X509ExtendedTrustManager() {
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
 
-            @Override
-            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-            }
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
 
-            @Override
-            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-            }
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
 
-            @Override
-            public void checkClientTrusted(X509Certificate[] chain, String authType, Socket socket) throws CertificateException {
-            }
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType, Socket socket)
+                        throws CertificateException {}
 
-            @Override
-            public void checkClientTrusted(X509Certificate[] chain, String authType, SSLEngine engine) throws CertificateException {
-            }
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType, SSLEngine engine)
+                        throws CertificateException {}
 
-            @Override
-            public void checkServerTrusted(X509Certificate[] chain, String authType, Socket socket) throws CertificateException {
-            }
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType, Socket socket)
+                        throws CertificateException {}
 
-            @Override
-            public void checkServerTrusted(X509Certificate[] chain, String authType, SSLEngine engine) throws CertificateException {
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType, SSLEngine engine)
+                        throws CertificateException {}
             }
-        }};
+        };
 
         // Ignore differences between given hostname and certificate hostname
         HostnameVerifier hostnameVerifier = new HostnameVerifier() {

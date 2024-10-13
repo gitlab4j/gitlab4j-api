@@ -1,13 +1,14 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Release implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -25,6 +26,7 @@ public class Release implements Serializable {
     private String tagPath;
     private String evidenceSha;
     private Assets assets;
+
     @JsonProperty("_links")
     private Map<String, String> links;
 

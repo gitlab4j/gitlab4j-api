@@ -1,23 +1,27 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+
 import org.gitlab4j.api.Constants.Encoding;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.utils.FileUtils;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class CommitAction implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public enum Action {
-
-        CREATE, DELETE, MOVE, UPDATE, CHMOD;
+        CREATE,
+        DELETE,
+        MOVE,
+        UPDATE,
+        CHMOD;
 
         private static JacksonJsonEnumHelper<Action> enumHelper = new JacksonJsonEnumHelper<>(Action.class);
 

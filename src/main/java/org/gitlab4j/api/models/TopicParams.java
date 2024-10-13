@@ -1,10 +1,10 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.GitLabApiForm;
-import org.gitlab4j.api.TopicsApi;
-
 import java.io.File;
 import java.io.Serializable;
+
+import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.TopicsApi;
 
 /**
  * This class is utilized by the {@link TopicsApi#createTopic(TopicParams)}
@@ -45,9 +45,9 @@ public class TopicParams implements Serializable {
     public GitLabApiForm getForm(boolean isCreate) {
 
         GitLabApiForm form = new GitLabApiForm()
-            .withParam("name", name, isCreate)
-            .withParam("title", title, isCreate)
-            .withParam("description", description);
+                .withParam("name", name, isCreate)
+                .withParam("title", title, isCreate)
+                .withParam("description", description);
 
         return (form);
     }

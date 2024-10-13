@@ -1,13 +1,13 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.ProjectOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.JacksonJson;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified user.
@@ -304,7 +304,7 @@ public class ProjectFilter implements Serializable {
      * @param imported limit results to projects imported from external systems by current user
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectFilter withImported(Boolean imported){
+    public ProjectFilter withImported(Boolean imported) {
         this.imported = imported;
         return (this);
     }
@@ -315,7 +315,7 @@ public class ProjectFilter implements Serializable {
      * @param topic Comma-separated topic names.
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectFilter withTopic(String topic){
+    public ProjectFilter withTopic(String topic) {
         this.topic = topic;
         return (this);
     }
@@ -326,7 +326,7 @@ public class ProjectFilter implements Serializable {
      * @param topic_id the topic ID
      * @return the reference to this ProjectFilter instance
      */
-    public ProjectFilter withTopicId(Integer topic_id){
+    public ProjectFilter withTopicId(Integer topic_id) {
         this.topic_id = topic_id;
         return (this);
     }
@@ -339,9 +339,7 @@ public class ProjectFilter implements Serializable {
      * @return a GitLabApiForm instance holding the query parameters for this ProjectFilter instance
      */
     public GitLabApiForm getQueryParams(int page, int perPage) {
-        return (getQueryParams()
-                .withParam(Constants.PAGE_PARAM, page)
-                .withParam(Constants.PER_PAGE_PARAM, perPage));
+        return (getQueryParams().withParam(Constants.PAGE_PARAM, page).withParam(Constants.PER_PAGE_PARAM, perPage));
     }
 
     /**
@@ -351,33 +349,32 @@ public class ProjectFilter implements Serializable {
      */
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
-            .withParam("archived", archived)
-            .withParam("visibility", visibility)
-            .withParam("order_by", orderBy)
-            .withParam("sort", sort)
-            .withParam("search", search)
-            .withParam("search_namespaces", searchNamespaces)
-            .withParam("simple", simple)
-            .withParam("owned", owned)
-            .withParam("membership", membership)
-            .withParam("starred", starred)
-            .withParam("statistics", statistics)
-            .withParam("with_custom_attributes", withCustomAttributes)
-            .withParam("with_issues_enabled", withIssuesEnabled)
-            .withParam("with_merge_requests_enabled", withMergeRequestsEnabled)
-            .withParam("with_programming_language", withProgrammingLanguage)
-            .withParam("wiki_checksum_failed", wikiChecksumFailed)
-            .withParam("repository_checksum_failed", repositoryChecksumFailed)
-            .withParam("min_access_level", (minAccessLevel != null ? minAccessLevel.toValue() : null))
-            .withParam("id_after", idAfter)
-            .withParam("id_before", idBefore)
-            .withParam("last_activity_after", lastActivityAfter)
-            .withParam("last_activity_before", lastActivityBefore)
-            .withParam("repository_storage", repositoryStorage)
-            .withParam("imported",imported)
-            .withParam("topic",topic)
-            .withParam("topic_id",topic_id)
-        );
+                .withParam("archived", archived)
+                .withParam("visibility", visibility)
+                .withParam("order_by", orderBy)
+                .withParam("sort", sort)
+                .withParam("search", search)
+                .withParam("search_namespaces", searchNamespaces)
+                .withParam("simple", simple)
+                .withParam("owned", owned)
+                .withParam("membership", membership)
+                .withParam("starred", starred)
+                .withParam("statistics", statistics)
+                .withParam("with_custom_attributes", withCustomAttributes)
+                .withParam("with_issues_enabled", withIssuesEnabled)
+                .withParam("with_merge_requests_enabled", withMergeRequestsEnabled)
+                .withParam("with_programming_language", withProgrammingLanguage)
+                .withParam("wiki_checksum_failed", wikiChecksumFailed)
+                .withParam("repository_checksum_failed", repositoryChecksumFailed)
+                .withParam("min_access_level", (minAccessLevel != null ? minAccessLevel.toValue() : null))
+                .withParam("id_after", idAfter)
+                .withParam("id_before", idBefore)
+                .withParam("last_activity_after", lastActivityAfter)
+                .withParam("last_activity_before", lastActivityBefore)
+                .withParam("repository_storage", repositoryStorage)
+                .withParam("imported", imported)
+                .withParam("topic", topic)
+                .withParam("topic_id", topic_id));
     }
 
     @Override

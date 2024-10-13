@@ -43,7 +43,8 @@ public class ApplicationsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Application> getApplications(int page, int perPage) throws GitLabApiException {
-        Response response = get(jakarta.ws.rs.core.Response.Status.OK, getPageQueryParams(page, perPage), "applications");
+        Response response =
+                get(jakarta.ws.rs.core.Response.Status.OK, getPageQueryParams(page, perPage), "applications");
         return (response.readEntity(new GenericType<List<Application>>() {}));
     }
 
@@ -83,7 +84,8 @@ public class ApplicationsApi extends AbstractApi {
      * @return the created Application instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Application createApplication(String name, String redirectUri, ApplicationScope[] scopes) throws GitLabApiException {
+    public Application createApplication(String name, String redirectUri, ApplicationScope[] scopes)
+            throws GitLabApiException {
 
         if (scopes == null || scopes.length == 0) {
             throw new GitLabApiException("scopes cannot be null or empty");
@@ -103,7 +105,8 @@ public class ApplicationsApi extends AbstractApi {
      * @return the created Application instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Application createApplication(String name, String redirectUri, List<ApplicationScope> scopes) throws GitLabApiException {
+    public Application createApplication(String name, String redirectUri, List<ApplicationScope> scopes)
+            throws GitLabApiException {
 
         if (scopes == null || scopes.isEmpty()) {
             throw new GitLabApiException("scopes cannot be null or empty");
@@ -113,7 +116,7 @@ public class ApplicationsApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
                 .withParam("redirect_uri", redirectUri, true)
-                .withParam("scopes",  scopesString, true);
+                .withParam("scopes", scopesString, true);
         Response response = post(Response.Status.CREATED, formData, "applications");
         return (response.readEntity(Application.class));
     }

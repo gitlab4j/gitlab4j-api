@@ -1,8 +1,8 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class GpgSignature implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -64,6 +64,6 @@ public class GpgSignature implements Serializable {
 
     @Override
     public String toString() {
-	return (JacksonJson.toJsonString(this));
+        return (JacksonJson.toJsonString(this));
     }
 }

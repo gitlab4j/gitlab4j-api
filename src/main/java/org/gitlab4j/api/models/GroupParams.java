@@ -1,11 +1,11 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.GitLabApiForm;
+import java.io.Serializable;
+
 import org.gitlab4j.api.Constants.DefaultBranchProtectionLevel;
 import org.gitlab4j.api.Constants.ProjectCreationLevel;
 import org.gitlab4j.api.Constants.SubgroupCreationLevel;
-
-import java.io.Serializable;
+import org.gitlab4j.api.GitLabApiForm;
 
 /**
  * This class is utilized by the {@link org.gitlab4j.api.GroupApi#createGroup(GroupParams)}
@@ -169,31 +169,31 @@ public class GroupParams implements Serializable {
      */
     public GitLabApiForm getForm(boolean isCreate) {
 
-	GitLabApiForm form = new GitLabApiForm()
-	    .withParam("name", name, isCreate)
-            .withParam("path", path, isCreate)
-            .withParam("description", description)
-            .withParam("visibility", visibility)
-            .withParam("share_with_group_lock", shareWithGroupLock)
-            .withParam("require_two_factor_authentication", requireTwoFactorAuthentication)
-            .withParam("two_factor_grace_period", twoFactorGracePeriod)
-            .withParam("project_creation_level", projectCreationLevel)
-            .withParam("auto_devops_enabled", autoDevopsEnabled)
-            .withParam("subgroup_creation_level", subgroupCreationLevel)
-            .withParam("emails_disabled", emailsDisabled)
-            .withParam("lfs_enabled", lfsEnabled)
-            .withParam("request_access_enabled", requestAccessEnabled)
-            .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit)
-            .withParam("extra_shared_runners_minutes_limit", extraSharedRunnersMinutesLimit)
-            .withParam("default_branch_protection", defaultBranchProtection)
-            .withParam("prevent_sharing_groups_outside_hierarchy", preventSharingGroupsOutsideHierarchy)
-            .withParam("prevent_forking_outside_group", preventForkingOutsideGroup);
+        GitLabApiForm form = new GitLabApiForm()
+                .withParam("name", name, isCreate)
+                .withParam("path", path, isCreate)
+                .withParam("description", description)
+                .withParam("visibility", visibility)
+                .withParam("share_with_group_lock", shareWithGroupLock)
+                .withParam("require_two_factor_authentication", requireTwoFactorAuthentication)
+                .withParam("two_factor_grace_period", twoFactorGracePeriod)
+                .withParam("project_creation_level", projectCreationLevel)
+                .withParam("auto_devops_enabled", autoDevopsEnabled)
+                .withParam("subgroup_creation_level", subgroupCreationLevel)
+                .withParam("emails_disabled", emailsDisabled)
+                .withParam("lfs_enabled", lfsEnabled)
+                .withParam("request_access_enabled", requestAccessEnabled)
+                .withParam("shared_runners_minutes_limit", sharedRunnersMinutesLimit)
+                .withParam("extra_shared_runners_minutes_limit", extraSharedRunnersMinutesLimit)
+                .withParam("default_branch_protection", defaultBranchProtection)
+                .withParam("prevent_sharing_groups_outside_hierarchy", preventSharingGroupsOutsideHierarchy)
+                .withParam("prevent_forking_outside_group", preventForkingOutsideGroup);
 
         if (isCreate) {
             form.withParam("parent_id", parentId);
         } else {
             form.withParam("membership_lock", membershipLock)
-                .withParam("file_template_project_id", fileTemplateProjectId);
+                    .withParam("file_template_project_id", fileTemplateProjectId);
         }
 
         return (form);

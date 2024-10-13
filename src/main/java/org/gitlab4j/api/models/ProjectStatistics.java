@@ -1,9 +1,8 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 
 import org.gitlab4j.api.utils.JacksonJson;
-
-import java.io.Serializable;
 
 /**
  * This class contains the sizing information from the project. To get this information,

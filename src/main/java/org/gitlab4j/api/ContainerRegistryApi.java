@@ -68,11 +68,16 @@ public class ContainerRegistryApi extends AbstractApi {
      * @return a list of registry repositories for the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<RegistryRepository> getRepositories(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
-                "projects", getProjectIdOrPath(projectIdOrPath), "registry", "repositories");
-        return response.readEntity(new GenericType<List<RegistryRepository>>() {
-        });
+    public List<RegistryRepository> getRepositories(Object projectIdOrPath, int page, int perPage)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "registry",
+                "repositories");
+        return response.readEntity(new GenericType<List<RegistryRepository>>() {});
     }
 
     /**
@@ -85,9 +90,17 @@ public class ContainerRegistryApi extends AbstractApi {
      * @return a Pager of registry repositories for the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<RegistryRepository> getRepositories(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<>(this, RegistryRepository.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "registry", "repositories"));
+    public Pager<RegistryRepository> getRepositories(Object projectIdOrPath, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<>(
+                this,
+                RegistryRepository.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "registry",
+                "repositories"));
     }
 
     /**
@@ -120,7 +133,14 @@ public class ContainerRegistryApi extends AbstractApi {
             throw new RuntimeException("repositoryId cannot be null");
         }
 
-        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "registry", "repositories", repositoryId);
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "registry",
+                "repositories",
+                repositoryId);
     }
 
     /**
@@ -133,8 +153,10 @@ public class ContainerRegistryApi extends AbstractApi {
      * @return a list of Repository Tags for the specified repository ID
      * @throws GitLabApiException if any exception occurs
      */
-    public List<RegistryRepositoryTag> getRepositoryTags(Object projectIdOrPath, Long repositoryId) throws GitLabApiException {
-        return getRepositoryTags(projectIdOrPath, repositoryId, getDefaultPerPage()).all();
+    public List<RegistryRepositoryTag> getRepositoryTags(Object projectIdOrPath, Long repositoryId)
+            throws GitLabApiException {
+        return getRepositoryTags(projectIdOrPath, repositoryId, getDefaultPerPage())
+                .all();
     }
 
     /**
@@ -148,9 +170,19 @@ public class ContainerRegistryApi extends AbstractApi {
      * @return a Pager of Repository Tags for the specified repository ID
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<RegistryRepositoryTag> getRepositoryTags(Object projectIdOrPath, Long repositoryId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<>(this, RegistryRepositoryTag.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "registry", "repositories", repositoryId, "tags"));
+    public Pager<RegistryRepositoryTag> getRepositoryTags(Object projectIdOrPath, Long repositoryId, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<>(
+                this,
+                RegistryRepositoryTag.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "registry",
+                "repositories",
+                repositoryId,
+                "tags"));
     }
 
     /**
@@ -163,7 +195,8 @@ public class ContainerRegistryApi extends AbstractApi {
      * @return a list of Repository Tags for the specified repository ID
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<RegistryRepositoryTag> getRepositoryTagsStream(Object projectIdOrPath, Long repositoryId) throws GitLabApiException {
+    public Stream<RegistryRepositoryTag> getRepositoryTagsStream(Object projectIdOrPath, Long repositoryId)
+            throws GitLabApiException {
         return getRepositoryTags(projectIdOrPath, repositoryId, getDefaultPerPage()).stream();
     }
 
@@ -178,11 +211,19 @@ public class ContainerRegistryApi extends AbstractApi {
      * @return the Repository Tag for the specified repository ID
      * @throws GitLabApiException if any exception occurs
      */
-    public RegistryRepositoryTag getRepositoryTag(Object projectIdOrPath, Long repositoryId, String tagName) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "registry", "repositories", repositoryId, "tags", tagName);
-        return response.readEntity(new GenericType<RegistryRepositoryTag>() {
-        });
+    public RegistryRepositoryTag getRepositoryTag(Object projectIdOrPath, Long repositoryId, String tagName)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "registry",
+                "repositories",
+                repositoryId,
+                "tags",
+                tagName);
+        return response.readEntity(new GenericType<RegistryRepositoryTag>() {});
     }
 
     /**
@@ -195,7 +236,8 @@ public class ContainerRegistryApi extends AbstractApi {
      * @param tagName the name of tag
      * @return the Repository Tag for the specified repository ID as the value of the Optional
      */
-    public Optional<RegistryRepositoryTag> getOptionalRepositoryTag(Object projectIdOrPath, Long repositoryId, String tagName) {
+    public Optional<RegistryRepositoryTag> getOptionalRepositoryTag(
+            Object projectIdOrPath, Long repositoryId, String tagName) {
         try {
             return (Optional.ofNullable(getRepositoryTag(projectIdOrPath, repositoryId, tagName)));
         } catch (GitLabApiException glae) {
@@ -213,13 +255,23 @@ public class ContainerRegistryApi extends AbstractApi {
      * @param tagName the name of the tag to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteRepositoryTag(Object projectIdOrPath, Long repositoryId, String tagName) throws GitLabApiException {
+    public void deleteRepositoryTag(Object projectIdOrPath, Long repositoryId, String tagName)
+            throws GitLabApiException {
 
         if (repositoryId == null) {
             throw new RuntimeException("repositoryId cannot be null");
         }
 
-        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "registry", "repositories", repositoryId, "tags", tagName);
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "registry",
+                "repositories",
+                repositoryId,
+                "tags",
+                tagName);
     }
 
     /**
@@ -249,13 +301,23 @@ public class ContainerRegistryApi extends AbstractApi {
      *                        <code>1h</code>, <code>1d</code>, <code>1month</code>.
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteRepositoryTags(Object projectIdOrPath, Long repositoryId, String nameRegex, Integer keepN, String olderThan) throws GitLabApiException {
+    public void deleteRepositoryTags(
+            Object projectIdOrPath, Long repositoryId, String nameRegex, Integer keepN, String olderThan)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name_regex", nameRegex, true)
                 .withParam("keep_n", keepN)
                 .withParam("older_than", olderThan);
 
-        delete(Response.Status.NO_CONTENT, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "registry", "repositories", repositoryId, "tags");
+        delete(
+                Response.Status.NO_CONTENT,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "registry",
+                "repositories",
+                repositoryId,
+                "tags");
     }
 }

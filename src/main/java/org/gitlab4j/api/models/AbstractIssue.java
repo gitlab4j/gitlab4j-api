@@ -1,5 +1,11 @@
-
 package org.gitlab4j.api.models;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import org.gitlab4j.api.Constants.IssueState;
+import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,12 +13,6 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.LongNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
-import org.gitlab4j.api.Constants.IssueState;
-import org.gitlab4j.api.utils.JacksonJson;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 public abstract class AbstractIssue implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -58,8 +58,10 @@ public abstract class AbstractIssue implements Serializable {
 
     @JsonProperty("id")
     private ValueNode actualId;
+
     @JsonIgnore
     private String externalId;
+
     @JsonIgnore
     private Long id;
 
@@ -142,7 +144,7 @@ public abstract class AbstractIssue implements Serializable {
     }
 
     public void setDueDate(Date dueDate) {
-	this.dueDate = dueDate;
+        this.dueDate = dueDate;
     }
 
     public ValueNode getActualId() {
@@ -150,7 +152,7 @@ public abstract class AbstractIssue implements Serializable {
     }
 
     public void setActualId(ValueNode id) {
-	actualId = id;
+        actualId = id;
         if (actualId instanceof TextNode) {
             externalId = actualId.asText();
         } else if (actualId instanceof IntNode || actualId instanceof LongNode) {
@@ -163,11 +165,11 @@ public abstract class AbstractIssue implements Serializable {
     }
 
     public void setId(Long id) {
-	this.id = id;
-	if (id != null) {
-	    actualId = new LongNode(id);
-	    externalId = null;
-	}
+        this.id = id;
+        if (id != null) {
+            actualId = new LongNode(id);
+            externalId = null;
+        }
     }
 
     public String getExternalId() {
@@ -176,10 +178,10 @@ public abstract class AbstractIssue implements Serializable {
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
-	if (externalId != null) {
-	    actualId = new TextNode(externalId);
-	    id = null;
-	}
+        if (externalId != null) {
+            actualId = new TextNode(externalId);
+            id = null;
+        }
     }
 
     public Long getIid() {
@@ -358,7 +360,7 @@ public abstract class AbstractIssue implements Serializable {
         this.iteration = iteration;
     }
 
-	public TaskCompletionStatus getTaskCompletionStatus() {
+    public TaskCompletionStatus getTaskCompletionStatus() {
         return taskCompletionStatus;
     }
 

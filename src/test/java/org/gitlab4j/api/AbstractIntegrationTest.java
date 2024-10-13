@@ -121,7 +121,8 @@ public class AbstractIntegrationTest implements PropertyConstants {
         }
 
         try {
-            Project testProject =  (baseResources.gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME));
+            Project testProject =
+                    (baseResources.gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME));
             baseResources.testProject = testProject;
             return (testProject);
         } catch (Exception e) {
@@ -149,7 +150,7 @@ public class AbstractIntegrationTest implements PropertyConstants {
         }
 
         try {
-            Group testGroup =  (baseResources.gitLabApi.getGroupApi().getGroup(TEST_GROUP));
+            Group testGroup = (baseResources.gitLabApi.getGroupApi().getGroup(TEST_GROUP));
             baseResources.testGroup = testGroup;
             return (testGroup);
         } catch (Exception e) {

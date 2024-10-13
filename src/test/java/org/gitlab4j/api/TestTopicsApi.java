@@ -21,9 +21,15 @@ import org.mockito.Mockito;
 
 public class TestTopicsApi implements Constants {
 
-    @Mock private GitLabApi gitLabApi;
-    @Mock private GitLabApiClient gitLabApiClient;
-    @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    @Mock
+    private GitLabApi gitLabApi;
+
+    @Mock
+    private GitLabApiClient gitLabApiClient;
+
+    @Captor
+    private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+
     private MockResponse response;
 
     @BeforeEach
@@ -43,6 +49,7 @@ public class TestTopicsApi implements Constants {
         response = new MockResponse(Topic.class, "topic.json", null);
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class))).thenReturn(response);
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
+                .thenReturn(response);
     }
 }

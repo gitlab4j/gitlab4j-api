@@ -32,7 +32,6 @@ import jakarta.ws.rs.ext.WriterInterceptorContext;
 
 import org.glassfish.jersey.message.MessageUtils;
 
-
 /**
  * This class logs request and response info masking HTTP header values that are known to
  * contain sensitive information.
@@ -46,21 +45,21 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
     /**
      * Default list of header names that should be masked.
      */
-    public static final List<String> DEFAULT_MASKED_HEADER_NAMES = 
+    public static final List<String> DEFAULT_MASKED_HEADER_NAMES =
             Collections.unmodifiableList(Arrays.asList("PRIVATE-TOKEN", "Authorization", "Proxy-Authorization"));
 
     /**
      * Prefix for request log entries.
      */
     protected static final String REQUEST_PREFIX = "> ";
- 
+
     /**
      * Prefix for response log entries.
      */
     protected static final String RESPONSE_PREFIX = "< ";
 
     /**
-     * Prefix that marks the beginning of a request or response section. 
+     * Prefix that marks the beginning of a request or response section.
      */
     protected static final String SECTION_PREFIX = "- ";
 
@@ -124,7 +123,8 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
      * the end of the log entry. If maxEntitySize is &lt;= 0, entity logging will be disabled
      * @param maskedHeaderNames a list of header names that should have the values masked
      */
-    public MaskingLoggingFilter(final Logger logger, final Level level, final int maxEntitySize, final List<String> maskedHeaderNames) {
+    public MaskingLoggingFilter(
+            final Logger logger, final Level level, final int maxEntitySize, final List<String> maskedHeaderNames) {
         this.logger = logger;
         this.level = level;
         this.maxEntitySize = maxEntitySize;
@@ -158,7 +158,7 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
         if (maskedHeaderName != null) {
             maskedHeaderName = maskedHeaderName.trim();
             if (maskedHeaderName.length() > 0) {
-               maskedHeaderNames.add(maskedHeaderName.toLowerCase());
+                maskedHeaderNames.add(maskedHeaderName.toLowerCase());
             }
         }
     }
@@ -174,27 +174,39 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
         return (sb);
     }
 
-    protected void printRequestLine(final StringBuilder sb, final String note, final long id, final String method, final URI uri) {
-        appendId(sb, id).append(SECTION_PREFIX)
+    protected void printRequestLine(
+            final StringBuilder sb, final String note, final long id, final String method, final URI uri) {
+        appendId(sb, id)
+                .append(SECTION_PREFIX)
                 .append(note)
-                .append(" on thread ").append(Thread.currentThread().getName())
+                .append(" on thread ")
+                .append(Thread.currentThread().getName())
                 .append('\n');
-        appendId(sb, id).append(REQUEST_PREFIX).append(method).append(' ')
-                .append(uri.toASCIIString()).append('\n');
+        appendId(sb, id)
+                .append(REQUEST_PREFIX)
+                .append(method)
+                .append(' ')
+                .append(uri.toASCIIString())
+                .append('\n');
     }
 
     protected void printResponseLine(final StringBuilder sb, final String note, final long id, final int status) {
-        appendId(sb, id).append(SECTION_PREFIX)
+        appendId(sb, id)
+                .append(SECTION_PREFIX)
                 .append(note)
-                .append(" on thread ").append(Thread.currentThread().getName()).append('\n');
-        appendId(sb, id).append(RESPONSE_PREFIX)
+                .append(" on thread ")
+                .append(Thread.currentThread().getName())
+                .append('\n');
+        appendId(sb, id)
+                .append(RESPONSE_PREFIX)
                 .append(Integer.toString(status))
                 .append('\n');
     }
 
     protected Set<Entry<String, List<String>>> getSortedHeaders(final Set<Entry<String, List<String>>> headers) {
         final TreeSet<Entry<String, List<String>>> sortedHeaders = new TreeSet<Entry<String, List<String>>>(
-                (Entry<String, List<String>> o1, Entry<String, List<String>> o2) -> o1.getKey().compareToIgnoreCase(o2.getKey()));
+                (Entry<String, List<String>> o1, Entry<String, List<String>> o2) ->
+                        o1.getKey().compareToIgnoreCase(o2.getKey()));
         sortedHeaders.addAll(headers);
         return sortedHeaders;
     }
@@ -202,28 +214,30 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
     /**
      * Logs each of the HTTP headers, masking the value of the header if the header key is
      * in the list of masked header names.
-     * 
+     *
      * @param sb the StringBuilder to build up the logging info in
      * @param id the ID for the logging line
      * @param prefix the logging line prefix character
      * @param headers a MultiValue map holding the header keys and values
      */
-    protected void printHeaders(final StringBuilder sb,
-                              final long id,
-                              final String prefix,
-                              final MultivaluedMap<String, String> headers) {
- 
-        getSortedHeaders(headers.entrySet()).forEach(h -> {
+    protected void printHeaders(
+            final StringBuilder sb, final long id, final String prefix, final MultivaluedMap<String, String> headers) {
 
+        getSortedHeaders(headers.entrySet()).forEach(h -> {
             final List<?> values = h.getValue();
             final String header = h.getKey();
             final boolean isMaskedHeader = maskedHeaderNames.contains(header.toLowerCase());
 
             if (values.size() == 1) {
                 String value = (isMaskedHeader ? "********" : values.get(0).toString());
-                appendId(sb, id).append(prefix).append(header).append(": ").append(value).append('\n');
+                appendId(sb, id)
+                        .append(prefix)
+                        .append(header)
+                        .append(": ")
+                        .append(value)
+                        .append('\n');
             } else {
-                
+
                 final StringBuilder headerBuf = new StringBuilder();
                 for (final Object value : values) {
                     if (headerBuf.length() == 0) {
@@ -232,12 +246,17 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
 
                     headerBuf.append(isMaskedHeader ? "********" : value.toString());
                 }
-        
-                appendId(sb, id).append(prefix).append(header).append(": ").append(headerBuf.toString()).append('\n');
+
+                appendId(sb, id)
+                        .append(prefix)
+                        .append(header)
+                        .append(": ")
+                        .append(headerBuf.toString())
+                        .append('\n');
             }
         });
     }
-    
+
     protected void buildEntityLogString(StringBuilder sb, byte[] entity, int entitySize, Charset charset) {
 
         sb.append(new String(entity, 0, Math.min(entitySize, maxEntitySize), charset));
@@ -248,7 +267,8 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
         sb.append('\n');
     }
 
-    private InputStream logResponseEntity(final StringBuilder sb, InputStream stream, final Charset charset) throws IOException {
+    private InputStream logResponseEntity(final StringBuilder sb, InputStream stream, final Charset charset)
+            throws IOException {
 
         if (maxEntitySize <= 0) {
             return (stream);
@@ -302,10 +322,10 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
         final StringBuilder sb = new StringBuilder();
         printResponseLine(sb, "Received server response", id, responseContext.getStatus());
         printHeaders(sb, id, RESPONSE_PREFIX, responseContext.getHeaders());
- 
+
         if (responseContext.hasEntity() && maxEntitySize > 0) {
-            responseContext.setEntityStream(logResponseEntity(sb, responseContext.getEntityStream(), 
-                    MessageUtils.getCharset(responseContext.getMediaType())));
+            responseContext.setEntityStream(logResponseEntity(
+                    sb, responseContext.getEntityStream(), MessageUtils.getCharset(responseContext.getMediaType())));
         }
 
         log(sb);
@@ -319,13 +339,12 @@ public class MaskingLoggingFilter implements ClientRequestFilter, ClientResponse
         if (stream == null) {
             return;
         }
-        
+
         MediaType mediaType = context.getMediaType();
-        if (mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE) ||
-                mediaType.isCompatible(MediaType.APPLICATION_FORM_URLENCODED_TYPE)) {
+        if (mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)
+                || mediaType.isCompatible(MediaType.APPLICATION_FORM_URLENCODED_TYPE)) {
             log(stream.getStringBuilder(MessageUtils.getCharset(mediaType)));
         }
-
     }
 
     /**

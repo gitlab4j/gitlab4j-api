@@ -1,15 +1,16 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
+
+import org.gitlab4j.api.utils.JacksonJson;
+import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.gitlab4j.api.utils.JacksonJson;
-import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Map;
 
 public class ExportStatus implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -18,8 +19,9 @@ public class ExportStatus implements Serializable {
      * Enum representing the status of the export.
      */
     public enum Status {
-
-        NONE, STARTED, FINISHED,
+        NONE,
+        STARTED,
+        FINISHED,
 
         /**
          * Represents that the export process has been completed successfully and the platform is

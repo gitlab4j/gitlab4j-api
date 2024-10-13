@@ -12,10 +12,10 @@ public class UrlEncoder {
      * @return the URL encoded strings
      */
     public static String urlEncode(String s) {
-  
+
         String encoded = URLEncoder.encode(s, StandardCharsets.UTF_8);
         // Since the encode method encodes plus signs as %2B,
-        // we can simply replace the encoded spaces with the correct encoding here 
+        // we can simply replace the encoded spaces with the correct encoding here
         encoded = encoded.replace("+", "%20");
         encoded = encoded.replace(".", "%2E");
         encoded = encoded.replace("-", "%2D");

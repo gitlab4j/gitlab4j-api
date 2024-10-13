@@ -1,7 +1,10 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.gitlab4j.api.Constants.EpicOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
@@ -9,10 +12,8 @@ import org.gitlab4j.api.models.AbstractEpic.EpicState;
 import org.gitlab4j.api.utils.ISO8601;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  *  This class is used to filter Groups when getting lists of epics.
@@ -36,8 +37,9 @@ public class EpicFilter implements Serializable {
     private Map<EpicField, Object> not;
 
     public enum EpicField {
-
-        AUTHOR_ID, AUTHOR_USERNAME, LABELS;
+        AUTHOR_ID,
+        AUTHOR_USERNAME,
+        LABELS;
 
         private static JacksonJsonEnumHelper<EpicField> enumHelper = new JacksonJsonEnumHelper<>(EpicField.class);
 
@@ -249,7 +251,7 @@ public class EpicFilter implements Serializable {
      * @return the reference to this EpicFilter instance
      */
     public EpicFilter withNot(EpicField field, Object value) {
-        if(not == null) {
+        if (not == null) {
             not = new LinkedHashMap<>();
         }
         not.put(field, value);
@@ -263,25 +265,24 @@ public class EpicFilter implements Serializable {
      */
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
-            .withParam("author_id", authorId)
-            .withParam("author_username", authorUsername)
-            .withParam("labels", labels)
-            .withParam("order_by", orderBy)
-            .withParam("sort", sort)
-            .withParam("search", search)
-            .withParam("state", state)
-            .withParam("created_after", ISO8601.toString(createdAfter, false))
-            .withParam("updated_after", ISO8601.toString(updatedAfter, false))
-            .withParam("updated_before", ISO8601.toString(updatedBefore, false))
-            .withParam("include_ancestor_groups", includeAncestorGroups)
-            .withParam("include_descendant_groups", includeDescendantGroups)
-            .withParam("my_reaction_emoji", myReactionEmoji)
-            .withParam("not", toStringMap(not), false)
-        );
+                .withParam("author_id", authorId)
+                .withParam("author_username", authorUsername)
+                .withParam("labels", labels)
+                .withParam("order_by", orderBy)
+                .withParam("sort", sort)
+                .withParam("search", search)
+                .withParam("state", state)
+                .withParam("created_after", ISO8601.toString(createdAfter, false))
+                .withParam("updated_after", ISO8601.toString(updatedAfter, false))
+                .withParam("updated_before", ISO8601.toString(updatedBefore, false))
+                .withParam("include_ancestor_groups", includeAncestorGroups)
+                .withParam("include_descendant_groups", includeDescendantGroups)
+                .withParam("my_reaction_emoji", myReactionEmoji)
+                .withParam("not", toStringMap(not), false));
     }
 
     private Map<String, Object> toStringMap(Map<EpicField, Object> map) {
-        if(map == null) {
+        if (map == null) {
             return null;
         }
         Map<String, Object> result = new LinkedHashMap<>();

@@ -1,9 +1,9 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.List;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class ApprovalRule implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -21,91 +21,91 @@ public class ApprovalRule implements Serializable {
     private Boolean approved;
 
     public Long getId() {
-	return id;
+        return id;
     }
 
     public void setId(Long id) {
-	this.id = id;
+        this.id = id;
     }
 
     public String getName() {
-	return name;
+        return name;
     }
 
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     public String getRuleType() {
-	return ruleType;
+        return ruleType;
     }
 
     public void setRuleType(String ruleType) {
-	this.ruleType = ruleType;
+        this.ruleType = ruleType;
     }
 
     public List<User> getEligibleApprovers() {
-	return eligibleApprovers;
+        return eligibleApprovers;
     }
 
     public void setEligibleApprovers(List<User> eligibleApprovers) {
-	this.eligibleApprovers = eligibleApprovers;
+        this.eligibleApprovers = eligibleApprovers;
     }
 
     public Integer getApprovalsRequired() {
-	return approvalsRequired;
+        return approvalsRequired;
     }
 
     public void setApprovalsRequired(Integer approvalsRequired) {
-	this.approvalsRequired = approvalsRequired;
+        this.approvalsRequired = approvalsRequired;
     }
 
     public ApprovalRule getSourceRule() {
-	return sourceRule;
+        return sourceRule;
     }
 
     public void setSourceRule(ApprovalRule sourceRule) {
-	this.sourceRule = sourceRule;
+        this.sourceRule = sourceRule;
     }
 
     public List<User> getUsers() {
-	return users;
+        return users;
     }
 
     public void setUsers(List<User> users) {
-	this.users = users;
+        this.users = users;
     }
 
     public List<Group> getGroups() {
-	return groups;
+        return groups;
     }
 
     public void setGroups(List<Group> groups) {
-	this.groups = groups;
+        this.groups = groups;
     }
 
     public Boolean getContainsHiddenGroups() {
-	return containsHiddenGroups;
+        return containsHiddenGroups;
     }
 
     public void setContainsHiddenGroups(Boolean containsHiddenGroups) {
-	this.containsHiddenGroups = containsHiddenGroups;
+        this.containsHiddenGroups = containsHiddenGroups;
     }
 
     public List<User> getApprovedBy() {
-	return approvedBy;
+        return approvedBy;
     }
 
     public void setApprovedBy(List<User> approvedBy) {
-	this.approvedBy = approvedBy;
+        this.approvedBy = approvedBy;
     }
 
     public Boolean getApproved() {
-	return approved;
+        return approved;
     }
 
     public void setApproved(Boolean approved) {
-	this.approved = approved;
+        this.approved = approved;
     }
 
     @Override

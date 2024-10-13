@@ -23,10 +23,10 @@
 
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class Snippet implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,8 +44,7 @@ public class Snippet implements Serializable {
     private Visibility visibility;
     private String description;
 
-    public Snippet() {
-    }
+    public Snippet() {}
 
     public Snippet(String title, String fileName, String content, Visibility visibility, String description) {
         this(title, fileName, content);
