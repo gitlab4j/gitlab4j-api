@@ -99,6 +99,7 @@ import org.gitlab4j.api.models.NotificationSettings;
 import org.gitlab4j.api.models.OauthTokenResponse;
 import org.gitlab4j.api.models.Package;
 import org.gitlab4j.api.models.PackageFile;
+import org.gitlab4j.api.models.PersonalAccessToken;
 import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
@@ -721,6 +722,12 @@ public class TestGitLabApiBeans {
         assertTrue(compareJson(settings, "notification-settings.json"));
     }
 
+    @Test
+    public void testPersonalAccessToken() throws Exception {
+        PersonalAccessToken project = unmarshalResource(PersonalAccessToken.class, "personal-access-token.json");
+        assertTrue(compareJson(project, "personal-access-token.json"));
+    }
+    
     @Test
     public void testProject() throws Exception {
         Project project = unmarshalResource(Project.class, "project.json");
