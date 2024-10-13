@@ -34,6 +34,7 @@
     "stage": "test",
     "started_at": "2015-12-24T17:54:27.722Z",
     "status": "failed",
+    "failure_reason": "script_failure",
     "tag": false,
     "web_url": "https://example.com/foo/bar/-/jobs/7",
     "allow_failure": false,
