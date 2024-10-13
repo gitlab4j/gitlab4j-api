@@ -6,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum MembershipSourceType {
-
     PROJECT,
 
     /** Representing a group */
     NAMESPACE;
 
-    private static JacksonJsonEnumHelper<MembershipSourceType> enumHelper = new JacksonJsonEnumHelper<>(MembershipSourceType.class, true);
+    private static JacksonJsonEnumHelper<MembershipSourceType> enumHelper =
+            new JacksonJsonEnumHelper<>(MembershipSourceType.class, true);
 
     @JsonCreator
     public static MembershipSourceType forValue(String value) {

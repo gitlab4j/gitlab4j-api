@@ -1,9 +1,10 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+
 import org.gitlab4j.api.utils.JacksonJson;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Metadata implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -53,8 +54,10 @@ public class Metadata implements Serializable {
     private static class Kas {
 
         private Boolean enabled;
+
         @JsonProperty("externalUrl")
         private String externalUrl;
+
         private String version;
 
         public Boolean getEnabled() {
@@ -86,7 +89,4 @@ public class Metadata implements Serializable {
             return (JacksonJson.toJsonString(this));
         }
     }
-
-
-
 }

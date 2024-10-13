@@ -1,10 +1,10 @@
-
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+
 import org.gitlab4j.api.utils.JacksonJson;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractGroup<G extends AbstractGroup<G>> implements Serializable {
@@ -68,37 +68,37 @@ public abstract class AbstractGroup<G extends AbstractGroup<G>> implements Seria
     @SuppressWarnings("unchecked")
     public G withId(Long id) {
         this.id = id;
-        return (G)this;
+        return (G) this;
     }
 
     @SuppressWarnings("unchecked")
     public G withName(String name) {
         this.name = name;
-        return (G)this;
+        return (G) this;
     }
 
     @SuppressWarnings("unchecked")
     public G withAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
-        return (G)this;
+        return (G) this;
     }
 
     @SuppressWarnings("unchecked")
     public G withWebUrl(String url) {
         this.webUrl = url;
-        return (G)this;
+        return (G) this;
     }
 
     @SuppressWarnings("unchecked")
     public G withFullName(String fullName) {
         this.fullName = fullName;
-        return (G)this;
+        return (G) this;
     }
 
     @SuppressWarnings("unchecked")
     public G withFullPath(String fullPath) {
         this.fullPath = fullPath;
-        return (G)this;
+        return (G) this;
     }
 
     @Override

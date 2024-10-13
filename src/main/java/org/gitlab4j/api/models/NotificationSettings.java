@@ -1,19 +1,24 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
+
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class NotificationSettings implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Notification level */
     public static enum Level {
-
-        DISABLED, PARTICIPATING, WATCH, GLOBAL, MENTION, CUSTOM;
+        DISABLED,
+        PARTICIPATING,
+        WATCH,
+        GLOBAL,
+        MENTION,
+        CUSTOM;
 
         private static JacksonJsonEnumHelper<Level> enumHelper = new JacksonJsonEnumHelper<>(Level.class);
 

@@ -1,11 +1,11 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
+
 import org.gitlab4j.api.Constants.PackageOrderBy;
 import org.gitlab4j.api.Constants.PackageStatus;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
-
-import java.io.Serializable;
 
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified group.
@@ -113,14 +113,13 @@ public class PackageFilter implements Serializable {
      */
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
-            .withParam("order_by", orderBy)
-            .withParam("sort", sort)
-            .withParam("exclude_subgroups", excludeSubgroups)
-            .withParam("package_type", packageType)
-            .withParam("package_name", packageName)
-            .withParam("include_versionless", includeVersionless)
-            .withParam("status", status)
-            .withParam("package_version", packageVersion)
-        );
+                .withParam("order_by", orderBy)
+                .withParam("sort", sort)
+                .withParam("exclude_subgroups", excludeSubgroups)
+                .withParam("package_type", packageType)
+                .withParam("package_name", packageName)
+                .withParam("include_versionless", includeVersionless)
+                .withParam("status", status)
+                .withParam("package_version", packageVersion));
     }
 }

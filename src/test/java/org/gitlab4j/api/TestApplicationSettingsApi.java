@@ -46,7 +46,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestApplicationSettingsApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -64,10 +65,12 @@ public class TestApplicationSettingsApi extends AbstractIntegrationTest {
 
         if (gitLabApi != null) {
             try {
-                ApplicationSettings appSettings = gitLabApi.getApplicationSettingsApi().getApplicationSettings();
+                ApplicationSettings appSettings =
+                        gitLabApi.getApplicationSettingsApi().getApplicationSettings();
                 savedLocalMarkdownVersion = appSettings.getSetting(LOCAL_MARKDOWN_VERSION);
                 fetchedApplicationSettings = true;
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -76,9 +79,11 @@ public class TestApplicationSettingsApi extends AbstractIntegrationTest {
 
         if (fetchedApplicationSettings) {
             try {
-                gitLabApi.getApplicationSettingsApi().updateApplicationSetting(
-                        LOCAL_MARKDOWN_VERSION, savedLocalMarkdownVersion);
-            } catch (Exception ignore) {}
+                gitLabApi
+                        .getApplicationSettingsApi()
+                        .updateApplicationSetting(LOCAL_MARKDOWN_VERSION, savedLocalMarkdownVersion);
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -96,14 +101,18 @@ public class TestApplicationSettingsApi extends AbstractIntegrationTest {
     @Test
     public void testUpdateApplicationSetting() throws GitLabApiException {
 
-        int newValue = (savedLocalMarkdownVersion != null ? ((Integer)savedLocalMarkdownVersion).intValue() + 1234 : 1234);
-        ApplicationSettings appSettings = gitLabApi.getApplicationSettingsApi().updateApplicationSetting(LOCAL_MARKDOWN_VERSION, newValue);
+        int newValue =
+                (savedLocalMarkdownVersion != null ? ((Integer) savedLocalMarkdownVersion).intValue() + 1234 : 1234);
+        ApplicationSettings appSettings =
+                gitLabApi.getApplicationSettingsApi().updateApplicationSetting(LOCAL_MARKDOWN_VERSION, newValue);
         assertNotNull(appSettings);
 
         Object updatedLocalMarkdownVersion = appSettings.getSetting(LOCAL_MARKDOWN_VERSION);
         assertEquals(newValue, updatedLocalMarkdownVersion);
 
-        appSettings = gitLabApi.getApplicationSettingsApi().updateApplicationSetting(LOCAL_MARKDOWN_VERSION, savedLocalMarkdownVersion);
+        appSettings = gitLabApi
+                .getApplicationSettingsApi()
+                .updateApplicationSetting(LOCAL_MARKDOWN_VERSION, savedLocalMarkdownVersion);
         updatedLocalMarkdownVersion = appSettings.getSetting(LOCAL_MARKDOWN_VERSION);
         assertEquals(savedLocalMarkdownVersion, updatedLocalMarkdownVersion);
     }
@@ -112,12 +121,14 @@ public class TestApplicationSettingsApi extends AbstractIntegrationTest {
     public void testUpdateApplicationSettings() throws GitLabApiException {
 
         // Arrange
-        int newValue = (savedLocalMarkdownVersion != null ? ((Integer)savedLocalMarkdownVersion).intValue() + 123 : 123);
+        int newValue =
+                (savedLocalMarkdownVersion != null ? ((Integer) savedLocalMarkdownVersion).intValue() + 123 : 123);
         ApplicationSettings appSettings = new ApplicationSettings();
         appSettings.addSetting(LOCAL_MARKDOWN_VERSION, newValue);
 
         // Act
-        ApplicationSettings updatedAppSettings = gitLabApi.getApplicationSettingsApi().updateApplicationSettings(appSettings);
+        ApplicationSettings updatedAppSettings =
+                gitLabApi.getApplicationSettingsApi().updateApplicationSettings(appSettings);
 
         // Assert
         assertNotNull(updatedAppSettings);

@@ -1,8 +1,8 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.GitLabApiForm;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.GitLabApiForm;
 
 /**
  * This class is used by the ProtectedBranchesAPi to set up the
@@ -16,35 +16,34 @@ public class AllowedTo implements Serializable {
     private Long groupId;
 
     public AllowedTo(AccessLevel accessLevel, Long userId, Long groupId) {
-	this.accessLevel = accessLevel;
-	this.userId = userId;
-	this.groupId = groupId;
+        this.accessLevel = accessLevel;
+        this.userId = userId;
+        this.groupId = groupId;
     }
 
     public AllowedTo withAccessLevel(AccessLevel accessLevel) {
-	this.accessLevel = accessLevel;
-	return (this);
+        this.accessLevel = accessLevel;
+        return (this);
     }
 
     public AllowedTo withUserId(Long userId) {
-	this.userId = userId;
-	return (this);
+        this.userId = userId;
+        return (this);
     }
 
     public AllowedTo withGroupId(Long groupId) {
-	this.groupId = groupId;
-	return (this);
+        this.groupId = groupId;
+        return (this);
     }
 
     public GitLabApiForm getForm(GitLabApiForm form, String allowedToName) {
 
-	if (form == null) {
-	    form = new GitLabApiForm();
-	}
+        if (form == null) {
+            form = new GitLabApiForm();
+        }
 
-	return (form
-		.withParam(allowedToName + "[][access_level]", accessLevel)
-		.withParam(allowedToName + "[][user_id]", userId)
-		.withParam(allowedToName + "[][group_id]", groupId));
+        return (form.withParam(allowedToName + "[][access_level]", accessLevel)
+                .withParam(allowedToName + "[][user_id]", userId)
+                .withParam(allowedToName + "[][group_id]", groupId));
     }
 }

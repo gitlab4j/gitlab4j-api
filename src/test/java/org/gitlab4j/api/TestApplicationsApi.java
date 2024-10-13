@@ -48,13 +48,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestApplicationsApi extends AbstractIntegrationTest {
 
     private static final String TEST_APPLICATION_NAME = "Test Application for GitLab4J-API";
     private static final String TEST_APPLICATION_REDIRECT = "http://example.com/application";
-    private static final ApplicationScope[] TEST_APPLICATION_SCOPES =
-            {ApplicationScope.SUDO, ApplicationScope.EMAIL};
+    private static final ApplicationScope[] TEST_APPLICATION_SCOPES = {ApplicationScope.SUDO, ApplicationScope.EMAIL};
 
     private static GitLabApi gitLabApi;
 
@@ -75,7 +75,8 @@ public class TestApplicationsApi extends AbstractIntegrationTest {
                         gitLabApi.getApplicationsApi().deleteApplication(app.getId());
                     }
                 }
-            }  catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -96,19 +97,27 @@ public class TestApplicationsApi extends AbstractIntegrationTest {
         List<Application> apps = gitLabApi.getApplicationsApi().getApplications();
         int appCount = apps.size();
 
-        Application app = gitLabApi.getApplicationsApi().createApplication(TEST_APPLICATION_NAME, TEST_APPLICATION_REDIRECT, TEST_APPLICATION_SCOPES);
+        Application app = gitLabApi
+                .getApplicationsApi()
+                .createApplication(TEST_APPLICATION_NAME, TEST_APPLICATION_REDIRECT, TEST_APPLICATION_SCOPES);
         assertNotNull(app);
 
         apps = gitLabApi.getApplicationsApi().getApplications();
         assertTrue(apps.size() == appCount + 1);
 
-        Application found = apps.stream().filter(a -> TEST_APPLICATION_NAME.equals(a.getApplicationName())).findAny().orElse(null);
+        Application found = apps.stream()
+                .filter(a -> TEST_APPLICATION_NAME.equals(a.getApplicationName()))
+                .findAny()
+                .orElse(null);
         assertNotNull(found);
 
         gitLabApi.getApplicationsApi().deleteApplication(app.getId());
         apps = gitLabApi.getApplicationsApi().getApplications();
         assertTrue(apps.size() == appCount);
-        found = apps.stream().filter(a -> TEST_APPLICATION_NAME.equals(a.getApplicationName())).findAny().orElse(null);
+        found = apps.stream()
+                .filter(a -> TEST_APPLICATION_NAME.equals(a.getApplicationName()))
+                .findAny()
+                .orElse(null);
         assertNull(found);
     }
 }

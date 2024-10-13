@@ -30,7 +30,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestTodosApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -97,7 +98,7 @@ public class TestTodosApi extends AbstractIntegrationTest {
         assertTrue(todos.size() > 0);
         boolean found = false;
         for (Todo todo : todos) {
-            if (todo.isIssueTodo() && ((Issue)todo.getTarget()).getIid().intValue() == issue.getIid()) {
+            if (todo.isIssueTodo() && ((Issue) todo.getTarget()).getIid().intValue() == issue.getIid()) {
                 found = true;
                 break;
             }
@@ -134,7 +135,7 @@ public class TestTodosApi extends AbstractIntegrationTest {
 
         Long foundId = null;
         for (Todo todo : todos) {
-            if (todo.isIssueTodo() && ((Issue)todo.getTarget()).getIid().intValue() == issue.getIid()) {
+            if (todo.isIssueTodo() && ((Issue) todo.getTarget()).getIid().intValue() == issue.getIid()) {
                 foundId = todo.getId();
                 break;
             }
@@ -147,7 +148,9 @@ public class TestTodosApi extends AbstractIntegrationTest {
         assertTrue(todos.size() > 0);
         foundId = null;
         for (Todo todo : todos) {
-            if (todo.getState() == TodoState.DONE && todo.isIssueTodo() && ((Issue)todo.getTarget()).getIid().intValue() == issue.getIid()) {
+            if (todo.getState() == TodoState.DONE
+                    && todo.isIssueTodo()
+                    && ((Issue) todo.getTarget()).getIid().intValue() == issue.getIid()) {
                 foundId = todo.getId();
                 break;
             }

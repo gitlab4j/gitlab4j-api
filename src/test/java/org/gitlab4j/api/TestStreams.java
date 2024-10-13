@@ -27,12 +27,18 @@ import org.mockito.Mockito;
 
 public class TestStreams implements Constants {
 
-    @Mock private GitLabApi gitLabApi;
-    @Mock private GitLabApiClient gitLabApiClient;
-    @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    @Mock
+    private GitLabApi gitLabApi;
+
+    @Mock
+    private GitLabApiClient gitLabApiClient;
+
+    @Captor
+    private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+
     private MockResponse response;
 
-    static private List<User> sortedUsers;
+    private static List<User> sortedUsers;
 
     @BeforeAll
     public static void setupClass() throws Exception {
@@ -44,11 +50,12 @@ public class TestStreams implements Constants {
 
     @BeforeEach
     public void setup() throws Exception {
-    	openMocks(this);
+        openMocks(this);
         response = new MockResponse(User.class, null, "user-list.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any()))
+                .thenReturn(response);
     }
 
     @Test
@@ -76,7 +83,8 @@ public class TestStreams implements Constants {
 
         // Assert
         assertNotNull(stream);
-        List<User> users = stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
+        List<User> users =
+                stream.parallel().sorted(comparing(User::getUsername)).collect(toList());
         assertNotNull(users);
 
         assertEquals(users.size(), sortedUsers.size());

@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.ReleaseParams;
 
-
 /**
  * This class provides an entry point to all the GitLab Releases API calls.
  * @see <a href="https://docs.gitlab.com/ce/api/releases">Releases API at GitLab</a>
@@ -44,7 +43,8 @@ public class ReleasesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Release> getReleases(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Release>(this, Release.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "releases"));
+        return (new Pager<Release>(
+                this, Release.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "releases"));
     }
 
     /**
@@ -71,7 +71,13 @@ public class ReleasesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Release getRelease(Object projectIdOrPath, String tagName) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "releases", urlEncode(tagName));
+        Response response = get(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "releases",
+                urlEncode(tagName));
         return (response.readEntity(Release.class));
     }
 
@@ -104,8 +110,8 @@ public class ReleasesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Release createRelease(Object projectIdOrPath, ReleaseParams params) throws GitLabApiException {
-        Response response = post(Response.Status.CREATED, params,
-                "projects", getProjectIdOrPath(projectIdOrPath), "releases");
+        Response response =
+                post(Response.Status.CREATED, params, "projects", getProjectIdOrPath(projectIdOrPath), "releases");
         return (response.readEntity(Release.class));
     }
 
@@ -121,13 +127,18 @@ public class ReleasesApi extends AbstractApi {
      */
     public Release updateRelease(Object projectIdOrPath, ReleaseParams params) throws GitLabApiException {
 
-	String tagName = params.getTagName();
-	if (tagName == null || tagName.trim().isEmpty()) {
-	    throw new RuntimeException("params.tagName cannot be null or empty");
-	}
+        String tagName = params.getTagName();
+        if (tagName == null || tagName.trim().isEmpty()) {
+            throw new RuntimeException("params.tagName cannot be null or empty");
+        }
 
-        Response response = put(Response.Status.OK, params,
-                "projects", getProjectIdOrPath(projectIdOrPath), "releases", urlEncode(tagName));
+        Response response = put(
+                Response.Status.OK,
+                params,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "releases",
+                urlEncode(tagName));
         return (response.readEntity(Release.class));
     }
 
@@ -141,6 +152,12 @@ public class ReleasesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteRelease(Object projectIdOrPath, String tagName) throws GitLabApiException {
-        delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "releases", urlEncode(tagName));
+        delete(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "releases",
+                urlEncode(tagName));
     }
- }
+}

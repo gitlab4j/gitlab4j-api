@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-  * In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  *
  * TEST_NAMESPACE
  * TEST_HOST_URL
@@ -28,7 +28,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestNamespaceApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -52,8 +53,9 @@ public class TestNamespaceApi extends AbstractIntegrationTest {
     public void testGetNamespaces() throws GitLabApiException {
         List<Namespace> namespaces = gitLabApi.getNamespaceApi().getNamespaces();
         assertNotNull(namespaces);
-        Optional<Namespace> matchingNamespace = namespaces.stream().
-                filter(n -> n.getPath().equals(TEST_NAMESPACE)).findFirst();
+        Optional<Namespace> matchingNamespace = namespaces.stream()
+                .filter(n -> n.getPath().equals(TEST_NAMESPACE))
+                .findFirst();
         assertTrue(matchingNamespace.isPresent(), TEST_NAMESPACE + " not found!");
     }
 
@@ -65,8 +67,7 @@ public class TestNamespaceApi extends AbstractIntegrationTest {
         while (pager.hasNext()) {
             List<Namespace> namespaces = pager.next();
             for (Namespace namespace : namespaces) {
-                if (TEST_NAMESPACE.equals(namespace.getPath()))
-                    return;
+                if (TEST_NAMESPACE.equals(namespace.getPath())) return;
             }
         }
 
@@ -77,8 +78,9 @@ public class TestNamespaceApi extends AbstractIntegrationTest {
     public void testGetNamespacesByPage() throws GitLabApiException {
         List<Namespace> namespaces = gitLabApi.getNamespaceApi().getNamespaces(1, 10);
         assertNotNull(namespaces);
-        Optional<Namespace> matchingNamespace = namespaces.stream().
-                filter(n -> n.getPath().equals(TEST_NAMESPACE)).findFirst();
+        Optional<Namespace> matchingNamespace = namespaces.stream()
+                .filter(n -> n.getPath().equals(TEST_NAMESPACE))
+                .findFirst();
         assertTrue(matchingNamespace.isPresent(), TEST_NAMESPACE + " not found!");
     }
 

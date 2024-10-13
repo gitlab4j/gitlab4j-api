@@ -22,7 +22,7 @@ public class DeploymentEvent extends AbstractEvent {
     private String commitTitle;
 
     @Override
-	public String getObjectKind() {
+    public String getObjectKind() {
         return (OBJECT_KIND);
     }
 

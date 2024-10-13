@@ -9,11 +9,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.JobAttributes;
@@ -52,7 +54,12 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public List<Job> getJobs(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", getProjectIdOrPath(projectIdOrPath), "jobs");
+        Response response = get(
+                Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs");
         return (response.readEntity(new GenericType<List<Job>>() {}));
     }
 
@@ -67,7 +74,8 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Pager<Job> getJobs(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Job>(this, Job.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "jobs"));
+        return (new Pager<Job>(
+                this, Job.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "jobs"));
     }
 
     /**
@@ -110,8 +118,14 @@ public class JobApi extends AbstractApi implements Constants {
      */
     public Pager<Job> getJobs(Object projectIdOrPath, JobScope scope, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("scope", scope);
-        return (new Pager<Job>(this, Job.class, itemsPerPage, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs"));
+        return (new Pager<Job>(
+                this,
+                Job.class,
+                itemsPerPage,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs"));
     }
 
     /**
@@ -153,7 +167,8 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, Boolean includeRetried) throws GitLabApiException {
+    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, Boolean includeRetried)
+            throws GitLabApiException {
         return getJobsForPipeline(projectIdOrPath, pipelineId, null, includeRetried);
     }
 
@@ -168,7 +183,8 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, JobScope scope) throws GitLabApiException {
+    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, JobScope scope)
+            throws GitLabApiException {
         return getJobsForPipeline(projectIdOrPath, pipelineId, scope, false);
     }
 
@@ -184,12 +200,20 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, JobScope scope, Boolean includeRetried) throws GitLabApiException {
+    public List<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, JobScope scope, Boolean includeRetried)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("scope", scope)
                 .withParam("include_retried", includeRetried)
                 .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs");
+        Response response = get(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "pipelines",
+                pipelineId,
+                "jobs");
         return (response.readEntity(new GenericType<List<Job>>() {}));
     }
 
@@ -204,7 +228,8 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, int itemsPerPage) throws GitLabApiException {
+    public Pager<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, int itemsPerPage)
+            throws GitLabApiException {
         return getJobsForPipeline(projectIdOrPath, pipelineId, itemsPerPage, null);
     }
 
@@ -220,12 +245,22 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a list containing the jobs for the specified project ID and pipeline ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Pager<Job> getJobsForPipeline(Object projectIdOrPath, long pipelineId, int itemsPerPage, Boolean includeRetried) throws GitLabApiException {
+    public Pager<Job> getJobsForPipeline(
+            Object projectIdOrPath, long pipelineId, int itemsPerPage, Boolean includeRetried)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
-            .withParam("include_retried", includeRetried)
-            .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        return (new Pager<Job>(this, Job.class, itemsPerPage, formData.asMap(),
-            "projects", getProjectIdOrPath(projectIdOrPath), "pipelines", pipelineId, "jobs"));
+                .withParam("include_retried", includeRetried)
+                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
+        return (new Pager<Job>(
+                this,
+                Job.class,
+                itemsPerPage,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "pipelines",
+                pipelineId,
+                "jobs"));
     }
 
     /**
@@ -251,7 +286,8 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a Stream containing the jobs for the specified project ID
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Stream<Job> getJobsStream(Object projectIdOrPath, long pipelineId, Boolean includeRetried) throws GitLabApiException {
+    public Stream<Job> getJobsStream(Object projectIdOrPath, long pipelineId, Boolean includeRetried)
+            throws GitLabApiException {
         return (getJobsForPipeline(projectIdOrPath, pipelineId, getDefaultPerPage(), includeRetried).stream());
     }
 
@@ -266,7 +302,8 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Job getJob(Object projectIdOrPath, Long jobId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId);
+        Response response =
+                get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId);
         return (response.readEntity(Job.class));
     }
 
@@ -301,16 +338,24 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a File instance pointing to the download of the specified artifacts file
      * @throws GitLabApiException if any exception occurs
      */
-    public File downloadArtifactsFile(Object projectIdOrPath, String ref, String jobName, File directory) throws GitLabApiException {
+    public File downloadArtifactsFile(Object projectIdOrPath, String ref, String jobName, File directory)
+            throws GitLabApiException {
 
         Form formData = new GitLabApiForm().withParam("job", jobName, true);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", urlEncode(ref), "download");
+        Response response = getWithAccepts(
+                Response.Status.OK,
+                formData.asMap(),
+                MediaType.MEDIA_TYPE_WILDCARD,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                "artifacts",
+                urlEncode(ref),
+                "download");
 
         try {
 
-            if (directory == null)
-                directory = new File(System.getProperty("java.io.tmpdir"));
+            if (directory == null) directory = new File(System.getProperty("java.io.tmpdir"));
 
             String filename = jobName + "-artifacts.zip";
             File file = new File(directory, filename);
@@ -337,10 +382,19 @@ public class JobApi extends AbstractApi implements Constants {
      * @return an InputStream to read the specified artifacts file from
      * @throws GitLabApiException if any exception occurs
      */
-    public InputStream downloadArtifactsFile(Object projectIdOrPath, String ref, String jobName) throws GitLabApiException {
+    public InputStream downloadArtifactsFile(Object projectIdOrPath, String ref, String jobName)
+            throws GitLabApiException {
         Form formData = new GitLabApiForm().withParam("job", jobName, true);
-        Response response = getWithAccepts(Response.Status.OK, formData.asMap(), MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", "artifacts", urlEncode(ref), "download");
+        Response response = getWithAccepts(
+                Response.Status.OK,
+                formData.asMap(),
+                MediaType.MEDIA_TYPE_WILDCARD,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                "artifacts",
+                urlEncode(ref),
+                "download");
         return (response.readEntity(InputStream.class));
     }
 
@@ -359,12 +413,18 @@ public class JobApi extends AbstractApi implements Constants {
      */
     public File downloadArtifactsFile(Object projectIdOrPath, Long jobId, File directory) throws GitLabApiException {
 
-        Response response = getWithAccepts(Response.Status.OK, null, MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts");
+        Response response = getWithAccepts(
+                Response.Status.OK,
+                null,
+                MediaType.MEDIA_TYPE_WILDCARD,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                jobId,
+                "artifacts");
         try {
 
-            if (directory == null)
-                directory = new File(System.getProperty("java.io.tmpdir"));
+            if (directory == null) directory = new File(System.getProperty("java.io.tmpdir"));
 
             String filename = "job-" + jobId + "-artifacts.zip";
             File file = new File(directory, filename);
@@ -389,8 +449,15 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public InputStream downloadArtifactsFile(Object projectIdOrPath, Long jobId) throws GitLabApiException {
-        Response response = getWithAccepts(Response.Status.OK, null, MediaType.MEDIA_TYPE_WILDCARD,
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts");
+        Response response = getWithAccepts(
+                Response.Status.OK,
+                null,
+                MediaType.MEDIA_TYPE_WILDCARD,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                jobId,
+                "artifacts");
         return (response.readEntity(InputStream.class));
     }
 
@@ -408,14 +475,21 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a File instance pointing to the download of the specified artifacts file
      * @throws GitLabApiException if any exception occurs
      */
-    public File downloadArtifactsFile(Object projectIdOrPath, Long jobId, ArtifactsFile artifactsFile, File directory) throws GitLabApiException {
+    public File downloadArtifactsFile(Object projectIdOrPath, Long jobId, ArtifactsFile artifactsFile, File directory)
+            throws GitLabApiException {
 
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", artifactsFile.getFilename());
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                jobId,
+                "artifacts",
+                artifactsFile.getFilename());
         try {
 
-            if (directory == null)
-                directory = new File(System.getProperty("java.io.tmpdir"));
+            if (directory == null) directory = new File(System.getProperty("java.io.tmpdir"));
 
             String filename = artifactsFile.getFilename();
             File file = new File(directory, filename);
@@ -442,9 +516,17 @@ public class JobApi extends AbstractApi implements Constants {
      * @return an InputStream to read the specified artifacts file from
      * @throws GitLabApiException if any exception occurs
      */
-    public InputStream downloadArtifactsFile(Object projectIdOrPath, Long jobId, ArtifactsFile artifactsFile) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", artifactsFile.getFilename());
+    public InputStream downloadArtifactsFile(Object projectIdOrPath, Long jobId, ArtifactsFile artifactsFile)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                jobId,
+                "artifacts",
+                artifactsFile.getFilename());
         return (response.readEntity(InputStream.class));
     }
 
@@ -462,15 +544,22 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a File instance pointing to the download of the specified artifacts file
      * @throws GitLabApiException if any exception occurs
      */
-    public File downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, Path artifactPath, File directory) throws GitLabApiException {
+    public File downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, Path artifactPath, File directory)
+            throws GitLabApiException {
 
         String path = artifactPath.toString().replace("\\", "/");
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", path);
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                jobId,
+                "artifacts",
+                path);
         try {
 
-            if (directory == null)
-                directory = new File(System.getProperty("java.io.tmpdir"));
+            if (directory == null) directory = new File(System.getProperty("java.io.tmpdir"));
 
             String filename = artifactPath.getFileName().toString();
             File file = new File(directory, filename);
@@ -497,10 +586,18 @@ public class JobApi extends AbstractApi implements Constants {
      * @return an InputStream to read the specified artifacts file from
      * @throws GitLabApiException if any exception occurs
      */
-    public InputStream downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, Path artifactPath) throws GitLabApiException {
+    public InputStream downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, Path artifactPath)
+            throws GitLabApiException {
         String path = artifactPath.toString().replace("\\", "/");
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "artifacts", path);
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                jobId,
+                "artifacts",
+                path);
         return (response.readEntity(InputStream.class));
     }
 
@@ -515,11 +612,17 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a String containing the specified job's trace
      * @throws GitLabApiException if any exception occurs during execution
      */
-     public String getTrace(Object projectIdOrPath, Long jobId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "trace");
+    public String getTrace(Object projectIdOrPath, Long jobId) throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                jobId,
+                "trace");
         return (response.readEntity(String.class));
-     }
+    }
 
     /**
      * Cancel specified job in a project.
@@ -532,9 +635,9 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      * @deprecated replaced by {@link #cancelJob(Object, Long)}
      */
-     @Deprecated
+    @Deprecated
     public Job cancleJob(Object projectIdOrPath, Long jobId) throws GitLabApiException {
-	return (cancelJob(projectIdOrPath, jobId));
+        return (cancelJob(projectIdOrPath, jobId));
     }
 
     /**
@@ -549,7 +652,14 @@ public class JobApi extends AbstractApi implements Constants {
      */
     public Job cancelJob(Object projectIdOrPath, Long jobId) throws GitLabApiException {
         GitLabApiForm formData = null;
-        Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "cancel");
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "jobs",
+                jobId,
+                "cancel");
         return (response.readEntity(Job.class));
     }
 
@@ -565,7 +675,8 @@ public class JobApi extends AbstractApi implements Constants {
      */
     public Job retryJob(Object projectIdOrPath, Long jobId) throws GitLabApiException {
         GitLabApiForm formData = null;
-        Response response = post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "retry");
+        Response response =
+                post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "retry");
         return (response.readEntity(Job.class));
     }
 
@@ -581,7 +692,8 @@ public class JobApi extends AbstractApi implements Constants {
      */
     public Job eraseJob(Object projectIdOrPath, Long jobId) throws GitLabApiException {
         GitLabApiForm formData = null;
-        Response response = post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "erase");
+        Response response =
+                post(Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "erase");
         return (response.readEntity(Job.class));
     }
 
@@ -596,7 +708,7 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Job playJob(Object projectIdOrPath, Long jobId) throws GitLabApiException {
-      return playJob(projectIdOrPath, jobId, null);
+        return playJob(projectIdOrPath, jobId, null);
     }
 
     /**
@@ -613,18 +725,23 @@ public class JobApi extends AbstractApi implements Constants {
      * @return job instance which just played
      * @throws GitLabApiException if any exception occurs during execution
      */
-    public Job playJob(Object projectIdOrPath, Long jobId, JobAttributes jobAttributes)
-        throws GitLabApiException {
-      Response response;
-      if (jobAttributes == null) {
-        GitLabApiForm formData = null;
-        response = post(Status.CREATED, formData, "projects",
-            getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "play");
-      } else {
-        response = post(Status.CREATED, jobAttributes, "projects",
-            getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "play");
-      }
-      return (response.readEntity(Job.class));
+    public Job playJob(Object projectIdOrPath, Long jobId, JobAttributes jobAttributes) throws GitLabApiException {
+        Response response;
+        if (jobAttributes == null) {
+            GitLabApiForm formData = null;
+            response = post(
+                    Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "play");
+        } else {
+            response = post(
+                    Status.CREATED,
+                    jobAttributes,
+                    "projects",
+                    getProjectIdOrPath(projectIdOrPath),
+                    "jobs",
+                    jobId,
+                    "play");
+        }
+        return (response.readEntity(Job.class));
     }
 
     /**
@@ -638,8 +755,9 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Job keepArtifacts(Object projectIdOrPath, Long jobId) throws GitLabApiException {
-	GitLabApiForm formData = null;
-        Response response = post(Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "keep");
+        GitLabApiForm formData = null;
+        Response response =
+                post(Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "keep");
         return (response.readEntity(Job.class));
     }
 

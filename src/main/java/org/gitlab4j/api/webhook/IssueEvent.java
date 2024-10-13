@@ -94,8 +94,7 @@ public class IssueEvent extends AbstractEvent {
         this.objectAttributes = objectAttributes;
     }
 
-    public static class ObjectAttributes extends EventIssue {
-    }
+    public static class ObjectAttributes extends EventIssue {}
 
     @Override
     public String toString() {

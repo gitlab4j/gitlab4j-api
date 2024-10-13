@@ -1,4 +1,3 @@
-
 package org.gitlab4j.api.utils;
 
 import java.io.IOException;
@@ -46,6 +45,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResolver<ObjectMapper> {
 
     private static final SimpleDateFormat iso8601UtcFormat;
+
     static {
         iso8601UtcFormat = new SimpleDateFormat(ISO8601.UTC_PATTERN);
         iso8601UtcFormat.setLenient(true);
@@ -81,7 +81,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 
     /**
      * Gets the ObjectMapper contained by this instance.
-     * 
+     *
      * @return the ObjectMapper contained by this instance
      */
     public ObjectMapper getObjectMapper() {
@@ -125,7 +125,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      * @throws JsonMappingException if a JSON error occurs
      * @throws IOException if an error occurs reading the JSON data
      */
-    public <T> T unmarshal(Class<T> returnType, JsonNode tree) throws JsonParseException, JsonMappingException, IOException {
+    public <T> T unmarshal(Class<T> returnType, JsonNode tree)
+            throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(returnType);
         return (objectMapper.treeToValue(tree, returnType));
     }
@@ -141,7 +142,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      * @throws JsonMappingException if a JSON error occurs
      * @throws IOException if an error occurs reading the JSON data
      */
-    public <T> T unmarshal(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
+    public <T> T unmarshal(Class<T> returnType, Reader reader)
+            throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(returnType);
         return (objectMapper.readValue(reader, returnType));
     }
@@ -157,7 +159,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      * @throws JsonMappingException if a JSON error occurs
      * @throws IOException if an error occurs reading the JSON data
      */
-    public <T> T unmarshal(Class<T> returnType, String postData) throws JsonParseException, JsonMappingException, IOException {
+    public <T> T unmarshal(Class<T> returnType, String postData)
+            throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(returnType);
         return (objectMapper.readValue(postData, returnType));
     }
@@ -173,7 +176,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      * @throws JsonMappingException if a JSON error occurs
      * @throws IOException if an error occurs reading the JSON data
      */
-    public <T> List<T> unmarshalList(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
+    public <T> List<T> unmarshalList(Class<T> returnType, Reader reader)
+            throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(null);
         CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, returnType);
         return (objectMapper.readValue(reader, javaType));
@@ -190,7 +194,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      * @throws JsonMappingException if a JSON error occurs
      * @throws IOException if an error occurs reading the JSON data
      */
-    public <T> List<T> unmarshalList(Class<T> returnType, String postData) throws JsonParseException, JsonMappingException, IOException {
+    public <T> List<T> unmarshalList(Class<T> returnType, String postData)
+            throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(null);
         CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, returnType);
         return (objectMapper.readValue(postData, javaType));
@@ -207,7 +212,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      * @throws JsonMappingException if a JSON error occurs
      * @throws IOException if an error occurs reading the JSON data
      */
-    public <T> Map<String, T> unmarshalMap(Class<T> returnType, Reader reader) throws JsonParseException, JsonMappingException, IOException {
+    public <T> Map<String, T> unmarshalMap(Class<T> returnType, Reader reader)
+            throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(null);
         return (objectMapper.readValue(reader, new TypeReference<Map<String, T>>() {}));
     }
@@ -223,14 +229,15 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      * @throws JsonMappingException if a JSON error occurs
      * @throws IOException if an error occurs reading the JSON data
      */
-    public <T> Map<String, T> unmarshalMap(Class<T> returnType, String jsonData) throws JsonParseException, JsonMappingException, IOException {
+    public <T> Map<String, T> unmarshalMap(Class<T> returnType, String jsonData)
+            throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper objectMapper = getContext(null);
         return (objectMapper.readValue(jsonData, new TypeReference<Map<String, T>>() {}));
     }
 
     /**
      * Marshals the supplied object out as a formatted JSON string.
-     * 
+     *
      * @param <T> the generics type for the provided object
      * @param object the object to output as a JSON string
      * @return a String containing the JSON for the specified object
@@ -263,7 +270,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     public static class DateOnlySerializer extends JsonSerializer<Date> {
 
         @Override
-        public void serialize(Date date, JsonGenerator gen, SerializerProvider provider) throws IOException, JsonProcessingException {
+        public void serialize(Date date, JsonGenerator gen, SerializerProvider provider)
+                throws IOException, JsonProcessingException {
             String dateString = ISO8601.dateOnly(date);
             gen.writeString(dateString);
         }
@@ -275,7 +283,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     public static class JsonDateSerializer extends JsonSerializer<Date> {
 
         @Override
-        public void serialize(Date date, JsonGenerator gen, SerializerProvider provider) throws IOException, JsonProcessingException {
+        public void serialize(Date date, JsonGenerator gen, SerializerProvider provider)
+                throws IOException, JsonProcessingException {
             String iso8601String = ISO8601.toString(date);
             gen.writeString(iso8601String);
         }
@@ -287,7 +296,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     public static class JsonDateDeserializer extends JsonDeserializer<Date> {
 
         @Override
-        public Date deserialize(JsonParser jsonparser, DeserializationContext context) throws IOException, JsonProcessingException {
+        public Date deserialize(JsonParser jsonparser, DeserializationContext context)
+                throws IOException, JsonProcessingException {
 
             try {
                 return (ISO8601.toDate(jsonparser.getText()));
@@ -303,9 +313,8 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     public static class UserListSerializer extends JsonSerializer<List<User>> {
 
         @Override
-        public void serialize(List<User> value, JsonGenerator jgen,
-                SerializerProvider provider) throws IOException,
-                JsonProcessingException {
+        public void serialize(List<User> value, JsonGenerator jgen, SerializerProvider provider)
+                throws IOException, JsonProcessingException {
 
             jgen.writeStartArray();
             for (User user : value) {
@@ -334,7 +343,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
             for (int i = 0; i < numUsers; i++) {
                 JsonNode node = tree.get(i);
                 JsonNode userNode = node.get("user");
-                User user = mapper.treeToValue(userNode,  User.class);
+                User user = mapper.treeToValue(userNode, User.class);
                 users.add(user);
             }
 
@@ -348,6 +357,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
      */
     private static class JacksonJsonSingletonHelper {
         private static final JacksonJson JACKSON_JSON = new JacksonJson();
+
         static {
             JACKSON_JSON.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
             JACKSON_JSON.objectMapper.setSerializationInclusion(Include.ALWAYS);

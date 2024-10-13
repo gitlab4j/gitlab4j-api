@@ -23,7 +23,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestGitLabLogin implements PropertyConstants {
 
     // The following needs to be set to your test repository
@@ -71,7 +72,8 @@ public class TestGitLabLogin implements PropertyConstants {
 
     @Test
     public void testOauth2LoginWithStringPassword() throws GitLabApiException {
-        GitLabApi gitLabApi = GitLabApi.oauth2Login(TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, null, null, true);
+        GitLabApi gitLabApi =
+                GitLabApi.oauth2Login(TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD, null, null, true);
         assertNotNull(gitLabApi);
         Version version = gitLabApi.getVersion();
         System.out.println("ACCESS_TOKEN: " + gitLabApi.getAuthToken());

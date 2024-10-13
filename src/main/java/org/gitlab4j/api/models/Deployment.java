@@ -1,10 +1,10 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.Constants.DeploymentStatus;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.gitlab4j.api.Constants.DeploymentStatus;
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class Deployment implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -21,83 +21,83 @@ public class Deployment implements Serializable {
     private Deployable deployable;
 
     public Long getId() {
-	return id;
+        return id;
     }
 
     public void setId(Long id) {
-	this.id = id;
+        this.id = id;
     }
 
     public Long getIid() {
-	return iid;
+        return iid;
     }
 
     public void setIid(Long iid) {
-	this.iid = iid;
+        this.iid = iid;
     }
 
     public String getRef() {
-	return ref;
+        return ref;
     }
 
     public void setRef(String ref) {
-	this.ref = ref;
+        this.ref = ref;
     }
 
     public String getSha() {
-	return sha;
+        return sha;
     }
 
     public void setSha(String sha) {
-	this.sha = sha;
+        this.sha = sha;
     }
 
     public Date getCreatedAt() {
-	return createdAt;
+        return createdAt;
     }
 
     public void setCreatedAt(Date createdAt) {
-	this.createdAt = createdAt;
+        this.createdAt = createdAt;
     }
 
     public Date getUpdatedAt() {
-	return updatedAt;
+        return updatedAt;
     }
 
     public void setUpdatedAt(Date updatedAt) {
-	this.updatedAt = updatedAt;
+        this.updatedAt = updatedAt;
     }
 
     public DeploymentStatus getStatus() {
-	return status;
+        return status;
     }
 
     public void setStatus(DeploymentStatus status) {
-	this.status = status;
+        this.status = status;
     }
 
     public User getUser() {
-	return user;
+        return user;
     }
 
     public void setUser(User user) {
-	this.user = user;
+        this.user = user;
     }
 
     public Environment getEnvironment() {
-	return environment;
+        return environment;
     }
 
     public void setEnvironment(Environment environment) {
-	this.environment = environment;
+        this.environment = environment;
     }
 
     public Deployable getDeployable() {
-	return deployable;
+        return deployable;
     }
 
     public void setDeployable(Deployable deployable) {
-	this.deployable = deployable;
+        this.deployable = deployable;
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public abstract class NotificationService implements Serializable{
+public abstract class NotificationService implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String NOTIFY_ONLY_BROKEN_PIPELINES_PROP = "notify_only_broken_pipelines";
@@ -297,12 +297,15 @@ public abstract class NotificationService implements Serializable{
         return (JacksonJson.toJsonString(this));
     }
 
-	public enum BranchesToBeNotified {
-	    ALL, DEFAULT, PROTECTED, DEFAULT_AND_PROTECTED;
-	    @Override
-		public String toString() {
-	        return (name().toLowerCase());
-	    }
-	}
+    public enum BranchesToBeNotified {
+        ALL,
+        DEFAULT,
+        PROTECTED,
+        DEFAULT_AND_PROTECTED;
 
+        @Override
+        public String toString() {
+            return (name().toLowerCase());
+        }
+    }
 }

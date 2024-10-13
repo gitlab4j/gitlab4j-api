@@ -44,7 +44,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestMergeRequestApi extends AbstractIntegrationTest {
 
@@ -76,27 +77,31 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
     @AfterAll
     public static void teardown() {
 
-	if (testProject == null) {
-	    return;
-	}
+        if (testProject == null) {
+            return;
+        }
 
-	try {
+        try {
 
-	    List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(testProject);
-	    MergeRequest mergeRequest = mergeRequests.stream().filter(
-                m -> TEST_MR_TITLE.equals(m.getTitle())).findFirst().orElse(null);
-	    if (mergeRequest != null) {
+            List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(testProject);
+            MergeRequest mergeRequest = mergeRequests.stream()
+                    .filter(m -> TEST_MR_TITLE.equals(m.getTitle()))
+                    .findFirst()
+                    .orElse(null);
+            if (mergeRequest != null) {
                 gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mergeRequest.getIid());
-	    }
+            }
 
-	    mergeRequest = mergeRequests.stream().filter(
-                m -> TEST_REBASE_MR_TITLE.equals(m.getTitle())).findFirst().orElse(null);
-	    if (mergeRequest != null) {
+            mergeRequest = mergeRequests.stream()
+                    .filter(m -> TEST_REBASE_MR_TITLE.equals(m.getTitle()))
+                    .findFirst()
+                    .orElse(null);
+            if (mergeRequest != null) {
                 gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mergeRequest.getIid());
-	    }
+            }
 
-	} catch (GitLabApiException ignore) {
-	}
+        } catch (GitLabApiException ignore) {
+        }
 
         try {
             gitLabApi.getRepositoryApi().deleteBranch(testProject, TEST_BRANCH_NAME);
@@ -112,7 +117,7 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
     @Test
     public void testCreateAndUpdateMergeRequest() throws GitLabApiException {
 
-	// Create a test branch
+        // Create a test branch
         Branch branch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_BRANCH_NAME, "master");
         assertNotNull(branch);
 
@@ -126,24 +131,25 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
         try {
 
             MergeRequestParams params = new MergeRequestParams()
-                .withSourceBranch(TEST_BRANCH_NAME)
-                .withTargetBranch("master")
-                .withTitle(TEST_MR_TITLE);
+                    .withSourceBranch(TEST_BRANCH_NAME)
+                    .withTargetBranch("master")
+                    .withTitle(TEST_MR_TITLE);
             mr = gitLabApi.getMergeRequestApi().createMergeRequest(testProject, params);
             assertEquals(TEST_MR_TITLE, mr.getTitle());
 
             params = new MergeRequestParams()
-                .withAssigneeId(currentUser.getId())
-                .withDescription(TEST_DESCRIPTION)
-                .withDiscussionLocked(true);
-            MergeRequest updatedMr = gitLabApi.getMergeRequestApi().updateMergeRequest(testProject, mr.getIid(), params);
+                    .withAssigneeId(currentUser.getId())
+                    .withDescription(TEST_DESCRIPTION)
+                    .withDiscussionLocked(true);
+            MergeRequest updatedMr =
+                    gitLabApi.getMergeRequestApi().updateMergeRequest(testProject, mr.getIid(), params);
             assertEquals(currentUser.getId(), updatedMr.getAssignee().getId());
             assertEquals(TEST_DESCRIPTION, updatedMr.getDescription());
             assertEquals(true, updatedMr.getDiscussionLocked());
 
-            gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
+            gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mr.getIid());
             Optional<MergeRequest> deletedMr =
-                gitLabApi.getMergeRequestApi().getOptionalMergeRequest(testProject, mr.getIid());
+                    gitLabApi.getMergeRequestApi().getOptionalMergeRequest(testProject, mr.getIid());
             mr = null;
             assertFalse(deletedMr.isPresent());
 
@@ -151,7 +157,7 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
 
             if (mr != null) {
                 try {
-                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
+                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mr.getIid());
                 } catch (Exception ignore) {
                 }
             }
@@ -166,7 +172,7 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
     @Test
     public void testMergeRequestFilter() throws GitLabApiException {
 
-	// Create a test branch
+        // Create a test branch
         Branch branch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_BRANCH_NAME, "master");
         assertNotNull(branch);
 
@@ -180,32 +186,31 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
         try {
 
             MergeRequestParams params = new MergeRequestParams()
-                .withSourceBranch(TEST_BRANCH_NAME)
-                .withTargetBranch("master")
-                .withTitle(TEST_MR_TITLE);
+                    .withSourceBranch(TEST_BRANCH_NAME)
+                    .withTargetBranch("master")
+                    .withTitle(TEST_MR_TITLE);
             mr = gitLabApi.getMergeRequestApi().createMergeRequest(testProject, params);
             assertEquals(TEST_MR_TITLE, mr.getTitle());
 
             MergeRequestFilter filter = new MergeRequestFilter()
-        	    .withSearch("itriuoewrtiuertuieuitruiyewr")
-        	    .withIn(MergeRequestSearchIn.TITLE);
+                    .withSearch("itriuoewrtiuertuieuitruiyewr")
+                    .withIn(MergeRequestSearchIn.TITLE);
             List<MergeRequest> mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(filter);
             assertTrue(mergeRequests.isEmpty());
 
-            filter = new MergeRequestFilter()
-        	    .withSearch(TEST_MR_TITLE)
-        	    .withIn(MergeRequestSearchIn.TITLE);
+            filter = new MergeRequestFilter().withSearch(TEST_MR_TITLE).withIn(MergeRequestSearchIn.TITLE);
             mergeRequests = gitLabApi.getMergeRequestApi().getMergeRequests(filter);
             assertFalse(mergeRequests.isEmpty());
 
-            List<String> titles = mergeRequests.stream().map(MergeRequest::getTitle).collect(toList());
+            List<String> titles =
+                    mergeRequests.stream().map(MergeRequest::getTitle).collect(toList());
             assertTrue(titles.contains(TEST_MR_TITLE));
 
         } finally {
 
             if (mr != null) {
                 try {
-                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
+                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mr.getIid());
                 } catch (Exception ignore) {
                 }
             }
@@ -215,12 +220,12 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
             } catch (GitLabApiException ignore) {
             }
         }
-    }    
+    }
 
     @Test
     public void testRebaseMergeRequest() throws GitLabApiException {
 
-	// Create a test branch
+        // Create a test branch
         Branch branch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_REBASE_BRANCH_NAME, "master");
         assertNotNull(branch);
 
@@ -234,9 +239,9 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
         try {
 
             MergeRequestParams params = new MergeRequestParams()
-                .withSourceBranch(TEST_REBASE_BRANCH_NAME)
-                .withTargetBranch("master")
-                .withTitle(TEST_REBASE_MR_TITLE);
+                    .withSourceBranch(TEST_REBASE_BRANCH_NAME)
+                    .withTargetBranch("master")
+                    .withTitle(TEST_REBASE_MR_TITLE);
             mr = gitLabApi.getMergeRequestApi().createMergeRequest(testProject, params);
             assertEquals(TEST_REBASE_MR_TITLE, mr.getTitle());
 
@@ -268,9 +273,9 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
                 retries++;
             }
 
-            gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
+            gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mr.getIid());
             Optional<MergeRequest> deletedMr =
-                gitLabApi.getMergeRequestApi().getOptionalMergeRequest(testProject, mr.getIid());
+                    gitLabApi.getMergeRequestApi().getOptionalMergeRequest(testProject, mr.getIid());
             mr = null;
             assertFalse(deletedMr.isPresent());
 
@@ -278,7 +283,7 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
 
             if (mr != null) {
                 try {
-                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
+                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mr.getIid());
                 } catch (Exception ignore) {
                 }
             }
@@ -293,7 +298,7 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
     @Test
     public void testGetMergeRequestPipelines() throws GitLabApiException {
 
-	// Create a test branch
+        // Create a test branch
         Branch branch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_BRANCH_NAME, "master");
         assertNotNull(branch);
 
@@ -307,29 +312,33 @@ public class TestMergeRequestApi extends AbstractIntegrationTest {
         try {
 
             MergeRequestParams params = new MergeRequestParams()
-                .withSourceBranch(TEST_BRANCH_NAME)
-                .withTargetBranch("master")
-                .withTitle(TEST_MR_TITLE);
+                    .withSourceBranch(TEST_BRANCH_NAME)
+                    .withTargetBranch("master")
+                    .withTitle(TEST_MR_TITLE);
             mr = gitLabApi.getMergeRequestApi().createMergeRequest(testProject, params);
             assertNotNull(mr);
 
-            List<Pipeline> pipelines = gitLabApi.getMergeRequestApi().getMergeRequestPipelines(testProject, mr.getIid());
+            List<Pipeline> pipelines =
+                    gitLabApi.getMergeRequestApi().getMergeRequestPipelines(testProject, mr.getIid());
             assertNotNull(pipelines);
 
-            Stream<Pipeline> pipelineStream = gitLabApi.getMergeRequestApi().getMergeRequestPipelinesStream(testProject, mr.getIid());
+            Stream<Pipeline> pipelineStream =
+                    gitLabApi.getMergeRequestApi().getMergeRequestPipelinesStream(testProject, mr.getIid());
             assertNotNull(pipelineStream);
 
         } finally {
 
             if (mr != null) {
                 try {
-                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject,  mr.getIid());
-                } catch (Exception ignore) {}
+                    gitLabApi.getMergeRequestApi().deleteMergeRequest(testProject, mr.getIid());
+                } catch (Exception ignore) {
+                }
             }
 
             try {
                 gitLabApi.getRepositoryApi().deleteBranch(testProject, TEST_BRANCH_NAME);
-            } catch (GitLabApiException ignore) {}
+            } catch (GitLabApiException ignore) {
+            }
         }
     }
 }

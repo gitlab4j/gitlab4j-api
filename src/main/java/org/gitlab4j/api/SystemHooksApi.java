@@ -84,12 +84,14 @@ public class SystemHooksApi extends AbstractApi {
      * @return an SystemHookEvent instance with info on the added system hook
      * @throws GitLabApiException if any exception occurs
      */
-    public SystemHook addSystemHook(String url, String token, Boolean pushEvents,
-            Boolean tagPushEvents,  Boolean enableSslVerification) throws GitLabApiException {
+    public SystemHook addSystemHook(
+            String url, String token, Boolean pushEvents, Boolean tagPushEvents, Boolean enableSslVerification)
+            throws GitLabApiException {
 
-        SystemHook systemHook = new SystemHook().withPushEvents(pushEvents)
-            .withTagPushEvents(tagPushEvents)
-            .withEnableSslVerification(enableSslVerification);
+        SystemHook systemHook = new SystemHook()
+                .withPushEvents(pushEvents)
+                .withTagPushEvents(tagPushEvents)
+                .withEnableSslVerification(enableSslVerification);
 
         return addSystemHook(url, token, systemHook);
     }
@@ -154,7 +156,8 @@ public class SystemHooksApi extends AbstractApi {
             throw new RuntimeException("hookId cannot be null");
         }
 
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        Response.Status expectedStatus =
+                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "hooks", hookId);
     }
 

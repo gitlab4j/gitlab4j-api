@@ -3,7 +3,7 @@ package org.gitlab4j.api.webhook;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class ChangeContainer<T> {
-    
+
     private T previous;
     private T current;
 

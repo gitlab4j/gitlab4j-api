@@ -1,10 +1,11 @@
 package org.gitlab4j.api;
 
+import java.util.Date;
+
 import javax.ws.rs.core.Response;
+
 import org.gitlab4j.api.models.PersonalAccessToken;
 import org.gitlab4j.api.utils.ISO8601;
-
-import java.util.Date;
 
 /**
  * This class provides an entry point to all the GitLab API personal access token calls.
@@ -35,7 +36,7 @@ public class PersonalAccessTokenApi extends AbstractApi {
      * Rotates the given personal access token.
      * The token is revoked and a new one which will expire in one week is created to replace it.
      * Only working with GitLab 16.0 and above.
-     * 
+     *
      * <pre><code>GitLab Endpoint: POST /personal_access_tokens/self/rotate</code></pre>
      *
      * @param expiresAt Expiration date of the access token
@@ -58,9 +59,8 @@ public class PersonalAccessTokenApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public PersonalAccessToken rotatePersonalAccessToken(String id, Date expiresAt) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("expires_at", ISO8601.dateOnly(expiresAt));
-        
+        GitLabApiForm formData = new GitLabApiForm().withParam("expires_at", ISO8601.dateOnly(expiresAt));
+
         Response response = post(Response.Status.OK, formData, "personal_access_tokens", id, "rotate");
         return (response.readEntity(PersonalAccessToken.class));
     }

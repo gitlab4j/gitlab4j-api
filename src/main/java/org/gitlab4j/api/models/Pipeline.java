@@ -2,9 +2,10 @@ package org.gitlab4j.api.models;
 
 import java.io.Serializable;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Pipeline implements Serializable {
     private static final long serialVersionUID = 1L;

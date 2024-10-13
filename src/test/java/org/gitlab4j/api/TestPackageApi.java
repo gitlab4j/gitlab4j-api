@@ -1,5 +1,10 @@
 package org.gitlab4j.api;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import java.util.*;
+
 import org.gitlab4j.api.models.*;
 import org.gitlab4j.api.models.Package;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,14 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
-
-import java.util.*;
-
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestPackageApi extends AbstractIntegrationTest {
 
@@ -46,10 +47,11 @@ public class TestPackageApi extends AbstractIntegrationTest {
     public void getPackagesStream() throws GitLabApiException {
         PackagesApi packagesApi = gitLabApi.getPackagesApi();
         PackageFilter filter = new PackageFilter()
-            .withOrderBy(Constants.PackageOrderBy.CREATED_AT)
-            .withSortOder(Constants.SortOrder.DESC);
+                .withOrderBy(Constants.PackageOrderBy.CREATED_AT)
+                .withSortOder(Constants.SortOrder.DESC);
 
-        Optional<Package> lastPackage = packagesApi.getPackagesStream(testProject.getId(),filter).findAny();
+        Optional<Package> lastPackage =
+                packagesApi.getPackagesStream(testProject.getId(), filter).findAny();
 
         assertTrue(lastPackage.isPresent());
     }

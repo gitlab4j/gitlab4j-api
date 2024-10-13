@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 
 import org.gitlab4j.api.models.IssueEvent;
 
-
 /**
  * This class provides an entry point to all the GitLab Resource state events API
  * @see <a href="https://docs.gitlab.com/ce/api/resource_state_events.html">Resource state events API at GitLab</a>
@@ -27,7 +26,8 @@ public class ResourceStateEventsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<IssueEvent> getIssueStateEvents(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
-        return (getIssueStateEvents(projectIdOrPath, issueIid, getDefaultPerPage()).all());
+        return (getIssueStateEvents(projectIdOrPath, issueIid, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -41,9 +41,18 @@ public class ResourceStateEventsApi extends AbstractApi {
      * @return the Pager of IssueEvent instances for the specified issue IID
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<IssueEvent> getIssueStateEvents(Object projectIdOrPath, Long issueIid, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<IssueEvent>(this, IssueEvent.class, itemsPerPage, null,
-            "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "resource_state_events"));
+    public Pager<IssueEvent> getIssueStateEvents(Object projectIdOrPath, Long issueIid, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<IssueEvent>(
+                this,
+                IssueEvent.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "resource_state_events"));
     }
 
     /**
@@ -56,7 +65,8 @@ public class ResourceStateEventsApi extends AbstractApi {
      * @return a Stream of IssueEvent for the specified issue
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<IssueEvent> getIssueStateEventsStream(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
+    public Stream<IssueEvent> getIssueStateEventsStream(Object projectIdOrPath, Long issueIid)
+            throws GitLabApiException {
         return (getIssueStateEvents(projectIdOrPath, issueIid, getDefaultPerPage()).stream());
     }
 }

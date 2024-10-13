@@ -32,8 +32,10 @@ public class AuditEventApi extends AbstractApi {
      * @return a List of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public List<AuditEvent> getAuditEvents(Date created_after, Date created_before, String entityType, Long entityId) throws GitLabApiException {
-        return (getAuditEvents(created_after, created_before, entityType, entityId, getDefaultPerPage()).all());
+    public List<AuditEvent> getAuditEvents(Date created_after, Date created_before, String entityType, Long entityId)
+            throws GitLabApiException {
+        return (getAuditEvents(created_after, created_before, entityType, entityId, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -49,7 +51,9 @@ public class AuditEventApi extends AbstractApi {
      * @return a Pager of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<AuditEvent> getAuditEvents(Date created_after, Date created_before, String entityType, Long entityId, int itemsPerPage) throws GitLabApiException {
+    public Pager<AuditEvent> getAuditEvents(
+            Date created_after, Date created_before, String entityType, Long entityId, int itemsPerPage)
+            throws GitLabApiException {
         Form form = new GitLabApiForm()
                 .withParam("created_before", ISO8601.toString(created_before, false))
                 .withParam("created_after", ISO8601.toString(created_after, false))
@@ -70,7 +74,8 @@ public class AuditEventApi extends AbstractApi {
      * @return a Stream of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<AuditEvent> getAuditEventsStream(Date created_after, Date created_before, String entityType, Long entityId) throws GitLabApiException {
+    public Stream<AuditEvent> getAuditEventsStream(
+            Date created_after, Date created_before, String entityType, Long entityId) throws GitLabApiException {
         return (getAuditEvents(created_after, created_before, entityType, entityId, getDefaultPerPage()).stream());
     }
 

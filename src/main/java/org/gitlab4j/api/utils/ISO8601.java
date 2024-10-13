@@ -28,25 +28,29 @@ public class ISO8601 {
     public static final String UTC_PATTERN = "yyyy-MM-dd HH:mm:ss 'UTC'";
     public static final String DATE_ONLY_PATTERN = "yyyy-MM-dd";
 
-    private static final DateTimeFormatter ODT_WITH_MSEC_PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd[['T'][ ]HH:mm:ss.SSS[ ][XXXXX][XXXX]]").toFormatter();
-    private static final DateTimeFormatter ODT_PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd[['T'][ ]HH:mm:ss[.SSS][ ][XXX][X]]")
-        .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
-        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-        .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
-        .parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
-        .parseDefaulting(ChronoField.OFFSET_SECONDS, 0)
-        .toFormatter();
+    private static final DateTimeFormatter ODT_WITH_MSEC_PARSER = new DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd[['T'][ ]HH:mm:ss.SSS[ ][XXXXX][XXXX]]")
+            .toFormatter();
+    private static final DateTimeFormatter ODT_PARSER = new DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd[['T'][ ]HH:mm:ss[.SSS][ ][XXX][X]]")
+            .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+            .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+            .parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
+            .parseDefaulting(ChronoField.OFFSET_SECONDS, 0)
+            .toFormatter();
 
     // Set up ThreadLocal storage to save a thread local SimpleDateFormat keyed with the format string
     private static final class SafeDateFormatter {
 
-        private static final ThreadLocal<Map<String, SimpleDateFormat>> safeFormats = new ThreadLocal<Map<String, SimpleDateFormat>>() {
+        private static final ThreadLocal<Map<String, SimpleDateFormat>> safeFormats =
+                new ThreadLocal<Map<String, SimpleDateFormat>>() {
 
-            @Override
-            public Map<String, SimpleDateFormat> initialValue() {
-                return (new ConcurrentHashMap<>());
-            }
-        };
+                    @Override
+                    public Map<String, SimpleDateFormat> initialValue() {
+                        return (new ConcurrentHashMap<>());
+                    }
+                };
 
         private static SimpleDateFormat getDateFormat(String formatSpec) {
 
@@ -79,13 +83,14 @@ public class ISO8601 {
      * @return a ISO8601 formatted string for the current date and time
      */
     public static String getTimestamp(boolean withMsec) {
-        return (withMsec ? SafeDateFormatter.getDateFormat(PATTERN_MSEC).format(new Date()) :
-            SafeDateFormatter.getDateFormat(PATTERN).format(new Date()));
+        return (withMsec
+                ? SafeDateFormatter.getDateFormat(PATTERN_MSEC).format(new Date())
+                : SafeDateFormatter.getDateFormat(PATTERN).format(new Date()));
     }
 
     /**
      * Get a ISO8601 formatted string for the provided Calendar instance.
-     * 
+     *
      * @param cal the Calendar instance to get the ISO8601 formatted string for
      * @return a ISO8601 formatted string for the provided Calendar instance, or null if call is null
      */
@@ -100,7 +105,7 @@ public class ISO8601 {
 
     /**
      * Get a ISO8601 formatted string for the provided Date instance.
-     * 
+     *
      * @param date the Date instance to get the ISO8601 formatted string for
      * @param withMsec flag indicating whether to include milliseconds
      * @return a ISO8601 formatted string for the provided Date instance, or null if date is null
@@ -112,9 +117,9 @@ public class ISO8601 {
         }
 
         long time = date.getTime();
-        return (withMsec && time % 1000 != 0 ?
-                SafeDateFormatter.getDateFormat(OUTPUT_MSEC_PATTERN).format(date) :
-                SafeDateFormatter.getDateFormat(OUTPUT_PATTERN).format(date));
+        return (withMsec && time % 1000 != 0
+                ? SafeDateFormatter.getDateFormat(OUTPUT_MSEC_PATTERN).format(date)
+                : SafeDateFormatter.getDateFormat(OUTPUT_PATTERN).format(date));
     }
 
     /**
@@ -134,7 +139,7 @@ public class ISO8601 {
 
     /**
      * Get a ISO8601 formatted string for the provided Date instance.
-     * 
+     *
      * @param date the Date instance to get the ISO8601 formatted string for
      * @return a ISO8601 formatted string for the provided Date instance, or null if date is null
      */
@@ -144,7 +149,7 @@ public class ISO8601 {
 
     /**
      * Parses an ISO8601 formatted string a returns an Instant instance.
-     * 
+     *
      * @param dateTimeString the ISO8601 formatted string
      * @return an Instant instance for the ISO8601 formatted string
      * @throws ParseException if the provided string is not in the proper format
@@ -166,9 +171,9 @@ public class ISO8601 {
                 dateTimeString = dateTimeString.replace("UTC", "+0000");
             }
 
-            OffsetDateTime odt = (dateTimeString.length() > 25 ?
-                OffsetDateTime.parse(dateTimeString, ODT_WITH_MSEC_PARSER) :
-                OffsetDateTime.parse(dateTimeString, ODT_PARSER));
+            OffsetDateTime odt = (dateTimeString.length() > 25
+                    ? OffsetDateTime.parse(dateTimeString, ODT_WITH_MSEC_PARSER)
+                    : OffsetDateTime.parse(dateTimeString, ODT_PARSER));
 
             return (odt.toInstant());
         }
@@ -188,7 +193,7 @@ public class ISO8601 {
 
     /**
      * Parses an ISO8601 formatted string a returns a Calendar instance.
-     * 
+     *
      * @param dateTimeString the ISO8601 formatted string
      * @return a Calendar instance for the ISO8601 formatted string
      * @throws ParseException if the provided string is not in the proper format

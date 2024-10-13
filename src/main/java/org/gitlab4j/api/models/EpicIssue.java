@@ -1,4 +1,3 @@
-
 package org.gitlab4j.api.models;
 
 import java.util.Map;
@@ -21,22 +20,22 @@ public class EpicIssue extends Issue {
     private Integer relativePosition;
 
     @Override
-	public Integer getDownvotes() {
+    public Integer getDownvotes() {
         return downvotes;
     }
 
     @Override
-	public void setDownvotes(Integer downvotes) {
+    public void setDownvotes(Integer downvotes) {
         this.downvotes = downvotes;
     }
 
     @Override
-	public Integer getUpvotes() {
+    public Integer getUpvotes() {
         return upvotes;
     }
 
     @Override
-	public void setUpvotes(Integer upvotes) {
+    public void setUpvotes(Integer upvotes) {
         this.upvotes = upvotes;
     }
 
@@ -58,12 +57,12 @@ public class EpicIssue extends Issue {
     }
 
     @Override
-	public Boolean getSubscribed() {
+    public Boolean getSubscribed() {
         return subscribed;
     }
 
     @Override
-	public void setSubscribed(Boolean subscribed) {
+    public void setSubscribed(Boolean subscribed) {
         this.subscribed = subscribed;
     }
 

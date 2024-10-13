@@ -62,7 +62,8 @@ public class TestOauth2LoginStreamingOutput {
     @Test
     public void testPasswordsWithManySpecialChars() throws Exception {
 
-        final String password = "Password with many special chars '\\ - \" - [] - () - ~ - ! - ^ - ` - Ää - Öö - Üü - ẞ'";
+        final String password =
+                "Password with many special chars '\\ - \" - [] - () - ~ - ! - ^ - ` - Ää - Öö - Üü - ẞ'";
         try (Oauth2LoginStreamingOutput oauth2Stream = new Oauth2LoginStreamingOutput(USERNAME, password)) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             oauth2Stream.write(stream);

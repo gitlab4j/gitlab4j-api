@@ -11,14 +11,14 @@ import org.junit.jupiter.api.Test;
 public class TestISO8601 {
 
     private static final String SPACEY_GITLAB_DATE = "2018-03-12 10:16:46 +0700";
-    private static final String ISO8601_GITLAB_DATE ="2018-03-12T10:16:46+0700";
+    private static final String ISO8601_GITLAB_DATE = "2018-03-12T10:16:46+0700";
     private static final String SPACEY_GITLAB_UTC_DATE = "2018-03-12 03:16:46 UTC";
 
     private static final String DATE_ONLY = "2018-03-12";
-    private static final String DATE_AT_MIDNIGHT ="2018-03-12T00:00:00Z";
+    private static final String DATE_AT_MIDNIGHT = "2018-03-12T00:00:00Z";
 
     private static final String SPACEY_GITLAB_DATE_WITH_MSEC = "2018-03-12 10:16:46.123 +0700";
-    private static final String ISO8601_GITLAB_DATE_WITH_MSEC ="2018-03-12T10:16:46.123+0700";
+    private static final String ISO8601_GITLAB_DATE_WITH_MSEC = "2018-03-12T10:16:46.123+0700";
 
     private static final String ISO8601_DATE_OFFSET_COLON = "2018-03-12T10:16:46+07:00";
 

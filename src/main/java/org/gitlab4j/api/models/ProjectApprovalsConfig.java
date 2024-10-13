@@ -1,10 +1,10 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
+
 import org.gitlab4j.api.GitLabApiForm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.io.Serializable;
 
 public class ProjectApprovalsConfig implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -28,7 +28,7 @@ public class ProjectApprovalsConfig implements Serializable {
     public ProjectApprovalsConfig withApprovalsBeforeMerge(Integer approvalsBeforeMerge) {
         this.approvalsBeforeMerge = approvalsBeforeMerge;
         return (this);
-   }
+    }
 
     public Boolean getResetApprovalsOnPush() {
         return resetApprovalsOnPush;
@@ -64,7 +64,8 @@ public class ProjectApprovalsConfig implements Serializable {
         this.disableOverridingApproversPerMergeRequest = disableOverridingApproversPerMergeRequest;
     }
 
-    public ProjectApprovalsConfig withDisableOverridingApproversPerMergeRequest(Boolean disableOverridingApproversPerMergeRequest) {
+    public ProjectApprovalsConfig withDisableOverridingApproversPerMergeRequest(
+            Boolean disableOverridingApproversPerMergeRequest) {
         this.disableOverridingApproversPerMergeRequest = disableOverridingApproversPerMergeRequest;
         return (this);
     }
@@ -80,7 +81,7 @@ public class ProjectApprovalsConfig implements Serializable {
     public ProjectApprovalsConfig withMergeRequestsAuthorApproval(Boolean mergeRequestsAuthorApproval) {
         this.mergeRequestsAuthorApproval = mergeRequestsAuthorApproval;
         return (this);
-     }
+    }
 
     public Boolean getMergeRequestsDisableCommittersApproval() {
         return mergeRequestsDisableCommittersApproval;
@@ -90,7 +91,8 @@ public class ProjectApprovalsConfig implements Serializable {
         this.mergeRequestsDisableCommittersApproval = mergeRequestsDisableCommittersApproval;
     }
 
-    public ProjectApprovalsConfig withMergeRequestsDisableCommittersApproval(Boolean mergeRequestsDisableCommittersApproval) {
+    public ProjectApprovalsConfig withMergeRequestsDisableCommittersApproval(
+            Boolean mergeRequestsDisableCommittersApproval) {
         this.mergeRequestsDisableCommittersApproval = mergeRequestsDisableCommittersApproval;
         return (this);
     }
@@ -116,12 +118,12 @@ public class ProjectApprovalsConfig implements Serializable {
     @JsonIgnore
     public GitLabApiForm getForm() {
         return new GitLabApiForm()
-            .withParam("approvals_before_merge", approvalsBeforeMerge)
-            .withParam("reset_approvals_on_push", resetApprovalsOnPush)
-            .withParam("selective_code_owner_removals", selectiveCodeOwnerRemovals)
-            .withParam("disable_overriding_approvers_per_merge_request", disableOverridingApproversPerMergeRequest)
-            .withParam("merge_requests_author_approval", mergeRequestsAuthorApproval)
-            .withParam("merge_requests_disable_committers_approval", mergeRequestsDisableCommittersApproval)
-            .withParam("require_password_to_approve", requirePasswordToApprove);
+                .withParam("approvals_before_merge", approvalsBeforeMerge)
+                .withParam("reset_approvals_on_push", resetApprovalsOnPush)
+                .withParam("selective_code_owner_removals", selectiveCodeOwnerRemovals)
+                .withParam("disable_overriding_approvers_per_merge_request", disableOverridingApproversPerMergeRequest)
+                .withParam("merge_requests_author_approval", mergeRequestsAuthorApproval)
+                .withParam("merge_requests_disable_committers_approval", mergeRequestsDisableCommittersApproval)
+                .withParam("require_password_to_approve", requirePasswordToApprove);
     }
 }

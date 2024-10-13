@@ -1,11 +1,11 @@
-
 package org.gitlab4j.api.models;
+
+import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.gitlab4j.api.utils.JacksonJson;
-
-import java.io.Serializable;
 
 public class Diff implements Serializable {
     private static final long serialVersionUID = 1L;

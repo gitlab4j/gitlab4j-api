@@ -1,10 +1,11 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class SharedGroup implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,6 +14,7 @@ public class SharedGroup implements Serializable {
     private String groupName;
     private String groupFullPath;
     private AccessLevel groupAccessLevel;
+
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date expiresAt;
 

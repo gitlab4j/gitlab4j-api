@@ -11,7 +11,6 @@ public class HelperUtils {
     private static final Properties testProperties = new Properties();
 
     static {
-
         boolean propertiesLoaded = false;
 
         // Get the maven basedir, we use it to locate the default properties for the unit tests
@@ -104,7 +103,7 @@ public class HelperUtils {
      * @return a random integer between 1 and the specified value (inclusive)
      */
     public static final int getRandomInt(int maxValue) {
-        return ((int)(Math.random() * maxValue + 1));
+        return ((int) (Math.random() * maxValue + 1));
     }
 
     /**

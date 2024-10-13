@@ -61,7 +61,7 @@ public class LicenseApi extends AbstractApi {
     /**
      * Get a Stream of all licenses.
      *
-      <pre><code>GitLab Endpoint: GET /licenses</code></pre>
+     * <pre><code>GitLab Endpoint: GET /licenses</code></pre>
      *
      * @return a Stream of License instances
      * @throws GitLabApiException if any exception occurs

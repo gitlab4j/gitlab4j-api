@@ -15,8 +15,8 @@ import org.gitlab4j.api.Constants.MergeRequestScope;
 import org.gitlab4j.api.Constants.MergeRequestSearchIn;
 import org.gitlab4j.api.Constants.MergeRequestState;
 import org.gitlab4j.api.Constants.SortOrder;
-import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.GitLabApiForm;
+import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -48,6 +48,7 @@ public class MergeRequestFilter implements Serializable {
      * Filter MR by created by the given user id. Combine with scope=all or scope=assigned_to_me
      */
     private Long authorId;
+
     private Long assigneeId;
     private String myReactionEmoji;
     private String sourceBranch;
@@ -58,9 +59,18 @@ public class MergeRequestFilter implements Serializable {
     private Map<MergeRequestField, Object> not;
 
     public enum MergeRequestField {
-        LABELS, MILESTONE, AUTHOR_ID, AUTHOR_USERNAME, ASSIGNEE_ID, ASSIGNEE_USERNAME, REVIEWER_ID, REVIEWER_USERNAME, MY_REACTION_EMOJI;
+        LABELS,
+        MILESTONE,
+        AUTHOR_ID,
+        AUTHOR_USERNAME,
+        ASSIGNEE_ID,
+        ASSIGNEE_USERNAME,
+        REVIEWER_ID,
+        REVIEWER_USERNAME,
+        MY_REACTION_EMOJI;
 
-        private static JacksonJsonEnumHelper<MergeRequestField> enumHelper = new JacksonJsonEnumHelper<>(MergeRequestField.class);
+        private static JacksonJsonEnumHelper<MergeRequestField> enumHelper =
+                new JacksonJsonEnumHelper<>(MergeRequestField.class);
 
         @JsonCreator
         public static MergeRequestField forValue(String value) {
@@ -383,7 +393,7 @@ public class MergeRequestFilter implements Serializable {
      * @return the reference to this MergeRequestFilter instance
      */
     public MergeRequestFilter withNot(MergeRequestField field, Object value) {
-        if(not == null) {
+        if (not == null) {
             not = new LinkedHashMap<>();
         }
         not.put(field, value);
@@ -450,7 +460,6 @@ public class MergeRequestFilter implements Serializable {
         return withNot(MergeRequestField.REVIEWER_USERNAME, reviewerUsername);
     }
 
-
     /**
      * Add my_reaction_emoji to the 'not' filter entry.
      *
@@ -483,9 +492,7 @@ public class MergeRequestFilter implements Serializable {
 
     @JsonIgnore
     public GitLabApiForm getQueryParams(int page, int perPage) {
-        return (getQueryParams()
-            .withParam(Constants.PAGE_PARAM, page)
-            .withParam(Constants.PER_PAGE_PARAM, perPage));
+        return (getQueryParams().withParam(Constants.PAGE_PARAM, page).withParam(Constants.PER_PAGE_PARAM, perPage));
     }
 
     @JsonIgnore
@@ -517,9 +524,9 @@ public class MergeRequestFilter implements Serializable {
         }
         return params;
     }
-  
+
     private Map<String, Object> toStringMap(Map<MergeRequestField, Object> map) {
-        if(map == null) {
+        if (map == null) {
             return null;
         }
         Map<String, Object> result = new LinkedHashMap<>();
@@ -528,7 +535,7 @@ public class MergeRequestFilter implements Serializable {
         }
         return result;
     }
-  
+
     @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));

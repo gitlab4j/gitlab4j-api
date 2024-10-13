@@ -18,7 +18,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
-* In order for these tests to run you must set the following properties in test-gitlab4j.properties
+ * In order for these tests to run you must set the following properties in test-gitlab4j.properties
  *
  * TEST_NAMESPACE
  * TEST_PROJECT_NAME
@@ -29,7 +29,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestAvatarUpload extends AbstractIntegrationTest {
 
@@ -37,6 +38,7 @@ public class TestAvatarUpload extends AbstractIntegrationTest {
     private static final String TEST_PROXY_URI;
     private static final String TEST_PROXY_USERNAME;
     private static final String TEST_PROXY_PASSWORD;
+
     static {
         TEST_PROXY_URI = HelperUtils.getProperty("TEST_PROXY_URI");
         TEST_PROXY_USERNAME = HelperUtils.getProperty("TEST_PROXY_USERNAME");
@@ -80,7 +82,8 @@ public class TestAvatarUpload extends AbstractIntegrationTest {
         assumeTrue(TEST_PROXY_URI.length() > 0 && TEST_PROXY_USERNAME.length() > 0 && TEST_PROXY_PASSWORD.length() > 0);
 
         // Setup a GitLabApi instance to use a proxy
-        Map<String, Object> clientConfig = ProxyClientConfig.createProxyClientConfig(TEST_PROXY_URI, TEST_PROXY_USERNAME, TEST_PROXY_PASSWORD);
+        Map<String, Object> clientConfig =
+                ProxyClientConfig.createProxyClientConfig(TEST_PROXY_URI, TEST_PROXY_USERNAME, TEST_PROXY_PASSWORD);
         GitLabApi gitLabApi = new GitLabApi(TEST_HOST_URL, TEST_PRIVATE_TOKEN, null, clientConfig);
 
         File avatarFile = new File("src/test/resources/org/gitlab4j/api", AVATAR_FILENAME);

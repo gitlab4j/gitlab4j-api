@@ -28,14 +28,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestPipelineApi extends AbstractIntegrationTest {
 
     private static final String SCHEDULE_DESCRIPTION = "Test pipeline schedule - DELETE AFTER TEST";
     private static final String TRIGGER_DESCRIPTION = "Test pipeline trigger - DELETE AFTER TEST";
-    private static final String TEST_GITLAB_CI_YML_CONTENT = "build:\n" +
-        "  stage: build\n  script:\n    - echo 'Empty build for testing variables with GitLab4J-API'";
-
+    private static final String TEST_GITLAB_CI_YML_CONTENT =
+            "build:\n" + "  stage: build\n  script:\n    - echo 'Empty build for testing variables with GitLab4J-API'";
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
@@ -54,14 +54,16 @@ public class TestPipelineApi extends AbstractIntegrationTest {
 
         try {
 
-            List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
+            List<PipelineSchedule> pipelineSchedules =
+                    gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
             for (PipelineSchedule schedule : pipelineSchedules) {
                 if (schedule.getDescription().startsWith(SCHEDULE_DESCRIPTION)) {
                     gitLabApi.getPipelineApi().deletePipelineSchedule(testProject, schedule.getId());
                 }
             }
 
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+        }
 
         try {
 
@@ -72,13 +74,16 @@ public class TestPipelineApi extends AbstractIntegrationTest {
                 }
             }
 
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+        }
 
         if (createdGitlabCiYml != null) {
             try {
-                gitLabApi.getRepositoryFileApi().deleteFile(
-                    testProject, ".gitlab-ci.yml", "master", "No longer needed.");
-            } catch (Exception ignore) {}
+                gitLabApi
+                        .getRepositoryFileApi()
+                        .deleteFile(testProject, ".gitlab-ci.yml", "master", "No longer needed.");
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -98,11 +103,13 @@ public class TestPipelineApi extends AbstractIntegrationTest {
                 RepositoryFile file = new RepositoryFile();
                 file.setFilePath(".gitlab-ci.yml");
                 file.setContent(TEST_GITLAB_CI_YML_CONTENT);
-                createdGitlabCiYml = gitLabApi.getRepositoryFileApi().createFile(
-                        testProject, file, "master", "Need for testing pipelines.");
+                createdGitlabCiYml = gitLabApi
+                        .getRepositoryFileApi()
+                        .createFile(testProject, file, "master", "Need for testing pipelines.");
                 gitlabCiYml = createdGitlabCiYml;
                 System.out.println("Created .gitlab-ci.yml file for testing purposes.");
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -126,13 +133,17 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         newPipelineSchedule.setDescription(scheduleDescription);
         newPipelineSchedule.setCron("2 4 * * *");
         newPipelineSchedule.setRef("master");
-        PipelineSchedule createdPipelineSchedule = gitLabApi.getPipelineApi().createPipelineSchedule(testProject, newPipelineSchedule);
+        PipelineSchedule createdPipelineSchedule =
+                gitLabApi.getPipelineApi().createPipelineSchedule(testProject, newPipelineSchedule);
         assertNotNull(createdPipelineSchedule);
 
         // Make sure the created schedule is present before updating
         List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
         assertNotNull(pipelineSchedules);
-        assertTrue(pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList()).contains(scheduleDescription));
+        assertTrue(pipelineSchedules.stream()
+                .map(PipelineSchedule::getDescription)
+                .collect(toList())
+                .contains(scheduleDescription));
 
         String newScheduleDescription = scheduleDescription + " - updated";
         createdPipelineSchedule.setDescription(newScheduleDescription);
@@ -141,7 +152,8 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
         assertNotNull(pipelineSchedules);
 
-        List<String> scheduleDecriptions = pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList());
+        List<String> scheduleDecriptions =
+                pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList());
         assertFalse(scheduleDecriptions.contains(scheduleDescription));
         assertTrue(scheduleDecriptions.contains(newScheduleDescription));
     }
@@ -155,13 +167,17 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         newPipelineSchedule.setDescription(scheduleDescription);
         newPipelineSchedule.setCron("3 4 * * *");
         newPipelineSchedule.setRef("master");
-        PipelineSchedule createdPipelineSchedule = gitLabApi.getPipelineApi().createPipelineSchedule(testProject, newPipelineSchedule);
+        PipelineSchedule createdPipelineSchedule =
+                gitLabApi.getPipelineApi().createPipelineSchedule(testProject, newPipelineSchedule);
         assertNotNull(createdPipelineSchedule);
 
         // Make sure the created schedule is present before playing
         List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
         assertNotNull(pipelineSchedules);
-        assertTrue(pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList()).contains(scheduleDescription));
+        assertTrue(pipelineSchedules.stream()
+                .map(PipelineSchedule::getDescription)
+                .collect(toList())
+                .contains(scheduleDescription));
 
         gitLabApi.getPipelineApi().playPipelineSchedule(testProject, createdPipelineSchedule.getId());
     }
@@ -176,18 +192,25 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         newPipelineSchedule.setDescription(scheduleDescription);
         newPipelineSchedule.setCron("1 4 * * *");
         newPipelineSchedule.setRef("master");
-        PipelineSchedule createdPipelineSchedule = gitLabApi.getPipelineApi().createPipelineSchedule(testProject, newPipelineSchedule);
+        PipelineSchedule createdPipelineSchedule =
+                gitLabApi.getPipelineApi().createPipelineSchedule(testProject, newPipelineSchedule);
         assertNotNull(createdPipelineSchedule);
 
         // Make sure the created schedule is present before deleting
         List<PipelineSchedule> pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
         assertNotNull(pipelineSchedules);
-        assertTrue(pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList()).contains(scheduleDescription));
+        assertTrue(pipelineSchedules.stream()
+                .map(PipelineSchedule::getDescription)
+                .collect(toList())
+                .contains(scheduleDescription));
 
         gitLabApi.getPipelineApi().deletePipelineSchedule(testProject, createdPipelineSchedule.getId());
         pipelineSchedules = gitLabApi.getPipelineApi().getPipelineSchedules(testProject);
         assertNotNull(pipelineSchedules);
-        assertFalse(pipelineSchedules.stream().map(PipelineSchedule::getDescription).collect(toList()).contains(scheduleDescription));
+        assertFalse(pipelineSchedules.stream()
+                .map(PipelineSchedule::getDescription)
+                .collect(toList())
+                .contains(scheduleDescription));
     }
 
     @Test
@@ -202,7 +225,10 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         // Make sure the created trigger is present before updating
         List<Trigger> pipelineTriggers = gitLabApi.getPipelineApi().getPipelineTriggers(testProject);
         assertNotNull(pipelineTriggers);
-        assertTrue(pipelineTriggers.stream().map(Trigger::getDescription).collect(toList()).contains(triggerDescription));
+        assertTrue(pipelineTriggers.stream()
+                .map(Trigger::getDescription)
+                .collect(toList())
+                .contains(triggerDescription));
 
         String newTriggerDescription = triggerDescription + " - updated";
         gitLabApi.getPipelineApi().updatePipelineTrigger(testProject, createdTrigger.getId(), newTriggerDescription);
@@ -210,7 +236,8 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         pipelineTriggers = gitLabApi.getPipelineApi().getPipelineTriggers(testProject);
         assertNotNull(pipelineTriggers);
 
-        List<String> triggerDecriptions = pipelineTriggers.stream().map(Trigger::getDescription).collect(toList());
+        List<String> triggerDecriptions =
+                pipelineTriggers.stream().map(Trigger::getDescription).collect(toList());
         assertFalse(triggerDecriptions.contains(triggerDescription));
         assertTrue(triggerDecriptions.contains(newTriggerDescription));
     }
@@ -227,12 +254,18 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         // Make sure the created trigger is present before deleting
         List<Trigger> pipelineTriggers = gitLabApi.getPipelineApi().getPipelineTriggers(testProject);
         assertNotNull(pipelineTriggers);
-        assertTrue(pipelineTriggers.stream().map(Trigger::getDescription).collect(toList()).contains(triggerDescription));
+        assertTrue(pipelineTriggers.stream()
+                .map(Trigger::getDescription)
+                .collect(toList())
+                .contains(triggerDescription));
 
         gitLabApi.getPipelineApi().deletePipelineTrigger(testProject, createdTrigger.getId());
         pipelineTriggers = gitLabApi.getPipelineApi().getPipelineTriggers(testProject);
         assertNotNull(pipelineTriggers);
-        assertFalse(pipelineTriggers.stream().map(Trigger::getDescription).collect(toList()).contains(triggerDescription));
+        assertFalse(pipelineTriggers.stream()
+                .map(Trigger::getDescription)
+                .collect(toList())
+                .contains(triggerDescription));
     }
 
     @Test
@@ -243,20 +276,22 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         // Skip this test if no .gitlab-ci.yml file is in the test project
         assumeTrue(gitlabCiYml != null);
 
-        String triggerDescription = TRIGGER_DESCRIPTION + " - test triggerPipeline() - " + HelperUtils.getRandomInt(1000);
+        String triggerDescription =
+                TRIGGER_DESCRIPTION + " - test triggerPipeline() - " + HelperUtils.getRandomInt(1000);
         Trigger createdTrigger = gitLabApi.getPipelineApi().createPipelineTrigger(testProject, triggerDescription);
         assertNotNull(createdTrigger);
 
-        Pipeline pipeline = gitLabApi.getPipelineApi().triggerPipeline(testProject, createdTrigger, "master",  null);
+        Pipeline pipeline = gitLabApi.getPipelineApi().triggerPipeline(testProject, createdTrigger, "master", null);
         assertNotNull(pipeline);
 
         Pipeline canceledPipeline = gitLabApi.getPipelineApi().cancelPipelineJobs(testProject, pipeline.getId());
         assertNotNull(canceledPipeline);
 
         gitLabApi.getPipelineApi().deletePipelineTrigger(testProject, createdTrigger.getId());
-        Stream<Trigger>pipelineTriggers = gitLabApi.getPipelineApi().getPipelineTriggersStream(testProject);
+        Stream<Trigger> pipelineTriggers = gitLabApi.getPipelineApi().getPipelineTriggersStream(testProject);
         assertNotNull(pipelineTriggers);
-        assertFalse(pipelineTriggers.map(Trigger::getDescription).collect(toList()).contains(triggerDescription));
+        assertFalse(
+                pipelineTriggers.map(Trigger::getDescription).collect(toList()).contains(triggerDescription));
     }
 
     @Test
@@ -333,7 +368,8 @@ public class TestPipelineApi extends AbstractIntegrationTest {
 
         try {
 
-            Stream<Variable> stream = gitLabApi.getPipelineApi().getPipelineVariablesStream(testProject, pipeline.getId());
+            Stream<Variable> stream =
+                    gitLabApi.getPipelineApi().getPipelineVariablesStream(testProject, pipeline.getId());
             stream.forEach(v -> {
                 String value = variableMap.get(v.getKey());
                 assertEquals(value, v.getValue());
@@ -354,8 +390,10 @@ public class TestPipelineApi extends AbstractIntegrationTest {
     @Test
     @Disabled("disable till 'Move the test infrastructure to Testcontainers #925'")
     public void testGetBridges() throws GitLabApiException {
-        Set<Bridge> bridges = gitLabApi.getPipelineApi().getBridgesStream(testProject, 4L, Constants.JobScope.SUCCESS).collect(Collectors.toSet());
+        Set<Bridge> bridges = gitLabApi
+                .getPipelineApi()
+                .getBridgesStream(testProject, 4L, Constants.JobScope.SUCCESS)
+                .collect(Collectors.toSet());
         assertNotNull(bridges);
     }
-
 }

@@ -61,15 +61,16 @@ import uk.org.webcompere.systemstubs.stream.SystemErr;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @ExtendWith(SystemStubsExtension.class)
 public class TestRequestResponseLogging implements PropertyConstants {
 
-	@SystemStub
-	private SystemErr systemErr;
+    @SystemStub
+    private SystemErr systemErr;
 
-	@TempDir
-	static Path tempDir;
+    @TempDir
+    static Path tempDir;
 
     // The following needs to be set to your test repository
     private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
@@ -99,7 +100,8 @@ public class TestRequestResponseLogging implements PropertyConstants {
 
         if (problems.isEmpty()) {
 
-            tempLoggingFile = Files.createFile(tempDir.resolve("test-loging.log")).toFile();
+            tempLoggingFile =
+                    Files.createFile(tempDir.resolve("test-loging.log")).toFile();
 
             loggingHandler = new FileHandler(tempLoggingFile.getAbsolutePath());
             loggingHandler.setFormatter(new SimpleFormatter());
@@ -133,7 +135,9 @@ public class TestRequestResponseLogging implements PropertyConstants {
         System.out.println(log);
 
         assertTrue(log.contains("PRIVATE-TOKEN:"), "Request/response log information was missing.");
-        assertTrue(log.contains("PRIVATE-TOKEN: ********"), "Request/response PRIVATE-TOKEN value was incorrectly present.");
+        assertTrue(
+                log.contains("PRIVATE-TOKEN: ********"),
+                "Request/response PRIVATE-TOKEN value was incorrectly present.");
         assertTrue(log.contains("/api/v4/projects"), "Request/response log information was missing.");
         assertTrue(log.contains("...more..."), "Request/response entity was missing.");
     }
@@ -148,7 +152,9 @@ public class TestRequestResponseLogging implements PropertyConstants {
         System.out.println(log);
 
         assertTrue(log.contains("PRIVATE-TOKEN:"), "Request/response log information was missing.");
-        assertTrue(log.contains("PRIVATE-TOKEN: ********"), "Request/response PRIVATE-TOKEN value was incorrectly present.");
+        assertTrue(
+                log.contains("PRIVATE-TOKEN: ********"),
+                "Request/response PRIVATE-TOKEN value was incorrectly present.");
         assertTrue(log.contains("/api/v4/projects"), "Request/response log information was missing.");
         assertFalse(log.contains("...more..."), "Request/response entity was incorrectly present.");
     }
@@ -184,7 +190,7 @@ public class TestRequestResponseLogging implements PropertyConstants {
     private static String readLogFile() throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
         Files.lines(Paths.get(tempLoggingFile.getAbsolutePath()), StandardCharsets.UTF_8)
-            .forEach(s -> contentBuilder.append(s).append("\n"));
+                .forEach(s -> contentBuilder.append(s).append("\n"));
         return contentBuilder.toString();
     }
 

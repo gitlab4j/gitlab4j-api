@@ -44,7 +44,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestRepositoryApi extends AbstractIntegrationTest {
 
@@ -113,7 +114,8 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         Branch fetchedBranch = gitLabApi.getRepositoryApi().getBranch(project.getId(), TEST_BRANCH_NAME);
         assertNotNull(fetchedBranch);
 
-        List<Branch> searchBranches = gitLabApi.getRepositoryApi().getBranches(project.getId(), TEST_BRANCH_SEARCH_TERM);
+        List<Branch> searchBranches =
+                gitLabApi.getRepositoryApi().getBranches(project.getId(), TEST_BRANCH_SEARCH_TERM);
         assertEquals(searchBranches.size(), 1);
 
         searchBranches = gitLabApi.getRepositoryApi().getBranches(project.getId());
@@ -151,19 +153,16 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        RepositoryArchiveParams params = new RepositoryArchiveParams()
-            .withPath(project.getPath())
-            .withSha("master");
+        RepositoryArchiveParams params =
+                new RepositoryArchiveParams().withPath(project.getPath()).withSha("master");
 
-        InputStream in = gitLabApi.getRepositoryApi()
-            .getRepositoryArchive(project.getId(), params);
+        InputStream in = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), params);
 
         Path target = Files.createTempFile(TEST_PROJECT_NAME + "-", ".tar.gz");
         Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
 
         assertTrue(target.toFile().length() > 0);
         Files.delete(target);
-
     }
 
     @Test
@@ -172,12 +171,12 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        RepositoryArchiveParams params = new RepositoryArchiveParams()
-            .withPath(project.getPath())
-            .withSha("master");
+        RepositoryArchiveParams params =
+                new RepositoryArchiveParams().withPath(project.getPath()).withSha("master");
 
-        InputStream in = gitLabApi.getRepositoryApi()
-            .getRepositoryArchive(project.getId(), params, ArchiveFormat.TAR_GZ.toString());
+        InputStream in = gitLabApi
+                .getRepositoryApi()
+                .getRepositoryArchive(project.getId(), params, ArchiveFormat.TAR_GZ.toString());
 
         Path target = Files.createTempFile(TEST_PROJECT_NAME + "-", ".tar.gz");
         Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
@@ -192,7 +191,7 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        File file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), "master", (File)null);
+        File file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), "master", (File) null);
         assertTrue(file.length() > 0);
         file.delete();
 
@@ -207,11 +206,10 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        RepositoryArchiveParams params = new RepositoryArchiveParams()
-            .withPath(project.getPath())
-            .withSha("master");
+        RepositoryArchiveParams params =
+                new RepositoryArchiveParams().withPath(project.getPath()).withSha("master");
 
-        File file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), params, (File)null);
+        File file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), params, (File) null);
         assertTrue(file.length() > 0);
         file.delete();
 
@@ -226,15 +224,18 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         assertNotNull(project);
 
-        RepositoryArchiveParams params = new RepositoryArchiveParams()
-            .withPath(project.getPath())
-            .withSha("master");
+        RepositoryArchiveParams params =
+                new RepositoryArchiveParams().withPath(project.getPath()).withSha("master");
 
-        File file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), params, null, ArchiveFormat.TAR_GZ.toString());
+        File file = gitLabApi
+                .getRepositoryApi()
+                .getRepositoryArchive(project.getId(), params, null, ArchiveFormat.TAR_GZ.toString());
         assertTrue(file.length() > 0);
         file.delete();
 
-        file = gitLabApi.getRepositoryApi().getRepositoryArchive(project.getId(), params, new File("."), ArchiveFormat.TAR_GZ.toString());
+        file = gitLabApi
+                .getRepositoryApi()
+                .getRepositoryArchive(project.getId(), params, new File("."), ArchiveFormat.TAR_GZ.toString());
         assertTrue(file.length() > 0);
         file.delete();
     }
@@ -250,10 +251,20 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         assertTrue(commits.size() > 1);
 
         int numCommits = commits.size();
-        CompareResults compareResults = gitLabApi.getRepositoryApi().compare(project.getId(), commits.get(numCommits - 1).getId(), commits.get(numCommits - 2).getId());
+        CompareResults compareResults = gitLabApi
+                .getRepositoryApi()
+                .compare(
+                        project.getId(),
+                        commits.get(numCommits - 1).getId(),
+                        commits.get(numCommits - 2).getId());
         assertNotNull(compareResults);
 
-        compareResults = gitLabApi.getRepositoryApi().compare(TEST_NAMESPACE + "/" + TEST_PROJECT_NAME, commits.get(numCommits - 1).getId(), commits.get(numCommits - 2).getId());
+        compareResults = gitLabApi
+                .getRepositoryApi()
+                .compare(
+                        TEST_NAMESPACE + "/" + TEST_PROJECT_NAME,
+                        commits.get(numCommits - 1).getId(),
+                        commits.get(numCommits - 2).getId());
         assertNotNull(compareResults);
     }
 
@@ -270,7 +281,8 @@ public class TestRepositoryApi extends AbstractIntegrationTest {
         assertNotNull(protectedBranch);
         assertTrue(protectedBranch.getProtected());
 
-        Branch unprotectedBranch = gitLabApi.getRepositoryApi().unprotectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
+        Branch unprotectedBranch =
+                gitLabApi.getRepositoryApi().unprotectBranch(project.getId(), TEST_PROTECT_BRANCH_NAME);
         assertNotNull(unprotectedBranch);
         assertFalse(unprotectedBranch.getProtected());
     }

@@ -92,9 +92,16 @@ public class NotesApi extends AbstractApi {
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Note> getIssueNotes(Object projectIdOrPath, Long issueIid, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),"projects",
-                getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes");
+    public List<Note> getIssueNotes(Object projectIdOrPath, Long issueIid, int page, int perPage)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "notes");
         return (response.readEntity(new GenericType<List<Note>>() {}));
     }
 
@@ -109,9 +116,18 @@ public class NotesApi extends AbstractApi {
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Note> getIssueNotes(Object projectIdOrPath, Long issueIid, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Note>(this, Note.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes"));
+    public Pager<Note> getIssueNotes(Object projectIdOrPath, Long issueIid, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<Note>(
+                this,
+                Note.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "notes"));
     }
 
     /**
@@ -140,8 +156,15 @@ public class NotesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Note getIssueNote(Object projectIdOrPath, Long issueIid, Long noteId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes", noteId);
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "notes",
+                noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -172,8 +195,10 @@ public class NotesApi extends AbstractApi {
      * @return the created Note instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body, Date createdAt) throws GitLabApiException {
-        return (createIssueNote(projectIdOrPath, issueIid, body, null, null));    }
+    public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body, Date createdAt)
+            throws GitLabApiException {
+        return (createIssueNote(projectIdOrPath, issueIid, body, null, null));
+    }
 
     /**
      * Create a issues's note.
@@ -188,15 +213,22 @@ public class NotesApi extends AbstractApi {
      * @return the created Note instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body, Date createdAt, Boolean internal) throws GitLabApiException {
+    public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body, Date createdAt, Boolean internal)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true)
                 .withParam("created_at", createdAt)
                 .withParam("internal", internal);
         ;
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes");
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "notes");
         return (response.readEntity(Note.class));
     }
 
@@ -212,11 +244,19 @@ public class NotesApi extends AbstractApi {
      * @return the modified Note instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Note updateIssueNote(Object projectIdOrPath, Long issueIid, Long noteId, String body) throws GitLabApiException {
+    public Note updateIssueNote(Object projectIdOrPath, Long issueIid, Long noteId, String body)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes", noteId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "notes",
+                noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -240,9 +280,17 @@ public class NotesApi extends AbstractApi {
             throw new RuntimeException("noteId cannot be null");
         }
 
-        Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes", noteId);
+        Response.Status expectedStatus =
+                (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(
+                expectedStatus,
+                getDefaultPerPageParam(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "notes",
+                noteId);
     }
 
     /**
@@ -256,7 +304,8 @@ public class NotesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Note> getMergeRequestNotes(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
-        return (getMergeRequestNotes(projectIdOrPath, mergeRequestIid, null, null, getDefaultPerPage()).all());
+        return (getMergeRequestNotes(projectIdOrPath, mergeRequestIid, null, null, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -271,8 +320,11 @@ public class NotesApi extends AbstractApi {
      * @return a list of the merge request's notes
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Note> getMergeRequestNotes(Object projectIdOrPath, Long mergeRequestIid, SortOrder sortOrder, Note.OrderBy orderBy) throws GitLabApiException {
-        return (getMergeRequestNotes(projectIdOrPath, mergeRequestIid, sortOrder, orderBy, getDefaultPerPage()).all());
+    public List<Note> getMergeRequestNotes(
+            Object projectIdOrPath, Long mergeRequestIid, SortOrder sortOrder, Note.OrderBy orderBy)
+            throws GitLabApiException {
+        return (getMergeRequestNotes(projectIdOrPath, mergeRequestIid, sortOrder, orderBy, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -287,7 +339,8 @@ public class NotesApi extends AbstractApi {
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Note> getMergeRequestNotes(Object projectIdOrPath, Long mergeRequestIid, int page, int perPage) throws GitLabApiException {
+    public List<Note> getMergeRequestNotes(Object projectIdOrPath, Long mergeRequestIid, int page, int perPage)
+            throws GitLabApiException {
         return (getMergeRequestNotes(projectIdOrPath, mergeRequestIid, null, null, page, perPage));
     }
 
@@ -305,16 +358,28 @@ public class NotesApi extends AbstractApi {
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Note> getMergeRequestNotes(Object projectIdOrPath, Long mergeRequestIid,
-            SortOrder sortOrder, Note.OrderBy orderBy, int page, int perPage) throws GitLabApiException {
+    public List<Note> getMergeRequestNotes(
+            Object projectIdOrPath,
+            Long mergeRequestIid,
+            SortOrder sortOrder,
+            Note.OrderBy orderBy,
+            int page,
+            int perPage)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("sort", sortOrder)
                 .withParam("order_by", orderBy)
                 .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
-        Response response = get(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "notes");
+        Response response = get(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "notes");
         return (response.readEntity(new GenericType<List<Note>>() {}));
     }
 
@@ -329,7 +394,8 @@ public class NotesApi extends AbstractApi {
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Note> getMergeRequestNotes(Object projectIdOrPath, Long mergeRequestIid, int itemsPerPage) throws GitLabApiException {
+    public Pager<Note> getMergeRequestNotes(Object projectIdOrPath, Long mergeRequestIid, int itemsPerPage)
+            throws GitLabApiException {
         return (getMergeRequestNotes(projectIdOrPath, mergeRequestIid, null, null, itemsPerPage));
     }
 
@@ -343,7 +409,8 @@ public class NotesApi extends AbstractApi {
      * @return a Stream of the merge request's notes
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Note> getMergeRequestNotesStream(Object projectIdOrPath, Long mergeRequestIid) throws GitLabApiException {
+    public Stream<Note> getMergeRequestNotesStream(Object projectIdOrPath, Long mergeRequestIid)
+            throws GitLabApiException {
         return (getMergeRequestNotes(projectIdOrPath, mergeRequestIid, null, null, getDefaultPerPage()).stream());
     }
 
@@ -360,16 +427,25 @@ public class NotesApi extends AbstractApi {
      * @return the list of notes in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Note> getMergeRequestNotes(Object projectIdOrPath, Long mergeRequestIid,
-            SortOrder sortOrder, Note.OrderBy orderBy, int itemsPerPage) throws GitLabApiException {
+    public Pager<Note> getMergeRequestNotes(
+            Object projectIdOrPath, Long mergeRequestIid, SortOrder sortOrder, Note.OrderBy orderBy, int itemsPerPage)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("sort", sortOrder)
                 .withParam("order_by", orderBy)
                 .withParam(PAGE_PARAM, 1)
                 .withParam(PER_PAGE_PARAM, itemsPerPage);
-        return (new Pager<Note>(this, Note.class, itemsPerPage, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "notes"));
+        return (new Pager<Note>(
+                this,
+                Note.class,
+                itemsPerPage,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "notes"));
     }
 
     /**
@@ -384,8 +460,11 @@ public class NotesApi extends AbstractApi {
      * @return a Stream of the merge request's notes
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Note> getMergeRequestNotesStream(Object projectIdOrPath, Long mergeRequestIid, SortOrder sortOrder, Note.OrderBy orderBy) throws GitLabApiException {
-        return (getMergeRequestNotes(projectIdOrPath, mergeRequestIid, sortOrder, orderBy, getDefaultPerPage()).stream());
+    public Stream<Note> getMergeRequestNotesStream(
+            Object projectIdOrPath, Long mergeRequestIid, SortOrder sortOrder, Note.OrderBy orderBy)
+            throws GitLabApiException {
+        return (getMergeRequestNotes(projectIdOrPath, mergeRequestIid, sortOrder, orderBy, getDefaultPerPage())
+                .stream());
     }
 
     /**
@@ -399,9 +478,17 @@ public class NotesApi extends AbstractApi {
      * @return a Note instance for the specified IDs
      * @throws GitLabApiException if any exception occurs
      */
-    public Note getMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, Long noteId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "notes", noteId);
+    public Note getMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, Long noteId)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "notes",
+                noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -416,10 +503,17 @@ public class NotesApi extends AbstractApi {
      * @return the created Note instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Note createMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, String body) throws GitLabApiException {
+    public Note createMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, String body)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "notes");
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "notes");
         return (response.readEntity(Note.class));
     }
 
@@ -435,11 +529,19 @@ public class NotesApi extends AbstractApi {
      * @return the modified Note instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Note updateMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, Long noteId, String body) throws GitLabApiException {
+    public Note updateMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, Long noteId, String body)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "notes", noteId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "notes",
+                noteId);
         return (response.readEntity(Note.class));
     }
 
@@ -453,7 +555,8 @@ public class NotesApi extends AbstractApi {
      * @param noteId the ID of the node to delete
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, Long noteId) throws GitLabApiException {
+    public void deleteMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, Long noteId)
+            throws GitLabApiException {
 
         if (mergeRequestIid == null) {
             throw new RuntimeException("mergeRequestIid cannot be null");
@@ -463,8 +566,16 @@ public class NotesApi extends AbstractApi {
             throw new RuntimeException("noteId cannot be null");
         }
 
-        Response.Status expectedStatus = (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "merge_requests", mergeRequestIid, "notes", noteId);
+        Response.Status expectedStatus =
+                (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(
+                expectedStatus,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "notes",
+                noteId);
     }
 }

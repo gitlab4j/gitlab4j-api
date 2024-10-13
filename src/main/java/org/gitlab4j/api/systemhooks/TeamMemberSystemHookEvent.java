@@ -14,8 +14,10 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
     private Date createdAt;
     private Date updatedAt;
     private String eventName;
+
     @Deprecated
     private String projectAccess;
+
     private String accessLevel;
     private String projectName;
     private String projectPath;
@@ -44,7 +46,7 @@ public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
     }
 
     @Override
-	public String getEventName() {
+    public String getEventName() {
         return this.eventName;
     }
 

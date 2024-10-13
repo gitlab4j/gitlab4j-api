@@ -30,7 +30,7 @@ public class MergeRequestSystemHookEvent extends MergeRequestEvent implements Sy
     public String getEventType() {
         return eventType;
     }
-    
+
     public void setEventType(String eventType) {
         this.eventType = eventType;
     }

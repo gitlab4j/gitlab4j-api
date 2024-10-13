@@ -103,7 +103,7 @@ public class IssuesStatisticsFilter implements Serializable {
     }
 
     @JsonIgnore
-    public GitLabApiForm getQueryParams() throws GitLabApiException  {
+    public GitLabApiForm getQueryParams() throws GitLabApiException {
 
         return (new GitLabApiForm()
                 .withParam("labels", (labels != null ? String.join(",", labels) : null))

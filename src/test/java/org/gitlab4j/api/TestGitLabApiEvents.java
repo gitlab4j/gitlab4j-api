@@ -1,6 +1,5 @@
 package org.gitlab4j.api;
 
-
 import static org.gitlab4j.api.JsonUtils.compareJson;
 import static org.gitlab4j.api.JsonUtils.readTreeFromResource;
 import static org.gitlab4j.api.JsonUtils.unmarshalResource;
@@ -73,8 +72,8 @@ public class TestGitLabApiEvents {
 
         ChangeContainer<Integer> idChange = issueEvent.getChanges().get("id");
         assertNotNull(idChange);
-        assertEquals(123, (int)idChange.getPrevious());
-        assertEquals(456, (int)idChange.getCurrent());
+        assertEquals(123, (int) idChange.getPrevious());
+        assertEquals(456, (int) idChange.getCurrent());
     }
 
     @Test
@@ -85,8 +84,8 @@ public class TestGitLabApiEvents {
 
         ChangeContainer<Integer> idChange = issueEvent.getChanges().get("id");
         assertNotNull(idChange);
-        assertEquals(123, (int)idChange.getPrevious());
-        assertEquals(456, (int)idChange.getCurrent());
+        assertEquals(123, (int) idChange.getPrevious());
+        assertEquals(456, (int) idChange.getCurrent());
 
         ChangeContainer<Boolean> confidentialChange = issueEvent.getChanges().getConfidential();
         assertNotNull(confidentialChange);
@@ -109,10 +108,11 @@ public class TestGitLabApiEvents {
 
         ChangeContainer<Integer> iidChange = mergeRequestEvent.getChanges().get("iid");
         assertNotNull(iidChange);
-        assertEquals(12, (int)iidChange.getPrevious());
-        assertEquals(34, (int)iidChange.getCurrent());
+        assertEquals(12, (int) iidChange.getPrevious());
+        assertEquals(34, (int) iidChange.getCurrent());
 
-        ChangeContainer<String> mergeStatusChangeChange = mergeRequestEvent.getChanges().getMergeStatus();
+        ChangeContainer<String> mergeStatusChangeChange =
+                mergeRequestEvent.getChanges().getMergeStatus();
         assertNotNull(mergeStatusChangeChange);
         assertNull(mergeStatusChangeChange.getPrevious());
         assertEquals("unchecked", mergeStatusChangeChange.getCurrent());
@@ -229,15 +229,15 @@ public class TestGitLabApiEvents {
 
     @Test
     public void testProjectSystemHookEvent() throws Exception {
-        ProjectSystemHookEvent event = unmarshalResource(ProjectSystemHookEvent.class,
-                "project-system-hook-event.json");
+        ProjectSystemHookEvent event =
+                unmarshalResource(ProjectSystemHookEvent.class, "project-system-hook-event.json");
         assertTrue(compareJson(event, "project-system-hook-event.json"));
     }
 
     @Test
     public void testTeamMemberSystemHookEvent() throws Exception {
-        TeamMemberSystemHookEvent event = unmarshalResource(TeamMemberSystemHookEvent.class,
-                "team-member-system-hook-event.json");
+        TeamMemberSystemHookEvent event =
+                unmarshalResource(TeamMemberSystemHookEvent.class, "team-member-system-hook-event.json");
         assertTrue(compareJson(event, "team-member-system-hook-event.json"));
     }
 
@@ -286,7 +286,8 @@ public class TestGitLabApiEvents {
 
     @Test
     public void testMergeRequestSystemHookEvent() throws Exception {
-        MergeRequestSystemHookEvent mergeRequestEvent = unmarshalResource(MergeRequestSystemHookEvent.class, "merge-request-system-hook-event.json");
+        MergeRequestSystemHookEvent mergeRequestEvent =
+                unmarshalResource(MergeRequestSystemHookEvent.class, "merge-request-system-hook-event.json");
         assertTrue(compareJson(mergeRequestEvent, "merge-request-system-hook-event.json"));
 
         SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "merge-request-system-hook-event.json");
@@ -335,7 +336,7 @@ public class TestGitLabApiEvents {
         given(request.getHeader("X-Gitlab-Event")).willReturn(SystemHookManager.SYSTEM_HOOK_EVENT);
 
         JsonNode tree = readTreeFromResource("merge-request-system-hook-event.json");
-        ((ObjectNode)tree).remove("event_name");
+        ((ObjectNode) tree).remove("event_name");
         String json = jacksonJson.getObjectMapper().writeValueAsString(tree);
         ServletInputStream servletInputStream = new MockServletInputStream(json);
         given(request.getInputStream()).willReturn(servletInputStream);

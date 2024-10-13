@@ -95,8 +95,7 @@ public class MergeRequestEvent extends AbstractEvent {
         this.reviewers = reviewers;
     }
 
-    public static class ObjectAttributes extends EventMergeRequest {
-    }
+    public static class ObjectAttributes extends EventMergeRequest {}
 
     @Override
     public String toString() {

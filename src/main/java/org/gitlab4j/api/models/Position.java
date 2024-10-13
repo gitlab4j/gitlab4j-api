@@ -1,20 +1,22 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
+
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Position implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static enum PositionType {
-
-        TEXT, IMAGE, FILE;
-        private static JacksonJsonEnumHelper<PositionType> enumHelper = new JacksonJsonEnumHelper<>(PositionType.class,
-                false, false);
+        TEXT,
+        IMAGE,
+        FILE;
+        private static JacksonJsonEnumHelper<PositionType> enumHelper =
+                new JacksonJsonEnumHelper<>(PositionType.class, false, false);
 
         @JsonCreator
         public static PositionType forValue(String value) {

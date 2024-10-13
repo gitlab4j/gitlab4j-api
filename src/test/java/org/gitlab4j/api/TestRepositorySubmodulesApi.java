@@ -21,9 +21,15 @@ import org.mockito.Mockito;
 
 public class TestRepositorySubmodulesApi implements Constants {
 
-    @Mock private GitLabApi gitLabApi;
-    @Mock private GitLabApiClient gitLabApiClient;
-    @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+    @Mock
+    private GitLabApi gitLabApi;
+
+    @Mock
+    private GitLabApiClient gitLabApiClient;
+
+    @Captor
+    private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+
     private MockResponse response;
 
     @BeforeEach
@@ -34,7 +40,9 @@ public class TestRepositorySubmodulesApi implements Constants {
     @Test
     public void testUpdateExistingSubmoduleReference() throws Exception {
         init();
-        Commit result = new RepositorySubmodulesApi(gitLabApi).updateExistingSubmoduleReference(6L, "my-sub", "patch-1", "33e2ee8579fda5bc36accc9c6fbd0b4fefda9e30", "message");
+        Commit result = new RepositorySubmodulesApi(gitLabApi)
+                .updateExistingSubmoduleReference(
+                        6L, "my-sub", "patch-1", "33e2ee8579fda5bc36accc9c6fbd0b4fefda9e30", "message");
         assertNotNull(result);
         assertTrue(compareJson(result, "commit.json"));
     }
@@ -43,6 +51,7 @@ public class TestRepositorySubmodulesApi implements Constants {
         response = new MockResponse(Commit.class, "commit.json", null);
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.put(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
+        when(gitLabApiClient.put(attributeCaptor.capture(), Mockito.<Object>any()))
+                .thenReturn(response);
     }
 }

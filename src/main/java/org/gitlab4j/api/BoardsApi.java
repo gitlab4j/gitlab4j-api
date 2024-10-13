@@ -49,8 +49,12 @@ public class BoardsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<Board> getBoards(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
-        Response response = get(javax.ws.rs.core.Response.Status.OK, getPageQueryParams(page, perPage),
-                "projects", getProjectIdOrPath(projectIdOrPath), "boards");
+        Response response = get(
+                javax.ws.rs.core.Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "boards");
         return (response.readEntity(new GenericType<List<Board>>() {}));
     }
 
@@ -65,8 +69,8 @@ public class BoardsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Board> getBoards(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Board>(this, Board.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "boards"));
+        return (new Pager<Board>(
+                this, Board.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "boards"));
     }
 
     /**
@@ -93,8 +97,8 @@ public class BoardsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Board getBoard(Object projectIdOrPath, Long boardId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId);
+        Response response =
+                get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId);
         return (response.readEntity(Board.class));
     }
 
@@ -129,7 +133,8 @@ public class BoardsApi extends AbstractApi {
      */
     public Board createBoard(Object projectIdOrPath, String name) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("name", name, true);
-        Response response = post(Response.Status.CREATED, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "boards");
+        Response response = post(
+                Response.Status.CREATED, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "boards");
         return (response.readEntity(Board.class));
     }
 
@@ -150,16 +155,28 @@ public class BoardsApi extends AbstractApi {
      * @return the updated Board instance
      * @throws GitLabApiException if any exception occurs
      */
-    public BoardList updateBoard(Object projectIdOrPath, Long boardId, String name,
-            Long assigneeId, Long milestoneId, String labels, Integer weight) throws GitLabApiException {
+    public BoardList updateBoard(
+            Object projectIdOrPath,
+            Long boardId,
+            String name,
+            Long assigneeId,
+            Long milestoneId,
+            String labels,
+            Integer weight)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name)
                 .withParam("assignee_id", assigneeId)
                 .withParam("milestone_id", milestoneId)
                 .withParam("labels", labels)
                 .withParam("weight", weight);
-        Response response = put(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "boards",
+                boardId);
         return (response.readEntity(BoardList.class));
     }
 
@@ -205,9 +222,16 @@ public class BoardsApi extends AbstractApi {
      * @return a list of the issue board's lists in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<BoardList> getBoardLists(Object projectIdOrPath, Long boardId, int page, int perPage) throws GitLabApiException {
-        Response response = get(javax.ws.rs.core.Response.Status.OK, getPageQueryParams(page, perPage),
-                "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId, "lists");
+    public List<BoardList> getBoardLists(Object projectIdOrPath, Long boardId, int page, int perPage)
+            throws GitLabApiException {
+        Response response = get(
+                javax.ws.rs.core.Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "boards",
+                boardId,
+                "lists");
         return (response.readEntity(new GenericType<List<BoardList>>() {}));
     }
 
@@ -222,9 +246,18 @@ public class BoardsApi extends AbstractApi {
      * @return a Pager of the issue board's lists
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<BoardList> getBoardLists(Object projectIdOrPath, Long boardId, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<BoardList>(this, BoardList.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId, "lists"));
+    public Pager<BoardList> getBoardLists(Object projectIdOrPath, Long boardId, int itemsPerPage)
+            throws GitLabApiException {
+        return (new Pager<BoardList>(
+                this,
+                BoardList.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "boards",
+                boardId,
+                "lists"));
     }
 
     /**
@@ -253,8 +286,15 @@ public class BoardsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public BoardList getBoardList(Object projectIdOrPath, Long boardId, Long listId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId, "lists", listId);
+        Response response = get(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "boards",
+                boardId,
+                "lists",
+                listId);
         return (response.readEntity(BoardList.class));
     }
 
@@ -288,9 +328,15 @@ public class BoardsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public BoardList createBoardList(Object projectIdOrPath, Long boardId, Long labelId) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("label_id", labelId, true);
-        Response response = post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId, "lists");
+        GitLabApiForm formData = new GitLabApiForm().withParam("label_id", labelId, true);
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "boards",
+                boardId,
+                "lists");
         return (response.readEntity(BoardList.class));
     }
 
@@ -306,10 +352,18 @@ public class BoardsApi extends AbstractApi {
      * @return the updated BoardList instance
      * @throws GitLabApiException if any exception occurs
      */
-    public BoardList updateBoardList(Object projectIdOrPath, Long boardId, Long listId, Integer position) throws GitLabApiException {
+    public BoardList updateBoardList(Object projectIdOrPath, Long boardId, Long listId, Integer position)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("position", position, true);
-        Response response = putWithFormData(Response.Status.OK, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId, "lists", listId);
+        Response response = putWithFormData(
+                Response.Status.OK,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "boards",
+                boardId,
+                "lists",
+                listId);
         return (response.readEntity(BoardList.class));
     }
 
@@ -324,6 +378,14 @@ public class BoardsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteBoardList(Object projectIdOrPath, Long boardId, Long listId) throws GitLabApiException {
-        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId, "lists", listId);
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "boards",
+                boardId,
+                "lists",
+                listId);
     }
 }

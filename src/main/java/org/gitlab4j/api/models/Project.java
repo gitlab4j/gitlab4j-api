@@ -1,11 +1,10 @@
-
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.gitlab4j.api.Constants.AutoDevopsDeployStrategy;
 import org.gitlab4j.api.Constants.BuildGitStrategy;
 import org.gitlab4j.api.Constants.SquashOption;
@@ -14,18 +13,20 @@ import org.gitlab4j.api.models.ImportStatus.Status;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // Enum for the merge_method of the Project instance.
     public enum MergeMethod {
-
-        MERGE, REBASE_MERGE, FF;
+        MERGE,
+        REBASE_MERGE,
+        FF;
 
         private static JacksonJsonEnumHelper<MergeMethod> enumHelper = new JacksonJsonEnumHelper<>(MergeMethod.class);
 

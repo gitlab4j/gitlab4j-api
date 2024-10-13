@@ -35,7 +35,8 @@ public class JacksonJsonEnumHelper<E extends Enum<E>> {
         this(enumType, firstLetterCapitalized, camelCased, false);
     }
 
-    public JacksonJsonEnumHelper(Class<E> enumType, boolean firstLetterCapitalized, boolean camelCased, boolean preserveUnderscores) {
+    public JacksonJsonEnumHelper(
+            Class<E> enumType, boolean firstLetterCapitalized, boolean camelCased, boolean preserveUnderscores) {
 
         valuesMap = new HashMap<>();
         namesMap = new HashMap<>();

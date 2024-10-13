@@ -24,5 +24,4 @@ public class MergeRequestChanges extends EventChanges {
     public void setReviewers(ChangeContainer<List<Reviewer>> reviewers) {
         this.reviewers = reviewers;
     }
-
 }

@@ -27,10 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.gitlab4j.api.models.Bridge;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Project;
 import org.junit.jupiter.api.AfterAll;
@@ -52,7 +49,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestJobApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -70,8 +68,7 @@ public class TestJobApi extends AbstractIntegrationTest {
     }
 
     @AfterAll
-    public static void teardown() throws GitLabApiException {
-    }
+    public static void teardown() throws GitLabApiException {}
 
     @BeforeEach
     public void beforeMethod() {

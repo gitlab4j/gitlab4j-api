@@ -1,10 +1,11 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.Constants.IssueOrderBy;
 import org.gitlab4j.api.Constants.IssueScope;
@@ -17,10 +18,6 @@ import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 /**
  *  This class is used to filter issues when getting lists of them.
@@ -114,16 +111,25 @@ public class IssueFilter implements Serializable {
     private Map<IssueField, Object> not;
 
     public enum IssueField {
-    	ASSIGNEE_ID, ASSIGNEE_USERNAME, AUTHOR_ID, AUTHOR_USERNAME, IIDS, ITERATION_ID, ITERATION_TITLE, LABELS, MILESTONE, MILESTONE_ID;
+        ASSIGNEE_ID,
+        ASSIGNEE_USERNAME,
+        AUTHOR_ID,
+        AUTHOR_USERNAME,
+        IIDS,
+        ITERATION_ID,
+        ITERATION_TITLE,
+        LABELS,
+        MILESTONE,
+        MILESTONE_ID;
 
-    	private static JacksonJsonEnumHelper<IssueField> enumHelper = new JacksonJsonEnumHelper<>(IssueField.class);
+        private static JacksonJsonEnumHelper<IssueField> enumHelper = new JacksonJsonEnumHelper<>(IssueField.class);
 
-    	@JsonCreator
+        @JsonCreator
         public static IssueField forValue(String value) {
             return enumHelper.forValue(value);
         }
 
-    	@JsonValue
+        @JsonValue
         public String toValue() {
             return (enumHelper.toString(this));
         }
@@ -133,7 +139,6 @@ public class IssueFilter implements Serializable {
             return (enumHelper.toString(this));
         }
     }
-
 
     /*- properties -*/
     public List<String> getIids() {
@@ -265,11 +270,11 @@ public class IssueFilter implements Serializable {
     }
 
     public Map<IssueField, Object> getNot() {
-    	return not;
+        return not;
     }
 
     public void setNot(Map<IssueField, Object> not) {
-    	this.not = not;
+        this.not = not;
     }
 
     /*- builder -*/
@@ -372,7 +377,7 @@ public class IssueFilter implements Serializable {
      * @return the reference to this IssueField instance
      */
     public IssueFilter withNot(IssueField field, Object value) {
-        if(not == null) {
+        if (not == null) {
             not = new LinkedHashMap<>();
         }
         not.put(field, value);
@@ -396,7 +401,7 @@ public class IssueFilter implements Serializable {
      * @return the reference to this IssueFilter instance
      */
     public IssueFilter withoutIids(String... iids) {
-    	return withNot(IssueField.IIDS, String.join(",", iids));
+        return withNot(IssueField.IIDS, String.join(",", iids));
     }
 
     /**
@@ -482,35 +487,33 @@ public class IssueFilter implements Serializable {
     /*- params generator -*/
     @JsonIgnore
     public GitLabApiForm getQueryParams(int page, int perPage) {
-        return (getQueryParams()
-                .withParam(Constants.PAGE_PARAM, page)
-                .withParam(Constants.PER_PAGE_PARAM, perPage));
+        return (getQueryParams().withParam(Constants.PAGE_PARAM, page).withParam(Constants.PER_PAGE_PARAM, perPage));
     }
 
     @JsonIgnore
     public GitLabApiForm getQueryParams() {
         return (new GitLabApiForm()
-                .withParam("iids", iids)
-                .withParam("state", state)
-                .withParam("labels", (labels != null ? String.join(",", labels) : null))
-                .withParam("milestone", milestone)
-                .withParam("scope", scope)
-                .withParam("author_id", authorId)
-                .withParam("assignee_id", assigneeId)
-                .withParam("my_reaction_emoji", myReactionEmoji)
-                .withParam("order_by", orderBy)
-                .withParam("sort", sort)
-                .withParam("search", search)
-                .withParam("created_after", ISO8601.toString(createdAfter, false))
-                .withParam("created_before", ISO8601.toString(createdBefore, false))
-                .withParam("updated_after", ISO8601.toString(updatedAfter, false))
-                .withParam("updated_before", ISO8601.toString(updatedBefore, false)))
+                        .withParam("iids", iids)
+                        .withParam("state", state)
+                        .withParam("labels", (labels != null ? String.join(",", labels) : null))
+                        .withParam("milestone", milestone)
+                        .withParam("scope", scope)
+                        .withParam("author_id", authorId)
+                        .withParam("assignee_id", assigneeId)
+                        .withParam("my_reaction_emoji", myReactionEmoji)
+                        .withParam("order_by", orderBy)
+                        .withParam("sort", sort)
+                        .withParam("search", search)
+                        .withParam("created_after", ISO8601.toString(createdAfter, false))
+                        .withParam("created_before", ISO8601.toString(createdBefore, false))
+                        .withParam("updated_after", ISO8601.toString(updatedAfter, false))
+                        .withParam("updated_before", ISO8601.toString(updatedBefore, false)))
                 .withParam("iteration_title", iterationTitle)
                 .withParam("not", toStringMap(not), false);
     }
 
     private Map<String, Object> toStringMap(Map<IssueField, Object> map) {
-        if(map == null) {
+        if (map == null) {
             return null;
         }
         Map<String, Object> result = new LinkedHashMap<>();

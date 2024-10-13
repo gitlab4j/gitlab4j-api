@@ -1,4 +1,3 @@
-
 package org.gitlab4j.api.models;
 
 import org.gitlab4j.api.Constants.ActionType;
@@ -34,7 +33,7 @@ public class PushData {
 
     public void setCommitCount(Integer commit_count) {
         this.commitCount = commit_count;
-    }   
+    }
 
     public ActionType getAction() {
         return action;

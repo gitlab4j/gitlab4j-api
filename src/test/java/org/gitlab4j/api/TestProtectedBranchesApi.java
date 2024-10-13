@@ -35,7 +35,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestProtectedBranchesApi extends AbstractIntegrationTest {
 
@@ -78,7 +79,8 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
         try {
             protectedBranch = gitLabApi.getRepositoryApi().getBranch(testProject, TEST_PROTECT_BRANCH_NAME);
         } catch (GitLabApiException e) {
-            protectedBranch = gitLabApi.getRepositoryApi().createBranch(testProject, TEST_PROTECT_BRANCH_NAME, TEST_BRANCH_REF);
+            protectedBranch =
+                    gitLabApi.getRepositoryApi().createBranch(testProject, TEST_PROTECT_BRANCH_NAME, TEST_BRANCH_REF);
         }
         assertNotNull(protectedBranch);
         gitLabApi.getRepositoryApi().protectBranch(testProject, TEST_PROTECT_BRANCH_NAME);
@@ -98,8 +100,7 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
         assumeTrue(testProject != null);
         List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(testProject);
         assertNotNull(branches);
-        assertTrue(branches.stream()
-                .anyMatch((branch) -> branch.getName().equals(TEST_PROTECT_BRANCH_NAME)));
+        assertTrue(branches.stream().anyMatch((branch) -> branch.getName().equals(TEST_PROTECT_BRANCH_NAME)));
     }
 
     @Test
@@ -109,8 +110,7 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
         gitLabApi.getProtectedBranchesApi().unprotectBranch(testProject, TEST_PROTECT_BRANCH_NAME);
         List<ProtectedBranch> branches = gitLabApi.getProtectedBranchesApi().getProtectedBranches(testProject);
         assertNotNull(branches);
-        assertTrue(branches.stream()
-                .noneMatch((branch) -> branch.getName().equals(TEST_PROTECT_BRANCH_NAME)));
+        assertTrue(branches.stream().noneMatch((branch) -> branch.getName().equals(TEST_PROTECT_BRANCH_NAME)));
     }
 
     @Test
@@ -138,9 +138,11 @@ public class TestProtectedBranchesApi extends AbstractIntegrationTest {
         // current version returns null, but will return boolean (false) with newer Premium
         assertFalse(branch.getCodeOwnerApprovalRequired() != null);
 
-        // current version returns 404, but will return branch with "code_owner_approval_required = true" with newer Premium
-        GitLabApiException gae = assertThrowsExactly(GitLabApiException.class,
-                () -> gitLabApi.getProtectedBranchesApi().setCodeOwnerApprovalRequired(testProject, TEST_BRANCH_NAME, true));
+        // current version returns 404, but will return branch with "code_owner_approval_required = true" with newer
+        // Premium
+        GitLabApiException gae = assertThrowsExactly(GitLabApiException.class, () -> gitLabApi
+                .getProtectedBranchesApi()
+                .setCodeOwnerApprovalRequired(testProject, TEST_BRANCH_NAME, true));
         assertTrue(gae.getHttpStatus() == 404);
     }
 }

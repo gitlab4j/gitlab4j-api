@@ -1,10 +1,10 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.Constants.ArchiveFormat;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.List;
+
+import org.gitlab4j.api.Constants.ArchiveFormat;
+import org.gitlab4j.api.utils.JacksonJson;
 
 /**
  * This class is part of the Release class model.
@@ -128,4 +128,3 @@ public class Assets implements Serializable {
         return (JacksonJson.toJsonString(this));
     }
 }
-

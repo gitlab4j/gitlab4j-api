@@ -70,7 +70,7 @@ public class WikisApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<WikiPage> getPages(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-	return (getPages(projectIdOrPath, false, itemsPerPage));
+        return (getPages(projectIdOrPath, false, itemsPerPage));
     }
 
     /**
@@ -83,7 +83,7 @@ public class WikisApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<WikiPage> getPagesStream(Object projectIdOrPath) throws GitLabApiException {
-	return (getPages(projectIdOrPath, false, getDefaultPerPage()).stream());
+        return (getPages(projectIdOrPath, false, getDefaultPerPage()).stream());
     }
 
     /**
@@ -99,8 +99,12 @@ public class WikisApi extends AbstractApi {
      * @deprecated Will be removed in a future release, use {@link #getPages(Object, boolean, int)}
      */
     public List<WikiPage> getPages(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
-        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage),
-                "projects", getProjectIdOrPath(projectIdOrPath), "wikis");
+        Response response = get(
+                Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "wikis");
         return response.readEntity(new GenericType<List<WikiPage>>() {});
     }
 
@@ -115,7 +119,7 @@ public class WikisApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<WikiPage> getPages(Object projectIdOrPath, boolean withContent) throws GitLabApiException {
-	return (getPages(projectIdOrPath, withContent, getDefaultPerPage()).all());
+        return (getPages(projectIdOrPath, withContent, getDefaultPerPage()).all());
     }
 
     /**
@@ -129,10 +133,17 @@ public class WikisApi extends AbstractApi {
      * @return a Pager of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<WikiPage> getPages(Object projectIdOrPath, boolean withContent, int itemsPerPage) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm().withParam("with_content", (withContent ? 1 : 0));
-	return (new Pager<WikiPage>(this, WikiPage.class, itemsPerPage, formData.asMap(), 
-            "projects", getProjectIdOrPath(projectIdOrPath), "wikis"));
+    public Pager<WikiPage> getPages(Object projectIdOrPath, boolean withContent, int itemsPerPage)
+            throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("with_content", (withContent ? 1 : 0));
+        return (new Pager<WikiPage>(
+                this,
+                WikiPage.class,
+                itemsPerPage,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "wikis"));
     }
 
     /**
@@ -146,7 +157,7 @@ public class WikisApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<WikiPage> getPagesStream(Object projectIdOrPath, boolean withContent) throws GitLabApiException {
-	return (getPages(projectIdOrPath, withContent, getDefaultPerPage()).stream());
+        return (getPages(projectIdOrPath, withContent, getDefaultPerPage()).stream());
     }
 
     /**
@@ -160,8 +171,8 @@ public class WikisApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public WikiPage getPage(Object projectIdOrPath, String slug) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "wikis", slug);
+        Response response =
+                get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "wikis", slug);
         return (response.readEntity(WikiPage.class));
     }
 
@@ -195,12 +206,10 @@ public class WikisApi extends AbstractApi {
      */
     public WikiPage createPage(Object projectIdOrPath, String title, String content) throws GitLabApiException {
         // one of title or content is required
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("title", title)
-                .withParam("content", content);
+        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("content", content);
 
-        Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "wikis");
+        Response response =
+                post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "wikis");
         return (response.readEntity(WikiPage.class));
     }
 
@@ -216,14 +225,16 @@ public class WikisApi extends AbstractApi {
      * @return a WikiPage instance with info on the updated page
      * @throws GitLabApiException if any exception occurs
      */
-    public WikiPage updatePage(Object projectIdOrPath, String slug, String title, String content) throws GitLabApiException {
+    public WikiPage updatePage(Object projectIdOrPath, String slug, String title, String content)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("title", title)
                 .withParam("slug", slug, true)
                 .withParam("content", content);
 
-        Response response = put(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "wikis", slug);
+        Response response = put(
+                Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "wikis", slug);
         return (response.readEntity(WikiPage.class));
     }
 
@@ -266,7 +277,8 @@ public class WikisApi extends AbstractApi {
      * @return a FileUpload instance with information on the just uploaded file
      * @throws GitLabApiException if any exception occurs
      */
-    public WikiAttachment uploadAttachment(Object projectIdOrPath, File fileToUpload, String branch) throws GitLabApiException {
+    public WikiAttachment uploadAttachment(Object projectIdOrPath, File fileToUpload, String branch)
+            throws GitLabApiException {
 
         URL url;
         try {

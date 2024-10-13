@@ -22,7 +22,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestLabelsApi extends AbstractIntegrationTest {
 
     private static final String TEST_GROUP = HelperUtils.getProperty(GROUP_KEY);
@@ -73,19 +74,23 @@ public class TestLabelsApi extends AbstractIntegrationTest {
         if (testProject != null) {
             try {
                 gitLabApi.getLabelsApi().deleteProjectLabel(testProject, TEST_PROJECT_LABEL);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 gitLabApi.getLabelsApi().deleteGroupLabel(testGroup, TEST_GROUP_LABEL);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 gitLabApi.getLabelsApi().deleteProjectLabel(testProject, TEST_PROJECT_LABEL_1);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 gitLabApi.getLabelsApi().deleteGroupLabel(testGroup, TEST_GROUP_LABEL_1);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -97,12 +102,13 @@ public class TestLabelsApi extends AbstractIntegrationTest {
     @Test
     public void testCreateAndDeleteProjectLabel() throws GitLabApiException {
 
-	Label labelConfig = new Label().withName(TEST_PROJECT_LABEL).withColor("#FF0000");
-	Label testLabel = gitLabApi.getLabelsApi().createProjectLabel(testProject, labelConfig);
+        Label labelConfig = new Label().withName(TEST_PROJECT_LABEL).withColor("#FF0000");
+        Label testLabel = gitLabApi.getLabelsApi().createProjectLabel(testProject, labelConfig);
         assertNotNull(testLabel);
         assertEquals(TEST_PROJECT_LABEL, testLabel.getName());
 
-        Optional<Label> optionalLabel = gitLabApi.getLabelsApi().getOptionalProjectLabel(testProject, TEST_PROJECT_LABEL);
+        Optional<Label> optionalLabel =
+                gitLabApi.getLabelsApi().getOptionalProjectLabel(testProject, TEST_PROJECT_LABEL);
         assertTrue(optionalLabel.isPresent());
         assertEquals(TEST_PROJECT_LABEL, optionalLabel.get().getName());
         assertEquals("#FF0000", optionalLabel.get().getColor());
@@ -121,8 +127,8 @@ public class TestLabelsApi extends AbstractIntegrationTest {
     @Test
     public void testCreateAndUpdateProjectLabel() throws GitLabApiException {
 
-	Label labelConfig = new Label().withName(TEST_PROJECT_LABEL_1).withColor("#FF0000");
-	Label testLabel = gitLabApi.getLabelsApi().createProjectLabel(testProject, labelConfig);
+        Label labelConfig = new Label().withName(TEST_PROJECT_LABEL_1).withColor("#FF0000");
+        Label testLabel = gitLabApi.getLabelsApi().createProjectLabel(testProject, labelConfig);
         assertNotNull(testLabel);
         assertEquals(TEST_PROJECT_LABEL_1, testLabel.getName());
         assertEquals("#FF0000", testLabel.getColor());
@@ -130,7 +136,8 @@ public class TestLabelsApi extends AbstractIntegrationTest {
         try {
             labelConfig = new Label().withName(TEST_PROJECT_LABEL_1).withColor("#000000");
             gitLabApi.getLabelsApi().updateProjectLabel(testProject, testLabel, labelConfig);
-            Optional<Label> optionalLabel = gitLabApi.getLabelsApi().getOptionalProjectLabel(testProject, TEST_PROJECT_LABEL_1);
+            Optional<Label> optionalLabel =
+                    gitLabApi.getLabelsApi().getOptionalProjectLabel(testProject, TEST_PROJECT_LABEL_1);
             assertTrue(optionalLabel.isPresent());
             assertEquals("#000000", optionalLabel.get().getColor());
         } finally {
@@ -144,8 +151,8 @@ public class TestLabelsApi extends AbstractIntegrationTest {
     @Test
     public void testCreateAndDeleteGroupLabel() throws GitLabApiException {
 
-	Label labelConfig = new Label().withName(TEST_GROUP_LABEL).withColor("#FF0000");
-	Label testLabel = gitLabApi.getLabelsApi().createGroupLabel(testGroup, labelConfig);
+        Label labelConfig = new Label().withName(TEST_GROUP_LABEL).withColor("#FF0000");
+        Label testLabel = gitLabApi.getLabelsApi().createGroupLabel(testGroup, labelConfig);
         assertNotNull(testLabel);
         assertEquals(TEST_GROUP_LABEL, testLabel.getName());
 
@@ -168,8 +175,8 @@ public class TestLabelsApi extends AbstractIntegrationTest {
     @Test
     public void testCreateAndUpdateGroupLabel() throws GitLabApiException {
 
-	Label labelConfig = new Label().withName(TEST_GROUP_LABEL_1).withColor("#FF0000");
-	Label testLabel = gitLabApi.getLabelsApi().createGroupLabel(testGroup, labelConfig);
+        Label labelConfig = new Label().withName(TEST_GROUP_LABEL_1).withColor("#FF0000");
+        Label testLabel = gitLabApi.getLabelsApi().createGroupLabel(testGroup, labelConfig);
         assertNotNull(testLabel);
         assertEquals(TEST_GROUP_LABEL_1, testLabel.getName());
         assertEquals("#FF0000", testLabel.getColor());
@@ -177,7 +184,8 @@ public class TestLabelsApi extends AbstractIntegrationTest {
         try {
             labelConfig = new Label().withName(TEST_GROUP_LABEL_1).withColor("#000000");
             gitLabApi.getLabelsApi().updateGroupLabel(testGroup, testLabel, labelConfig);
-            Optional<Label> optionalLabel = gitLabApi.getLabelsApi().getOptionalGroupLabel(testGroup, TEST_GROUP_LABEL_1);
+            Optional<Label> optionalLabel =
+                    gitLabApi.getLabelsApi().getOptionalGroupLabel(testGroup, TEST_GROUP_LABEL_1);
             assertTrue(optionalLabel.isPresent());
             assertEquals("#000000", optionalLabel.get().getColor());
         } finally {

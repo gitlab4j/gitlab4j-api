@@ -1,10 +1,10 @@
 package org.gitlab4j.api;
 
+import javax.ws.rs.core.Response;
+
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Markdown;
 import org.gitlab4j.api.models.MarkdownRequest;
-
-import javax.ws.rs.core.Response;
 
 /**
  * This class provides an entry point to all the GitLab API markdown calls.

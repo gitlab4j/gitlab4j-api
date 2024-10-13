@@ -28,7 +28,8 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  * so if there are any failures the test suite will fail.  Consider it the first integration tests
  * that are being performed.</p>
  */
-public class SetupIntegrationTestExtension implements BeforeAllCallback, ExtensionContext.Store.CloseableResource, PropertyConstants {
+public class SetupIntegrationTestExtension
+        implements BeforeAllCallback, ExtensionContext.Store.CloseableResource, PropertyConstants {
 
     private static final String TEST_HOST_URL = HelperUtils.getProperty(HOST_URL_KEY);
     private static final String TEST_LOGIN_USERNAME = HelperUtils.getProperty(LOGIN_USERNAME_KEY);
@@ -39,10 +40,12 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
     private static final String TEST_GROUP_PROJECT_NAME = HelperUtils.getProperty(GROUP_PROJECT_KEY);
     private static final String TEST_SUB_GROUP = HelperUtils.getProperty(SUB_GROUP_KEY);
 
-    protected static final String TEST_PRIVATE_TOKEN_NAME = "GitLab4J Test Private Token - " + HelperUtils.getRandomInt(1000);
+    protected static final String TEST_PRIVATE_TOKEN_NAME =
+            "GitLab4J Test Private Token - " + HelperUtils.getRandomInt(1000);
     protected static String TEST_PRIVATE_TOKEN = HelperUtils.getProperty(PRIVATE_TOKEN_KEY);
 
-    protected static final String TEST_ACCESS_TOKEN_NAME = "GitLab4J Test Access Token - " + HelperUtils.getRandomInt(1000);
+    protected static final String TEST_ACCESS_TOKEN_NAME =
+            "GitLab4J Test Access Token - " + HelperUtils.getRandomInt(1000);
     protected static String TEST_ACCESS_TOKEN = HelperUtils.getProperty(ACCESS_TOKEN_KEY);
 
     private static boolean createdPrivateToken = false;
@@ -50,44 +53,43 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
     private static String problems = "";
 
     private static boolean alreadySetup = false;
-	final static Lock lock = new ReentrantLock();
+    static final Lock lock = new ReentrantLock();
 
-	@Override
-	public void beforeAll(ExtensionContext context) throws Exception {
-		lock.lock();
-		if (!alreadySetup) {
+    @Override
+    public void beforeAll(ExtensionContext context) throws Exception {
+        lock.lock();
+        if (!alreadySetup) {
 
-			System.out.println("********************************************************");
-	        System.out.println("*               Integration Tests Setup                *");
-	        System.out.println("********************************************************");
+            System.out.println("********************************************************");
+            System.out.println("*               Integration Tests Setup                *");
+            System.out.println("********************************************************");
 
-	        if (TEST_LOGIN_USERNAME == null || TEST_LOGIN_USERNAME.trim().isEmpty()) {
-	            problems += "TEST_LOGIN_USERNAME cannot be empty\n";
-	        }
+            if (TEST_LOGIN_USERNAME == null || TEST_LOGIN_USERNAME.trim().isEmpty()) {
+                problems += "TEST_LOGIN_USERNAME cannot be empty\n";
+            }
 
-	        if (TEST_LOGIN_PASSWORD == null || TEST_LOGIN_PASSWORD.trim().isEmpty()) {
-	            problems += "TEST_LOGIN_PASSWORD cannot be empty\n";
-	        }
+            if (TEST_LOGIN_PASSWORD == null || TEST_LOGIN_PASSWORD.trim().isEmpty()) {
+                problems += "TEST_LOGIN_PASSWORD cannot be empty\n";
+            }
 
-	        if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
-	            problems += "TEST_HOST_URL cannot be empty\n";
-	        }
+            if (TEST_HOST_URL == null || TEST_HOST_URL.trim().isEmpty()) {
+                problems += "TEST_HOST_URL cannot be empty\n";
+            }
 
-	        if (!problems.isEmpty()) {
-	            fail(problems);
-	        }
+            if (!problems.isEmpty()) {
+                fail(problems);
+            }
 
-	        seedData();
-	        createAccessTokens();
+            seedData();
+            createAccessTokens();
 
-			alreadySetup = true;
-		}
-		lock.unlock();
-
+            alreadySetup = true;
+        }
+        lock.unlock();
     }
 
-	@Override
-	public void close() throws Throwable {
+    @Override
+    public void close() throws Throwable {
         System.out.println("********************************************************");
         System.out.println("*             Integration Tests Teardown               *");
         System.out.println("********************************************************");
@@ -101,8 +103,11 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
         if (TEST_PRIVATE_TOKEN == null || TEST_PRIVATE_TOKEN.trim().isEmpty()) {
 
             TEST_PRIVATE_TOKEN = AccessTokenUtils.createPersonalAccessToken(
-                    TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                    TEST_PRIVATE_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
+                    TEST_HOST_URL,
+                    TEST_LOGIN_USERNAME,
+                    TEST_LOGIN_PASSWORD,
+                    TEST_PRIVATE_TOKEN_NAME,
+                    Arrays.asList(Scope.API, Scope.SUDO));
             System.out.println("Created private token: " + TEST_PRIVATE_TOKEN);
             assertNotNull(TEST_PRIVATE_TOKEN);
             assertFalse(TEST_PRIVATE_TOKEN.trim().isEmpty());
@@ -114,8 +119,11 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
         if (TEST_ACCESS_TOKEN == null || TEST_ACCESS_TOKEN.trim().isEmpty()) {
 
             TEST_ACCESS_TOKEN = AccessTokenUtils.createPersonalAccessToken(
-                    TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                    TEST_ACCESS_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
+                    TEST_HOST_URL,
+                    TEST_LOGIN_USERNAME,
+                    TEST_LOGIN_PASSWORD,
+                    TEST_ACCESS_TOKEN_NAME,
+                    Arrays.asList(Scope.API, Scope.SUDO));
             System.out.println("Created access token: " + TEST_ACCESS_TOKEN);
             assertNotNull(TEST_ACCESS_TOKEN);
             assertFalse(TEST_ACCESS_TOKEN.trim().isEmpty());
@@ -129,19 +137,27 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
         if (createdPrivateToken && TEST_PRIVATE_TOKEN != null) {
             try {
                 AccessTokenUtils.revokePersonalAccessToken(
-                    TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                    TEST_PRIVATE_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
+                        TEST_HOST_URL,
+                        TEST_LOGIN_USERNAME,
+                        TEST_LOGIN_PASSWORD,
+                        TEST_PRIVATE_TOKEN_NAME,
+                        Arrays.asList(Scope.API, Scope.SUDO));
                 System.out.format("Revoked '%s'%n", TEST_PRIVATE_TOKEN_NAME);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
 
         if (createdAccessToken && TEST_ACCESS_TOKEN != null) {
             try {
                 AccessTokenUtils.revokePersonalAccessToken(
-                    TEST_HOST_URL, TEST_LOGIN_USERNAME, TEST_LOGIN_PASSWORD,
-                    TEST_ACCESS_TOKEN_NAME, Arrays.asList(Scope.API, Scope.SUDO));
+                        TEST_HOST_URL,
+                        TEST_LOGIN_USERNAME,
+                        TEST_LOGIN_PASSWORD,
+                        TEST_ACCESS_TOKEN_NAME,
+                        Arrays.asList(Scope.API, Scope.SUDO));
                 System.out.format("Revoked '%s'%n", TEST_ACCESS_TOKEN_NAME);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -200,7 +216,8 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
         }
 
         // Create the test project
-        Optional<Project> optionalProject = gitLabApi.getProjectApi().getOptionalProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
+        Optional<Project> optionalProject =
+                gitLabApi.getProjectApi().getOptionalProject(TEST_NAMESPACE, TEST_PROJECT_NAME);
         Project testProject = optionalProject.orElse(null);
         if (testProject == null) {
 
@@ -225,7 +242,10 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
             gitLabApi.getRepositoryFileApi().createFile(testProject, repoFile, "master", "Initial commit.");
             System.out.format("Created %s repository file%n", repoFile.getFilePath());
 
-        } else if (!gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, "README.md", "master").isPresent()) {
+        } else if (!gitLabApi
+                .getRepositoryFileApi()
+                .getOptionalFile(testProject, "README.md", "master")
+                .isPresent()) {
 
             // Create the README.md file since it does not exists
             RepositoryFile repoFile = new RepositoryFile();
@@ -274,7 +294,10 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
             gitLabApi.getRepositoryFileApi().updateFile(groupProject, repoFile, "master", "Updated contents");
             System.out.format("Updated content of %s repository file%n", repoFile.getFilePath());
 
-        }  else if (!gitLabApi.getRepositoryFileApi().getOptionalFile(testProject, "README.md", "master").isPresent()) {
+        } else if (!gitLabApi
+                .getRepositoryFileApi()
+                .getOptionalFile(testProject, "README.md", "master")
+                .isPresent()) {
 
             // Create the README.md file since it does not exists
             RepositoryFile repoFile = new RepositoryFile();
@@ -290,7 +313,8 @@ public class SetupIntegrationTestExtension implements BeforeAllCallback, Extensi
         }
 
         // Create a subgroup
-        List<Group> subGroups = gitLabApi.getGroupApi().getSubGroups(TEST_GROUP, null, null, TEST_SUB_GROUP, null, null, null, null);
+        List<Group> subGroups =
+                gitLabApi.getGroupApi().getSubGroups(TEST_GROUP, null, null, TEST_SUB_GROUP, null, null, null, null);
         if (subGroups.isEmpty()) {
             Group groupSettings = new Group()
                     .withName(TEST_SUB_GROUP)

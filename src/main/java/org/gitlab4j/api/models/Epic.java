@@ -1,8 +1,8 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.util.Date;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class Epic extends AbstractEpic<Epic> {
     private static final long serialVersionUID = 1L;

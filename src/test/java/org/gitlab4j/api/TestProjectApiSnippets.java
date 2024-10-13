@@ -52,7 +52,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestProjectApiSnippets extends AbstractIntegrationTest {
 
     private static final String TEST_SNIPPET_TITLE_PREFIX = "Test Snippet: ";
@@ -99,8 +100,8 @@ public class TestProjectApiSnippets extends AbstractIntegrationTest {
         assumeTrue(gitLabApi != null);
     }
 
-    private Snippet createSnippet(String title, String filename, String description,
-            String code, Visibility visibility) throws GitLabApiException {
+    private Snippet createSnippet(String title, String filename, String description, String code, Visibility visibility)
+            throws GitLabApiException {
         return (gitLabApi.getProjectApi().createSnippet(testProject, title, filename, description, code, visibility));
     }
 

@@ -1,20 +1,21 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
+import java.util.Date;
+
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Note implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Enum to use for ordering the results. */
     public static enum OrderBy {
-
-        CREATED_AT, UPDATED_AT;
+        CREATED_AT,
+        UPDATED_AT;
         private static JacksonJsonEnumHelper<OrderBy> enumHelper = new JacksonJsonEnumHelper<>(OrderBy.class);
 
         @JsonCreator
@@ -33,12 +34,17 @@ public class Note implements Serializable {
         }
     }
 
-    // This is not used because the GitLab example JSON is using a funny string for the MERGE_REQUEST notable_type ("Merge request").
+    // This is not used because the GitLab example JSON is using a funny string for the MERGE_REQUEST notable_type
+    // ("Merge request").
     // Once they fix the bug, the notableType field can be changed from String to NotableType.
     public static enum NoteableType {
-
-        COMMIT, EPIC, ISSUE, MERGE_REQUEST, SNIPPET;
-        private static JacksonJsonEnumHelper<NoteableType> enumHelper = new JacksonJsonEnumHelper<>(NoteableType.class, true, true);
+        COMMIT,
+        EPIC,
+        ISSUE,
+        MERGE_REQUEST,
+        SNIPPET;
+        private static JacksonJsonEnumHelper<NoteableType> enumHelper =
+                new JacksonJsonEnumHelper<>(NoteableType.class, true, true);
 
         @JsonCreator
         public static NoteableType forValue(String value) {
@@ -57,8 +63,8 @@ public class Note implements Serializable {
     }
 
     public static enum Type {
-
-        DISCUSSION_NOTE, DIFF_NOTE;
+        DISCUSSION_NOTE,
+        DIFF_NOTE;
         private static JacksonJsonEnumHelper<Type> enumHelper = new JacksonJsonEnumHelper<>(Type.class, true, true);
 
         @JsonCreator
@@ -257,11 +263,11 @@ public class Note implements Serializable {
     }
 
     public Type getType() {
-      return type;
+        return type;
     }
 
     public void setType(Type type) {
-      this.type = type;
+        this.type = type;
     }
 
     public Position getPosition() {
@@ -273,14 +279,14 @@ public class Note implements Serializable {
     }
 
     public Boolean getInternal() {
-		return internal;
-	}
+        return internal;
+    }
 
-	public void setInternal(Boolean internal) {
-		this.internal = internal;
-	}
+    public void setInternal(Boolean internal) {
+        this.internal = internal;
+    }
 
-	@Override
+    @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }

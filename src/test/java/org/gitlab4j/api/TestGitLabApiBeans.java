@@ -47,8 +47,6 @@ import org.gitlab4j.api.models.Board;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Bridge;
 import org.gitlab4j.api.models.ChildEpic;
-import org.gitlab4j.api.models.GitLabCiTemplate;
-import org.gitlab4j.api.models.GitLabCiTemplateElement;
 import org.gitlab4j.api.models.Comment;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.CommitPayload;
@@ -72,6 +70,8 @@ import org.gitlab4j.api.models.ExternalStatusCheck;
 import org.gitlab4j.api.models.ExternalStatusCheckResult;
 import org.gitlab4j.api.models.ExternalStatusCheckStatus;
 import org.gitlab4j.api.models.FileUpload;
+import org.gitlab4j.api.models.GitLabCiTemplate;
+import org.gitlab4j.api.models.GitLabCiTemplateElement;
 import org.gitlab4j.api.models.GpgSignature;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupAccessToken;
@@ -249,7 +249,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testDeployment() throws Exception {
-    Deployment deployment = unmarshalResource(Deployment.class, "deployment.json");
+        Deployment deployment = unmarshalResource(Deployment.class, "deployment.json");
         assertTrue(compareJson(deployment, "deployment.json"));
     }
 
@@ -309,25 +309,29 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testExternalStatusChecks() throws Exception {
-        List<ExternalStatusCheck> externalStatusChecks = unmarshalResourceList(ExternalStatusCheck.class, "external-status-checks.json");
+        List<ExternalStatusCheck> externalStatusChecks =
+                unmarshalResourceList(ExternalStatusCheck.class, "external-status-checks.json");
         assertTrue(compareJson(externalStatusChecks, "external-status-checks.json"));
     }
 
     @Test
     public void testExternalStatusCheckEvent() throws Exception {
-        ExternalStatusCheckEvent externalStatusCheckEvent = unmarshalResource(ExternalStatusCheckEvent.class, "external-status-check-event.json");
+        ExternalStatusCheckEvent externalStatusCheckEvent =
+                unmarshalResource(ExternalStatusCheckEvent.class, "external-status-check-event.json");
         assertTrue(compareJson(externalStatusCheckEvent, "external-status-check-event.json"));
     }
 
     @Test
     public void testExternalStatusCheckResult() throws Exception {
-        ExternalStatusCheckResult externalStatusCheckResult = unmarshalResource(ExternalStatusCheckResult.class, "external-status-check-result.json");
+        ExternalStatusCheckResult externalStatusCheckResult =
+                unmarshalResource(ExternalStatusCheckResult.class, "external-status-check-result.json");
         assertTrue(compareJson(externalStatusCheckResult, "external-status-check-result.json"));
     }
 
     @Test
     public void testExternalStatusCheckStatuses() throws Exception {
-        List<ExternalStatusCheckStatus> externalStatusCheckStatuses = unmarshalResourceList(ExternalStatusCheckStatus.class, "external-status-check-statuses.json");
+        List<ExternalStatusCheckStatus> externalStatusCheckStatuses =
+                unmarshalResourceList(ExternalStatusCheckStatus.class, "external-status-check-statuses.json");
         assertTrue(compareJson(externalStatusCheckStatuses, "external-status-check-statuses.json"));
     }
 
@@ -339,7 +343,8 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testGitLabCiTemplateElements() throws Exception {
-        List<GitLabCiTemplateElement> ciYamlTemplatesElements = unmarshalResourceList(GitLabCiTemplateElement.class, "gitlab-ci-template-elements.json");
+        List<GitLabCiTemplateElement> ciYamlTemplatesElements =
+                unmarshalResourceList(GitLabCiTemplateElement.class, "gitlab-ci-template-elements.json");
         assertTrue(compareJson(ciYamlTemplatesElements, "gitlab-ci-template-elements.json"));
     }
 
@@ -351,7 +356,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testGpgSignature() throws Exception {
-    GpgSignature gpgSignature = unmarshalResource(GpgSignature.class, "gpg-signature.json");
+        GpgSignature gpgSignature = unmarshalResource(GpgSignature.class, "gpg-signature.json");
         assertTrue(compareJson(gpgSignature, "gpg-signature.json"));
     }
 
@@ -555,7 +560,8 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testProjectApprovalsCofig() throws Exception {
-    ProjectApprovalsConfig approvalsConfig = unmarshalResource(ProjectApprovalsConfig.class, "project-approvals-config.json");
+        ProjectApprovalsConfig approvalsConfig =
+                unmarshalResource(ProjectApprovalsConfig.class, "project-approvals-config.json");
         assertTrue(compareJson(approvalsConfig, "project-approvals-config.json"));
     }
 
@@ -603,7 +609,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testRemoteMirror() throws Exception {
-    RemoteMirror remoteMirror = unmarshalResource(RemoteMirror.class, "remote-mirror.json");
+        RemoteMirror remoteMirror = unmarshalResource(RemoteMirror.class, "remote-mirror.json");
         assertTrue(compareJson(remoteMirror, "remote-mirror.json"));
     }
 
@@ -621,7 +627,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testSettings() throws Exception {
-    JsonNode json = readTreeFromResource("application-settings.json");
+        JsonNode json = readTreeFromResource("application-settings.json");
         ApplicationSettings applicationSettings = ApplicationSettingsApi.parseApplicationSettings(json);
         assertTrue(compareJson(applicationSettings.getSettings(), "application-settings.json"));
     }
@@ -664,7 +670,7 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testMergeRequestApprovalRule() throws Exception {
-    ApprovalRule approvalRule = unmarshalResource(ApprovalRule.class, "approval-rule.json");
+        ApprovalRule approvalRule = unmarshalResource(ApprovalRule.class, "approval-rule.json");
         assertTrue(compareJson(approvalRule, "approval-rule.json"));
     }
 
@@ -688,7 +694,8 @@ public class TestGitLabApiBeans {
 
     @Test
     public void testMergeRequestVersions() throws Exception {
-        List<MergeRequestVersion> versions = unmarshalResourceList(MergeRequestVersion.class, "merge-request-versions.json");
+        List<MergeRequestVersion> versions =
+                unmarshalResourceList(MergeRequestVersion.class, "merge-request-versions.json");
         assertTrue(compareJson(versions, "merge-request-diffs.json"));
     }
 
@@ -727,7 +734,7 @@ public class TestGitLabApiBeans {
         PersonalAccessToken project = unmarshalResource(PersonalAccessToken.class, "personal-access-token.json");
         assertTrue(compareJson(project, "personal-access-token.json"));
     }
-    
+
     @Test
     public void testProject() throws Exception {
         Project project = unmarshalResource(Project.class, "project.json");

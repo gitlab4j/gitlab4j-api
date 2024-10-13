@@ -47,7 +47,8 @@ public class TestTagsApi extends AbstractIntegrationTest {
         if (testProject != null) {
             try {
                 gitLabApi.getTagsApi().createTag(testProject, TEST_TAG_NAME_0, "master");
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -61,23 +62,28 @@ public class TestTagsApi extends AbstractIntegrationTest {
         if (testProject != null) {
             try {
                 gitLabApi.getTagsApi().deleteTag(testProject, TEST_TAG_NAME_0);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 gitLabApi.getTagsApi().deleteTag(testProject, TEST_TAG_NAME_1);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 gitLabApi.getTagsApi().deleteTag(testProject, TEST_TAG_WITH_SLASH);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 gitLabApi.getTagsApi().unprotectTag(testProject, TEST_PROTECTED_TAG);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             try {
                 gitLabApi.getTagsApi().deleteTag(testProject, TEST_PROTECTED_TAG);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -192,19 +198,21 @@ public class TestTagsApi extends AbstractIntegrationTest {
     }
 
     @Test
-    public void  testProtectedTags() throws GitLabApiException {
+    public void testProtectedTags() throws GitLabApiException {
 
         Tag testTag = gitLabApi.getTagsApi().createTag(testProject, TEST_PROTECTED_TAG, "master");
         assertNotNull(testTag);
         assertEquals(TEST_PROTECTED_TAG, testTag.getName());
 
-        ProtectedTag protectedTag = gitLabApi.getTagsApi().protectTag(testProject, TEST_PROTECTED_TAG, AccessLevel.DEVELOPER);
+        ProtectedTag protectedTag =
+                gitLabApi.getTagsApi().protectTag(testProject, TEST_PROTECTED_TAG, AccessLevel.DEVELOPER);
         assertEquals(TEST_PROTECTED_TAG, protectedTag.getName());
 
         List<ProtectedTag> tags = gitLabApi.getTagsApi().getProtectedTags(testProject);
         assertTrue(tags.stream().map(ProtectedTag::getName).anyMatch(s -> TEST_PROTECTED_TAG.equals(s)));
 
-        Optional<ProtectedTag> optionalTag = gitLabApi.getTagsApi().getOptionalProtectedTag(testProject, TEST_PROTECTED_TAG);
+        Optional<ProtectedTag> optionalTag =
+                gitLabApi.getTagsApi().getOptionalProtectedTag(testProject, TEST_PROTECTED_TAG);
         assertTrue(optionalTag.isPresent());
         assertEquals(TEST_PROTECTED_TAG, optionalTag.get().getName());
 

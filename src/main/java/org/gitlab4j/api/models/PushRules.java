@@ -1,9 +1,9 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class PushRules implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -69,6 +69,7 @@ public class PushRules implements Serializable {
         this.commitMessageNegativeRegex = commitMessageNegativeRegex;
         return (this);
     }
+
     public String getBranchNameRegex() {
         return branchNameRegex;
     }
@@ -198,4 +199,4 @@ public class PushRules implements Serializable {
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }
- }
+}

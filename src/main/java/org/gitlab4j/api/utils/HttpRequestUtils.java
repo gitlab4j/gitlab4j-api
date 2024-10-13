@@ -12,7 +12,7 @@ public class HttpRequestUtils {
 
     /**
      * Build a String containing a very short multi-line dump of an HTTP request.
-     * 
+     *
      * @param fromMethod the method that this method was called from
      * @param request the HTTP request build the request dump from
      * @return a String containing a very short multi-line dump of the HTTP request
@@ -23,7 +23,7 @@ public class HttpRequestUtils {
 
     /**
      * Build a String containing a short multi-line dump of an HTTP request.
-     * 
+     *
      * @param fromMethod the method that this method was called from
      * @param request the HTTP request build the request dump from
      * @param includeHeaders if true will include the HTTP headers in the dump
@@ -49,7 +49,11 @@ public class HttpRequestUtils {
             Enumeration<String> headers = request.getHeaderNames();
             while (headers.hasMoreElements()) {
                 String header = headers.nextElement();
-                dump.append("\t").append(header).append(": ").append(request.getHeader(header)).append('\n');
+                dump.append("\t")
+                        .append(header)
+                        .append(": ")
+                        .append(request.getHeader(header))
+                        .append('\n');
             }
         }
 
@@ -58,7 +62,7 @@ public class HttpRequestUtils {
 
     /**
      * Build a String containing a multi-line dump of an HTTP request.
-     * 
+     *
      * @param fromMethod the method that this method was called from
      * @param request the HTTP request build the request dump from
      * @param includePostData if true will include the POST data in the dump
@@ -75,28 +79,41 @@ public class HttpRequestUtils {
             Enumeration<String> attrs = request.getAttributeNames();
             while (attrs.hasMoreElements()) {
                 String attr = attrs.nextElement();
-                buf.append("\t").append(attr).append(": ").append(request.getAttribute(attr)).append('\n');
+                buf.append("\t")
+                        .append(attr)
+                        .append(": ")
+                        .append(request.getAttribute(attr))
+                        .append('\n');
             }
 
             buf.append("\nHeaders:\n");
             Enumeration<String> headers = request.getHeaderNames();
             while (headers.hasMoreElements()) {
                 String header = headers.nextElement();
-                buf.append("\t").append(header).append(": ").append(request.getHeader(header)).append('\n');
+                buf.append("\t")
+                        .append(header)
+                        .append(": ")
+                        .append(request.getHeader(header))
+                        .append('\n');
             }
 
             buf.append("\nParameters:\n");
             Enumeration<String> params = request.getParameterNames();
             while (params.hasMoreElements()) {
                 String param = params.nextElement();
-                buf.append("\t").append(param).append(": ").append(request.getParameter(param)).append('\n');
+                buf.append("\t")
+                        .append(param)
+                        .append(": ")
+                        .append(request.getParameter(param))
+                        .append('\n');
             }
 
             buf.append("\nCookies:\n");
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
-                    String cstr = "\t" + cookie.getDomain() + "." + cookie.getPath() + "." + cookie.getName() + ": " + cookie.getValue() + "\n";
+                    String cstr = "\t" + cookie.getDomain() + "." + cookie.getPath() + "." + cookie.getName() + ": "
+                            + cookie.getValue() + "\n";
                     buf.append(cstr);
                 }
             }
@@ -114,7 +131,7 @@ public class HttpRequestUtils {
 
     /**
      * Reads the POST data from a request into a String and returns it.
-     * 
+     *
      * @param request the HTTP request containing the POST data
      * @return the POST data as a String instance
      * @throws IOException if any error occurs while reading the POST data
@@ -128,7 +145,7 @@ public class HttpRequestUtils {
 
     /**
      * Reads the content of a Reader instance and returns it as a String.
-     * 
+     *
      * @param reader the Reader instance to read the data from
      * @return the content of a Reader instance as a String
      * @throws IOException if any error occurs while reading the POST data
@@ -147,7 +164,7 @@ public class HttpRequestUtils {
 
     /**
      * Masks the PRIVATE-TOKEN header value with "********".
-     * 
+     *
      * @param s a String containing HTTP request info, usually logging info
      * @return a String with the PRIVATE-TOKEN header value masked with asterisks
      */

@@ -2,6 +2,7 @@ package org.gitlab4j.api;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
 import org.gitlab4j.api.models.Metadata;
 
 /**
@@ -27,5 +28,4 @@ public class MetadataApi extends AbstractApi {
         Response response = get(Status.OK, null, "metadata");
         return (response.readEntity(Metadata.class));
     }
-
 }

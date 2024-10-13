@@ -1,8 +1,8 @@
 package org.gitlab4j.api.webhook;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.util.List;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class EventReleaseAssets {
 

@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 /**
  * This class can be used as a concrete mock to test the individual APIs
  * getXxxxx() methods without the need to have a GitLab server available.
- * 
+ *
  * Supports getXxxxx() methods that return a List of items, single items,
  * Optional items, and Pagers of items.
  */
@@ -38,8 +38,7 @@ public class MockResponse extends Response {
     private Status statusInfo = Status.OK;
     private MediaType mediaType = MediaType.APPLICATION_JSON_TYPE;
 
-    public MockResponse() {
-    }
+    public MockResponse() {}
 
     public <T> MockResponse(Class<T> type, String itemFilename, String listFilename) throws Exception {
         init(type, itemFilename, listFilename);
@@ -81,11 +80,9 @@ public class MockResponse extends Response {
         this.perPage = perPage;
     }
 
-
     /******************************************************************************
      * The following methods allow this class to act as a fake Resource instance.
      ******************************************************************************/
-
     @SuppressWarnings("unchecked")
     @Override
     public <T> T readEntity(GenericType<T> entityType) {
@@ -106,18 +103,19 @@ public class MockResponse extends Response {
     @Override
     public String getHeaderString(String name) {
         switch (name) {
-        case Constants.PER_PAGE:
-            return (responseList != null ? Integer.toString(perPage) : "0");
+            case Constants.PER_PAGE:
+                return (responseList != null ? Integer.toString(perPage) : "0");
 
-        case Constants.TOTAL_PAGES_HEADER:
-            return (responseList != null ? Integer.toString((int) Math.ceil((double) responseList.size() / 20.0))
-                    : "0");
+            case Constants.TOTAL_PAGES_HEADER:
+                return (responseList != null
+                        ? Integer.toString((int) Math.ceil((double) responseList.size() / 20.0))
+                        : "0");
 
-        case Constants.TOTAL_HEADER:
-            return (responseList != null ? Integer.toString(responseList.size()) : "0");
+            case Constants.TOTAL_HEADER:
+                return (responseList != null ? Integer.toString(responseList.size()) : "0");
 
-        default:
-            return (null);
+            default:
+                return (null);
         }
     }
 
@@ -144,9 +142,8 @@ public class MockResponse extends Response {
     /**************************************************************************************************
      * The remaining methods are stubbed so we can create an instance of this class. They are simply
      * stubs, but needed to do this because the Mockito Spy annotation does not work without JAXB
-     * on Java 11+ and did not wish to pull in the JAXB module even for testing. 
+     * on Java 11+ and did not wish to pull in the JAXB module even for testing.
      **************************************************************************************************/
-
     @Override
     public <T> T readEntity(Class<T> entityType, Annotation[] annotations) {
         return null;
@@ -163,8 +160,7 @@ public class MockResponse extends Response {
     }
 
     @Override
-    public void close() {
-    }
+    public void close() {}
 
     @Override
     public Locale getLanguage() {

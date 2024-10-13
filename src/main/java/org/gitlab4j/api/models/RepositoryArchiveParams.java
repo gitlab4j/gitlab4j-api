@@ -38,10 +38,6 @@ public class RepositoryArchiveParams {
      * @return form with params
      */
     public GitLabApiForm getForm() {
-        return new GitLabApiForm()
-            .withParam("sha", sha)
-            .withParam("path", path);
+        return new GitLabApiForm().withParam("sha", sha).withParam("path", path);
     }
-
-
 }

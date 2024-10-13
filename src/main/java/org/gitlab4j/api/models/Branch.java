@@ -1,9 +1,8 @@
-
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class Branch implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -93,7 +92,6 @@ public class Branch implements Serializable {
     public static final boolean isValid(Branch branch) {
         return (branch != null && branch.getName() != null);
     }
-
 
     public Branch withCommit(Commit commit) {
         this.commit = commit;

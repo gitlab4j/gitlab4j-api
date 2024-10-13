@@ -1,8 +1,8 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class WikiAttachment implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,7 +34,6 @@ public class WikiAttachment implements Serializable {
             return (JacksonJson.toJsonString(this));
         }
     }
-
 
     private String fileName;
     private String filePath;

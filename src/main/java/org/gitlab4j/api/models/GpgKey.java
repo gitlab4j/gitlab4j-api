@@ -26,7 +26,6 @@ public class GpgKey {
         this.key = key;
     }
 
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -53,4 +52,5 @@ public class GpgKey {
     @JsonIgnore
     public void setCreated_at(Date createdAt) {
         this.createdAt = createdAt;
-    }}
+    }
+}

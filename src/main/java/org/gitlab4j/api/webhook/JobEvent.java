@@ -33,7 +33,7 @@ public class JobEvent extends AbstractEvent {
     private EventRepository repository;
 
     @Override
-	public String getObjectKind() {
+    public String getObjectKind() {
         return (OBJECT_KIND);
     }
 
@@ -161,6 +161,7 @@ public class JobEvent extends AbstractEvent {
     public void setJobFinished_at(Date jobFinishedAt) {
         this.jobFinishedAt = jobFinishedAt;
     }
+
     public Integer getJobDuration() {
         return jobDuration;
     }

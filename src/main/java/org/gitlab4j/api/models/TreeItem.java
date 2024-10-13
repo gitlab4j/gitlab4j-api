@@ -1,14 +1,16 @@
 package org.gitlab4j.api.models;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
+
+import org.gitlab4j.api.utils.JacksonJson;
 
 public class TreeItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public enum Type {
-        TREE, BLOB, COMMIT;
+        TREE,
+        BLOB,
+        COMMIT;
 
         public String toString() {
             return (name().toLowerCase());

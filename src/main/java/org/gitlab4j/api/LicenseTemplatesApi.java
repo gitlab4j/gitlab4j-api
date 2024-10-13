@@ -91,7 +91,8 @@ public class LicenseTemplatesApi extends AbstractApi {
      */
     public Pager<LicenseTemplate> getLicenseTemplates(Boolean popular, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("popular", popular);
-        return (new Pager<LicenseTemplate>(this, LicenseTemplate.class, itemsPerPage, formData.asMap(), "templates", "licenses"));
+        return (new Pager<LicenseTemplate>(
+                this, LicenseTemplate.class, itemsPerPage, formData.asMap(), "templates", "licenses"));
     }
 
     /**

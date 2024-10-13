@@ -33,26 +33,26 @@ public class NotificationSettingsApi extends AbstractApi {
      * @return a NotificationSettings instance containing the updated global notification settings
      * @throws GitLabApiException if any exception occurs
      */
-    public NotificationSettings updateGlobalNotificationSettings(NotificationSettings settings) throws GitLabApiException {
+    public NotificationSettings updateGlobalNotificationSettings(NotificationSettings settings)
+            throws GitLabApiException {
 
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("level",  settings.getLevel())
-                .withParam("email",  settings.getEmail());
+        GitLabApiForm formData =
+                new GitLabApiForm().withParam("level", settings.getLevel()).withParam("email", settings.getEmail());
 
         Events events = settings.getEvents();
         if (events != null) {
-                formData.withParam("new_note", events.getNewNote())
-                .withParam("new_issue", events.getNewIssue())
-                .withParam("reopen_issue", events.getReopenIssue())
-                .withParam("close_issue", events.getCloseIssue())
-                .withParam("reassign_issue", events.getReassignIssue())
-                .withParam("new_merge_request", events.getNewMergeRequest())
-                .withParam("reopen_merge_request", events.getReopenMergeRequest())
-                .withParam("close_merge_request", events.getCloseMergeRequest())
-                .withParam("reassign_merge_request", events.getReassignMergeRequest())
-                .withParam("merge_merge_request", events.getMergeMergeRequest())
-                .withParam("failed_pipeline", events.getFailedPipeline())
-                .withParam("success_pipeline", events.getSuccessPipeline());
+            formData.withParam("new_note", events.getNewNote())
+                    .withParam("new_issue", events.getNewIssue())
+                    .withParam("reopen_issue", events.getReopenIssue())
+                    .withParam("close_issue", events.getCloseIssue())
+                    .withParam("reassign_issue", events.getReassignIssue())
+                    .withParam("new_merge_request", events.getNewMergeRequest())
+                    .withParam("reopen_merge_request", events.getReopenMergeRequest())
+                    .withParam("close_merge_request", events.getCloseMergeRequest())
+                    .withParam("reassign_merge_request", events.getReassignMergeRequest())
+                    .withParam("merge_merge_request", events.getMergeMergeRequest())
+                    .withParam("failed_pipeline", events.getFailedPipeline())
+                    .withParam("success_pipeline", events.getSuccessPipeline());
         }
 
         Response response = put(Response.Status.OK, formData.asMap(), "notification_settings");
@@ -83,26 +83,26 @@ public class NotificationSettingsApi extends AbstractApi {
      * @return a NotificationSettings instance containing the updated group notification settings
      * @throws GitLabApiException if any exception occurs
      */
-    public NotificationSettings updateGroupNotificationSettings(long groupId, NotificationSettings settings) throws GitLabApiException {
+    public NotificationSettings updateGroupNotificationSettings(long groupId, NotificationSettings settings)
+            throws GitLabApiException {
 
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("level",  settings.getLevel())
-                .withParam("email",  settings.getEmail());
+        GitLabApiForm formData =
+                new GitLabApiForm().withParam("level", settings.getLevel()).withParam("email", settings.getEmail());
 
         Events events = settings.getEvents();
         if (events != null) {
-                formData.withParam("new_note", events.getNewNote())
-                .withParam("new_issue", events.getNewIssue())
-                .withParam("reopen_issue", events.getReopenIssue())
-                .withParam("close_issue", events.getCloseIssue())
-                .withParam("reassign_issue", events.getReassignIssue())
-                .withParam("new_merge_request", events.getNewMergeRequest())
-                .withParam("reopen_merge_request", events.getReopenMergeRequest())
-                .withParam("close_merge_request", events.getCloseMergeRequest())
-                .withParam("reassign_merge_request", events.getReassignMergeRequest())
-                .withParam("merge_merge_request", events.getMergeMergeRequest())
-                .withParam("failed_pipeline", events.getFailedPipeline())
-                .withParam("success_pipeline", events.getSuccessPipeline());
+            formData.withParam("new_note", events.getNewNote())
+                    .withParam("new_issue", events.getNewIssue())
+                    .withParam("reopen_issue", events.getReopenIssue())
+                    .withParam("close_issue", events.getCloseIssue())
+                    .withParam("reassign_issue", events.getReassignIssue())
+                    .withParam("new_merge_request", events.getNewMergeRequest())
+                    .withParam("reopen_merge_request", events.getReopenMergeRequest())
+                    .withParam("close_merge_request", events.getCloseMergeRequest())
+                    .withParam("reassign_merge_request", events.getReassignMergeRequest())
+                    .withParam("merge_merge_request", events.getMergeMergeRequest())
+                    .withParam("failed_pipeline", events.getFailedPipeline())
+                    .withParam("success_pipeline", events.getSuccessPipeline());
         }
 
         Response response = put(Response.Status.OK, formData.asMap(), "groups", groupId, "notification_settings");
@@ -133,26 +133,26 @@ public class NotificationSettingsApi extends AbstractApi {
      * @return a NotificationSettings instance containing the updated project notification settings
      * @throws GitLabApiException if any exception occurs
      */
-    public NotificationSettings updateProjectNotificationSettings(long projectId, NotificationSettings settings) throws GitLabApiException {
+    public NotificationSettings updateProjectNotificationSettings(long projectId, NotificationSettings settings)
+            throws GitLabApiException {
 
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("level",  settings.getLevel())
-                .withParam("email",  settings.getEmail());
+        GitLabApiForm formData =
+                new GitLabApiForm().withParam("level", settings.getLevel()).withParam("email", settings.getEmail());
 
         Events events = settings.getEvents();
         if (events != null) {
-                formData.withParam("new_note", events.getNewNote())
-                .withParam("new_issue", events.getNewIssue())
-                .withParam("reopen_issue", events.getReopenIssue())
-                .withParam("close_issue", events.getCloseIssue())
-                .withParam("reassign_issue", events.getReassignIssue())
-                .withParam("new_merge_request", events.getNewMergeRequest())
-                .withParam("reopen_merge_request", events.getReopenMergeRequest())
-                .withParam("close_merge_request", events.getCloseMergeRequest())
-                .withParam("reassign_merge_request", events.getReassignMergeRequest())
-                .withParam("merge_merge_request", events.getMergeMergeRequest())
-                .withParam("failed_pipeline", events.getFailedPipeline())
-                .withParam("success_pipeline", events.getSuccessPipeline());
+            formData.withParam("new_note", events.getNewNote())
+                    .withParam("new_issue", events.getNewIssue())
+                    .withParam("reopen_issue", events.getReopenIssue())
+                    .withParam("close_issue", events.getCloseIssue())
+                    .withParam("reassign_issue", events.getReassignIssue())
+                    .withParam("new_merge_request", events.getNewMergeRequest())
+                    .withParam("reopen_merge_request", events.getReopenMergeRequest())
+                    .withParam("close_merge_request", events.getCloseMergeRequest())
+                    .withParam("reassign_merge_request", events.getReassignMergeRequest())
+                    .withParam("merge_merge_request", events.getMergeMergeRequest())
+                    .withParam("failed_pipeline", events.getFailedPipeline())
+                    .withParam("success_pipeline", events.getSuccessPipeline());
         }
 
         Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "notification_settings");

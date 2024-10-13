@@ -22,7 +22,7 @@ public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
     private List<String> refs;
 
     @Override
-	public String getEventName() {
+    public String getEventName() {
         return (eventName);
     }
 

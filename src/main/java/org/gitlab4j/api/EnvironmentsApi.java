@@ -55,8 +55,14 @@ public class EnvironmentsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<Environment> getEnvironments(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
-        return (new Pager<Environment>(this, Environment.class, itemsPerPage, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "environments"));
+        return (new Pager<Environment>(
+                this,
+                Environment.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "environments"));
     }
 
     /**
@@ -70,9 +76,14 @@ public class EnvironmentsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Environment getEnvironment(Object projectIdOrPath, Long environmentId) throws GitLabApiException {
-	Response response = get(Response.Status.OK, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "environments", environmentId);
-	return (response.readEntity(Environment.class));
+        Response response = get(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "environments",
+                environmentId);
+        return (response.readEntity(Environment.class));
     }
 
     /**
@@ -85,11 +96,11 @@ public class EnvironmentsApi extends AbstractApi {
      * @return the Environment as an Optional instance
      */
     public Optional<Environment> getOptionalEnvironment(Object projectIdOrPath, Long environmentId) {
-	try {
-	    return (Optional.ofNullable(getEnvironment(projectIdOrPath, environmentId)));
-	} catch (GitLabApiException glae) {
-	    return (GitLabApi.createOptionalFromException(glae));
-	}
+        try {
+            return (Optional.ofNullable(getEnvironment(projectIdOrPath, environmentId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
     }
 
     /**
@@ -105,7 +116,8 @@ public class EnvironmentsApi extends AbstractApi {
      * @deprecated use {@link #createEnvironment(Object, String, String, String)} instead
      */
     @Deprecated
-    public Environment createEnvironment(Object projectIdOrPath, String name, String externalUrl) throws GitLabApiException {
+    public Environment createEnvironment(Object projectIdOrPath, String name, String externalUrl)
+            throws GitLabApiException {
         return createEnvironment(projectIdOrPath, name, externalUrl, null);
     }
 
@@ -121,11 +133,15 @@ public class EnvironmentsApi extends AbstractApi {
      * @return the created Environment instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Environment createEnvironment(Object projectIdOrPath, String name, String externalUrl, String tier) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm().withParam("name", name, true).withParam("external_url", externalUrl).withParam("tier", tier);
-	Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "environments");
-	return (response.readEntity(Environment.class));
+    public Environment createEnvironment(Object projectIdOrPath, String name, String externalUrl, String tier)
+            throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("external_url", externalUrl)
+                .withParam("tier", tier);
+        Response response = post(
+                Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "environments");
+        return (response.readEntity(Environment.class));
     }
 
     /**
@@ -142,7 +158,8 @@ public class EnvironmentsApi extends AbstractApi {
      * @deprecated use {@link #updateEnvironment(Object, Long, String, String, String)} instead
      */
     @Deprecated
-    public Environment updateEnvironment(Object projectIdOrPath, Long environmentId, String name, String externalUrl) throws GitLabApiException {
+    public Environment updateEnvironment(Object projectIdOrPath, Long environmentId, String name, String externalUrl)
+            throws GitLabApiException {
         return updateEnvironment(projectIdOrPath, environmentId, name, externalUrl, null);
     }
 
@@ -159,11 +176,22 @@ public class EnvironmentsApi extends AbstractApi {
      * @return the created Environment instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Environment updateEnvironment(Object projectIdOrPath, Long environmentId, String name, String externalUrl, String tier) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm().withParam("name", name).withParam("external_url", externalUrl).withParam("tier", tier);
-	Response response = putWithFormData(Response.Status.OK, formData, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "environments", environmentId);
-	return (response.readEntity(Environment.class));
+    public Environment updateEnvironment(
+            Object projectIdOrPath, Long environmentId, String name, String externalUrl, String tier)
+            throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name)
+                .withParam("external_url", externalUrl)
+                .withParam("tier", tier);
+        Response response = putWithFormData(
+                Response.Status.OK,
+                formData,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "environments",
+                environmentId);
+        return (response.readEntity(Environment.class));
     }
 
     /**
@@ -177,9 +205,15 @@ public class EnvironmentsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Environment stopEnvironment(Object projectIdOrPath, Long environmentId) throws GitLabApiException {
-	Response response = post(Response.Status.OK, (GitLabApiForm) null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "environments", environmentId, "stop");
-	return (response.readEntity(Environment.class));
+        Response response = post(
+                Response.Status.OK,
+                (GitLabApiForm) null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "environments",
+                environmentId,
+                "stop");
+        return (response.readEntity(Environment.class));
     }
 
     /**
@@ -192,8 +226,13 @@ public class EnvironmentsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteEnvironment(Object projectIdOrPath, Long environmentId) throws GitLabApiException {
-	delete(Response.Status.OK, null,
-                "projects", getProjectIdOrPath(projectIdOrPath), "environments", environmentId);
+        delete(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "environments",
+                environmentId);
     }
 
     /**
@@ -207,9 +246,15 @@ public class EnvironmentsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Environment createEnvironment(Object projectIdOrPath, Long environmentId) throws GitLabApiException {
-	GitLabApiForm formData = new GitLabApiForm();
-	Response response = post(Response.Status.CREATED, formData,
-                "projects", getProjectIdOrPath(projectIdOrPath), "environments", environmentId, "stop");
-	return (response.readEntity(Environment.class));
+        GitLabApiForm formData = new GitLabApiForm();
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "environments",
+                environmentId,
+                "stop");
+        return (response.readEntity(Environment.class));
     }
 }

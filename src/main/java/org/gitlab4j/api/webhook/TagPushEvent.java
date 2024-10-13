@@ -1,4 +1,3 @@
-
 package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.api.utils.JacksonJson;

@@ -29,14 +29,21 @@ public class RepositorySubmodulesApi extends AbstractApi {
      * @return the created commit
      * @throws GitLabApiException if any exception occurs
      */
-    public Commit updateExistingSubmoduleReference(Object projectIdOrPath, String submodule, String branch, String commitSha, String commitMessage) throws GitLabApiException {
+    public Commit updateExistingSubmoduleReference(
+            Object projectIdOrPath, String submodule, String branch, String commitSha, String commitMessage)
+            throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("branch", branch, true)
                 .withParam("commit_sha", commitSha, true)
                 .withParam("commit_message", commitMessage);
-        Response response = put(Response.Status.OK, formData.asMap(), "projects",
-                getProjectIdOrPath(projectIdOrPath), "repository", "submodules", urlEncode(submodule));
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "repository",
+                "submodules",
+                urlEncode(submodule));
         return (response.readEntity(Commit.class));
     }
-
 }

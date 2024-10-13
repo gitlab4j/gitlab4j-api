@@ -1,20 +1,24 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.gitlab4j.api.utils.JacksonJson;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.gitlab4j.api.utils.JacksonJson;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Milestone implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Date createdAt;
     private String description;
+
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
+
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
+
     private Long id;
     private Long iid;
     private Long projectId;

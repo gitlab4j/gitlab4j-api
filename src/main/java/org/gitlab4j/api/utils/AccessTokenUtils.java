@@ -89,17 +89,22 @@ public final class AccessTokenUtils {
     protected static final String USER_AGENT = "GitLab4J Client";
     protected static final String COOKIES_HEADER = "Set-Cookie";
 
-    protected static final String NEW_USER_AUTHENTICITY_TOKEN_REGEX = "\"new_user\".*name=\\\"authenticity_token\\\"\\svalue=\\\"([^\\\"]*)\\\".*new_new_user";
-    protected static final Pattern NEW_USER_AUTHENTICITY_TOKEN_PATTERN = Pattern.compile(NEW_USER_AUTHENTICITY_TOKEN_REGEX);
+    protected static final String NEW_USER_AUTHENTICITY_TOKEN_REGEX =
+            "\"new_user\".*name=\\\"authenticity_token\\\"\\svalue=\\\"([^\\\"]*)\\\".*new_new_user";
+    protected static final Pattern NEW_USER_AUTHENTICITY_TOKEN_PATTERN =
+            Pattern.compile(NEW_USER_AUTHENTICITY_TOKEN_REGEX);
 
-    protected static final String AUTHENTICITY_TOKEN_REGEX = "name=\\\"authenticity_token\\\"\\svalue=\\\"([^\\\"]*)\\\"";
+    protected static final String AUTHENTICITY_TOKEN_REGEX =
+            "name=\\\"authenticity_token\\\"\\svalue=\\\"([^\\\"]*)\\\"";
     protected static final Pattern AUTHENTICITY_TOKEN_PATTERN = Pattern.compile(AUTHENTICITY_TOKEN_REGEX);
 
-    protected static final String PERSONAL_ACCESS_TOKEN_REGEX = "name=\\\"created-personal-access-token\\\".*data-clipboard-text=\\\"([^\\\"]*)\\\".*\\/>";
+    protected static final String PERSONAL_ACCESS_TOKEN_REGEX =
+            "name=\\\"created-personal-access-token\\\".*data-clipboard-text=\\\"([^\\\"]*)\\\".*\\/>";
     protected static final Pattern PERSONAL_ACCESS_TOKEN_PATTERN = Pattern.compile(PERSONAL_ACCESS_TOKEN_REGEX);
 
     protected static final String REVOKE_PERSONAL_ACCESS_TOKEN_REGEX = "href=\\\"([^\\\"]*)\\\"";
-    protected static final Pattern REVOKE_PERSONAL_ACCESS_TOKEN_PATTERN = Pattern.compile(REVOKE_PERSONAL_ACCESS_TOKEN_REGEX);
+    protected static final Pattern REVOKE_PERSONAL_ACCESS_TOKEN_PATTERN =
+            Pattern.compile(REVOKE_PERSONAL_ACCESS_TOKEN_REGEX);
 
     protected static final String FEED_TOKEN_REGEX = "name=\\\"feed_token\\\".*value=\\\"([^\\\"]*)\\\".*\\/>";
     protected static final Pattern FEED_TOKEN_PATTERN = Pattern.compile(FEED_TOKEN_REGEX);
@@ -118,8 +123,13 @@ public final class AccessTokenUtils {
      * @return the created personal access token
      * @throws GitLabApiException if any exception occurs
      */
-    public static final String createPersonalAccessToken(final String baseUrl, final String username,
-            final String password, final String tokenName, final Scope[] scopes) throws GitLabApiException {
+    public static final String createPersonalAccessToken(
+            final String baseUrl,
+            final String username,
+            final String password,
+            final String tokenName,
+            final Scope[] scopes)
+            throws GitLabApiException {
 
         if (scopes == null || scopes.length == 0) {
             throw new RuntimeException("scopes cannot be null or empty");
@@ -139,8 +149,13 @@ public final class AccessTokenUtils {
      * @return the created personal access token
      * @throws GitLabApiException if any exception occurs
      */
-    public static final String createPersonalAccessToken(final String baseUrl, final String username,
-            final String password, final String tokenName, final List<Scope> scopes) throws GitLabApiException {
+    public static final String createPersonalAccessToken(
+            final String baseUrl,
+            final String username,
+            final String password,
+            final String tokenName,
+            final List<Scope> scopes)
+            throws GitLabApiException {
 
         // Save the follow redirect state so it can be restored later
         boolean savedFollowRedirects = HttpURLConnection.getFollowRedirects();
@@ -252,7 +267,10 @@ public final class AccessTokenUtils {
         } finally {
 
             if (cookies != null) {
-                try { logout(baseUrl, cookies); } catch (Exception ignore) {}
+                try {
+                    logout(baseUrl, cookies);
+                } catch (Exception ignore) {
+                }
             }
 
             if (savedFollowRedirects) {
@@ -271,8 +289,13 @@ public final class AccessTokenUtils {
      * @param scopes an array of scopes of the personal access token to revoke
      * @throws GitLabApiException if any exception occurs
      */
-    public static final void revokePersonalAccessToken(final String baseUrl, final String username,
-            final String password, final String tokenName, final Scope[] scopes) throws GitLabApiException {
+    public static final void revokePersonalAccessToken(
+            final String baseUrl,
+            final String username,
+            final String password,
+            final String tokenName,
+            final Scope[] scopes)
+            throws GitLabApiException {
 
         if (scopes == null || scopes.length == 0) {
             throw new RuntimeException("scopes cannot be null or empty");
@@ -291,8 +314,13 @@ public final class AccessTokenUtils {
      * @param scopes a List of scopes of the personal access token to revoke
      * @throws GitLabApiException if any exception occurs
      */
-    public static final void revokePersonalAccessToken(final String baseUrl, final String username,
-            final String password, final String tokenName, final List<Scope> scopes) throws GitLabApiException {
+    public static final void revokePersonalAccessToken(
+            final String baseUrl,
+            final String username,
+            final String password,
+            final String tokenName,
+            final List<Scope> scopes)
+            throws GitLabApiException {
 
         // Save the follow redirect state so it can be restored later
         boolean savedFollowRedirects = HttpURLConnection.getFollowRedirects();
@@ -416,7 +444,10 @@ public final class AccessTokenUtils {
         } finally {
 
             if (cookies != null) {
-                try { logout(baseUrl, cookies); } catch (Exception ignore) {}
+                try {
+                    logout(baseUrl, cookies);
+                } catch (Exception ignore) {
+                }
             }
 
             if (savedFollowRedirects) {
@@ -434,8 +465,8 @@ public final class AccessTokenUtils {
      * @return the fetched Feed token
      * @throws GitLabApiException if any exception occurs
      */
-    public static final String getFeedToken(final String baseUrl, final String username,
-            final String password) throws GitLabApiException {
+    public static final String getFeedToken(final String baseUrl, final String username, final String password)
+            throws GitLabApiException {
 
         // Save the follow redirect state so it can be restored later
         boolean savedFollowRedirects = HttpURLConnection.getFollowRedirects();
@@ -486,7 +517,10 @@ public final class AccessTokenUtils {
         } finally {
 
             if (cookies != null) {
-                try { logout(baseUrl, cookies); } catch (Exception ignore) {}
+                try {
+                    logout(baseUrl, cookies);
+                } catch (Exception ignore) {
+                }
             }
 
             if (savedFollowRedirects) {
@@ -504,8 +538,8 @@ public final class AccessTokenUtils {
      * @return the fetched health check access token
      * @throws GitLabApiException if any exception occurs
      */
-    public static final String getHealthCheckAccessToken(final String baseUrl, final String username,
-            final String password) throws GitLabApiException {
+    public static final String getHealthCheckAccessToken(
+            final String baseUrl, final String username, final String password) throws GitLabApiException {
 
         // Save the follow redirect state so it can be restored later
         boolean savedFollowRedirects = HttpURLConnection.getFollowRedirects();
@@ -556,7 +590,10 @@ public final class AccessTokenUtils {
         } finally {
 
             if (cookies != null) {
-                try { logout(baseUrl, cookies); } catch (Exception ignore) {}
+                try {
+                    logout(baseUrl, cookies);
+                } catch (Exception ignore) {
+                }
             }
 
             if (savedFollowRedirects) {
@@ -574,8 +611,8 @@ public final class AccessTokenUtils {
      * @return the GitLab seesion token as a cookie value
      * @throws GitLabApiException if any error occurs
      */
-    protected static final String login(final String baseUrl, final String username,
-            final String password) throws GitLabApiException {
+    protected static final String login(final String baseUrl, final String username, final String password)
+            throws GitLabApiException {
 
         // Save the follow redirect state so it can be restored later
         boolean savedFollowRedirects = HttpURLConnection.getFollowRedirects();
@@ -733,7 +770,8 @@ public final class AccessTokenUtils {
      * @return the form data StringBuilder
      * @throws GitLabApiException if any error occurs.
      */
-    public static final StringBuilder addFormData(StringBuilder formData, String name, String value) throws GitLabApiException {
+    public static final StringBuilder addFormData(StringBuilder formData, String name, String value)
+            throws GitLabApiException {
 
         if (formData == null) {
             formData = new StringBuilder();

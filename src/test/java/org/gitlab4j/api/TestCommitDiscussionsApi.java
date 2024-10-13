@@ -24,18 +24,26 @@ import org.mockito.Mockito;
 public class TestCommitDiscussionsApi implements Constants {
 
     private static final String COMMIT_SHA = "abcdef1234567890";
-    @Mock private GitLabApi gitLabApi;
-    @Mock private GitLabApiClient gitLabApiClient;
-    @Captor private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+
+    @Mock
+    private GitLabApi gitLabApi;
+
+    @Mock
+    private GitLabApiClient gitLabApiClient;
+
+    @Captor
+    private ArgumentCaptor<MultivaluedMap<String, String>> attributeCaptor;
+
     private MockResponse response;
 
     @BeforeEach
     public void setUp() throws Exception {
-    	openMocks(this);
-        response = new MockResponse(Discussion.class,  null,  "commit-discussions.json");
+        openMocks(this);
+        response = new MockResponse(Discussion.class, null, "commit-discussions.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any())).thenReturn(response);
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any()))
+                .thenReturn(response);
     }
 
     @Test

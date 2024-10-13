@@ -1,13 +1,16 @@
 package org.gitlab4j.api.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
-public enum HealthCheckStatus {
-    OK, FAILED;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-    private static JacksonJsonEnumHelper<HealthCheckStatus> enumHelper = new JacksonJsonEnumHelper<>(HealthCheckStatus.class);
+public enum HealthCheckStatus {
+    OK,
+    FAILED;
+
+    private static JacksonJsonEnumHelper<HealthCheckStatus> enumHelper =
+            new JacksonJsonEnumHelper<>(HealthCheckStatus.class);
 
     @JsonCreator
     public static HealthCheckStatus forValue(String value) {

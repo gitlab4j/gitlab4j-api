@@ -54,7 +54,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestGroupCustomAttributes extends AbstractIntegrationTest {
 
     private static final String TEST_CUSTOM_ATTRIBUTE_KEY = "GitLab4JCustomAttributeTestKey";
@@ -144,8 +145,7 @@ public class TestGroupCustomAttributes extends AbstractIntegrationTest {
         CustomAttribute newCustomAttribute = createCustomAttribute(key, value);
         assertNotNull(newCustomAttribute);
 
-        Optional<CustomAttribute> customAttribute =
-                gitLabApi.getGroupApi().geOptionalCustomAttribute(testGroup, key);
+        Optional<CustomAttribute> customAttribute = gitLabApi.getGroupApi().geOptionalCustomAttribute(testGroup, key);
         assertTrue(customAttribute.isPresent());
         assertEquals(key, customAttribute.get().getKey());
         assertEquals(value, customAttribute.get().getValue());
@@ -181,7 +181,8 @@ public class TestGroupCustomAttributes extends AbstractIntegrationTest {
         createCustomAttribute(key, value);
 
         Stream<CustomAttribute> stream = gitLabApi.getGroupApi().getCustomAttributesStream(testGroup);
-        Optional<CustomAttribute> match = stream.filter(c -> c.getKey().equals(key)).findFirst();
+        Optional<CustomAttribute> match =
+                stream.filter(c -> c.getKey().equals(key)).findFirst();
         assertTrue(match.isPresent());
 
         gitLabApi.getGroupApi().deleteCustomAttribute(testGroup, key);

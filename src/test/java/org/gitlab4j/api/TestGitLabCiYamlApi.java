@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.List;
+
 import org.gitlab4j.api.models.GitLabCiTemplate;
 import org.gitlab4j.api.models.GitLabCiTemplateElement;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,7 +26,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
 public class TestGitLabCiYamlApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
@@ -42,26 +44,22 @@ public class TestGitLabCiYamlApi extends AbstractIntegrationTest {
 
     @Test
     public void testGetAllCiYamlTemplates() throws GitLabApiException {
-        List<GitLabCiTemplateElement> ciYamlTemplatesElements = gitLabApi.getGitLabCiYamlApi().getAllGitLabCiYamlTemplates();
-        assertAll(
-            () -> assertNotNull(ciYamlTemplatesElements),
-            () -> assertTrue(ciYamlTemplatesElements.size() > 0)
-        );
+        List<GitLabCiTemplateElement> ciYamlTemplatesElements =
+                gitLabApi.getGitLabCiYamlApi().getAllGitLabCiYamlTemplates();
+        assertAll(() -> assertNotNull(ciYamlTemplatesElements), () -> assertTrue(ciYamlTemplatesElements.size() > 0));
     }
 
     @Test
     public void testGetSingleCiYamlTemplate() throws GitLabApiException {
-        List<GitLabCiTemplateElement> ciYamlTemplatesElements = gitLabApi.getGitLabCiYamlApi().getAllGitLabCiYamlTemplates();
+        List<GitLabCiTemplateElement> ciYamlTemplatesElements =
+                gitLabApi.getGitLabCiYamlApi().getAllGitLabCiYamlTemplates();
         assumeTrue(ciYamlTemplatesElements != null);
         assumeTrue(ciYamlTemplatesElements.size() > 0);
         String templateKey = ciYamlTemplatesElements.get(0).getKey();
         GitLabCiTemplate ciYamlTemplate = gitLabApi.getGitLabCiYamlApi().getSingleGitLabCiYamlTemplate(templateKey);
         assertAll(
-            () -> assertNotNull(ciYamlTemplate),
-            () -> assertNotNull(ciYamlTemplate.getContent()),
-            () -> assertEquals(templateKey, ciYamlTemplate.getName())
-        );
-
+                () -> assertNotNull(ciYamlTemplate),
+                () -> assertNotNull(ciYamlTemplate.getContent()),
+                () -> assertEquals(templateKey, ciYamlTemplate.getName()));
     }
-
 }

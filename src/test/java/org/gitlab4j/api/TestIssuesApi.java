@@ -63,8 +63,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("integration")
 @ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled("Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
-public class TestIssuesApi extends AbstractIntegrationTest  {
+@org.junit.jupiter.api.Disabled(
+        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
+public class TestIssuesApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
@@ -179,7 +180,20 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         assertEquals(IssueState.OPENED, issue.getState());
 
         List<Long> assigneeIds = Arrays.asList(issue.getAuthor().getId());
-        issue = gitLabApi.getIssuesApi().createIssue(projectId, title, ISSUE_DESCRIPTION, null, assigneeIds, null, null, new Date(), null, null, null);
+        issue = gitLabApi
+                .getIssuesApi()
+                .createIssue(
+                        projectId,
+                        title,
+                        ISSUE_DESCRIPTION,
+                        null,
+                        assigneeIds,
+                        null,
+                        null,
+                        new Date(),
+                        null,
+                        null,
+                        null);
         assertNotNull(issue);
         assertEquals(title, issue.getTitle());
         assertEquals(ISSUE_DESCRIPTION, issue.getDescription());
@@ -322,9 +336,22 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
 
         Issue issueOpen = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
         Issue issueClose = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION);
-        Issue issueInIteration = gitLabApi.getIssuesApi().createIssue(projectId, getUniqueTitle(), ISSUE_DESCRIPTION, null, null, null, null, null, null, null, null, ITERATION_TITLE);
+        Issue issueInIteration = gitLabApi
+                .getIssuesApi()
+                .createIssue(
+                        projectId,
+                        getUniqueTitle(),
+                        ISSUE_DESCRIPTION,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        ITERATION_TITLE);
         issueClose = gitLabApi.getIssuesApi().closeIssue(projectId, issueClose.getIid());
-
 
         final Long openIid = issueOpen.getIid();
         IssueFilter openFilter = new IssueFilter().withState(IssueState.OPENED);
@@ -343,6 +370,5 @@ public class TestIssuesApi extends AbstractIntegrationTest  {
         List<Issue> issuesInIteration = gitLabApi.getIssuesApi().getIssues(projectId, issueInIterationFilter);
         assertNotNull(issuesInIteration);
         assertTrue(issuesInIteration.stream().map(Issue::getIid).anyMatch(iid -> iid.equals(issueInIterationIid)));
-
     }
 }

@@ -1,11 +1,12 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.Key;
+import java.util.Collections;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.Collections;
+
+import org.gitlab4j.api.models.Key;
 
 /**
  * See:

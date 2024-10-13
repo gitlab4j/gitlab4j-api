@@ -1,16 +1,17 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.models.Topic;
-import org.gitlab4j.api.models.TopicParams;
-
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class TopicsApi extends AbstractApi{
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+
+import org.gitlab4j.api.models.Topic;
+import org.gitlab4j.api.models.TopicParams;
+
+public class TopicsApi extends AbstractApi {
 
     public TopicsApi(GitLabApi gitLabApi) {
         super(gitLabApi);
@@ -127,8 +128,7 @@ public class TopicsApi extends AbstractApi{
      * @throws GitLabApiException at any exception
      */
     public Topic updateTopic(Integer id, TopicParams params) throws GitLabApiException {
-        Response response = putWithFormData(Response.Status.OK,
-            params.getForm(false), "topics",  id);
+        Response response = putWithFormData(Response.Status.OK, params.getForm(false), "topics", id);
         return (response.readEntity(Topic.class));
     }
 
@@ -143,7 +143,7 @@ public class TopicsApi extends AbstractApi{
      * @throws GitLabApiException if any exception occurs
      */
     public Topic updateTopicAvatar(final Integer id, File avatarFile) throws GitLabApiException {
-        Response response = putUpload(Response.Status.OK, "avatar", avatarFile,  "topics", id);
+        Response response = putUpload(Response.Status.OK, "avatar", avatarFile, "topics", id);
         return (response.readEntity(Topic.class));
     }
 
@@ -157,7 +157,7 @@ public class TopicsApi extends AbstractApi{
      * @throws GitLabApiException if any exception occurs
      */
     public Topic deleteTopicAvatar(final Integer id) throws GitLabApiException {
-        Response response = putUpload(Response.Status.OK, "avatar", null,  "topics", id);
+        Response response = putUpload(Response.Status.OK, "avatar", null, "topics", id);
         return (response.readEntity(Topic.class));
     }
 
@@ -170,10 +170,10 @@ public class TopicsApi extends AbstractApi{
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteTopic(Integer id) throws GitLabApiException {
-        if(isApiVersion(GitLabApi.ApiVersion.V3)){
+        if (isApiVersion(GitLabApi.ApiVersion.V3)) {
             throw new GitLabApiException("Topics need api v4+");
         }
-        delete(Response.Status.NO_CONTENT,null, "topics", id);
+        delete(Response.Status.NO_CONTENT, null, "topics", id);
     }
 
     /**
@@ -187,7 +187,12 @@ public class TopicsApi extends AbstractApi{
      * @throws GitLabApiException if any exception occurs
      */
     public Topic mergeTopics(Integer sourceTopicId, Integer targetTopicId) throws GitLabApiException {
-        Response response = post(Response.Status.OK,new GitLabApiForm().withParam("source_topic_id",sourceTopicId).withParam("target_topic_id",targetTopicId),"topics/merge");
+        Response response = post(
+                Response.Status.OK,
+                new GitLabApiForm()
+                        .withParam("source_topic_id", sourceTopicId)
+                        .withParam("target_topic_id", targetTopicId),
+                "topics/merge");
         return (response.readEntity(Topic.class));
     }
 }

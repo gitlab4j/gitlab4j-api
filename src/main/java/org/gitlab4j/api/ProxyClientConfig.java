@@ -16,7 +16,7 @@ import org.glassfish.jersey.client.ClientProperties;
 public class ProxyClientConfig {
 
     /**
-     * Create a Map instance with properties set up to use a proxy server that can be passed to the 
+     * Create a Map instance with properties set up to use a proxy server that can be passed to the
      * GitLabAPi constructors and login methods to configure the GitLabApi instance to use a proxy server.
      *
      * @param proxyUri the URI of the proxy server
@@ -27,7 +27,7 @@ public class ProxyClientConfig {
     }
 
     /**
-     * Create a Map instance set up to use a proxy server that can be passed to the GitLabAPi constructors 
+     * Create a Map instance set up to use a proxy server that can be passed to the GitLabAPi constructors
      * and login methods to configure the GitLabApi instance to use a proxy server.
      *
      * @param proxyUri the URI of the proxy server
@@ -52,7 +52,7 @@ public class ProxyClientConfig {
     }
 
     /**
-     * Create a Map instance set up to use an NTLM proxy server that can be passed to the GitLabAPi constructors 
+     * Create a Map instance set up to use an NTLM proxy server that can be passed to the GitLabAPi constructors
      * and login methods to configure the GitLabApi instance to use an NTLM proxy server.
      *
      * @param proxyUri the URI of the proxy server
@@ -63,7 +63,8 @@ public class ProxyClientConfig {
      * @param domain the domain to authenticate within
      * @return a Map set up to allow GitLabApi to use an NTLM proxy server
      */
-    public static Map<String, Object> createNtlmProxyClientConfig(String proxyUri, String username, String password, String workstation, String domain) {
+    public static Map<String, Object> createNtlmProxyClientConfig(
+            String proxyUri, String username, String password, String workstation, String domain) {
 
         Map<String, Object> clientConfig = new HashMap<>();
         clientConfig.put(ClientProperties.PROXY_URI, proxyUri);

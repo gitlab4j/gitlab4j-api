@@ -1,9 +1,7 @@
-
 package org.gitlab4j.api.models;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -24,7 +22,6 @@ public class ExternalStatusCheckProtectedBranch implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public Long getProjectId() {
         return projectId;

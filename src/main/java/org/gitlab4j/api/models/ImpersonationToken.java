@@ -15,8 +15,14 @@ public class ImpersonationToken implements Serializable {
 
     /** Enum to specify the scope of an ImpersonationToken. */
     public enum Scope {
-
-        API, READ_API, READ_USER, READ_REPOSITORY, WRITE_REPOSITORY, READ_REGISTRY, WRITE_REGISTRY, SUDO;
+        API,
+        READ_API,
+        READ_USER,
+        READ_REPOSITORY,
+        WRITE_REPOSITORY,
+        READ_REGISTRY,
+        WRITE_REGISTRY,
+        SUDO;
 
         private static JacksonJsonEnumHelper<Scope> enumHelper = new JacksonJsonEnumHelper<>(Scope.class);
 

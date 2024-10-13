@@ -24,7 +24,6 @@ public class CustomAttribute implements Serializable {
         this.value = value;
     }
 
-
     public CustomAttribute withKey(String key) {
         this.key = key;
         return this;

@@ -106,20 +106,20 @@ public class HealthCheckInfo implements Serializable {
 
         private static final ObjectMapper mapper = new JacksonJson().getObjectMapper();
 
-	@Override
-	public HealthCheckItem deserialize(JsonParser jsonParser, DeserializationContext ctx)
-		throws IOException, JsonProcessingException {
+        @Override
+        public HealthCheckItem deserialize(JsonParser jsonParser, DeserializationContext ctx)
+                throws IOException, JsonProcessingException {
 
-	    HealthCheckItem healthCheckItem = null;
-	    JsonNode tree = jsonParser.readValueAsTree();
-	    if (tree.isArray()) {
-		JsonNode node = tree.get(0);
-		healthCheckItem = mapper.treeToValue(node,  HealthCheckItem.class);
-	    } else if (tree.isObject()) {
-		healthCheckItem = mapper.treeToValue(tree,  HealthCheckItem.class);
-	    }
+            HealthCheckItem healthCheckItem = null;
+            JsonNode tree = jsonParser.readValueAsTree();
+            if (tree.isArray()) {
+                JsonNode node = tree.get(0);
+                healthCheckItem = mapper.treeToValue(node, HealthCheckItem.class);
+            } else if (tree.isObject()) {
+                healthCheckItem = mapper.treeToValue(tree, HealthCheckItem.class);
+            }
 
-	    return (healthCheckItem);
-	}
+            return (healthCheckItem);
+        }
     }
 }

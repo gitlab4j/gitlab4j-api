@@ -1,13 +1,13 @@
 package org.gitlab4j.api.models;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.gitlab4j.api.Constants.GroupOrderBy;
 import org.gitlab4j.api.Constants.SortOrder;
 import org.gitlab4j.api.GitLabApiForm;
 import org.gitlab4j.api.utils.JacksonJson;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *  This class is used to filter Groups when getting lists of groups.
@@ -164,18 +164,20 @@ public class GroupFilter implements Serializable {
      * @return a GitLabApiForm instance holding the query parameters for this GroupFilter instance
      */
     public GitLabApiForm getQueryParams() {
-        GitLabApiForm form = new GitLabApiForm().withParam("skip_groups", skipGroups)
-                                                         .withParam("all_available", allAvailable)
-                                                         .withParam("search", search)
-                                                         .withParam("order_by", orderBy)
-                                                         .withParam("sort", sort)
-                                                         .withParam("statistics", statistics)
-                                                         .withParam("with_custom_attributes", withCustomAttributes)
-                                                         .withParam("owned", owned)
-                                                         .withParam("min_access_level", accessLevel)
-                                                         .withParam("top_level_only", topLevelOnly);
+        GitLabApiForm form = new GitLabApiForm()
+                .withParam("skip_groups", skipGroups)
+                .withParam("all_available", allAvailable)
+                .withParam("search", search)
+                .withParam("order_by", orderBy)
+                .withParam("sort", sort)
+                .withParam("statistics", statistics)
+                .withParam("with_custom_attributes", withCustomAttributes)
+                .withParam("owned", owned)
+                .withParam("min_access_level", accessLevel)
+                .withParam("top_level_only", topLevelOnly);
         for (CustomAttribute customAttribute : customAttributesFilter) {
-            form.withParam(String.format("custom_attributes[%s]", customAttribute.getKey()), customAttribute.getValue());
+            form.withParam(
+                    String.format("custom_attributes[%s]", customAttribute.getKey()), customAttribute.getValue());
         }
         return form;
     }

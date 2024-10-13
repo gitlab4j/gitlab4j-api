@@ -31,9 +31,11 @@ public class EventsApi extends AbstractApi {
      * @return a list of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getAuthenticatedUserEvents(ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder) throws GitLabApiException {
-        return (getAuthenticatedUserEvents(action, targetType, before, after, sortOrder, getDefaultPerPage()).all());
+    public List<Event> getAuthenticatedUserEvents(
+            ActionType action, TargetType targetType, Date before, Date after, SortOrder sortOrder)
+            throws GitLabApiException {
+        return (getAuthenticatedUserEvents(action, targetType, before, after, sortOrder, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -49,9 +51,12 @@ public class EventsApi extends AbstractApi {
      * @return a list of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getAllAuthenticatedUserEvents(ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder) throws GitLabApiException {
-        return (getAuthenticatedUserEvents(action, targetType, before, after, sortOrder, getDefaultPerPage(), EventScope.ALL).all());
+    public List<Event> getAllAuthenticatedUserEvents(
+            ActionType action, TargetType targetType, Date before, Date after, SortOrder sortOrder)
+            throws GitLabApiException {
+        return (getAuthenticatedUserEvents(
+                        action, targetType, before, after, sortOrder, getDefaultPerPage(), EventScope.ALL)
+                .all());
     }
 
     /**
@@ -69,8 +74,15 @@ public class EventsApi extends AbstractApi {
      * @return a list of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getAuthenticatedUserEvents(ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder, int page, int perPage) throws GitLabApiException {
+    public List<Event> getAuthenticatedUserEvents(
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder,
+            int page,
+            int perPage)
+            throws GitLabApiException {
         return (getAuthenticatedUserEvents(action, targetType, before, after, sortOrder, page, perPage, null));
     }
 
@@ -86,20 +98,29 @@ public class EventsApi extends AbstractApi {
      * @param sortOrder sort events in ASC or DESC order by created_at. Default is DESC, optional
      * @param page the page to get
      * @param perPage the number of projects per page
-     * @param scope include all events across a user’s projects, optional 
+     * @param scope include all events across a user’s projects, optional
      * @return a list of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getAuthenticatedUserEvents(ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder, int page, int perPage, EventScope scope) throws GitLabApiException {
+    public List<Event> getAuthenticatedUserEvents(
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder,
+            int page,
+            int perPage,
+            EventScope scope)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("action", action)
-                .withParam("target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
+                .withParam(
+                        "target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
                 .withParam("before", before)
                 .withParam("after", after)
                 .withParam("sort", sortOrder)
-                .withParam(PAGE_PARAM,  page)
+                .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage)
                 .withParam("scope", scope != null ? scope.toValue().toLowerCase() : null);
 
@@ -121,8 +142,9 @@ public class EventsApi extends AbstractApi {
      * @return a Pager of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Event> getAuthenticatedUserEvents(ActionType action, TargetType targetType, Date before, Date after,
-            SortOrder sortOrder, int itemsPerPage) throws GitLabApiException {
+    public Pager<Event> getAuthenticatedUserEvents(
+            ActionType action, TargetType targetType, Date before, Date after, SortOrder sortOrder, int itemsPerPage)
+            throws GitLabApiException {
         return (getAuthenticatedUserEvents(action, targetType, before, after, sortOrder, itemsPerPage, null));
     }
 
@@ -137,16 +159,24 @@ public class EventsApi extends AbstractApi {
      * @param after include only events created after a particular date, optional
      * @param sortOrder sort events in ASC or DESC order by created_at. Default is DESC, optional
      * @param itemsPerPage the number of Event instances that will be fetched per page
-     * @param scope include all events across a user’s projects, optional 
+     * @param scope include all events across a user’s projects, optional
      * @return a Pager of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Event> getAuthenticatedUserEvents(ActionType action, TargetType targetType, Date before, Date after,
-            SortOrder sortOrder, int itemsPerPage, EventScope scope) throws GitLabApiException {
+    public Pager<Event> getAuthenticatedUserEvents(
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder,
+            int itemsPerPage,
+            EventScope scope)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("action", action)
-                .withParam("target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
+                .withParam(
+                        "target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
                 .withParam("before", before)
                 .withParam("after", after)
                 .withParam("sort", sortOrder)
@@ -168,9 +198,11 @@ public class EventsApi extends AbstractApi {
      * @return a Stream of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Event> getAuthenticatedUserEventsStream(ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder) throws GitLabApiException {
-        return (getAuthenticatedUserEvents(action, targetType, before, after, sortOrder, getDefaultPerPage(), null).stream());
+    public Stream<Event> getAuthenticatedUserEventsStream(
+            ActionType action, TargetType targetType, Date before, Date after, SortOrder sortOrder)
+            throws GitLabApiException {
+        return (getAuthenticatedUserEvents(action, targetType, before, after, sortOrder, getDefaultPerPage(), null)
+                .stream());
     }
 
     /**
@@ -186,9 +218,12 @@ public class EventsApi extends AbstractApi {
      * @return a Stream of events for the authenticated user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Event> getAllAuthenticatedUserEventsStream(ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder) throws GitLabApiException {
-        return (getAuthenticatedUserEvents(action, targetType, before, after, sortOrder, getDefaultPerPage(), EventScope.ALL).stream());
+    public Stream<Event> getAllAuthenticatedUserEventsStream(
+            ActionType action, TargetType targetType, Date before, Date after, SortOrder sortOrder)
+            throws GitLabApiException {
+        return (getAuthenticatedUserEvents(
+                action, targetType, before, after, sortOrder, getDefaultPerPage(), EventScope.ALL)
+                .stream());
     }
 
     /**
@@ -205,9 +240,16 @@ public class EventsApi extends AbstractApi {
      * @return a list of events for the specified user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getUserEvents(Object userIdOrUsername, ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder) throws GitLabApiException {
-        return (getUserEvents(userIdOrUsername, action, targetType, before, after, sortOrder, getDefaultPerPage()).all());
+    public List<Event> getUserEvents(
+            Object userIdOrUsername,
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder)
+            throws GitLabApiException {
+        return (getUserEvents(userIdOrUsername, action, targetType, before, after, sortOrder, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -226,20 +268,29 @@ public class EventsApi extends AbstractApi {
      * @return a list of events for the specified user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getUserEvents(Object userIdOrUsername, ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder, int page, int perPage) throws GitLabApiException {
+    public List<Event> getUserEvents(
+            Object userIdOrUsername,
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder,
+            int page,
+            int perPage)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("action", action)
-                .withParam("target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
+                .withParam(
+                        "target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
                 .withParam("before", before)
                 .withParam("after", after)
                 .withParam("sort", sortOrder)
-                .withParam(PAGE_PARAM,  page)
+                .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
 
-        Response response = get(Response.Status.OK, formData.asMap(),
-                "users", getUserIdOrUsername(userIdOrUsername), "events");
+        Response response =
+                get(Response.Status.OK, formData.asMap(), "users", getUserIdOrUsername(userIdOrUsername), "events");
         return (response.readEntity(new GenericType<List<Event>>() {}));
     }
 
@@ -258,18 +309,32 @@ public class EventsApi extends AbstractApi {
      * @return a Pager of events for the specified user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Event> getUserEvents(Object userIdOrUsername, ActionType action, TargetType targetType, Date before, Date after,
-            SortOrder sortOrder, int itemsPerPage) throws GitLabApiException {
+    public Pager<Event> getUserEvents(
+            Object userIdOrUsername,
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder,
+            int itemsPerPage)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("action", action)
-                .withParam("target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
+                .withParam(
+                        "target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
                 .withParam("before", before)
                 .withParam("after", after)
                 .withParam("sort", sortOrder);
 
-        return (new Pager<Event>(this, Event.class, itemsPerPage, formData.asMap(),
-                "users", getUserIdOrUsername(userIdOrUsername), "events"));
+        return (new Pager<Event>(
+                this,
+                Event.class,
+                itemsPerPage,
+                formData.asMap(),
+                "users",
+                getUserIdOrUsername(userIdOrUsername),
+                "events"));
     }
 
     /**
@@ -286,9 +351,16 @@ public class EventsApi extends AbstractApi {
      * @return a Stream of events for the specified user and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Event> getUserEventsStream(Object userIdOrUsername, ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder) throws GitLabApiException {
-        return (getUserEvents(userIdOrUsername, action, targetType, before, after, sortOrder, getDefaultPerPage()).stream());
+    public Stream<Event> getUserEventsStream(
+            Object userIdOrUsername,
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder)
+            throws GitLabApiException {
+        return (getUserEvents(userIdOrUsername, action, targetType, before, after, sortOrder, getDefaultPerPage())
+                .stream());
     }
 
     /**
@@ -305,9 +377,16 @@ public class EventsApi extends AbstractApi {
      * @return a list of events for the specified project and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getProjectEvents(Object projectIdOrPath, ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder) throws GitLabApiException {
-        return (getProjectEvents(projectIdOrPath, action, targetType, before, after, sortOrder, getDefaultPerPage()).all());
+    public List<Event> getProjectEvents(
+            Object projectIdOrPath,
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder)
+            throws GitLabApiException {
+        return (getProjectEvents(projectIdOrPath, action, targetType, before, after, sortOrder, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -326,20 +405,29 @@ public class EventsApi extends AbstractApi {
      * @return a list of events for the specified project and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Event> getProjectEvents(Object projectIdOrPath, ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder, int page, int perPage) throws GitLabApiException {
+    public List<Event> getProjectEvents(
+            Object projectIdOrPath,
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder,
+            int page,
+            int perPage)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("action", action)
-                .withParam("target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
+                .withParam(
+                        "target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
                 .withParam("before", before)
                 .withParam("after", after)
                 .withParam("sort", sortOrder)
-                .withParam(PAGE_PARAM,  page)
+                .withParam(PAGE_PARAM, page)
                 .withParam(PER_PAGE_PARAM, perPage);
 
-        Response response = get(Response.Status.OK, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "events");
+        Response response =
+                get(Response.Status.OK, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "events");
         return (response.readEntity(new GenericType<List<Event>>() {}));
     }
 
@@ -358,18 +446,32 @@ public class EventsApi extends AbstractApi {
      * @return a Pager of events for the specified project and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Event> getProjectEvents(Object projectIdOrPath, ActionType action, TargetType targetType, Date before, Date after,
-            SortOrder sortOrder, int itemsPerPage) throws GitLabApiException {
+    public Pager<Event> getProjectEvents(
+            Object projectIdOrPath,
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder,
+            int itemsPerPage)
+            throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("action", action)
-                .withParam("target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
+                .withParam(
+                        "target_type", targetType != null ? targetType.toValue().toLowerCase() : null)
                 .withParam("before", before)
                 .withParam("after", after)
                 .withParam("sort", sortOrder);
 
-        return (new Pager<Event>(this, Event.class, itemsPerPage, formData.asMap(),
-                "projects", getProjectIdOrPath(projectIdOrPath), "events"));
+        return (new Pager<Event>(
+                this,
+                Event.class,
+                itemsPerPage,
+                formData.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "events"));
     }
 
     /**
@@ -386,8 +488,15 @@ public class EventsApi extends AbstractApi {
      * @return a Stream of events for the specified project and matching the supplied parameters
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Event> getProjectEventsStream(Object projectIdOrPath, ActionType action, TargetType targetType,
-            Date before, Date after, SortOrder sortOrder) throws GitLabApiException {
-        return (getProjectEvents(projectIdOrPath, action, targetType, before, after, sortOrder, getDefaultPerPage()).stream());
+    public Stream<Event> getProjectEventsStream(
+            Object projectIdOrPath,
+            ActionType action,
+            TargetType targetType,
+            Date before,
+            Date after,
+            SortOrder sortOrder)
+            throws GitLabApiException {
+        return (getProjectEvents(projectIdOrPath, action, targetType, before, after, sortOrder, getDefaultPerPage())
+                .stream());
     }
 }

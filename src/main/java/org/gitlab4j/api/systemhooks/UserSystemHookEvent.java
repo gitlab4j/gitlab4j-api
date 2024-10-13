@@ -23,7 +23,7 @@ public class UserSystemHookEvent extends AbstractSystemHookEvent {
     private String state;
 
     @Override
-	public String getEventName() {
+    public String getEventName() {
         return this.eventName;
     }
 

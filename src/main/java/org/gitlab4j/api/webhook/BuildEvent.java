@@ -41,7 +41,7 @@ public class BuildEvent extends AbstractEvent {
     private EventRepository repository;
 
     @Override
-	public String getObjectKind() {
+    public String getObjectKind() {
         return (OBJECT_KIND);
     }
 

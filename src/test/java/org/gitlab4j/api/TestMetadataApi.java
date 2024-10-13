@@ -42,6 +42,4 @@ public class TestMetadataApi extends AbstractIntegrationTest {
         Metadata metadata = gitLabApi.getMetadataApi().getMetadata();
         System.out.println("METADATA +\n" + metadata);
     }
-
-
 }

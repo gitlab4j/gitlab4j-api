@@ -21,7 +21,7 @@ public class ReleaseEvent extends AbstractEvent {
     private EventCommit commit;
 
     @Override
-	public String getObjectKind() {
+    public String getObjectKind() {
         return (OBJECT_KIND);
     }
 
