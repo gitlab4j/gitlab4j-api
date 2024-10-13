@@ -40,6 +40,7 @@
       "id" : 1,
       "name" : "Administrator"
    },
+   "severity": "UNKNOWN",
    "subscribed": false,
    "user_notes_count": 1,
    "web_url": "http://example.com/example/example/issues/1",
@@ -59,6 +60,15 @@
       "count": 0,
       "completed_count": 0
    },
+   "imported": false,
+   "imported_from": "none",
+   "epic": {
+       "id": 1347,
+       "iid": 5,
+       "title": "Test Epic",
+       "url": "/groups/example/-/epics/5",
+       "group_id": 1651
+   },
    "iteration": {
       "id": 158,
       "iid": 34,
@@ -72,5 +82,6 @@
       "start_date": "2023-09-04T00:00:00Z",
       "due_date": "2023-09-10T00:00:00Z",
       "web_url": "http://example.com/example/-/iterations/158"
-  }
+  },
+  "health_status": "needs_attention"
 }
