@@ -9,38 +9,21 @@ on:
 
 jobs:
 
-  build-jdk11:
-    name: "Build JDK 11"
+  build-gradle:
+    name: "Build"
     runs-on: ubuntu-latest
-    services:
-      gitlab-instance:
-        image: gitlab/gitlab-ce:12.9.2-ce.0
-        env:
-          GITLAB_OMNIBUS_CONFIG: gitlab_rails['initial_root_password']="password";gitlab_rails['lfs_enabled']=false;
-        ports:
-          - 8090:80
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
+      - name: Setup JDK 11
+        uses: actions/setup-java@v3
         with:
-          distribution: adopt-hotspot
+          distribution: temurin
           java-version: 11
-      - name: Get Date
-        id: get-date
-        run: |
-          echo "date=$(/bin/date -u "+%Y-%m")" >> $GITHUB_OUTPUT
-        shell: bash
-      - name: Cache Maven Repository
-        id: cache-maven
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          # refresh cache every month to avoid unlimited growth
-          key: gitlab4jmaven-${{ steps.get-date.outputs.date }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
       - name: GitLab4j verify
         id: gitlab4j-verify
         run: |
-          ./mvnw verify -B -V
+          ./gradlew build --console=PLAIN --stacktrace
