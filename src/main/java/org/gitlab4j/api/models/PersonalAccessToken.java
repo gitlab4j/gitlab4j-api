@@ -3,6 +3,8 @@ package org.gitlab4j.api.models;
 import org.gitlab4j.api.Constants;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +15,7 @@ public class PersonalAccessToken implements Serializable {
     private Long userId;
     private List<Constants.ProjectAccessTokenScope> scopes;
     private String name;
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date expiresAt;
     private Long id;
     private Boolean active;
