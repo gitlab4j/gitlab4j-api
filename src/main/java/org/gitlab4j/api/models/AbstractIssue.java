@@ -74,14 +74,20 @@ public abstract class AbstractIssue implements Serializable {
     private Integer weight;
     private Boolean discussionLocked;
     private TimeStats timeStats;
+    private String severity;
+    private String issueType;
+    private IssueEpic epic;
 
     private Integer upvotes;
     private Integer downvotes;
     private Integer mergeRequestsCount;
     private Boolean hasTasks;
     private String taskStatus;
+    private Boolean imported;
+    private String importedFrom;
     private Iteration iteration;
     private TaskCompletionStatus taskCompletionStatus;
+    private String healthStatus;
 
     public Assignee getAssignee() {
         return assignee;
@@ -328,13 +334,29 @@ public abstract class AbstractIssue implements Serializable {
         this.taskStatus = taskStatus;
     }
 
-    public Iteration getIteration() {
-		return iteration;
-	}
+    public Boolean getImported() {
+        return imported;
+    }
 
-	public void setIteration(Iteration iteration) {
-		this.iteration = iteration;
-	}
+    public void setImported(Boolean imported) {
+        this.imported = imported;
+    }
+
+    public String getImportedFrom() {
+        return importedFrom;
+    }
+
+    public void setImportedFrom(String importedFrom) {
+        this.importedFrom = importedFrom;
+    }
+
+    public Iteration getIteration() {
+        return iteration;
+    }
+
+    public void setIteration(Iteration iteration) {
+        this.iteration = iteration;
+    }
 
 	public TaskCompletionStatus getTaskCompletionStatus() {
         return taskCompletionStatus;
@@ -342,6 +364,38 @@ public abstract class AbstractIssue implements Serializable {
 
     public void setTaskCompletionStatus(TaskCompletionStatus taskCompletionStatus) {
         this.taskCompletionStatus = taskCompletionStatus;
+    }
+
+    public String getIssueType() {
+        return issueType;
+    }
+
+    public void setIssueType(String issueType) {
+        this.issueType = issueType;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public IssueEpic getEpic() {
+        return epic;
+    }
+
+    public void setEpic(IssueEpic epic) {
+        this.epic = epic;
+    }
+
+    public String getHealthStatus() {
+        return healthStatus;
+    }
+
+    public void setHealthStatus(String healthStatus) {
+        this.healthStatus = healthStatus;
     }
 
     @Override
