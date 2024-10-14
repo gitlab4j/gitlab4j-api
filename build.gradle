@@ -4,8 +4,8 @@ plugins {
     id 'com.diffplug.spotless' version '6.2.0'
     id 'signing'
     id 'maven-publish'
-    id 'net.researchgate.release' version '3.0.2'
     id 'io.github.gradle-nexus.publish-plugin' version '1.3.0'
+    id 'net.researchgate.release' version '3.0.2'
 }
 
 wrapper {
@@ -67,8 +67,8 @@ nexusPublishing {
     repositories {
         sonatype {
             nexusUrl.set(uri("https://oss.sonatype.org/service/local/"))
-            username = project.findProperty('sonatypeUser') ?: ''
-            password = project.findProperty('sonatypePassword') ?: ''
+            username = project.findProperty('ossSonatypeUsername') ?: ''
+            password = project.findProperty('ossSonatypePassword') ?: ''
         }
     }
 }
@@ -115,22 +115,13 @@ publishing {
 }
 
 release {
-    buildTasks = ['releaseBuild']
+    buildTasks = ['doRelease']
     git {
         requireBranch.set('main')
     }
 }
 
-task releaseBuild {
-    dependsOn(
-            'checkLastVersionValue',
-            'clean',
-            'build',
-            project.getTasksByName('publishToSonatype', true)
-    )
-}
-
-tasks.register('checkLastVersionValue') {
+def checkLastVersionValueTask = tasks.register('checkLastVersionValue') {
     doLast {
         if(version.endsWith('SNAPSHOT')) {
             throw new GradleException("version '$version' ends with SNAPSHOT, this is not a release build!")
@@ -145,9 +136,20 @@ def updateLastVersionValueTask = tasks.register('updateLastVersionValue') {
     doLast {
         def propertiesFile = file('gradle.properties')
         def content = propertiesFile.text
-        content = content.replaceAll("lastVersion=[0-9\\.]+", "lastVersion=" + version.replace('-SNAPSHOT', ''))
+        def newVersion = project.findProperty('release.releaseVersion') ?: version.replace('-SNAPSHOT', '')
+        content = content.replaceAll("lastVersion=[0-9a-z\\.\\-]+", "lastVersion=" + newVersion)
         propertiesFile.text = content
     }
+}
+
+tasks.register('doRelease') {
+    dependsOn(
+        checkLastVersionValueTask,
+        'initializeSonatypeStagingRepository', 
+        'clean',
+        'build',
+        project.getTasksByName('publishToSonatype', true)
+    )
 }
 
 model {
