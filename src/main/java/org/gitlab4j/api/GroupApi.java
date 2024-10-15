@@ -16,25 +16,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.models.AccessLevel;
-import org.gitlab4j.api.models.AccessRequest;
-import org.gitlab4j.api.models.AuditEvent;
-import org.gitlab4j.api.models.Badge;
-import org.gitlab4j.api.models.CustomAttribute;
-import org.gitlab4j.api.models.Group;
-import org.gitlab4j.api.models.GroupAccessToken;
-import org.gitlab4j.api.models.GroupFilter;
-import org.gitlab4j.api.models.GroupParams;
-import org.gitlab4j.api.models.GroupProjectsFilter;
+import org.gitlab4j.api.models.*;
 import org.gitlab4j.api.models.ImpersonationToken.Scope;
-import org.gitlab4j.api.models.Iteration;
-import org.gitlab4j.api.models.IterationFilter;
-import org.gitlab4j.api.models.LdapGroupLink;
-import org.gitlab4j.api.models.Member;
-import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.SamlGroupLink;
-import org.gitlab4j.api.models.Variable;
-import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.ISO8601;
 
 /**
@@ -2439,5 +2422,20 @@ public class GroupApi extends AbstractApi {
      */
     public void revokeGroupAccessToken(Object groupIdOrPath, Long tokenId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId);
+    }
+
+    /**
+     * Add a group hook
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/hooks</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param groupHookParams webhook creation options
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GroupHook addWebhook(Object groupIdOrPath, GroupHookParams groupHookParams) throws GitLabApiException {
+        Response response = post(
+                Response.Status.CREATED, groupHookParams.getForm(), "groups", getGroupIdOrPath(groupIdOrPath), "hooks");
+        return (response.readEntity(GroupHook.class));
     }
 }
