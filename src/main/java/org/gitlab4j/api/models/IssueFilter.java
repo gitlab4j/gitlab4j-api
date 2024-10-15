@@ -36,6 +36,11 @@ public class IssueFilter implements Serializable {
     private IssueState state;
 
     /**
+     * Modify the scope of the search attribute. title, description, or a string joining them with comma. Default is title,description
+     */
+    private List<String> in;
+
+    /**
      * Comma-separated list of label names, issues must have all labels to be returned. No+Label lists all issues with no labels.
      */
     private List<String> labels;
@@ -155,6 +160,14 @@ public class IssueFilter implements Serializable {
 
     public void setState(IssueState state) {
         this.state = state;
+    }
+
+    public List<String> getIn() {
+        return in;
+    }
+
+    public void setIn(List<String> in) {
+        this.in = in;
     }
 
     public List<String> getLabels() {
@@ -496,6 +509,7 @@ public class IssueFilter implements Serializable {
                         .withParam("iids", iids)
                         .withParam("state", state)
                         .withParam("labels", (labels != null ? String.join(",", labels) : null))
+                        .withParam("in", (in != null ? String.join(",", in) : null))
                         .withParam("milestone", milestone)
                         .withParam("scope", scope)
                         .withParam("author_id", authorId)
