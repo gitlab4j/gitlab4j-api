@@ -75,6 +75,7 @@ import org.gitlab4j.api.models.GitLabCiTemplateElement;
 import org.gitlab4j.api.models.GpgSignature;
 import org.gitlab4j.api.models.Group;
 import org.gitlab4j.api.models.GroupAccessToken;
+import org.gitlab4j.api.models.GroupHook;
 import org.gitlab4j.api.models.HealthCheckInfo;
 import org.gitlab4j.api.models.ImpersonationToken;
 import org.gitlab4j.api.models.ImportStatus;
@@ -867,5 +868,11 @@ public class TestGitLabApiBeans {
     public void testMetadata() throws Exception {
         Metadata metadata = unmarshalResource(Metadata.class, "metadata.json");
         assertTrue(compareJson(metadata, "metadata.json"));
+    }
+
+    @Test
+    public void testWebhook() throws Exception {
+        GroupHook groupHook = unmarshalResource(GroupHook.class, "group-hook.json");
+        assertTrue(compareJson(groupHook, "group-hook.json"));
     }
 }
