@@ -67,6 +67,7 @@ import org.gitlab4j.api.models.ProjectUser;
 import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.RemoteMirror;
 import org.gitlab4j.api.models.Snippet;
+import org.gitlab4j.api.models.UploadedFile;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.api.utils.ISO8601;
@@ -3038,6 +3039,22 @@ public class ProjectApi extends AbstractApi implements Constants {
                 getProjectIdOrPath(projectIdOrPath),
                 "unarchive");
         return (response.readEntity(Project.class));
+    }
+
+    /**
+     * Get all uploads of the project sorted by created_at in descending order.
+     *
+     * You must have at least the Maintainer role to use this endpoint.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/uploads</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @return list of uploaded files
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<UploadedFile> getUploadFiles(Object projectIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "uploads");
+        return (response.readEntity(new GenericType<List<UploadedFile>>() {}));
     }
 
     /**
