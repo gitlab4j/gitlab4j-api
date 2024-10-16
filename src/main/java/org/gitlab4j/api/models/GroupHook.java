@@ -29,6 +29,8 @@ public class GroupHook implements Serializable {
     private Boolean subgroupEvents;
     private Boolean memberEvents;
     private Boolean enableSslVerification;
+    private String alertStatus;
+    private Date disabledUntil;
     private Boolean repositoryUpdateEvents;
     private Date createdAt;
     private Boolean resourceAccessTokenEvents;
@@ -216,6 +218,22 @@ public class GroupHook implements Serializable {
 
     public void setEnableSslVerification(Boolean enableSslVerification) {
         this.enableSslVerification = enableSslVerification;
+    }
+
+    public String getAlertStatus() {
+        return alertStatus;
+    }
+
+    public void setAlertStatus(String alertStatus) {
+        this.alertStatus = alertStatus;
+    }
+
+    public Date getDisabledUntil() {
+        return disabledUntil;
+    }
+
+    public void setDisabledUntil(Date disabledUntil) {
+        this.disabledUntil = disabledUntil;
     }
 
     public Boolean getRepositoryUpdateEvents() {
