@@ -35,6 +35,7 @@ import org.gitlab4j.api.webhook.PipelineEvent;
 import org.gitlab4j.api.webhook.PushEvent;
 import org.gitlab4j.api.webhook.TagPushEvent;
 import org.gitlab4j.api.webhook.WikiPageEvent;
+import org.gitlab4j.api.webhook.WorkItemEvent;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -74,6 +75,18 @@ public class TestGitLabApiEvents {
         assertNotNull(idChange);
         assertEquals(123, (int) idChange.getPrevious());
         assertEquals(456, (int) idChange.getCurrent());
+    }
+
+    @Test
+    public void testWorkItemEvent() throws Exception {
+
+        WorkItemEvent workItemEvent = unmarshalResource(WorkItemEvent.class, "workitem-event.json");
+        assertTrue(compareJson(workItemEvent, "workitem-event.json"));
+
+        ChangeContainer<String> change = workItemEvent.getChanges().get("health_status");
+        assertNotNull(change);
+        assertEquals("on_track", change.getPrevious());
+        assertEquals("needs_attention", change.getCurrent());
     }
 
     @Test
