@@ -6,6 +6,7 @@ public class IssueChanges extends EventChanges {
 
     private ChangeContainer<Date> dueDate;
     private ChangeContainer<Boolean> confidential;
+    private ChangeContainer<String> heathStatus;
 
     public ChangeContainer<Date> getDueDate() {
         return dueDate;
@@ -21,5 +22,13 @@ public class IssueChanges extends EventChanges {
 
     public void setConfidential(ChangeContainer<Boolean> confidential) {
         this.confidential = confidential;
+    }
+
+    public ChangeContainer<String> getHeathStatus() {
+        return heathStatus;
+    }
+
+    public void setHeathStatus(ChangeContainer<String> heathStatus) {
+        this.heathStatus = heathStatus;
     }
 }

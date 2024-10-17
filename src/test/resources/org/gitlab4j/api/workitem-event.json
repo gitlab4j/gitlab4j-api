@@ -1,0 +1,83 @@
+{
+    "object_kind": "work_item",
+    "event_type": "work_item",
+    "user": {
+        "id": 1245,
+        "name": "John Smith",
+        "username": "john.smith",
+        "avatar_url": "https://[REDACTED]/uploads/-/system/user/avatar/1245/avatar.png",
+        "email": "[REDACTED]"
+    },
+    "object_attributes": {
+        "author_id": 1245,
+        "closed_at": "2024-09-20T16:53:38Z",
+        "confidential": false,
+        "created_at": "2024-09-20T16:53:38Z",
+        "description": "This is a test.\n\nThis is a test.",
+        "id": 93843,
+        "iid": 1,
+        "last_edited_at": "2024-10-17T06:47:37Z",
+        "last_edited_by_id": 1245,
+        "relative_position": 147,
+        "state_id": 1,
+        "time_estimate": 0,
+        "title": "Test Epic item",
+        "updated_at": "2024-10-17T06:47:37Z",
+        "updated_by_id": 1245,
+        "weight": 23,
+        "health_status": "on_track",
+        "type": "Epic",
+        "url": "https://[REDACTED]/groups/a-group/-/work_items/1",
+        "total_time_spent": 0,
+        "time_change": 0,
+        "assignee_ids": [],
+        "assignee_id": 345,
+        "labels": [
+            {
+                "id": 15466,
+                "title": "status::RequirementsAndSpecification",
+                "color": "#808080",
+                "created_at": "2024-08-14T08:37:44Z",
+                "updated_at": "2024-08-14T08:37:44Z",
+                "template": false,
+                "description": "RequirementsAndSpecification",
+                "type": "GroupLabel",
+                "group_id": 91648
+            }
+        ],
+        "state": "opened",
+        "severity": "unknown",
+        "action": "update"
+    },
+    "labels": [
+        {
+            "id": 15466,
+            "title": "status::RequirementsAndSpecification",
+            "color": "#808080",
+            "created_at": "2024-08-14T08:37:44Z",
+            "updated_at": "2024-08-14T08:37:44Z",
+            "template": false,
+            "description": "RequirementsAndSpecification",
+            "type": "GroupLabel",
+            "group_id": 91648
+        }
+    ],
+    "changes": {
+        "description": {
+            "previous": "This is a test",
+            "current": "This is a test.\n\nThis is a test."
+        },
+        "last_edited_at": {
+            "previous": "2024-09-20T16:53:38Z",
+            "current": "2024-10-17T06:47:37Z"
+        },
+        "updated_at": {
+            "previous": "2024-09-24T08:54:43Z",
+            "current": "2024-10-17T06:47:37Z"
+        },
+        "health_status": {
+            "previous":"on_track",
+            "current":"needs_attention"
+        }
+    }
+}

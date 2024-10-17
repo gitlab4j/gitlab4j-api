@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({
     @JsonSubTypes.Type(value = BuildEvent.class, name = BuildEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = IssueEvent.class, name = IssueEvent.OBJECT_KIND),
+    @JsonSubTypes.Type(value = WorkItemEvent.class, name = WorkItemEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = JobEvent.class, name = JobEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = MergeRequestEvent.class, name = MergeRequestEvent.OBJECT_KIND),
     @JsonSubTypes.Type(value = NoteEvent.class, name = NoteEvent.OBJECT_KIND),

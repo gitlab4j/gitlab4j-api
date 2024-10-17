@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class EventLabel {
 
     public enum LabelType {
-        PROJECT_LABEL;
+        PROJECT_LABEL,
+        GROUP_LABEL;
 
         private static JacksonJsonEnumHelper<LabelType> enumHelper =
                 new JacksonJsonEnumHelper<>(LabelType.class, true, true);
