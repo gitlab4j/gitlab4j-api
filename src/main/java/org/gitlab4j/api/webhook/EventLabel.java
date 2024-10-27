@@ -13,7 +13,8 @@ public class EventLabel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public enum LabelType {
-        PROJECT_LABEL;
+        PROJECT_LABEL,
+        GROUP_LABEL;
 
         private static JacksonJsonEnumHelper<LabelType> enumHelper =
                 new JacksonJsonEnumHelper<>(LabelType.class, true, true);
