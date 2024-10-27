@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import org.gitlab4j.api.models.*;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.Application;
 import org.gitlab4j.api.models.ApplicationSettings;
@@ -808,6 +809,12 @@ public class TestGitLabApiBeans {
     public void testUser() throws Exception {
         User user = unmarshalResource(User.class, "user.json");
         assertTrue(compareJson(user, "user.json"));
+    }
+
+    @Test
+    public void testUploadedFile() throws Exception {
+        UploadedFile uploadedFile = unmarshalResource(UploadedFile.class, "uploaded-file.json");
+        assertTrue(compareJson(uploadedFile, "uploaded-file.json"));
     }
 
     @Test

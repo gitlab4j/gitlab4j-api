@@ -2438,4 +2438,84 @@ public class GroupApi extends AbstractApi {
                 Response.Status.CREATED, groupHookParams.getForm(), "groups", getGroupIdOrPath(groupIdOrPath), "hooks");
         return (response.readEntity(GroupHook.class));
     }
+
+    /**
+     * Get all uploads of the group sorted by created_at in descending order.
+     *
+     * You must have at least the Maintainer role to use this endpoint.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/uploads</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance, required
+     * @return list of uploaded files
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<UploadedFile> getUploadFiles(Object groupIdOrPath) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "projects", getGroupIdOrPath(groupIdOrPath), "uploads");
+        return (response.readEntity(new GenericType<List<UploadedFile>>() {}));
+    }
+
+    /**
+     * Uploads a file to the specified group to be used in an issue or merge request description, or a comment.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/uploads</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance, required
+     * @param fileToUpload the File instance of the file to upload, required
+     * @return a FileUpload instance with information on the just uploaded file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public FileUpload uploadFile(Object groupIdOrPath, File fileToUpload) throws GitLabApiException {
+        return (uploadFile(groupIdOrPath, fileToUpload, null));
+    }
+
+    /**
+     * Uploads a file to the specified group to be used in an issue or merge request description, or a comment.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/uploads</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance, required
+     * @param fileToUpload the File instance of the file to upload, required
+     * @param mediaType unused; will be removed in the next major version
+     * @return a FileUpload instance with information on the just uploaded file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public FileUpload uploadFile(Object groupIdOrPath, File fileToUpload, String mediaType) throws GitLabApiException {
+        Response response = upload(
+                Response.Status.CREATED,
+                "file",
+                fileToUpload,
+                mediaType,
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "uploads");
+        return (response.readEntity(FileUpload.class));
+    }
+
+    /**
+     * Uploads some data in an {@link InputStream} to the specified group,
+     * to be used in an issue or merge request description, or a comment.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/uploads</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Integer(ID), String(path), or Group instance, required
+     * @param inputStream the data to upload, required
+     * @param filename The filename of the file to upload
+     * @param mediaType unused; will be removed in the next major version
+     * @return a FileUpload instance with information on the just uploaded file
+     * @throws GitLabApiException if any exception occurs
+     */
+    public FileUpload uploadFile(Object groupIdOrPath, InputStream inputStream, String filename, String mediaType)
+            throws GitLabApiException {
+        Response response = upload(
+                Response.Status.CREATED,
+                "file",
+                inputStream,
+                filename,
+                mediaType,
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "uploads");
+        return (response.readEntity(FileUpload.class));
+    }
 }
