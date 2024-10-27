@@ -1,0 +1,11 @@
+{
+    "id": 1623,
+    "size": 435,
+    "filename": "some-feature.png",
+    "created_at": "2024-09-23T13:52:15Z",
+    "uploaded_by": {
+        "id": 54,
+        "username": "john.smith",
+        "name": "John Smith"
+    }
+}
