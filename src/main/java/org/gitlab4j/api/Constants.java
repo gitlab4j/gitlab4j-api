@@ -38,6 +38,7 @@ public interface Constants {
     public enum TokenType {
         ACCESS,
         OAUTH2_ACCESS,
+        JOB_TOKEN,
         PRIVATE;
     }
 
