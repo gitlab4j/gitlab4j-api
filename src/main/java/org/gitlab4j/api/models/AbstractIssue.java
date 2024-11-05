@@ -73,6 +73,7 @@ public abstract class AbstractIssue implements Serializable {
     private String title;
     private Integer userNotesCount;
     private String webUrl;
+    private References references;
     private Integer weight;
     private Boolean discussionLocked;
     private TimeStats timeStats;
@@ -270,6 +271,14 @@ public abstract class AbstractIssue implements Serializable {
 
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
+    }
+
+    public References getReferences() {
+        return references;
+    }
+
+    public void setReferences(References references) {
+        this.references = references;
     }
 
     public Integer getWeight() {
