@@ -40,10 +40,15 @@
       "id" : 1,
       "name" : "Administrator"
    },
+   "references": {
+       "short": "#1",
+       "relative": "#1",
+       "full": "example/example#1"
+   },
    "severity": "UNKNOWN",
    "subscribed": false,
    "user_notes_count": 1,
-   "web_url": "http://example.com/example/example/issues/1",
+   "web_url": "http://example.com/example/example/-/issues/1",
    "confidential": false,
    "time_stats": {
       "time_estimate": 12600,
