@@ -64,4 +64,32 @@ public class PersonalAccessTokenApi extends AbstractApi {
         Response response = post(Response.Status.OK, formData, "personal_access_tokens", id, "rotate");
         return (response.readEntity(PersonalAccessToken.class));
     }
+
+    /**
+     * Get information about a given access token.
+     * Only working with GitLab 16.0 and above.
+     *
+     * <pre><code>GitLab Endpoint: POST /personal_access_tokens/self</code></pre>
+     *
+     * @return the newly created PersonalAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public PersonalAccessToken getPersonalAccessToken() throws GitLabApiException {
+        return getPersonalAccessToken("self");
+    }
+
+    /**
+     * Get a specific personal access token.
+     * Only working with GitLab 16.0 and above.
+     *
+     * <pre><code>GitLab Endpoint: POST /personal_access_tokens/:id</code></pre>
+     *
+     * @param id ID of the personal access token
+     * @return the specified PersonalAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public PersonalAccessToken getPersonalAccessToken(String id) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "personal_access_tokens", id);
+            return (response.readEntity(PersonalAccessToken.class));
+    }
 }
