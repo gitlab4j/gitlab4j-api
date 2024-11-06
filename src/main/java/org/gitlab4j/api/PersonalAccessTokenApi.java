@@ -34,7 +34,7 @@ public class PersonalAccessTokenApi extends AbstractApi {
 
     /**
      * Rotates the given personal access token.
-     * The token is revoked and a new one which will expire in one week is created to replace it.
+     * The token is revoked and a new one which will expire at the given expiresAt-date is created to replace it.
      * Only working with GitLab 16.0 and above.
      *
      * <pre><code>GitLab Endpoint: POST /personal_access_tokens/self/rotate</code></pre>
@@ -48,12 +48,13 @@ public class PersonalAccessTokenApi extends AbstractApi {
     }
 
     /**
-     * Rotates the given personal access token.
-     * The token is revoked and a new one which will expire in one week is created to replace it.
+     * Rotates a specific personal access token.
+     * The token is revoked and a new one which will expire at the given expiresAt-date is created to replace it.
      * Only working with GitLab 16.0 and above.
      *
-     * <pre><code>GitLab Endpoint: POST /personal_access_tokens/:id/rotate</code></pre>
+     * <pre><code>GitLab Endpoint: POST /personal_access_tokens/:id</code></pre>
      *
+     * @param id ID of the personal access token
      * @param expiresAt Expiration date of the access token
      * @return the newly created PersonalAccessToken.
      * @throws GitLabApiException if any exception occurs
