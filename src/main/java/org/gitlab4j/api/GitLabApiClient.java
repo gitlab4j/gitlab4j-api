@@ -56,6 +56,7 @@ import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 public class GitLabApiClient implements AutoCloseable {
 
     protected static final String PRIVATE_TOKEN_HEADER = "PRIVATE-TOKEN";
+    protected static final String JOB_TOKEN_HEADER = "JOB-TOKEN";
     protected static final String SUDO_HEADER = "Sudo";
     protected static final String AUTHORIZATION_HEADER = "Authorization";
     protected static final String X_GITLAB_TOKEN_HEADER = "X-Gitlab-Token";
@@ -861,8 +862,8 @@ public class GitLabApiClient implements AutoCloseable {
             }
         }
 
-        String authHeader = (tokenType == TokenType.OAUTH2_ACCESS ? AUTHORIZATION_HEADER : PRIVATE_TOKEN_HEADER);
-        String authValue = (tokenType == TokenType.OAUTH2_ACCESS ? "Bearer " + authToken.get() : authToken.get());
+        String authHeader = getAuthHeader();
+        String authValue = getAuthValue();
         Invocation.Builder builder = target.request();
         if (accept == null || accept.trim().length() == 0) {
             builder = builder.header(authHeader, authValue);
@@ -884,6 +885,26 @@ public class GitLabApiClient implements AutoCloseable {
         }
 
         return (builder);
+    }
+
+    private String getAuthValue() {
+        switch (tokenType) {
+            case OAUTH2_ACCESS:
+                return "Bearer " + authToken.get();
+            default:
+                return authToken.get();
+        }
+    }
+
+    private String getAuthHeader() {
+        switch (tokenType) {
+            case OAUTH2_ACCESS:
+                return AUTHORIZATION_HEADER;
+            case JOB_TOKEN:
+                return JOB_TOKEN_HEADER;
+            default:
+                return PRIVATE_TOKEN_HEADER;
+        }
     }
 
     /**
