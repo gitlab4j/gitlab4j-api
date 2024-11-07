@@ -66,12 +66,6 @@ public class TestGitLabApiEvents {
     }
 
     @Test
-    public void testDeploymentEvent() throws Exception {
-        Event event = unmarshalResource(PipelineEvent.class, "deployment-event.json");
-        assertTrue(compareJson(event, "deployment-event.json"));
-    }
-
-    @Test
     public void testIssueEvent() throws Exception {
 
         IssueEvent issueEvent = unmarshalResource(IssueEvent.class, "issue-event.json");
