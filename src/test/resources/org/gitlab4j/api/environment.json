@@ -5,6 +5,7 @@
   "external_url": "https://review-fix-foo-dfjre3.example.gitlab.com",
   "state": "available",
   "tier": "testing",
+  "auto_stop_at": "2024-11-27T13:34:49.812+01:00",
   "last_deployment": {
     "id": 100,
     "iid": 34,
