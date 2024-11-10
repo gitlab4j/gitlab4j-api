@@ -33,8 +33,8 @@ public class PersonalAccessTokenApi extends AbstractApi {
     }
 
     /**
-     * Rotates the given personal access token.
-     * The token is revoked and a new one which will expire in one week is created to replace it.
+     * Rotates the personal access token used in the request header.
+     * The token is revoked and a new one which will expire at the given expiresAt-date is created to replace it.
      * Only working with GitLab 16.0 and above.
      *
      * <pre><code>GitLab Endpoint: POST /personal_access_tokens/self/rotate</code></pre>
@@ -48,12 +48,13 @@ public class PersonalAccessTokenApi extends AbstractApi {
     }
 
     /**
-     * Rotates the given personal access token.
-     * The token is revoked and a new one which will expire in one week is created to replace it.
+     * Rotates a specific personal access token.
+     * The token is revoked and a new one which will expire at the given expiresAt-date is created to replace it.
      * Only working with GitLab 16.0 and above.
      *
      * <pre><code>GitLab Endpoint: POST /personal_access_tokens/:id/rotate</code></pre>
      *
+     * @param id ID of the personal access token
      * @param expiresAt Expiration date of the access token
      * @return the newly created PersonalAccessToken.
      * @throws GitLabApiException if any exception occurs
@@ -62,6 +63,34 @@ public class PersonalAccessTokenApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm().withParam("expires_at", ISO8601.dateOnly(expiresAt));
 
         Response response = post(Response.Status.OK, formData, "personal_access_tokens", id, "rotate");
+        return (response.readEntity(PersonalAccessToken.class));
+    }
+
+    /**
+     * Get information about the personal access token used in the request header.
+     * Only working with GitLab 16.0 and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /personal_access_tokens/self</code></pre>
+     *
+     * @return the specified PersonalAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public PersonalAccessToken getPersonalAccessToken() throws GitLabApiException {
+        return getPersonalAccessToken("self");
+    }
+
+    /**
+     * Get a specific personal access token.
+     * Only working with GitLab 16.0 and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /personal_access_tokens/:id</code></pre>
+     *
+     * @param id ID of the personal access token
+     * @return the specified PersonalAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public PersonalAccessToken getPersonalAccessToken(String id) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "personal_access_tokens", id);
         return (response.readEntity(PersonalAccessToken.class));
     }
 }
