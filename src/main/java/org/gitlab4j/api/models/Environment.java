@@ -1,6 +1,7 @@
 package org.gitlab4j.api.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
@@ -41,6 +42,7 @@ public class Environment implements Serializable {
     private String tier;
     private EnvironmentState state;
     private Deployment lastDeployment;
+    private Date autoStopAt;
 
     public Long getId() {
         return id;
@@ -96,6 +98,14 @@ public class Environment implements Serializable {
 
     public void setLastDeployment(Deployment lastDeployment) {
         this.lastDeployment = lastDeployment;
+    }
+
+    public Date getAutoStopAt() {
+        return autoStopAt;
+    }
+
+    public void setAutoStopAt(Date autoStopAt) {
+        this.autoStopAt = autoStopAt;
     }
 
     @Override
