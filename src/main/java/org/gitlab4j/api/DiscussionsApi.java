@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import org.gitlab4j.api.models.Discussion;
 import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.Position;
+import org.gitlab4j.api.utils.ISO8601;
 
 /**
  * This class implements the client side API for the GitLab Discussions API.
@@ -644,6 +645,39 @@ public class DiscussionsApi extends AbstractApi {
                 .withParam("position[height]", position.getHeight())
                 .withParam("position[x]", position.getX())
                 .withParam("position[y]", position.getY());
+
+        Response response = post(
+                Response.Status.CREATED,
+                formData,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "repository",
+                "commits",
+                commitSha,
+                "discussions");
+        return (response.readEntity(Discussion.class));
+    }
+
+    /**
+     * Creates a new discussion to a single project commit. This is similar to creating
+     * a note but other comments (replies) can be added to it later.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/commits/:commit_sha/discussions</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param commitSha the commit SHA to create the discussion for
+     * @param body the content of a discussion
+     * @param createdAt date the discussion was created (requires admin or project/group owner rights) (Optional)
+     * @return a Discussion instance containing the newly created discussion
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Discussion createCommitDiscussion(Object projectIdOrPath, String commitSha, String body, Date createdAt)
+            throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
+        if (createdAt != null) {
+            formData.withParam("created_at", ISO8601.toString(createdAt));
+        }
 
         Response response = post(
                 Response.Status.CREATED,
