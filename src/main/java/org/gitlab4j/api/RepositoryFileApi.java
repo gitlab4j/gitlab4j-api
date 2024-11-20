@@ -529,6 +529,7 @@ public class RepositoryFileApi extends AbstractApi {
         } else {
             addFormParam(form, "branch", branchName, true);
         }
+        addFormParam(form, "start_branch", file.getRef(), false);
 
         addFormParam(form, "encoding", file.getEncoding(), false);
 
