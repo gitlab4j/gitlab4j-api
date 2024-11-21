@@ -68,8 +68,8 @@ public class UserApi extends AbstractApi {
         String url = this.gitLabApi.getGitLabServerUrl();
         if (url.startsWith("https://gitlab.com")) {
             GitLabApi.getLogger()
-                .warning("Fetching all users from " + url
-                    + " may take many minutes to complete, use Pager<User> getUsers(int) instead.");
+                    .warning("Fetching all users from " + url
+                            + " may take many minutes to complete, use Pager<User> getUsers(int) instead.");
         }
 
         return (getUsers(getDefaultPerPage()).all());
@@ -87,9 +87,8 @@ public class UserApi extends AbstractApi {
      */
     public List<User> getUsers(int page, int perPage) throws GitLabApiException {
         Response response =
-            get(Response.Status.OK, getPageQueryParams(page, perPage, customAttributesEnabled), "users");
-        return (response.readEntity(new GenericType<List<User>>() {
-        }));
+                get(Response.Status.OK, getPageQueryParams(page, perPage, customAttributesEnabled), "users");
+        return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
     /**
@@ -103,7 +102,7 @@ public class UserApi extends AbstractApi {
      */
     public Pager<User> getUsers(int itemsPerPage) throws GitLabApiException {
         return (new Pager<User>(
-            this, User.class, itemsPerPage, createGitLabApiForm().asMap(), "users"));
+                this, User.class, itemsPerPage, createGitLabApiForm().asMap(), "users"));
     }
 
     /**
@@ -135,19 +134,18 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /users?active=true</code></pre>
      *
-     * @param page    the page to get
+     * @param page the page to get
      * @param perPage the number of users per page
      * @return the list of active Users in the specified range
      * @throws GitLabApiException if any exception occurs
      */
     public List<User> getActiveUsers(int page, int perPage) throws GitLabApiException {
         GitLabApiForm formData = createGitLabApiForm()
-            .withParam("active", true)
-            .withParam(PAGE_PARAM, page)
-            .withParam(PER_PAGE_PARAM, perPage);
+                .withParam("active", true)
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
-        return (response.readEntity(new GenericType<List<User>>() {
-        }));
+        return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
     /**
@@ -271,12 +269,11 @@ public class UserApi extends AbstractApi {
      */
     public List<User> getblockedUsers(int page, int perPage) throws GitLabApiException {
         GitLabApiForm formData = createGitLabApiForm()
-            .withParam("blocked", true)
-            .withParam(PAGE_PARAM, page)
-            .withParam(PER_PAGE_PARAM, perPage);
+                .withParam("blocked", true)
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
-        return (response.readEntity(new GenericType<List<User>>() {
-        }));
+        return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
     /**
@@ -349,12 +346,11 @@ public class UserApi extends AbstractApi {
      */
     public User getUser(String username) throws GitLabApiException {
         GitLabApiForm formData = createGitLabApiForm()
-            .withParam("username", username, true)
-            .withParam(PAGE_PARAM, 1)
-            .withParam(PER_PAGE_PARAM, 1);
+                .withParam("username", username, true)
+                .withParam(PAGE_PARAM, 1)
+                .withParam(PER_PAGE_PARAM, 1);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
-        List<User> users = response.readEntity(new GenericType<List<User>>() {
-        });
+        List<User> users = response.readEntity(new GenericType<List<User>>() {});
         return (users.isEmpty() ? null : users.get(0));
     }
 
@@ -383,7 +379,7 @@ public class UserApi extends AbstractApi {
      *
      * @param email the email of the user to get
      * @return the User instance for the specified email, or null if not found
-     * @throws GitLabApiException       if any exception occurs
+     * @throws GitLabApiException if any exception occurs
      * @throws IllegalArgumentException if email is not valid
      */
     public User getUserByEmail(String email) throws GitLabApiException {
@@ -419,20 +415,19 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /users?extern_uid=:externalUid&amp;provider=:provider</code></pre>
      *
-     * @param provider    the provider of the external uid
+     * @param provider the provider of the external uid
      * @param externalUid the external UID of the user
      * @return the User instance for the specified external UID, or null if not found
      * @throws GitLabApiException if any exception occurs
      */
     public User getUserByExternalUid(String provider, String externalUid) throws GitLabApiException {
         GitLabApiForm formData = createGitLabApiForm()
-            .withParam("provider", provider, true)
-            .withParam("extern_uid", externalUid, true)
-            .withParam(PAGE_PARAM, 1)
-            .withParam(PER_PAGE_PARAM, 1);
+                .withParam("provider", provider, true)
+                .withParam("extern_uid", externalUid, true)
+                .withParam(PAGE_PARAM, 1)
+                .withParam(PER_PAGE_PARAM, 1);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
-        List<User> users = response.readEntity(new GenericType<List<User>>() {
-        });
+        List<User> users = response.readEntity(new GenericType<List<User>>() {});
         return (users.isEmpty() ? null : users.get(0));
     }
 
@@ -443,7 +438,7 @@ public class UserApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /users?extern_uid=:externUid&amp;provider=:provider</code></pre>
      *
-     * @param provider    the provider of the external uid
+     * @param provider the provider of the external uid
      * @param externalUid the external UID of the user
      * @return the User for the specified external UID as an Optional instance
      */
@@ -481,12 +476,11 @@ public class UserApi extends AbstractApi {
      */
     public List<User> findUsers(String emailOrUsername, int page, int perPage) throws GitLabApiException {
         GitLabApiForm formData = createGitLabApiForm()
-            .withParam("search", emailOrUsername, true)
-            .withParam(PAGE_PARAM, page)
-            .withParam(PER_PAGE_PARAM, perPage);
+                .withParam("search", emailOrUsername, true)
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage);
         Response response = get(Response.Status.OK, formData.asMap(), "users");
-        return (response.readEntity(new GenericType<List<User>>() {
-        }));
+        return (response.readEntity(new GenericType<List<User>>() {}));
     }
 
     /**
@@ -691,14 +685,14 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: DELETE /users/:id</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param hardDelete       If true, contributions that would usually be moved to the
-     *                         ghost user will be deleted instead, as well as groups owned solely by this user
+     * @param hardDelete If true, contributions that would usually be moved to the
+     *                   ghost user will be deleted instead, as well as groups owned solely by this user
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteUser(Object userIdOrUsername, Boolean hardDelete) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("hard_delete ", hardDelete);
         Response.Status expectedStatus =
-            (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, formData.asMap(), "users", getUserIdOrUsername(userIdOrUsername));
     }
 
@@ -725,8 +719,7 @@ public class UserApi extends AbstractApi {
      */
     public List<SshKey> getSshKeys() throws GitLabApiException {
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "user", "keys");
-        return (response.readEntity(new GenericType<List<SshKey>>() {
-        }));
+        return (response.readEntity(new GenericType<List<SshKey>>() {}));
     }
 
     /**
@@ -745,8 +738,7 @@ public class UserApi extends AbstractApi {
         }
 
         Response response = get(Response.Status.OK, getDefaultPerPageParam(), "users", userId, "keys");
-        List<SshKey> keys = response.readEntity(new GenericType<List<SshKey>>() {
-        });
+        List<SshKey> keys = response.readEntity(new GenericType<List<SshKey>>() {});
 
         if (keys != null) {
             keys.forEach(key -> key.setUserId(userId));
@@ -862,7 +854,7 @@ public class UserApi extends AbstractApi {
         }
 
         Response.Status expectedStatus =
-            (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "user", "keys", keyId);
     }
 
@@ -872,7 +864,7 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: DELETE /users/:id/keys/:key_id</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param keyId            the key ID to delete
+     * @param keyId  the key ID to delete
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteSshKey(Object userIdOrUsername, Long keyId) throws GitLabApiException {
@@ -882,7 +874,7 @@ public class UserApi extends AbstractApi {
         }
 
         Response.Status expectedStatus =
-            (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "users", getUserIdOrUsername(userIdOrUsername), "keys", keyId);
     }
 
@@ -905,22 +897,21 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: GET /users/:id/impersonation_tokens</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param state            the state of impersonation tokens to list (ALL, ACTIVE, INACTIVE)
+     * @param state  the state of impersonation tokens to list (ALL, ACTIVE, INACTIVE)
      * @return a list of a specified user's impersonation tokens
      * @throws GitLabApiException if any exception occurs
      */
     public List<ImpersonationToken> getImpersonationTokens(Object userIdOrUsername, ImpersonationState state)
-        throws GitLabApiException {
+            throws GitLabApiException {
         GitLabApiForm formData =
-            new GitLabApiForm().withParam("state", state).withParam(PER_PAGE_PARAM, getDefaultPerPage());
+                new GitLabApiForm().withParam("state", state).withParam(PER_PAGE_PARAM, getDefaultPerPage());
         Response response = get(
-            Response.Status.OK,
-            formData.asMap(),
-            "users",
-            getUserIdOrUsername(userIdOrUsername),
-            "impersonation_tokens");
-        return (response.readEntity(new GenericType<List<ImpersonationToken>>() {
-        }));
+                Response.Status.OK,
+                formData.asMap(),
+                "users",
+                getUserIdOrUsername(userIdOrUsername),
+                "impersonation_tokens");
+        return (response.readEntity(new GenericType<List<ImpersonationToken>>() {}));
     }
 
     /**
@@ -929,7 +920,7 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: GET /users/:user_id/impersonation_tokens/:impersonation_token_id</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param tokenId          the impersonation token ID to get
+     * @param tokenId the impersonation token ID to get
      * @return the specified impersonation token
      * @throws GitLabApiException if any exception occurs
      */
@@ -940,12 +931,12 @@ public class UserApi extends AbstractApi {
         }
 
         Response response = get(
-            Response.Status.OK,
-            null,
-            "users",
-            getUserIdOrUsername(userIdOrUsername),
-            "impersonation_tokens",
-            tokenId);
+                Response.Status.OK,
+                null,
+                "users",
+                getUserIdOrUsername(userIdOrUsername),
+                "impersonation_tokens",
+                tokenId);
         return (response.readEntity(ImpersonationToken.class));
     }
 
@@ -955,7 +946,7 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: GET /users/:user_id/impersonation_tokens/:impersonation_token_id</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param tokenId          the impersonation token ID to get
+     * @param tokenId the impersonation token ID to get
      * @return the specified impersonation token as an Optional instance
      */
     public Optional<ImpersonationToken> getOptionalImpersonationToken(Object userIdOrUsername, Long tokenId) {
@@ -972,14 +963,14 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: POST /users/:user_id/impersonation_tokens</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param name             the name of the impersonation token, required
-     * @param expiresAt        the expiration date of the impersonation token, optional
-     * @param scopes           an array of scopes of the impersonation token
+     * @param name the name of the impersonation token, required
+     * @param expiresAt the expiration date of the impersonation token, optional
+     * @param scopes an array of scopes of the impersonation token
      * @return the created ImpersonationToken instance
      * @throws GitLabApiException if any exception occurs
      */
     public ImpersonationToken createImpersonationToken(
-        Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
+            Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
         return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, expiresAt, scopes, true);
     }
 
@@ -989,7 +980,7 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: DELETE /users/:user_id/impersonation_tokens/:impersonation_token_id</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param tokenId          the impersonation token ID to revoke
+     * @param tokenId the impersonation token ID to revoke
      * @throws GitLabApiException if any exception occurs
      */
     public void revokeImpersonationToken(Object userIdOrUsername, Long tokenId) throws GitLabApiException {
@@ -999,7 +990,7 @@ public class UserApi extends AbstractApi {
         }
 
         Response.Status expectedStatus =
-            (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "users", getUserIdOrUsername(userIdOrUsername), "impersonation_tokens", tokenId);
     }
 
@@ -1009,14 +1000,14 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: POST /users/:user_id/personal_access_tokens</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
-     * @param name             the name of the personal access token, required
-     * @param expiresAt        the expiration date of the personal access token, optional
-     * @param scopes           an array of scopes of the personal access token
+     * @param name the name of the personal access token, required
+     * @param expiresAt the expiration date of the personal access token, optional
+     * @param scopes an array of scopes of the personal access token
      * @return the created PersonalAccessToken instance
      * @throws GitLabApiException if any exception occurs
      */
     public ImpersonationToken createPersonalAccessToken(
-        Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
+            Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
         return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, expiresAt, scopes, false);
     }
 
@@ -1036,19 +1027,18 @@ public class UserApi extends AbstractApi {
             (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "personal_access_tokens", tokenId);
     }
-
     // as per https://docs.gitlab.com/ee/api/README.html#impersonation-tokens, impersonation tokens are a type of
     // personal access token
     private ImpersonationToken createPersonalAccessTokenOrImpersonationToken(
-        Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes, boolean impersonation)
-        throws GitLabApiException {
+            Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes, boolean impersonation)
+            throws GitLabApiException {
 
         if (scopes == null || scopes.length == 0) {
             throw new RuntimeException("scopes cannot be null or empty");
         }
 
         GitLabApiForm formData =
-            new GitLabApiForm().withParam("name", name, true).withParam("expires_at", expiresAt);
+                new GitLabApiForm().withParam("name", name, true).withParam("expires_at", expiresAt);
 
         for (Scope scope : scopes) {
             formData.withParam("scopes[]", scope.toString());
@@ -1056,7 +1046,7 @@ public class UserApi extends AbstractApi {
 
         String tokenTypePathArg = impersonation ? "impersonation_tokens" : "personal_access_tokens";
         Response response = post(
-            Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), tokenTypePathArg);
+                Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), tokenTypePathArg);
         return (response.readEntity(ImpersonationToken.class));
     }
 
@@ -1081,41 +1071,41 @@ public class UserApi extends AbstractApi {
         String skipConfirmationFeildName = create ? "skip_confirmation" : "skip_reconfirmation";
 
         return (new GitLabApiForm()
-            .withParam("public_email", user.getPublicEmail(), false)
-            .withParam("email", user.getEmail(), create)
-            .withParam("password", password, false)
-            .withParam("reset_password", resetPassword, false)
-            .withParam("username", user.getUsername(), create)
-            .withParam("name", user.getName(), create)
-            .withParam("skype", user.getSkype(), false)
-            .withParam("linkedin", user.getLinkedin(), false)
-            .withParam("twitter", user.getTwitter(), false)
-            .withParam("website_url", user.getWebsiteUrl(), false)
-            .withParam("organization", user.getOrganization(), false)
-            .withParam("projects_limit", projectsLimit, false)
-            .withParam("extern_uid", user.getExternUid(), false)
-            .withParam("provider", user.getProvider(), false)
-            .withParam("bio", user.getBio(), false)
-            .withParam("location", user.getLocation(), false)
-            .withParam("admin", user.getIsAdmin(), false)
-            .withParam("theme_id", user.getThemeId(), false)
-            .withParam("color_scheme_id", user.getColorSchemeId(), false)
-            .withParam("can_create_group", user.getCanCreateGroup(), false)
-            .withParam(skipConfirmationFeildName, user.getSkipConfirmation(), false)
-            .withParam("external", user.getExternal(), false)
-            .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(), false));
+                .withParam("public_email", user.getPublicEmail(), false)
+                .withParam("email", user.getEmail(), create)
+                .withParam("password", password, false)
+                .withParam("reset_password", resetPassword, false)
+                .withParam("username", user.getUsername(), create)
+                .withParam("name", user.getName(), create)
+                .withParam("skype", user.getSkype(), false)
+                .withParam("linkedin", user.getLinkedin(), false)
+                .withParam("twitter", user.getTwitter(), false)
+                .withParam("website_url", user.getWebsiteUrl(), false)
+                .withParam("organization", user.getOrganization(), false)
+                .withParam("projects_limit", projectsLimit, false)
+                .withParam("extern_uid", user.getExternUid(), false)
+                .withParam("provider", user.getProvider(), false)
+                .withParam("bio", user.getBio(), false)
+                .withParam("location", user.getLocation(), false)
+                .withParam("admin", user.getIsAdmin(), false)
+                .withParam("theme_id", user.getThemeId(), false)
+                .withParam("color_scheme_id", user.getColorSchemeId(), false)
+                .withParam("can_create_group", user.getCanCreateGroup(), false)
+                .withParam(skipConfirmationFeildName, user.getSkipConfirmation(), false)
+                .withParam("external", user.getExternal(), false)
+                .withParam("shared_runners_minutes_limit", user.getSharedRunnersMinutesLimit(), false));
     }
 
     /**
      * Creates custom attribute for the given user
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param customAttribute  the custom attribute to set
+     * @param customAttribute the custom attribute to set
      * @return the created CustomAttribute
      * @throws GitLabApiException on failure while setting customAttributes
      */
     public CustomAttribute createCustomAttribute(final Object userIdOrUsername, final CustomAttribute customAttribute)
-        throws GitLabApiException {
+            throws GitLabApiException {
         if (Objects.isNull(customAttribute)) {
             throw new IllegalArgumentException("CustomAttributes can't be null");
         }
@@ -1126,13 +1116,13 @@ public class UserApi extends AbstractApi {
      * Creates custom attribute for the given user
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param key              for the customAttribute
-     * @param value            or the customAttribute
+     * @param key for the customAttribute
+     * @param value  or the customAttribute
      * @return the created CustomAttribute
      * @throws GitLabApiException on failure while setting customAttributes
      */
     public CustomAttribute createCustomAttribute(final Object userIdOrUsername, final String key, final String value)
-        throws GitLabApiException {
+            throws GitLabApiException {
 
         if (Objects.isNull(key) || key.trim().isEmpty()) {
             throw new IllegalArgumentException("Key can't be null or empty");
@@ -1143,12 +1133,12 @@ public class UserApi extends AbstractApi {
 
         GitLabApiForm formData = new GitLabApiForm().withParam("value", value);
         Response response = put(
-            Response.Status.OK,
-            formData.asMap(),
-            "users",
-            getUserIdOrUsername(userIdOrUsername),
-            "custom_attributes",
-            key);
+                Response.Status.OK,
+                formData.asMap(),
+                "users",
+                getUserIdOrUsername(userIdOrUsername),
+                "custom_attributes",
+                key);
         return (response.readEntity(CustomAttribute.class));
     }
 
@@ -1156,12 +1146,12 @@ public class UserApi extends AbstractApi {
      * Change custom attribute for the given user
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param customAttribute  the custome attribute to change
+     * @param customAttribute the custome attribute to change
      * @return the changed CustomAttribute
      * @throws GitLabApiException on failure while changing customAttributes
      */
     public CustomAttribute changeCustomAttribute(final Object userIdOrUsername, final CustomAttribute customAttribute)
-        throws GitLabApiException {
+            throws GitLabApiException {
 
         if (Objects.isNull(customAttribute)) {
             throw new IllegalArgumentException("CustomAttributes can't be null");
@@ -1176,13 +1166,13 @@ public class UserApi extends AbstractApi {
      * Changes custom attribute for the given user
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param key              for the customAttribute
-     * @param value            for the customAttribute
+     * @param key    for the customAttribute
+     * @param value  for the customAttribute
      * @return changedCustomAttribute
      * @throws GitLabApiException on failure while changing customAttributes
      */
     public CustomAttribute changeCustomAttribute(final Object userIdOrUsername, final String key, final String value)
-        throws GitLabApiException {
+            throws GitLabApiException {
         return createCustomAttribute(userIdOrUsername, key, value);
     }
 
@@ -1190,11 +1180,11 @@ public class UserApi extends AbstractApi {
      * Delete a custom attribute for the given user
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param customAttribute  to remove
+     * @param customAttribute to remove
      * @throws GitLabApiException on failure while deleting customAttributes
      */
     public void deleteCustomAttribute(final Object userIdOrUsername, final CustomAttribute customAttribute)
-        throws GitLabApiException {
+            throws GitLabApiException {
         if (Objects.isNull(customAttribute)) {
             throw new IllegalArgumentException("customAttributes can't be null");
         }
@@ -1206,7 +1196,7 @@ public class UserApi extends AbstractApi {
      * Delete a custom attribute for the given user
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param key              of the customAttribute to remove
+     * @param key    of the customAttribute to remove
      * @throws GitLabApiException on failure while deleting customAttributes
      */
     public void deleteCustomAttribute(final Object userIdOrUsername, final String key) throws GitLabApiException {
@@ -1236,13 +1226,13 @@ public class UserApi extends AbstractApi {
      * <pre><code>PUT /users/:id</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param avatarFile       the File instance of the avatar file to upload
+     * @param avatarFile the File instance of the avatar file to upload
      * @return the updated User instance
      * @throws GitLabApiException if any exception occurs
      */
     public User setUserAvatar(final Object userIdOrUsername, File avatarFile) throws GitLabApiException {
         Response response =
-            putUpload(Response.Status.OK, "avatar", avatarFile, "users", getUserIdOrUsername(userIdOrUsername));
+                putUpload(Response.Status.OK, "avatar", avatarFile, "users", getUserIdOrUsername(userIdOrUsername));
         return (response.readEntity(User.class));
     }
 
@@ -1256,8 +1246,7 @@ public class UserApi extends AbstractApi {
      */
     public List<Email> getEmails() throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "user", "emails");
-        return (response.readEntity(new GenericType<List<Email>>() {
-        }));
+        return (response.readEntity(new GenericType<List<Email>>() {}));
     }
 
     /**
@@ -1271,8 +1260,7 @@ public class UserApi extends AbstractApi {
      */
     public List<Email> getEmails(final Object userIdOrUsername) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "users", getUserIdOrUsername(userIdOrUsername), "emails");
-        return (response.readEntity(new GenericType<List<Email>>() {
-        }));
+        return (response.readEntity(new GenericType<List<Email>>() {}));
     }
 
     /**
@@ -1310,18 +1298,18 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: POST /user/:id/emails</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param email            the email address to add
+     * @param email the email address to add
      * @param skipConfirmation skip confirmation and assume e-mail is verified - true or false (default)
      * @return the Email instance for the added email
      * @throws GitLabApiException if any exception occurs
      */
     public Email addEmail(final Object userIdOrUsername, String email, Boolean skipConfirmation)
-        throws GitLabApiException {
+            throws GitLabApiException {
 
         GitLabApiForm formData =
-            new GitLabApiForm().withParam("email", email, true).withParam("skip_confirmation ", skipConfirmation);
+                new GitLabApiForm().withParam("email", email, true).withParam("skip_confirmation ", skipConfirmation);
         Response response =
-            post(Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), "emails");
+                post(Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), "emails");
         return (response.readEntity(Email.class));
     }
 
@@ -1343,7 +1331,7 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: DELETE /user/:id/emails/:emailId</code></pre>
      *
      * @param userIdOrUsername the user in the form of an Long(ID), String(username), or User instance
-     * @param emailId          the email ID to delete
+     * @param emailId the email ID to delete
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteEmail(final Object userIdOrUsername, final Long emailId) throws GitLabApiException {
@@ -1359,8 +1347,7 @@ public class UserApi extends AbstractApi {
      */
     public List<GpgKey> listGpgKeys() throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "user", "gpg_keys");
-        return (response.readEntity(new GenericType<List<GpgKey>>() {
-        }));
+        return (response.readEntity(new GenericType<List<GpgKey>>() {}));
     }
 
     /**
@@ -1399,8 +1386,7 @@ public class UserApi extends AbstractApi {
      */
     public List<GpgKey> listGpgKeys(final Long userId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "users", userId, "gpg_keys");
-        return (response.readEntity(new GenericType<List<GpgKey>>() {
-        }));
+        return (response.readEntity(new GenericType<List<GpgKey>>() {}));
     }
 
     /**
@@ -1409,7 +1395,7 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: POST /users/:id/gpg_keys</code></pre>
      *
      * @param userId the user in the form of an Long(ID)
-     * @param key    the ASCII-armored exported public GPG key to add
+     * @param key the ASCII-armored exported public GPG key to add
      * @throws GitLabApiException if any exception occurs
      */
     public GpgKey addGpgKey(final Long userId, final String key) throws GitLabApiException {
@@ -1424,7 +1410,7 @@ public class UserApi extends AbstractApi {
      * <pre><code>GitLab Endpoint: DELETE /users/:id/gpg_keys/:keyId</code></pre>
      *
      * @param userId the user in the form of an Long(ID)
-     * @param keyId  the key ID  in the form if an Long(ID)
+     * @param keyId the key ID  in the form if an Long(ID)
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteGpgKey(final Long userId, final Long keyId) throws GitLabApiException {
@@ -1447,12 +1433,12 @@ public class UserApi extends AbstractApi {
 
     /**
      * Returns a Pager that lists all projects and groups a user is a member of. (admin only)
-     * <p>
+     *
      * This allows lazy-fetching of huge numbers of memberships.
      *
      * <pre><code>GitLab Endpoint: GET /users/:id/memberships</code></pre>
      *
-     * @param userId       the ID of the user to get the memberships for
+     * @param userId the ID of the user to get the memberships for
      * @param itemsPerPage the number of Membership instances that will be fetched per page
      * @return a Pager of user's memberships
      * @throws GitLabApiException if any exception occurs
@@ -1509,7 +1495,7 @@ public class UserApi extends AbstractApi {
         }
         try {
             Response response =
-                get(Response.Status.OK, null, getApiClient().getUrlWithBase("users", username, "exists"));
+                    get(Response.Status.OK, null, getApiClient().getUrlWithBase("users", username, "exists"));
             return response.readEntity(Exists.class).getExists();
         } catch (IOException e) {
             throw new GitLabApiException(e);
