@@ -805,19 +805,7 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public SshKey addSshKey(Long userId, String title, String key) throws GitLabApiException {
-
-        if (userId == null) {
-            throw new RuntimeException("userId cannot be null");
-        }
-
-        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
-        Response response = post(Response.Status.CREATED, formData, "users", userId, "keys");
-        SshKey sshKey = response.readEntity(SshKey.class);
-        if (sshKey != null) {
-            sshKey.setUserId(userId);
-        }
-
-        return (sshKey);
+        return addSshKey(userId, title, key, null);
     }
 
     /**
@@ -833,12 +821,20 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public SshKey addSshKey(Long userId, String title, String key, Date expiresAt) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("title", title)
-                .withParam("key", key)
-                .withParam("expires_at", expiresAt);
-        Response response = post(Response.Status.CREATED, formData, "user", "keys");
-        return (response.readEntity(SshKey.class));
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
+        if (expiresAt != null) {
+            formData.withParam("expires_at", expiresAt);
+        }
+        Response response = post(Response.Status.CREATED, formData, "users", userId, "keys");
+        SshKey sshKey = response.readEntity(SshKey.class);
+        if (sshKey != null) {
+            sshKey.setUserId(userId);
+        }
+        return (sshKey);
     }
 
     /**
@@ -1030,6 +1026,7 @@ public class UserApi extends AbstractApi {
                 (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "personal_access_tokens", tokenId);
     }
+
     // as per https://docs.gitlab.com/ee/api/README.html#impersonation-tokens, impersonation tokens are a type of
     // personal access token
     private ImpersonationToken createPersonalAccessTokenOrImpersonationToken(
