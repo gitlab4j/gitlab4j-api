@@ -833,7 +833,10 @@ public class UserApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public SshKey addSshKey(Long userId, String title, String key, Date expiresAt) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key).withParam("expires_at", expiresAt);
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("title", title)
+                .withParam("key", key)
+                .withParam("expires_at", expiresAt);
         Response response = post(Response.Status.CREATED, formData, "user", "keys");
         return (response.readEntity(SshKey.class));
     }
@@ -1024,7 +1027,7 @@ public class UserApi extends AbstractApi {
         }
 
         Response.Status expectedStatus =
-            (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "personal_access_tokens", tokenId);
     }
     // as per https://docs.gitlab.com/ee/api/README.html#impersonation-tokens, impersonation tokens are a type of
