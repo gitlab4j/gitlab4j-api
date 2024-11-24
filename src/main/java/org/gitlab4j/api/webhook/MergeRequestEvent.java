@@ -6,6 +6,8 @@ import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.models.Reviewer;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MergeRequestEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +17,10 @@ public class MergeRequestEvent extends AbstractEvent {
     private EventUser user;
     private EventProject project;
     private EventRepository repository;
+
+    @JsonProperty(value = "object_attributes")
     private ObjectAttributes objectAttributes;
+
     private List<EventLabel> labels;
     private MergeRequestChanges changes;
     private List<Assignee> assignees;
