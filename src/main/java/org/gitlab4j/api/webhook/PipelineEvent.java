@@ -7,13 +7,17 @@ import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PipelineEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Pipeline Hook";
     public static final String OBJECT_KIND = "pipeline";
 
+    @JsonProperty(value = "object_attributes")
     private ObjectAttributes objectAttributes;
+
     private EventUser user;
     private EventProject project;
     private EventCommit commit;

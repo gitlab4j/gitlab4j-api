@@ -7,6 +7,8 @@ import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.webhook.MergeRequestEvent.ObjectAttributes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ExternalStatusCheckEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +17,10 @@ public class ExternalStatusCheckEvent implements Serializable {
     private EventUser user;
     private EventProject project;
     private EventRepository repository;
+
+    @JsonProperty(value = "object_attributes")
     private ObjectAttributes objectAttributes;
+
     private List<EventLabel> labels;
     private MergeRequestChanges changes;
     private List<Assignee> assignees;

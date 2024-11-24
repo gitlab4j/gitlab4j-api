@@ -5,6 +5,8 @@ import java.util.List;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WorkItemEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
@@ -14,7 +16,10 @@ public class WorkItemEvent extends AbstractEvent {
     private User user;
     private EventProject project;
     private EventRepository repository;
+
+    @JsonProperty(value = "object_attributes")
     private ObjectAttributes objectAttributes;
+
     private List<EventLabel> labels;
     private WorkItemChanges changes;
 

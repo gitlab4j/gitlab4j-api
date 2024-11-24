@@ -7,6 +7,7 @@ import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class NoteEvent extends AbstractEvent {
@@ -19,7 +20,10 @@ public class NoteEvent extends AbstractEvent {
     private Long projectId;
     private EventProject project;
     private EventRepository repository;
+
+    @JsonProperty(value = "object_attributes")
     private ObjectAttributes objectAttributes;
+
     private EventCommit commit;
     private EventIssue issue;
     private EventMergeRequest mergeRequest;

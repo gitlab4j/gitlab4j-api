@@ -2,6 +2,8 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WikiPageEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
@@ -11,6 +13,8 @@ public class WikiPageEvent extends AbstractEvent {
     private EventUser user;
     private EventProject project;
     private Wiki wiki;
+
+    @JsonProperty(value = "object_attributes")
     private ObjectAttributes objectAttributes;
 
     public String getObjectKind() {

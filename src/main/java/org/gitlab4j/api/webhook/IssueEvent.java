@@ -5,6 +5,8 @@ import java.util.List;
 import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class IssueEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
@@ -14,7 +16,10 @@ public class IssueEvent extends AbstractEvent {
     private EventUser user;
     private EventProject project;
     private EventRepository repository;
+
+    @JsonProperty(value = "object_attributes")
     private ObjectAttributes objectAttributes;
+
     private List<Assignee> assignees;
     private Assignee assignee;
     private List<EventLabel> labels;
