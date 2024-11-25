@@ -26,7 +26,10 @@ public class NoteEvent extends AbstractEvent {
 
     private EventCommit commit;
     private EventIssue issue;
+
+    @JsonProperty(value = "merge_request")
     private EventMergeRequest mergeRequest;
+
     private EventSnippet snippet;
 
     @Override
