@@ -11,6 +11,7 @@ public class DeploymentEvent extends AbstractEvent {
     private String status;
     private String statusChangedAt;
     private Long deployableId;
+    private Long deploymentId;
     private String deployableUrl;
     private String environment;
     private EventProject project;
@@ -52,6 +53,14 @@ public class DeploymentEvent extends AbstractEvent {
 
     public void setDeployableId(Long deployableId) {
         this.deployableId = deployableId;
+    }
+
+    public Long getDeploymentId() {
+        return deploymentId;
+    }
+
+    public void setDeploymentId(Long deploymentId) {
+        this.deploymentId = deploymentId;
     }
 
     public String getDeployableUrl() {

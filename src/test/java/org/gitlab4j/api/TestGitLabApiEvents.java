@@ -26,6 +26,7 @@ import org.gitlab4j.api.systemhooks.TeamMemberSystemHookEvent;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.webhook.BuildEvent;
 import org.gitlab4j.api.webhook.ChangeContainer;
+import org.gitlab4j.api.webhook.DeploymentEvent;
 import org.gitlab4j.api.webhook.Event;
 import org.gitlab4j.api.webhook.IssueEvent;
 import org.gitlab4j.api.webhook.JobEvent;
@@ -63,6 +64,12 @@ public class TestGitLabApiEvents {
     @AfterAll
     public static void teardown() {
         GitLabApi.getLogger().setLevel(savedLevel);
+    }
+
+    @Test
+    public void testDeploymentEvent() throws Exception {
+        Event event = unmarshalResource(DeploymentEvent.class, "deployment-event.json");
+        assertTrue(compareJson(event, "deployment-event.json"));
     }
 
     @Test
