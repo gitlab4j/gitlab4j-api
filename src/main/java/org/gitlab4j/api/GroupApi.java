@@ -2451,7 +2451,7 @@ public class GroupApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<UploadedFile> getUploadFiles(Object groupIdOrPath) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "projects", getGroupIdOrPath(groupIdOrPath), "uploads");
+        Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "uploads");
         return (response.readEntity(new GenericType<List<UploadedFile>>() {}));
     }
 
