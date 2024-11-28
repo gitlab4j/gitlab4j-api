@@ -488,7 +488,7 @@ public enum Setting {
     /**
      * Gitaly fast operation timeout, in seconds. Some Gitaly operations are
      * expected to be fast. If they exceed this threshold, there may be a problem
-     * with a storage shard and ‘failing fast’ can help maintain the stability of
+     * with a storage shard and 'failing fast' can help maintain the stability of
      * the GitLab instance. Set to 0 to disable timeouts.
      */
     GITALY_TIMEOUT_FAST(Integer.class),
@@ -1534,7 +1534,7 @@ public enum Setting {
 
     /**
      * When rate limiting is enabled via the throttle_* settings, send this plain text response
-     * when a rate limit is exceeded. ‘Retry later’ is sent if this is blank.
+     * when a rate limit is exceeded. 'Retry later' is sent if this is blank.
      */
     RATE_LIMITING_RESPONSE_TEXT(String.class),
 
@@ -1575,7 +1575,7 @@ public enum Setting {
     USER_DEACTIVATION_EMAILS_ENABLED(Boolean.class),
 
     /**
-     * track or compress. Sets the behavior for Sidekiq job size limits. Default: ‘compress’.
+     * track or compress. Sets the behavior for Sidekiq job size limits. Default: 'compress'.
      */
     SIDEKIQ_JOB_LIMITER_MODE(String.class),
 
