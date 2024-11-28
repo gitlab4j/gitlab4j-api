@@ -786,9 +786,30 @@ public class UserApi extends AbstractApi {
      * @param key   the new SSH key
      * @return an SshKey instance with info on the added SSH key
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #addSshKey(String, String, Date)} instead
      */
+    @Deprecated
     public SshKey addSshKey(String title, String key) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
+        return addSshKey(title, key, null);
+    }
+
+    /**
+     * Creates a new key owned by the currently authenticated user.
+     *
+     * <pre><code>GitLab Endpoint: POST /user/keys</code></pre>
+     *
+     * @param title the new SSH Key's title
+     * @param key   the new SSH key
+     * @param expiresAt the expiration date of the ssh key, optional
+     * @return an SshKey instance with info on the added SSH key
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SshKey addSshKey(String title, String key, Date expiresAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("title", title)
+                .withParam("key", key)
+                .withParam("expires_at", expiresAt);
+
         Response response = post(Response.Status.CREATED, formData, "user", "keys");
         return (response.readEntity(SshKey.class));
     }
@@ -803,20 +824,40 @@ public class UserApi extends AbstractApi {
      * @param key    the new SSH key
      * @return an SshKey instance with info on the added SSH key
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #addSshKey(Long, String, String, Date)} instead
      */
+    @Deprecated
     public SshKey addSshKey(Long userId, String title, String key) throws GitLabApiException {
+        return addSshKey(userId, title, key, null);
+    }
 
+    /**
+     * Create new key owned by specified user. Available only for admin users.
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:id/keys</code></pre>
+     *
+     * @param userId    the ID of the user to add the SSH key for
+     * @param title     the new SSH Key's title
+     * @param key       the new SSH key
+     * @param expiresAt the expiration date of the ssh key, optional
+     * @return an SshKey instance with info on the added SSH key
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SshKey addSshKey(Long userId, String title, String key, Date expiresAt) throws GitLabApiException {
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
         }
 
-        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("title", title)
+                .withParam("key", key)
+                .withParam("expires_at", expiresAt);
+
         Response response = post(Response.Status.CREATED, formData, "users", userId, "keys");
         SshKey sshKey = response.readEntity(SshKey.class);
         if (sshKey != null) {
             sshKey.setUserId(userId);
         }
-
         return (sshKey);
     }
 
@@ -991,6 +1032,23 @@ public class UserApi extends AbstractApi {
     public ImpersonationToken createPersonalAccessToken(
             Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
         return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, expiresAt, scopes, false);
+    }
+
+    /**
+     * Revokes a personal access token.  Available only for admin users.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /personal_access_tokens/:token_id</code></pre>
+     * @param tokenId the personal access token ID to revoke
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void revokePersonalAccessToken(Long tokenId) throws GitLabApiException {
+        if (tokenId == null) {
+            throw new RuntimeException("tokenId cannot be null");
+        }
+
+        Response.Status expectedStatus =
+                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "personal_access_tokens", tokenId);
     }
 
     // as per https://docs.gitlab.com/ee/api/README.html#impersonation-tokens, impersonation tokens are a type of
