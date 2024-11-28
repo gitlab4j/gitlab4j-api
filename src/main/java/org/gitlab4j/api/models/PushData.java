@@ -3,8 +3,6 @@ package org.gitlab4j.api.models;
 import org.gitlab4j.api.Constants.ActionType;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class PushData {
 
     private Integer commitCount;
@@ -14,18 +12,6 @@ public class PushData {
     private String commitTo;
     private String ref;
     private String commitTitle;
-
-    @Deprecated
-    @JsonIgnore
-    public Integer getCommit_count() {
-        return commitCount;
-    }
-
-    @Deprecated
-    @JsonIgnore
-    public void setCommit_count(Integer commit_count) {
-        this.commitCount = commit_count;
-    }
 
     public Integer getCommitCount() {
         return commitCount;

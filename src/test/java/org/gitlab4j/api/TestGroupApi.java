@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.*;
 import org.gitlab4j.api.models.GroupHook;

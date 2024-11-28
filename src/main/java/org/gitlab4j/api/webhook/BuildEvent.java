@@ -2,10 +2,7 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * The documentation at: <a href="https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#job-events">
@@ -36,7 +33,7 @@ public class BuildEvent extends AbstractEvent {
 
     private Long pipelineId;
     private String projectName;
-    private User user;
+    private EventUser user;
     private BuildCommit commit;
     private EventRepository repository;
 
@@ -122,51 +119,11 @@ public class BuildEvent extends AbstractEvent {
         this.buildStartedAt = buildStartedAt;
     }
 
-    /**
-     * @deprecated Replaced by {@link #getBuildStartedAt()}
-     * @return the buildstarted at Date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getBuildStarted_at() {
-        return buildStartedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #setBuildStartedAt(Date)}
-     * @param buildStartedAt new buildstarted at value
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setBuildStarted_at(Date buildStartedAt) {
-        this.buildStartedAt = buildStartedAt;
-    }
-
     public Date getBuildFinishedAt() {
         return buildFinishedAt;
     }
 
     public void setBuildFinishedAt(Date buildFinishedAt) {
-        this.buildFinishedAt = buildFinishedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #getBuildFinishedAt()}
-     * @return the buildfinished at Date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getBuildFinished_at() {
-        return buildFinishedAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #setBuildFinishedAt(Date)}
-     * @param buildFinishedAt new buildfinished at value
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setBuildFinished_at(Date buildFinishedAt) {
         this.buildFinishedAt = buildFinishedAt;
     }
 
@@ -226,11 +183,11 @@ public class BuildEvent extends AbstractEvent {
         this.projectName = projectName;
     }
 
-    public User getUser() {
+    public EventUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(EventUser user) {
         this.user = user;
     }
 

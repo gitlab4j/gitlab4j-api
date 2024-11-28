@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Duration;
@@ -17,6 +17,7 @@ import org.gitlab4j.api.models.IssueLink;
 import org.gitlab4j.api.models.IssuesStatistics;
 import org.gitlab4j.api.models.IssuesStatisticsFilter;
 import org.gitlab4j.api.models.LinkType;
+import org.gitlab4j.api.models.LinkedIssue;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Participant;
 import org.gitlab4j.api.models.TimeStats;
@@ -1030,7 +1031,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @return a list of related issues of a given issue, sorted by the relationship creation datetime (ascending)
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Issue> getIssueLinks(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
+    public List<LinkedIssue> getIssueLinks(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
         return (getIssueLinks(projectIdOrPath, issueIid, getDefaultPerPage()).all());
     }
 
@@ -1048,11 +1049,11 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @return a Pager of related issues of a given issue, sorted by the relationship creation datetime (ascending)
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Issue> getIssueLinks(Object projectIdOrPath, Long issueIid, int itemsPerPage)
+    public Pager<LinkedIssue> getIssueLinks(Object projectIdOrPath, Long issueIid, int itemsPerPage)
             throws GitLabApiException {
-        return (new Pager<Issue>(
+        return (new Pager<LinkedIssue>(
                 this,
-                Issue.class,
+                LinkedIssue.class,
                 itemsPerPage,
                 null,
                 "projects",
@@ -1075,7 +1076,7 @@ public class IssuesApi extends AbstractApi implements Constants {
      * @return a Stream of related issues of a given issue, sorted by the relationship creation datetime (ascending)
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Issue> getIssueLinksStream(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
+    public Stream<LinkedIssue> getIssueLinksStream(Object projectIdOrPath, Long issueIid) throws GitLabApiException {
         return (getIssueLinks(projectIdOrPath, issueIid, getDefaultPerPage()).stream());
     }
 

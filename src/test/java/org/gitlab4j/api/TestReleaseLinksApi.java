@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.Link;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ public class TestReleaseLinksApi implements Constants {
         response = new MockResponse(Link.class, null, "links.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any()))
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
                 .thenReturn(response);
     }
 }

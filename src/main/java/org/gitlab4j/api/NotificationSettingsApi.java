@@ -1,6 +1,6 @@
 package org.gitlab4j.api;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.NotificationSettings;
 import org.gitlab4j.api.models.NotificationSettings.Events;

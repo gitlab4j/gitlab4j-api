@@ -9,7 +9,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.io.IOException;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.Commit;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +51,7 @@ public class TestRepositorySubmodulesApi implements Constants {
         response = new MockResponse(Commit.class, "commit.json", null);
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.put(attributeCaptor.capture(), Mockito.<Object>any()))
+        when(gitLabApiClient.put(attributeCaptor.capture(), Mockito.any(Object[].class)))
                 .thenReturn(response);
     }
 }

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Visibility;

@@ -2,7 +2,7 @@ package org.gitlab4j.api;
 
 import java.util.Date;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.PersonalAccessToken;
 import org.gitlab4j.api.utils.ISO8601;

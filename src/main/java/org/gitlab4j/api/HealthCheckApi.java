@@ -3,7 +3,7 @@ package org.gitlab4j.api;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.HealthCheckInfo;
 

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.gitlab4j.api.models.Assignee;
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 import org.gitlab4j.api.webhook.MergeRequestEvent.ObjectAttributes;
 
@@ -13,7 +12,7 @@ public class ExternalStatusCheckEvent implements Serializable {
 
     private String objectKind;
     private String eventType;
-    private User user;
+    private EventUser user;
     private EventProject project;
     private EventRepository repository;
     private ObjectAttributes objectAttributes;
@@ -38,11 +37,11 @@ public class ExternalStatusCheckEvent implements Serializable {
         this.eventType = eventType;
     }
 
-    public User getUser() {
+    public EventUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(EventUser user) {
         this.user = user;
     }
 

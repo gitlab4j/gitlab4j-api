@@ -21,6 +21,7 @@ import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.RepositoryFileResponse;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.Variable;
 import org.junit.jupiter.api.*;
@@ -39,8 +40,8 @@ public class TestPipelineApi extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
     private static Project testProject;
-    private static RepositoryFile createdGitlabCiYml;
-    private static RepositoryFile gitlabCiYml;
+    private static RepositoryFileResponse createdGitlabCiYml;
+    private static RepositoryFileResponse gitlabCiYml;
 
     public TestPipelineApi() {
         super();
@@ -96,7 +97,10 @@ public class TestPipelineApi extends AbstractIntegrationTest {
         Optional<RepositoryFile> fileInfo =
                 gitLabApi.getRepositoryFileApi().getOptionalFileInfo(testProject, ".gitlab-ci.yml", "master");
         if (fileInfo.isPresent()) {
-            gitlabCiYml = fileInfo.get();
+            RepositoryFileResponse file = new RepositoryFileResponse();
+            file.setBranch(fileInfo.get().getRef());
+            file.setFilePath(fileInfo.get().getFilePath());
+            gitlabCiYml = file;
         } else {
 
             try {

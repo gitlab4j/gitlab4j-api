@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.api.models.Job;
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.utils.JacksonJson;
 
@@ -15,7 +14,7 @@ public class PipelineEvent extends AbstractEvent {
     public static final String OBJECT_KIND = "pipeline";
 
     private ObjectAttributes objectAttributes;
-    private User user;
+    private EventUser user;
     private EventProject project;
     private EventCommit commit;
     private List<Job> jobs;
@@ -37,11 +36,11 @@ public class PipelineEvent extends AbstractEvent {
         this.objectAttributes = objectAttributes;
     }
 
-    public User getUser() {
+    public EventUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(EventUser user) {
         this.user = user;
     }
 

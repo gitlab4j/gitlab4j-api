@@ -17,6 +17,7 @@ import java.util.Optional;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.RepositoryFileResponse;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -161,7 +162,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
         file.setContent(TEST_CONTENT);
-        RepositoryFile createdFile = gitLabApi
+        RepositoryFileResponse createdFile = gitLabApi
                 .getRepositoryFileApi()
                 .createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
@@ -184,7 +185,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
         file.setContent("");
-        RepositoryFile createdFile = gitLabApi
+        RepositoryFileResponse createdFile = gitLabApi
                 .getRepositoryFileApi()
                 .createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);
@@ -207,7 +208,7 @@ public class TestRepositoryFileApi extends AbstractIntegrationTest {
         RepositoryFile file = new RepositoryFile();
         file.setFilePath(TEST_FILEPATH);
         file.setContent(TEST_CONTENT);
-        RepositoryFile createdFile = gitLabApi
+        RepositoryFileResponse createdFile = gitLabApi
                 .getRepositoryFileApi()
                 .createFile(project.getId(), file, TEST_BRANCH_NAME, "Testing createFile().");
         assertNotNull(createdFile);

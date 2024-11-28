@@ -4,17 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.gitlab4j.api.models.ArtifactsFile;
 import org.gitlab4j.api.models.Job;
@@ -544,10 +543,9 @@ public class JobApi extends AbstractApi implements Constants {
      * @return a File instance pointing to the download of the specified artifacts file
      * @throws GitLabApiException if any exception occurs
      */
-    public File downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, Path artifactPath, File directory)
+    public File downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, String artifactPath, File directory)
             throws GitLabApiException {
 
-        String path = artifactPath.toString().replace("\\", "/");
         Response response = get(
                 Response.Status.OK,
                 getDefaultPerPageParam(),
@@ -556,12 +554,12 @@ public class JobApi extends AbstractApi implements Constants {
                 "jobs",
                 jobId,
                 "artifacts",
-                path);
+                artifactPath);
         try {
 
             if (directory == null) directory = new File(System.getProperty("java.io.tmpdir"));
 
-            String filename = artifactPath.getFileName().toString();
+            String filename = artifactPath;
             File file = new File(directory, filename);
 
             InputStream in = response.readEntity(InputStream.class);
@@ -586,9 +584,8 @@ public class JobApi extends AbstractApi implements Constants {
      * @return an InputStream to read the specified artifacts file from
      * @throws GitLabApiException if any exception occurs
      */
-    public InputStream downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, Path artifactPath)
+    public InputStream downloadSingleArtifactsFile(Object projectIdOrPath, Long jobId, String artifactPath)
             throws GitLabApiException {
-        String path = artifactPath.toString().replace("\\", "/");
         Response response = get(
                 Response.Status.OK,
                 getDefaultPerPageParam(),
@@ -597,7 +594,7 @@ public class JobApi extends AbstractApi implements Constants {
                 "jobs",
                 jobId,
                 "artifacts",
-                path);
+                artifactPath);
         return (response.readEntity(InputStream.class));
     }
 

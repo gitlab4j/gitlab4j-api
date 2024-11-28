@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.Constants.StateEvent;
 import org.gitlab4j.api.models.ChildEpic;

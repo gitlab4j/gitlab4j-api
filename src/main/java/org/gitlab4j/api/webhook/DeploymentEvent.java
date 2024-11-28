@@ -1,6 +1,5 @@
 package org.gitlab4j.api.webhook;
 
-import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.utils.JacksonJson;
 
 public class DeploymentEvent extends AbstractEvent {
@@ -17,7 +16,7 @@ public class DeploymentEvent extends AbstractEvent {
     private String environment;
     private EventProject project;
     private String shortSha;
-    private User user;
+    private EventUser user;
     private String userUrl;
     private String commitUrl;
     private String commitTitle;
@@ -96,11 +95,11 @@ public class DeploymentEvent extends AbstractEvent {
         this.shortSha = shortSha;
     }
 
-    public User getUser() {
+    public EventUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(EventUser user) {
         this.user = user;
     }
 

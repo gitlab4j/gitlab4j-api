@@ -9,7 +9,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.io.IOException;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.Topic;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +49,7 @@ public class TestTopicsApi implements Constants {
         response = new MockResponse(Topic.class, "topic.json", null);
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any()))
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
                 .thenReturn(response);
     }
 }

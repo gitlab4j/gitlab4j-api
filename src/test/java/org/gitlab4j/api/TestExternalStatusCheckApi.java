@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.ExternalStatusCheck;
 import org.gitlab4j.api.models.ExternalStatusCheckStatus;
@@ -70,7 +70,7 @@ public class TestExternalStatusCheckApi implements Constants {
         response = new MockResponse(ExternalStatusCheck.class, null, "external-status-checks.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any()))
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
                 .thenReturn(response);
     }
 
@@ -106,7 +106,7 @@ public class TestExternalStatusCheckApi implements Constants {
         response = new MockResponse(ExternalStatusCheckStatus.class, null, "external-status-check-statuses.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any()))
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
                 .thenReturn(response);
     }
 }

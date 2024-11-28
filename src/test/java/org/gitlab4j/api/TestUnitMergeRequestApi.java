@@ -9,7 +9,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.util.Collections;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.MergeRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ public class TestUnitMergeRequestApi {
         when(mockGitLabApi.getApiClient()).thenReturn(mockedGitLabApiClient);
 
         when(mockedGitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(mockedGitLabApiClient.put(attributeCaptor.capture(), Mockito.<Object>any()))
+        when(mockedGitLabApiClient.put(attributeCaptor.capture(), Mockito.any(Object[].class)))
                 .thenReturn(mockedResponse);
     }
 

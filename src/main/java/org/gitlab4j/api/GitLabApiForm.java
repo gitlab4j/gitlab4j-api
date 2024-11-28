@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.MultivaluedHashMap;
 
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.Variable;

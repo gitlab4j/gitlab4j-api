@@ -9,13 +9,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.RepositoryFileResponse;
 
 /**
  * This class provides an entry point to all the GitLab API repository files calls.
@@ -225,7 +226,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @return a RepositoryFile instance with the created file info
      * @throws GitLabApiException if any exception occurs
      */
-    public RepositoryFile createFile(
+    public RepositoryFileResponse createFile(
             Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage)
             throws GitLabApiException {
 
@@ -250,7 +251,7 @@ public class RepositoryFileApi extends AbstractApi {
                     urlEncode(file.getFilePath()));
         }
 
-        return (response.readEntity(RepositoryFile.class));
+        return (response.readEntity(RepositoryFileResponse.class));
     }
 
     /**
@@ -273,8 +274,8 @@ public class RepositoryFileApi extends AbstractApi {
      * @deprecated  Will be removed in version 6.0, replaced by {@link #createFile(Object, RepositoryFile, String, String)}
      */
     @Deprecated
-    public RepositoryFile createFile(RepositoryFile file, Long projectId, String branchName, String commitMessage)
-            throws GitLabApiException {
+    public RepositoryFileResponse createFile(
+            RepositoryFile file, Long projectId, String branchName, String commitMessage) throws GitLabApiException {
         return (createFile(projectId, file, branchName, commitMessage));
     }
 
@@ -296,7 +297,7 @@ public class RepositoryFileApi extends AbstractApi {
      * @return a RepositoryFile instance with the updated file info
      * @throws GitLabApiException if any exception occurs
      */
-    public RepositoryFile updateFile(
+    public RepositoryFileResponse updateFile(
             Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage)
             throws GitLabApiException {
 
@@ -321,7 +322,7 @@ public class RepositoryFileApi extends AbstractApi {
                     urlEncode(file.getFilePath()));
         }
 
-        return (response.readEntity(RepositoryFile.class));
+        return (response.readEntity(RepositoryFileResponse.class));
     }
 
     /**
@@ -344,8 +345,8 @@ public class RepositoryFileApi extends AbstractApi {
      * @deprecated  Will be removed in version 6.0, replaced by {@link #updateFile(Object, RepositoryFile, String, String)}
      */
     @Deprecated
-    public RepositoryFile updateFile(RepositoryFile file, Long projectId, String branchName, String commitMessage)
-            throws GitLabApiException {
+    public RepositoryFileResponse updateFile(
+            RepositoryFile file, Long projectId, String branchName, String commitMessage) throws GitLabApiException {
         return (updateFile(projectId, file, branchName, commitMessage));
     }
 

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Environment;
 
@@ -104,24 +104,6 @@ public class EnvironmentsApi extends AbstractApi {
     }
 
     /**
-     * Create a new environment with the given name and external_url.
-     *
-     * <pre><code>GitLab Endpoint:POST /projects/:id/environments</code></pre>
-     *
-     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
-     * @param name the name of the environment
-     * @param externalUrl the place to link to for this environment
-     * @return the created Environment instance
-     * @throws GitLabApiException if any exception occurs
-     * @deprecated use {@link #createEnvironment(Object, String, String, String)} instead
-     */
-    @Deprecated
-    public Environment createEnvironment(Object projectIdOrPath, String name, String externalUrl)
-            throws GitLabApiException {
-        return createEnvironment(projectIdOrPath, name, externalUrl, null);
-    }
-
-    /**
      * Create a new environment with the given name, external_url and tier.
      *
      * <pre><code>GitLab Endpoint:POST /projects/:id/environments</code></pre>
@@ -142,25 +124,6 @@ public class EnvironmentsApi extends AbstractApi {
         Response response = post(
                 Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "environments");
         return (response.readEntity(Environment.class));
-    }
-
-    /**
-     * Update an existing environment.
-     *
-     * <pre><code>GitLab Endpoint:POST /projects/:id/environments</code></pre>
-     *
-     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
-     * @param environmentId the ID of the environment to update
-     * @param name the name of the environment
-     * @param externalUrl the place to link to for this environment
-     * @return the created Environment instance
-     * @throws GitLabApiException if any exception occurs
-     * @deprecated use {@link #updateEnvironment(Object, Long, String, String, String)} instead
-     */
-    @Deprecated
-    public Environment updateEnvironment(Object projectIdOrPath, Long environmentId, String name, String externalUrl)
-            throws GitLabApiException {
-        return updateEnvironment(projectIdOrPath, environmentId, name, externalUrl, null);
     }
 
     /**

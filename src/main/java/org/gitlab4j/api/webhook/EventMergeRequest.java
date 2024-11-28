@@ -8,8 +8,6 @@ import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class EventMergeRequest {
 
     private Long assigneeId;
@@ -406,25 +404,6 @@ public class EventMergeRequest {
 
     public void setLockVersion(Integer lockVersion) {
         this.lockVersion = lockVersion;
-    }
-
-    /**
-     * @deprecated used {@link #getLastEditedAt()}
-     * @return date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getLast_editedAt() {
-        return getLastEditedAt();
-    }
-
-    /**
-     * @deprecated used {@link #setLastEditedAt(Date)}
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setLast_editedAt(Date last_editedAt) {
-        setLastEditedAt(last_editedAt);
     }
 
     public Date getLastEditedAt() {

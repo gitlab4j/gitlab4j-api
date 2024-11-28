@@ -13,8 +13,8 @@ import static org.mockito.Mockito.mock;
 
 import java.util.logging.Level;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.gitlab4j.api.systemhooks.MergeRequestSystemHookEvent;
 import org.gitlab4j.api.systemhooks.ProjectSystemHookEvent;

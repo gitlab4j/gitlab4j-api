@@ -2,8 +2,6 @@ package org.gitlab4j.api.models;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class GpgKey {
 
     private Long id;
@@ -31,26 +29,6 @@ public class GpgKey {
     }
 
     public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #getCreatedAt()}
-     * @return the created at Date
-     */
-    @Deprecated
-    @JsonIgnore
-    public Date getCreated_at() {
-        return createdAt;
-    }
-
-    /**
-     * @deprecated Replaced by {@link #setCreatedAt(Date)}
-     * @param createdAt new created at value
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setCreated_at(Date createdAt) {
         this.createdAt = createdAt;
     }
 }

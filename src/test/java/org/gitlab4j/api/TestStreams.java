@@ -14,7 +14,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.gitlab4j.api.models.User;
 import org.junit.jupiter.api.BeforeAll;
@@ -54,7 +54,7 @@ public class TestStreams implements Constants {
         response = new MockResponse(User.class, null, "user-list.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
-        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.<Object>any()))
+        when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
                 .thenReturn(response);
     }
 
