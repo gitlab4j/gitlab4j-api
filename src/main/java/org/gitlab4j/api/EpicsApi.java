@@ -333,7 +333,7 @@ public class EpicsApi extends AbstractApi {
                 .withParam("end_date", endDate)
                 .withParam("created_at", createdAt);
         Response response =
-                post(Response.Status.CREATED, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epics");
+                post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "epics");
         return (response.readEntity(Epic.class));
     }
 
@@ -364,7 +364,7 @@ public class EpicsApi extends AbstractApi {
                 .withParam("end_date", epic.getEndDate())
                 .withParam("created_at", epic.getCreatedAt());
         Response response =
-                post(Response.Status.CREATED, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epics");
+                post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "epics");
         return (response.readEntity(Epic.class));
     }
 
