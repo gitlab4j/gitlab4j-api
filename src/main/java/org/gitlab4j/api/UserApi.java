@@ -786,9 +786,30 @@ public class UserApi extends AbstractApi {
      * @param key   the new SSH key
      * @return an SshKey instance with info on the added SSH key
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #addSshKey(String, String, Date)} instead
      */
+    @Deprecated
     public SshKey addSshKey(String title, String key) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
+        return addSshKey(title, key, null);
+    }
+
+    /**
+     * Creates a new key owned by the currently authenticated user.
+     *
+     * <pre><code>GitLab Endpoint: POST /user/keys</code></pre>
+     *
+     * @param title the new SSH Key's title
+     * @param key   the new SSH key
+     * @param expiresAt the expiration date of the ssh key, optional
+     * @return an SshKey instance with info on the added SSH key
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SshKey addSshKey(String title, String key, Date expiresAt) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("title", title)
+                .withParam("key", key)
+                .withParam("expires_at", expiresAt);
+
         Response response = post(Response.Status.CREATED, formData, "user", "keys");
         return (response.readEntity(SshKey.class));
     }
@@ -803,7 +824,9 @@ public class UserApi extends AbstractApi {
      * @param key    the new SSH key
      * @return an SshKey instance with info on the added SSH key
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #addSshKey(Long, String, String, Date)} instead
      */
+    @Deprecated
     public SshKey addSshKey(Long userId, String title, String key) throws GitLabApiException {
         return addSshKey(userId, title, key, null);
     }
@@ -825,10 +848,11 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("userId cannot be null");
         }
 
-        GitLabApiForm formData = new GitLabApiForm().withParam("title", title).withParam("key", key);
-        if (expiresAt != null) {
-            formData.withParam("expires_at", expiresAt);
-        }
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("title", title)
+                .withParam("key", key)
+                .withParam("expires_at", expiresAt);
+
         Response response = post(Response.Status.CREATED, formData, "users", userId, "keys");
         SshKey sshKey = response.readEntity(SshKey.class);
         if (sshKey != null) {

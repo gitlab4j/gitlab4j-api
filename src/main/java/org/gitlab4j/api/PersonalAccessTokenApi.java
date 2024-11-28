@@ -106,7 +106,7 @@ public class PersonalAccessTokenApi extends AbstractApi {
             throw new RuntimeException("tokenId cannot be null");
         }
         Response.Status expectedStatus =
-            (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+                (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "personal_access_tokens", tokenId);
     }
 }
