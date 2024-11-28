@@ -93,4 +93,20 @@ public class PersonalAccessTokenApi extends AbstractApi {
         Response response = get(Response.Status.OK, null, "personal_access_tokens", id);
         return (response.readEntity(PersonalAccessToken.class));
     }
+
+    /**
+     * Revokes a personal access token.  Available only for admin users.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /personal_access_tokens/:token_id</code></pre>
+     * @param tokenId the personal access token ID to revoke
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void revokePersonalAccessToken(Long tokenId) throws GitLabApiException {
+        if (tokenId == null) {
+            throw new RuntimeException("tokenId cannot be null");
+        }
+        Response.Status expectedStatus =
+                (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
+        delete(expectedStatus, null, "personal_access_tokens", tokenId);
+    }
 }
