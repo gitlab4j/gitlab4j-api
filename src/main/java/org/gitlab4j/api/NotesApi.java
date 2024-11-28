@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Note;
+import org.gitlab4j.api.utils.ISO8601;
 
 public class NotesApi extends AbstractApi {
 
@@ -449,12 +450,18 @@ public class NotesApi extends AbstractApi {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param mergeRequestIid  the merge request IID to create the notes for
      * @param body the content of note
+     * @param createdAt date the discussion was created (requires admin or project/group owner rights) (Optional)
      * @return the created Note instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Note createMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, String body)
+    public Note createMergeRequestNote(
+            Object projectIdOrPath, Long mergeRequestIid, String body, Date createdAt, boolean internal)
             throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
+        GitLabApiForm formData =
+                new GitLabApiForm().withParam("body", body, true).withParam("internal", internal);
+        if (createdAt != null) {
+            formData.withParam("created_at", ISO8601.toString(createdAt));
+        }
         Response response = post(
                 Response.Status.CREATED,
                 formData,
