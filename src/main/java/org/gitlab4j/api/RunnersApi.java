@@ -530,7 +530,7 @@ public class RunnersApi extends AbstractApi {
                 .withParam("run_untagged", runUntagged, false)
                 .withParam("tag_list", tagList, false)
                 .withParam("maximum_timeout", maximumTimeout, false);
-        Response response = post(Response.Status.CREATED, formData.asMap(), "runners");
+        Response response = post(Response.Status.CREATED, formData, "runners");
         return (response.readEntity(RunnerDetail.class));
     }
 
