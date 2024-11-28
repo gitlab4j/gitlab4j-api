@@ -1,0 +1,16 @@
+{
+  "id": 1,
+  "name": "microphone",
+  "user": {
+    "name": "User 4",
+    "username": "user4",
+    "id": 26,
+    "state": "active",
+    "avatar_url": "http://www.gravatar.com/avatar/7e65550957227bd38fe2d7fbc6fd2f7b?s=80&d=identicon",
+    "web_url": "http://gitlab.example.com/user4"
+  },
+  "created_at": "2016-06-15T10:09:34.177Z",
+  "updated_at": "2016-06-15T10:09:34.177Z",
+  "awardable_id": 80,
+  "awardable_type": "Issue"
+}

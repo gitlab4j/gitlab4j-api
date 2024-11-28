@@ -1,0 +1,63 @@
+[
+  {
+    "id" : 1,
+    "name" : "bug",
+    "color" : "#d9534f",
+    "description": "Bug reported by user",
+    "description_html": "Bug reported by user",
+    "open_issues_count": 1,
+    "closed_issues_count": 0,
+    "open_merge_requests_count": 1,
+    "subscribed": false,
+    "priority": 10,
+    "is_project_label": false
+  },
+  {
+    "id" : 4,
+    "color" : "#d9534f",
+    "name" : "confirmed",
+    "description": "Confirmed issue",
+    "description_html": "Confirmed issue",
+    "open_issues_count": 2,
+    "closed_issues_count": 5,
+    "open_merge_requests_count": 0,
+    "subscribed": false,
+    "is_project_label": true
+  },
+  {
+    "id" : 7,
+    "name" : "critical",
+    "color" : "#d9534f",
+    "description": "Critical issue. Need fix ASAP",
+    "description_html": "Critical issue. Need fix ASAP",
+    "open_issues_count": 1,
+    "closed_issues_count": 3,
+    "open_merge_requests_count": 1,
+    "subscribed": false,
+    "is_project_label": false
+  },
+  {
+    "id" : 8,
+    "name" : "documentation",
+    "color" : "#f0ad4e",
+    "description": "Issue about documentation",
+    "description_html": "Issue about documentation",
+    "open_issues_count": 1,
+    "closed_issues_count": 0,
+    "open_merge_requests_count": 2,
+    "subscribed": false,
+    "is_project_label": false
+  },
+  {
+    "id" : 9,
+    "color" : "#5cb85c",
+    "name" : "enhancement",
+    "description": "Enhancement proposal",
+    "description_html": "Enhancement proposal",
+    "open_issues_count": 1,
+    "closed_issues_count": 0,
+    "open_merge_requests_count": 1,
+    "subscribed": true,
+    "is_project_label": false
+  }
+]

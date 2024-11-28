@@ -1,0 +1,8 @@
+{
+  "id": 1,
+  "name": "gitlab",
+  "title": "GitLab",
+  "description": "GitLab is an open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD, and more.",
+  "total_projects_count": 1000,
+  "avatar_url": "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon"
+}
