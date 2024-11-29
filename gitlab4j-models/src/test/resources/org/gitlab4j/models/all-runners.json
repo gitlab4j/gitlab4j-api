@@ -1,0 +1,38 @@
+[
+    {
+        "active": true,
+        "description": "shared-runner-1",
+        "id": 1,
+        "is_shared": true,
+        "name": "runner-1",
+        "online": true,
+        "status": "online"
+    },
+    {
+        "active": true,
+        "description": "shared-runner-2",
+        "id": 3,
+        "is_shared": true,
+        "name":  "runner-2",
+        "online": false,
+        "status": "offline"
+    },
+    {
+        "active": true,
+        "description": "test-1-20150125",
+        "id": 6,
+        "is_shared": false,
+        "name":  "runner-3",
+        "online": true,
+        "status": "paused"
+    },
+    {
+        "active": true,
+        "description": "test-2-20150125",
+        "id": 8,
+        "is_shared": false,
+        "name":  "runner-4",
+        "online": false,
+        "status": "offline"
+    }
+]

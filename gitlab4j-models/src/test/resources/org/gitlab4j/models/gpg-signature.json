@@ -1,0 +1,8 @@
+{
+  "gpg_key_id": 1,
+  "gpg_key_primary_keyid": "8254AAB3FBD54AC9",
+  "gpg_key_user_name": "John Doe",
+  "gpg_key_user_email": "johndoe@example.com",
+  "verification_status": "verified",
+  "gpg_key_subkey_id": "1234AAB3FBD54AC9"
+}

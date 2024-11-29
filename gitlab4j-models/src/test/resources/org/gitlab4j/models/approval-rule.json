@@ -1,0 +1,49 @@
+{
+  "id": 1,
+  "name": "security",
+  "rule_type": "regular",
+  "eligible_approvers": [
+    {
+      "id": 2,
+      "name": "John Doe",
+      "username": "jdoe",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+      "web_url": "http://localhost/jdoe"
+    },
+    {
+      "id": 50,
+      "name": "Group Member 1",
+      "username": "group_member_1",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+      "web_url": "http://localhost/group_member_1"
+    }
+  ],
+  "approvals_required": 1,
+  "users": [
+    {
+      "id": 2,
+      "name": "John Doe",
+      "username": "jdoe",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+      "web_url": "http://localhost/jdoe"
+    }
+  ],
+  "groups": [
+    {
+      "id": 5,
+      "name": "group1",
+      "path": "group1",
+      "description": "",
+      "visibility": "public",
+      "lfs_enabled": false,
+      "web_url": "http://localhost/groups/group1",
+      "request_access_enabled": false,
+      "full_name": "group1",
+      "full_path": "group1"
+    }
+  ],
+  "contains_hidden_groups": false
+}

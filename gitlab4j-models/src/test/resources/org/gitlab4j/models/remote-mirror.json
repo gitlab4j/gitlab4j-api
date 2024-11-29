@@ -1,0 +1,11 @@
+{
+    "enabled": false,
+    "id": 101486,
+    "last_successful_update_at": "2020-01-06T17:32:02.823Z",
+    "last_update_at": "2020-01-06T17:32:02.823Z",
+    "last_update_started_at": "2020-01-06T17:31:55.864Z",
+    "only_protected_branches": true,
+    "keep_divergent_refs": true,
+    "update_status": "finished",
+    "url": "https://*****:*****@gitlab.com/gitlab-org/security/gitlab.git"
+}

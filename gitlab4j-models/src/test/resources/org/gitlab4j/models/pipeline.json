@@ -1,0 +1,37 @@
+{
+  "id": 46,
+  "iid": 11,
+  "project_id": 1,
+  "status": "success",
+  "ref": "main",
+  "sha": "a91957a858320c0e17f3a0eca7cfacbff50ea29a",
+  "before_sha": "a91957a858320c0e17f3a0eca7cfacbff50ea29a",
+  "tag": false,
+  "yaml_errors": "Included file `.gitlab-ci.yml` does not have valid YAML syntax!",
+  "user": {
+    "name": "Administrator",
+    "username": "root",
+    "id": 1,
+    "state": "active",
+    "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+    "web_url": "http://localhost:3000/root"
+  },
+  "created_at": "2016-08-11T11:28:34.085Z",
+  "updated_at": "2016-08-11T11:32:35.169Z",
+  "finished_at": "2016-08-11T11:32:35.145Z",
+  "duration": 123,
+  "queued_duration": 0.010,
+  "detailed_status": {
+     "icon": "status_pending",
+     "text": "pending",
+     "label": "pending",
+     "group": "pending",
+     "tooltip": "pending",
+     "has_details": true,
+     "details_path": "/gitlab4j/test-project/pipelines/66",
+     "favicon": "/assets/ci_favicons/favicon_status_pending-5bdf338420e5221ca24353b6bff1c9367189588750632e9a871b7af09ff6a2ae.png"
+  },
+  "coverage": "30.0",
+  "web_url": "https://example.com/foo/bar/pipelines/46",
+  "name": "Custom pipeline name"
+}
