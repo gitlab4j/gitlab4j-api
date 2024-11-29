@@ -144,6 +144,11 @@ def updateLastVersionValueTask = tasks.register('updateLastVersionValue') {
         def newVersion = project.findProperty('release.releaseVersion') ?: version.replace('-SNAPSHOT', '')
         content = content.replaceAll("lastVersion=[0-9a-z\\.\\-]+", "lastVersion=" + newVersion)
         propertiesFile.text = content
+
+        def readmeFile = file('README.md')
+        def readme = readmeFile.text
+        readme = readme.replace(lastVersion, newVersion)
+        readmeFile.text = readme
     }
 }
 
