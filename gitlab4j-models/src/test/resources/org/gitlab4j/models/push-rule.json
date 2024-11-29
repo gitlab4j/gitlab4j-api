@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "project_id": 3,
+  "commit_message_regex": "Fixes \\d +\\",
+  "commit_message_negative_regex": "ssh\\:\/\/",
+  "branch_name_regex": "",
+  "deny_delete_tag": false,
+  "created_at": "2012-10-12T17:04:47Z",
+  "member_check": false,
+  "prevent_secrets": false,
+  "author_email_regex": "",
+  "file_name_regex": "",
+  "max_file_size": 5,
+  "commit_committer_check": false,
+  "commit_committer_name_check": false,
+  "reject_unsigned_commits": false
+}

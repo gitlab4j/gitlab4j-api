@@ -1,0 +1,22 @@
+[
+    {
+        "key": "TEST_VARIABLE_1",
+        "value": "TEST_1",
+        "protected": true,
+    	"environment_scope": "*"
+    },
+    {
+        "key": "TEST_VARIABLE_2",
+        "value": "TEST_2",
+        "protected": false
+    },
+    {
+        "key": "TEST_VARIABLE_3",
+        "value": "TEST_3",
+    	"environment_scope": "DEV"
+    },
+    {
+        "key": "TEST_VARIABLE_4",
+        "value": "TEST_4"
+    }
+]

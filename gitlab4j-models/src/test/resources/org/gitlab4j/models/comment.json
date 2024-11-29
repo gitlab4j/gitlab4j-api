@@ -1,0 +1,15 @@
+{
+   "author" : {
+      "web_url" : "https://gitlab.example.com/thedude",
+      "avatar_url" : "https://gitlab.example.com/uploads/user/avatar/28/The-Big-Lebowski-400-400.png",
+      "username" : "thedude",
+      "state" : "active",
+      "name" : "Jeff Lebowski",
+      "id" : 28
+   },
+   "created_at" : "2016-01-19T09:44:55.600Z",
+   "line_type" : "new",
+   "path" : "dudeism.md",
+   "line" : 11,
+   "note" : "Nice picture man!"
+}
