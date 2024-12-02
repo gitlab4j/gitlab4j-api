@@ -3,6 +3,7 @@ package org.gitlab4j.models;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -898,7 +899,7 @@ public interface Constants {
         public static final SearchScope<Commit> COMMITS = new SearchScope<>("commits", Commit.class);
         public static final SearchScope<SearchBlob> WIKI_BLOBS = new SearchScope<>("wiki_blobs", SearchBlob.class);
 
-        private static final Map<String, SearchScope> jsonLookup = Arrays.stream(new SearchScope[] {
+        private static final Map<String, SearchScope<?>> jsonLookup = Arrays.stream(new SearchScope[] {
                     PROJECTS,
                     ISSUES,
                     MERGE_REQUESTS,
@@ -913,8 +914,13 @@ public interface Constants {
                 .collect(Collectors.toMap(searchScope -> searchScope.jsonName, Function.identity()));
 
         @JsonCreator
+        @SuppressWarnings("unchecked")
         public static <T> SearchScope<T> forValue(String value) {
             return (SearchScope<T>) jsonLookup.get(value);
+        }
+
+        public Set<String> values() {
+            return jsonLookup.keySet();
         }
 
         @JsonValue
@@ -958,14 +964,19 @@ public interface Constants {
         public static final GroupSearchScope<Note> NOTES = new GroupSearchScope<>("notes", Note.class);
         public static final GroupSearchScope<User> USERS = new GroupSearchScope<>("users", User.class);
 
-        private static final Map<String, GroupSearchScope> jsonLookup = Arrays.stream(new GroupSearchScope[] {
+        private static final Map<String, GroupSearchScope<?>> jsonLookup = Arrays.stream(new GroupSearchScope[] {
                     PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, WIKI_BLOBS, COMMITS, BLOBS, NOTES, USERS,
                 })
                 .collect(Collectors.toMap(searchScope -> searchScope.jsonName, Function.identity()));
 
         @JsonCreator
+        @SuppressWarnings("unchecked")
         public static <T> GroupSearchScope<T> forValue(String value) {
             return (GroupSearchScope<T>) jsonLookup.get(value);
+        }
+
+        public Set<String> values() {
+            return jsonLookup.keySet();
         }
 
         @JsonValue
@@ -1008,14 +1019,19 @@ public interface Constants {
                 new ProjectSearchScope<>("wiki_blobs", SearchBlob.class);
         public static final ProjectSearchScope<User> USERS = new ProjectSearchScope<>("users", User.class);
 
-        private static final Map<String, ProjectSearchScope> jsonLookup = Arrays.stream(new ProjectSearchScope[] {
+        private static final Map<String, ProjectSearchScope<?>> jsonLookup = Arrays.stream(new ProjectSearchScope[] {
                     BLOBS, COMMITS, ISSUES, MERGE_REQUESTS, MILESTONES, NOTES, WIKI_BLOBS, USERS,
                 })
                 .collect(Collectors.toMap(searchScope -> searchScope.jsonName, Function.identity()));
 
         @JsonCreator
+        @SuppressWarnings("unchecked")
         public static <T> ProjectSearchScope<T> forValue(String value) {
             return (ProjectSearchScope<T>) jsonLookup.get(value);
+        }
+
+        public Set<String> values() {
+            return jsonLookup.keySet();
         }
 
         @JsonValue
