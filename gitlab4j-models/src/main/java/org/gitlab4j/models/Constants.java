@@ -919,7 +919,7 @@ public interface Constants {
             return (SearchScope<T>) jsonLookup.get(value);
         }
 
-        public Set<String> values() {
+        public static Set<String> values() {
             return jsonLookup.keySet();
         }
 
@@ -975,7 +975,7 @@ public interface Constants {
             return (GroupSearchScope<T>) jsonLookup.get(value);
         }
 
-        public Set<String> values() {
+        public static Set<String> values() {
             return jsonLookup.keySet();
         }
 
@@ -1030,7 +1030,7 @@ public interface Constants {
             return (ProjectSearchScope<T>) jsonLookup.get(value);
         }
 
-        public Set<String> values() {
+        public static Set<String> values() {
             return jsonLookup.keySet();
         }
 
