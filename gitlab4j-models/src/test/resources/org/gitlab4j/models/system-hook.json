@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "url": "https://gitlab.example.com/hook",
+  "created_at": "2016-10-31T12:32:15.192Z",
+  "push_events": true,
+  "tag_push_events": false,
+  "enable_ssl_verification": true
+}
+

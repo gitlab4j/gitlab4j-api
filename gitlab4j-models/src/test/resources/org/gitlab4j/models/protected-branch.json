@@ -1,0 +1,26 @@
+{
+  "id": 457,
+  "name": "develop",
+  "push_access_levels": [
+    {
+      "id": 123,
+      "access_level": 40,
+      "access_level_description": "Masters"
+    },
+    {
+      "user_id": 1
+    }
+  ],
+  "merge_access_levels": [
+    {
+      "id": 789,
+      "access_level": 40,
+      "access_level_description": "Masters"
+    },
+    {
+      "group_id": 2
+    }
+  ],
+  "allow_force_push": false,
+  "code_owner_approval_required": false
+}
