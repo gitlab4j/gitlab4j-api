@@ -2,11 +2,23 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventReleaseLink {
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("external")
     private Boolean external;
+
+    @JsonProperty("link_type")
     private String linkType;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("url")
     private String url;
 
     public Long getId() {

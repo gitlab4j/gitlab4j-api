@@ -2,10 +2,17 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventExternalStatusCheck {
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("external_url")
     private String externalUrl;
 
     public Long getId() {

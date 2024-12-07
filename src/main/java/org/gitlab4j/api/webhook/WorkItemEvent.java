@@ -13,14 +13,22 @@ public class WorkItemEvent extends AbstractEvent {
     public static final String X_GITLAB_EVENT = "Issue Hook";
     public static final String OBJECT_KIND = "work_item";
 
+    @JsonProperty("user")
     private User user;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("repository")
     private EventRepository repository;
 
-    @JsonProperty(value = "object_attributes")
+    @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
 
+    @JsonProperty("labels")
     private List<EventLabel> labels;
+
+    @JsonProperty("changes")
     private WorkItemChanges changes;
 
     public String getObjectKind() {

@@ -5,18 +5,45 @@ import java.util.Date;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventSnippet {
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("content")
     private String content;
+
+    @JsonProperty("author_id")
     private Long authorId;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("file_name")
     private String fileName;
+
+    @JsonProperty("expires_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date expiresAt;
+
+    @JsonProperty("type")
     private String type;
+
+    @JsonProperty("visibility_level")
     private AccessLevel visibilityLevel;
 
     public Long getId() {

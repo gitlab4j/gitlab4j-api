@@ -4,26 +4,56 @@ import java.util.Date;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventIssue {
 
+    @JsonProperty("assignee_id")
     private Long assigneeId;
+
+    @JsonProperty("author_id")
     private Long authorId;
+
+    @JsonProperty("branch_name")
     private String branchName;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("iid")
     private Long iid;
 
+    @JsonProperty("milestone_id")
     private String milestoneId;
+
+    @JsonProperty("position")
     private Integer position;
+
+    @JsonProperty("project_id")
     private Long projectId;
 
+    @JsonProperty("state")
     private String state;
 
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
 
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("action")
     private String action;
 
     public Long getAssigneeId() {

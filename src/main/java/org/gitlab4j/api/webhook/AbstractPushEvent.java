@@ -3,30 +3,62 @@ package org.gitlab4j.api.webhook;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class AbstractPushEvent {
 
+    @JsonProperty("event_name")
     private String eventName;
 
+    @JsonProperty("after")
     private String after;
+
+    @JsonProperty("before")
     private String before;
+
+    @JsonProperty("ref")
     private String ref;
+
+    @JsonProperty("checkout_sha")
     private String checkoutSha;
 
+    @JsonProperty("user_id")
     private Long userId;
+
+    @JsonProperty("user_name")
     private String userName;
+
+    @JsonProperty("user_username")
     private String userUsername;
+
+    @JsonProperty("user_email")
     private String userEmail;
+
+    @JsonProperty("user_avatar")
     private String userAvatar;
 
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("repository")
     private EventRepository repository;
+
+    @JsonProperty("commits")
     private List<EventCommit> commits;
+
+    @JsonProperty("total_commits_count")
     private Integer totalCommitsCount;
 
+    @JsonProperty("request_url")
     private String requestUrl;
+
+    @JsonProperty("request_query_string")
     private String requestQueryString;
+
+    @JsonProperty("request_secret_token")
     private String requestSecretToken;
 
     public String getEventName() {

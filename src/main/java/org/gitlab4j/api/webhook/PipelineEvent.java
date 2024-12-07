@@ -15,12 +15,19 @@ public class PipelineEvent extends AbstractEvent {
     public static final String X_GITLAB_EVENT = "Pipeline Hook";
     public static final String OBJECT_KIND = "pipeline";
 
-    @JsonProperty(value = "object_attributes")
+    @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
 
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("commit")
     private EventCommit commit;
+
+    @JsonProperty("jobs")
     private List<Job> jobs;
 
     public String getObjectKind() {

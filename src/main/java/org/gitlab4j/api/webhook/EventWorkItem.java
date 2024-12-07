@@ -5,37 +5,104 @@ import java.util.List;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventWorkItem {
 
+    @JsonProperty("author_id")
     private Long authorId;
+
+    @JsonProperty("closed_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date closedAt;
+
+    @JsonProperty("confidential")
     private Boolean confidential;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date createdAt;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("due_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date dueDate;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("iid")
     private Long iid;
+
+    @JsonProperty("last_edited_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date lastEditedAt;
+
+    @JsonProperty("last_edited_by_id")
     private Long lastEditedById;
+
+    @JsonProperty("milestone_id")
     private Long milestoneId;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("relative_position")
     private Long relativePosition;
+
+    @JsonProperty("state_id")
     private Long stateId;
+
+    @JsonProperty("time_estimate")
     private Integer timeEstimate;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date updatedAt;
+
+    @JsonProperty("updated_by_id")
     private Long updatedById;
+
+    @JsonProperty("weight")
     private Integer weight;
+
+    @JsonProperty("health_status")
     private String healthStatus;
+
+    @JsonProperty("type")
     private String type;
+
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("total_time_spent")
     private Integer totalTimeSpent;
+
+    @JsonProperty("time_change")
     private Integer timeChange;
+
+    @JsonProperty("assignee_ids")
     private List<Long> assigneeIds;
+
+    @JsonProperty("assignee_id")
     private Long assigneeId;
+
+    @JsonProperty("labels")
     private List<EventLabel> labels;
+
+    @JsonProperty("state")
     private String state;
+
+    @JsonProperty("severity")
     private String severity;
+
+    @JsonProperty("action")
     private String action;
 
     public Long getAuthorId() {

@@ -2,12 +2,23 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventUser {
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("username")
     private String username;
+
+    @JsonProperty("avatar_url")
     private String avatarUrl;
+
+    @JsonProperty("email")
     private String email;
 
     public Long getId() {

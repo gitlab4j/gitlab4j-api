@@ -10,20 +10,44 @@ import org.gitlab4j.api.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class EventChanges {
 
+    @JsonProperty("author_id")
     private ChangeContainer<Long> authorId;
+
+    @JsonProperty("created_at")
     private ChangeContainer<Date> createdAt;
+
+    @JsonProperty("updated_at")
     private ChangeContainer<Date> updatedAt;
+
+    @JsonProperty("updated_by_id")
     private ChangeContainer<Long> updatedById;
+
+    @JsonProperty("title")
     private ChangeContainer<String> title;
+
+    @JsonProperty("description")
     private ChangeContainer<String> description;
+
+    @JsonProperty("state")
     private ChangeContainer<String> state;
+
+    @JsonProperty("milestone_id")
     private ChangeContainer<Long> milestoneId;
+
+    @JsonProperty("labels")
     private ChangeContainer<List<EventLabel>> labels;
+
+    @JsonProperty("assignees")
     private ChangeContainer<List<Assignee>> assignees;
+
+    @JsonProperty("total_time_spent")
     private ChangeContainer<Integer> totalTimeSpent;
+
+    @JsonProperty("other_properties")
     private Map<String, ChangeContainer<Object>> otherProperties = new LinkedHashMap<>();
 
     public ChangeContainer<Long> getAuthorId() {

@@ -13,16 +13,28 @@ public class IssueEvent extends AbstractEvent {
     public static final String X_GITLAB_EVENT = "Issue Hook";
     public static final String OBJECT_KIND = "issue";
 
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("repository")
     private EventRepository repository;
 
-    @JsonProperty(value = "object_attributes")
+    @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
 
+    @JsonProperty("assignees")
     private List<Assignee> assignees;
+
+    @JsonProperty("assignee")
     private Assignee assignee;
+
+    @JsonProperty("labels")
     private List<EventLabel> labels;
+
+    @JsonProperty("changes")
     private IssueChanges changes;
 
     public String getObjectKind() {

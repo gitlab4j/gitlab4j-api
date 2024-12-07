@@ -2,22 +2,45 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ReleaseEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Release Hook";
     public static final String OBJECT_KIND = "release";
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("created_at")
     private String createdAt;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("released_at")
     private String releasedAt;
+
+    @JsonProperty("tag")
     private String tag;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("action")
     private String action;
+
+    @JsonProperty("assets")
     private EventReleaseAssets assets;
+
+    @JsonProperty("commit")
     private EventCommit commit;
 
     @Override

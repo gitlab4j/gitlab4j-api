@@ -4,17 +4,41 @@ import java.util.Date;
 
 import org.gitlab4j.api.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BuildCommit {
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("sha")
     private String sha;
+
+    @JsonProperty("message")
     private String message;
+
+    @JsonProperty("author_name")
     private String authorName;
+
+    @JsonProperty("author_email")
     private String authorEmail;
+
+    @JsonProperty("author_url")
     private String authorUrl;
+
+    @JsonProperty("status")
     private String status;
+
+    @JsonProperty("duration")
     private Float duration;
+
+    @JsonProperty("started_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date startedAt;
+
+    @JsonProperty("finished_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date finishedAt;
 
     public Long getId() {
