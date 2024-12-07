@@ -1,7 +1,8 @@
 package org.gitlab4j.api.systemhooks;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.models.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RepositoryChange {
 

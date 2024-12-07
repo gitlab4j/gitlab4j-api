@@ -2,9 +2,10 @@ package org.gitlab4j.api.systemhooks;
 
 import java.util.Date;
 
+import org.gitlab4j.models.utils.JacksonJson;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.gitlab4j.models.utils.JacksonJson;
 
 public class GroupSystemHookEvent extends AbstractSystemHookEvent {
     private static final long serialVersionUID = 1L;

@@ -47,7 +47,6 @@ public abstract class EventChanges {
     @JsonProperty("total_time_spent")
     private ChangeContainer<Integer> totalTimeSpent;
 
-    @JsonProperty("other_properties")
     private Map<String, ChangeContainer<Object>> otherProperties = new LinkedHashMap<>();
 
     public ChangeContainer<Long> getAuthorId() {

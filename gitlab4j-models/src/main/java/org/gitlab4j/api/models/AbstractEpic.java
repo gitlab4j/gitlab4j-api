@@ -8,10 +8,7 @@ import java.util.Map;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
 
 public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic<E> implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,21 +35,58 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
         }
     }
 
+    @JsonProperty("parent_iid")
     private Long parentIid;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("state")
     private EpicState state;
+
+    @JsonProperty("web_url")
     private String webUrl;
+
+    @JsonProperty("references")
     private References references;
+
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("labels")
     private List<String> labels;
+
+    @JsonProperty("start_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date startDate;
+
+    @JsonProperty("due_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dueDate;
+
+    @JsonProperty("end_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("closed_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date closedAt;
+
+    @JsonProperty("downvotes")
     private Integer downvotes;
+
+    @JsonProperty("upvotes")
     private Integer upvotes;
+
+    @JsonProperty("color")
     private String color;
 
     @JsonProperty("_links")

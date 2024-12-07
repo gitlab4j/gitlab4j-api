@@ -2,9 +2,10 @@ package org.gitlab4j.api.systemhooks;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.api.webhook.EventProject;
 import org.gitlab4j.models.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
 

@@ -5,19 +5,37 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractUser<U extends AbstractUser<U>> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("avatar_url")
     private String avatarUrl;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("email")
     private String email;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("state")
     private String state;
+
+    @JsonProperty("username")
     private String username;
+
+    @JsonProperty("web_url")
     private String webUrl;
 
     public String getAvatarUrl() {

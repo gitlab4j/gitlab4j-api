@@ -4,15 +4,30 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AbstractMinimalEpic<E extends AbstractMinimalEpic<E>> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("iid")
     private Long iid;
+
+    @JsonProperty("group_id")
     private Long groupId;
+
+    @JsonProperty("parent_id")
     private Long parentId;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("reference")
     private String reference;
+
+    @JsonProperty("url")
     private String url;
 
     public Long getId() {

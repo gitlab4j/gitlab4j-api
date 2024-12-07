@@ -1,9 +1,9 @@
 package org.gitlab4j.api.systemhooks;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.api.webhook.MergeRequestEvent;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MergeRequestSystemHookEvent extends MergeRequestEvent implements SystemHookEvent {
     private static final long serialVersionUID = 1L;

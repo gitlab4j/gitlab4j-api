@@ -4,14 +4,27 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.GitLabForm;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AcceptMergeRequestParams implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("merge_commit_message")
     private String mergeCommitMessage;
+
+    @JsonProperty("merge_when_pipeline_succeeds")
     private Boolean mergeWhenPipelineSucceeds;
+
+    @JsonProperty("sha")
     private String sha;
+
+    @JsonProperty("should_remove_source_branch")
     private Boolean shouldRemoveSourceBranch;
+
+    @JsonProperty("squash")
     private Boolean squash;
+
+    @JsonProperty("squash_commit_message")
     private String squashCommitMessage;
 
     /**

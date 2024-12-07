@@ -5,16 +5,28 @@ import java.io.Serializable;
 import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractGroup<G extends AbstractGroup<G>> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("avatar_url")
     private String avatarUrl;
+
+    @JsonProperty("web_url")
     private String webUrl;
+
+    @JsonProperty("full_name")
     private String fullName;
+
+    @JsonProperty("full_path")
     private String fullPath;
 
     public Long getId() {

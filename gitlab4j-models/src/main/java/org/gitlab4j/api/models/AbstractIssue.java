@@ -7,6 +7,7 @@ import java.util.List;
 import org.gitlab4j.models.Constants.IssueState;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.node.IntNode;
@@ -45,15 +46,38 @@ public abstract class AbstractIssue implements Serializable {
         }
     }
 
+    @JsonProperty("assignee")
     private Assignee assignee;
+
+    @JsonProperty("assignees")
     private List<Assignee> assignees;
+
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("confidential")
     private Boolean confidential;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("closed_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date closedAt;
+
+    @JsonProperty("closed_by")
     private User closedBy;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("due_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dueDate;
 
     @JsonProperty("id")
@@ -65,31 +89,79 @@ public abstract class AbstractIssue implements Serializable {
     @JsonIgnore
     private Long id;
 
+    @JsonProperty("iid")
     private Long iid;
+
+    @JsonProperty("labels")
     private List<String> labels;
+
+    @JsonProperty("milestone")
     private Milestone milestone;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("state")
     private IssueState state;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("user_notes_count")
     private Integer userNotesCount;
+
+    @JsonProperty("web_url")
     private String webUrl;
+
+    @JsonProperty("references")
     private References references;
+
+    @JsonProperty("weight")
     private Integer weight;
+
+    @JsonProperty("discussion_locked")
     private Boolean discussionLocked;
+
+    @JsonProperty("time_stats")
     private TimeStats timeStats;
+
+    @JsonProperty("severity")
     private String severity;
+
+    @JsonProperty("issue_type")
     private String issueType;
+
+    @JsonProperty("epic")
     private IssueEpic epic;
 
+    @JsonProperty("upvotes")
     private Integer upvotes;
+
+    @JsonProperty("downvotes")
     private Integer downvotes;
+
+    @JsonProperty("merge_requests_count")
     private Integer mergeRequestsCount;
+
+    @JsonProperty("has_tasks")
     private Boolean hasTasks;
+
+    @JsonProperty("task_status")
     private String taskStatus;
+
+    @JsonProperty("imported")
     private Boolean imported;
+
+    @JsonProperty("imported_from")
     private String importedFrom;
+
+    @JsonProperty("iteration")
     private Iteration iteration;
+
+    @JsonProperty("task_completion_status")
     private TaskCompletionStatus taskCompletionStatus;
+
+    @JsonProperty("health_status")
     private String healthStatus;
 
     public Assignee getAssignee() {
