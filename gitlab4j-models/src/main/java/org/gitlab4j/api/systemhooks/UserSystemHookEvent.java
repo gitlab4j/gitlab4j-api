@@ -2,6 +2,8 @@ package org.gitlab4j.api.systemhooks;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.models.utils.JacksonJson;
 
 public class UserSystemHookEvent extends AbstractSystemHookEvent {
@@ -12,14 +14,33 @@ public class UserSystemHookEvent extends AbstractSystemHookEvent {
     public static final String USER_RENAME_EVENT = "user_rename";
     public static final String USER_FAILED_LOGIN_EVENT = "user_failed_login";
 
+    @JsonProperty("event_name")
     private String eventName;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("email")
     private String email;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("username")
     private String username;
+
+    @JsonProperty("user_id")
     private Long userId;
+
+    @JsonProperty("old_username")
     private String oldUsername;
+
+    @JsonProperty("state")
     private String state;
 
     @Override

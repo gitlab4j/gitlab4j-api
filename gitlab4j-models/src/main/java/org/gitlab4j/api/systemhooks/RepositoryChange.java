@@ -1,11 +1,17 @@
 package org.gitlab4j.api.systemhooks;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.models.utils.JacksonJson;
 
 public class RepositoryChange {
 
+    @JsonProperty("after")
     private String after;
+
+    @JsonProperty("before")
     private String before;
+
+    @JsonProperty("ref")
     private String ref;
 
     public String getAfter() {

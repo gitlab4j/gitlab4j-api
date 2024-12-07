@@ -2,6 +2,7 @@ package org.gitlab4j.api.systemhooks;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.api.webhook.EventProject;
 import org.gitlab4j.models.utils.JacksonJson;
 
@@ -9,16 +10,31 @@ public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
 
     public static final String REPOSITORY_UPDATE_EVENT = "repository_update";
 
+    @JsonProperty("event_name")
     private String eventName;
+
+    @JsonProperty("user_id")
     private Long userId;
+
+    @JsonProperty("user_name")
     private String userName;
+
+    @JsonProperty("user_email")
     private String userEmail;
+
+    @JsonProperty("user_avatar")
     private String userAvatar;
 
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("project")
     private EventProject project;
 
+    @JsonProperty("changes")
     private List<RepositoryChange> changes;
+
+    @JsonProperty("refs")
     private List<String> refs;
 
     @Override

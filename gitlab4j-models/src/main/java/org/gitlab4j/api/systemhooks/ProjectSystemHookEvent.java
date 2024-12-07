@@ -2,6 +2,8 @@ package org.gitlab4j.api.systemhooks;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.models.utils.JacksonJson;
 
@@ -14,16 +16,39 @@ public class ProjectSystemHookEvent extends AbstractSystemHookEvent {
     public static final String PROJECT_TRANSFER_EVENT = "project_transfer";
     public static final String PROJECT_UPDATE_EVENT = "project_update";
 
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("event_name")
     private String eventName;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("owner_email")
     private String ownerEmail;
+
+    @JsonProperty("owner_name")
     private String ownerName;
+
+    @JsonProperty("path")
     private String path;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("path_with_namespace")
     private String pathWithNamespace;
+
+    @JsonProperty("project_visibility")
     private Visibility projectVisibility;
+
+    @JsonProperty("old_path_with_namespace")
     private String oldPathWithNamespace;
 
     public Date getCreatedAt() {
