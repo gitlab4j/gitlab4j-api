@@ -6,6 +6,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class NotificationSettings implements Serializable {
@@ -41,17 +42,40 @@ public class NotificationSettings implements Serializable {
     public static class Events implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        @JsonProperty("new_note")
         private Boolean newNote;
+
+        @JsonProperty("new_issue")
         private Boolean newIssue;
+
+        @JsonProperty("reopen_issue")
         private Boolean reopenIssue;
+
+        @JsonProperty("close_issue")
         private Boolean closeIssue;
+
+        @JsonProperty("reassign_issue")
         private Boolean reassignIssue;
+
+        @JsonProperty("new_merge_request")
         private Boolean newMergeRequest;
+
+        @JsonProperty("reopen_merge_request")
         private Boolean reopenMergeRequest;
+
+        @JsonProperty("close_merge_request")
         private Boolean closeMergeRequest;
+
+        @JsonProperty("reassign_merge_request")
         private Boolean reassignMergeRequest;
+
+        @JsonProperty("merge_merge_request")
         private Boolean mergeMergeRequest;
+
+        @JsonProperty("failed_pipeline")
         private Boolean failedPipeline;
+
+        @JsonProperty("success_pipeline")
         private Boolean successPipeline;
 
         public Boolean getNewNote() {
@@ -156,8 +180,13 @@ public class NotificationSettings implements Serializable {
         }
     }
 
+    @JsonProperty("level")
     private Level level;
+
+    @JsonProperty("email")
     private String email;
+
+    @JsonProperty("events")
     private Events events;
 
     public Level getLevel() {

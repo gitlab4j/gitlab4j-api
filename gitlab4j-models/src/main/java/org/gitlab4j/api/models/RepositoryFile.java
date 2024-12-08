@@ -7,19 +7,39 @@ import org.gitlab4j.models.Constants.Encoding;
 import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RepositoryFile implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("file_name")
     private String fileName; // file name only, Ex. class.rb
+
+    @JsonProperty("file_path")
     private String filePath; // full path to file. Ex. lib/class.rb
+
+    @JsonProperty("size")
     private Integer size;
+
+    @JsonProperty("encoding")
     private Encoding encoding;
+
+    @JsonProperty("content")
     private String content;
+
+    @JsonProperty("content_sha256")
     private String contentSha256;
+
+    @JsonProperty("ref")
     private String ref;
+
+    @JsonProperty("blob_id")
     private String blobId;
+
+    @JsonProperty("commit_id")
     private String commitId;
+
+    @JsonProperty("last_commit_id")
     private String lastCommitId;
 
     public String getFileName() {

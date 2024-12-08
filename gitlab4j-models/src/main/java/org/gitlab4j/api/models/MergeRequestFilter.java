@@ -19,9 +19,7 @@ import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
 
 /**
  * This class is used to filter merge requests when getting lists of them.
@@ -29,33 +27,80 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class MergeRequestFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("group_id")
     private Long groupId;
+
+    @JsonProperty("iids")
     private List<Long> iids;
+
+    @JsonProperty("state")
     private MergeRequestState state;
+
+    @JsonProperty("order_by")
     private MergeRequestOrderBy orderBy;
+
+    @JsonProperty("sort")
     private SortOrder sort;
+
+    @JsonProperty("milestone")
     private String milestone;
+
+    @JsonProperty("simple_view")
     private Boolean simpleView;
+
+    @JsonProperty("labels")
     private List<String> labels;
+
+    @JsonProperty("created_after")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAfter;
+
+    @JsonProperty("created_before")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdBefore;
+
+    @JsonProperty("updated_after")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAfter;
+
+    @JsonProperty("updated_before")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedBefore;
+
+    @JsonProperty("scope")
     private MergeRequestScope scope;
 
     /**
      * Filter MR by created by the given user id. Combine with scope=all or scope=assigned_to_me
      */
+    @JsonProperty("author_id")
     private Long authorId;
 
+    @JsonProperty("assignee_id")
     private Long assigneeId;
+
+    @JsonProperty("my_reaction_emoji")
     private String myReactionEmoji;
+
+    @JsonProperty("source_branch")
     private String sourceBranch;
+
+    @JsonProperty("target_branch")
     private String targetBranch;
+
+    @JsonProperty("search")
     private String search;
+
+    @JsonProperty("in")
     private MergeRequestSearchIn in;
+
+    @JsonProperty("wip")
     private Boolean wip;
+
+    @JsonProperty("not")
     private Map<MergeRequestField, Object> not;
 
     public enum MergeRequestField {

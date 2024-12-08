@@ -5,11 +5,27 @@ import java.util.Map;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class HealthCheckItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The status of the health check.
+     */
+    @JsonProperty("status")
     private HealthCheckStatus status;
+
+    /**
+     * A map of labels associated with the health check.
+     */
+    @JsonProperty("labels")
     private Map<String, String> labels;
+
+    /**
+     * The message associated with the health check status.
+     */
+    @JsonProperty("message")
     private String message;
 
     public HealthCheckStatus getStatus() {

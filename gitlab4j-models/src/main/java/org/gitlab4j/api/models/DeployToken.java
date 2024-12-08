@@ -7,14 +7,48 @@ import java.util.List;
 import org.gitlab4j.models.Constants;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DeployToken implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the deploy token.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The name of the deploy token.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The username associated with the deploy token.
+     */
+    @JsonProperty("username")
     private String username;
+
+    /**
+     * The expiration date of the deploy token.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("expires_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date expiresAt;
+
+    /**
+     * The list of scopes associated with the deploy token.
+     */
+    @JsonProperty("scopes")
     private List<Constants.DeployTokenScope> scopes;
+
+    /**
+     * The token string.
+     */
+    @JsonProperty("token")
     private String token;
 
     public Long getId() {

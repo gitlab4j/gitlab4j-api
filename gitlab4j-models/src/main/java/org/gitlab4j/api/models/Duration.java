@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.gitlab4j.models.utils.DurationUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
@@ -13,7 +14,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class Duration implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The duration in seconds.
+     */
+    @JsonProperty("seconds")
     private int seconds;
+
+    /**
+     * The string representation of the duration.
+     */
+    @JsonProperty("duration_string")
     private String durationString;
 
     /**

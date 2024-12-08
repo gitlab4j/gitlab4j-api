@@ -5,14 +5,22 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class SharedGroup implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("group_id")
     private Long groupId;
+
+    @JsonProperty("group_name")
     private String groupName;
+
+    @JsonProperty("group_full_path")
     private String groupFullPath;
+
+    @JsonProperty("group_access_level")
     private AccessLevel groupAccessLevel;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)

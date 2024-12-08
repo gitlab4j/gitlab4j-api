@@ -12,7 +12,10 @@ public class References implements Serializable {
     @JsonProperty("short")
     private String _short;
 
+    @JsonProperty("relative")
     private String relative;
+
+    @JsonProperty("full")
     private String full;
 
     public String getShort() {

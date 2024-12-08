@@ -5,11 +5,27 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Discussion implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier for the discussion.
+     */
+    @JsonProperty("id")
     private String id;
+
+    /**
+     * Indicates if the discussion is an individual note.
+     */
+    @JsonProperty("individual_note")
     private Boolean individualNote;
+
+    /**
+     * The list of notes associated with the discussion.
+     */
+    @JsonProperty("notes")
     private List<Note> notes;
 
     public String getId() {

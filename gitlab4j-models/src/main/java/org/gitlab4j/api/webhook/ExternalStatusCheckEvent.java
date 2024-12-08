@@ -7,18 +7,39 @@ import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.webhook.MergeRequestEvent.ObjectAttributes;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ExternalStatusCheckEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("object_kind")
     private String objectKind;
+
+    @JsonProperty("event_type")
     private String eventType;
+
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("repository")
     private EventRepository repository;
+
+    @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
+
+    @JsonProperty("labels")
     private List<EventLabel> labels;
+
+    @JsonProperty("changes")
     private MergeRequestChanges changes;
+
+    @JsonProperty("assignees")
     private List<Assignee> assignees;
+
+    @JsonProperty("external_approval_rule")
     private EventExternalStatusCheck externalApprovalRule;
 
     public String getObjectKind() {

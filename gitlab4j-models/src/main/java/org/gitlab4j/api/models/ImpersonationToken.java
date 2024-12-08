@@ -8,6 +8,8 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ImpersonationToken implements Serializable {
@@ -42,16 +44,76 @@ public class ImpersonationToken implements Serializable {
         }
     }
 
+    /**
+     * Indicates if the token is active.
+     */
+    @JsonProperty("active")
     private Boolean active;
+
+    /**
+     * The token string.
+     */
+    @JsonProperty("token")
     private String token;
+
+    /**
+     * List of scopes associated with the token.
+     */
+    @JsonProperty("scopes")
     private List<Scope> scopes;
+
+    /**
+     * The user ID associated with the token.
+     */
+    @JsonProperty("user_id")
     private Long userId;
+
+    /**
+     * Indicates if the token has been revoked.
+     */
+    @JsonProperty("revoked")
     private Boolean revoked;
+
+    /**
+     * The name of the token.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The unique identifier of the token.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The creation date of the token.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    /**
+     * The last used date of the token.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("last_used_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date lastUsedAt;
+
+    /**
+     * Indicates if the token is used for impersonation.
+     */
+    @JsonProperty("impersonation")
     private Boolean impersonation;
+
+    /**
+     * The expiration date of the token.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("expires_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date expiresAt;
 
     public Boolean getActive() {

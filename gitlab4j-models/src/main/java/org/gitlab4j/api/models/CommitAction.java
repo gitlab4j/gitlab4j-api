@@ -10,6 +10,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class CommitAction implements Serializable {
@@ -40,12 +41,46 @@ public class CommitAction implements Serializable {
         }
     }
 
+    /**
+     * The action associated with the commit (e.g., add, modify, delete).
+     */
+    @JsonProperty("action")
     private Action action;
+
+    /**
+     * The file path associated with the commit action.
+     */
+    @JsonProperty("file_path")
     private String filePath;
+
+    /**
+     * The previous file path before the commit action.
+     */
+    @JsonProperty("previous_path")
     private String previousPath;
+
+    /**
+     * The content of the file associated with the commit action.
+     */
+    @JsonProperty("content")
     private String content;
+
+    /**
+     * The encoding of the file associated with the commit action.
+     */
+    @JsonProperty("encoding")
     private Encoding encoding;
+
+    /**
+     * The last commit ID associated with the commit action.
+     */
+    @JsonProperty("last_commit_id")
     private String lastCommitId;
+
+    /**
+     * Indicates if the file mode should be executed in the commit action.
+     */
+    @JsonProperty("execute_filemode")
     private Boolean executeFilemode;
 
     public Action getAction() {

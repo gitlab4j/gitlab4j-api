@@ -10,19 +10,54 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Diff implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The mode of file A in the diff.
+     */
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonProperty("a_mode")
     private String a_mode;
 
+    /**
+     * The mode of file B in the diff.
+     */
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonProperty("b_mode")
     private String b_mode;
 
+    /**
+     * Indicates if the file was deleted.
+     */
+    @JsonProperty("deleted_file")
     private Boolean deletedFile;
+
+    /**
+     * The diff content of the file.
+     */
+    @JsonProperty("diff")
     private String diff;
+
+    /**
+     * Indicates if the file is a new file.
+     */
+    @JsonProperty("new_file")
     private Boolean newFile;
+
+    /**
+     * The new path of the file.
+     */
+    @JsonProperty("new_path")
     private String newPath;
+
+    /**
+     * The old path of the file.
+     */
+    @JsonProperty("old_path")
     private String oldPath;
+
+    /**
+     * Indicates if the file was renamed.
+     */
+    @JsonProperty("renamed_file")
     private Boolean renamedFile;
 
     @JsonInclude(JsonInclude.Include.ALWAYS)

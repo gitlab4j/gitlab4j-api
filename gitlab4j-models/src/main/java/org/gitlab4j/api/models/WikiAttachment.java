@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WikiAttachment implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -35,9 +37,16 @@ public class WikiAttachment implements Serializable {
         }
     }
 
+    @JsonProperty("file_name")
     private String fileName;
+
+    @JsonProperty("file_path")
     private String filePath;
+
+    @JsonProperty("branch")
     private String branch;
+
+    @JsonProperty("link")
     private Link link;
 
     public String getFileName() {

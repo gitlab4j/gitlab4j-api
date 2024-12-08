@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TreeItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -17,10 +19,19 @@ public class TreeItem implements Serializable {
         }
     }
 
+    @JsonProperty("id")
     private String id;
+
+    @JsonProperty("mode")
     private String mode;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("path")
     private String path;
+
+    @JsonProperty("type")
     private Type type;
 
     public String getId() {

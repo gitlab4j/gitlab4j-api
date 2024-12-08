@@ -1,12 +1,18 @@
 package org.gitlab4j.api.systemhooks;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class AbstractSystemHookEvent implements SystemHookEvent {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("request_url")
     private String requestUrl;
+
+    @JsonProperty("request_query_string")
     private String requestQueryString;
+
+    @JsonProperty("request_secret_token")
     private String requestSecretToken;
 
     @Override

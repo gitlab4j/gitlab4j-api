@@ -2,12 +2,23 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ProjectLicense {
 
+    @JsonProperty("key")
     private String key;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("nickname")
     private String nickname;
+
+    @JsonProperty("html_url")
     private String htmlUrl;
+
+    @JsonProperty("source_url")
     private String sourceUrl;
 
     public String getKey() {

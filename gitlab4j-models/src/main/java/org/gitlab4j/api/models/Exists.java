@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Exists implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("exists")
     private Boolean exists;
 
     public Boolean getExists() {
