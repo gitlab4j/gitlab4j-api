@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TaskCompletionStatus implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("count")
     private Integer count;
+
+    @JsonProperty("completed_count")
     private Integer completedCount;
 
     public Integer getCount() {

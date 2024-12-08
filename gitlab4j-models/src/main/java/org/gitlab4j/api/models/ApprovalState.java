@@ -5,10 +5,21 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ApprovalState implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Indicates whether the approval rules have been overwritten.
+     */
+    @JsonProperty("approval_rules_overwritten")
     private Boolean approvalRulesOverwritten;
+
+    /**
+     * The list of approval rules associated with the approval state.
+     */
+    @JsonProperty("rules")
     private List<ApprovalRule> rules;
 
     public Boolean getApprovalRulesOverwritten() {

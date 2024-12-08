@@ -4,19 +4,75 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AuditEventDetail implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The change associated with the audit event.
+     */
+    @JsonProperty("change")
     private String change;
+
+    /**
+     * The previous value of the change.
+     */
+    @JsonProperty("from")
     private String from;
+
+    /**
+     * The new value after the change.
+     */
+    @JsonProperty("to")
     private String to;
+
+    /**
+     * The added value in the audit event.
+     */
+    @JsonProperty("add")
     private String add;
+
+    /**
+     * The custom message associated with the audit event.
+     */
+    @JsonProperty("custom_message")
     private String customMessage;
+
+    /**
+     * The name of the author making the change.
+     */
+    @JsonProperty("author_name")
     private String authorName;
+
+    /**
+     * The ID of the target of the audit event.
+     */
+    @JsonProperty("target_id")
     private Object targetId;
+
+    /**
+     * The type of the target of the audit event.
+     */
+    @JsonProperty("target_type")
     private String targetType;
+
+    /**
+     * The details of the target of the audit event.
+     */
+    @JsonProperty("target_details")
     private String targetDetails;
+
+    /**
+     * The IP address associated with the audit event.
+     */
+    @JsonProperty("ip_address")
     private String ipAddress;
+
+    /**
+     * The path of the entity in the audit event.
+     */
+    @JsonProperty("entity_path")
     private String entityPath;
 
     public String getCustomMessage() {

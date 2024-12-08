@@ -11,21 +11,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public abstract class AbstractGroup<G extends AbstractGroup<G>> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the group.
+     */
     @JsonProperty("id")
     private Long id;
 
+    /**
+     * The name of the group.
+     */
     @JsonProperty("name")
     private String name;
 
+    /**
+     * The avatar URL associated with the group.
+     */
     @JsonProperty("avatar_url")
     private String avatarUrl;
 
+    /**
+     * The web URL of the group.
+     */
     @JsonProperty("web_url")
     private String webUrl;
 
+    /**
+     * The full name of the group.
+     */
     @JsonProperty("full_name")
     private String fullName;
 
+    /**
+     * The full path of the group.
+     */
     @JsonProperty("full_path")
     private String fullPath;
 

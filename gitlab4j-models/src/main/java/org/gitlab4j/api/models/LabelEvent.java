@@ -6,6 +6,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class LabelEvent implements Serializable {
@@ -36,12 +37,25 @@ public class LabelEvent implements Serializable {
         }
     }
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("user")
     private User user;
+
+    @JsonProperty("created_at")
     private String createdAt;
+
+    @JsonProperty("resource_type")
     private ResourceType resourceType;
+
+    @JsonProperty("resource_id")
     private Long resourceId;
+
+    @JsonProperty("label")
     private Label label;
+
+    @JsonProperty("action")
     private String action;
 
     public Long getId() {

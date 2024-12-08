@@ -9,10 +9,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EpicIssue extends AbstractIssue {
 
+    /**
+     * The links associated with the epic issue.
+     */
     @JsonProperty("_links")
     private Map<String, String> links;
 
+    /**
+     * The unique identifier of the epic issue.
+     */
+    @JsonProperty("epic_issue_id")
     private Long epicIssueId;
+
+    /**
+     * The relative position of the epic issue in relation to other issues.
+     */
+    @JsonProperty("relative_position")
     private Integer relativePosition;
 
     public Map<String, String> getLinks() {

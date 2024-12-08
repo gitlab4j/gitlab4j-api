@@ -5,16 +5,27 @@ import java.util.List;
 
 import org.gitlab4j.models.GitLabForm;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *  This class is used to filter Groups when getting lists of groups for a specified project.
  */
 public class ProjectGroupsFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("search")
     private String search;
+
+    @JsonProperty("shared_min_access_level")
     private AccessLevel sharedMinAccessLevel;
+
+    @JsonProperty("shared_visible_only")
     private Boolean sharedVisibleOnly;
+
+    @JsonProperty("skip_groups")
     private List<Long> skipGroups;
+
+    @JsonProperty("with_shared")
     private Boolean withShared;
 
     /**

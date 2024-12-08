@@ -4,11 +4,18 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Link implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Integer id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("url")
     private String url;
     /**
      * @deprecated deprecated in GitLab 15.9, will be removed in GitLab 16.0.

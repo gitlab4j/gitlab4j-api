@@ -7,23 +7,45 @@ import java.util.List;
 import org.gitlab4j.models.Constants;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class PersonalAccessToken implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("user_id")
     private Long userId;
+
+    @JsonProperty("scopes")
     private List<Constants.ProjectAccessTokenScope> scopes;
+
+    @JsonProperty("name")
     private String name;
 
+    @JsonProperty("expires_at")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expiresAt;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("active")
     private Boolean active;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("revoked")
     private Boolean revoked;
+
+    @JsonProperty("last_used_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date lastUsedAt;
+
+    @JsonProperty("token")
     private String token;
 
     public Long getUserId() {

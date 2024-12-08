@@ -7,10 +7,7 @@ import java.util.Map;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
 
 public class ExportStatus implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -48,15 +45,59 @@ public class ExportStatus implements Serializable {
         }
     }
 
+    /**
+     * The unique identifier of the export status.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The description of the export status.
+     */
+    @JsonProperty("description")
     private String description;
+
+    /**
+     * The name of the export status.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The name of the export status with the namespace.
+     */
+    @JsonProperty("name_with_namespace")
     private String nameWithNamespace;
+
+    /**
+     * The path of the export status.
+     */
+    @JsonProperty("path")
     private String path;
+
+    /**
+     * The path of the export status with the namespace.
+     */
+    @JsonProperty("path_with_namespace")
     private String pathWithNamespace;
+
+    /**
+     * The creation date of the export status.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    /**
+     * The export status (e.g., in progress, completed, etc.).
+     */
+    @JsonProperty("export_status")
     private Status exportStatus;
 
+    /**
+     * The links related to the export status.
+     */
     @JsonProperty("_links")
     private Map<String, String> links;
 

@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class JobAttribute implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("key")
     private String key;
+
+    @JsonProperty("value")
     private String value;
 
     public JobAttribute(String key, String value) {

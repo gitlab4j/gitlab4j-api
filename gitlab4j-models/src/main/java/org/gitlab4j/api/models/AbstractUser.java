@@ -13,28 +13,53 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public abstract class AbstractUser<U extends AbstractUser<U>> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The avatar URL associated with the user.
+     */
     @JsonProperty("avatar_url")
     private String avatarUrl;
 
+    /**
+     * The date when the user was created.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
 
+    /**
+     * The email address associated with the user.
+     */
     @JsonProperty("email")
     private String email;
 
+    /**
+     * The unique identifier of the user.
+     */
     @JsonProperty("id")
     private Long id;
 
+    /**
+     * The name of the user.
+     */
     @JsonProperty("name")
     private String name;
 
+    /**
+     * The state of the user (e.g., active, inactive).
+     */
     @JsonProperty("state")
     private String state;
 
+    /**
+     * The username associated with the user.
+     */
     @JsonProperty("username")
     private String username;
 
+    /**
+     * The web URL of the user's profile.
+     */
     @JsonProperty("web_url")
     private String webUrl;
 

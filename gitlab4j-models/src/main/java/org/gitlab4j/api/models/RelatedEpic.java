@@ -4,15 +4,34 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RelatedEpic extends AbstractEpic<RelatedEpic> {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("start_date_is_fixed")
     private Boolean startDateIsFixed;
+
+    @JsonProperty("due_date_is_fixed")
     private Boolean dueDateIsFixed;
+
+    @JsonProperty("due_date_from_inherited_source")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date dueDateFromInheritedSource;
+
+    @JsonProperty("related_epic_link_id")
     private Long relatedEpicLinkId;
+
+    @JsonProperty("link_type")
     private LinkType linkType;
+
+    @JsonProperty("link_created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date linkCreatedAt;
+
+    @JsonProperty("link_updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date linkUpdatedAt;
 
     public Boolean getStartDateIsFixed() {

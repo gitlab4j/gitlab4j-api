@@ -2,12 +2,23 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ReleaseLinkParams {
 
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("tag_name")
     private String tagName;
+
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("filepath")
     private String filepath;
+
+    @JsonProperty("link_type")
     private String linkType;
 
     public String getName() {

@@ -5,28 +5,54 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Milestone implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("description")
     private String description;
 
+    @JsonProperty("start_date")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
 
+    @JsonProperty("due_date")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("iid")
     private Long iid;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("group_id")
     private Long groupId;
+
+    @JsonProperty("state")
     private String state;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("expired")
     private Boolean expired;
+
+    @JsonProperty("web_url")
     private String webUrl;
 
     public Date getCreatedAt() {

@@ -28,20 +28,48 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Snippet implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("expires_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date expiresAt;
+
+    @JsonProperty("file_name")
     private String fileName;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("updated_at")
     private String updatedAt;
+
+    @JsonProperty("web_url")
     private String webUrl;
+
+    @JsonProperty("content")
     private String content;
+
+    @JsonProperty("raw_url")
     private String rawUrl;
+
+    @JsonProperty("visibility")
     private Visibility visibility;
+
+    @JsonProperty("description")
     private String description;
 
     public Snippet() {}

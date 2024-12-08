@@ -46,121 +46,239 @@ public abstract class AbstractIssue implements Serializable {
         }
     }
 
+    /**
+     * The assignee associated with the issue.
+     */
     @JsonProperty("assignee")
     private Assignee assignee;
 
+    /**
+     * The list of assignees associated with the issue.
+     */
     @JsonProperty("assignees")
     private List<Assignee> assignees;
 
+    /**
+     * The author of the issue.
+     */
     @JsonProperty("author")
     private Author author;
 
+    /**
+     * Indicates whether the issue is confidential.
+     */
     @JsonProperty("confidential")
     private Boolean confidential;
 
+    /**
+     * The date when the issue was created.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
 
+    /**
+     * The date when the issue was last updated.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
     @JsonProperty("updated_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
 
+    /**
+     * The date when the issue was closed.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
     @JsonProperty("closed_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date closedAt;
 
+    /**
+     * The user who closed the issue.
+     */
     @JsonProperty("closed_by")
     private User closedBy;
 
+    /**
+     * The description of the issue.
+     */
     @JsonProperty("description")
     private String description;
 
+    /**
+     * The due date of the issue.
+     * Expected in format "yyyy-MM-dd".
+     */
     @JsonProperty("due_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dueDate;
 
+    /**
+     * The actual ID of the issue.
+     */
     @JsonProperty("id")
     private ValueNode actualId;
 
+    /**
+     * The external ID of the issue (ignored during serialization).
+     */
     @JsonIgnore
     private String externalId;
 
+    /**
+     * The internal ID of the issue (ignored during serialization).
+     */
     @JsonIgnore
     private Long id;
 
+    /**
+     * The internal identifier for the issue.
+     */
     @JsonProperty("iid")
     private Long iid;
 
+    /**
+     * The labels associated with the issue.
+     */
     @JsonProperty("labels")
     private List<String> labels;
 
+    /**
+     * The milestone associated with the issue.
+     */
     @JsonProperty("milestone")
     private Milestone milestone;
 
+    /**
+     * The project ID associated with the issue.
+     */
     @JsonProperty("project_id")
     private Long projectId;
 
+    /**
+     * The state of the issue (e.g., open, closed).
+     */
     @JsonProperty("state")
     private IssueState state;
 
+    /**
+     * The title of the issue.
+     */
     @JsonProperty("title")
     private String title;
 
+    /**
+     * The count of user notes on the issue.
+     */
     @JsonProperty("user_notes_count")
     private Integer userNotesCount;
 
+    /**
+     * The web URL of the issue.
+     */
     @JsonProperty("web_url")
     private String webUrl;
 
+    /**
+     * The references associated with the issue.
+     */
     @JsonProperty("references")
     private References references;
 
+    /**
+     * The weight of the issue.
+     */
     @JsonProperty("weight")
     private Integer weight;
 
+    /**
+     * Indicates whether discussions on the issue are locked.
+     */
     @JsonProperty("discussion_locked")
     private Boolean discussionLocked;
 
+    /**
+     * The time statistics associated with the issue.
+     */
     @JsonProperty("time_stats")
     private TimeStats timeStats;
 
+    /**
+     * The severity of the issue.
+     */
     @JsonProperty("severity")
     private String severity;
 
+    /**
+     * The type of the issue.
+     */
     @JsonProperty("issue_type")
     private String issueType;
 
+    /**
+     * The epic associated with the issue.
+     */
     @JsonProperty("epic")
     private IssueEpic epic;
 
+    /**
+     * The upvotes for the issue.
+     */
     @JsonProperty("upvotes")
     private Integer upvotes;
 
+    /**
+     * The downvotes for the issue.
+     */
     @JsonProperty("downvotes")
     private Integer downvotes;
 
+    /**
+     * The number of merge requests associated with the issue.
+     */
     @JsonProperty("merge_requests_count")
     private Integer mergeRequestsCount;
 
+    /**
+     * Indicates whether the issue has tasks.
+     */
     @JsonProperty("has_tasks")
     private Boolean hasTasks;
 
+    /**
+     * The task status associated with the issue.
+     */
     @JsonProperty("task_status")
     private String taskStatus;
 
+    /**
+     * Indicates whether the issue has been imported.
+     */
     @JsonProperty("imported")
     private Boolean imported;
 
+    /**
+     * The source from which the issue was imported.
+     */
     @JsonProperty("imported_from")
     private String importedFrom;
 
+    /**
+     * The iteration associated with the issue.
+     */
     @JsonProperty("iteration")
     private Iteration iteration;
 
+    /**
+     * The task completion status associated with the issue.
+     */
     @JsonProperty("task_completion_status")
     private TaskCompletionStatus taskCompletionStatus;
 
+    /**
+     * The health status associated with the issue.
+     */
     @JsonProperty("health_status")
     private String healthStatus;
 

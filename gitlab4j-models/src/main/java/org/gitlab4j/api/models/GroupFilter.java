@@ -9,22 +9,78 @@ import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *  This class is used to filter Groups when getting lists of groups.
  */
 public class GroupFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * List of group IDs to skip in the filter.
+     */
+    @JsonProperty("skip_groups")
     private List<Integer> skipGroups;
+
+    /**
+     * Indicates if all available groups should be included in the filter.
+     */
+    @JsonProperty("all_available")
     private Boolean allAvailable;
+
+    /**
+     * A search string to filter groups by.
+     */
+    @JsonProperty("search")
     private String search;
+
+    /**
+     * The ordering criteria for the groups.
+     */
+    @JsonProperty("order_by")
     private GroupOrderBy orderBy;
+
+    /**
+     * The sorting order for the groups.
+     */
+    @JsonProperty("sort")
     private SortOrder sort;
+
+    /**
+     * Indicates if statistics should be included for the groups.
+     */
+    @JsonProperty("statistics")
     private Boolean statistics;
+
+    /**
+     * Indicates if custom attributes should be included in the filter.
+     */
+    @JsonProperty("with_custom_attributes")
     private Boolean withCustomAttributes;
+
+    /**
+     * Indicates if the current user owns the groups.
+     */
+    @JsonProperty("owned")
     private Boolean owned;
+
+    /**
+     * The access level required for the groups.
+     */
+    @JsonProperty("access_level")
     private AccessLevel accessLevel;
+
+    /**
+     * Indicates if only top-level groups should be included in the filter.
+     */
+    @JsonProperty("top_level_only")
     private Boolean topLevelOnly;
+
+    /**
+     * A list of custom attributes to filter by.
+     */
+    @JsonProperty("custom_attributes_filter")
     private List<CustomAttribute> customAttributesFilter = new ArrayList<>();
 
     /**

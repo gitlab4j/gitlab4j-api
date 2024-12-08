@@ -7,24 +7,90 @@ import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified group.
  */
 public class GroupProjectsFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Indicates if the project is archived.
+     */
+    @JsonProperty("archived")
     private Boolean archived;
+
+    /**
+     * The visibility level of the project.
+     */
+    @JsonProperty("visibility")
     private Visibility visibility;
+
+    /**
+     * The ordering criteria for the project.
+     */
+    @JsonProperty("order_by")
     private ProjectOrderBy orderBy;
+
+    /**
+     * The sorting order for the project.
+     */
+    @JsonProperty("sort")
     private SortOrder sort;
+
+    /**
+     * A search string to filter projects by.
+     */
+    @JsonProperty("search")
     private String search;
+
+    /**
+     * Indicates if the project filter is simplified.
+     */
+    @JsonProperty("simple")
     private Boolean simple;
+
+    /**
+     * Indicates if the current user owns the project.
+     */
+    @JsonProperty("owned")
     private Boolean owned;
+
+    /**
+     * Indicates if the project is starred by the current user.
+     */
+    @JsonProperty("starred")
     private Boolean starred;
+
+    /**
+     * Indicates if the project has custom attributes.
+     */
+    @JsonProperty("with_custom_attributes")
     private Boolean withCustomAttributes;
+
+    /**
+     * Indicates if the project has issues enabled.
+     */
+    @JsonProperty("with_issues_enabled")
     private Boolean withIssuesEnabled;
+
+    /**
+     * Indicates if the project has merge requests enabled.
+     */
+    @JsonProperty("with_merge_requests_enabled")
     private Boolean withMergeRequestsEnabled;
+
+    /**
+     * Indicates if the project should include shared projects.
+     */
+    @JsonProperty("with_shared")
     private Boolean withShared;
+
+    /**
+     * Indicates if the project includes subgroups.
+     */
+    @JsonProperty("include_subgroups")
     private Boolean includeSubGroups;
 
     /**

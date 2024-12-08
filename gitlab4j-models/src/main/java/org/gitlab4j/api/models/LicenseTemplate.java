@@ -5,19 +5,42 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LicenseTemplate implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("key")
     private String key;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("nickname")
     private String nickname;
+
+    @JsonProperty("featured")
     private boolean featured;
+
+    @JsonProperty("html_url")
     private String htmlUrl;
+
+    @JsonProperty("source_url")
     private String sourceUrl;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("conditions")
     private List<String> conditions;
+
+    @JsonProperty("permissions")
     private List<String> permissions;
+
+    @JsonProperty("limitations")
     private List<String> limitations;
+
+    @JsonProperty("content")
     private String content;
 
     public String getKey() {

@@ -9,24 +9,45 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AbstractMinimalEpic<E extends AbstractMinimalEpic<E>> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the epic.
+     */
     @JsonProperty("id")
     private Long id;
 
+    /**
+     * The internal identifier of the epic.
+     */
     @JsonProperty("iid")
     private Long iid;
 
+    /**
+     * The ID of the group associated with the epic.
+     */
     @JsonProperty("group_id")
     private Long groupId;
 
+    /**
+     * The ID of the parent epic.
+     */
     @JsonProperty("parent_id")
     private Long parentId;
 
+    /**
+     * The title of the epic.
+     */
     @JsonProperty("title")
     private String title;
 
+    /**
+     * The reference of the epic.
+     */
     @JsonProperty("reference")
     private String reference;
 
+    /**
+     * The URL of the epic.
+     */
     @JsonProperty("url")
     private String url;
 

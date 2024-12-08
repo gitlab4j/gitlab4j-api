@@ -8,9 +8,7 @@ import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.ISO8601;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
 
 public class IterationFilter implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -67,31 +65,39 @@ public class IterationFilter implements Serializable {
     /**
      * Return opened, upcoming, current, closed, or all iterations.
      */
+    @JsonProperty("state")
     private IterationFilterState state;
 
     /**
      * Return only iterations with a title matching the provided string.
      */
+    @JsonProperty("search")
     private String search;
 
     /**
      * Fields in which fuzzy search should be performed with the query given in the argument search.
      */
+    @JsonProperty("in")
     private IterationFilterIn in;
 
     /**
      * Include iterations from parent group and its ancestors. Defaults to true.
      */
+    @JsonProperty("include_ancestors")
     private Boolean includeAncestors;
 
     /**
      * Return iterations updated after the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
      */
+    @JsonProperty("updated_after")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAfter;
 
     /**
      * Return iterations updated before the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
      */
+    @JsonProperty("updated_before")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedBefore;
 
     public IterationFilterState getState() {

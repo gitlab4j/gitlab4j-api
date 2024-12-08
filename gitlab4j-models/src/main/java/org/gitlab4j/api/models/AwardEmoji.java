@@ -7,6 +7,8 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class AwardEmoji implements Serializable {
@@ -37,12 +39,50 @@ public class AwardEmoji implements Serializable {
         }
     }
 
+    /**
+     * The unique identifier of the award emoji.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The name of the award emoji.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The user associated with the award emoji.
+     */
+    @JsonProperty("user")
     private User user;
+
+    /**
+     * The date when the award emoji was created.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    /**
+     * The date when the award emoji was last updated.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    /**
+     * The ID of the awardable entity.
+     */
+    @JsonProperty("awardable_id")
     private Long awardableId;
+
+    /**
+     * The type of the awardable entity.
+     */
+    @JsonProperty("awardable_type")
     private AwardableType awardableType;
 
     public Long getId() {

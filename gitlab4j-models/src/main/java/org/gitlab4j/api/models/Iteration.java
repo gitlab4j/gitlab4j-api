@@ -6,6 +6,8 @@ import java.util.Date;
 import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Iteration implements Serializable {
@@ -43,17 +45,84 @@ public class Iteration implements Serializable {
         }
     }
 
+    /**
+     * The unique identifier of the iteration.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The internal identifier of the iteration.
+     */
+    @JsonProperty("iid")
     private Long iid;
+
+    /**
+     * The sequence number of the iteration.
+     */
+    @JsonProperty("sequence")
     private Long sequence;
+
+    /**
+     * The group ID associated with the iteration.
+     */
+    @JsonProperty("group_id")
     private Long groupId;
+
+    /**
+     * The title of the iteration.
+     */
+    @JsonProperty("title")
     private String title;
+
+    /**
+     * The description of the iteration.
+     */
+    @JsonProperty("description")
     private String description;
+
+    /**
+     * The current state of the iteration.
+     */
+    @JsonProperty("state")
     private IterationState state;
+
+    /**
+     * The creation date of the iteration.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    /**
+     * The last updated date of the iteration.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    /**
+     * The start date of the iteration.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("start_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date startDate;
+
+    /**
+     * The due date of the iteration.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("due_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date dueDate;
+
+    /**
+     * The web URL for the iteration.
+     */
+    @JsonProperty("web_url")
     private String webUrl;
 
     public Long getId() {

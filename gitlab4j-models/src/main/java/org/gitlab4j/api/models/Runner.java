@@ -6,20 +6,35 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Runner implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
-    private String description;
-    private Boolean active;
-    private Boolean isShared;
-    private String name;
-    private Boolean online;
-    private RunnerStatus status;
-    private String ipAddress;
 
+    @JsonProperty("description")
+    private String description;
+
+    @JsonProperty("active")
+    private Boolean active;
+
+    @JsonProperty("is_shared")
+    private Boolean isShared;
+
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("online")
+    private Boolean online;
+
+    @JsonProperty("status")
+    private RunnerStatus status;
+
+    @JsonProperty("ip_address")
+    private String ipAddress;
     /**
      * Enum to use for RunnersApi filtering on status.
      */

@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ProjectAccess implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("access_level")
     private AccessLevel accessLevel;
+
+    @JsonProperty("notification_level")
     private int notificationLevel;
 
     public AccessLevel getAccessLevel() {

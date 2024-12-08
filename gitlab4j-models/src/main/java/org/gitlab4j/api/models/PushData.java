@@ -3,14 +3,29 @@ package org.gitlab4j.api.models;
 import org.gitlab4j.models.Constants.ActionType;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PushData {
 
+    @JsonProperty("commit_count")
     private Integer commitCount;
+
+    @JsonProperty("action")
     private ActionType action;
+
+    @JsonProperty("ref_type")
     private String refType;
+
+    @JsonProperty("commit_from")
     private String commitFrom;
+
+    @JsonProperty("commit_to")
     private String commitTo;
+
+    @JsonProperty("ref")
     private String ref;
+
+    @JsonProperty("commit_title")
     private String commitTitle;
 
     public Integer getCommitCount() {

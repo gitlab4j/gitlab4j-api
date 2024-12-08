@@ -6,12 +6,22 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class CommitRef implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The type of the reference (e.g., branch, tag).
+     */
+    @JsonProperty("type")
     private RefType type;
+
+    /**
+     * The name of the reference (e.g., branch name, tag name).
+     */
+    @JsonProperty("name")
     private String name;
 
     public enum RefType {

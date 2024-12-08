@@ -5,16 +5,30 @@ import java.io.Serializable;
 import org.gitlab4j.models.GitLabForm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ProjectApprovalsConfig implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("approvals_before_merge")
     private Integer approvalsBeforeMerge;
+
+    @JsonProperty("reset_approvals_on_push")
     private Boolean resetApprovalsOnPush;
+
+    @JsonProperty("selective_code_owner_removals")
     private Boolean selectiveCodeOwnerRemovals;
+
+    @JsonProperty("disable_overriding_approvers_per_merge_request")
     private Boolean disableOverridingApproversPerMergeRequest;
+
+    @JsonProperty("merge_requests_author_approval")
     private Boolean mergeRequestsAuthorApproval;
+
+    @JsonProperty("merge_requests_disable_committers_approval")
     private Boolean mergeRequestsDisableCommittersApproval;
+
+    @JsonProperty("require_password_to_approve")
     private Boolean requirePasswordToApprove;
 
     public Integer getApprovalsBeforeMerge() {

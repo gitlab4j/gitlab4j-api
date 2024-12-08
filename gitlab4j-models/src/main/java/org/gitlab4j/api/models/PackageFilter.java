@@ -7,19 +7,36 @@ import org.gitlab4j.models.Constants.PackageStatus;
 import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified group.
  */
 public class PackageFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("exclude_subgroups")
     private Boolean excludeSubgroups;
+
+    @JsonProperty("order_by")
     private PackageOrderBy orderBy;
+
+    @JsonProperty("sort")
     private SortOrder sort;
+
+    @JsonProperty("package_type")
     private PackageType packageType;
+
+    @JsonProperty("package_name")
     private String packageName;
+
+    @JsonProperty("include_versionless")
     private Boolean includeVersionless;
+
+    @JsonProperty("status")
     private PackageStatus status;
+
+    @JsonProperty("package_version")
     private String packageVersion;
 
     /**

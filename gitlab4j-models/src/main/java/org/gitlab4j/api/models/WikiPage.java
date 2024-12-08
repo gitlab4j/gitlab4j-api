@@ -27,12 +27,21 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WikiPage implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("content")
     private String content;
+
+    @JsonProperty("slug")
     private String slug;
+
+    @JsonProperty("format")
     private String format;
 
     public WikiPage() {}

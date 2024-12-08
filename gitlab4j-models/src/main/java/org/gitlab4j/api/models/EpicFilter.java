@@ -13,6 +13,8 @@ import org.gitlab4j.models.utils.ISO8601;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
@@ -21,19 +23,94 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class EpicFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The author ID for filtering epic issues.
+     */
+    @JsonProperty("author_id")
     private Long authorId;
+
+    /**
+     * The username of the author for filtering epic issues.
+     */
+    @JsonProperty("author_username")
     private String authorUsername;
+
+    /**
+     * The labels associated with epic issues.
+     */
+    @JsonProperty("labels")
     private String labels;
+
+    /**
+     * The ordering criteria for the epics.
+     */
+    @JsonProperty("order_by")
     private EpicOrderBy orderBy;
+
+    /**
+     * The sorting order for the epics.
+     */
+    @JsonProperty("sort")
     private SortOrder sort;
+
+    /**
+     * The search string to filter epics.
+     */
+    @JsonProperty("search")
     private String search;
+
+    /**
+     * The state of the epic.
+     */
+    @JsonProperty("state")
     private EpicState state;
+
+    /**
+     * The date after which the epic was created.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("created_after")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAfter;
+
+    /**
+     * The date after which the epic was updated.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("updated_after")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAfter;
+
+    /**
+     * The date before which the epic was updated.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("updated_before")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedBefore;
+
+    /**
+     * Indicates if ancestor groups should be included in the filter.
+     */
+    @JsonProperty("include_ancestor_groups")
     private Boolean includeAncestorGroups;
+
+    /**
+     * Indicates if descendant groups should be included in the filter.
+     */
+    @JsonProperty("include_descendant_groups")
     private Boolean includeDescendantGroups;
+
+    /**
+     * The emoji reaction by the authenticated user to filter epics.
+     */
+    @JsonProperty("my_reaction_emoji")
     private String myReactionEmoji;
+
+    /**
+     * A map of epic fields and values to exclude from the filter.
+     */
+    @JsonProperty("not")
     private Map<EpicField, Object> not;
 
     public enum EpicField {
