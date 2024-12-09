@@ -78,9 +78,15 @@ public class TestGitLabApiBeans {
     }
 
     @Test
-    public void testBoard() throws Exception {
+    public void testProjectBoard() throws Exception {
         List<Board> boards = unmarshalResourceList(Board.class, "project-board.json");
         assertTrue(compareJson(boards, "project-board.json"));
+    }
+
+    @Test
+    public void testGroupBoard() throws Exception {
+        List<Board> boards = unmarshalResourceList(Board.class, "group-board.json");
+        assertTrue(compareJson(boards, "group-board.json"));
     }
 
     @Test

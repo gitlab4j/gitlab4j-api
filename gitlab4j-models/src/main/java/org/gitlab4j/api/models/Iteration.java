@@ -7,6 +7,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Iteration implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -52,8 +53,13 @@ public class Iteration implements Serializable {
     private IterationState state;
     private Date createdAt;
     private Date updatedAt;
+
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
+
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
+
     private String webUrl;
 
     public Long getId() {
