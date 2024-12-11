@@ -134,7 +134,7 @@ public class EventMergeRequest {
     private Long mergeUserId;
 
     @JsonProperty("deleted_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date deletedAt;
 
     @JsonProperty("in_progress_merge_commit_sha")
@@ -144,7 +144,7 @@ public class EventMergeRequest {
     private Integer lockVersion;
 
     @JsonProperty("last_edited_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date lastEditedAt;
 
     @JsonProperty("last_edited_by_id")
