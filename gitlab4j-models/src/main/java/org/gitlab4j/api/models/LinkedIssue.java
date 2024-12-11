@@ -4,11 +4,23 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LinkedIssue extends AbstractIssue {
 
+    @JsonProperty("issue_link_id")
     private Long issueLinkId;
+
+    @JsonProperty("link_type")
     private LinkType linkType;
+
+    @JsonProperty("link_created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date linkCreatedAt;
+
+    @JsonProperty("link_updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date linkUpdatedAt;
 
     public Long getIssueLinkId() {

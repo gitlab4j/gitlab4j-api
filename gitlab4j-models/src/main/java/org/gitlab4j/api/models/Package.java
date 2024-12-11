@@ -5,13 +5,26 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Package implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("version")
     private String version;
+
+    @JsonProperty("package_type")
     private PackageType packageType;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
 
     public Long getId() {

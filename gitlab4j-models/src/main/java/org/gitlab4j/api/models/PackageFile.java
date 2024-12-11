@@ -5,16 +5,35 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PackageFile implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("package_id")
     private Long packageId;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("file_name")
     private String fileName;
+
+    @JsonProperty("size")
     private Long size;
+
+    @JsonProperty("file_md5")
     private String fileMd5;
+
+    @JsonProperty("file_sha1")
     private String fileSha1;
+
+    @JsonProperty("file_sha256")
     private String fileSha256;
 
     public Long getId() {

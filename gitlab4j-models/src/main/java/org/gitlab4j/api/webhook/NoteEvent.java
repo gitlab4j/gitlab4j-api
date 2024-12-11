@@ -7,6 +7,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class NoteEvent extends AbstractEvent {
@@ -15,14 +16,31 @@ public class NoteEvent extends AbstractEvent {
     public static final String X_GITLAB_EVENT = "Note Hook";
     public static final String OBJECT_KIND = "note";
 
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("repository")
     private EventRepository repository;
+
+    @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
+
+    @JsonProperty("commit")
     private EventCommit commit;
+
+    @JsonProperty("issue")
     private EventIssue issue;
+
+    @JsonProperty("merge_request")
     private EventMergeRequest mergeRequest;
+
+    @JsonProperty("snippet")
     private EventSnippet snippet;
 
     @Override
@@ -133,21 +151,52 @@ public class NoteEvent extends AbstractEvent {
 
     public static class ObjectAttributes {
 
+        @JsonProperty("id")
         private Long id;
+
+        @JsonProperty("note")
         private String note;
+
+        @JsonProperty("discussion_id")
         private String discussionId;
+
+        @JsonProperty("type")
         private String type;
+
+        @JsonProperty("noteable_type")
         private NoteableType noteableType;
+
+        @JsonProperty("author_id")
         private Long authorId;
+
+        @JsonProperty("created_at")
         private Date createdAt;
+
+        @JsonProperty("updated_at")
         private Date updatedAt;
+
+        @JsonProperty("project_id")
         private Long projectId;
+
+        @JsonProperty("attachment")
         private String attachment;
+
+        @JsonProperty("line_code")
         private String lineCode;
+
+        @JsonProperty("commit_id")
         private String commitId;
+
+        @JsonProperty("noteable_id")
         private Long noteableId;
+
+        @JsonProperty("system")
         private Boolean system;
+
+        @JsonProperty("st_diff")
         private Diff stDiff;
+
+        @JsonProperty("url")
         private String url;
 
         public Long getId() {

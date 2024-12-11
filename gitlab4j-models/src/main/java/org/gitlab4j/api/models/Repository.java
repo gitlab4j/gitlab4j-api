@@ -4,12 +4,21 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Repository implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("homepage")
     private String homepage;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("url")
     private String url;
 
     public String getDescription() {

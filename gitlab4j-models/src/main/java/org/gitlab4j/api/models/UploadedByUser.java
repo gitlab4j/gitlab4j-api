@@ -4,11 +4,18 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UploadedByUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("username")
     private String username;
+
+    @JsonProperty("name")
     private String name;
 
     public Long getId() {

@@ -6,6 +6,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Position implements Serializable {
@@ -34,19 +35,40 @@ public class Position implements Serializable {
         }
     }
 
+    @JsonProperty("base_sha")
     private String baseSha;
+
+    @JsonProperty("start_sha")
     private String startSha;
+
+    @JsonProperty("head_sha")
     private String headSha;
+
+    @JsonProperty("old_path")
     private String oldPath;
+
+    @JsonProperty("new_path")
     private String newPath;
+
+    @JsonProperty("position_type")
     private PositionType positionType;
 
+    @JsonProperty("old_line")
     private Integer oldLine;
+
+    @JsonProperty("new_line")
     private Integer newLine;
 
+    @JsonProperty("width")
     private Integer width;
+
+    @JsonProperty("height")
     private Integer height;
+
+    @JsonProperty("x")
     private Double x;
+
+    @JsonProperty("y")
     private Double y;
 
     public String getBaseSha() {

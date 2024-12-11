@@ -5,13 +5,18 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ProtectedTag implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static class CreateAccessLevel implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        @JsonProperty("access_level")
         private AccessLevel access_level;
+
+        @JsonProperty("access_level_description")
         private String accessLevelDescription;
 
         public AccessLevel getAccess_level() {
@@ -31,7 +36,10 @@ public class ProtectedTag implements Serializable {
         }
     }
 
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("create_access_levels")
     private List<CreateAccessLevel> createAccessLevels;
 
     public String getName() {

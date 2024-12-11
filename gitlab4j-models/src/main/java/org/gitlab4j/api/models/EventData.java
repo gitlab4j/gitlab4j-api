@@ -5,16 +5,57 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventData implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The state of the data after the event.
+     */
+    @JsonProperty("after")
     private String after;
+
+    /**
+     * The state of the data before the event.
+     */
+    @JsonProperty("before")
     private String before;
+
+    /**
+     * The list of commits associated with the event.
+     */
+    @JsonProperty("commits")
     private List<Commit> commits;
+
+    /**
+     * The reference for the event (e.g., a branch or tag).
+     */
+    @JsonProperty("ref")
     private String ref;
+
+    /**
+     * The repository related to the event.
+     */
+    @JsonProperty("repository")
     private Repository repository;
+
+    /**
+     * The total number of commits involved in the event.
+     */
+    @JsonProperty("total_commits_count")
     private Integer totalCommitsCount;
+
+    /**
+     * The user ID associated with the event.
+     */
+    @JsonProperty("user_id")
     private Long userId;
+
+    /**
+     * The user name associated with the event.
+     */
+    @JsonProperty("user_name")
     private String userName;
 
     public String getAfter() {

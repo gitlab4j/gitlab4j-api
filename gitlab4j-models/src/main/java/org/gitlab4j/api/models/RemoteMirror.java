@@ -5,18 +5,43 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RemoteMirror implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("enabled")
     private Boolean enabled;
+
+    @JsonProperty("last_error")
     private String lastError;
+
+    @JsonProperty("last_successful_update_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date lastSuccessfulUpdateAt;
+
+    @JsonProperty("last_update_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date lastUpdateAt;
+
+    @JsonProperty("last_update_started_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date lastUpdateStartedAt;
+
+    @JsonProperty("only_protected_branches")
     private Boolean onlyProtectedBranches;
+
+    @JsonProperty("keep_divergent_refs")
     private Boolean keepDivergentRefs;
+
+    @JsonProperty("update_status")
     private String updateStatus;
+
+    @JsonProperty("url")
     private String url;
 
     public Long getId() {

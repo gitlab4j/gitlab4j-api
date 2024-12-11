@@ -5,16 +5,35 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MergeRequestVersion implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("head_commit_sha")
     private String headCommitSha;
+
+    @JsonProperty("base_commit_sha")
     private String baseCommitSha;
+
+    @JsonProperty("start_commit_sha")
     private String startCommitSha;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("merge_request_id")
     private Long mergeRequestId;
+
+    @JsonProperty("state")
     private String state;
+
+    @JsonProperty("real_size")
     private String realSize;
 
     public Long getId() {

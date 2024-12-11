@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RepositoryFileResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("file_path")
     private String filePath; // full path to file. Ex. lib/class.rb
+
+    @JsonProperty("branch")
     private String branch;
 
     public String getFilePath() {

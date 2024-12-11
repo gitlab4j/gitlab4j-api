@@ -2,12 +2,33 @@ package org.gitlab4j.api.models;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Application implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the application.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The application ID.
+     */
+    @JsonProperty("application_id")
     private String applicationId;
+
+    /**
+     * The name of the application.
+     */
+    @JsonProperty("application_name")
     private String applicationName;
+
+    /**
+     * The callback URL associated with the application.
+     */
+    @JsonProperty("callback_url")
     private String callbackUrl;
 
     public Long getId() {

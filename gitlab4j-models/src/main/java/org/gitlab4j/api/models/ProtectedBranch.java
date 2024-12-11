@@ -5,15 +5,30 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ProtectedBranch implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("push_access_levels")
     private List<BranchAccessLevel> pushAccessLevels;
+
+    @JsonProperty("merge_access_levels")
     private List<BranchAccessLevel> mergeAccessLevels;
+
+    @JsonProperty("unprotect_access_levels")
     private List<BranchAccessLevel> unprotectAccessLevels;
+
+    @JsonProperty("code_owner_approval_required")
     private Boolean codeOwnerApprovalRequired;
+
+    @JsonProperty("allow_force_push")
     private Boolean allowForcePush;
 
     public Long getId() {

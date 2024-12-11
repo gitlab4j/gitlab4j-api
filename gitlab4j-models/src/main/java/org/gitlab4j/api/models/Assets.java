@@ -6,6 +6,8 @@ import java.util.List;
 import org.gitlab4j.models.Constants.ArchiveFormat;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * This class is part of the Release class model.
  */
@@ -15,7 +17,16 @@ public class Assets implements Serializable {
     public static class Source implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        /**
+         * The format of the archive.
+         */
+        @JsonProperty("format")
         private ArchiveFormat format;
+
+        /**
+         * The URL of the source.
+         */
+        @JsonProperty("url")
         private String url;
 
         public ArchiveFormat getFormat() {
@@ -43,9 +54,28 @@ public class Assets implements Serializable {
     public static class Link implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        /**
+         * The unique identifier of the link.
+         */
+        @JsonProperty("id")
         private Long id;
+
+        /**
+         * The name of the link.
+         */
+        @JsonProperty("name")
         private String name;
+
+        /**
+         * The URL associated with the link.
+         */
+        @JsonProperty("url")
         private String url;
+
+        /**
+         * Indicates if the link is external.
+         */
+        @JsonProperty("external")
         private Boolean external;
 
         public Long getId() {
@@ -86,9 +116,28 @@ public class Assets implements Serializable {
         }
     }
 
+    /**
+     * The count of assets.
+     */
+    @JsonProperty("count")
     private Integer count;
+
+    /**
+     * The list of sources associated with the assets.
+     */
+    @JsonProperty("sources")
     private List<Source> sources;
+
+    /**
+     * The list of links associated with the assets.
+     */
+    @JsonProperty("links")
     private List<Link> links;
+
+    /**
+     * The file path of the evidence associated with the assets.
+     */
+    @JsonProperty("evidence_file_path")
     private String evidenceFilePath;
 
     public Integer getCount() {

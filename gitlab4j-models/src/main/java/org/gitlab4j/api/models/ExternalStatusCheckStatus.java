@@ -6,14 +6,34 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ExternalStatusCheckStatus implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier for the status check.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The name associated with the status check.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The external URL associated with the status check.
+     */
+    @JsonProperty("external_url")
     private String externalUrl;
+
+    /**
+     * The status of the external status check.
+     */
+    @JsonProperty("status")
     private Status status;
 
     public enum Status {

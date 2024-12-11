@@ -5,14 +5,48 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AuditEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the audit event.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The ID of the author making the event.
+     */
+    @JsonProperty("author_id")
     private Long authorId;
+
+    /**
+     * The ID of the entity involved in the event.
+     */
+    @JsonProperty("entity_id")
     private Long entityId;
+
+    /**
+     * The type of the entity involved in the event.
+     */
+    @JsonProperty("entity_type")
     private String entityType;
+
+    /**
+     * The details associated with the audit event.
+     */
+    @JsonProperty("details")
     private AuditEventDetail details;
+
+    /**
+     * The creation date of the audit event.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
 
     public Long getId() {

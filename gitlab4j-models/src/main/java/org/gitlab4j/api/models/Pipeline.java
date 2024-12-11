@@ -5,30 +5,81 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Pipeline implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("iid")
     private Long iid;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("status")
     private PipelineStatus status;
+
+    @JsonProperty("source")
     private String source;
+
+    @JsonProperty("ref")
     private String ref;
+
+    @JsonProperty("sha")
     private String sha;
+
+    @JsonProperty("before_sha")
     private String beforeSha;
+
+    @JsonProperty("tag")
     private Boolean tag;
+
+    @JsonProperty("yaml_errors")
     private String yamlErrors;
+
+    @JsonProperty("user")
     private User user;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("started_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date startedAt;
+
+    @JsonProperty("finished_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date finishedAt;
+
+    @JsonProperty("committed_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date committedAt;
+
+    @JsonProperty("coverage")
     private String coverage;
+
+    @JsonProperty("duration")
     private Integer duration;
+
+    @JsonProperty("queued_duration")
     private Float queuedDuration;
+
+    @JsonProperty("web_url")
     private String webUrl;
+
+    @JsonProperty("detailed_status")
     private DetailedStatus detailedStatus;
+
+    @JsonProperty("name")
     private String name;
 
     public Long getId() {

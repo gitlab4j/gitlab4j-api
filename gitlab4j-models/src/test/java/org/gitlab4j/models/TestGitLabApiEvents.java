@@ -69,7 +69,7 @@ public class TestGitLabApiEvents {
         WorkItemEvent workItemEvent = unmarshalResource(WorkItemEvent.class, "workitem-event.json");
         assertTrue(compareJson(workItemEvent, "workitem-event.json"));
 
-        ChangeContainer<String> change = workItemEvent.getChanges().get("health_status");
+        ChangeContainer<String> change = workItemEvent.getChanges().getHealthStatus();
         assertNotNull(change);
         assertEquals("on_track", change.getPrevious());
         assertEquals("needs_attention", change.getCurrent());

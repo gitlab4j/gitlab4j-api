@@ -4,9 +4,14 @@ import java.util.List;
 
 import org.gitlab4j.api.models.Reviewer;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MergeRequestChanges extends EventChanges {
 
+    @JsonProperty("merge_status")
     private ChangeContainer<String> mergeStatus;
+
+    @JsonProperty("reviewers")
     private ChangeContainer<List<Reviewer>> reviewers;
 
     public ChangeContainer<String> getMergeStatus() {

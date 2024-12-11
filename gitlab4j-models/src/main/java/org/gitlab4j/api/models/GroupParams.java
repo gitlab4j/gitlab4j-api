@@ -7,6 +7,8 @@ import org.gitlab4j.models.Constants.ProjectCreationLevel;
 import org.gitlab4j.models.Constants.SubgroupCreationLevel;
 import org.gitlab4j.models.GitLabForm;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * This class is utilized by the <code>org.gitlab4j.api.GroupApi#createGroup(GroupParams)</code>
  * and <code>org.gitlab4j.api.GroupApi#updateGroup(Object, GroupParams)</code> methods to set
@@ -15,26 +17,130 @@ import org.gitlab4j.models.GitLabForm;
 public class GroupParams implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The name of the project.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The path of the project.
+     */
+    @JsonProperty("path")
     private String path;
+
+    /**
+     * The description of the project.
+     */
+    @JsonProperty("description")
     private String description;
+
+    /**
+     * The visibility of the project.
+     */
+    @JsonProperty("visibility")
     private String visibility;
+
+    /**
+     * Indicates if sharing with group is locked.
+     */
+    @JsonProperty("share_with_group_lock")
     private Boolean shareWithGroupLock;
+
+    /**
+     * Indicates if two-factor authentication is required.
+     */
+    @JsonProperty("require_two_factor_authentication")
     private Boolean requireTwoFactorAuthentication;
+
+    /**
+     * The grace period for two-factor authentication in days.
+     */
+    @JsonProperty("two_factor_grace_period")
     private Integer twoFactorGracePeriod;
+
+    /**
+     * The project creation level for the project.
+     */
+    @JsonProperty("project_creation_level")
     private ProjectCreationLevel projectCreationLevel;
+
+    /**
+     * Indicates if Auto DevOps is enabled.
+     */
+    @JsonProperty("auto_devops_enabled")
     private Boolean autoDevopsEnabled;
+
+    /**
+     * The subgroup creation level for the project.
+     */
+    @JsonProperty("subgroup_creation_level")
     private SubgroupCreationLevel subgroupCreationLevel;
+
+    /**
+     * Indicates if emails are disabled for the project.
+     */
+    @JsonProperty("emails_disabled")
     private Boolean emailsDisabled;
+
+    /**
+     * Indicates if large file storage (LFS) is enabled for the project.
+     */
+    @JsonProperty("lfs_enabled")
     private Boolean lfsEnabled;
+
+    /**
+     * Indicates if access requests are enabled for the project.
+     */
+    @JsonProperty("request_access_enabled")
     private Boolean requestAccessEnabled;
+
+    /**
+     * The parent project ID of the project.
+     */
+    @JsonProperty("parent_id")
     private Long parentId;
+
+    /**
+     * The shared runners minutes limit for the project.
+     */
+    @JsonProperty("shared_runners_minutes_limit")
     private Integer sharedRunnersMinutesLimit;
+
+    /**
+     * The extra shared runners minutes limit for the project.
+     */
+    @JsonProperty("extra_shared_runners_minutes_limit")
     private Integer extraSharedRunnersMinutesLimit;
+
+    /**
+     * The default branch protection level for the project.
+     */
+    @JsonProperty("default_branch_protection")
     private DefaultBranchProtectionLevel defaultBranchProtection;
+
+    /**
+     * Indicates if sharing groups outside the hierarchy is prevented.
+     */
+    @JsonProperty("prevent_sharing_groups_outside_hierarchy")
     private Boolean preventSharingGroupsOutsideHierarchy;
+
+    /**
+     * Indicates if forking outside the group is prevented.
+     */
+    @JsonProperty("prevent_forking_outside_group")
     private Boolean preventForkingOutsideGroup;
+
+    /**
+     * Indicates if membership lock is enabled.
+     */
+    @JsonProperty("membership_lock")
     private Boolean membershipLock;
+
+    /**
+     * The ID of the file template project.
+     */
+    @JsonProperty("file_template_project_id")
     private Long fileTemplateProjectId;
 
     /**

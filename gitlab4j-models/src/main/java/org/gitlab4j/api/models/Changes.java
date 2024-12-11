@@ -10,19 +10,54 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Changes implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The mode of file A in the change.
+     */
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonProperty("a_mode")
     private String a_mode;
 
+    /**
+     * The mode of file B in the change.
+     */
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonProperty("b_mode")
     private String b_mode;
 
+    /**
+     * Indicates if the file was deleted in the change.
+     */
+    @JsonProperty("deleted_file")
     private Boolean deletedFile;
+
+    /**
+     * The diff content of the file in the change.
+     */
+    @JsonProperty("diff")
     private String diff;
+
+    /**
+     * Indicates if the file is a new file in the change.
+     */
+    @JsonProperty("new_file")
     private Boolean newFile;
+
+    /**
+     * The new path of the file in the change.
+     */
+    @JsonProperty("new_path")
     private String newPath;
+
+    /**
+     * The old path of the file in the change.
+     */
+    @JsonProperty("old_path")
     private String oldPath;
+
+    /**
+     * Indicates if the file was renamed in the change.
+     */
+    @JsonProperty("renamed_file")
     private Boolean renamedFile;
 
     @JsonInclude(JsonInclude.Include.ALWAYS)

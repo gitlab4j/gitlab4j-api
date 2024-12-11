@@ -5,10 +5,21 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Blame implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The commit associated with the blame.
+     */
+    @JsonProperty("commit")
     private Commit commit;
+
+    /**
+     * The list of lines associated with the blame.
+     */
+    @JsonProperty("lines")
     private List<String> lines;
 
     public Commit getCommit() {

@@ -5,22 +5,100 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CommitStatus implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Indicates if failure is allowed for this commit status.
+     */
+    @JsonProperty("allow_failure")
     private Boolean allowFailure;
+
+    /**
+     * The author of the commit status.
+     */
+    @JsonProperty("author")
     private Author author;
+
+    /**
+     * The coverage percentage associated with the commit status.
+     */
+    @JsonProperty("coverage")
     private Float coverage;
+
+    /**
+     * The creation date of the commit status.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    /**
+     * The description of the commit status.
+     */
+    @JsonProperty("description")
     private String description;
+
+    /**
+     * The date the commit status was finished.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("finished_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date finishedAt;
+
+    /**
+     * The unique identifier of the commit status.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The name of the commit status.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The pipeline ID associated with the commit status.
+     */
+    @JsonProperty("pipeline_id")
     private Long pipelineId;
+
+    /**
+     * The reference of the commit status (e.g., branch name).
+     */
+    @JsonProperty("ref")
     private String ref;
+
+    /**
+     * The SHA associated with the commit status.
+     */
+    @JsonProperty("sha")
     private String sha;
+
+    /**
+     * The date the commit status was started.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("started_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date startedAt;
+
+    /**
+     * The status of the commit (e.g., success, failed).
+     */
+    @JsonProperty("status")
     private String status;
+
+    /**
+     * The target URL associated with the commit status.
+     */
+    @JsonProperty("target_url")
     private String targetUrl;
 
     public Boolean isAllowFailure() {
