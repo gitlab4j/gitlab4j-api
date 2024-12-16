@@ -136,7 +136,7 @@ public class WikisApi extends AbstractApi {
     public Pager<WikiPage> getPages(Object projectIdOrPath, Boolean withContent, int itemsPerPage)
             throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm();
-        if(withContent != null) {
+        if (withContent != null) {
             formData.withParam("with_content", (withContent.booleanValue() ? 1 : 0));
         }
         return (new Pager<WikiPage>(
