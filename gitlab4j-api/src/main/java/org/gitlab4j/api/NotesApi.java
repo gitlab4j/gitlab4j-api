@@ -455,7 +455,7 @@ public class NotesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Note createMergeRequestNote(
-            Object projectIdOrPath, Long mergeRequestIid, String body, Date createdAt, boolean internal)
+            Object projectIdOrPath, Long mergeRequestIid, String body, Date createdAt, Boolean internal)
             throws GitLabApiException {
         GitLabApiForm formData =
                 new GitLabApiForm().withParam("body", body, true).withParam("internal", internal);
