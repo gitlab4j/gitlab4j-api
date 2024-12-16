@@ -57,6 +57,10 @@ subprojects {
     tasks.named('test') {
         useJUnitPlatform()
     }
+
+    tasks.named("javadoc") {
+        inputs.files(tasks.getByPath("jandex").outputs.files)
+    }
 }
 
 nexusPublishing {
