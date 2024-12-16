@@ -904,6 +904,8 @@ public class RepositoryApi extends AbstractApi {
      * Compare branches, tags or commits. This can be accessed without authentication
      * if the repository is publicly accessible.
      *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/repository/compare</code></pre>
+     *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param from the commit SHA or branch name
      * @param to the commit SHA or branch name
@@ -912,7 +914,7 @@ public class RepositoryApi extends AbstractApi {
      * @return a CompareResults containing the results of the comparison
      * @throws GitLabApiException if any exception occurs
      */
-    public CompareResults compare(Object projectIdOrPath, String from, String to, boolean straight)
+    public CompareResults compare(Object projectIdOrPath, String from, String to, Boolean straight)
             throws GitLabApiException {
         Form formData = new GitLabApiForm()
                 .withParam("from", from, true)

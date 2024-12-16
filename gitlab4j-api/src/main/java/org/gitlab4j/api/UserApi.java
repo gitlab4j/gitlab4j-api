@@ -545,7 +545,7 @@ public class UserApi extends AbstractApi {
      * @param projectsLimit the maximum number of project
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 6.0, replaced by {@link #createUser(User, CharSequence, boolean)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link #createUser(User, CharSequence, Boolean)}
      */
     @Deprecated
     public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
@@ -586,7 +586,7 @@ public class UserApi extends AbstractApi {
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
      */
-    public User createUser(User user, CharSequence password, boolean resetPassword) throws GitLabApiException {
+    public User createUser(User user, CharSequence password, Boolean resetPassword) throws GitLabApiException {
         Form formData = userToForm(user, null, password, resetPassword, true);
         Response response = post(Response.Status.CREATED, formData, "users");
         return (response.readEntity(User.class));
