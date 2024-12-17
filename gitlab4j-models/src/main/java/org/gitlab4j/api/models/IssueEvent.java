@@ -6,6 +6,8 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class IssueEvent implements Serializable {
@@ -34,11 +36,42 @@ public class IssueEvent implements Serializable {
         }
     }
 
+    /**
+     * The unique identifier of the resource.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The user associated with the resource.
+     */
+    @JsonProperty("user")
     private User user;
+
+    /**
+     * The creation date of the resource.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private String createdAt;
+
+    /**
+     * The type of the resource.
+     */
+    @JsonProperty("resource_type")
     private ResourceType resourceType;
+
+    /**
+     * The ID of the resource.
+     */
+    @JsonProperty("resource_id")
     private Long resourceId;
+
+    /**
+     * The state of the resource.
+     */
+    @JsonProperty("state")
     private String state;
 
     public Long getId() {

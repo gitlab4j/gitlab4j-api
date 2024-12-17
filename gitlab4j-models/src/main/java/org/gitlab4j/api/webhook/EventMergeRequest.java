@@ -8,66 +8,182 @@ import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventMergeRequest {
 
+    @JsonProperty("assignee_id")
     private Long assigneeId;
+
+    @JsonProperty("author_id")
     private Long authorId;
+
+    @JsonProperty("branch_name")
     private String branchName;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date createdAt;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("iid")
     private Long iid;
+
+    @JsonProperty("merge_commit_sha")
     private String mergeCommitSha;
+
+    @JsonProperty("merge_status")
     private String mergeStatus;
+
+    @JsonProperty("detailed_merge_status")
     private String detailedMergeStatus;
+
+    @JsonProperty("milestone_id")
     private Long milestoneId;
+
+    @JsonProperty("position")
     private Integer position;
+
+    @JsonProperty("locked_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date lockedAt;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("source_branch")
     private String sourceBranch;
+
+    @JsonProperty("source_project_id")
     private Long sourceProjectId;
+
+    @JsonProperty("st_commits")
     private String stCommits;
+
+    @JsonProperty("st_diffs")
     private String stDiffs;
+
+    @JsonProperty("state")
     private String state;
+
+    @JsonProperty("state_id")
     private Long stateId;
+
+    @JsonProperty("target_branch")
     private String targetBranch;
+
+    @JsonProperty("target_project_id")
     private Long targetProjectId;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date updatedAt;
 
+    @JsonProperty("source")
     private EventProject source;
+
+    @JsonProperty("target")
     private EventProject target;
+
+    @JsonProperty("last_commit")
     private EventCommit lastCommit;
+
+    @JsonProperty("blocking_discussions_resolved")
     private Boolean blockingDiscussionsResolved;
+
+    @JsonProperty("work_in_progress")
     private Boolean workInProgress;
+
+    @JsonProperty("first_contribution")
     private Boolean firstContribution;
+
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("labels")
     private List<EventLabel> labels;
+
+    @JsonProperty("action")
     private String action;
+
+    @JsonProperty("assignee")
     private Assignee assignee;
 
+    @JsonProperty("updated_by_id")
     private Long updatedById;
+
+    @JsonProperty("merge_error")
     private String mergeError;
+
+    @JsonProperty("merge_params")
     private Map<String, String> mergeParams;
+
+    @JsonProperty("merge_when_pipeline_succeeds")
     private Boolean mergeWhenPipelineSucceeds;
+
+    @JsonProperty("merge_user_id")
     private Long mergeUserId;
+
+    @JsonProperty("deleted_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date deletedAt;
+
+    @JsonProperty("in_progress_merge_commit_sha")
     private String inProgressMergeCommitSha;
+
+    @JsonProperty("lock_version")
     private Integer lockVersion;
 
+    @JsonProperty("last_edited_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date lastEditedAt;
+
+    @JsonProperty("last_edited_by_id")
     private Long lastEditedById;
+
+    @JsonProperty("head_pipeline_id")
     private Long headPipelineId;
+
+    @JsonProperty("ref_fetched")
     private Boolean refFetched;
+
+    @JsonProperty("merge_iid")
     private Long mergeIid;
+
+    @JsonProperty("total_time_spent")
     private Integer totalTimeSpent;
+
+    @JsonProperty("human_total_time_spent")
     private Duration humanTotalTimeSpent;
+
+    @JsonProperty("time_change")
     private Integer timeChange;
+
+    @JsonProperty("time_estimate")
     private Integer timeEstimate;
+
+    @JsonProperty("human_time_estimate")
     private Duration humanTimeEstimate;
+
+    @JsonProperty("human_time_change")
     private Duration humanTimeChange;
+
+    @JsonProperty("assignee_ids")
     private List<Long> assigneeIds;
+
+    @JsonProperty("reviewer_ids")
     private List<Long> reviewerIds;
+
+    @JsonProperty("oldrev")
     private String oldrev;
 
     public Long getAssigneeId() {

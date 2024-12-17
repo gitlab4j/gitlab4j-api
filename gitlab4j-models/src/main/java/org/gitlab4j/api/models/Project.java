@@ -12,10 +12,7 @@ import org.gitlab4j.models.Constants.SquashOption;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Project implements Serializable {
@@ -45,86 +42,237 @@ public class Project implements Serializable {
         }
     }
 
+    @JsonProperty("approvals_before_merge")
     private Integer approvalsBeforeMerge;
+
+    @JsonProperty("archived")
     private Boolean archived;
+
+    @JsonProperty("avatar_url")
     private String avatarUrl;
+
+    @JsonProperty("container_registry_enabled")
     private Boolean containerRegistryEnabled;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("creator_id")
     private Long creatorId;
+
+    @JsonProperty("default_branch")
     private String defaultBranch;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("forks_count")
     private Integer forksCount;
+
+    @JsonProperty("forked_from_project")
     private Project forkedFromProject;
+
+    @JsonProperty("http_url_to_repo")
     private String httpUrlToRepo;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("public")
     private Boolean isPublic;
+
+    @JsonProperty("issues_enabled")
     private Boolean issuesEnabled;
+
+    @JsonProperty("jobs_enabled")
     private Boolean jobsEnabled;
+
+    @JsonProperty("last_activity_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date lastActivityAt;
+
+    @JsonProperty("lfs_enabled")
     private Boolean lfsEnabled;
+
+    @JsonProperty("merge_method")
     private MergeMethod mergeMethod;
+
+    @JsonProperty("merge_requests_enabled")
     private Boolean mergeRequestsEnabled;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("namespace")
     private Namespace namespace;
+
+    @JsonProperty("name_with_namespace")
     private String nameWithNamespace;
+
+    @JsonProperty("only_allow_merge_if_pipeline_succeeds")
     private Boolean onlyAllowMergeIfPipelineSucceeds;
+
+    @JsonProperty("allow_merge_on_skipped_pipeline")
     private Boolean allowMergeOnSkippedPipeline;
+
+    @JsonProperty("only_allow_merge_if_all_discussions_are_resolved")
     private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
+
+    @JsonProperty("open_issues_count")
     private Integer openIssuesCount;
+
+    @JsonProperty("owner")
     private Owner owner;
+
+    @JsonProperty("path")
     private String path;
+
+    @JsonProperty("path_with_namespace")
     private String pathWithNamespace;
+
+    @JsonProperty("permissions")
     private Permissions permissions;
+
+    @JsonProperty("public_jobs")
     private Boolean publicJobs;
+
+    @JsonProperty("repository_storage")
     private String repositoryStorage;
+
+    @JsonProperty("request_access_enabled")
     private Boolean requestAccessEnabled;
+
+    @JsonProperty("runners_token")
     private String runnersToken;
+
+    @JsonProperty("shared_runners_enabled")
     private Boolean sharedRunnersEnabled;
+
+    @JsonProperty("shared_with_groups")
     private List<SharedGroup> sharedWithGroups;
+
+    @JsonProperty("snippets_enabled")
     private Boolean snippetsEnabled;
+
+    @JsonProperty("ssh_url_to_repo")
     private String sshUrlToRepo;
+
+    @JsonProperty("star_count")
     private Integer starCount;
 
+    @JsonProperty("tag_list")
     private List<String> tagList;
+
+    @JsonProperty("topics")
     private List<String> topics;
+
+    @JsonProperty("visibility_level")
     private Integer visibilityLevel;
+
+    @JsonProperty("visibility")
     private Visibility visibility;
+
+    @JsonProperty("wall_enabled")
     private Boolean wallEnabled;
+
+    @JsonProperty("web_url")
     private String webUrl;
+
+    @JsonProperty("wiki_enabled")
     private Boolean wikiEnabled;
+
+    @JsonProperty("printing_merge_request_link_enabled")
     private Boolean printingMergeRequestLinkEnabled;
+
+    @JsonProperty("resolve_outdated_diff_discussions")
     private Boolean resolveOutdatedDiffDiscussions;
+
+    @JsonProperty("statistics")
     private ProjectStatistics statistics;
+
+    @JsonProperty("initialize_with_readme")
     private Boolean initializeWithReadme;
+
+    @JsonProperty("packages_enabled")
     private Boolean packagesEnabled;
+
+    @JsonProperty("empty_repo")
     private Boolean emptyRepo;
+
+    @JsonProperty("license_url")
     private String licenseUrl;
+
+    @JsonProperty("license")
     private ProjectLicense license;
+
+    @JsonProperty("custom_attributes")
     private List<CustomAttribute> customAttributes;
+
+    @JsonProperty("build_coverage_regex")
     private String buildCoverageRegex;
+
+    @JsonProperty("build_git_strategy")
     private BuildGitStrategy buildGitStrategy;
+
+    @JsonProperty("readme_url")
     private String readmeUrl;
+
+    @JsonProperty("can_create_merge_request_in")
     private Boolean canCreateMergeRequestIn;
+
+    @JsonProperty("import_status")
     private Status importStatus;
+
+    @JsonProperty("ci_default_git_depth")
     private Integer ciDefaultGitDepth;
+
+    @JsonProperty("ci_forward_deployment_enabled")
     private Boolean ciForwardDeploymentEnabled;
+
+    @JsonProperty("ci_config_path")
     private String ciConfigPath;
+
+    @JsonProperty("remove_source_branch_after_merge")
     private Boolean removeSourceBranchAfterMerge;
+
+    @JsonProperty("auto_devops_enabled")
     private Boolean autoDevopsEnabled;
+
+    @JsonProperty("auto_devops_deploy_strategy")
     private AutoDevopsDeployStrategy autoDevopsDeployStrategy;
+
+    @JsonProperty("autoclose_referenced_issues")
     private Boolean autocloseReferencedIssues;
+
+    @JsonProperty("emails_disabled")
     private Boolean emailsDisabled;
+
+    @JsonProperty("suggestion_commit_message")
     private String suggestionCommitMessage;
+
+    @JsonProperty("squash_option")
     private SquashOption squashOption;
+
+    @JsonProperty("merge_commit_template")
     private String mergeCommitTemplate;
+
+    @JsonProperty("squash_commit_template")
     private String squashCommitTemplate;
+
+    @JsonProperty("issue_branch_template")
     private String issueBranchTemplate;
+
+    @JsonProperty("merge_requests_template")
     private String mergeRequestsTemplate;
+
+    @JsonProperty("issues_template")
     private String issuesTemplate;
 
     @JsonProperty("_links")
     private Map<String, String> links;
 
+    @JsonProperty("marked_for_deletion_on")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
 

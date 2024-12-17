@@ -2,12 +2,17 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.models.GitLabForm;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Params for getting file archive of the repository.
  */
 public class RepositoryArchiveParams {
 
+    @JsonProperty("sha")
     private String sha;
+
+    @JsonProperty("path")
     private String path;
 
     /**

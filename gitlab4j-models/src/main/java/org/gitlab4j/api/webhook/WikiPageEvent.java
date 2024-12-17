@@ -2,15 +2,24 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WikiPageEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Wiki Page Hook";
     public static final String OBJECT_KIND = "wiki_page";
 
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("wiki")
     private Wiki wiki;
+
+    @JsonProperty(value = "object_attributes")
     private ObjectAttributes objectAttributes;
 
     public String getObjectKind() {

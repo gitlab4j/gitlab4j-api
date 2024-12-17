@@ -7,6 +7,8 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Environment implements Serializable {
@@ -35,13 +37,54 @@ public class Environment implements Serializable {
         }
     }
 
+    /**
+     * The unique identifier for the environment.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The name of the environment.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The slug of the environment.
+     */
+    @JsonProperty("slug")
     private String slug;
+
+    /**
+     * The external URL of the environment.
+     */
+    @JsonProperty("external_url")
     private String externalUrl;
+
+    /**
+     * The tier of the environment (e.g., production, staging).
+     */
+    @JsonProperty("tier")
     private String tier;
+
+    /**
+     * The state of the environment (e.g., active, inactive).
+     */
+    @JsonProperty("state")
     private EnvironmentState state;
+
+    /**
+     * The last deployment associated with the environment.
+     */
+    @JsonProperty("last_deployment")
     private Deployment lastDeployment;
+
+    /**
+     * The auto stop time for the environment, if any.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("auto_stop_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date autoStopAt;
 
     public Long getId() {

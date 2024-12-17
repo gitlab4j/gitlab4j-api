@@ -7,6 +7,8 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class EventLabel implements Serializable {
@@ -35,15 +37,36 @@ public class EventLabel implements Serializable {
         }
     }
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("color")
     private String color;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("template")
     private Boolean template;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("type")
     private LabelType type;
+
+    @JsonProperty("group_id")
     private Long groupId;
 
     public Long getId() {

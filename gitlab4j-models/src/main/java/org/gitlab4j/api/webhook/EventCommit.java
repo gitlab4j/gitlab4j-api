@@ -6,15 +6,34 @@ import java.util.List;
 import org.gitlab4j.api.models.Author;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventCommit {
 
+    @JsonProperty("id")
     private String id;
+
+    @JsonProperty("message")
     private String message;
+
+    @JsonProperty("timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date timestamp;
+
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("added")
     private List<String> added;
+
+    @JsonProperty("modified")
     private List<String> modified;
+
+    @JsonProperty("removed")
     private List<String> removed;
 
     public String getId() {

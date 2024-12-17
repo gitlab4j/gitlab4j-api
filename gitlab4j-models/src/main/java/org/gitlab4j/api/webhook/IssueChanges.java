@@ -2,11 +2,18 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class IssueChanges extends EventChanges {
 
+    @JsonProperty("due_date")
     private ChangeContainer<Date> dueDate;
+
+    @JsonProperty("confidential")
     private ChangeContainer<Boolean> confidential;
-    private ChangeContainer<String> heathStatus;
+
+    @JsonProperty("health_status")
+    private ChangeContainer<String> healthStatus;
 
     public ChangeContainer<Date> getDueDate() {
         return dueDate;
@@ -25,10 +32,10 @@ public class IssueChanges extends EventChanges {
     }
 
     public ChangeContainer<String> getHeathStatus() {
-        return heathStatus;
+        return healthStatus;
     }
 
-    public void setHeathStatus(ChangeContainer<String> heathStatus) {
-        this.heathStatus = heathStatus;
+    public void setHeathStatus(ChangeContainer<String> healthStatus) {
+        this.healthStatus = healthStatus;
     }
 }

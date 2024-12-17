@@ -4,29 +4,69 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class JobEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
     public static final String JOB_HOOK_X_GITLAB_EVENT = "Job Hook";
     public static final String OBJECT_KIND = "job";
 
+    @JsonProperty("ref")
     private String ref;
+
+    @JsonProperty("tag")
     private Boolean tag;
+
+    @JsonProperty("before_sha")
     private String beforeSha;
+
+    @JsonProperty("sha")
     private String sha;
+
+    @JsonProperty("job_id")
     private Long jobId;
+
+    @JsonProperty("job_name")
     private String jobName;
+
+    @JsonProperty("job_stage")
     private String jobStage;
+
+    @JsonProperty("job_status")
     private String jobStatus;
+
+    @JsonProperty("job_started_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date jobStartedAt;
+
+    @JsonProperty("job_finished_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date jobFinishedAt;
+
+    @JsonProperty("job_duration")
     private Integer jobDuration;
+
+    @JsonProperty("job_allow_failure")
     private Boolean jobAllowFailure;
+
+    @JsonProperty("job_failure_reason")
     private String jobFailureReason;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("project_name")
     private String projectName;
+
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("commit")
     private BuildCommit commit;
+
+    @JsonProperty("repository")
     private EventRepository repository;
 
     @Override

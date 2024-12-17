@@ -6,85 +6,209 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class MergeRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("allow_collaboration")
     private Boolean allowCollaboration;
+
+    @JsonProperty("allow_maintainer_to_push")
     private Boolean allowMaintainerToPush;
+
+    @JsonProperty("approvals_before_merge")
     private Integer approvalsBeforeMerge;
+
+    @JsonProperty("assignee")
     private Assignee assignee;
+
+    @JsonProperty("assignees")
     private List<Assignee> assignees;
+
+    @JsonProperty("reviewers")
     private List<Reviewer> reviewers;
+
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("blocking_discussions_resolved")
     private Boolean blockingDiscussionsResolved;
+
+    @JsonProperty("changes")
     private List<Diff> changes;
+
+    @JsonProperty("changes_count")
     private String changesCount;
+
+    @JsonProperty("closed_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date closedAt;
+
+    @JsonProperty("closed_by")
     private Participant closedBy;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("discussion_locked")
     private Boolean discussionLocked;
+
+    @JsonProperty("diverged_commits_count")
     private Integer divergedCommitsCount;
+
+    @JsonProperty("downvotes")
     private Integer downvotes;
+
+    @JsonProperty("force_remove_source_branch")
     private Boolean forceRemoveSourceBranch;
+
+    @JsonProperty("has_conflicts")
     private Boolean hasConflicts;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("iid")
     private Long iid;
+
+    @JsonProperty("labels")
     private List<String> labels;
+
+    @JsonProperty("latest_build_finished_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date latestBuildFinishedAt;
+
+    @JsonProperty("latest_build_started_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date latestBuildStartedAt;
+
+    @JsonProperty("merge_commit_sha")
     private String mergeCommitSha;
+
+    @JsonProperty("squash_commit_sha")
     private String squashCommitSha;
+
     /**
      * @deprecated since 15.6, use {@link #detailedMergeStatus} instead.
      * see https://docs.gitlab.com/ee/update/deprecations.html#merge_status-api-field
      */
     @Deprecated
+    @JsonProperty("merge_status")
     private String mergeStatus;
 
+    @JsonProperty("detailed_merge_status")
     private String detailedMergeStatus;
+
+    @JsonProperty("merged_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date mergedAt;
+
     /**
      * @deprecated since 14.7, use {@link #mergeUser} instead.
      * see https://docs.gitlab.com/ee/update/deprecations.html#merged_by-api-field
      */
+    @Deprecated
+    @JsonProperty("merged_by")
     private Participant mergedBy;
 
+    @JsonProperty("merge_user")
     private Participant mergeUser;
+
+    @JsonProperty("merge_when_pipeline_succeeds")
     private Boolean mergeWhenPipelineSucceeds;
+
+    @JsonProperty("merge_error")
     private String mergeError;
+
+    @JsonProperty("milestone")
     private Milestone milestone;
+
+    @JsonProperty("pipeline")
     private Pipeline pipeline;
+
+    @JsonProperty("head_pipeline")
     private Pipeline headPipeline;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("sha")
     private String sha;
+
+    @JsonProperty("should_remove_source_branch")
     private Boolean shouldRemoveSourceBranch;
+
+    @JsonProperty("source_branch")
     private String sourceBranch;
+
+    @JsonProperty("source_project_id")
     private Long sourceProjectId;
+
+    @JsonProperty("squash")
     private Boolean squash;
+
+    @JsonProperty("state")
     private String state;
+
+    @JsonProperty("subscribed")
     private Boolean subscribed;
+
+    @JsonProperty("target_branch")
     private String targetBranch;
+
+    @JsonProperty("target_project_id")
     private Long targetProjectId;
+
+    @JsonProperty("task_completion_status")
     private TaskCompletionStatus taskCompletionStatus;
+
+    @JsonProperty("references")
     private References references;
+
+    @JsonProperty("time_stats")
     private TimeStats timeStats;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("upvotes")
     private Integer upvotes;
+
+    @JsonProperty("user_notes_count")
     private Integer userNotesCount;
+
+    @JsonProperty("web_url")
     private String webUrl;
+
+    @JsonProperty("work_in_progress")
     private Boolean workInProgress;
+
+    @JsonProperty("diff_refs")
     private DiffRef diffRefs;
+
+    @JsonProperty("rebase_in_progress")
     private Boolean rebaseInProgress;
 
-    // The approval fields will only be available when listing approvals, approving  or unapproving a merge reuest.
+    // Approval-specific fields
+    @JsonProperty("approvals_required")
     private Integer approvalsRequired;
+
+    @JsonProperty("approvals_left")
     private Integer approvalsLeft;
 
+    @JsonProperty("approved_by")
     @JsonSerialize(using = JacksonJson.UserListSerializer.class)
     @JsonDeserialize(using = JacksonJson.UserListDeserializer.class)
     private List<User> approvedBy;

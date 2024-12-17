@@ -2,16 +2,21 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WorkItemChanges extends EventChanges {
-    private ChangeContainer<String> heathStatus;
+    @JsonProperty("health_status")
+    private ChangeContainer<String> healthStatus;
+
+    @JsonProperty("last_edited_at")
     private ChangeContainer<Date> lastEditedAt;
 
-    public ChangeContainer<String> getHeathStatus() {
-        return heathStatus;
+    public ChangeContainer<String> getHealthStatus() {
+        return healthStatus;
     }
 
-    public void setHeathStatus(ChangeContainer<String> heathStatus) {
-        this.heathStatus = heathStatus;
+    public void setHealthStatus(ChangeContainer<String> healthStatus) {
+        this.healthStatus = healthStatus;
     }
 
     public ChangeContainer<Date> getLastEditedAt() {

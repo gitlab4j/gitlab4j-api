@@ -4,19 +4,27 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Topic implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Integer id;
 
+    @JsonProperty("name")
     private String name;
 
+    @JsonProperty("title")
     private String title;
 
+    @JsonProperty("description")
     private String description;
 
+    @JsonProperty("total_projects_count")
     private int totalProjectsCount;
 
+    @JsonProperty("avatar_url")
     private String avatarUrl;
 
     public Integer getId() {

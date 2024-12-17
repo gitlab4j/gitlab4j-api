@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.GitLabForm;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * This class is utilized by the <code>org.gitlab4j.api.TopicsApi#createTopic(TopicParams)</code>
  * and <code>org.gitlab4j.api.TopicsApi#updateTopic(Integer, TopicParams)</code> methods to set
@@ -14,8 +16,13 @@ import org.gitlab4j.models.GitLabForm;
 public class TopicParams implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("description")
     private String description;
 
     public TopicParams withName(String name) {

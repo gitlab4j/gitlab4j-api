@@ -4,17 +4,63 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Branch implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The commit associated with the branch.
+     */
+    @JsonProperty("commit")
     private Commit commit;
+
+    /**
+     * Indicates whether developers can merge to this branch.
+     */
+    @JsonProperty("developers_can_merge")
     private Boolean developersCanMerge;
+
+    /**
+     * Indicates whether developers can push to this branch.
+     */
+    @JsonProperty("developers_can_push")
     private Boolean developersCanPush;
+
+    /**
+     * Indicates whether the branch is merged.
+     */
+    @JsonProperty("merged")
     private Boolean merged;
+
+    /**
+     * The name of the branch.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * Indicates whether the branch is protected.
+     */
+    @JsonProperty("protected")
     private Boolean isProtected;
+
+    /**
+     * Indicates whether the branch is the default branch.
+     */
+    @JsonProperty("default")
     private Boolean isDefault;
+
+    /**
+     * Indicates whether pushing is allowed on this branch.
+     */
+    @JsonProperty("can_push")
     private Boolean canPush;
+
+    /**
+     * The web URL associated with the branch.
+     */
+    @JsonProperty("web_url")
     private String webUrl;
 
     public Commit getCommit() {

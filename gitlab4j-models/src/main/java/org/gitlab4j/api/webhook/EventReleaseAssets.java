@@ -4,10 +4,17 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventReleaseAssets {
 
+    @JsonProperty("count")
     private Integer count;
+
+    @JsonProperty("links")
     private List<EventReleaseLink> links;
+
+    @JsonProperty("sources")
     private List<EventReleaseSource> sources;
 
     public Integer getCount() {

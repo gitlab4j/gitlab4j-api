@@ -2,23 +2,50 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DeploymentEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Deployment Hook";
     public static final String OBJECT_KIND = "deployment";
 
+    @JsonProperty("status")
     private String status;
+
+    @JsonProperty("status_changed_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss Z")
     private String statusChangedAt;
+
+    @JsonProperty("deployable_id")
     private Long deployableId;
+
+    @JsonProperty("deployment_id")
     private Long deploymentId;
+
+    @JsonProperty("deployable_url")
     private String deployableUrl;
+
+    @JsonProperty("environment")
     private String environment;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("short_sha")
     private String shortSha;
+
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("user_url")
     private String userUrl;
+
+    @JsonProperty("commit_url")
     private String commitUrl;
+
+    @JsonProperty("commit_title")
     private String commitTitle;
 
     @Override

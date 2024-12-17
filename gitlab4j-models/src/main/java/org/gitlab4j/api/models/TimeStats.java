@@ -4,12 +4,21 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TimeStats implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("time_estimate")
     private Integer timeEstimate;
+
+    @JsonProperty("total_time_spent")
     private Integer totalTimeSpent;
+
+    @JsonProperty("human_time_estimate")
     private Duration humanTimeEstimate;
+
+    @JsonProperty("human_total_time_spent")
     private Duration humanTotalTimeSpent;
 
     public Integer getTimeEstimate() {

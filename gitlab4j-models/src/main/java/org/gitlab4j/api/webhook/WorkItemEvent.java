@@ -5,17 +5,30 @@ import java.util.List;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WorkItemEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Issue Hook";
     public static final String OBJECT_KIND = "work_item";
 
+    @JsonProperty("user")
     private User user;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("repository")
     private EventRepository repository;
+
+    @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
+
+    @JsonProperty("labels")
     private List<EventLabel> labels;
+
+    @JsonProperty("changes")
     private WorkItemChanges changes;
 
     public String getObjectKind() {

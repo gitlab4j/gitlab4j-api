@@ -40,8 +40,13 @@ public class Variable implements Serializable {
         }
     }
 
+    @JsonProperty("key")
     private String key;
+
+    @JsonProperty("value")
     private String value;
+
+    @JsonProperty("variable_type")
     private Type variableType;
 
     @JsonProperty("protected")
@@ -50,6 +55,7 @@ public class Variable implements Serializable {
     @JsonProperty("masked")
     private Boolean isMasked;
 
+    @JsonProperty("environment_scope")
     private String environmentScope;
 
     public Variable() {}

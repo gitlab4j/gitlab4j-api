@@ -7,18 +7,61 @@ import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.ISO8601;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ChangelogPayload implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The version associated with the changelog.
+     */
+    @JsonProperty("version")
     private String version;
+
+    /**
+     * The reference from which the changelog is generated.
+     */
+    @JsonProperty("from")
     private String from;
+
+    /**
+     * The reference to which the changelog is generated.
+     */
+    @JsonProperty("to")
     private String to;
+
+    /**
+     * The date associated with the changelog.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date date;
+
+    /**
+     * The branch associated with the changelog.
+     */
+    @JsonProperty("branch")
     private String branch;
+
+    /**
+     * The trailer information associated with the changelog.
+     */
+    @JsonProperty("trailer")
     private String trailer;
+
+    /**
+     * The file associated with the changelog.
+     */
+    @JsonProperty("file")
     private String file;
+
+    /**
+     * The message associated with the changelog.
+     */
+    @JsonProperty("message")
     private String message;
 
     public ChangelogPayload(String version) {

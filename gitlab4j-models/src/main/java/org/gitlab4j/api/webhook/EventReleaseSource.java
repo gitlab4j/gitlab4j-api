@@ -2,8 +2,13 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventReleaseSource {
+    @JsonProperty("format")
     private String format;
+
+    @JsonProperty("url")
     private String url;
 
     public String getFormat() {

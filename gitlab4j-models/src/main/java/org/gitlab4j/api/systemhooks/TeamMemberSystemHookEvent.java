@@ -5,24 +5,54 @@ import java.util.Date;
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TeamMemberSystemHookEvent extends AbstractSystemHookEvent {
     private static final long serialVersionUID = 1L;
 
     public static final String NEW_TEAM_MEMBER_EVENT = "user_add_to_team";
     public static final String TEAM_MEMBER_REMOVED_EVENT = "user_remove_from_team";
 
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("event_name")
     private String eventName;
+
+    @JsonProperty("access_level")
     private String accessLevel;
+
+    @JsonProperty("project_name")
     private String projectName;
+
+    @JsonProperty("project_path")
     private String projectPath;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("project_path_with_namespace")
     private String projectPathWithNamespace;
+
+    @JsonProperty("user_email")
     private String userEmail;
+
+    @JsonProperty("user_name")
     private String userName;
+
+    @JsonProperty("user_username")
     private String userUsername;
+
+    @JsonProperty("user_id")
     private Long userId;
+
+    @JsonProperty("project_visibility")
     private Visibility projectVisibility;
 
     public Date getCreatedAt() {

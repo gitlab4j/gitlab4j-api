@@ -4,11 +4,20 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Member extends AbstractUser<Member> {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("access_level")
     private AccessLevel accessLevel;
+
+    @JsonProperty("expires_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date expiresAt;
+
+    @JsonProperty("group_saml_identity")
     private Identity groupSamlIdentity;
 
     public AccessLevel getAccessLevel() {

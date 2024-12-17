@@ -7,6 +7,8 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Note implements Serializable {
@@ -83,31 +85,74 @@ public class Note implements Serializable {
         }
     }
 
+    @JsonProperty("attachment")
     private String attachment;
+
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("body")
     private String body;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("downvote")
     private Boolean downvote;
+
+    @JsonProperty("expires_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date expiresAt;
+
+    @JsonProperty("file_name")
     private String fileName;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("noteable_id")
     private Long noteableId;
 
-    // Use String for noteableType until the constant is fixed in the GitLab API
-    private String noteableType;
+    @JsonProperty("noteable_type")
+    private String noteableType; // Use String until the constant is fixed in the GitLab API
 
+    @JsonProperty("noteable_iid")
     private Long noteableIid;
+
+    @JsonProperty("system")
     private Boolean system;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAt;
+
+    @JsonProperty("upvote")
     private Boolean upvote;
+
+    @JsonProperty("resolved")
     private Boolean resolved;
+
+    @JsonProperty("resolvable")
     private Boolean resolvable;
+
+    @JsonProperty("resolved_by")
     private Participant resolvedBy;
+
+    @JsonProperty("resolved_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date resolvedAt;
+
+    @JsonProperty("internal")
     private Boolean internal;
+
+    @JsonProperty("type")
     private Type type;
 
+    @JsonProperty("position")
     private Position position;
 
     public String getAttachment() {

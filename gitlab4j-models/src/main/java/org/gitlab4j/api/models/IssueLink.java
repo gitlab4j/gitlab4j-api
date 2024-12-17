@@ -4,11 +4,27 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class IssueLink implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The source issue in the link.
+     */
+    @JsonProperty("source_issue")
     private Issue sourceIssue;
+
+    /**
+     * The target issue in the link.
+     */
+    @JsonProperty("target_issue")
     private Issue targetIssue;
+
+    /**
+     * The type of the link between the issues.
+     */
+    @JsonProperty("link_type")
     private LinkType linkType;
 
     public Issue getSourceIssue() {

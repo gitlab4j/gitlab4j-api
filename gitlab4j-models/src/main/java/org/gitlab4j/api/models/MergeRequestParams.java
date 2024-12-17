@@ -7,27 +7,60 @@ import java.util.List;
 import org.gitlab4j.models.Constants.StateEvent;
 import org.gitlab4j.models.GitLabForm;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * This class provides the form parameters for creating and updating merge requests.
  */
 public class MergeRequestParams implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("source_branch")
     private String sourceBranch;
+
+    @JsonProperty("target_branch")
     private String targetBranch;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("assignee_id")
     private Long assigneeId;
+
+    @JsonProperty("assignee_ids")
     private List<Long> assigneeIds;
+
+    @JsonProperty("reviewer_ids")
     private List<Long> reviewerIds;
+
+    @JsonProperty("milestone_id")
     private Long milestoneId;
+
+    @JsonProperty("labels")
     private List<String> labels;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("target_project_id")
     private Long targetProjectId;
+
+    @JsonProperty("state_event")
     private StateEvent stateEvent;
+
+    @JsonProperty("remove_source_branch")
     private Boolean removeSourceBranch;
+
+    @JsonProperty("squash")
     private Boolean squash;
+
+    @JsonProperty("discussion_locked")
     private Boolean discussionLocked;
+
+    @JsonProperty("allow_collaboration")
     private Boolean allowCollaboration;
+
+    @JsonProperty("approvals_before_merge")
     private Integer approvalsBeforeMerge;
 
     /**

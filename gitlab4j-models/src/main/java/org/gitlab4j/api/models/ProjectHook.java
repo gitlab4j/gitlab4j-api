@@ -5,33 +5,77 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ProjectHook implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("build_events")
     private Boolean buildEvents;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("enable_ssl_verification")
     private Boolean enableSslVerification;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("issues_events")
     private Boolean issuesEvents;
+
+    @JsonProperty("merge_requests_events")
     private Boolean mergeRequestsEvents;
+
+    @JsonProperty("note_events")
     private Boolean noteEvents;
+
+    @JsonProperty("job_events")
     private Boolean jobEvents;
+
+    @JsonProperty("pipeline_events")
     private Boolean pipelineEvents;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("push_events")
     private Boolean pushEvents;
+
+    @JsonProperty("tag_push_events")
     private Boolean tagPushEvents;
+
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("wiki_page_events")
     private Boolean wikiPageEvents;
+
+    @JsonProperty("token")
     private String token;
 
+    @JsonProperty("repository_update_events")
     private Boolean repositoryUpdateEvents;
+
+    @JsonProperty("confidential_issues_events")
     private Boolean confidentialIssuesEvents;
+
+    @JsonProperty("confidential_note_events")
     private Boolean confidentialNoteEvents;
+
+    @JsonProperty("push_events_branch_filter")
     private String pushEventsBranchFilter;
 
+    @JsonProperty("deployment_events")
     private Boolean deploymentEvents;
+
+    @JsonProperty("releases_events")
     private Boolean releasesEvents;
 
+    @JsonProperty("description")
     private String description;
 
     public Boolean getBuildEvents() {

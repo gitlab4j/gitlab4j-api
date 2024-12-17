@@ -10,39 +10,49 @@ import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.ISO8601;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DeploymentFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Return deployments ordered by either one of id, iid, created_at, updated_at or ref fields. Default is id.
+     * Return deployments ordered by either one of id, iid, created_at, updated_at, or ref fields. Default is id.
      */
+    @JsonProperty("order_by")
     private DeploymentOrderBy orderBy;
 
     /**
      * Return deployments sorted in asc or desc order. Default is asc.
      */
+    @JsonProperty("sort_order")
     private SortOrder sortOrder;
 
     /**
      * Return deployments updated after the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
      */
+    @JsonProperty("updated_after")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedAfter;
 
     /**
      * Return deployments updated before the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
      */
+    @JsonProperty("updated_before")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date updatedBefore;
 
     /**
      * The name of the environment to filter deployments by.
      */
+    @JsonProperty("environment")
     private String environment;
 
     /**
      * The status to filter deployments by.
      */
+    @JsonProperty("status")
     private DeploymentStatus status;
 
     public DeploymentOrderBy getOrderBy() {

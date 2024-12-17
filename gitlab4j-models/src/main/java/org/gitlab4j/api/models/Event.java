@@ -6,24 +6,102 @@ import java.util.Date;
 import org.gitlab4j.models.Constants.TargetType;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Event implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the event.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The name of the action that triggered the event.
+     */
+    @JsonProperty("action_name")
     private String actionName;
+
+    /**
+     * The author associated with the event.
+     */
+    @JsonProperty("author")
     private Author author;
+
+    /**
+     * The ID of the author associated with the event.
+     */
+    @JsonProperty("author_id")
     private Long authorId;
+
+    /**
+     * The username of the author associated with the event.
+     */
+    @JsonProperty("author_username")
     private String authorUsername;
+
+    /**
+     * The event data associated with the event.
+     */
+    @JsonProperty("data")
     private EventData data;
+
+    /**
+     * The ID of the project associated with the event.
+     */
+    @JsonProperty("project_id")
     private Long projectId;
+
+    /**
+     * The target ID associated with the event.
+     */
+    @JsonProperty("target_id")
     private Long targetId;
+
+    /**
+     * The target IID associated with the event.
+     */
+    @JsonProperty("target_iid")
     private Long targetIid;
+
+    /**
+     * The target title associated with the event.
+     */
+    @JsonProperty("target_title")
     private String targetTitle;
+
+    /**
+     * The target type associated with the event.
+     */
+    @JsonProperty("target_type")
     private TargetType targetType;
+
+    /**
+     * The title of the event.
+     */
+    @JsonProperty("title")
     private String title;
+
+    /**
+     * The creation date of the event.
+     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     */
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
 
+    /**
+     * The note associated with the event.
+     */
+    @JsonProperty("note")
     private Note note;
+
+    /**
+     * The push data associated with the event.
+     */
+    @JsonProperty("push_data")
     private PushData pushData;
 
     public Long getId() {

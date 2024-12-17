@@ -5,13 +5,26 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Key implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date createdAt;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("key")
     private String key;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("user")
     private User user;
 
     public Date getCreatedAt() {

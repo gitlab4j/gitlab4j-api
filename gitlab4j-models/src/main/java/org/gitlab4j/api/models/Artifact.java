@@ -6,6 +6,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Artifact implements Serializable {
@@ -35,9 +36,28 @@ public class Artifact implements Serializable {
         }
     }
 
+    /**
+     * The type of the file associated with the artifact.
+     */
+    @JsonProperty("file_type")
     private FileType fileType;
+
+    /**
+     * The size of the artifact.
+     */
+    @JsonProperty("size")
     private Long size;
+
+    /**
+     * The filename of the artifact.
+     */
+    @JsonProperty("filename")
     private String filename;
+
+    /**
+     * The format of the file associated with the artifact.
+     */
+    @JsonProperty("file_format")
     private String fileFormat;
 
     public FileType getFileType() {
