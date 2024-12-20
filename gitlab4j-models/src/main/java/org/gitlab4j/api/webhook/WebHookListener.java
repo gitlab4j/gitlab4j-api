@@ -77,6 +77,13 @@ public interface WebHookListener extends java.util.EventListener {
     default void onDeploymentEvent(DeploymentEvent deploymentEvent) {}
 
     /**
+     * This method is called when a WebHook work item event has been received.
+     *
+     * @param workItemEvent the WorkItemEvent instance
+     */
+    default void onWorkItemEvent(WorkItemEvent workItemEvent) {}
+
+    /**
      * This method is called when a WebHook release event has been received.
      *
      * @param releaseEvent the ReleaseEvent instance
