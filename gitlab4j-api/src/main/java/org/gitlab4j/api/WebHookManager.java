@@ -23,6 +23,7 @@ import org.gitlab4j.api.webhook.ReleaseEvent;
 import org.gitlab4j.api.webhook.TagPushEvent;
 import org.gitlab4j.api.webhook.WebHookListener;
 import org.gitlab4j.api.webhook.WikiPageEvent;
+import org.gitlab4j.api.webhook.WorkItemEvent;
 
 /**
  * This class provides a handler for processing GitLab WebHook callouts.
@@ -186,6 +187,7 @@ public class WebHookManager implements HookManager {
             case WikiPageEvent.OBJECT_KIND:
             case ReleaseEvent.OBJECT_KIND:
             case DeploymentEvent.OBJECT_KIND:
+            case WorkItemEvent.OBJECT_KIND:
                 fireEvent(event);
                 break;
 
@@ -270,6 +272,10 @@ public class WebHookManager implements HookManager {
                 fireDeploymentEvent((DeploymentEvent) event);
                 break;
 
+            case WorkItemEvent.OBJECT_KIND:
+                fireWorkItemEvent((WorkItemEvent) event);
+                break;
+
             default:
                 String message = "Unsupported event object_kind, object_kind=" + event.getObjectKind();
                 LOGGER.warning(message);
@@ -334,6 +340,12 @@ public class WebHookManager implements HookManager {
     protected void fireDeploymentEvent(DeploymentEvent deploymentEvent) {
         for (WebHookListener listener : webhookListeners) {
             listener.onDeploymentEvent(deploymentEvent);
+        }
+    }
+
+    protected void fireWorkItemEvent(WorkItemEvent workItemEvent) {
+        for (WebHookListener listener : webhookListeners) {
+            listener.onWorkItemEvent(workItemEvent);
         }
     }
 
