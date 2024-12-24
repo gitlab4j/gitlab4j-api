@@ -951,10 +951,8 @@ public class RepositoryApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
             .withParam("from", from, true)
             .withParam("to", to, true)
-            .withParam("straight", straight);
-        if (fromProjectId != null) {
-            formData.withParam("from_project_id", fromProjectId);
-        }
+            .withParam("straight", straight)
+            .withParam("from_project_id", fromProjectId);
         Response response = get(
             Response.Status.OK,
             formData.asMap(),
