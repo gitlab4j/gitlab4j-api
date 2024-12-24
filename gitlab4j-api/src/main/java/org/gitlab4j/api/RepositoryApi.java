@@ -946,7 +946,7 @@ public class RepositoryApi extends AbstractApi {
      * @return a CompareResults containing the results of the comparison
      * @throws GitLabApiException if any exception occurs
      */
-    public CompareResults compare(Object projectIdOrPath, String from, String to, Object fromProjectId, boolean straight)
+    public CompareResults compare(Object projectIdOrPath, String from, String to, Long fromProjectId, Boolean straight)
         throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
             .withParam("from", from, true)
