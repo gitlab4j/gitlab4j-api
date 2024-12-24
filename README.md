@@ -72,14 +72,14 @@ repositories {
     maven {
         url "https://jitpack.io"
         content {
-            includeGroup "com.github.gitlab4j"
+            includeGroup "com.github.gitlab4j.gitlab4j-api"
         }
     }
 }
 
 dependencies {
     // ...
-    implementation 'com.github.gitlab4j:gitlab4j-api:main-SNAPSHOT'
+    implementation 'com.github.gitlab4j.gitlab4j-api:gitlab4j-api:main-SNAPSHOT'
     // ...
 }
 ```
@@ -96,7 +96,7 @@ dependencies {
 
 <dependencies>
   <dependency>
-    <groupId>com.github.gitlab4j</groupId>
+    <groupId>com.github.gitlab4j.gitlab4j-api</groupId>
     <artifactId>gitlab4j-api</artifactId>
     <version>main-SNAPSHOT</version>
   </dependency>
@@ -109,7 +109,7 @@ dependencies {
 You just need to declare the dependency like this, instead of using the maven coordinates:
 
 ```java
-//DEPS https://github.com/gitlab4j/gitlab4j-api/tree/main#:SNAPSHOT
+//DEPS https://github.com/gitlab4j/gitlab4j-api/tree/main#gitlab4j-api:SNAPSHOT
 ```
 
 **Using a specific commit**
@@ -119,20 +119,20 @@ You can also point to a specific commit:
 
 ```gradle
 dependencies {
-    implementation 'com.github.gitlab4j:gitlab4j-api:7dfec10189'
+    implementation 'com.github.gitlab4j.gitlab4j-api:gitlab4j-api:ab6b84c6b0'
 }
 ```
 
 ```xml
 <dependency>
-    <groupId>com.github.gitlab4j</groupId>
+    <groupId>com.github.gitlab4j.gitlab4j-api</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>7dfec10189</version>
+    <version>ab6b84c6b0</version>
 </dependency>
 ```
 
 ```java
-//DEPS https://github.com/gitlab4j/gitlab4j-api/tree/7dfec10189cdcb11e34fc9ead984abcd6316194a
+//DEPS https://github.com/gitlab4j/gitlab4j-api/tree/ab6b84c6b096ea3079d25115a59c272a4ae602aa
 ```
 
 ---

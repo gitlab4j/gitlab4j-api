@@ -455,7 +455,7 @@ public class NotesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Note createMergeRequestNote(
-            Object projectIdOrPath, Long mergeRequestIid, String body, Date createdAt, boolean internal)
+            Object projectIdOrPath, Long mergeRequestIid, String body, Date createdAt, Boolean internal)
             throws GitLabApiException {
         GitLabApiForm formData =
                 new GitLabApiForm().withParam("body", body, true).withParam("internal", internal);
@@ -531,6 +531,222 @@ public class NotesApi extends AbstractApi {
                 getProjectIdOrPath(projectIdOrPath),
                 "merge_requests",
                 mergeRequestIid,
+                "notes",
+                noteId);
+    }
+
+    /**
+     * Get a list of the epics's notes.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_id/notes</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param epicId the epic ID (not the IID!) to get the notes for
+     * @return a list of the epics's notes
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Note> getEpicNotes(Object groupIdOrPath, Long epicId) throws GitLabApiException {
+        return (getEpicNotes(groupIdOrPath, epicId, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of the epic's notes using the specified page and per page settings.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_id/notes</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param epicId the epic ID (not the IID!) to get the notes for
+     * @param page the page to get
+     * @param perPage the number of notes per page
+     * @return the list of notes in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Note> getEpicNotes(Object groupIdOrPath, Long epicId, int page, int perPage) throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                getPageQueryParams(page, perPage),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "epics",
+                epicId,
+                "notes");
+        return (response.readEntity(new GenericType<List<Note>>() {}));
+    }
+
+    /**
+     * Get a Pager of epics's notes.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_id/notes</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param epicId the epic ID (not the IID!) to get the notes for
+     * @param itemsPerPage the number of notes per page
+     * @return the list of notes in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Note> getEpicNotes(Object groupIdOrPath, Long epicId, int itemsPerPage) throws GitLabApiException {
+        return (new Pager<Note>(
+                this,
+                Note.class,
+                itemsPerPage,
+                null,
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "epics",
+                epicId,
+                "notes"));
+    }
+
+    /**
+     * Get a Stream of the epics's notes.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_id/notes</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param epicId the epic ID (not the IID!) to get the notes for
+     * @return a Stream of the epics's notes
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Note> getEpicNotesStream(Object groupIdOrPath, Long epicId) throws GitLabApiException {
+        return (getEpicNotes(groupIdOrPath, epicId, getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get the specified epics's note.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/epics/:epic_id/notes/:note_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param epicId the epic ID (not the IID!) to get the notes for
+     * @param noteId the ID of the Note to get
+     * @return a Note instance for the specified IDs
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note getEpicNote(Object groupIdOrPath, Long epicId, Long noteId) throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                getDefaultPerPageParam(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "epics",
+                epicId,
+                "notes",
+                noteId);
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Create a epics's note.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/epics/:epic_id/notes/:note_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance @param groupIdOrPath the group ID to create the epics for
+     * @param epicId the epic ID (not the IID!) to create the notes for
+     * @param body the content of note
+     * @return the created Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note createEpicNote(Object groupIdOrPath, Long epicId, String body) throws GitLabApiException {
+        return (createEpicNote(groupIdOrPath, epicId, body, null, null));
+    }
+
+    /**
+     * Create a epics's note.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/epics/:epic_id/notes/:note_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param epicId the epic ID (not the IID!) to create the notes for
+     * @param body the content of note
+     * @param createdAt the created time of note
+     * @return the created Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note createEpicNote(Object groupIdOrPath, Long epicId, String body, Date createdAt)
+            throws GitLabApiException {
+        return (createEpicNote(groupIdOrPath, epicId, body, null, null));
+    }
+
+    /**
+     * Create a epics's note.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/epics/:epic_id/notes/:note_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param epicId the epic ID (not the IID!) to create the notes for
+     * @param body the content of note
+     * @param createdAt the created time of note
+     * @param internal whether the note shall be marked 'internal'
+     * @return the created Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note createEpicNote(Object groupIdOrPath, Long epicId, String body, Date createdAt, Boolean internal)
+            throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("body", body, true)
+                .withParam("created_at", createdAt)
+                .withParam("internal", internal);
+        ;
+        Response response = post(
+                Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "epics", epicId, "notes");
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Update the specified epics's note.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/epics/:epic_id/notes/:note_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param epicId the epic ID (not the IID!) to update the notes for
+     * @param noteId the ID of the node to update
+     * @param body the update content for the Note
+     * @return the modified Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note updateEpicNote(Object groupIdOrPath, Long epicId, Long noteId, String body) throws GitLabApiException {
+
+        GitLabApiForm formData = new GitLabApiForm().withParam("body", body, true);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "epics",
+                epicId,
+                "notes",
+                noteId);
+        return (response.readEntity(Note.class));
+    }
+
+    /**
+     * Delete the specified epics's note.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /groups/:id/epics/:epic_id/notes/:note_id</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param epicId the epic ID (not the IID!) to delete the notes for
+     * @param noteId the ID of the node to delete
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteEpicNote(Object groupIdOrPath, Long epicId, Long noteId) throws GitLabApiException {
+
+        if (epicId == null) {
+            throw new RuntimeException("epicId cannot be null");
+        }
+
+        if (noteId == null) {
+            throw new RuntimeException("noteId cannot be null");
+        }
+
+        delete(
+                Response.Status.NO_CONTENT,
+                getDefaultPerPageParam(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "epics",
+                epicId,
                 "notes",
                 noteId);
     }
