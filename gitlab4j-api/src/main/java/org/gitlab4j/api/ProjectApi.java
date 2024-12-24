@@ -1072,6 +1072,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
      * ciConfigPath (optional) - Set path to CI configuration file
+     * autoDevopsEnabled (optional) - Enable Auto DevOps for this project
      * squashOption (optional) - set squash option for merge requests
      *
      * @param project the Project instance with the configuration for the new project
@@ -1126,6 +1127,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("ci_config_path", project.getCiConfigPath())
                 .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
                 .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
+                .withParam("auto_devops_enabled", project.getAutoDevopsEnabled())
                 .withParam("squash_option", project.getSquashOption());
 
         Namespace namespace = project.getNamespace();
