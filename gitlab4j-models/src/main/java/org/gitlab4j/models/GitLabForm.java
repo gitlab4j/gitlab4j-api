@@ -89,7 +89,6 @@ public class GitLabForm {
     /**
      * Fluent method for adding a List type query and form parameters to a get() or post() call.
      *
-     * @param <T> the type contained by the List
      * @param name the name of the field/attribute to add
      * @param values a List containing the values of the field/attribute to add
      * @return this {@link GitLabForm} instance
@@ -101,7 +100,6 @@ public class GitLabForm {
     /**
      * Fluent method for adding a List type query and form parameters to a get() or post() call.
      *
-     * @param <T> the type contained by the List
      * @param name the name of the field/attribute to add
      * @param values a List containing the values of the field/attribute to add
      * @param required the field is required flag
