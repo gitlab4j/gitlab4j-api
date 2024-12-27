@@ -32,9 +32,353 @@ public class BoardsApi extends AbstractApi {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @return a list of project's issue boards
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoards(Object)} instead
      */
+    @Deprecated
     public List<Board> getBoards(Object projectIdOrPath) throws GitLabApiException {
-        return (getBoards(projectIdOrPath, getDefaultPerPage()).all());
+        return getProjectIssueBoards(projectIdOrPath);
+    }
+
+    /**
+     * Get all issue boards for the specified project using the specified page and per page setting
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param page the page to get
+     * @param perPage the number of items per page
+     * @return a list of project's Boards in the specified range
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoards(Object, int, int)} instead
+     */
+    @Deprecated
+    public List<Board> getBoards(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
+        return getProjectIssueBoards(projectIdOrPath);
+    }
+
+    /**
+     * Get a Pager of all issue boards for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param itemsPerPage the number of items per page
+     * @return a Pager of project's issue boards
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoards(Object, int)} instead
+     */
+    @Deprecated
+    public Pager<Board> getBoards(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return getProjectIssueBoards(projectIdOrPath, itemsPerPage);
+    }
+
+    /**
+     * Get a Stream of all issue boards for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @return a Stream of project's issue boards
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoardsStream(Object)} instead
+     */
+    @Deprecated
+    public Stream<Board> getBoardsStream(Object projectIdOrPath) throws GitLabApiException {
+        return getProjectIssueBoardsStream(projectIdOrPath);
+    }
+
+    /**
+     * Get a single issue board.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards/:board_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @return a Board instance for the specified board ID
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoard(Object, Long)} instead
+     */
+    @Deprecated
+    public Board getBoard(Object projectIdOrPath, Long boardId) throws GitLabApiException {
+        return getProjectIssueBoard(projectIdOrPath, boardId);
+    }
+
+    /**
+     * Get an issue board as an Optional instance.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards/:board_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @return the Board instance for the specified board ID as an Optional instance
+     * @deprecated use {@link #getOptionalProjectIssueBoard(Object, Long)} instead
+     */
+    @Deprecated
+    public Optional<Board> getOptionalBoard(Object projectIdOrPath, Long boardId) {
+        return getOptionalProjectIssueBoard(projectIdOrPath, boardId);
+    }
+
+    /**
+     * Creates a new Issue Board.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/boards</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param name the name for the new board
+     * @return the created Board instance
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #createProjectIssueBoard(Object, String)} instead
+     */
+    @Deprecated
+    public Board createBoard(Object projectIdOrPath, String name) throws GitLabApiException {
+        return createProjectIssueBoard(projectIdOrPath, name);
+    }
+
+    /**
+     * Updates an existing Issue Board.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/boards/:board_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param boardId the ID of the board, required
+     * @param name the new name of the board, optional (can be null)
+     * @param hideBacklogList hide the Open list, optional (can be null)
+     * @param hideClosedList hide the Closed list, optional (can be null)
+     * @param assigneeId the assignee the board should be scoped to, optional (can be null)
+     * @param milestoneId the milestone the board should be scoped to, optional (can be null)
+     * @param labels a comma-separated list of label names which the board should be scoped to, optional (can be null)
+     * @param weight the weight range from 0 to 9, to which the board should be scoped to, optional (can be null)
+     * @return the updated Board instance
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #updateProjectIssueBoard(Object, Long, String, Boolean, Boolean, Long, Long, String, Integer)} instead
+     */
+    @Deprecated
+    public Board updateBoard(
+            Object projectIdOrPath,
+            Long boardId,
+            String name,
+            Boolean hideBacklogList,
+            Boolean hideClosedList,
+            Long assigneeId,
+            Long milestoneId,
+            String labels,
+            Integer weight)
+            throws GitLabApiException {
+        return updateProjectIssueBoard(
+                projectIdOrPath,
+                boardId,
+                name,
+                hideBacklogList,
+                hideClosedList,
+                assigneeId,
+                milestoneId,
+                labels,
+                weight);
+    }
+
+    /**
+     * Soft deletes an existing Issue Board.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/boards/:board_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #deleteBoard(Object, Long)} instead
+     */
+    @Deprecated
+    public void deleteBoard(Object projectIdOrPath, Long boardId) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId);
+    }
+
+    /**
+     * Get a list of the board’s lists. Does not include open and closed lists.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards/:board_id/lists</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @return a list of the issue board's lists
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoardLists(Object, Long)} instead
+     */
+    @Deprecated
+    public List<BoardList> getBoardLists(Object projectIdOrPath, Long boardId) throws GitLabApiException {
+        return getProjectIssueBoardLists(projectIdOrPath, boardId);
+    }
+
+    /**
+     * Get a list of the board’s lists for the specified project to using the specified page and per page setting.
+     * Does not include open and closed lists.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards/:board_id/lists</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @param page the page to get
+     * @param perPage the number of Boards per page
+     * @return a list of the issue board's lists in the specified range
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoardLists(Object, Long, int, int)} instead
+     */
+    @Deprecated
+    public List<BoardList> getBoardLists(Object projectIdOrPath, Long boardId, int page, int perPage)
+            throws GitLabApiException {
+        return getProjectIssueBoardLists(projectIdOrPath, boardId, page, perPage);
+    }
+
+    /**
+     * Get a Pager of the board’s lists. Does not include open and closed lists.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards/:board_id/lists</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @param itemsPerPage the number of Board instances that will be fetched per page
+     * @return a Pager of the issue board's lists
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoardLists(Object, Long, int)} instead
+     */
+    @Deprecated
+    public Pager<BoardList> getBoardLists(Object projectIdOrPath, Long boardId, int itemsPerPage)
+            throws GitLabApiException {
+        return getProjectIssueBoardLists(projectIdOrPath, boardId, itemsPerPage);
+    }
+
+    /**
+     * Get a Stream of the board’s lists. Does not include open and closed lists.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards/:board_id/lists</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @return a Stream of the issue board's lists
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoardsListsStream(Object, Long)} instead
+     */
+    @Deprecated
+    public Stream<BoardList> getBoardsListsStream(Object projectIdOrPath, Long boardId) throws GitLabApiException {
+        return getProjectIssueBoardsListsStream(projectIdOrPath, boardId);
+    }
+
+    /**
+     * Get a single issue board list.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards/:board_id/lists/:list_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @param listId the ID of the board lists to get
+     * @return a BoardList instance for the specified board ID and list ID
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #getProjectIssueBoardList(Object, Long, Long)} instead
+     */
+    @Deprecated
+    public BoardList getBoardList(Object projectIdOrPath, Long boardId, Long listId) throws GitLabApiException {
+        return getProjectIssueBoardList(projectIdOrPath, boardId, listId);
+    }
+
+    /**
+     * Get a single issue board list as an Optional instance.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards/:board_id/lists/:list_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @param listId the ID of the board lists to get
+     * @return a BoardList instance for the specified board ID and list ID as an Optional instance
+     * @deprecated use {@link #getOptionalProjectIssueBoardList(Object, Long, Long)} instead
+     */
+    @Deprecated
+    public Optional<BoardList> getOptionalBoardList(Object projectIdOrPath, Long boardId, Long listId) {
+        return getOptionalProjectIssueBoardList(projectIdOrPath, boardId, listId);
+    }
+
+    /**
+     * Creates a new Issue Board list.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/boards/:board_id/lists</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @param labelId the ID of the label, optional (can be null)
+     * @param assigneeId The ID of a user. Premium and Ultimate only, optional (can be null)
+     * @param milestoneId The ID of a milestone. Premium and Ultimate only, optional (can be null)
+     * @param iterationId The ID of a milestone. Premium and Ultimate only, optional (can be null)
+     * @return the created BoardList instance
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #createProjectIssueBoardList(Object, Long, Long, Long, Long, Long)} instead
+     */
+    @Deprecated
+    public BoardList createBoardList(
+            Object projectIdOrPath, Long boardId, Long labelId, Long assigneeId, Long milestoneId, Long iterationId)
+            throws GitLabApiException {
+        return createProjectIssueBoardList(projectIdOrPath, boardId, labelId, assigneeId, milestoneId, iterationId);
+    }
+
+    /**
+     * Creates a new Issue Board list.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/boards/:board_id/lists</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @param labelId the ID of the label
+     * @return the created BoardList instance
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #createProjectIssueBoardList(Object, Long, Long, Long, Long, Long)} instead
+     */
+    @Deprecated
+    public BoardList createBoardList(Object projectIdOrPath, Long boardId, Long labelId) throws GitLabApiException {
+        return createProjectIssueBoardList(projectIdOrPath, boardId, labelId, null, null, null);
+    }
+
+    /**
+     * Updates an existing Issue Board list. This call is used to change list position.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/boards/:board_id/lists/:list_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @param listId the ID of the list
+     * @param position the new position for the list
+     * @return the updated BoardList instance
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #updateProjectIssueBoardList(Object, Long, Long, Integer)} instead
+     */
+    @Deprecated
+    public BoardList updateBoardList(Object projectIdOrPath, Long boardId, Long listId, Integer position)
+            throws GitLabApiException {
+        return updateProjectIssueBoardList(projectIdOrPath, boardId, listId, position);
+    }
+
+    /**
+     * Soft deletes an existing Issue Board list. Only for admins and project owners.
+     *
+     * <pre><code>GitLab Endpoint: DELETE /projects/:id/boards/:board_id/lists/:list_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param boardId the ID of the board
+     * @param listId the ID of the list
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #deleteProjectIssueBoardList(Object, Long, Long)} instead
+     */
+    @Deprecated
+    public void deleteBoardList(Object projectIdOrPath, Long boardId, Long listId) throws GitLabApiException {
+        deleteProjectIssueBoardList(projectIdOrPath, boardId, listId);
+    }
+
+    /**
+     * Lists Issue Boards in the given project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/boards</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @return a list of project's issue boards
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Board> getProjectIssueBoards(Object projectIdOrPath) throws GitLabApiException {
+        return (getProjectIssueBoards(projectIdOrPath, getDefaultPerPage()).all());
     }
 
     /**
@@ -48,7 +392,7 @@ public class BoardsApi extends AbstractApi {
      * @return a list of project's Boards in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<Board> getBoards(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
+    public List<Board> getProjectIssueBoards(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
         Response response = get(
                 jakarta.ws.rs.core.Response.Status.OK,
                 getPageQueryParams(page, perPage),
@@ -68,7 +412,7 @@ public class BoardsApi extends AbstractApi {
      * @return a Pager of project's issue boards
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<Board> getBoards(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+    public Pager<Board> getProjectIssueBoards(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
         return (new Pager<Board>(
                 this, Board.class, itemsPerPage, null, "projects", getProjectIdOrPath(projectIdOrPath), "boards"));
     }
@@ -82,8 +426,8 @@ public class BoardsApi extends AbstractApi {
      * @return a Stream of project's issue boards
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<Board> getBoardsStream(Object projectIdOrPath) throws GitLabApiException {
-        return (getBoards(projectIdOrPath, getDefaultPerPage()).stream());
+    public Stream<Board> getProjectIssueBoardsStream(Object projectIdOrPath) throws GitLabApiException {
+        return (getProjectIssueBoards(projectIdOrPath, getDefaultPerPage()).stream());
     }
 
     /**
@@ -96,7 +440,7 @@ public class BoardsApi extends AbstractApi {
      * @return a Board instance for the specified board ID
      * @throws GitLabApiException if any exception occurs
      */
-    public Board getBoard(Object projectIdOrPath, Long boardId) throws GitLabApiException {
+    public Board getProjectIssueBoard(Object projectIdOrPath, Long boardId) throws GitLabApiException {
         Response response =
                 get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId);
         return (response.readEntity(Board.class));
@@ -111,9 +455,9 @@ public class BoardsApi extends AbstractApi {
      * @param boardId the ID of the board
      * @return the Board instance for the specified board ID as an Optional instance
      */
-    public Optional<Board> getOptionalBoard(Object projectIdOrPath, Long boardId) {
+    public Optional<Board> getOptionalProjectIssueBoard(Object projectIdOrPath, Long boardId) {
         try {
-            return (Optional.ofNullable(getBoard(projectIdOrPath, boardId)));
+            return (Optional.ofNullable(getProjectIssueBoard(projectIdOrPath, boardId)));
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
@@ -129,7 +473,7 @@ public class BoardsApi extends AbstractApi {
      * @return the created Board instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Board createBoard(Object projectIdOrPath, String name) throws GitLabApiException {
+    public Board createProjectIssueBoard(Object projectIdOrPath, String name) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("name", name, true);
         Response response = post(
                 Response.Status.CREATED, formData.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "boards");
@@ -153,7 +497,7 @@ public class BoardsApi extends AbstractApi {
      * @return the updated Board instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Board updateBoard(
+    public Board updateProjectIssueBoard(
             Object projectIdOrPath,
             Long boardId,
             String name,
@@ -192,7 +536,7 @@ public class BoardsApi extends AbstractApi {
      * @param boardId the ID of the board
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteBoard(Object projectIdOrPath, Long boardId) throws GitLabApiException {
+    public void deleteProjectIssueBoard(Object projectIdOrPath, Long boardId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "boards", boardId);
     }
 
@@ -206,8 +550,9 @@ public class BoardsApi extends AbstractApi {
      * @return a list of the issue board's lists
      * @throws GitLabApiException if any exception occurs
      */
-    public List<BoardList> getBoardLists(Object projectIdOrPath, Long boardId) throws GitLabApiException {
-        return (getBoardLists(projectIdOrPath, boardId, getDefaultPerPage()).all());
+    public List<BoardList> getProjectIssueBoardLists(Object projectIdOrPath, Long boardId) throws GitLabApiException {
+        return (getProjectIssueBoardLists(projectIdOrPath, boardId, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -223,7 +568,7 @@ public class BoardsApi extends AbstractApi {
      * @return a list of the issue board's lists in the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<BoardList> getBoardLists(Object projectIdOrPath, Long boardId, int page, int perPage)
+    public List<BoardList> getProjectIssueBoardLists(Object projectIdOrPath, Long boardId, int page, int perPage)
             throws GitLabApiException {
         Response response = get(
                 jakarta.ws.rs.core.Response.Status.OK,
@@ -247,7 +592,7 @@ public class BoardsApi extends AbstractApi {
      * @return a Pager of the issue board's lists
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<BoardList> getBoardLists(Object projectIdOrPath, Long boardId, int itemsPerPage)
+    public Pager<BoardList> getProjectIssueBoardLists(Object projectIdOrPath, Long boardId, int itemsPerPage)
             throws GitLabApiException {
         return (new Pager<BoardList>(
                 this,
@@ -271,8 +616,9 @@ public class BoardsApi extends AbstractApi {
      * @return a Stream of the issue board's lists
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<BoardList> getBoardsListsStream(Object projectIdOrPath, Long boardId) throws GitLabApiException {
-        return (getBoardLists(projectIdOrPath, boardId, getDefaultPerPage()).stream());
+    public Stream<BoardList> getProjectIssueBoardsListsStream(Object projectIdOrPath, Long boardId)
+            throws GitLabApiException {
+        return (getProjectIssueBoardLists(projectIdOrPath, boardId, getDefaultPerPage()).stream());
     }
 
     /**
@@ -286,7 +632,8 @@ public class BoardsApi extends AbstractApi {
      * @return a BoardList instance for the specified board ID and list ID
      * @throws GitLabApiException if any exception occurs
      */
-    public BoardList getBoardList(Object projectIdOrPath, Long boardId, Long listId) throws GitLabApiException {
+    public BoardList getProjectIssueBoardList(Object projectIdOrPath, Long boardId, Long listId)
+            throws GitLabApiException {
         Response response = get(
                 Response.Status.OK,
                 null,
@@ -309,9 +656,9 @@ public class BoardsApi extends AbstractApi {
      * @param listId the ID of the board lists to get
      * @return a BoardList instance for the specified board ID and list ID as an Optional instance
      */
-    public Optional<BoardList> getOptionalBoardList(Object projectIdOrPath, Long boardId, Long listId) {
+    public Optional<BoardList> getOptionalProjectIssueBoardList(Object projectIdOrPath, Long boardId, Long listId) {
         try {
-            return (Optional.ofNullable(getBoardList(projectIdOrPath, boardId, listId)));
+            return (Optional.ofNullable(getProjectIssueBoardList(projectIdOrPath, boardId, listId)));
         } catch (GitLabApiException glae) {
             return (GitLabApi.createOptionalFromException(glae));
         }
@@ -331,7 +678,7 @@ public class BoardsApi extends AbstractApi {
      * @return the created BoardList instance
      * @throws GitLabApiException if any exception occurs
      */
-    public BoardList createBoardList(
+    public BoardList createProjectIssueBoardList(
             Object projectIdOrPath, Long boardId, Long labelId, Long assigneeId, Long milestoneId, Long iterationId)
             throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm()
@@ -351,23 +698,6 @@ public class BoardsApi extends AbstractApi {
     }
 
     /**
-     * Creates a new Issue Board list.
-     *
-     * <pre><code>GitLab Endpoint: POST /projects/:id/boards/:board_id/lists</code></pre>
-     *
-     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
-     * @param boardId the ID of the board
-     * @param labelId the ID of the label
-     * @return the created BoardList instance
-     * @throws GitLabApiException if any exception occurs
-     * @deprecated use {@link #createBoardList(Object, Long, Long, Long, Long, Long)} instead
-     */
-    @Deprecated
-    public BoardList createBoardList(Object projectIdOrPath, Long boardId, Long labelId) throws GitLabApiException {
-        return createBoardList(projectIdOrPath, boardId, labelId, null, null, null);
-    }
-
-    /**
      * Updates an existing Issue Board list. This call is used to change list position.
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/boards/:board_id/lists/:list_id</code></pre>
@@ -379,7 +709,7 @@ public class BoardsApi extends AbstractApi {
      * @return the updated BoardList instance
      * @throws GitLabApiException if any exception occurs
      */
-    public BoardList updateBoardList(Object projectIdOrPath, Long boardId, Long listId, Integer position)
+    public BoardList updateProjectIssueBoardList(Object projectIdOrPath, Long boardId, Long listId, Integer position)
             throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("position", position, true);
         Response response = putWithFormData(
@@ -404,7 +734,8 @@ public class BoardsApi extends AbstractApi {
      * @param listId the ID of the list
      * @throws GitLabApiException if any exception occurs
      */
-    public void deleteBoardList(Object projectIdOrPath, Long boardId, Long listId) throws GitLabApiException {
+    public void deleteProjectIssueBoardList(Object projectIdOrPath, Long boardId, Long listId)
+            throws GitLabApiException {
         delete(
                 Response.Status.NO_CONTENT,
                 null,
@@ -592,7 +923,8 @@ public class BoardsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<BoardList> getGroupIssueBoardLists(Object groupIdOrPath, Long boardId) throws GitLabApiException {
-        return (getGroupIssueBoardLists(groupIdOrPath, boardId, getDefaultPerPage()).all());
+        return (getGroupIssueBoardLists(groupIdOrPath, boardId, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -656,7 +988,8 @@ public class BoardsApi extends AbstractApi {
      * @return a Stream of the issue board's lists
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<BoardList> getGroupIssueBoardsListsStream(Object groupIdOrPath, Long boardId) throws GitLabApiException {
+    public Stream<BoardList> getGroupIssueBoardsListsStream(Object groupIdOrPath, Long boardId)
+            throws GitLabApiException {
         return (getGroupIssueBoardLists(groupIdOrPath, boardId, getDefaultPerPage()).stream());
     }
 
@@ -784,7 +1117,6 @@ public class BoardsApi extends AbstractApi {
                 listId);
     }
 
-
     /**
      * Lists epic boards in the given group.
      *
@@ -858,7 +1190,8 @@ public class BoardsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Board getGroupEpicBoard(Object groupIdOrPath, Long boardId) throws GitLabApiException {
-        Response response = get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "epic_boards", boardId);
+        Response response =
+                get(Response.Status.OK, null, "groups", getGroupIdOrPath(groupIdOrPath), "epic_boards", boardId);
         return (response.readEntity(Board.class));
     }
 
@@ -891,8 +1224,8 @@ public class BoardsApi extends AbstractApi {
      */
     public Board createGroupEpicBoard(Object groupIdOrPath, String name) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("name", name, true);
-        Response response =
-                post(Response.Status.CREATED, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epic_boards");
+        Response response = post(
+                Response.Status.CREATED, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epic_boards");
         return (response.readEntity(Board.class));
     }
 
@@ -932,8 +1265,13 @@ public class BoardsApi extends AbstractApi {
                 .withParam("milestone_id", milestoneId)
                 .withParam("labels", labels)
                 .withParam("weight", weight);
-        Response response =
-                put(Response.Status.OK, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epic_boards", boardId);
+        Response response = put(
+                Response.Status.OK,
+                formData.asMap(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "epic_boards",
+                boardId);
         return (response.readEntity(Board.class));
     }
 
@@ -961,7 +1299,8 @@ public class BoardsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public List<BoardList> getGroupEpicBoardLists(Object groupIdOrPath, Long boardId) throws GitLabApiException {
-        return (getGroupEpicBoardLists(groupIdOrPath, boardId, getDefaultPerPage()).all());
+        return (getGroupEpicBoardLists(groupIdOrPath, boardId, getDefaultPerPage())
+                .all());
     }
 
     /**
@@ -1025,7 +1364,8 @@ public class BoardsApi extends AbstractApi {
      * @return a Stream of the epic board's lists
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<BoardList> getGroupEpicBoardsListsStream(Object groupIdOrPath, Long boardId) throws GitLabApiException {
+    public Stream<BoardList> getGroupEpicBoardsListsStream(Object groupIdOrPath, Long boardId)
+            throws GitLabApiException {
         return (getGroupEpicBoardLists(groupIdOrPath, boardId, getDefaultPerPage()).stream());
     }
 
