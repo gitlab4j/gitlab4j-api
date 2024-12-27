@@ -1213,83 +1213,7 @@ public class BoardsApi extends AbstractApi {
     }
 
     /**
-     * Creates a new epic board.
-     *
-     * <pre><code>GitLab Endpoint: POST /groups/:id/epic_boards</code></pre>
-     *
-     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
-     * @param name the name for the new board
-     * @return the created Board instance
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Board createGroupEpicBoard(Object groupIdOrPath, String name) throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("name", name, true);
-        Response response = post(
-                Response.Status.CREATED, formData.asMap(), "groups", getGroupIdOrPath(groupIdOrPath), "epic_boards");
-        return (response.readEntity(Board.class));
-    }
-
-    /**
-     * Updates an existing epic board.
-     *
-     * <pre><code>GitLab Endpoint: PUT /groups/:id/epic_boards/:board_id</code></pre>
-     *
-     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance, required
-     * @param boardId the ID of the board, required
-     * @param name the new name of the board, optional (can be null)
-     * @param hideBacklogList hide the Open list, optional (can be null)
-     * @param hideClosedList hide the Closed list, optional (can be null)
-     * @param assigneeId the assignee the board should be scoped to, optional (can be null)
-     * @param milestoneId the milestone the board should be scoped to, optional (can be null)
-     * @param labels a comma-separated list of label names which the board should be scoped to, optional (can be null)
-     * @param weight the weight range from 0 to 9, to which the board should be scoped to, optional (can be null)
-     * @return the updated Board instance
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Board updateGroupEpicBoard(
-            Object groupIdOrPath,
-            Long boardId,
-            String name,
-            Boolean hideBacklogList,
-            Boolean hideClosedList,
-            Long assigneeId,
-            Long milestoneId,
-            String labels,
-            Integer weight)
-            throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("name", name)
-                .withParam("hide_backlog_list", hideBacklogList)
-                .withParam("hide_closed_list", hideClosedList)
-                .withParam("assignee_id", assigneeId)
-                .withParam("milestone_id", milestoneId)
-                .withParam("labels", labels)
-                .withParam("weight", weight);
-        Response response = put(
-                Response.Status.OK,
-                formData.asMap(),
-                "groups",
-                getGroupIdOrPath(groupIdOrPath),
-                "epic_boards",
-                boardId);
-        return (response.readEntity(Board.class));
-    }
-
-    /**
-     * Soft deletes an existing epic board.
-     *
-     * <pre><code>GitLab Endpoint: DELETE /groups/:id/epic_boards/:board_id</code></pre>
-     *
-     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
-     * @param boardId the ID of the board
-     * @throws GitLabApiException if any exception occurs
-     */
-    public void deleteGroupEpicBoard(Object groupIdOrPath, Long boardId) throws GitLabApiException {
-        delete(Response.Status.NO_CONTENT, null, "groups", getGroupIdOrPath(groupIdOrPath), "epic_boards", boardId);
-    }
-
-    /**
-     * Get a list of the board’s lists. Does not include open and closed lists.
+     * Get a list of the board’s lists.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/epic_boards/:board_id/lists</code></pre>
      *
@@ -1305,7 +1229,6 @@ public class BoardsApi extends AbstractApi {
 
     /**
      * Get a list of the board’s lists for the specified group to using the specified page and per page setting.
-     * Does not include open and closed lists.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/epic_boards/:board_id/lists</code></pre>
      *
@@ -1330,7 +1253,7 @@ public class BoardsApi extends AbstractApi {
     }
 
     /**
-     * Get a Pager of the board’s lists. Does not include open and closed lists.
+     * Get a Pager of the board’s lists.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/epic_boards/:board_id/lists</code></pre>
      *
@@ -1355,7 +1278,7 @@ public class BoardsApi extends AbstractApi {
     }
 
     /**
-     * Get a Stream of the board’s lists. Does not include open and closed lists.
+     * Get a Stream of the board’s lists.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/epic_boards/:board_id/lists</code></pre>
      *
@@ -1411,85 +1334,4 @@ public class BoardsApi extends AbstractApi {
         }
     }
 
-    /**
-     * Creates a new epic board list.
-     *
-     * <pre><code>GitLab Endpoint: POST /groups/:id/epic_boards/:board_id/lists</code></pre>
-     *
-     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
-     * @param boardId the ID of the board
-     * @param labelId the ID of the label
-     * @param assigneeId The ID of a user. Premium and Ultimate only, optional (can be null)
-     * @param milestoneId The ID of a milestone. Premium and Ultimate only, optional (can be null)
-     * @param iterationId The ID of a milestone. Premium and Ultimate only, optional (can be null)
-     * @return the created BoardList instance
-     * @throws GitLabApiException if any exception occurs
-     */
-    public BoardList createGroupEpicBoardList(
-            Object groupIdOrPath, Long boardId, Long labelId, Long assigneeId, Long milestoneId, Long iterationId)
-            throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("label_id", labelId)
-                .withParam("assignee_id", assigneeId)
-                .withParam("milestone_id", milestoneId)
-                .withParam("iteration_id", iterationId);
-        Response response = post(
-                Response.Status.CREATED,
-                formData,
-                "groups",
-                getGroupIdOrPath(groupIdOrPath),
-                "epic_boards",
-                boardId,
-                "lists");
-        return (response.readEntity(BoardList.class));
-    }
-
-    /**
-     * Updates an existing epic board list. This call is used to change list position.
-     *
-     * <pre><code>GitLab Endpoint: PUT /groups/:id/epic_boards/:board_id/lists/:list_id</code></pre>
-     *
-     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
-     * @param boardId the ID of the board
-     * @param listId the ID of the list
-     * @param position the new position for the list
-     * @return the updated BoardList instance
-     * @throws GitLabApiException if any exception occurs
-     */
-    public BoardList updateGroupEpicBoardList(Object groupIdOrPath, Long boardId, Long listId, Integer position)
-            throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("position", position, true);
-        Response response = putWithFormData(
-                Response.Status.OK,
-                formData,
-                "groups",
-                getGroupIdOrPath(groupIdOrPath),
-                "epic_boards",
-                boardId,
-                "lists",
-                listId);
-        return (response.readEntity(BoardList.class));
-    }
-
-    /**
-     * Soft deletes an existing epic board list. Only for admins and group owners.
-     *
-     * <pre><code>GitLab Endpoint: DELETE /groups/:id/epic_boards/:board_id/lists/:list_id</code></pre>
-     *
-     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
-     * @param boardId the ID of the board
-     * @param listId the ID of the list
-     * @throws GitLabApiException if any exception occurs
-     */
-    public void deleteGroupEpicBoardList(Object groupIdOrPath, Long boardId, Long listId) throws GitLabApiException {
-        delete(
-                Response.Status.NO_CONTENT,
-                null,
-                "groups",
-                getGroupIdOrPath(groupIdOrPath),
-                "epic_boards",
-                boardId,
-                "lists",
-                listId);
-    }
 }
