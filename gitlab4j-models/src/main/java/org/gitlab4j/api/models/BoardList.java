@@ -89,14 +89,14 @@ public class BoardList implements Serializable {
     public void setLimitMetric(Integer limitMetric) {
         this.limitMetric = limitMetric;
     }
-    
+
     public String getListType() {
-		return listType;
-	}
-    
+        return listType;
+    }
+
     public void setListType(String listType) {
-		this.listType = listType;
-	}
+        this.listType = listType;
+    }
 
     @Override
     public String toString() {

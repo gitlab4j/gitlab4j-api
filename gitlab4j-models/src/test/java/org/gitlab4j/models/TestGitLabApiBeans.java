@@ -88,11 +88,11 @@ public class TestGitLabApiBeans {
         List<Board> boards = unmarshalResourceList(Board.class, "group-board.json");
         assertTrue(compareJson(boards, "group-board.json"));
     }
-    
+
     @Test
     public void testGroupEpicBoard() throws Exception {
-    	Board board = unmarshalResource(Board.class, "group-epic-board.json");
-    	assertTrue(compareJson(board, "group-epic-board.json"));
+        Board board = unmarshalResource(Board.class, "group-epic-board.json");
+        assertTrue(compareJson(board, "group-epic-board.json"));
     }
 
     @Test

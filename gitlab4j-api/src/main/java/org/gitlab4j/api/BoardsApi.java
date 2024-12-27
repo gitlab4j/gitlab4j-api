@@ -1333,5 +1333,4 @@ public class BoardsApi extends AbstractApi {
             return (GitLabApi.createOptionalFromException(glae));
         }
     }
-
 }
