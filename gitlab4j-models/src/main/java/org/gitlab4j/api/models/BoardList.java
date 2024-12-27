@@ -16,6 +16,7 @@ public class BoardList implements Serializable {
     private Integer maxIssueCount;
     private Integer maxIssueWeight;
     private Integer limitMetric;
+    private String listType;
 
     public Long getId() {
         return id;
@@ -88,6 +89,14 @@ public class BoardList implements Serializable {
     public void setLimitMetric(Integer limitMetric) {
         this.limitMetric = limitMetric;
     }
+    
+    public String getListType() {
+		return listType;
+	}
+    
+    public void setListType(String listType) {
+		this.listType = listType;
+	}
 
     @Override
     public String toString() {

@@ -1,0 +1,35 @@
+{
+    "id": 14,
+    "name": "Development",
+    "hide_backlog_list": false,
+    "hide_closed_list": false,
+    "group": {
+        "id": 5,
+        "web_url": "https://example.gitlab.com/groups/a-group/main",
+        "name": "a group"
+    },
+    "labels": [],
+    "lists": [
+        {
+            "id": 33,
+            "list_type": "backlog"
+        },
+        {
+            "id": 35,
+            "label": {
+                "id": 1410,
+                "name": "Priority::Blocker",
+                "description": "a descriptioon",
+                "description_html": "a descriptioon",
+                "text_color": "#FFFFFF",
+                "color": "#ed9121"
+            },
+            "position": 0,
+            "list_type": "label"
+        },
+        {
+            "id": 34,
+            "list_type": "closed"
+        }
+    ]
+}
