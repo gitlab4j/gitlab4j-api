@@ -9,6 +9,7 @@ import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class ImpersonationToken implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -52,6 +53,8 @@ public class ImpersonationToken implements Serializable {
     private Date createdAt;
     private Date lastUsedAt;
     private Boolean impersonation;
+
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date expiresAt;
 
     public Boolean getActive() {
