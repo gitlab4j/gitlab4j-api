@@ -90,6 +90,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testGroupEpicBoard() throws Exception {
+        Board board = unmarshalResource(Board.class, "group-epic-board.json");
+        assertTrue(compareJson(board, "group-epic-board.json"));
+    }
+
+    @Test
     public void testBranch() throws Exception {
 
         Branch branch = unmarshalResource(Branch.class, "branch.json");
