@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic<E> implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -45,9 +46,16 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
     private References references;
     private Author author;
     private List<String> labels;
+
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
+
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
+
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date endDate;
+
     private Date createdAt;
     private Date updatedAt;
     private Date closedAt;

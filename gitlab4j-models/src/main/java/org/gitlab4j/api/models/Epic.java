@@ -4,12 +4,17 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public class Epic extends AbstractEpic<Epic> {
     private static final long serialVersionUID = 1L;
 
     private Boolean startDateIsFixed;
     private Boolean dueDateIsFixed;
+
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDateFromInheritedSource;
+
     private Boolean subscribed;
 
     public Boolean getStartDateIsFixed() {
