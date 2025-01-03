@@ -1,0 +1,102 @@
+[
+    {
+        "id": 70,
+        "name": "Development",
+        "hide_backlog_list": false,
+        "hide_closed_list": false,
+        "lists": [],
+        "group": {
+            "id": 1474,
+            "web_url": "https://example.gitlab.com/groups/a-group/main",
+            "name": "Main"
+        },
+        "labels": [],
+        "weight": 4
+    },
+    {
+        "id": 71,
+        "name": "uSlots",
+        "hide_backlog_list": true,
+        "hide_closed_list": true,
+        "lists": [
+            {
+                "id": 360,
+                "label": {
+                    "id": 13640,
+                    "name": "a-label",
+                    "description": "desc",
+                    "description_html": "desc",
+                    "text_color": "#FFFFFF",
+                    "color": "#9400d3"
+                },
+                "position": 0,
+                "max_issue_count": 0,
+                "max_issue_weight": 0
+            },
+            {
+                "id": 361,
+                "label": {
+                    "id": 13641,
+                    "name": "b-label",
+                    "description": "desc2",
+                    "description_html": "desc2",
+                    "text_color": "#FFFFFF",
+                    "color": "#9400d3"
+                },
+                "position": 1,
+                "max_issue_count": 0,
+                "max_issue_weight": 0
+            },
+            {
+                "id": 362,
+                "position": 2,
+                "assignee": {
+                    "id": 61,
+                    "username": "john.smith",
+                    "name": "John Smith"
+                },
+                "max_issue_count": 0,
+                "max_issue_weight": 0
+            },
+            {
+                "id": 363,
+                "position": 3,
+                "assignee": {
+                    "id": 26,
+                    "username": "alice.johnson",
+                    "name": "Alice Johnson"
+                },
+                "max_issue_count": 0,
+                "max_issue_weight": 0
+            }
+        ],
+        "group": {
+            "id": 1474,
+            "web_url": "https://example.gitlab.com/groups/a-group/main",
+            "name": "Main"
+        },
+        "milestone": {
+            "title": "Started"
+        },
+        "assignee": {
+            "id": 37,
+            "username": "bob.martin",
+            "name": "Bob Martin",
+            "state": "active",
+            "locked": false,
+            "avatar_url": "https://example.gitlab.com/uploads/-/system/user/avatar/37/avatar.png",
+            "web_url": "https://example.gitlab.com/bob.martin"
+        },
+        "labels": [
+            {
+                "id": 116,
+                "name": "Abc",
+                "description": "",
+                "description_html": "",
+                "text_color": "#FFFFFF",
+                "color": "#6699cc"
+            }
+        ],
+        "weight": 3
+    }
+]

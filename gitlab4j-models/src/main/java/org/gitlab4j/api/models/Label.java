@@ -15,6 +15,7 @@ public class Label implements Serializable {
     private String color;
     private String description;
     private String descriptionHtml;
+    private String textColor;
     private Integer openIssuesCount;
     private Integer closedIssuesCount;
     private Integer openMergeRequestsCount;
@@ -75,6 +76,14 @@ public class Label implements Serializable {
 
     public void setDescriptionHtml(String descriptionHtml) {
         this.descriptionHtml = descriptionHtml;
+    }
+
+    public String getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(String textColor) {
+        this.textColor = textColor;
     }
 
     public Integer getOpenIssuesCount() {

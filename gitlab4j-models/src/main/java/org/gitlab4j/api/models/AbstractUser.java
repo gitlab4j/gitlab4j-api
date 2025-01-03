@@ -17,6 +17,7 @@ public abstract class AbstractUser<U extends AbstractUser<U>> implements Seriali
     private Long id;
     private String name;
     private String state;
+    private Boolean locked;
     private String username;
     private String webUrl;
 
@@ -58,6 +59,14 @@ public abstract class AbstractUser<U extends AbstractUser<U>> implements Seriali
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
     public String getState() {

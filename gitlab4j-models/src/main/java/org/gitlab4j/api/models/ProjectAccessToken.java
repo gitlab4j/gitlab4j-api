@@ -7,13 +7,18 @@ import java.util.List;
 import org.gitlab4j.models.Constants;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public class ProjectAccessToken implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long userId;
     private List<Constants.ProjectAccessTokenScope> scopes;
     private String name;
+
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date expiresAt;
+
     private Long id;
     private Boolean active;
     private Date createdAt;
