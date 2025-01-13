@@ -113,7 +113,7 @@ public class TopicsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Topic createTopic(TopicParams params) throws GitLabApiException {
-        Response response = post(Response.Status.CREATED, params.getForm(true), "topics");
+        Response response = post(Response.Status.CREATED, new GitLabApiForm(params.getForm(true)), "topics");
         return (response.readEntity(Topic.class));
     }
 

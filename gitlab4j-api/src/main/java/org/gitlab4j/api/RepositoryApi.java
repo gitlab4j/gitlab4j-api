@@ -1167,7 +1167,7 @@ public class RepositoryApi extends AbstractApi {
     public void generateChangelog(Object projectIdOrPath, ChangelogPayload payload) throws GitLabApiException {
         post(
                 Response.Status.OK,
-                payload.getFormData(),
+                new GitLabApiForm(payload.getFormData()),
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
                 "repository",
