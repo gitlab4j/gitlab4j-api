@@ -2502,9 +2502,9 @@ public class ProjectApi extends AbstractApi implements Constants {
     public ProjectHook addHook(
             Object projectIdOrPath,
             String url,
-            boolean doPushEvents,
-            boolean doIssuesEvents,
-            boolean doMergeRequestsEvents)
+            Boolean doPushEvents,
+            Boolean doIssuesEvents,
+            Boolean doMergeRequestsEvents)
             throws GitLabApiException {
         return addHook(projectIdOrPath, url, doPushEvents, doIssuesEvents, doMergeRequestsEvents, null);
     }
