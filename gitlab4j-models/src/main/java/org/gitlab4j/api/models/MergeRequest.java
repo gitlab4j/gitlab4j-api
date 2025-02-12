@@ -29,6 +29,7 @@ public class MergeRequest implements Serializable {
     private Boolean discussionLocked;
     private Integer divergedCommitsCount;
     private Integer downvotes;
+    private Boolean draft;
     private Boolean forceRemoveSourceBranch;
     private Boolean hasConflicts;
     private Long id;
@@ -215,6 +216,14 @@ public class MergeRequest implements Serializable {
 
     public void setDownvotes(Integer downvotes) {
         this.downvotes = downvotes;
+    }
+
+    public Boolean getDraft() {
+        return draft;
+    }
+
+    public void setDraft(Boolean draft) {
+        this.draft = draft;
     }
 
     public Boolean getForceRemoveSourceBranch() {
