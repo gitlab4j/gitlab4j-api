@@ -1,7 +1,9 @@
 package org.gitlab4j.api;
 
 import java.util.Date;
+import java.util.List;
 
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.PersonalAccessToken;
@@ -64,6 +66,20 @@ public class PersonalAccessTokenApi extends AbstractApi {
 
         Response response = post(Response.Status.OK, formData, "personal_access_tokens", id, "rotate");
         return (response.readEntity(PersonalAccessToken.class));
+    }
+
+    /**
+     * Get information about the personal access token used in the request header.
+     * Only working with GitLab 16.0 and above.
+     *
+     * <pre><code>GitLab Endpoint: GET /personal_access_tokens</code></pre>
+     *
+     * @return the specified PersonalAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<PersonalAccessToken> getPersonalAccessTokens() throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "personal_access_tokens");
+        return response.readEntity(new GenericType<List<PersonalAccessToken>>() {});
     }
 
     /**
