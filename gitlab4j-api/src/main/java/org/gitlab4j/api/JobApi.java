@@ -292,6 +292,20 @@ public class JobApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Retrieve the job corresponding to the <code>$CI_JOB_TOKEN</code> environment variable (Using a {@link org.gitlab4j.models.Constants.TokenType#JOB_TOKEN} authentication).
+     *
+     * <pre><code>GitLab Endpoint: GET /job</code></pre>
+     *
+     * @return a single job
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Job getJob() throws GitLabApiException {
+        Response response =
+                get(Response.Status.OK, null, "job");
+        return (response.readEntity(Job.class));
+    }
+    
+    /**
      * Get single job in a project.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/jobs/:job_id</code></pre>
