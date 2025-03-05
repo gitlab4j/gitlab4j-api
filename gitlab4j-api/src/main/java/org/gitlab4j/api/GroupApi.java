@@ -2375,9 +2375,34 @@ public class GroupApi extends AbstractApi {
      * @param accessLevel Access level. Valid values are {@link AccessLevel#GUEST}, {@link AccessLevel#REPORTER}, {@link AccessLevel#DEVELOPER}, {@link AccessLevel#MAINTAINER}, and {@link AccessLevel#OWNER}.
      * @return the created GroupAccessToken instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #createGroupAccessToken(Object, String, String, Date, Scope[], AccessLevel)}
      */
+    @Deprecated
     public GroupAccessToken createGroupAccessToken(
             Object groupIdOrPath, String name, Date expiresAt, Scope[] scopes, AccessLevel accessLevel)
+            throws GitLabApiException {
+        return createGroupAccessToken(groupIdOrPath, name, null, expiresAt, scopes, accessLevel);
+    }
+    /**
+     * Create a group access token. You must have the Owner role for the group to create group access tokens.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/access_tokens</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @param name the name of the group access token, required
+     * @param expiresAt the expiration date of the group access token, optional
+     * @param scopes an array of scopes of the group access token
+     * @param accessLevel Access level. Valid values are {@link AccessLevel#GUEST}, {@link AccessLevel#REPORTER}, {@link AccessLevel#DEVELOPER}, {@link AccessLevel#MAINTAINER}, and {@link AccessLevel#OWNER}.
+     * @return the created GroupAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public GroupAccessToken createGroupAccessToken(
+            Object groupIdOrPath,
+            String name,
+            String description,
+            Date expiresAt,
+            Scope[] scopes,
+            AccessLevel accessLevel)
             throws GitLabApiException {
         if (scopes == null || scopes.length == 0) {
             throw new RuntimeException("scopes cannot be null or empty");
@@ -2385,6 +2410,7 @@ public class GroupApi extends AbstractApi {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
+                .withParam("description", description)
                 .withParam("scopes", Arrays.asList(scopes))
                 .withParam("expires_at", ISO8601.dateOnly(expiresAt))
                 .withParam("access_level", accessLevel);

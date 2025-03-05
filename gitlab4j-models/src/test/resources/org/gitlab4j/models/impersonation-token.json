@@ -7,6 +7,7 @@
   "revoked" : true,
   "token" : "ZcZRpLeEuQRprkRjYydY",
   "name" : "mytoken2",
+  "description": "Test Token description",
   "created_at" : "2017-03-17T17:19:28.697Z",
   "last_used_at": "2018-03-17T17:19:28.697Z",
   "id" : 3,

@@ -15,6 +15,7 @@ public class PersonalAccessToken implements Serializable {
     private Long userId;
     private List<Constants.ProjectAccessTokenScope> scopes;
     private String name;
+    private String description;
 
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date expiresAt;
@@ -48,6 +49,14 @@ public class PersonalAccessToken implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getExpiresAt() {
