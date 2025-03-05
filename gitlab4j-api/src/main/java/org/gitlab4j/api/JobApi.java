@@ -300,11 +300,10 @@ public class JobApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Job getJob() throws GitLabApiException {
-        Response response =
-                get(Response.Status.OK, null, "job");
+        Response response = get(Response.Status.OK, null, "job");
         return (response.readEntity(Job.class));
     }
-    
+
     /**
      * Get single job in a project.
      *
