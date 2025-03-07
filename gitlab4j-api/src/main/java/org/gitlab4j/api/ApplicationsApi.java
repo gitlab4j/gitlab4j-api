@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
@@ -154,5 +155,19 @@ public class ApplicationsApi extends AbstractApi {
      */
     public void deleteApplication(Long applicationId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "applications", applicationId);
+    }
+
+    /**
+     * Renews an application secret.
+     *
+     * <pre><code>GitLab Endpoint: POST /applications/:id/renew-secret</code></pre>
+     *
+     * @param applicationId the ID of the OUAUTH Application to renew
+     * @return the updated Application instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Application renewSecret(Long applicationId) throws GitLabApiException {
+        Response response = post(Response.Status.CREATED, (Form) null, "applications", applicationId, "renew-secret");
+        return (response.readEntity(Application.class));
     }
 }
