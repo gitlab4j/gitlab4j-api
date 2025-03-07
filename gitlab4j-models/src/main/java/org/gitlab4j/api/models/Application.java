@@ -9,6 +9,8 @@ public class Application implements Serializable {
     private String applicationId;
     private String applicationName;
     private String callbackUrl;
+    private Boolean confidential;
+    private String secret;
 
     public Long getId() {
         return id;
@@ -40,5 +42,21 @@ public class Application implements Serializable {
 
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
+    }
+
+    public Boolean getConfidential() {
+        return confidential;
+    }
+
+    public void setConfidential(Boolean confidential) {
+        this.confidential = confidential;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }

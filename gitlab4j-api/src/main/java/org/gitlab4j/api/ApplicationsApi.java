@@ -83,7 +83,9 @@ public class ApplicationsApi extends AbstractApi {
      * @param scopes the scopes of the application (api, read_user, sudo, read_repository, openid, profile, email)
      * @return the created Application instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #createApplication(String, String, List, Boolean)} instead
      */
+    @Deprecated
     public Application createApplication(String name, String redirectUri, ApplicationScope[] scopes)
             throws GitLabApiException {
 
@@ -104,8 +106,28 @@ public class ApplicationsApi extends AbstractApi {
      * @param scopes the scopes of the application (api, read_user, sudo, read_repository, openid, profile, email)
      * @return the created Application instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #createApplication(String, String, List, Boolean)} instead
      */
+    @Deprecated
     public Application createApplication(String name, String redirectUri, List<ApplicationScope> scopes)
+            throws GitLabApiException {
+        return createApplication(name, redirectUri, scopes, null);
+    }
+
+    /**
+     * Create an OAUTH Application.
+     *
+     * <pre><code>GitLab Endpoint: POST /api/v4/applications</code></pre>
+     *
+     * @param name the name for the OAUTH Application
+     * @param redirectUri the redirect URI for the OAUTH Application
+     * @param scopes the scopes of the application (api, read_user, sudo, read_repository, openid, profile, email)
+     * @param confidential The application is used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential
+     * @return the created Application instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Application createApplication(
+            String name, String redirectUri, List<ApplicationScope> scopes, Boolean confidential)
             throws GitLabApiException {
 
         if (scopes == null || scopes.isEmpty()) {
@@ -116,7 +138,8 @@ public class ApplicationsApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
                 .withParam("redirect_uri", redirectUri, true)
-                .withParam("scopes", scopesString, true);
+                .withParam("scopes", scopesString, true)
+                .withParam("confidential", confidential);
         Response response = post(Response.Status.CREATED, formData, "applications");
         return (response.readEntity(Application.class));
     }

@@ -829,26 +829,55 @@ public interface Constants {
      * Enum for the various Application scope values.
      */
     public enum ApplicationScope {
-
-        /**  Access the authenticated user's API */
+        /** Grants complete read/write access to the API, including all groups and projects, the container registry, the dependency proxy, and the package registry. */
         API,
 
-        /** Read the authenticated user's personal information */
+        /** Grants read access to the API, including all groups and projects, the container registry, and the package registry. */
+        READ_API,
+
+        /** Grants read-only access to your profile through the /user API endpoint, which includes username, public email, and full name. Also grants access to read-only API endpoints under /users. */
         READ_USER,
 
-        /**  Perform API actions as any user in the system */
-        SUDO,
+        /** Grants create access to the runners. */
+        CREATE_RUNNER,
 
-        /** Allows read-access to the repository */
+        /** Grants access to manage the runners. */
+        MANAGE_RUNNER,
+
+        /** Grants permission to perform Kubernetes API calls using the agent for Kubernetes. */
+        K8S_PROXY,
+
+        /** Grants read-only access to repositories on private projects using Git-over-HTTP or the Repository Files API. */
         READ_REPOSITORY,
 
-        /** Authenticate using OpenID Connect */
+        /** Grants read-write access to repositories on private projects using Git-over-HTTP (not using the API). */
+        WRITE_REPOSITORY,
+
+        /** Grants read-only access to GitLab Observability. */
+        READ_OBSERVABILITY,
+
+        /** Grants write access to GitLab Observability. */
+        WRITE_OBSERVABILITY,
+
+        /** Grants access to GitLab Duo related API endpoints. */
+        AI_FEATURES,
+
+        /** Grants permission to perform API actions as any user in the system, when authenticated as an admin user. */
+        SUDO,
+
+        /** Grants permission to perform API actions as an administrator, when Admin Mode is enabled. */
+        ADMIN_MODE,
+
+        /** Grant access to download Service Ping payload via API when authenticated as an admin user. */
+        READ_SERVICE_PING,
+
+        /** Grants permission to authenticate with GitLab using OpenID Connect. Also gives read-only access to the user's profile and group memberships. */
         OPENID,
 
-        /** Allows read-only access to the user's personal information using OpenID Connect */
+        /** Grants read-only access to the user's profile data using OpenID Connect. */
         PROFILE,
 
-        /** Allows read-only access to the user's primary email address using OpenID Connect */
+        /** Grants read-only access to the user's primary email address using OpenID Connect. */
         EMAIL;
 
         private static JacksonJsonEnumHelper<ApplicationScope> enumHelper =
