@@ -135,7 +135,7 @@ public class ApplicationsApi extends AbstractApi {
             throw new GitLabApiException("scopes cannot be null or empty");
         }
 
-        String scopesString = scopes.stream().map(ApplicationScope::toString).collect(Collectors.joining(","));
+        String scopesString = scopes.stream().map(ApplicationScope::toString).collect(Collectors.joining(" "));
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("name", name, true)
                 .withParam("redirect_uri", redirectUri, true)
