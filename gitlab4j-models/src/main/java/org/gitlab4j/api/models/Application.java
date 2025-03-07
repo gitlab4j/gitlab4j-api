@@ -2,6 +2,8 @@ package org.gitlab4j.api.models;
 
 import java.io.Serializable;
 
+import org.gitlab4j.models.utils.JacksonJson;
+
 public class Application implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -9,6 +11,8 @@ public class Application implements Serializable {
     private String applicationId;
     private String applicationName;
     private String callbackUrl;
+    private Boolean confidential;
+    private String secret;
 
     public Long getId() {
         return id;
@@ -40,5 +44,26 @@ public class Application implements Serializable {
 
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
+    }
+
+    public Boolean getConfidential() {
+        return confidential;
+    }
+
+    public void setConfidential(Boolean confidential) {
+        this.confidential = confidential;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }
