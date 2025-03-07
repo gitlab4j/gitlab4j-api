@@ -23,7 +23,7 @@ public class SystemHooksApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /hooks</code></pre>
      *
-     * @return a list of SystemHookEvent
+     * @return a list of SystemHook
      * @throws GitLabApiException if any exception occurs
      */
     public List<SystemHook> getSystemHooks() throws GitLabApiException {
@@ -38,7 +38,7 @@ public class SystemHooksApi extends AbstractApi {
      *
      * @param page the page to get
      * @param perPage the number of deploy keys per page
-     * @return the list of SystemHookEvent in the specified range
+     * @return the list of SystemHook in the specified range
      * @throws GitLabApiException if any exception occurs
      */
     public List<SystemHook> getSystemHooks(int page, int perPage) throws GitLabApiException {
@@ -51,8 +51,8 @@ public class SystemHooksApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /hooks</code></pre>
      *
-     * @param itemsPerPage the number of SystemHookEvent instances that will be fetched per page
-     * @return a Pager of SystemHookEvent
+     * @param itemsPerPage the number of SystemHook instances that will be fetched per page
+     * @return a Pager of SystemHook
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<SystemHook> getSystemHooks(int itemsPerPage) throws GitLabApiException {
@@ -64,11 +64,25 @@ public class SystemHooksApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /hooks</code></pre>
      *
-     * @return a Stream of SystemHookEvent
+     * @return a Stream of SystemHook
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<SystemHook> getSystemHookStream() throws GitLabApiException {
         return (getSystemHooks(getDefaultPerPage()).stream());
+    }
+
+    /**
+     * Get a list of all system hooks. This method requires admin access.
+     *
+     * <pre><code>GitLab Endpoint: GET /hooks</code></pre>
+     *
+     * @param hookId the ID of the system hook.
+     * @return the SystemHook
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SystemHook getSystemHook(Long hookId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "hooks", hookId);
+        return response.readEntity(SystemHook.class);
     }
 
     /**
@@ -81,7 +95,7 @@ public class SystemHooksApi extends AbstractApi {
      * @param pushEvents when true, the hook will fire on push events, optional
      * @param tagPushEvents when true, the hook will fire on new tags being pushed, optional
      * @param enableSslVerification do SSL verification when triggering the hook, optional
-     * @return an SystemHookEvent instance with info on the added system hook
+     * @return an SystemHook instance with info on the added system hook
      * @throws GitLabApiException if any exception occurs
      */
     public SystemHook addSystemHook(
@@ -104,7 +118,7 @@ public class SystemHooksApi extends AbstractApi {
      * @param url the hook URL, required
      * @param token secret token to validate received payloads, optional
      * @param systemHook the systemHook to create
-     * @return an SystemHookEvent instance with info on the added system hook
+     * @return an SystemHook instance with info on the added system hook
      * @throws GitLabApiException if any exception occurs
      */
     public SystemHook addSystemHook(String url, String token, SystemHook systemHook) throws GitLabApiException {
@@ -116,6 +130,8 @@ public class SystemHooksApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", url, true)
                 .withParam("token", token)
+                .withParam("name", systemHook.getName())
+                .withParam("description", systemHook.getDescription())
                 .withParam("push_events", systemHook.getPushEvents())
                 .withParam("tag_push_events", systemHook.getTagPushEvents())
                 .withParam("merge_requests_events", systemHook.getMergeRequestsEvents())
@@ -166,7 +182,7 @@ public class SystemHooksApi extends AbstractApi {
      *
      * <pre><code>GitLab Endpoint: GET /hooks/:hook_id</code></pre>
      *
-     * @param hook the SystemHookEvent instance to test
+     * @param hook the SystemHook instance to test
      * @throws GitLabApiException if any exception occurs
      */
     public void testSystemHook(SystemHook hook) throws GitLabApiException {
@@ -193,5 +209,20 @@ public class SystemHooksApi extends AbstractApi {
         }
 
         get(Response.Status.OK, null, "hooks", hookId);
+    }
+
+    /**
+     * Add a new system hook. This method requires admin access.
+     *
+     *  <pre><code>GitLab Endpoint: PUT /hooks/:hook_id/url_variables/:key</code></pre>
+     *
+     * @param hookId the ID of the system hook
+     * @param key Key of the URL variable
+     * @param value Value of the URL variable.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void addSystemHookUrlVariable(Long hookId, String key, String value) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("value", value, true);
+        put(Response.Status.CREATED, formData, "hooks", hookId, "url_variables", key);
     }
 }
