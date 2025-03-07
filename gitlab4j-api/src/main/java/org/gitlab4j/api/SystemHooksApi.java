@@ -223,6 +223,6 @@ public class SystemHooksApi extends AbstractApi {
      */
     public void addSystemHookUrlVariable(Long hookId, String key, String value) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("value", value, true);
-        putWithFormData(Response.Status.CREATED, formData, "hooks", hookId, "url_variables", key);
+        put(Response.Status.CREATED, formData.asMap(), "hooks", hookId, "url_variables", key);
     }
 }
