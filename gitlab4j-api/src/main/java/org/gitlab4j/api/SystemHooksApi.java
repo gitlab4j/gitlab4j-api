@@ -142,6 +142,36 @@ public class SystemHooksApi extends AbstractApi {
     }
 
     /**
+     * Add a new system hook. This method requires admin access.
+     *
+     *  <pre><code>GitLab Endpoint: PUT /hooks/:hook_id</code></pre>
+     *
+     * @param systemHook the systemHook to update
+     * @param token secret token to validate received payloads, optional
+     * @return an SystemHook instance with info on the added system hook
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SystemHook updateSystemHook(SystemHook systemHook, String token) throws GitLabApiException {
+
+        if (systemHook.getId() == null) {
+            throw new RuntimeException("systemHook id cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("url", systemHook.getUrl())
+                .withParam("token", token)
+                .withParam("name", systemHook.getName())
+                .withParam("description", systemHook.getDescription())
+                .withParam("push_events", systemHook.getPushEvents())
+                .withParam("tag_push_events", systemHook.getTagPushEvents())
+                .withParam("merge_requests_events", systemHook.getMergeRequestsEvents())
+                .withParam("repository_update_events", systemHook.getRepositoryUpdateEvents())
+                .withParam("enable_ssl_verification", systemHook.getEnableSslVerification());
+        Response response = putWithFormData(Response.Status.OK, formData, "hooks", systemHook.getId());
+        return (response.readEntity(SystemHook.class));
+    }
+
+    /**
      * Deletes a system hook. This method requires admin access.
      *
      *  <pre><code>GitLab Endpoint: DELETE /hooks/:hook_id</code></pre>
@@ -212,7 +242,7 @@ public class SystemHooksApi extends AbstractApi {
     }
 
     /**
-     * Add a new system hook. This method requires admin access.
+     * Add a new URL variable.
      *
      *  <pre><code>GitLab Endpoint: PUT /hooks/:hook_id/url_variables/:key</code></pre>
      *
@@ -224,5 +254,18 @@ public class SystemHooksApi extends AbstractApi {
     public void addSystemHookUrlVariable(Long hookId, String key, String value) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("value", value, true);
         put(Response.Status.CREATED, formData.asMap(), "hooks", hookId, "url_variables", key);
+    }
+
+    /**
+     * Delete a URL variable.
+     *
+     *  <pre><code>GitLab Endpoint: DELETE /hooks/:hook_id/url_variables/:key</code></pre>
+     *
+     * @param hookId the ID of the system hook
+     * @param key Key of the URL variable
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void deleteSystemHookUrlVariable(Long hookId, String key) throws GitLabApiException {
+        delete(Response.Status.NO_CONTENT, null, "hooks", hookId, "url_variables", key);
     }
 }
