@@ -1399,4 +1399,52 @@ public interface Constants {
             return Integer.toString(value);
         }
     }
+
+    public enum ProjectFeatureVisibilityAccessLevel {
+        DISABLED,
+        PRIVATE,
+        ENABLED,
+        PUBLIC;
+
+        private static final JacksonJsonEnumHelper<ProjectFeatureVisibilityAccessLevel> enumHelper =
+                new JacksonJsonEnumHelper<>(ProjectFeatureVisibilityAccessLevel.class);
+
+        @JsonCreator
+        public static ProjectFeatureVisibilityAccessLevel forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    public enum AutoCancelPendingPipelines {
+        DISABLED,
+        ENABLED;
+
+        private static final JacksonJsonEnumHelper<AutoCancelPendingPipelines> enumHelper =
+                new JacksonJsonEnumHelper<>(AutoCancelPendingPipelines.class);
+
+        @JsonCreator
+        public static AutoCancelPendingPipelines forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
 }

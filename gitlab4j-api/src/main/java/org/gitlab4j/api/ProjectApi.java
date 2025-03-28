@@ -1128,7 +1128,48 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
                 .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
                 .withParam("auto_devops_enabled", project.getAutoDevopsEnabled())
-                .withParam("squash_option", project.getSquashOption());
+                .withParam("squash_option", project.getSquashOption())
+                .withParam("use_custom_template", project.getUseCustomTemplate())
+                .withParam(
+                        "external_authorization_classification_label",
+                        project.getExternalAuthorizationClassificationLabel())
+                .withParam("group_runners_enabled", project.getGroupRunnersEnabled())
+                .withParam("show_default_award_emojis", project.getShowDefaultAwardEmojis())
+                .withParam(
+                        "warn_about_potentially_unwanted_characters",
+                        project.getWarnAboutPotentiallyUnwantedCharacters())
+                .withParam("mirror_trigger_builds", project.getMirrorTriggerBuilds())
+                .withParam("auto_cancel_pending_pipelines", project.getAutoCancelPendingPipelines())
+                .withParam("repository_object_format", project.getRepositoryObjectFormat())
+                .withParam(
+                        "only_allow_merge_if_all_status_checks_passed",
+                        project.getOnlyAllowMergeIfAllStatusChecksPassed())
+                .withParam("avatar", project.getAvatar())
+                .withParam("group_with_project_templates_id", project.getGroupWithProjectTemplatesId())
+                .withParam("public_builds", project.getPublicBuilds())
+                .withParam("build_timeout", project.getBuildTimeout())
+                .withParam("template_name", project.getTemplateName())
+                .withParam("emails_enabled", project.getEmailsEnabled())
+                .withParam("mirror", project.getMirror())
+                .withParam("analytics_access_level", project.getAnalyticsAccessLevel())
+                .withParam("builds_access_level", project.getBuildsAccessLevel())
+                .withParam("container_registry_access_level", project.getContainerRegistryAccessLevel())
+                .withParam("environments_access_level", project.getEnvironmentsAccessLevel())
+                .withParam("feature_flags_access_level", project.getFeatureFlagsAccessLevel())
+                .withParam("forking_access_level", project.getForkingAccessLevel())
+                .withParam("infrastructure_access_level", project.getInfrastructureAccessLevel())
+                .withParam("issues_access_level", project.getIssuesAccessLevel())
+                .withParam("merge_requests_access_level", project.getMergeRequestsAccessLevel())
+                .withParam("model_experiments_access_level", project.getModelExperimentsAccessLevel())
+                .withParam("model_registry_access_level", project.getModelRegistryAccessLevel())
+                .withParam("monitor_access_level", project.getMonitorAccessLevel())
+                .withParam("pages_access_level", project.getPagesAccessLevel())
+                .withParam("releases_access_level", project.getReleasesAccessLevel())
+                .withParam("repository_access_level", project.getRepositoryAccessLevel())
+                .withParam("requirements_access_level", project.getRequirementsAccessLevel())
+                .withParam("security_and_compliance_access_level", project.getSecurityAndComplianceAccessLevel())
+                .withParam("snippets_access_level", project.getSnippetsAccessLevel())
+                .withParam("wiki_access_level", project.getWikiAccessLevel());
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
@@ -1490,7 +1531,48 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("merge_method", project.getMergeMethod())
                 .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
                 .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
-                .withParam("squash_option", project.getSquashOption());
+                .withParam("squash_option", project.getSquashOption())
+                .withParam("use_custom_template", project.getUseCustomTemplate())
+                .withParam(
+                        "external_authorization_classification_label",
+                        project.getExternalAuthorizationClassificationLabel())
+                .withParam("group_runners_enabled", project.getGroupRunnersEnabled())
+                .withParam("show_default_award_emojis", project.getShowDefaultAwardEmojis())
+                .withParam(
+                        "warn_about_potentially_unwanted_characters",
+                        project.getWarnAboutPotentiallyUnwantedCharacters())
+                .withParam("mirror_trigger_builds", project.getMirrorTriggerBuilds())
+                .withParam("auto_cancel_pending_pipelines", project.getAutoCancelPendingPipelines())
+                .withParam("repository_object_format", project.getRepositoryObjectFormat())
+                .withParam(
+                        "only_allow_merge_if_all_status_checks_passed",
+                        project.getOnlyAllowMergeIfAllStatusChecksPassed())
+                .withParam("avatar", project.getAvatar())
+                .withParam("group_with_project_templates_id", project.getGroupWithProjectTemplatesId())
+                .withParam("public_builds", project.getPublicBuilds())
+                .withParam("build_timeout", project.getBuildTimeout())
+                .withParam("template_name", project.getTemplateName())
+                .withParam("emails_enabled", project.getEmailsEnabled())
+                .withParam("mirror", project.getMirror())
+                .withParam("analytics_access_level", project.getAnalyticsAccessLevel())
+                .withParam("builds_access_level", project.getBuildsAccessLevel())
+                .withParam("container_registry_access_level", project.getContainerRegistryAccessLevel())
+                .withParam("environments_access_level", project.getEnvironmentsAccessLevel())
+                .withParam("feature_flags_access_level", project.getFeatureFlagsAccessLevel())
+                .withParam("forking_access_level", project.getForkingAccessLevel())
+                .withParam("infrastructure_access_level", project.getInfrastructureAccessLevel())
+                .withParam("issues_access_level", project.getIssuesAccessLevel())
+                .withParam("merge_requests_access_level", project.getMergeRequestsAccessLevel())
+                .withParam("model_experiments_access_level", project.getModelExperimentsAccessLevel())
+                .withParam("model_registry_access_level", project.getModelRegistryAccessLevel())
+                .withParam("monitor_access_level", project.getMonitorAccessLevel())
+                .withParam("pages_access_level", project.getPagesAccessLevel())
+                .withParam("releases_access_level", project.getReleasesAccessLevel())
+                .withParam("repository_access_level", project.getRepositoryAccessLevel())
+                .withParam("requirements_access_level", project.getRequirementsAccessLevel())
+                .withParam("security_and_compliance_access_level", project.getSecurityAndComplianceAccessLevel())
+                .withParam("snippets_access_level", project.getSnippetsAccessLevel())
+                .withParam("wiki_access_level", project.getWikiAccessLevel());
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());
