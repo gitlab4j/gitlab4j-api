@@ -177,7 +177,7 @@ public class Project implements Serializable {
 
     public Project withApprovalsBeforeMerge(Integer approvalsBeforeMerge) {
         this.approvalsBeforeMerge = approvalsBeforeMerge;
-        return (this);
+        return this;
     }
 
     public Boolean getArchived() {
@@ -206,7 +206,7 @@ public class Project implements Serializable {
 
     public Project withContainerRegistryEnabled(Boolean containerRegistryEnabled) {
         this.containerRegistryEnabled = containerRegistryEnabled;
-        return (this);
+        return this;
     }
 
     public Date getCreatedAt() {
@@ -235,7 +235,7 @@ public class Project implements Serializable {
 
     public Project withDefaultBranch(String defaultBranch) {
         this.defaultBranch = defaultBranch;
-        return (this);
+        return this;
     }
 
     public String getDescription() {
@@ -248,7 +248,7 @@ public class Project implements Serializable {
 
     public Project withDescription(String description) {
         this.description = description;
-        return (this);
+        return this;
     }
 
     public Integer getForksCount() {
@@ -285,7 +285,7 @@ public class Project implements Serializable {
 
     public Project withId(Long id) {
         this.id = id;
-        return (this);
+        return this;
     }
 
     public Boolean getIssuesEnabled() {
@@ -298,7 +298,7 @@ public class Project implements Serializable {
 
     public Project withIssuesEnabled(Boolean issuesEnabled) {
         this.issuesEnabled = issuesEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getJobsEnabled() {
@@ -311,7 +311,7 @@ public class Project implements Serializable {
 
     public Project withJobsEnabled(Boolean jobsEnabled) {
         this.jobsEnabled = jobsEnabled;
-        return (this);
+        return this;
     }
 
     public Date getLastActivityAt() {
@@ -332,7 +332,7 @@ public class Project implements Serializable {
 
     public Project withLfsEnabled(Boolean lfsEnabled) {
         this.lfsEnabled = lfsEnabled;
-        return (this);
+        return this;
     }
 
     public MergeMethod getMergeMethod() {
@@ -345,7 +345,7 @@ public class Project implements Serializable {
 
     public Project withMergeMethod(MergeMethod mergeMethod) {
         this.mergeMethod = mergeMethod;
-        return (this);
+        return this;
     }
 
     public Boolean getMergeRequestsEnabled() {
@@ -358,7 +358,7 @@ public class Project implements Serializable {
 
     public Project withMergeRequestsEnabled(Boolean mergeRequestsEnabled) {
         this.mergeRequestsEnabled = mergeRequestsEnabled;
-        return (this);
+        return this;
     }
 
     public String getName() {
@@ -371,7 +371,7 @@ public class Project implements Serializable {
 
     public Project withName(String name) {
         this.name = name;
-        return (this);
+        return this;
     }
 
     public Namespace getNamespace() {
@@ -384,13 +384,13 @@ public class Project implements Serializable {
 
     public Project withNamespace(Namespace namespace) {
         this.namespace = namespace;
-        return (this);
+        return this;
     }
 
     public Project withNamespaceId(long namespaceId) {
         this.namespace = new Namespace();
         this.namespace.setId(namespaceId);
-        return (this);
+        return this;
     }
 
     public String getNameWithNamespace() {
@@ -411,7 +411,7 @@ public class Project implements Serializable {
 
     public Project withOnlyAllowMergeIfPipelineSucceeds(Boolean onlyAllowMergeIfPipelineSucceeds) {
         this.onlyAllowMergeIfPipelineSucceeds = onlyAllowMergeIfPipelineSucceeds;
-        return (this);
+        return this;
     }
 
     public Boolean getAllowMergeOnSkippedPipeline() {
@@ -424,7 +424,7 @@ public class Project implements Serializable {
 
     public Project withAllowMergeOnSkippedPipeline(Boolean allowMergeOnSkippedPipeline) {
         this.allowMergeOnSkippedPipeline = allowMergeOnSkippedPipeline;
-        return (this);
+        return this;
     }
 
     public Boolean getOnlyAllowMergeIfAllDiscussionsAreResolved() {
@@ -437,7 +437,7 @@ public class Project implements Serializable {
 
     public Project withOnlyAllowMergeIfAllDiscussionsAreResolved(Boolean onlyAllowMergeIfAllDiscussionsAreResolved) {
         this.onlyAllowMergeIfAllDiscussionsAreResolved = onlyAllowMergeIfAllDiscussionsAreResolved;
-        return (this);
+        return this;
     }
 
     public Integer getOpenIssuesCount() {
@@ -466,7 +466,7 @@ public class Project implements Serializable {
 
     public Project withPath(String path) {
         this.path = path;
-        return (this);
+        return this;
     }
 
     public String getPathWithNamespace() {
@@ -495,7 +495,7 @@ public class Project implements Serializable {
 
     public Project withPublic(Boolean isPublic) {
         this.isPublic = isPublic;
-        return (this);
+        return this;
     }
 
     public Boolean getPublicJobs() {
@@ -508,7 +508,7 @@ public class Project implements Serializable {
 
     public Project withPublicJobs(Boolean publicJobs) {
         this.publicJobs = publicJobs;
-        return (this);
+        return this;
     }
 
     public String getRepositoryStorage() {
@@ -521,7 +521,7 @@ public class Project implements Serializable {
 
     public Project withRepositoryStorage(String repositoryStorage) {
         this.repositoryStorage = repositoryStorage;
-        return (this);
+        return this;
     }
 
     public Boolean getRequestAccessEnabled() {
@@ -534,7 +534,7 @@ public class Project implements Serializable {
 
     public Project withRequestAccessEnabled(Boolean requestAccessEnabled) {
         this.requestAccessEnabled = requestAccessEnabled;
-        return (this);
+        return this;
     }
 
     public String getRunnersToken() {
@@ -563,7 +563,7 @@ public class Project implements Serializable {
 
     public Project withSharedRunnersEnabled(Boolean sharedRunnersEnabled) {
         this.sharedRunnersEnabled = sharedRunnersEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getSnippetsEnabled() {
@@ -576,7 +576,7 @@ public class Project implements Serializable {
 
     public Project withSnippetsEnabled(Boolean snippetsEnabled) {
         this.snippetsEnabled = snippetsEnabled;
-        return (this);
+        return this;
     }
 
     public String getSshUrlToRepo() {
@@ -617,7 +617,7 @@ public class Project implements Serializable {
     @Deprecated
     public Project withTagList(List<String> tagList) {
         this.tagList = tagList;
-        return (this);
+        return this;
     }
 
     public List<String> getTopics() {
@@ -630,7 +630,7 @@ public class Project implements Serializable {
 
     public Project withTopics(List<String> topics) {
         this.topics = topics;
-        return (this);
+        return this;
     }
 
     public Visibility getVisibility() {
@@ -643,7 +643,7 @@ public class Project implements Serializable {
 
     public Project withVisibility(Visibility visibility) {
         this.visibility = visibility;
-        return (this);
+        return this;
     }
 
     public Integer getVisibilityLevel() {
@@ -656,7 +656,7 @@ public class Project implements Serializable {
 
     public Project withVisibilityLevel(Integer visibilityLevel) {
         this.visibilityLevel = visibilityLevel;
-        return (this);
+        return this;
     }
 
     public Boolean getWallEnabled() {
@@ -669,7 +669,7 @@ public class Project implements Serializable {
 
     public Project withWallEnabled(Boolean wallEnabled) {
         this.wallEnabled = wallEnabled;
-        return (this);
+        return this;
     }
 
     public String getWebUrl() {
@@ -682,7 +682,7 @@ public class Project implements Serializable {
 
     public Project withWebUrl(String webUrl) {
         this.webUrl = webUrl;
-        return (this);
+        return this;
     }
 
     public Boolean getWikiEnabled() {
@@ -695,7 +695,7 @@ public class Project implements Serializable {
 
     public Project withWikiEnabled(Boolean wikiEnabled) {
         this.wikiEnabled = wikiEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getPrintingMergeRequestLinkEnabled() {
@@ -708,7 +708,7 @@ public class Project implements Serializable {
 
     public Project withPrintingMergeRequestLinkEnabled(Boolean printingMergeRequestLinkEnabled) {
         this.printingMergeRequestLinkEnabled = printingMergeRequestLinkEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getResolveOutdatedDiffDiscussions() {
@@ -721,7 +721,7 @@ public class Project implements Serializable {
 
     public Project withResolveOutdatedDiffDiscussions(Boolean resolveOutdatedDiffDiscussions) {
         this.resolveOutdatedDiffDiscussions = resolveOutdatedDiffDiscussions;
-        return (this);
+        return this;
     }
 
     public Boolean getInitializeWithReadme() {
@@ -734,7 +734,7 @@ public class Project implements Serializable {
 
     public Project withInitializeWithReadme(Boolean initializeWithReadme) {
         this.initializeWithReadme = initializeWithReadme;
-        return (this);
+        return this;
     }
 
     public Boolean getPackagesEnabled() {
@@ -747,7 +747,7 @@ public class Project implements Serializable {
 
     public Project withPackagesEnabled(Boolean packagesEnabled) {
         this.packagesEnabled = packagesEnabled;
-        return (this);
+        return this;
     }
 
     public ProjectStatistics getStatistics() {
@@ -828,7 +828,7 @@ public class Project implements Serializable {
 
     public Project withBuildCoverageRegex(String buildCoverageRegex) {
         this.buildCoverageRegex = buildCoverageRegex;
-        return (this);
+        return this;
     }
 
     public BuildGitStrategy getBuildGitStrategy() {
@@ -841,7 +841,7 @@ public class Project implements Serializable {
 
     public Project withBuildGitStrategy(BuildGitStrategy buildGitStrategy) {
         this.buildGitStrategy = buildGitStrategy;
-        return (this);
+        return this;
     }
 
     public String getReadmeUrl() {
@@ -894,7 +894,7 @@ public class Project implements Serializable {
 
     public Project withCiConfigPath(String ciConfigPath) {
         this.ciConfigPath = ciConfigPath;
-        return (this);
+        return this;
     }
 
     public Boolean getRemoveSourceBranchAfterMerge() {
@@ -907,7 +907,7 @@ public class Project implements Serializable {
 
     public Project withRemoveSourceBranchAfterMerge(Boolean removeSourceBranchAfterMerge) {
         this.removeSourceBranchAfterMerge = removeSourceBranchAfterMerge;
-        return (this);
+        return this;
     }
 
     public Boolean getAutoDevopsEnabled() {
@@ -920,7 +920,7 @@ public class Project implements Serializable {
 
     public Project withAutoDevopsEnabled(Boolean autoDevopsEnabled) {
         this.autoDevopsEnabled = autoDevopsEnabled;
-        return (this);
+        return this;
     }
 
     public AutoDevopsDeployStrategy getAutoDevopsDeployStrategy() {
@@ -941,7 +941,7 @@ public class Project implements Serializable {
 
     public Project withAutocloseReferencedIssues(Boolean autocloseReferencedIssues) {
         this.autocloseReferencedIssues = autocloseReferencedIssues;
-        return (this);
+        return this;
     }
 
     public Boolean getEmailsDisabled() {
@@ -954,7 +954,7 @@ public class Project implements Serializable {
 
     public Project withEmailsDisabled(Boolean emailsDisabled) {
         this.emailsDisabled = emailsDisabled;
-        return (this);
+        return this;
     }
 
     public String getSuggestionCommitMessage() {
@@ -963,7 +963,7 @@ public class Project implements Serializable {
 
     public Project withSuggestionCommitMessage(String suggestionCommitMessage) {
         this.suggestionCommitMessage = suggestionCommitMessage;
-        return (this);
+        return this;
     }
 
     public void setSuggestionCommitMessage(String suggestionCommitMessage) {
@@ -980,7 +980,7 @@ public class Project implements Serializable {
 
     public Project withSquashOption(SquashOption squashOption) {
         this.squashOption = squashOption;
-        return (this);
+        return this;
     }
 
     public String getMergeCommitTemplate() {
@@ -1041,7 +1041,7 @@ public class Project implements Serializable {
 
     public Project withBuildTimeout(Integer buildTimeout) {
         this.buildTimeout = buildTimeout;
-        return (this);
+        return this;
     }
 
     public String getAvatar() {
@@ -1054,7 +1054,7 @@ public class Project implements Serializable {
 
     public Project withAvatar(String avatar) {
         this.avatar = avatar;
-        return (this);
+        return this;
     }
 
     public Boolean getMirrorTriggerBuilds() {
@@ -1067,7 +1067,7 @@ public class Project implements Serializable {
 
     public Project withMirrorTriggerBuilds(Boolean mirrorTriggerBuilds) {
         this.mirrorTriggerBuilds = mirrorTriggerBuilds;
-        return (this);
+        return this;
     }
 
     public Integer getGroupWithProjectTemplatesId() {
@@ -1080,7 +1080,7 @@ public class Project implements Serializable {
 
     public Project withGroupWithProjectTemplatesId(Integer groupWithProjectTemplatesId) {
         this.groupWithProjectTemplatesId = groupWithProjectTemplatesId;
-        return (this);
+        return this;
     }
 
     public Boolean getGroupRunnersEnabled() {
@@ -1093,7 +1093,7 @@ public class Project implements Serializable {
 
     public Project withGroupRunnersEnabled(Boolean groupRunnersEnabled) {
         this.groupRunnersEnabled = groupRunnersEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getOnlyAllowMergeIfAllStatusChecksPassed() {
@@ -1106,7 +1106,7 @@ public class Project implements Serializable {
 
     public Project withOnlyAllowMergeIfAllStatusChecksPassed(Boolean onlyAllowMergeIfAllStatusChecksPassed) {
         this.onlyAllowMergeIfAllStatusChecksPassed = onlyAllowMergeIfAllStatusChecksPassed;
-        return (this);
+        return this;
     }
 
     public Boolean getPublicBuilds() {
@@ -1119,7 +1119,7 @@ public class Project implements Serializable {
 
     public Project withPublicBuilds(Boolean publicBuilds) {
         this.publicBuilds = publicBuilds;
-        return (this);
+        return this;
     }
 
     public String getRepositoryObjectFormat() {
@@ -1132,7 +1132,7 @@ public class Project implements Serializable {
 
     public Project withRepositoryObjectFormat(String repositoryObjectFormat) {
         this.repositoryObjectFormat = repositoryObjectFormat;
-        return (this);
+        return this;
     }
 
     public String getTemplateName() {
@@ -1145,7 +1145,7 @@ public class Project implements Serializable {
 
     public Project withTemplateName(String templateName) {
         this.templateName = templateName;
-        return (this);
+        return this;
     }
 
     public String getExternalAuthorizationClassificationLabel() {
@@ -1158,7 +1158,7 @@ public class Project implements Serializable {
 
     public Project withExternalAuthorizationClassificationLabel(String externalAuthorizationClassificationLabel) {
         this.externalAuthorizationClassificationLabel = externalAuthorizationClassificationLabel;
-        return (this);
+        return this;
     }
 
     public AutoCancelPendingPipelines getAutoCancelPendingPipelines() {
@@ -1171,7 +1171,7 @@ public class Project implements Serializable {
 
     public Project withAutoCancelPendingPipelines(AutoCancelPendingPipelines autoCancelPendingPipelines) {
         this.autoCancelPendingPipelines = autoCancelPendingPipelines;
-        return (this);
+        return this;
     }
 
     public Boolean getUseCustomTemplate() {
@@ -1184,7 +1184,7 @@ public class Project implements Serializable {
 
     public Project withUseCustomTemplate(Boolean useCustomTemplate) {
         this.useCustomTemplate = useCustomTemplate;
-        return (this);
+        return this;
     }
 
     public Boolean getEmailsEnabled() {
@@ -1197,7 +1197,7 @@ public class Project implements Serializable {
 
     public Project withEmailsEnabled(Boolean emailsEnabled) {
         this.emailsEnabled = emailsEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getShowDefaultAwardEmojis() {
@@ -1210,7 +1210,7 @@ public class Project implements Serializable {
 
     public Project withShowDefaultAwardEmojis(Boolean showDefaultAwardEmojis) {
         this.showDefaultAwardEmojis = showDefaultAwardEmojis;
-        return (this);
+        return this;
     }
 
     public Boolean getWarnAboutPotentiallyUnwantedCharacters() {
@@ -1223,7 +1223,7 @@ public class Project implements Serializable {
 
     public Project withWarnAboutPotentiallyUnwantedCharacters(Boolean warnAboutPotentiallyUnwantedCharacters) {
         this.warnAboutPotentiallyUnwantedCharacters = warnAboutPotentiallyUnwantedCharacters;
-        return (this);
+        return this;
     }
 
     public Boolean getMirror() {
@@ -1236,7 +1236,7 @@ public class Project implements Serializable {
 
     public Project withMirror(Boolean mirror) {
         this.mirror = mirror;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getAnalyticsAccessLevel() {
@@ -1249,7 +1249,7 @@ public class Project implements Serializable {
 
     public Project withAnalyticsAccessLevel(ProjectFeatureVisibilityAccessLevel analyticsAccessLevel) {
         this.analyticsAccessLevel = analyticsAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getBuildsAccessLevel() {
@@ -1262,7 +1262,7 @@ public class Project implements Serializable {
 
     public Project withBuildsAccessLevel(ProjectFeatureVisibilityAccessLevel buildsAccessLevel) {
         this.buildsAccessLevel = buildsAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getContainerRegistryAccessLevel() {
@@ -1275,7 +1275,7 @@ public class Project implements Serializable {
 
     public Project withContainerRegistryAccessLevel(ProjectFeatureVisibilityAccessLevel containerRegistryAccessLevel) {
         this.containerRegistryAccessLevel = containerRegistryAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getEnvironmentsAccessLevel() {
@@ -1288,7 +1288,7 @@ public class Project implements Serializable {
 
     public Project withEnvironmentsAccessLevel(ProjectFeatureVisibilityAccessLevel environmentsAccessLevel) {
         this.environmentsAccessLevel = environmentsAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getFeatureFlagsAccessLevel() {
@@ -1301,7 +1301,7 @@ public class Project implements Serializable {
 
     public Project withFeatureFlagsAccessLevel(ProjectFeatureVisibilityAccessLevel featureFlagsAccessLevel) {
         this.featureFlagsAccessLevel = featureFlagsAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getForkingAccessLevel() {
@@ -1314,7 +1314,7 @@ public class Project implements Serializable {
 
     public Project withForkingAccessLevel(ProjectFeatureVisibilityAccessLevel forkingAccessLevel) {
         this.forkingAccessLevel = forkingAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getInfrastructureAccessLevel() {
@@ -1327,7 +1327,7 @@ public class Project implements Serializable {
 
     public Project withInfrastructureAccessLevel(ProjectFeatureVisibilityAccessLevel infrastructureAccessLevel) {
         this.infrastructureAccessLevel = infrastructureAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getIssuesAccessLevel() {
@@ -1340,7 +1340,7 @@ public class Project implements Serializable {
 
     public Project withIssuesAccessLevel(ProjectFeatureVisibilityAccessLevel issuesAccessLevel) {
         this.issuesAccessLevel = issuesAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getMergeRequestsAccessLevel() {
@@ -1353,7 +1353,7 @@ public class Project implements Serializable {
 
     public Project withMergeRequestsAccessLevel(ProjectFeatureVisibilityAccessLevel mergeRequestsAccessLevel) {
         this.mergeRequestsAccessLevel = mergeRequestsAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getModelExperimentsAccessLevel() {
@@ -1366,7 +1366,7 @@ public class Project implements Serializable {
 
     public Project withModelExperimentsAccessLevel(ProjectFeatureVisibilityAccessLevel modelExperimentsAccessLevel) {
         this.modelExperimentsAccessLevel = modelExperimentsAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getModelRegistryAccessLevel() {
@@ -1379,7 +1379,7 @@ public class Project implements Serializable {
 
     public Project withModelRegistryAccessLevel(ProjectFeatureVisibilityAccessLevel modelRegistryAccessLevel) {
         this.modelRegistryAccessLevel = modelRegistryAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getMonitorAccessLevel() {
@@ -1392,7 +1392,7 @@ public class Project implements Serializable {
 
     public Project withMonitorAccessLevel(ProjectFeatureVisibilityAccessLevel monitorAccessLevel) {
         this.monitorAccessLevel = monitorAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getPagesAccessLevel() {
@@ -1405,7 +1405,7 @@ public class Project implements Serializable {
 
     public Project withPagesAccessLevel(ProjectFeatureVisibilityAccessLevel pagesAccessLevel) {
         this.pagesAccessLevel = pagesAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getReleasesAccessLevel() {
@@ -1418,7 +1418,7 @@ public class Project implements Serializable {
 
     public Project withReleasesAccessLevel(ProjectFeatureVisibilityAccessLevel releasesAccessLevel) {
         this.releasesAccessLevel = releasesAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getRepositoryAccessLevel() {
@@ -1431,7 +1431,7 @@ public class Project implements Serializable {
 
     public Project withRepositoryAccessLevel(ProjectFeatureVisibilityAccessLevel repositoryAccessLevel) {
         this.repositoryAccessLevel = repositoryAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getRequirementsAccessLevel() {
@@ -1444,7 +1444,7 @@ public class Project implements Serializable {
 
     public Project withRequirementsAccessLevel(ProjectFeatureVisibilityAccessLevel requirementsAccessLevel) {
         this.requirementsAccessLevel = requirementsAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getSecurityAndComplianceAccessLevel() {
@@ -1459,7 +1459,7 @@ public class Project implements Serializable {
     public Project withSecurityAndComplianceAccessLevel(
             ProjectFeatureVisibilityAccessLevel securityAndComplianceAccessLevel) {
         this.securityAndComplianceAccessLevel = securityAndComplianceAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getSnippetsAccessLevel() {
@@ -1472,7 +1472,7 @@ public class Project implements Serializable {
 
     public Project withSnippetsAccessLevel(ProjectFeatureVisibilityAccessLevel snippetsAccessLevel) {
         this.snippetsAccessLevel = snippetsAccessLevel;
-        return (this);
+        return this;
     }
 
     public ProjectFeatureVisibilityAccessLevel getWikiAccessLevel() {
@@ -1485,7 +1485,7 @@ public class Project implements Serializable {
 
     public Project withWikiAccessLevel(ProjectFeatureVisibilityAccessLevel wikiAccessLevel) {
         this.wikiAccessLevel = wikiAccessLevel;
-        return (this);
+        return this;
     }
 
     @JsonIgnore
