@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -14,27 +13,9 @@ import jakarta.ws.rs.core.Response.Status;
 
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.Visibility;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-/**
- * In order for these tests to run you must set the following properties in ~/test-gitlab4j.properties
- *
- * TEST_NAMESPACE
- * TEST_HOST_URL
- * TEST_PRIVATE_TOKEN
- *
- * If any of the above are NULL, all tests in this class will be skipped.
- */
-@Tag("integration")
-@ExtendWith(SetupIntegrationTestExtension.class)
-@org.junit.jupiter.api.Disabled(
-        "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
-public class TestGitLabApiException extends AbstractIntegrationTest {
+public class TestGitLabApiException {
 
     private static final String TEST_PROJECT_NAME_DUPLICATE = "test-gitlab4j-create-project-duplicate";
     private static final String TEST_ERROR_MESSAGE =
@@ -45,39 +26,42 @@ public class TestGitLabApiException extends AbstractIntegrationTest {
 
     private static GitLabApi gitLabApi;
 
-    public TestGitLabApiException() {
-        super();
-    }
-
-    @BeforeAll
-    public static void setup() {
-        // Must setup the connection to the GitLab test server
-        gitLabApi = baseTestSetup();
-
-        deleteAllTestProjects();
-    }
-
-    @AfterAll
-    public static void teardown() throws GitLabApiException {
-        deleteAllTestProjects();
-    }
-
-    private static void deleteAllTestProjects() {
-        if (gitLabApi != null) {
-            try {
-                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE, TEST_PROJECT_NAME_DUPLICATE);
-                gitLabApi.getProjectApi().deleteProject(project);
-            } catch (GitLabApiException ignore) {
-            }
-        }
-    }
-
-    @BeforeEach
-    public void beforeMethod() {
-        assumeTrue(gitLabApi != null);
-    }
+    //    public TestGitLabApiException() {
+    //        super();
+    //    }
+    //
+    //    @BeforeAll
+    //    public static void setup() {
+    //        // Must setup the connection to the GitLab test server
+    //        gitLabApi = baseTestSetup();
+    //
+    //        deleteAllTestProjects();
+    //    }
+    //
+    //    @AfterAll
+    //    public static void teardown() throws GitLabApiException {
+    //        deleteAllTestProjects();
+    //    }
+    //
+    //    private static void deleteAllTestProjects() {
+    //        if (gitLabApi != null) {
+    //            try {
+    //                Project project = gitLabApi.getProjectApi().getProject(TEST_NAMESPACE,
+    // TEST_PROJECT_NAME_DUPLICATE);
+    //                gitLabApi.getProjectApi().deleteProject(project);
+    //            } catch (GitLabApiException ignore) {
+    //            }
+    //        }
+    //    }
+    //
+    //    @BeforeEach
+    //    public void beforeMethod() {
+    //        assumeTrue(gitLabApi != null);
+    //    }
 
     @Test
+    @org.junit.jupiter.api.Disabled(
+            "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
     public void testNotFoundError() throws GitLabApiException {
 
         try {
@@ -96,6 +80,8 @@ public class TestGitLabApiException extends AbstractIntegrationTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled(
+            "Integration tests are disabled, see https://github.com/gitlab4j/gitlab4j-api/issues/1165")
     public void testValidationErrors() throws GitLabApiException {
 
         Project project = new Project()
@@ -123,6 +109,68 @@ public class TestGitLabApiException extends AbstractIntegrationTest {
         GitLabApiException glae = new GitLabApiException(response);
         assertEquals(Status.BAD_REQUEST.getStatusCode(), glae.getHttpStatus());
         assertEquals(TEST_ERROR_MESSAGE, glae.getMessage());
+    }
+
+    @Test
+    public void testObjectMessage() throws GitLabApiException {
+        String expectedMessage = ""
+                + "The following fields have validation errors: project_namespace.name, name\n"
+                + "* project_namespace.name\n"
+                + "     - has already been taken\n"
+                + "* name\n"
+                + "     - has already been taken";
+        final MockResponse response = new MockResponse(
+                Status.BAD_REQUEST,
+                "{\"message\":{\"project_namespace.name\":[\"has already been taken\"],\"name\":[\"has already been taken\"]}}");
+        GitLabApiException glae = new GitLabApiException(response);
+        assertEquals(Status.BAD_REQUEST.getStatusCode(), glae.getHttpStatus());
+        assertEquals(expectedMessage, glae.getMessage());
+        assertEquals(2, glae.getValidationErrors().size());
+        assertEquals(1, glae.getValidationErrors().get("project_namespace.name").size());
+        assertEquals(
+                "has already been taken",
+                glae.getValidationErrors().get("project_namespace.name").get(0));
+        assertEquals(1, glae.getValidationErrors().get("name").size());
+        assertEquals(
+                "has already been taken", glae.getValidationErrors().get("name").get(0));
+    }
+
+    @Test
+    public void testObjectMessage1() throws GitLabApiException {
+        String message = "{\n"
+                + "    \"message\":{\n"
+                + "        \"f1\":[\n"
+                + "            \"m1\",\n"
+                + "            \"m2\"\n"
+                + "        ],\n"
+                + "        \"f2\":[\n"
+                + "            \"n1\",\n"
+                + "            \"n2\",\n"
+                + "            \"n3\"\n"
+                + "        ]\n"
+                + "    }\n"
+                + "}";
+        String expectedMessage = ""
+                + "The following fields have validation errors: f1, f2\n"
+                + "* f1\n"
+                + "     - m1\n"
+                + "     - m2\n"
+                + "* f2\n"
+                + "     - n1\n"
+                + "     - n2\n"
+                + "     - n3";
+        final MockResponse response = new MockResponse(Status.BAD_REQUEST, message);
+        GitLabApiException glae = new GitLabApiException(response);
+        assertEquals(Status.BAD_REQUEST.getStatusCode(), glae.getHttpStatus());
+        assertEquals(expectedMessage, glae.getMessage());
+        assertEquals(2, glae.getValidationErrors().size());
+        assertEquals(2, glae.getValidationErrors().get("f1").size());
+        assertEquals("m1", glae.getValidationErrors().get("f1").get(0));
+        assertEquals("m2", glae.getValidationErrors().get("f1").get(1));
+        assertEquals(3, glae.getValidationErrors().get("f2").size());
+        assertEquals("n1", glae.getValidationErrors().get("f2").get(0));
+        assertEquals("n2", glae.getValidationErrors().get("f2").get(1));
+        assertEquals("n3", glae.getValidationErrors().get("f2").get(2));
     }
 
     @Test
