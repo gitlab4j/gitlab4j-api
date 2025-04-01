@@ -133,7 +133,6 @@ public class Project implements Serializable {
     private AutoCancelPendingPipelines autoCancelPendingPipelines;
     private String repositoryObjectFormat;
     private Boolean onlyAllowMergeIfAllStatusChecksPassed;
-    private String avatar;
     private Integer groupWithProjectTemplatesId;
     private Boolean publicBuilds;
     private Integer buildTimeout;
@@ -1041,19 +1040,6 @@ public class Project implements Serializable {
 
     public Project withBuildTimeout(Integer buildTimeout) {
         this.buildTimeout = buildTimeout;
-        return this;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public Project withAvatar(String avatar) {
-        this.avatar = avatar;
         return this;
     }
 

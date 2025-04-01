@@ -1144,7 +1144,6 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam(
                         "only_allow_merge_if_all_status_checks_passed",
                         project.getOnlyAllowMergeIfAllStatusChecksPassed())
-                .withParam("avatar", project.getAvatar())
                 .withParam("group_with_project_templates_id", project.getGroupWithProjectTemplatesId())
                 .withParam("public_builds", project.getPublicBuilds())
                 .withParam("build_timeout", project.getBuildTimeout())
@@ -1547,7 +1546,6 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam(
                         "only_allow_merge_if_all_status_checks_passed",
                         project.getOnlyAllowMergeIfAllStatusChecksPassed())
-                .withParam("avatar", project.getAvatar())
                 .withParam("group_with_project_templates_id", project.getGroupWithProjectTemplatesId())
                 .withParam("public_builds", project.getPublicBuilds())
                 .withParam("build_timeout", project.getBuildTimeout())
