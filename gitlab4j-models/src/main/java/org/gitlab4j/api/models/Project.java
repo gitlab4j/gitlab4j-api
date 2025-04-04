@@ -139,6 +139,31 @@ public class Project implements Serializable {
     private String templateName;
     private Boolean emailsEnabled;
     private Boolean mirror;
+    private Date updatedAt;
+    private String descriptionHtml;
+    private String containerRegistryImagePrefix;
+    private ContainerExpirationPolicy containerExpirationPolicy;
+    private Boolean serviceDeskEnabled;
+    private String importUrl;
+    private String importType;
+    private String importError;
+    private Boolean ciForwardDeploymentRollbackAllowed;
+    private Boolean ciAllowForkPipelinesToRunInParentProject;
+    private List<String> ciIdTokenSubClaimComponents;
+    private Boolean ciJobTokenScopeEnabled;
+    private Boolean ciSeparatedCaches;
+    private String ciRestrictPipelineCancellationRole;
+    private String ciPipelineVariablesMinimumOverrideRole;
+    private Boolean ciPushRepositoryForJobTokenAllowed;
+    private Boolean allowPipelineTriggerApproveDeployment;
+    private Boolean restrictUserDefinedVariables;
+    private Boolean enforceAuthChecksOnUploads;
+    private Boolean keepLatestArtifact;
+    private Integer runnerTokenExpirationInterval;
+    private Boolean requirementsEnabled;
+    private Boolean securityAndComplianceEnabled;
+    private Boolean secretPushProtectionEnabled;
+    private List<String> complianceFrameworks;
 
     private ProjectFeatureVisibilityAccessLevel analyticsAccessLevel;
     private ProjectFeatureVisibilityAccessLevel buildsAccessLevel;
@@ -1223,6 +1248,206 @@ public class Project implements Serializable {
     public Project withMirror(Boolean mirror) {
         this.mirror = mirror;
         return this;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getDescriptionHtml() {
+        return descriptionHtml;
+    }
+
+    public void setDescriptionHtml(String descriptionHtml) {
+        this.descriptionHtml = descriptionHtml;
+    }
+
+    public String getContainerRegistryImagePrefix() {
+        return containerRegistryImagePrefix;
+    }
+
+    public void setContainerRegistryImagePrefix(String containerRegistryImagePrefix) {
+        this.containerRegistryImagePrefix = containerRegistryImagePrefix;
+    }
+
+    public ContainerExpirationPolicy getContainerExpirationPolicy() {
+        return containerExpirationPolicy;
+    }
+
+    public void setContainerExpirationPolicy(ContainerExpirationPolicy containerExpirationPolicy) {
+        this.containerExpirationPolicy = containerExpirationPolicy;
+    }
+
+    public Boolean getServiceDeskEnabled() {
+        return serviceDeskEnabled;
+    }
+
+    public void setServiceDeskEnabled(Boolean serviceDeskEnabled) {
+        this.serviceDeskEnabled = serviceDeskEnabled;
+    }
+
+    public String getImportUrl() {
+        return importUrl;
+    }
+
+    public void setImportUrl(String importUrl) {
+        this.importUrl = importUrl;
+    }
+
+    public String getImportType() {
+        return importType;
+    }
+
+    public void setImportType(String importType) {
+        this.importType = importType;
+    }
+
+    public String getImportError() {
+        return importError;
+    }
+
+    public void setImportError(String importError) {
+        this.importError = importError;
+    }
+
+    public Boolean getCiForwardDeploymentRollbackAllowed() {
+        return ciForwardDeploymentRollbackAllowed;
+    }
+
+    public void setCiForwardDeploymentRollbackAllowed(Boolean ciForwardDeploymentRollbackAllowed) {
+        this.ciForwardDeploymentRollbackAllowed = ciForwardDeploymentRollbackAllowed;
+    }
+
+    public Boolean getCiAllowForkPipelinesToRunInParentProject() {
+        return ciAllowForkPipelinesToRunInParentProject;
+    }
+
+    public void setCiAllowForkPipelinesToRunInParentProject(Boolean ciAllowForkPipelinesToRunInParentProject) {
+        this.ciAllowForkPipelinesToRunInParentProject = ciAllowForkPipelinesToRunInParentProject;
+    }
+
+    public List<String> getCiIdTokenSubClaimComponents() {
+        return ciIdTokenSubClaimComponents;
+    }
+
+    public void setCiIdTokenSubClaimComponents(List<String> ciIdTokenSubClaimComponents) {
+        this.ciIdTokenSubClaimComponents = ciIdTokenSubClaimComponents;
+    }
+
+    public Boolean getCiJobTokenScopeEnabled() {
+        return ciJobTokenScopeEnabled;
+    }
+
+    public void setCiJobTokenScopeEnabled(Boolean ciJobTokenScopeEnabled) {
+        this.ciJobTokenScopeEnabled = ciJobTokenScopeEnabled;
+    }
+
+    public Boolean getCiSeparatedCaches() {
+        return ciSeparatedCaches;
+    }
+
+    public void setCiSeparatedCaches(Boolean ciSeparatedCaches) {
+        this.ciSeparatedCaches = ciSeparatedCaches;
+    }
+
+    public String getCiRestrictPipelineCancellationRole() {
+        return ciRestrictPipelineCancellationRole;
+    }
+
+    public void setCiRestrictPipelineCancellationRole(String ciRestrictPipelineCancellationRole) {
+        this.ciRestrictPipelineCancellationRole = ciRestrictPipelineCancellationRole;
+    }
+
+    public String getCiPipelineVariablesMinimumOverrideRole() {
+        return ciPipelineVariablesMinimumOverrideRole;
+    }
+
+    public void setCiPipelineVariablesMinimumOverrideRole(String ciPipelineVariablesMinimumOverrideRole) {
+        this.ciPipelineVariablesMinimumOverrideRole = ciPipelineVariablesMinimumOverrideRole;
+    }
+
+    public Boolean getCiPushRepositoryForJobTokenAllowed() {
+        return ciPushRepositoryForJobTokenAllowed;
+    }
+
+    public void setCiPushRepositoryForJobTokenAllowed(Boolean ciPushRepositoryForJobTokenAllowed) {
+        this.ciPushRepositoryForJobTokenAllowed = ciPushRepositoryForJobTokenAllowed;
+    }
+
+    public Boolean getAllowPipelineTriggerApproveDeployment() {
+        return allowPipelineTriggerApproveDeployment;
+    }
+
+    public void setAllowPipelineTriggerApproveDeployment(Boolean allowPipelineTriggerApproveDeployment) {
+        this.allowPipelineTriggerApproveDeployment = allowPipelineTriggerApproveDeployment;
+    }
+
+    public Boolean getRestrictUserDefinedVariables() {
+        return restrictUserDefinedVariables;
+    }
+
+    public void setRestrictUserDefinedVariables(Boolean restrictUserDefinedVariables) {
+        this.restrictUserDefinedVariables = restrictUserDefinedVariables;
+    }
+
+    public Boolean getEnforceAuthChecksOnUploads() {
+        return enforceAuthChecksOnUploads;
+    }
+
+    public void setEnforceAuthChecksOnUploads(Boolean enforceAuthChecksOnUploads) {
+        this.enforceAuthChecksOnUploads = enforceAuthChecksOnUploads;
+    }
+
+    public Boolean getKeepLatestArtifact() {
+        return keepLatestArtifact;
+    }
+
+    public void setKeepLatestArtifact(Boolean keepLatestArtifact) {
+        this.keepLatestArtifact = keepLatestArtifact;
+    }
+
+    public Integer getRunnerTokenExpirationInterval() {
+        return runnerTokenExpirationInterval;
+    }
+
+    public void setRunnerTokenExpirationInterval(Integer runnerTokenExpirationInterval) {
+        this.runnerTokenExpirationInterval = runnerTokenExpirationInterval;
+    }
+
+    public Boolean getRequirementsEnabled() {
+        return requirementsEnabled;
+    }
+
+    public void setRequirementsEnabled(Boolean requirementsEnabled) {
+        this.requirementsEnabled = requirementsEnabled;
+    }
+
+    public Boolean getSecurityAndComplianceEnabled() {
+        return securityAndComplianceEnabled;
+    }
+
+    public void setSecurityAndComplianceEnabled(Boolean securityAndComplianceEnabled) {
+        this.securityAndComplianceEnabled = securityAndComplianceEnabled;
+    }
+
+    public Boolean getSecretPushProtectionEnabled() {
+        return secretPushProtectionEnabled;
+    }
+
+    public void setSecretPushProtectionEnabled(Boolean secretPushProtectionEnabled) {
+        this.secretPushProtectionEnabled = secretPushProtectionEnabled;
+    }
+
+    public List<String> getComplianceFrameworks() {
+        return complianceFrameworks;
+    }
+
+    public void setComplianceFrameworks(List<String> complianceFrameworks) {
+        this.complianceFrameworks = complianceFrameworks;
     }
 
     public ProjectFeatureVisibilityAccessLevel getAnalyticsAccessLevel() {
