@@ -1282,6 +1282,11 @@ public class Project implements Serializable {
         this.containerExpirationPolicy = containerExpirationPolicy;
     }
 
+    public Project withContainerExpirationPolicy(ContainerExpirationPolicy containerExpirationPolicy) {
+        this.containerExpirationPolicy = containerExpirationPolicy;
+        return this;
+    }
+
     public Boolean getServiceDeskEnabled() {
         return serviceDeskEnabled;
     }

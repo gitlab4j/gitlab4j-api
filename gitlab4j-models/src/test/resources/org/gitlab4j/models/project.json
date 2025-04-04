@@ -59,7 +59,7 @@
     "enabled" : true,
     "keep_n" : 1,
     "older_than" : "14d",
-    "name_regex" : "",
+    "name_regex" : ".*-development",
     "name_regex_keep" : ".*-main",
     "next_run_at" : "2022-06-25T17:11:26.865Z"
   },

@@ -47,6 +47,7 @@ import org.gitlab4j.api.models.ApprovalRule;
 import org.gitlab4j.api.models.ApprovalRuleParams;
 import org.gitlab4j.api.models.AuditEvent;
 import org.gitlab4j.api.models.Badge;
+import org.gitlab4j.api.models.ContainerExpirationPolicyAttributes;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
@@ -4726,5 +4727,26 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response response =
                 get(Response.Status.OK, queryParams, "projects", getProjectIdOrPath(projectIdOrPath), "iterations");
         return (response.readEntity(new GenericType<List<Iteration>>() {}));
+    }
+
+    /**
+     * Uploads and sets the project container expiration policy for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param containerExpirationPolicyAttributes the ContainerExpirationPolicyAttributes instance
+     * @return the updated Project instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Project setProjectContainerExpirationPolicy(
+            Object projectIdOrPath, ContainerExpirationPolicyAttributes containerExpirationPolicyAttributes)
+            throws GitLabApiException {
+        Response response = put(
+                Response.Status.OK,
+                containerExpirationPolicyAttributes.toString(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath));
+        return (response.readEntity(Project.class));
     }
 }

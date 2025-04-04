@@ -4,15 +4,26 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ContainerExpirationPolicy implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String cadence;
     private Boolean enabled;
+
+    @JsonProperty("keep_n")
     private Integer keepN;
+
+    @JsonProperty("older_than")
     private String olderThan;
+
+    @JsonProperty("name_regex")
     private String nameRegex;
+
+    @JsonProperty("name_regex_keep")
     private String nameRegexKeep;
+
     private String nextRunAt;
 
     public String getCadence() {
@@ -23,12 +34,22 @@ public class ContainerExpirationPolicy implements Serializable {
         this.cadence = cadence;
     }
 
+    public ContainerExpirationPolicy withCadence(String cadence) {
+        this.cadence = cadence;
+        return this;
+    }
+
     public Boolean getEnabled() {
         return enabled;
     }
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public ContainerExpirationPolicy withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
     }
 
     public Integer getKeepN() {
@@ -39,12 +60,22 @@ public class ContainerExpirationPolicy implements Serializable {
         this.keepN = keepN;
     }
 
+    public ContainerExpirationPolicy withKeepN(Integer keepN) {
+        this.keepN = keepN;
+        return this;
+    }
+
     public String getOlderThan() {
         return olderThan;
     }
 
     public void setOlderThan(String olderThan) {
         this.olderThan = olderThan;
+    }
+
+    public ContainerExpirationPolicy withOlderThan(String olderThan) {
+        this.olderThan = olderThan;
+        return this;
     }
 
     public String getNameRegex() {
@@ -55,12 +86,22 @@ public class ContainerExpirationPolicy implements Serializable {
         this.nameRegex = nameRegex;
     }
 
+    public ContainerExpirationPolicy withNameRegex(String nameRegex) {
+        this.nameRegex = nameRegex;
+        return this;
+    }
+
     public String getNameRegexKeep() {
         return nameRegexKeep;
     }
 
     public void setNameRegexKeep(String nameRegexKeep) {
         this.nameRegexKeep = nameRegexKeep;
+    }
+
+    public ContainerExpirationPolicy withNameRegexKeep(String nameRegexKeep) {
+        this.nameRegexKeep = nameRegexKeep;
+        return this;
     }
 
     public String getNextRunAt() {
