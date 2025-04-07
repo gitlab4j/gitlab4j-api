@@ -443,7 +443,8 @@ public interface Constants {
         SUCCESS,
         CANCELED,
         SKIPPED,
-        MANUAL;
+        MANUAL,
+        WAITING_FOR_RESOURCE;
 
         private static JacksonJsonEnumHelper<JobScope> enumHelper = new JacksonJsonEnumHelper<>(JobScope.class);
 
