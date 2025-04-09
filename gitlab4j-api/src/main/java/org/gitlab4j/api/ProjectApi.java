@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -47,7 +48,6 @@ import org.gitlab4j.api.models.ApprovalRule;
 import org.gitlab4j.api.models.ApprovalRuleParams;
 import org.gitlab4j.api.models.AuditEvent;
 import org.gitlab4j.api.models.Badge;
-import org.gitlab4j.api.models.ContainerExpirationPolicyAttributes;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Event;
 import org.gitlab4j.api.models.FileUpload;
@@ -1171,6 +1171,19 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("snippets_access_level", project.getSnippetsAccessLevel())
                 .withParam("wiki_access_level", project.getWikiAccessLevel());
 
+        if (project.getContainerExpirationPolicy() != null) {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("cadence", project.getContainerExpirationPolicy().getCadence());
+            attributes.put("enabled", project.getContainerExpirationPolicy().getEnabled());
+            attributes.put("keep_n", project.getContainerExpirationPolicy().getKeepN());
+            attributes.put("older_than", project.getContainerExpirationPolicy().getOlderThan());
+            attributes.put("name_regex", project.getContainerExpirationPolicy().getNameRegex());
+            attributes.put(
+                    "name_regex_keep", project.getContainerExpirationPolicy().getNameRegexKeep());
+
+            formData.withParam("container_expiration_policy_attributes", attributes, false);
+        }
+
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
             formData.withParam("namespace_id", namespace.getId());
@@ -1572,6 +1585,19 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("security_and_compliance_access_level", project.getSecurityAndComplianceAccessLevel())
                 .withParam("snippets_access_level", project.getSnippetsAccessLevel())
                 .withParam("wiki_access_level", project.getWikiAccessLevel());
+
+        if (project.getContainerExpirationPolicy() != null) {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("cadence", project.getContainerExpirationPolicy().getCadence());
+            attributes.put("enabled", project.getContainerExpirationPolicy().getEnabled());
+            attributes.put("keep_n", project.getContainerExpirationPolicy().getKeepN());
+            attributes.put("older_than", project.getContainerExpirationPolicy().getOlderThan());
+            attributes.put("name_regex", project.getContainerExpirationPolicy().getNameRegex());
+            attributes.put(
+                    "name_regex_keep", project.getContainerExpirationPolicy().getNameRegexKeep());
+
+            formData.withParam("container_expiration_policy_attributes", attributes, false);
+        }
 
         if (isApiVersion(ApiVersion.V3)) {
             formData.withParam("visibility_level", project.getVisibilityLevel());
@@ -4727,26 +4753,5 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response response =
                 get(Response.Status.OK, queryParams, "projects", getProjectIdOrPath(projectIdOrPath), "iterations");
         return (response.readEntity(new GenericType<List<Iteration>>() {}));
-    }
-
-    /**
-     * Uploads and sets the project container expiration policy for the specified project.
-     *
-     * <pre><code>GitLab Endpoint: PUT /projects/:id</code></pre>
-     *
-     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
-     * @param containerExpirationPolicyAttributes the ContainerExpirationPolicyAttributes instance
-     * @return the updated Project instance
-     * @throws GitLabApiException if any exception occurs
-     */
-    public Project setProjectContainerExpirationPolicy(
-            Object projectIdOrPath, ContainerExpirationPolicyAttributes containerExpirationPolicyAttributes)
-            throws GitLabApiException {
-        Response response = put(
-                Response.Status.OK,
-                containerExpirationPolicyAttributes.toString(),
-                "projects",
-                getProjectIdOrPath(projectIdOrPath));
-        return (response.readEntity(Project.class));
     }
 }

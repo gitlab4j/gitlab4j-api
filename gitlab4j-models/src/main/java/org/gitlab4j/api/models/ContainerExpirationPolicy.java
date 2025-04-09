@@ -4,24 +4,14 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class ContainerExpirationPolicy implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String cadence;
     private Boolean enabled;
-
-    @JsonProperty("keep_n")
     private Integer keepN;
-
-    @JsonProperty("older_than")
     private String olderThan;
-
-    @JsonProperty("name_regex")
     private String nameRegex;
-
-    @JsonProperty("name_regex_keep")
     private String nameRegexKeep;
 
     private String nextRunAt;
