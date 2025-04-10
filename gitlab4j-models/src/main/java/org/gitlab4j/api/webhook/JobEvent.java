@@ -2,6 +2,7 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
+import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.models.utils.JacksonJson;
 
 public class JobEvent extends AbstractEvent {
@@ -23,11 +24,26 @@ public class JobEvent extends AbstractEvent {
     private Integer jobDuration;
     private Boolean jobAllowFailure;
     private String jobFailureReason;
+    private Long buildId;
+    private String buildName;
+    private String buildStage;
+    private String buildStatus;
+    private Date buildCreatedAt;
+    private Date buildStartedAt;
+    private Date buildFinishedAt;
+    private Integer buildDuration;
+    private Double buildQueuedDuration;
+    private Boolean buildAllowFailure;
+    private String buildFailureReason;
+    private Integer retriesCount;
+    private Integer pipelineId;
     private Long projectId;
     private String projectName;
     private EventUser user;
     private BuildCommit commit;
     private EventRepository repository;
+    private EventProject project;
+    private Runner runner;
 
     @Override
     public String getObjectKind() {
@@ -143,6 +159,110 @@ public class JobEvent extends AbstractEvent {
         this.jobFailureReason = jobFailureReason;
     }
 
+    public Long getBuildId() {
+        return buildId;
+    }
+
+    public void setBuildId(Long buildId) {
+        this.buildId = buildId;
+    }
+
+    public String getBuildName() {
+        return buildName;
+    }
+
+    public void setBuildName(String buildName) {
+        this.buildName = buildName;
+    }
+
+    public String getBuildStage() {
+        return buildStage;
+    }
+
+    public void setBuildStage(String buildStage) {
+        this.buildStage = buildStage;
+    }
+
+    public String getBuildStatus() {
+        return buildStatus;
+    }
+
+    public void setBuildStatus(String buildStatus) {
+        this.buildStatus = buildStatus;
+    }
+
+    public Date getBuildCreatedAt() {
+        return buildCreatedAt;
+    }
+
+    public void setBuildCreatedAt(Date buildCreatedAt) {
+        this.buildCreatedAt = buildCreatedAt;
+    }
+
+    public Date getBuildStartedAt() {
+        return buildStartedAt;
+    }
+
+    public void setBuildStartedAt(Date buildStartedAt) {
+        this.buildStartedAt = buildStartedAt;
+    }
+
+    public Date getBuildFinishedAt() {
+        return buildFinishedAt;
+    }
+
+    public void setBuildFinishedAt(Date buildFinishedAt) {
+        this.buildFinishedAt = buildFinishedAt;
+    }
+
+    public Integer getBuildDuration() {
+        return buildDuration;
+    }
+
+    public void setBuildDuration(Integer buildDuration) {
+        this.buildDuration = buildDuration;
+    }
+
+    public Double getBuildQueuedDuration() {
+        return buildQueuedDuration;
+    }
+
+    public void setBuildQueuedDuration(Double buildQueuedDuration) {
+        this.buildQueuedDuration = buildQueuedDuration;
+    }
+
+    public Boolean getBuildAllowFailure() {
+        return buildAllowFailure;
+    }
+
+    public void setBuildAllowFailure(Boolean buildAllowFailure) {
+        this.buildAllowFailure = buildAllowFailure;
+    }
+
+    public String getBuildFailureReason() {
+        return buildFailureReason;
+    }
+
+    public void setBuildFailureReason(String buildFailureReason) {
+        this.buildFailureReason = buildFailureReason;
+    }
+
+    public Integer getRetriesCount() {
+        return retriesCount;
+    }
+
+    public void setRetriesCount(Integer retriesCount) {
+        this.retriesCount = retriesCount;
+    }
+
+    public Integer getPipelineId() {
+        return pipelineId;
+    }
+
+    public void setPipelineId(Integer pipelineId) {
+        this.pipelineId = pipelineId;
+    }
+
     public Long getProjectId() {
         return projectId;
     }
@@ -181,6 +301,22 @@ public class JobEvent extends AbstractEvent {
 
     public void setRepository(EventRepository repository) {
         this.repository = repository;
+    }
+
+    public EventProject getProject() {
+        return project;
+    }
+
+    public void setProject(EventProject project) {
+        this.project = project;
+    }
+
+    public Runner getRunner() {
+        return runner;
+    }
+
+    public void setRunner(Runner runner) {
+        this.runner = runner;
     }
 
     @Override
