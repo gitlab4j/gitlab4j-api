@@ -10,6 +10,7 @@ public class EventCommit {
 
     private String id;
     private String message;
+    private String title;
     private Date timestamp;
     private String url;
     private Author author;
@@ -31,6 +32,14 @@ public class EventCommit {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getTimestamp() {

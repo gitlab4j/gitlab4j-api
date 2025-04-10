@@ -7,6 +7,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 public class BuildCommit {
 
     private Long id;
+    private String name;
     private String sha;
     private String message;
     private String authorName;
@@ -23,6 +24,14 @@ public class BuildCommit {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSha() {
