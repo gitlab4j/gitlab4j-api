@@ -310,11 +310,11 @@ public class JobApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Retrieve the job corresponding to the <code>$CI_JOB_TOKEN</code> environment variable.
+     * Retrieve the job corresponding to the <code>$CI_JOB_TOKEN</code> environment variable. This works only when used without any authentication.
      *
      * <pre><code>GitLab Endpoint: GET /job?job_token=${ciJobToken}"</code></pre>
      *
-     * @return a single job corresponding to the passed token
+     * @return a single job corresponding to the token passed as query parameter
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Job getJob(final String ciJobToken) throws GitLabApiException {
