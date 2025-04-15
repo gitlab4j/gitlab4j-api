@@ -1,6 +1,7 @@
 package org.gitlab4j.api.webhook;
 
 import java.util.Date;
+import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
@@ -25,6 +26,29 @@ public class EventIssue {
 
     private String url;
     private String action;
+
+    private List<Long> assigneeIds;
+    private Long updatedById;
+    private Date lastEditedAt;
+    private Long lastEditedById;
+    private Long relativePosition;
+    private Long stateId;
+    private Boolean confidential;
+    private Boolean discussionLocked;
+    private Date dueDate;
+    private Long movedToId;
+    private Long duplicatedToId;
+    private Long timeEstimate;
+    private Long totalTimeSpent;
+    private Long timeChange;
+    private String humanTimeEstimate;
+    private String humanTotalTimeSpent;
+    private String humanTimeChange;
+    private Long weight;
+    private String healthStatus;
+    private String type;
+    private String severity;
+    private List<EventLabel> labels;
 
     public Long getAssigneeId() {
         return this.assigneeId;
@@ -144,6 +168,182 @@ public class EventIssue {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public List<Long> getAssigneeIds() {
+        return assigneeIds;
+    }
+
+    public void setAssigneeIds(List<Long> assigneeIds) {
+        this.assigneeIds = assigneeIds;
+    }
+
+    public Long getUpdatedById() {
+        return updatedById;
+    }
+
+    public void setUpdatedById(Long updatedById) {
+        this.updatedById = updatedById;
+    }
+
+    public Date getLastEditedAt() {
+        return lastEditedAt;
+    }
+
+    public void setLastEditedAt(Date lastEditedAt) {
+        this.lastEditedAt = lastEditedAt;
+    }
+
+    public Long getLastEditedById() {
+        return lastEditedById;
+    }
+
+    public void setLastEditedById(Long lastEditedById) {
+        this.lastEditedById = lastEditedById;
+    }
+
+    public Long getRelativePosition() {
+        return relativePosition;
+    }
+
+    public void setRelativePosition(Long relativePosition) {
+        this.relativePosition = relativePosition;
+    }
+
+    public Long getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Long stateId) {
+        this.stateId = stateId;
+    }
+
+    public Boolean getConfidential() {
+        return confidential;
+    }
+
+    public void setConfidential(Boolean confidential) {
+        this.confidential = confidential;
+    }
+
+    public Boolean getDiscussionLocked() {
+        return discussionLocked;
+    }
+
+    public void setDiscussionLocked(Boolean discussionLocked) {
+        this.discussionLocked = discussionLocked;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public Long getMovedToId() {
+        return movedToId;
+    }
+
+    public void setMovedToId(Long movedToId) {
+        this.movedToId = movedToId;
+    }
+
+    public Long getDuplicatedToId() {
+        return duplicatedToId;
+    }
+
+    public void setDuplicatedToId(Long duplicatedToId) {
+        this.duplicatedToId = duplicatedToId;
+    }
+
+    public Long getTimeEstimate() {
+        return timeEstimate;
+    }
+
+    public void setTimeEstimate(Long timeEstimate) {
+        this.timeEstimate = timeEstimate;
+    }
+
+    public Long getTotalTimeSpent() {
+        return totalTimeSpent;
+    }
+
+    public void setTotalTimeSpent(Long totalTimeSpent) {
+        this.totalTimeSpent = totalTimeSpent;
+    }
+
+    public Long getTimeChange() {
+        return timeChange;
+    }
+
+    public void setTimeChange(Long timeChange) {
+        this.timeChange = timeChange;
+    }
+
+    public String getHumanTimeEstimate() {
+        return humanTimeEstimate;
+    }
+
+    public void setHumanTimeEstimate(String humanTimeEstimate) {
+        this.humanTimeEstimate = humanTimeEstimate;
+    }
+
+    public String getHumanTotalTimeSpent() {
+        return humanTotalTimeSpent;
+    }
+
+    public void setHumanTotalTimeSpent(String humanTotalTimeSpent) {
+        this.humanTotalTimeSpent = humanTotalTimeSpent;
+    }
+
+    public String getHumanTimeChange() {
+        return humanTimeChange;
+    }
+
+    public void setHumanTimeChange(String humanTimeChange) {
+        this.humanTimeChange = humanTimeChange;
+    }
+
+    public Long getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Long weight) {
+        this.weight = weight;
+    }
+
+    public String getHealthStatus() {
+        return healthStatus;
+    }
+
+    public void setHealthStatus(String healthStatus) {
+        this.healthStatus = healthStatus;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public List<EventLabel> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<EventLabel> labels) {
+        this.labels = labels;
     }
 
     @Override

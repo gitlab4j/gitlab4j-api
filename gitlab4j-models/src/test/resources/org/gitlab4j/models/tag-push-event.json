@@ -1,14 +1,17 @@
 {
   "object_kind": "tag_push",
+  "event_name": "tag_push",
   "before": "0000000000000000000000000000000000000000",
   "after": "82b3d5ae55f7080f1e6022629cdb57bfae7cccc7",
   "ref": "refs/tags/v1.0.0",
+  "ref_protected": true,
   "checkout_sha": "82b3d5ae55f7080f1e6022629cdb57bfae7cccc7",
   "user_id": 1,
   "user_name": "John Smith",
   "user_avatar": "https://s.gravatar.com/avatar/d4c74594d841139328695756648b6bd6?s=8://s.gravatar.com/avatar/d4c74594d841139328695756648b6bd6?s=80",
   "project_id": 1,
   "project":{
+    "id": 1,
     "name":"Example",
     "description":"",
     "web_url":"http://example.com/jsmith/example",

@@ -2,6 +2,7 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
+import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.models.utils.JacksonJson;
 
 /**
@@ -18,10 +19,12 @@ public class BuildEvent extends AbstractEvent {
     private Boolean tag;
     private String beforeSha;
     private String sha;
+    private Integer retriesCount;
     private Long buildId;
     private String buildName;
     private String buildStage;
     private String buildStatus;
+    private Date buildCreatedAt;
     private Date buildStartedAt;
     private Date buildFinishedAt;
     private Float buildDuration;
@@ -36,6 +39,8 @@ public class BuildEvent extends AbstractEvent {
     private EventUser user;
     private BuildCommit commit;
     private EventRepository repository;
+    private EventProject project;
+    private Runner runner;
 
     @Override
     public String getObjectKind() {
@@ -79,6 +84,14 @@ public class BuildEvent extends AbstractEvent {
         this.sha = sha;
     }
 
+    public Integer getRetriesCount() {
+        return retriesCount;
+    }
+
+    public void setRetriesCount(Integer retriesCount) {
+        this.retriesCount = retriesCount;
+    }
+
     public Long getBuildId() {
         return buildId;
     }
@@ -109,6 +122,14 @@ public class BuildEvent extends AbstractEvent {
 
     public void setBuildStatus(String buildStatus) {
         this.buildStatus = buildStatus;
+    }
+
+    public Date getBuildCreatedAt() {
+        return buildCreatedAt;
+    }
+
+    public void setBuildCreatedAt(Date buildCreatedAt) {
+        this.buildCreatedAt = buildCreatedAt;
     }
 
     public Date getBuildStartedAt() {
@@ -205,6 +226,22 @@ public class BuildEvent extends AbstractEvent {
 
     public void setRepository(EventRepository repository) {
         this.repository = repository;
+    }
+
+    public EventProject getProject() {
+        return project;
+    }
+
+    public void setProject(EventProject project) {
+        this.project = project;
+    }
+
+    public Runner getRunner() {
+        return runner;
+    }
+
+    public void setRunner(Runner runner) {
+        this.runner = runner;
     }
 
     @Override
