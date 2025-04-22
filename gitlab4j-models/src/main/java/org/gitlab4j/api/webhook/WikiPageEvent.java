@@ -112,6 +112,8 @@ public class WikiPageEvent extends AbstractEvent {
         private String slug;
         private String url;
         private String action;
+        private String diffUrl;
+        private String versionId;
 
         public String getTitle() {
             return title;
@@ -167,6 +169,22 @@ public class WikiPageEvent extends AbstractEvent {
 
         public void setUrl(String url) {
             this.url = url;
+        }
+
+        public String getDiffUrl() {
+            return diffUrl;
+        }
+
+        public void setDiffUrl(String diffUrl) {
+            this.diffUrl = diffUrl;
+        }
+
+        public String getVersionId() {
+            return versionId;
+        }
+
+        public void setVersionId(String versionId) {
+            this.versionId = versionId;
         }
     }
 
