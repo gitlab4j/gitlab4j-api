@@ -6,6 +6,7 @@ import org.gitlab4j.api.webhook.EventProject;
 import org.gitlab4j.models.utils.JacksonJson;
 
 public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String REPOSITORY_UPDATE_EVENT = "repository_update";
 

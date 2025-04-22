@@ -7,6 +7,7 @@ import org.gitlab4j.models.GitLabForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class JiraService extends NotificationService {
+    private static final long serialVersionUID = 1L;
 
     public static final String URL_PROP = "url";
     public static final String API_URL_PROP = "api_url";

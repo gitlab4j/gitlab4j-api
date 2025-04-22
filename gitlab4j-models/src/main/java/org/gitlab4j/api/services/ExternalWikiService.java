@@ -3,6 +3,7 @@ package org.gitlab4j.api.services;
 import org.gitlab4j.models.GitLabForm;
 
 public class ExternalWikiService extends NotificationService {
+    private static final long serialVersionUID = 1L;
 
     public static final String WIKIURL_KEY_PROP = "external_wiki_url";
 

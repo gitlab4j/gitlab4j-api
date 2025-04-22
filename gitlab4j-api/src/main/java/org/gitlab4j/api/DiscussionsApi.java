@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.Response;
 import org.gitlab4j.api.models.Discussion;
 import org.gitlab4j.api.models.Note;
 import org.gitlab4j.api.models.Position;
-import org.gitlab4j.api.utils.ISO8601;
+import org.gitlab4j.models.utils.ISO8601;
 
 /**
  * This class implements the client side API for the GitLab Discussions API.

@@ -5,6 +5,7 @@ import org.gitlab4j.models.GitLabForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class MattermostService extends NotificationService {
+    private static final long serialVersionUID = 1L;
 
     private String defaultChannel;
 

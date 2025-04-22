@@ -5,6 +5,7 @@ import org.gitlab4j.models.GitLabForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class EmailOnPushService extends NotificationService {
+    private static final long serialVersionUID = 1L;
 
     public static final String RECIPIENT_PROP = "recipients";
     public static final String DISABLE_DIFFS_PROP = "disable_diffs";

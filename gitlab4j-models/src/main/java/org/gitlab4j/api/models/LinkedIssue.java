@@ -5,6 +5,7 @@ import java.util.Date;
 import org.gitlab4j.models.utils.JacksonJson;
 
 public class LinkedIssue extends AbstractIssue {
+    private static final long serialVersionUID = 1L;
 
     private Long issueLinkId;
     private LinkType linkType;
