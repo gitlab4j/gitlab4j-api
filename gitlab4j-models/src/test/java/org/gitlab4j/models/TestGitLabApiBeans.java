@@ -54,6 +54,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testAssociations() throws Exception {
+        Associations associations = unmarshalResource(Associations.class, "associations.json");
+        assertTrue(compareJson(associations, "associations.json"));
+    }
+
+    @Test
     public void testAuditEvent() throws Exception {
         List<AuditEvent> auditEvents = unmarshalResourceList(AuditEvent.class, "audit-events.json");
         assertTrue(compareJson(auditEvents, "audit-events.json"));
