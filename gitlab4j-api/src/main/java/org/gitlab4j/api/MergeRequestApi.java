@@ -9,7 +9,6 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AcceptMergeRequestParams;
 import org.gitlab4j.api.models.ApprovalRule;
 import org.gitlab4j.api.models.ApprovalRuleParams;
@@ -885,10 +884,8 @@ public class MergeRequestApi extends AbstractApi {
             throw new RuntimeException("mergeRequestIid cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(
-                expectedStatus,
+                Response.Status.NO_CONTENT,
                 null,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
@@ -1023,9 +1020,7 @@ public class MergeRequestApi extends AbstractApi {
         Form formData = new GitLabApiForm()
                 .withParam("merge_commit_message", mergeCommitMessage)
                 .withParam("should_remove_source_branch", shouldRemoveSourceBranch)
-                .withParam(
-                        (isApiVersion(ApiVersion.V3) ? "merge_when_build_succeeds" : "merge_when_pipeline_succeeds"),
-                        mergeWhenPipelineSucceeds)
+                .withParam("merge_when_pipeline_succeeds", mergeWhenPipelineSucceeds)
                 .withParam("sha", sha);
 
         Response response = put(

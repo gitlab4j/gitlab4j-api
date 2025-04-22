@@ -16,7 +16,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.ChangelogPayload;
 import org.gitlab4j.api.models.Commit;
@@ -213,9 +212,8 @@ public class RepositoryApi extends AbstractApi {
      */
     public Branch createBranch(Object projectIdOrPath, String branchName, String ref) throws GitLabApiException {
 
-        Form formData = new GitLabApiForm()
-                .withParam(isApiVersion(ApiVersion.V3) ? "branch_name" : "branch", branchName, true)
-                .withParam("ref", ref, true);
+        Form formData =
+                new GitLabApiForm().withParam("branch", branchName, true).withParam("ref", ref, true);
         Response response = post(
                 Response.Status.CREATED,
                 formData.asMap(),
@@ -236,10 +234,8 @@ public class RepositoryApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteBranch(Object projectIdOrPath, String branchName) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(
-                expectedStatus,
+                Response.Status.NO_CONTENT,
                 null,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
@@ -443,10 +439,7 @@ public class RepositoryApi extends AbstractApi {
         Form formData = new GitLabApiForm()
                 .withParam("id", getProjectIdOrPath(projectIdOrPath), true)
                 .withParam("path", filePath, false)
-                .withParam(
-                        isApiVersion(ApiVersion.V3) ? "ref_name" : "ref",
-                        (refName != null ? urlEncode(refName) : null),
-                        false)
+                .withParam("ref", (refName != null ? urlEncode(refName) : null), false)
                 .withParam("recursive", recursive, false);
         return (new Pager<TreeItem>(
                 this,

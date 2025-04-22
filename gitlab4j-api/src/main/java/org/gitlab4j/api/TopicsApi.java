@@ -170,9 +170,6 @@ public class TopicsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteTopic(Integer id) throws GitLabApiException {
-        if (isApiVersion(GitLabApi.ApiVersion.V3)) {
-            throw new GitLabApiException("Topics need api v4+");
-        }
         delete(Response.Status.NO_CONTENT, null, "topics", id);
     }
 

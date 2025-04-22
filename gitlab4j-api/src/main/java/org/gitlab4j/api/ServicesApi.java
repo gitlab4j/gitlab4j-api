@@ -3,7 +3,6 @@ package org.gitlab4j.api;
 import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.services.BugzillaService;
 import org.gitlab4j.api.services.CustomIssueTrackerService;
 import org.gitlab4j.api.services.EmailOnPushService;
@@ -57,9 +56,13 @@ public class ServicesApi extends AbstractApi {
      * @deprecated No longer supported
      */
     public void deleteGitLabCI(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "gitlab-ci");
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "services",
+                "gitlab-ci");
     }
 
     /**
@@ -166,9 +169,13 @@ public class ServicesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteHipChatService(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "hipchat");
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "services",
+                "hipchat");
     }
 
     /**
@@ -244,9 +251,7 @@ public class ServicesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteSlackService(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "slack");
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "slack");
     }
 
     /**
@@ -306,9 +311,7 @@ public class ServicesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteJiraService(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "jira");
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "jira");
     }
 
     /**
@@ -362,9 +365,13 @@ public class ServicesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteExternalWikiService(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "external-wiki");
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "services",
+                "external-wiki");
     }
 
     /**
@@ -440,9 +447,13 @@ public class ServicesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteMattermostService(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "services", "mattermost");
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "services",
+                "mattermost");
     }
 
     /**

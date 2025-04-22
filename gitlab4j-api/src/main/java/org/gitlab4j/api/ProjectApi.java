@@ -40,7 +40,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.ApprovalRule;
@@ -1135,31 +1134,17 @@ public class ProjectApi extends AbstractApi implements Constants {
             formData.withParam("namespace_id", namespace.getId());
         }
 
-        if (isApiVersion(ApiVersion.V3)) {
-            boolean isPublic =
-                    (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
-            formData.withParam("public", isPublic);
+        Visibility visibility = (project.getVisibility() != null
+                ? project.getVisibility()
+                : project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
+        formData.withParam("visibility", visibility);
 
-            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                throw new IllegalArgumentException("GitLab API v3 does not support tag lists when creating projects");
-            }
+        if (project.getTagList() != null && !project.getTagList().isEmpty()) {
+            formData.withParam("tag_list", String.join(",", project.getTagList()));
+        }
 
-            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
-                throw new IllegalArgumentException("GitLab API v3 does not support topics when creating projects");
-            }
-        } else {
-            Visibility visibility = (project.getVisibility() != null
-                    ? project.getVisibility()
-                    : project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
-            formData.withParam("visibility", visibility);
-
-            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                formData.withParam("tag_list", String.join(",", project.getTagList()));
-            }
-
-            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
-                formData.withParam("topics", String.join(",", project.getTopics()));
-            }
+        if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+            formData.withParam("topics", String.join(",", project.getTopics()));
         }
 
         Response response = post(Response.Status.CREATED, formData, "projects");
@@ -1217,21 +1202,6 @@ public class ProjectApi extends AbstractApi implements Constants {
             String importUrl)
             throws GitLabApiException {
 
-        if (isApiVersion(ApiVersion.V3)) {
-            Boolean isPublic = Visibility.PUBLIC == visibility;
-            return (createProject(
-                    name,
-                    namespaceId,
-                    description,
-                    issuesEnabled,
-                    mergeRequestsEnabled,
-                    wikiEnabled,
-                    snippetsEnabled,
-                    isPublic,
-                    visibilityLevel,
-                    importUrl));
-        }
-
         if (name == null || name.trim().length() == 0) {
             return (null);
         }
@@ -1282,21 +1252,6 @@ public class ProjectApi extends AbstractApi implements Constants {
             Boolean printingMergeRequestLinkEnabled,
             String importUrl)
             throws GitLabApiException {
-
-        if (isApiVersion(ApiVersion.V3)) {
-            Boolean isPublic = Visibility.PUBLIC == visibility;
-            return (createProject(
-                    name,
-                    namespaceId,
-                    description,
-                    issuesEnabled,
-                    mergeRequestsEnabled,
-                    wikiEnabled,
-                    snippetsEnabled,
-                    isPublic,
-                    visibilityLevel,
-                    importUrl));
-        }
 
         if (name == null || name.trim().length() == 0) {
             return (null);
@@ -1366,9 +1321,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("visibility_level", visibilityLevel)
                 .withParam("import_url", importUrl);
 
-        if (isApiVersion(ApiVersion.V3)) {
-            formData.withParam("public", isPublic);
-        } else if (isPublic) {
+        if (isPublic) {
             formData.withParam("visibility", Visibility.PUBLIC);
         }
 
@@ -1492,37 +1445,22 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
                 .withParam("squash_option", project.getSquashOption());
 
-        if (isApiVersion(ApiVersion.V3)) {
-            formData.withParam("visibility_level", project.getVisibilityLevel());
-            boolean isPublic =
-                    (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
-            formData.withParam("public", isPublic);
+        Visibility visibility = (project.getVisibility() != null
+                ? project.getVisibility()
+                : project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
+        formData.withParam("visibility", visibility);
+        formData.withParam("issue_branch_template", project.getIssueBranchTemplate());
+        formData.withParam("merge_commit_template", project.getMergeCommitTemplate());
+        formData.withParam("squash_commit_template", project.getSquashCommitTemplate());
+        formData.withParam("merge_requests_template", project.getMergeRequestsTemplate());
+        formData.withParam("issues_template", project.getIssuesTemplate());
 
-            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                throw new IllegalArgumentException("GitLab API v3 does not support tag lists when updating projects");
-            }
+        if (project.getTagList() != null && !project.getTagList().isEmpty()) {
+            formData.withParam("tag_list", String.join(",", project.getTagList()));
+        }
 
-            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
-                throw new IllegalArgumentException("GitLab API v3 does not support topics when updating projects");
-            }
-        } else {
-            Visibility visibility = (project.getVisibility() != null
-                    ? project.getVisibility()
-                    : project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
-            formData.withParam("visibility", visibility);
-            formData.withParam("issue_branch_template", project.getIssueBranchTemplate());
-            formData.withParam("merge_commit_template", project.getMergeCommitTemplate());
-            formData.withParam("squash_commit_template", project.getSquashCommitTemplate());
-            formData.withParam("merge_requests_template", project.getMergeRequestsTemplate());
-            formData.withParam("issues_template", project.getIssuesTemplate());
-
-            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                formData.withParam("tag_list", String.join(",", project.getTagList()));
-            }
-
-            if (project.getTopics() != null) {
-                formData.withParam("topics", String.join(",", project.getTopics()));
-            }
+        if (project.getTopics() != null) {
+            formData.withParam("topics", String.join(",", project.getTopics()));
         }
 
         Response response = putWithFormData(Response.Status.OK, formData, "projects", projectIdentifier);
@@ -1538,8 +1476,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteProject(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.ACCEPTED);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath));
+        delete(Response.Status.ACCEPTED, null, "projects", getProjectIdOrPath(projectIdOrPath));
     }
 
     /**
@@ -1594,8 +1531,8 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("namespace", namespace, true)
                 .withParam("path", path)
                 .withParam("name", name);
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
-        Response response = post(expectedStatus, formData, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
+        Response response =
+                post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
         return (response.readEntity(Project.class));
     }
 
@@ -1611,9 +1548,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project createForkedFromRelationship(Object projectIdOrPath, Long forkedFromId) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
         Response response = post(
-                expectedStatus,
+                Response.Status.CREATED,
                 (Form) null,
                 "projects",
                 this.getProjectIdOrPath(projectIdOrPath),
@@ -1631,8 +1567,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteForkedFromRelationship(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.ACCEPTED);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
     }
 
     /**
@@ -2085,9 +2020,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void removeMember(Object projectIdOrPath, Long userId) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "members", userId);
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "members", userId);
     }
 
     /**
@@ -2550,9 +2483,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteHook(Object projectIdOrPath, Long hookId) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "hooks", hookId);
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "hooks", hookId);
     }
 
     /**
@@ -2708,10 +2639,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     @Deprecated
     public void deleteIssue(Object projectIdOrPath, Long issueId) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(
-                expectedStatus,
+                Response.Status.NO_CONTENT,
                 getDefaultPerPageParam(),
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
@@ -3001,9 +2930,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void unshareProject(Object projectIdOrPath, Long groupId) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "share", groupId);
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "share", groupId);
     }
 
     /**
@@ -3314,8 +3241,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project starProject(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
-        Response response = post(expectedStatus, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "star");
+        Response response =
+                post(Response.Status.CREATED, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "star");
         return (response.readEntity(Project.class));
     }
 
@@ -3329,7 +3256,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project unstarProject(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
+        Response.Status expectedStatus = Response.Status.CREATED;
         Response response =
                 post(expectedStatus, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "unstar");
         return (response.readEntity(Project.class));

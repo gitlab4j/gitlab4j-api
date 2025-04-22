@@ -633,10 +633,8 @@ public class PipelineApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void deletePipelineSchedule(Object projectIdOrPath, Long pipelineScheduleId) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(
-                expectedStatus,
+                Response.Status.NO_CONTENT,
                 null,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
@@ -785,10 +783,8 @@ public class PipelineApi extends AbstractApi implements Constants {
      */
     public void deletePipelineScheduleVariable(Object projectIdOrPath, Long pipelineScheduleId, String key)
             throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(
-                expectedStatus,
+                Response.Status.NO_CONTENT,
                 null,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),

@@ -12,7 +12,6 @@ import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.Exists;
@@ -217,11 +216,7 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("userId cannot be null");
         }
 
-        if (isApiVersion(ApiVersion.V3)) {
-            put(Response.Status.CREATED, null, "users", userId, "block");
-        } else {
-            post(Response.Status.CREATED, (Form) null, "users", userId, "block");
-        }
+        post(Response.Status.CREATED, (Form) null, "users", userId, "block");
     }
 
     /**
@@ -238,11 +233,7 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("userId cannot be null");
         }
 
-        if (isApiVersion(ApiVersion.V3)) {
-            put(Response.Status.CREATED, null, "users", userId, "unblock");
-        } else {
-            post(Response.Status.CREATED, (Form) null, "users", userId, "unblock");
-        }
+        post(Response.Status.CREATED, (Form) null, "users", userId, "unblock");
     }
 
     /**
@@ -691,9 +682,7 @@ public class UserApi extends AbstractApi {
      */
     public void deleteUser(Object userIdOrUsername, Boolean hardDelete) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("hard_delete ", hardDelete);
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, formData.asMap(), "users", getUserIdOrUsername(userIdOrUsername));
+        delete(Response.Status.NO_CONTENT, formData.asMap(), "users", getUserIdOrUsername(userIdOrUsername));
     }
 
     /**
@@ -876,9 +865,7 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("keyId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "user", "keys", keyId);
+        delete(Response.Status.NO_CONTENT, null, "user", "keys", keyId);
     }
 
     /**
@@ -896,9 +883,7 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("keyId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "users", getUserIdOrUsername(userIdOrUsername), "keys", keyId);
+        delete(Response.Status.NO_CONTENT, null, "users", getUserIdOrUsername(userIdOrUsername), "keys", keyId);
     }
 
     /**
@@ -1012,9 +997,13 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("tokenId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "users", getUserIdOrUsername(userIdOrUsername), "impersonation_tokens", tokenId);
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "users",
+                getUserIdOrUsername(userIdOrUsername),
+                "impersonation_tokens",
+                tokenId);
     }
 
     /**
@@ -1068,9 +1057,7 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("tokenId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "personal_access_tokens", tokenId);
+        delete(Response.Status.NO_CONTENT, null, "personal_access_tokens", tokenId);
     }
 
     // as per https://docs.gitlab.com/ee/api/README.html#impersonation-tokens, impersonation tokens are a type of
