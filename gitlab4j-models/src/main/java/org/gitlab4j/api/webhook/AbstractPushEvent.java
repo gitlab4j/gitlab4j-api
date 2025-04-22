@@ -11,6 +11,7 @@ public abstract class AbstractPushEvent {
     private String after;
     private String before;
     private String ref;
+    private Boolean refProtected;
     private String checkoutSha;
 
     private Long userId;
@@ -59,6 +60,14 @@ public abstract class AbstractPushEvent {
 
     public void setRef(String ref) {
         this.ref = ref;
+    }
+
+    public Boolean getRefProtected() {
+        return refProtected;
+    }
+
+    public void setRefProtected(Boolean refProtected) {
+        this.refProtected = refProtected;
     }
 
     public String getCheckoutSha() {

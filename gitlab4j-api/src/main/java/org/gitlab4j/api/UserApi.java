@@ -12,6 +12,7 @@ import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
+import org.gitlab4j.api.models.Associations;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.Exists;
@@ -1487,6 +1488,20 @@ public class UserApi extends AbstractApi {
     public Pager<Membership> getMemberships(Long userId, int itemsPerPage) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm();
         return (new Pager<>(this, Membership.class, itemsPerPage, formData.asMap(), "users", userId, "memberships"));
+    }
+
+    /**
+     * Get a count of a user’s projects, groups, issues, and merge requests
+     *
+     * <pre><code>GitLab Endpoint: GET /user/:id/associations_count</code></pre>
+     *
+     * @param userId the ID of the user to get the associations for
+     * @return the count of each type of association
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Associations getAssociationsCount(Long userId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "users", userId, "associations_count");
+        return (response.readEntity(Associations.class));
     }
 
     /**

@@ -292,15 +292,35 @@ public class JobApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Retrieve the job corresponding to the <code>$CI_JOB_TOKEN</code> environment variable (Using a {@link org.gitlab4j.models.Constants.TokenType#JOB_TOKEN} authentication).
+     * Retrieve the job corresponding to the <code>$CI_JOB_TOKEN</code> environment variable (Using a {@link TokenType#JOB_TOKEN} authentication).
      *
      * <pre><code>GitLab Endpoint: GET /job</code></pre>
      *
-     * @return a single job
+     * @return a single job corresponding to the token used for the authentication
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Job getJob() throws GitLabApiException {
+        TokenType tokenType = getApiClient().getTokenType();
+        if (tokenType != TokenType.JOB_TOKEN) {
+            throw new IllegalStateException(
+                    "This method can only be called with a " + TokenType.JOB_TOKEN + " authentication");
+        }
         Response response = get(Response.Status.OK, null, "job");
+        return (response.readEntity(Job.class));
+    }
+
+    /**
+     * Retrieve the job corresponding to the <code>$CI_JOB_TOKEN</code> environment variable. This works only when used without any authentication.
+     *
+     * <pre><code>GitLab Endpoint: GET /job?job_token=${ciJobToken}"</code></pre>
+     *
+     * @return a single job corresponding to the token passed as query parameter
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Job getJob(final String ciJobToken) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("job_token", ciJobToken, true);
+
+        Response response = get(Response.Status.OK, formData.asMap(), "job");
         return (response.readEntity(Job.class));
     }
 
