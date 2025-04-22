@@ -33,7 +33,6 @@ public class GitLabApi implements AutoCloseable {
 
     /** Specifies the version of the GitLab API to communicate with. */
     public enum ApiVersion {
-        V3,
         V4;
 
         public String getApiNamespace() {

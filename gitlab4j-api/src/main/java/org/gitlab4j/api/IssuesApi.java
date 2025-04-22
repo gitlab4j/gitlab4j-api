@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.api.models.Issue;
 import org.gitlab4j.api.models.IssueFilter;
@@ -707,10 +706,8 @@ public class IssuesApi extends AbstractApi implements Constants {
             throw new RuntimeException("issue IID cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(
-                expectedStatus,
+                Response.Status.NO_CONTENT,
                 getDefaultPerPageParam(),
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),

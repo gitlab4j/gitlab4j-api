@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.SystemHook;
 
 /**
@@ -202,9 +201,7 @@ public class SystemHooksApi extends AbstractApi {
             throw new RuntimeException("hookId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "hooks", hookId);
+        delete(Response.Status.NO_CONTENT, null, "hooks", hookId);
     }
 
     /**

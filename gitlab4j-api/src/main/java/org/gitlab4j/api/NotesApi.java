@@ -230,10 +230,8 @@ public class NotesApi extends AbstractApi {
             throw new RuntimeException("noteId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(
-                expectedStatus,
+                Response.Status.NO_CONTENT,
                 getDefaultPerPageParam(),
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
@@ -522,10 +520,8 @@ public class NotesApi extends AbstractApi {
             throw new RuntimeException("noteId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(
-                expectedStatus,
+                Response.Status.NO_CONTENT,
                 null,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
