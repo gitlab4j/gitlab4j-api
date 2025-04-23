@@ -3,6 +3,7 @@ package org.gitlab4j.api.services;
 import org.gitlab4j.models.GitLabForm;
 
 public class CustomIssueTrackerService extends NotificationService {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Get the form data for this service based on it's properties.

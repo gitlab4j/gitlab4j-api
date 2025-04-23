@@ -5,6 +5,7 @@ import org.gitlab4j.models.GitLabForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class HipChatService extends NotificationService {
+    private static final long serialVersionUID = 1L;
 
     public static final String TOKEN_PROP = "token";
     public static final String COLOR_PROP = "color";

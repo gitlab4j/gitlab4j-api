@@ -51,7 +51,7 @@ public class Metadata implements Serializable {
         return (JacksonJson.toJsonString(this));
     }
 
-    private static class Kas {
+    public static class Kas {
 
         private Boolean enabled;
 

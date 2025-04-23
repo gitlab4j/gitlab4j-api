@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Note;
-import org.gitlab4j.api.utils.ISO8601;
+import org.gitlab4j.models.utils.ISO8601;
 
 public class NotesApi extends AbstractApi {
 

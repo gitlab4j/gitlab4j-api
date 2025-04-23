@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EpicIssue extends AbstractIssue {
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty("_links")
     private Map<String, String> links;
