@@ -18,6 +18,7 @@ public enum PipelineStatus {
     SUCCESS,
     FAILED,
     CANCELED,
+    CANCELING,
     SKIPPED,
     MANUAL,
     SCHEDULED;
