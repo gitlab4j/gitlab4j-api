@@ -1509,6 +1509,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                         project.getWarnAboutPotentiallyUnwantedCharacters())
                 .withParam("mirror_trigger_builds", project.getMirrorTriggerBuilds())
                 .withParam("auto_cancel_pending_pipelines", project.getAutoCancelPendingPipelines())
+                .withParam("autoclose_referenced_issues", project.getAutocloseReferencedIssues())
                 .withParam("repository_object_format", project.getRepositoryObjectFormat())
                 .withParam(
                         "only_allow_merge_if_all_status_checks_passed",
