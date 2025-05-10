@@ -4354,8 +4354,23 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param key the key for the custom attribute, required
      * @return an Optional instance with the value for a single custom attribute for the specified project
+     * @deprecated Use {@link #getOptionalCustomAttribute(Object, String)} instead
      */
+    @Deprecated
     public Optional<CustomAttribute> geOptionalCustomAttribute(final Object projectIdOrPath, final String key) {
+        return getOptionalCustomAttribute(projectIdOrPath, key);
+    }
+
+    /**
+     * Get an Optional instance with the value for a single custom attribute for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/custom_attributes/:key</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param key the key for the custom attribute, required
+     * @return an Optional instance with the value for a single custom attribute for the specified project
+     */
+    public Optional<CustomAttribute> getOptionalCustomAttribute(final Object projectIdOrPath, final String key) {
         try {
             return (Optional.ofNullable(getCustomAttribute(projectIdOrPath, key)));
         } catch (GitLabApiException glae) {
