@@ -147,7 +147,7 @@ public class TestProjectCustomAttributes extends AbstractIntegrationTest {
         assertNotNull(newCustomAttribute);
 
         Optional<CustomAttribute> customAttribute =
-                gitLabApi.getProjectApi().geOptionalCustomAttribute(testProject, key);
+                gitLabApi.getProjectApi().getOptionalCustomAttribute(testProject, key);
         assertTrue(customAttribute.isPresent());
         assertEquals(key, customAttribute.get().getKey());
         assertEquals(value, customAttribute.get().getValue());

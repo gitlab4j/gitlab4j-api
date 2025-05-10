@@ -145,7 +145,7 @@ public class TestGroupCustomAttributes extends AbstractIntegrationTest {
         CustomAttribute newCustomAttribute = createCustomAttribute(key, value);
         assertNotNull(newCustomAttribute);
 
-        Optional<CustomAttribute> customAttribute = gitLabApi.getGroupApi().geOptionalCustomAttribute(testGroup, key);
+        Optional<CustomAttribute> customAttribute = gitLabApi.getGroupApi().getOptionalCustomAttribute(testGroup, key);
         assertTrue(customAttribute.isPresent());
         assertEquals(key, customAttribute.get().getKey());
         assertEquals(value, customAttribute.get().getValue());
