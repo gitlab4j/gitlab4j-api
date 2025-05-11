@@ -2255,8 +2255,23 @@ public class GroupApi extends AbstractApi {
      * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance, required
      * @param key the key for the custom attribute, required
      * @return an Optional instance with the value for a single custom attribute for the specified group
+     * @deprecated use {@link #getOptionalCustomAttribute(Object, String)} instead
      */
+    @Deprecated
     public Optional<CustomAttribute> geOptionalCustomAttribute(final Object groupIdOrPath, final String key) {
+        return getOptionalCustomAttribute(groupIdOrPath, key);
+    }
+
+    /**
+     * Get an Optional instance with the value for a single custom attribute for the specified group.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/custom_attributes/:key</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance, required
+     * @param key the key for the custom attribute, required
+     * @return an Optional instance with the value for a single custom attribute for the specified group
+     */
+    public Optional<CustomAttribute> getOptionalCustomAttribute(final Object groupIdOrPath, final String key) {
         try {
             return (Optional.ofNullable(getCustomAttribute(groupIdOrPath, key)));
         } catch (GitLabApiException glae) {
