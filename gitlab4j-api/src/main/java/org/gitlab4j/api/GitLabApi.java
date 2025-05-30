@@ -881,6 +881,24 @@ public class GitLabApi implements AutoCloseable {
     }
 
     /**
+     * Returns the configured custom 'User-Agent' header value
+     *
+     * @return User-Agent header value
+     */
+    public String getUserAgentHeader() {
+        return apiClient.getUserAgentHeader();
+    }
+
+    /**
+     * Configures a custom value for the 'User-Agent' header
+     *
+     * @param userAgentHeader User-Agent header value
+     */
+    public void setUserAgentHeader(String userAgentHeader) {
+        apiClient.setUserAgentHeader(userAgentHeader);
+    }
+
+    /**
      * Get the version info for the GitLab server using the GitLab Version API.
      *
      * @return the version info for the GitLab server
