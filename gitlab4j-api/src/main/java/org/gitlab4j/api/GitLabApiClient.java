@@ -75,6 +75,7 @@ public class GitLabApiClient implements AutoCloseable {
     private Long sudoAsId;
     private Integer connectTimeout;
     private Integer readTimeout;
+    private String userAgentHeader;
 
     /**
      * Construct an instance to communicate with a GitLab API server using the specified GitLab API version,
@@ -871,6 +872,9 @@ public class GitLabApiClient implements AutoCloseable {
         } else {
             builder = builder.header(authHeader, authValue).accept(accept);
         }
+        if (userAgentHeader != null) {
+            builder.header("User-Agent", userAgentHeader);
+        }
 
         // If sudo as ID is set add the Sudo header
         if (sudoAsId != null && sudoAsId.intValue() > 0) builder = builder.header(SUDO_HEADER, sudoAsId);
@@ -953,6 +957,24 @@ public class GitLabApiClient implements AutoCloseable {
                 throw new RuntimeException("Unable to ignore certificate errors.");
             }
         }
+    }
+
+    /**
+     * Returns the configured custom 'User-Agent' header value
+     *
+     * @return User-Agent header value
+     */
+    public String getUserAgentHeader() {
+        return userAgentHeader;
+    }
+
+    /**
+     * Configures a custom value for the 'User-Agent' header
+     *
+     * @param userAgentHeader User-Agent header value
+     */
+    public void setUserAgentHeader(String userAgentHeader) {
+        this.userAgentHeader = userAgentHeader;
     }
 
     /**
