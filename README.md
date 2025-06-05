@@ -31,7 +31,7 @@ To utilize GitLab4J&trade; API in your Java project, simply add the following de
 ```java
 dependencies {
     ...
-    implementation group: 'org.gitlab4j', name: 'gitlab4j-api', version: '6.0.0-rc.10'
+    implementation group: 'org.gitlab4j', name: 'gitlab4j-api', version: '6.0.0'
 }
 ```
 
@@ -40,7 +40,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-api</artifactId>
-    <version>6.0.0-rc.10</version>
+    <version>6.0.0</version>
 </dependency>
 ```
 
@@ -51,7 +51,7 @@ dependencies {
  Just add this line at the top of your script:
 
 ```java
-//DEPS org.gitlab4j:gitlab4j-api:6.0.0-rc.10
+//DEPS org.gitlab4j:gitlab4j-api:6.0.0
 ```
 
 **Ivy and SBT**<br/>
@@ -146,7 +146,7 @@ Those projects might want to use the Jackson-based model classes, and implement 
 ```java
 dependencies {
     ...
-    implementation 'org.gitlab4j:gitlab4j-models:6.0.0-rc.10'
+    implementation 'org.gitlab4j:gitlab4j-models:6.0.0'
 }
 ```
 
@@ -155,7 +155,7 @@ dependencies {
 <dependency>
     <groupId>org.gitlab4j</groupId>
     <artifactId>gitlab4j-models</artifactId>
-    <version>6.0.0-rc.10</version>
+    <version>6.0.0</version>
 </dependency>
 ```
 
