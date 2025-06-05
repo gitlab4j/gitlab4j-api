@@ -1,6 +1,6 @@
 dependencies {
-    api 'com.fasterxml.jackson.core:jackson-annotations:2.14.1'
-    api 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
+    api 'com.fasterxml.jackson.core:jackson-annotations:2.18.0'
+    api 'com.fasterxml.jackson.core:jackson-databind:2.18.0'
     testImplementation 'org.mockito:mockito-core:5.2.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
     testImplementation 'org.hamcrest:hamcrest-all:1.3'
