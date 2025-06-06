@@ -77,6 +77,7 @@ public class AbstractMinimalEpic<E extends AbstractMinimalEpic<E>> implements Se
         this.url = url;
     }
 
+    @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }

@@ -7,7 +7,6 @@ public class CreatedChildEpic extends AbstractMinimalEpic<CreatedChildEpic> {
 
     private Boolean hasChildren;
     private Boolean hasIssues;
-    private String url;
     private String relationUrl;
 
     public Boolean getHasChildren() {
@@ -26,14 +25,6 @@ public class CreatedChildEpic extends AbstractMinimalEpic<CreatedChildEpic> {
         this.hasIssues = hasIssues;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getRelationUrl() {
         return relationUrl;
     }
@@ -42,6 +33,7 @@ public class CreatedChildEpic extends AbstractMinimalEpic<CreatedChildEpic> {
         this.relationUrl = relationUrl;
     }
 
+    @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }

@@ -49,6 +49,7 @@ public class Epic extends AbstractEpic<Epic> {
         this.subscribed = subscribed;
     }
 
+    @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }

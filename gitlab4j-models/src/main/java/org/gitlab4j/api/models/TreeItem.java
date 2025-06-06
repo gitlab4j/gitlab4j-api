@@ -12,6 +12,7 @@ public class TreeItem implements Serializable {
         BLOB,
         COMMIT;
 
+        @Override
         public String toString() {
             return (name().toLowerCase());
         }

@@ -13,7 +13,6 @@ public class HipChatService extends NotificationService {
     public static final String ROOM_PROP = "room";
     public static final String API_VERSION_PROP = "api_version";
     public static final String SERVER_PROP = "server";
-    public static final String NOTIFY_ONLY_BROKEN_PIPELINES_PROP = "notify_only_broken_pipelines";
 
     /**
      * Get the form data for this service based on it's properties.
