@@ -76,6 +76,7 @@ public class RelatedEpic extends AbstractEpic<RelatedEpic> {
         this.linkUpdatedAt = linkUpdatedAt;
     }
 
+    @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }

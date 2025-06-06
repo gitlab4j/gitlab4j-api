@@ -10,7 +10,6 @@ public class MergeRequestSystemHookEvent extends MergeRequestEvent implements Sy
     public static final String X_GITLAB_EVENT = "System Hook";
     public static final String MERGE_REQUEST_EVENT = "merge_request";
 
-    private String eventType;
     private String eventName;
 
     @Override
@@ -25,14 +24,6 @@ public class MergeRequestSystemHookEvent extends MergeRequestEvent implements Sy
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
-    }
-
-    public String getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
     }
 
     /**
