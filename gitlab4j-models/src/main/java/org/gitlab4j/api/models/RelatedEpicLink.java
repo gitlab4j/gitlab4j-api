@@ -63,6 +63,7 @@ public class RelatedEpicLink implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }
