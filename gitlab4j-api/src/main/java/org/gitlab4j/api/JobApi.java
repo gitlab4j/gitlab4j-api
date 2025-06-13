@@ -358,6 +358,22 @@ public class JobApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Get a log (trace) of a specific job of a project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/jobs/:job_id/trace</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path to get the job for
+     * @param jobId the job ID to get
+     * @return a single job for the specified project ID
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public String getJobLog(Object projectIdOrPath, Long jobId) throws GitLabApiException {
+        Response response =
+                get(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "jobs", jobId, "trace");
+        return (response.readEntity(String.class));
+    }
+
+    /**
      * Download the artifacts file from the given reference name and job provided the job finished successfully.
      * The file will be saved to the specified directory. If the file already exists in the directory it will
      * be overwritten.
