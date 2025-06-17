@@ -633,9 +633,9 @@ public class JobApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Get a trace of a specific job of a project
+     * Get a log (trace) of a specific job of a project.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/jobs/:id/trace</code></pre>
+     * <pre><code>GitLab Endpoint: GET /projects/:id/jobs/:job_id/trace</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      *                        to get the specified job's trace for
