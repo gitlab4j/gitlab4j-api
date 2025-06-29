@@ -23,6 +23,7 @@ public class ImpersonationToken implements Serializable {
         WRITE_REPOSITORY,
         READ_REGISTRY,
         WRITE_REGISTRY,
+        K8S_PROXY,
         SUDO;
 
         private static JacksonJsonEnumHelper<Scope> enumHelper = new JacksonJsonEnumHelper<>(Scope.class);

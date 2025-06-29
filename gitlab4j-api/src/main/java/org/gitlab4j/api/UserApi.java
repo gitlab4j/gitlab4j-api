@@ -1047,6 +1047,23 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Create a personal access token for your account.
+     *
+     * <pre><code>GitLab Endpoint: POST /user/personal_access_tokens</code></pre>
+     *
+     * @param name the name of the personal access token, required
+     * @param description description of personal access token, optional
+     * @param expiresAt the expiration date of the personal access token, optional
+     * @param scopes an array of scopes of the personal access token. Only accepts k8s_proxy.
+     * @return the created PersonalAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ImpersonationToken createPersonalAccessToken(String name, String description, Date expiresAt, Scope[] scopes)
+            throws GitLabApiException {
+        return createPersonalAccessTokenOrImpersonationToken(null, name, description, expiresAt, scopes, false);
+    }
+
+    /**
      * Revokes a personal access token.  Available only for admin users.
      *
      * <pre><code>GitLab Endpoint: DELETE /personal_access_tokens/:token_id</code></pre>
@@ -1086,8 +1103,19 @@ public class UserApi extends AbstractApi {
         }
 
         String tokenTypePathArg = impersonation ? "impersonation_tokens" : "personal_access_tokens";
-        Response response = post(
-                Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), tokenTypePathArg);
+
+        Response response;
+        if (userIdOrUsername != null) {
+            response = post(
+                    Response.Status.CREATED,
+                    formData,
+                    "users",
+                    getUserIdOrUsername(userIdOrUsername),
+                    tokenTypePathArg);
+        } else {
+            response = post(Response.Status.CREATED, formData, "user", tokenTypePathArg);
+        }
+
         return (response.readEntity(ImpersonationToken.class));
     }
 
