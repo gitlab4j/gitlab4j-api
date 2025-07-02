@@ -1131,8 +1131,8 @@ public enum Setting {
     USER_OAUTH_APPLICATIONS(Boolean.class),
 
     /**
-     * When set to false disable the “You won’t be able to pull or push project code
-     * via SSH” warning shown to users with no uploaded SSH key.
+     * When set to false disable the "You won’t be able to pull or push project code
+     * via SSH" warning shown to users with no uploaded SSH key.
      */
     USER_SHOW_ADD_SSH_KEY_MESSAGE(Boolean.class),
 
