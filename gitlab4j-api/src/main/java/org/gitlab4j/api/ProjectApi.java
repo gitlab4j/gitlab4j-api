@@ -3424,14 +3424,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      * <pre><code>GET /projects/:id/audit_events</code></pre>
      *
      * @param projectIdOrPath the project ID, path of the project, or a project instance holding the project ID or path
-     * @param created_after Project audit events created on or after the given time.
-     * @param created_before Project audit events created on or before the given time.
+     * @param createdAfter Project audit events created on or after the given time.
+     * @param createdBefore Project audit events created on or before the given time.
      * @return a List of project Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public List<AuditEvent> getAuditEvents(Object projectIdOrPath, Date created_after, Date created_before)
+    public List<AuditEvent> getAuditEvents(Object projectIdOrPath, Date createdAfter, Date createdBefore)
             throws GitLabApiException {
-        return (getAuditEvents(projectIdOrPath, created_after, created_before, getDefaultPerPage())
+        return (getAuditEvents(projectIdOrPath, createdAfter, createdBefore, getDefaultPerPage())
                 .all());
     }
 
@@ -3441,18 +3441,17 @@ public class ProjectApi extends AbstractApi implements Constants {
      * <pre><code>GET /projects/:id/audit_events</code></pre>
      *
      * @param projectIdOrPath the project ID, path of the project, or a Project instance holding the project ID or path
-     * @param created_after Project audit events created on or after the given time.
-     * @param created_before Project audit events created on or before the given time.
+     * @param createdAfter Project audit events created on or after the given time.
+     * @param createdBefore Project audit events created on or before the given time.
      * @param itemsPerPage the number of Audit Event instances that will be fetched per page
      * @return a Pager of project Audit events
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<AuditEvent> getAuditEvents(
-            Object projectIdOrPath, Date created_after, Date created_before, int itemsPerPage)
-            throws GitLabApiException {
+            Object projectIdOrPath, Date createdAfter, Date createdBefore, int itemsPerPage) throws GitLabApiException {
         Form form = new GitLabApiForm()
-                .withParam("created_before", ISO8601.toString(created_before, false))
-                .withParam("created_after", ISO8601.toString(created_after, false));
+                .withParam("created_after", ISO8601.toString(createdAfter, false))
+                .withParam("created_before", ISO8601.toString(createdBefore, false));
         return (new Pager<AuditEvent>(
                 this,
                 AuditEvent.class,
@@ -3469,14 +3468,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      * <pre><code>GET /projects/:id/audit_events</code></pre>
      *
      * @param projectIdOrPath the project ID, path of the project, or a Project instance holding the project ID or path
-     * @param created_after Project audit events created on or after the given time.
-     * @param created_before Project audit events created on or before the given time.
+     * @param createdAfter Project audit events created on or after the given time.
+     * @param createdBefore Project audit events created on or before the given time.
      * @return a Stream of project Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<AuditEvent> getAuditEventsStream(Object projectIdOrPath, Date created_after, Date created_before)
+    public Stream<AuditEvent> getAuditEventsStream(Object projectIdOrPath, Date createdAfter, Date createdBefore)
             throws GitLabApiException {
-        return (getAuditEvents(projectIdOrPath, created_after, created_before, getDefaultPerPage()).stream());
+        return (getAuditEvents(projectIdOrPath, createdAfter, createdBefore, getDefaultPerPage()).stream());
     }
 
     /**

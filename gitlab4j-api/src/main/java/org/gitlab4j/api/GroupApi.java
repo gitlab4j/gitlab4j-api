@@ -1768,14 +1768,14 @@ public class GroupApi extends AbstractApi {
      * <pre><code>GET /groups/:id/audit_events</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
-     * @param created_after Group audit events created on or after the given time.
-     * @param created_before Group audit events created on or before the given time.
+     * @param createdAfter Group audit events created on or after the given time.
+     * @param createdBefore Group audit events created on or before the given time.
      * @return a List of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public List<AuditEvent> getAuditEvents(Object groupIdOrPath, Date created_after, Date created_before)
+    public List<AuditEvent> getAuditEvents(Object groupIdOrPath, Date createdAfter, Date createdBefore)
             throws GitLabApiException {
-        return (getAuditEvents(groupIdOrPath, created_after, created_before, getDefaultPerPage())
+        return (getAuditEvents(groupIdOrPath, createdAfter, createdBefore, getDefaultPerPage())
                 .all());
     }
 
@@ -1785,17 +1785,18 @@ public class GroupApi extends AbstractApi {
      * <pre><code>GET /groups/:id/audit_events</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
-     * @param created_after Group audit events created on or after the given time.
-     * @param created_before Group audit events created on or before the given time.
+     * @param createdAfter Group audit events created on or after the given time.
+     * @param createdBefore Group audit events created on or before the given time.
      * @param itemsPerPage the number of Audit Event instances that will be fetched per page
      * @return a Pager of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<AuditEvent> getAuditEvents(
-            Object groupIdOrPath, Date created_after, Date created_before, int itemsPerPage) throws GitLabApiException {
+            Object groupIdOrPath, Date createdAfter, Date createdBefore, int itemsPerPage) throws GitLabApiException {
         Form form = new GitLabApiForm()
-                .withParam("created_before", ISO8601.toString(created_after, false))
-                .withParam("created_after", ISO8601.toString(created_before, false));
+                .withParam("created_after", ISO8601.toString(createdAfter, false))
+                .withParam("created_before", ISO8601.toString(createdBefore, false));
+
         return (new Pager<AuditEvent>(
                 this,
                 AuditEvent.class,
@@ -1812,14 +1813,14 @@ public class GroupApi extends AbstractApi {
      * <pre><code>GET /groups/:id/audit_events</code></pre>
      *
      * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
-     * @param created_after Group audit events created on or after the given time.
-     * @param created_before Group audit events created on or before the given time.
+     * @param createdAfter Group audit events created on or after the given time.
+     * @param createdBefore Group audit events created on or before the given time.
      * @return a Stream of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<AuditEvent> getAuditEventsStream(Object groupIdOrPath, Date created_after, Date created_before)
+    public Stream<AuditEvent> getAuditEventsStream(Object groupIdOrPath, Date createdAfter, Date createdBefore)
             throws GitLabApiException {
-        return (getAuditEvents(groupIdOrPath, created_after, created_before, getDefaultPerPage()).stream());
+        return (getAuditEvents(groupIdOrPath, createdAfter, createdBefore, getDefaultPerPage()).stream());
     }
 
     /**
