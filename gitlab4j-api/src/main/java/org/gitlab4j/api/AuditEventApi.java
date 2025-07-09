@@ -67,16 +67,16 @@ public class AuditEventApi extends AbstractApi {
      *
      * <pre><code>GET /audit_events</code></pre>
      *
-     * @param created_after Return group audit events created on or after the given time.
-     * @param created_before Return group audit events created on or before the given time.
+     * @param createdAfter Return group audit events created on or after the given time.
+     * @param createdBefore Return group audit events created on or before the given time.
      * @param entityType Return audit events for the given entity type. Valid values are: User, Group, or Project.
      * @param entityId Return audit events for the given entity ID. Requires entityType attribute to be present.
      * @return a Stream of group Audit events
      * @throws GitLabApiException if any exception occurs
      */
     public Stream<AuditEvent> getAuditEventsStream(
-            Date created_after, Date created_before, String entityType, Long entityId) throws GitLabApiException {
-        return (getAuditEvents(created_after, created_before, entityType, entityId, getDefaultPerPage()).stream());
+            Date createdAfter, Date createdBefore, String entityType, Long entityId) throws GitLabApiException {
+        return (getAuditEvents(createdAfter, createdBefore, entityType, entityId, getDefaultPerPage()).stream());
     }
 
     /**
