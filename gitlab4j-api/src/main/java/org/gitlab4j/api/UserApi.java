@@ -13,6 +13,8 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Associations;
+import org.gitlab4j.api.models.CreateRunnerParams;
+import org.gitlab4j.api.models.CreateRunnerResponse;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.Exists;
@@ -1583,5 +1585,19 @@ public class UserApi extends AbstractApi {
         } catch (IOException e) {
             throw new GitLabApiException(e);
         }
+    }
+
+    /**
+     * Create a runner linked to the current user.
+     *
+     * <pre><code>GitLab Endpoint: POST /user/runners</code></pre>
+     *
+     * @param params a CreateRunnerParams instance holding the parameters for the runner creation
+     * @return creation response, be sure to copy or save the token in the response, the value cannot be retrieved again.
+     * @throws GitLabApiException
+     */
+    public CreateRunnerResponse createRunner(CreateRunnerParams params) throws GitLabApiException {
+        Response response = post(Response.Status.OK, new GitLabApiForm(params.getForm()).asMap(), "user", "runners");
+        return response.readEntity(CreateRunnerResponse.class);
     }
 }
