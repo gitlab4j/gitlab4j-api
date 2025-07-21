@@ -19,6 +19,7 @@ public class ApprovalRule implements Serializable {
     private Boolean containsHiddenGroups;
     private List<User> approvedBy;
     private Boolean approved;
+    private List<ProtectedBranch> protectedBranches;
 
     public Long getId() {
         return id;
@@ -106,6 +107,14 @@ public class ApprovalRule implements Serializable {
 
     public void setApproved(Boolean approved) {
         this.approved = approved;
+    }
+
+    public List<ProtectedBranch> getProtectedBranches() {
+        return protectedBranches;
+    }
+
+    public void setProtectedBranches(List<ProtectedBranch> protectedBranches) {
+        this.protectedBranches = protectedBranches;
     }
 
     @Override
