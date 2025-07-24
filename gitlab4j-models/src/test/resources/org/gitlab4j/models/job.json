@@ -36,6 +36,9 @@
     "status": "failed",
     "failure_reason": "script_failure",
     "tag": false,
+    "tag_list": [
+      "docker runner", "win10-2004"
+    ],
     "web_url": "https://example.com/foo/bar/-/jobs/7",
     "allow_failure": false,
     "erased_at": "2016-01-11T11:30:19.914Z",
