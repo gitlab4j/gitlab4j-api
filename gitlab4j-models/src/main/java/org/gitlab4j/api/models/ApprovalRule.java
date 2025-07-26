@@ -11,6 +11,7 @@ public class ApprovalRule implements Serializable {
     private Long id;
     private String name;
     private String ruleType;
+    private String reportType;
     private List<User> eligibleApprovers;
     private Integer approvalsRequired;
     private ApprovalRule sourceRule;
@@ -19,6 +20,7 @@ public class ApprovalRule implements Serializable {
     private Boolean containsHiddenGroups;
     private List<User> approvedBy;
     private Boolean approved;
+    private Boolean appliesToAllProtectedBranches;
     private List<ProtectedBranch> protectedBranches;
 
     public Long getId() {
@@ -43,6 +45,14 @@ public class ApprovalRule implements Serializable {
 
     public void setRuleType(String ruleType) {
         this.ruleType = ruleType;
+    }
+
+    public String getReportType() {
+        return reportType;
+    }
+
+    public void setReportType(String reportType) {
+        this.reportType = reportType;
     }
 
     public List<User> getEligibleApprovers() {
@@ -99,6 +109,14 @@ public class ApprovalRule implements Serializable {
 
     public void setApprovedBy(List<User> approvedBy) {
         this.approvedBy = approvedBy;
+    }
+
+    public Boolean getAppliesToAllProtectedBranches() {
+        return appliesToAllProtectedBranches;
+    }
+
+    public void setAppliesToAllProtectedBranches(Boolean appliesToAllProtectedBranches) {
+        this.appliesToAllProtectedBranches = appliesToAllProtectedBranches;
     }
 
     public Boolean getApproved() {
