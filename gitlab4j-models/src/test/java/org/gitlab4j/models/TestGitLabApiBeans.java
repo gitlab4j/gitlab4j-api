@@ -112,6 +112,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testCreateRunnerResponse() throws Exception {
+        CreateRunnerResponse r = unmarshalResource(CreateRunnerResponse.class, "created-runner-response.json");
+        assertTrue(compareJson(r, "created-runner-response.json"));
+    }
+
+    @Test
     public void testCreatedChildEpic() throws Exception {
         CreatedChildEpic childEpic = unmarshalResource(CreatedChildEpic.class, "created-child-epic.json");
         assertTrue(compareJson(childEpic, "created-child-epic.json"));
