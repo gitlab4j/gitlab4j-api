@@ -36,6 +36,7 @@ publishing {
                         email = 'gautier@jabby-techs.fr'
                     }
                     developer {
+                        id = "$githubRepositoryOwner"
                         url = 'https://github.com/orgs/' + "$githubRepositoryOwner" + '/people'
                     }
                 }
