@@ -1,7 +1,7 @@
 plugins {
     id 'com.diffplug.spotless' version '6.25.0' apply false
     id 'org.kordamp.gradle.jandex' version '2.1.0' apply false
-    id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
+    id 'org.jreleaser' version '1.19.0'
     id 'net.researchgate.release' version '3.1.0'
 }
 
@@ -10,26 +10,16 @@ wrapper {
 }
 
 String groupId = 'org.gitlab4j'
+group = groupId
 
+def repositoryPath = 'build/staging-deploy'
 subprojects {
     apply plugin: 'java-library'
-    apply plugin: 'signing'
     apply plugin: 'com.diffplug.spotless'
     apply plugin: 'maven-publish'
     apply plugin: 'org.kordamp.gradle.jandex'
 
     group = groupId
-
-    signing {
-        useGpgCmd()
-        sign(publishing.publications)
-    }
-
-    tasks.withType(Sign) {
-        onlyIf {
-            project.hasProperty('signing.gnupg.keyName')
-        }
-    }
 
     java {
         withJavadocJar()
@@ -61,21 +51,74 @@ subprojects {
     tasks.named("javadoc") {
         inputs.files(tasks.getByPath("jandex").outputs.files)
     }
+
+    publishing {
+        repositories {
+            maven {
+                url = rootProject.file(repositoryPath)
+            }
+        }
+    }
 }
 
-nexusPublishing {
-    packageGroup = 'org.gitlab4j'
-    repositories {
-        sonatype {
-            nexusUrl.set(uri("https://oss.sonatype.org/service/local/"))
-            username = project.findProperty('ossSonatypeUsername') ?: ''
-            password = project.findProperty('ossSonatypePassword') ?: ''
+jreleaser {
+    signing {
+        active = 'RELEASE'
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                gitlab4j {
+                    active = 'RELEASE'
+                    namespace = 'org.gitlab4j'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository(repositoryPath)
+                    retryDelay = 30
+                    maxRetries = 150
+                }
+            }
+        }
+    }
+    release {
+        github {
+            enabled = true
+            repoOwner = "$githubRepositoryOwner"
+            name = "$githubRepositoryName"
+            tagName = '{{projectVersion}}'
+            overwrite = true
+            skipTag = true
+            releaseNotes {
+                enabled = true
+            }
+            changelog {
+                enabled = false
+            }
+            milestone {
+                close = true
+            }
+            issues {
+                enabled = true
+                comment = 'This issue has been resolved in `{{tagName}}` ([Release Notes]({{releaseNotesUrl}}))'
+                applyMilestone = 'ALWAYS'
+
+                label {
+                    name = 'released'
+                    color = '#FF0000'
+                    description = 'Issue has been released'
+                }
+            }
         }
     }
 }
 
 release {
-    buildTasks = ['doRelease']
+    buildTasks = [
+        'checkLastVersionValue',
+        'clean',
+        'publish',
+        'jreleaserDeploy'
+    ]
     git {
         requireBranch.set('main')
     }
@@ -107,25 +150,8 @@ def updateLastVersionValueTask = tasks.register('updateLastVersionValue') {
     }
 }
 
-task doRelease {
-    dependsOn(
-            checkLastVersionValueTask,
-            'initializeSonatypeStagingRepository', 
-            'clean',
-            'build'
-    )
-}
-
 model {
     tasks.unSnapshotVersion {
         dependsOn updateLastVersionValueTask
-    }
-}
-// dependency on 'publishToSonatype' must be added in a 'afterEvaluate' block, see https://github.com/gradle/gradle/issues/16543#issuecomment-2529428010
-afterEvaluate {
-    model {
-        tasks.doRelease {
-            dependsOn project.getTasksByName('publishToSonatype', true)
-        }
     }
 }
