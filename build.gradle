@@ -2,17 +2,19 @@
 plugins {
     id 'java-library'
     id 'com.diffplug.spotless' version '6.2.0'
-    id 'signing'
     id 'maven-publish'
-    id 'io.github.gradle-nexus.publish-plugin' version '1.3.0'
-    id 'net.researchgate.release' version '3.0.2'
+    id 'org.jreleaser' version '1.19.0'
+    id 'net.researchgate.release' version '3.1.0'
 }
 
 wrapper {
     gradleVersion = '8.10.1'
 }
 
-group = 'org.gitlab4j'
+String groupId = 'org.gitlab4j'
+group = groupId
+
+def repositoryPath = 'build/staging-deploy'
 
 dependencies {
     api 'jakarta.activation:jakarta.activation-api:1.2.2'
@@ -28,17 +30,6 @@ dependencies {
     testImplementation 'uk.org.webcompere:system-stubs-jupiter:1.2.0'
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.4"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.4"
-}
-
-signing {
-    useGpgCmd()
-    sign(publishing.publications)
-}
-
-tasks.withType(Sign) {
-    onlyIf {
-        project.hasProperty('signing.gnupg.keyName')
-    }
 }
 
 java {
@@ -67,13 +58,53 @@ spotless {
     }
 }
 
-nexusPublishing {
-    packageGroup = 'org.gitlab4j'
-    repositories {
-        sonatype {
-            nexusUrl.set(uri("https://oss.sonatype.org/service/local/"))
-            username = project.findProperty('ossSonatypeUsername') ?: ''
-            password = project.findProperty('ossSonatypePassword') ?: ''
+jreleaser {
+    signing {
+        active = 'RELEASE'
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                gitlab4j {
+                    active = 'RELEASE'
+                    namespace = 'org.gitlab4j'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository(repositoryPath)
+                    retryDelay = 30
+                    maxRetries = 150
+                }
+            }
+        }
+    }
+    release {
+        github {
+            enabled = true
+            repoOwner = "$githubRepositoryOwner"
+            name = "$githubRepositoryName"
+            tagName = '{{projectVersion}}'
+            overwrite = true
+            skipTag = true
+            releaseNotes {
+                enabled = true
+            }
+            changelog {
+                enabled = false
+            }
+            milestone {
+                close = true
+            }
+            issues {
+                enabled = true
+                comment = 'This issue has been resolved in `{{tagName}}` ([Release Notes]({{releaseNotesUrl}}))'
+                applyMilestone = 'ALWAYS'
+
+                label {
+                    name = 'released'
+                    color = '#FF0000'
+                    description = 'Issue has been released'
+                }
+            }
         }
     }
 }
@@ -106,6 +137,7 @@ publishing {
                     }
                     developer {
                         url = 'https://github.com/orgs/' + "$githubRepositoryOwner" + '/people'
+                        id = "$githubRepositoryOwner"
                     }
                 }
                 scm {
@@ -117,12 +149,24 @@ publishing {
             from components.java
         }
     }
+    publishing {
+        repositories {
+            maven {
+                url = rootProject.file(repositoryPath)
+            }
+        }
+    }
 }
 
 release {
-    buildTasks = ['doRelease']
+    buildTasks = [
+        'checkLastVersionValue',
+        'clean',
+        'publish',
+        'jreleaserDeploy'
+    ]
     git {
-        requireBranch.set('main')
+        requireBranch.set('5.x.x')
     }
 }
 
@@ -145,16 +189,6 @@ def updateLastVersionValueTask = tasks.register('updateLastVersionValue') {
         content = content.replaceAll("lastVersion=[0-9a-z\\.\\-]+", "lastVersion=" + newVersion)
         propertiesFile.text = content
     }
-}
-
-tasks.register('doRelease') {
-    dependsOn(
-        checkLastVersionValueTask,
-        'initializeSonatypeStagingRepository', 
-        'clean',
-        'build',
-        project.getTasksByName('publishToSonatype', true)
-    )
 }
 
 model {
