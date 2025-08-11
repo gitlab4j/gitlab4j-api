@@ -155,6 +155,7 @@ public class Project implements Serializable {
     private String ciRestrictPipelineCancellationRole;
     private String ciPipelineVariablesMinimumOverrideRole;
     private Boolean ciPushRepositoryForJobTokenAllowed;
+    private Integer ciDeletePipelinesInSeconds;
     private Boolean allowPipelineTriggerApproveDeployment;
     private Boolean restrictUserDefinedVariables;
     private Boolean enforceAuthChecksOnUploads;
@@ -1381,6 +1382,19 @@ public class Project implements Serializable {
 
     public void setCiPushRepositoryForJobTokenAllowed(Boolean ciPushRepositoryForJobTokenAllowed) {
         this.ciPushRepositoryForJobTokenAllowed = ciPushRepositoryForJobTokenAllowed;
+    }
+
+    public Integer getCiDeletePipelinesInSeconds() {
+        return ciDeletePipelinesInSeconds;
+    }
+
+    public void setCiDeletePipelinesInSeconds(Integer ciDeletePipelinesInSeconds) {
+        this.ciDeletePipelinesInSeconds = ciDeletePipelinesInSeconds;
+    }
+
+    public Project withCiDeletePipelineInSeconds(Integer ciDeletePipelineInSeconds) {
+        this.ciDeletePipelinesInSeconds = ciDeletePipelineInSeconds;
+        return this;
     }
 
     public Boolean getAllowPipelineTriggerApproveDeployment() {
