@@ -436,9 +436,28 @@ public class AwardEmojiApi extends AbstractApi {
      * @param name the name of the award emoji to add
      * @return an AwardEmoji instance for the added award emoji
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #addMergeRequestAwardEmoji(Object, Long, Long, String)} instead
      */
+    @Deprecated
     public AwardEmoji addMergeRequestAwardEmoji(
             Object projectIdOrPath, Integer mergeRequestIid, Integer noteId, String name) throws GitLabApiException {
+        return addMergeRequestAwardEmoji(projectIdOrPath, mergeRequestIid.longValue(), noteId.longValue(), name);
+    }
+
+    /**
+     * Add an award emoji for the specified merge request note.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/notes/:noteId/award_emoji</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param mergeRequestIid the merge request IID of the merge request that owns the note
+     * @param noteId the note ID to add the award emoji to
+     * @param name the name of the award emoji to add
+     * @return an AwardEmoji instance for the added award emoji
+     * @throws GitLabApiException if any exception occurs
+     */
+    public AwardEmoji addMergeRequestAwardEmoji(Object projectIdOrPath, Long mergeRequestIid, Long noteId, String name)
+            throws GitLabApiException {
         GitLabApiForm form = new GitLabApiForm().withParam("name", name, true);
         Response response = post(
                 Response.Status.CREATED,
