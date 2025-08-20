@@ -3977,6 +3977,44 @@ public class ProjectApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Gets a pager of a project’s badges and its group badges.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/badges</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param itemsPerPage the number of Badge instances that will be fetched per page
+     * @return a pager of Badge instances for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Badge> getBadges(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return getBadges(projectIdOrPath, null, itemsPerPage);
+    }
+
+    /**
+     * Gets a pager of a project’s badges and its group badges, case-sensitively filtered on bagdeName if non-null.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/badges?name=:name</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param bagdeName The name to filter on (case-sensitive), ignored if null.
+     * @param itemsPerPage the number of Badge instances that will be fetched per page
+     * @return a pager of the GitLab item, case insensitively filtered on name.
+     * @throws GitLabApiException If any problem is encountered
+     */
+    public Pager<Badge> getBadges(Object projectIdOrPath, String bagdeName, int itemsPerPage)
+            throws GitLabApiException {
+        Form queryParam = new GitLabApiForm().withParam("name", bagdeName);
+        return new Pager<Badge>(
+                this,
+                Badge.class,
+                itemsPerPage,
+                queryParam.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "badges");
+    }
+
+    /**
      * Gets a badge of a project.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/badges/:badge_id</code></pre>
