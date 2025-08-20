@@ -274,7 +274,8 @@ public class TestProjectApi extends AbstractIntegrationTest {
                 .withTagList(Arrays.asList("tag1", "tag2"))
                 .withMergeMethod(Project.MergeMethod.MERGE)
                 .withSuggestionCommitMessage("SuggestionCommitMessageOriginal")
-                .withRemoveSourceBranchAfterMerge(false);
+                .withRemoveSourceBranchAfterMerge(false)
+                .withCiDeletePipelineInSeconds(3600);
 
         Project newProject = gitLabApi.getProjectApi().createProject(project);
         assertNotNull(newProject);
@@ -289,6 +290,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertEquals(Project.MergeMethod.MERGE, newProject.getMergeMethod());
         assertEquals(project.getSuggestionCommitMessage(), newProject.getSuggestionCommitMessage());
         assertEquals(project.getRemoveSourceBranchAfterMerge(), newProject.getRemoveSourceBranchAfterMerge());
+        assertEquals(project.getCiDeletePipelinesInSeconds(), newProject.getCiDeletePipelinesInSeconds());
 
         project = new Project()
                 .withId(newProject.getId())
