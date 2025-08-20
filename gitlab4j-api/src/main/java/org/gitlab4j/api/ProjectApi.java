@@ -64,6 +64,7 @@ import org.gitlab4j.api.models.ProjectGroup;
 import org.gitlab4j.api.models.ProjectGroupsFilter;
 import org.gitlab4j.api.models.ProjectHook;
 import org.gitlab4j.api.models.ProjectUser;
+import org.gitlab4j.api.models.PullMirror;
 import org.gitlab4j.api.models.PushRules;
 import org.gitlab4j.api.models.RemoteMirror;
 import org.gitlab4j.api.models.Snippet;
@@ -4468,6 +4469,41 @@ public class ProjectApi extends AbstractApi implements Constants {
         }
 
         delete(Response.Status.OK, null, "projects", getProjectIdOrPath(projectIdOrPath), "custom_attributes", key);
+    }
+
+    /**
+     * Get all pull mirrors for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/mirror/pull</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @return a list of project's pull mirrors
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<PullMirror> getPullMirrors(final Object projectIdOrPath) throws GitLabApiException {
+        return (getPullMirrors(projectIdOrPath, getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a Pager of pull mirrors for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/mirror/pull</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param itemsPerPage the number of items per page
+     * @return a Pager of project's pull mirrors
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<PullMirror> getPullMirrors(final Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return new Pager<PullMirror>(
+                this,
+                PullMirror.class,
+                itemsPerPage,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "mirror",
+                "pull");
     }
 
     /**
