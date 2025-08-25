@@ -52,8 +52,7 @@ build/
 !/gradle/wrapper/gradle-wrapper.jar
 
 # Test properties file for gitlab4j
-test-gitlab4j.properties
-!src/test/resources/test-gitlab4j.properties
+gitlab4j-mock-config-*.properties
 
 # git-changelog plugin #
 .okhttpcache
