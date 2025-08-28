@@ -57,27 +57,70 @@ public class EventIssue {
     @JsonProperty("action")
     private String action;
 
+    @JsonProperty("assignee_ids")
     private List<Long> assigneeIds;
+
+    @JsonProperty("updated_by_id")
     private Long updatedById;
+
+    @JsonProperty("last_edited_at")
     private Date lastEditedAt;
+
+    @JsonProperty("last_edited_by_id")
     private Long lastEditedById;
+
+    @JsonProperty("relative_position")
     private Long relativePosition;
+
+    @JsonProperty("state_id")
     private Long stateId;
+
+    @JsonProperty("confidential")
     private Boolean confidential;
+
+    @JsonProperty("discussion_locked")
     private Boolean discussionLocked;
+
+    @JsonProperty("due_date")
     private Date dueDate;
+
+    @JsonProperty("moved_to_id")
     private Long movedToId;
+
+    @JsonProperty("duplicated_to_id")
     private Long duplicatedToId;
+
+    @JsonProperty("time_estimate")
     private Long timeEstimate;
+
+    @JsonProperty("total_time_spent")
     private Long totalTimeSpent;
+
+    @JsonProperty("time_change")
     private Long timeChange;
+
+    @JsonProperty("human_time_estimate")
     private String humanTimeEstimate;
+
+    @JsonProperty("human_total_time_spent")
     private String humanTotalTimeSpent;
+
+    @JsonProperty("human_time_change")
     private String humanTimeChange;
+
+    @JsonProperty("weight")
     private Long weight;
+
+    @JsonProperty("health_status")
     private String healthStatus;
+
+    @JsonProperty("type")
     private String type;
+
+    @JsonProperty("severity")
     private String severity;
+
+    @JsonProperty("labels")
     private List<EventLabel> labels;
 
     public Long getAssigneeId() {

@@ -8,6 +8,7 @@ import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PipelineEvent extends AbstractEvent {
@@ -104,22 +105,57 @@ public class PipelineEvent extends AbstractEvent {
 
     public static class ObjectAttributes {
 
+        @JsonProperty("id")
         private Long id;
+
+        @JsonProperty("iid")
         private Long iid;
+
+        @JsonProperty("name")
         private String name;
+
+        @JsonProperty("ref")
         private String ref;
+
+        @JsonProperty("tag")
         private Boolean tag;
+
+        @JsonProperty("sha")
         private String sha;
+
+        @JsonProperty("before_sha")
         private String beforeSha;
+
+        @JsonProperty("source")
         private String source;
+
+        @JsonProperty("status")
         private String status;
+
+        @JsonProperty("detailed_status")
         private String detailedStatus;
+
+        @JsonProperty("stages")
         private List<String> stages;
+
+        @JsonProperty("created_at")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         private Date createdAt;
+
+        @JsonProperty("finished_at")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         private Date finishedAt;
+
+        @JsonProperty("duration")
         private Integer duration;
+
+        @JsonProperty("queued_duration")
         private Float queuedDuration;
+
+        @JsonProperty("variables")
         private List<Variable> variables;
+
+        @JsonProperty("url")
         private String url;
 
         public Long getId() {
