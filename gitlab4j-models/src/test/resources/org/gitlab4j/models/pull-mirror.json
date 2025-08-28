@@ -1,0 +1,14 @@
+{
+  "id": 101486,
+  "last_error": "FOO",
+  "last_successful_update_at": "2020-01-06T17:32:02.823Z",
+  "last_update_at": "2020-01-06T17:32:02.823Z",
+  "last_update_started_at": "2020-01-06T17:31:55.864Z",
+  "update_status": "finished",
+  "url": "https://*****:*****@gitlab.com/gitlab-org/security/gitlab.git",
+  "enabled": true,
+  "mirror_trigger_builds": true,
+  "only_mirror_protected_branches": true,
+  "mirror_overwrites_diverged_branches": false,
+  "mirror_branch_regex": "[a-z]+"
+}

@@ -13,7 +13,7 @@ public class PullMirror implements Serializable {
     private Date lastSuccessfulUpdateAt;
     private Date lastUpdateAt;
     private Date lastUpdateStartedAt;
-    private String updatedStatus;
+    private String updateStatus;
     private String url;
     private Boolean enabled;
     private Boolean mirrorTriggerBuilds;
@@ -61,12 +61,12 @@ public class PullMirror implements Serializable {
         this.lastUpdateStartedAt = lastUpdateStartedAt;
     }
 
-    public String getUpdatedStatus() {
-        return updatedStatus;
+    public String getUpdateStatus() {
+        return updateStatus;
     }
 
-    public void setUpdatedStatus(String updatedStatus) {
-        this.updatedStatus = updatedStatus;
+    public void setUpdateStatus(String updateStatus) {
+        this.updateStatus = updateStatus;
     }
 
     public String getUrl() {
