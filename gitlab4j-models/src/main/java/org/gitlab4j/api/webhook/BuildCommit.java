@@ -11,6 +11,7 @@ public class BuildCommit {
 
     @JsonProperty("id")
     private Long id;
+
     @JsonProperty("name")
     private String name;
 

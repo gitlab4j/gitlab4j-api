@@ -26,12 +26,26 @@ public class BoardList implements Serializable {
      */
     @JsonProperty("position")
     private Integer position;
+
+    @JsonProperty("assignee")
     private Assignee assignee;
+
+    @JsonProperty("milestone")
     private Milestone milestone;
+
+    @JsonProperty("iteration")
     private Iteration iteration;
+
+    @JsonProperty("max_issue_count")
     private Integer maxIssueCount;
+
+    @JsonProperty("max_issue_weight")
     private Integer maxIssueWeight;
+
+    @JsonProperty("limit_metric")
     private Integer limitMetric;
+
+    @JsonProperty("list_type")
     private String listType;
 
     public Long getId() {

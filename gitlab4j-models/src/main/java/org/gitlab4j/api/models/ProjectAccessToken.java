@@ -9,6 +9,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class ProjectAccessToken implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -24,6 +25,7 @@ public class ProjectAccessToken implements Serializable {
 
     @JsonProperty("expires_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date expiresAt;
 
     @JsonProperty("id")

@@ -6,6 +6,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class RelatedEpic extends AbstractEpic<RelatedEpic> {
     private static final long serialVersionUID = 1L;
@@ -18,6 +19,7 @@ public class RelatedEpic extends AbstractEpic<RelatedEpic> {
 
     @JsonProperty("due_date_from_inherited_source")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDateFromInheritedSource;
 
     @JsonProperty("related_epic_link_id")

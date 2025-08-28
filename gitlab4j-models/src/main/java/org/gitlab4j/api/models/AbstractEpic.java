@@ -9,6 +9,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic<E> implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -84,6 +85,7 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
      */
     @JsonProperty("start_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
 
     /**
@@ -92,6 +94,7 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
      */
     @JsonProperty("due_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
 
     /**
@@ -100,6 +103,7 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
      */
     @JsonProperty("end_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date endDate;
 
     /**

@@ -22,6 +22,8 @@ public class PersonalAccessToken implements Serializable {
 
     @JsonProperty("name")
     private String name;
+
+    @JsonProperty("description")
     private String description;
 
     @JsonProperty("expires_at")

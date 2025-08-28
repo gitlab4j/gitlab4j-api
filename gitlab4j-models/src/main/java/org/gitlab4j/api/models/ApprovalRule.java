@@ -27,6 +27,7 @@ public class ApprovalRule implements Serializable {
      */
     @JsonProperty("rule_type")
     private String ruleType;
+
     @JsonProperty("report_type")
     private String reportType;
 

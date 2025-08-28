@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class ImpersonationToken implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -121,6 +122,7 @@ public class ImpersonationToken implements Serializable {
      */
     @JsonProperty("expires_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date expiresAt;
 
     public Boolean getActive() {

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Iteration implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -109,6 +110,7 @@ public class Iteration implements Serializable {
      */
     @JsonProperty("start_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
 
     /**
@@ -117,6 +119,7 @@ public class Iteration implements Serializable {
      */
     @JsonProperty("due_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
 
     /**

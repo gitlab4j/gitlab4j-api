@@ -29,6 +29,7 @@ public class BuildEvent extends AbstractEvent {
 
     @JsonProperty("sha")
     private String sha;
+
     @JsonProperty("retries_count")
     private Integer retriesCount;
 

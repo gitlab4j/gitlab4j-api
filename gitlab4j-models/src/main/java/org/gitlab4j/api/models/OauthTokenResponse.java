@@ -2,9 +2,9 @@ package org.gitlab4j.api.models;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.gitlab4j.models.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OauthTokenResponse implements Serializable {
     private static final long serialVersionUID = 1L;
