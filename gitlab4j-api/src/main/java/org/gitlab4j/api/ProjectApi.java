@@ -1074,6 +1074,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * ciConfigPath (optional) - Set path to CI configuration file
      * autoDevopsEnabled (optional) - Enable Auto DevOps for this project
      * squashOption (optional) - set squash option for merge requests
+     * ciDeletePipelinesInSeconds (optional) - set the automatic pipeline cleanup time in seconds
      *
      * @param project the Project instance with the configuration for the new project
      * @param importUrl the URL to import the repository from
@@ -1125,6 +1126,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("build_git_strategy", project.getBuildGitStrategy())
                 .withParam("build_coverage_regex", project.getBuildCoverageRegex())
                 .withParam("ci_config_path", project.getCiConfigPath())
+                .withParam("ci_delete_pipelines_in_seconds", project.getCiDeletePipelinesInSeconds())
                 .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
                 .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
                 .withParam("auto_devops_enabled", project.getAutoDevopsEnabled())
@@ -1445,6 +1447,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * ciConfigPath (optional) - Set path to CI configuration file
      * ciForwardDeploymentEnabled (optional) - When a new deployment job starts, skip older deployment jobs that are still pending
      * squashOption (optional) - set squash option for merge requests
+     * ciDeletePipelinesInSeconds (optional) - set the automatic pipeline cleanup time in seconds
      *
      * NOTE: The following parameters specified by the GitLab API edit project are not supported:
      *     import_url
@@ -1494,6 +1497,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("build_coverage_regex", project.getBuildCoverageRegex())
                 .withParam("ci_config_path", project.getCiConfigPath())
                 .withParam("ci_forward_deployment_enabled", project.getCiForwardDeploymentEnabled())
+                .withParam("ci_delete_pipelines_in_seconds", project.getCiDeletePipelinesInSeconds())
                 .withParam("merge_method", project.getMergeMethod())
                 .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
                 .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
@@ -3970,6 +3974,44 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response response =
                 get(Response.Status.OK, queryParam.asMap(), "projects", getProjectIdOrPath(projectIdOrPath), "badges");
         return (response.readEntity(new GenericType<List<Badge>>() {}));
+    }
+
+    /**
+     * Gets a pager of a project’s badges and its group badges.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/badges</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param itemsPerPage the number of Badge instances that will be fetched per page
+     * @return a pager of Badge instances for the specified project
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Badge> getBadges(Object projectIdOrPath, int itemsPerPage) throws GitLabApiException {
+        return getBadges(projectIdOrPath, null, itemsPerPage);
+    }
+
+    /**
+     * Gets a pager of a project’s badges and its group badges, case-sensitively filtered on bagdeName if non-null.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/badges?name=:name</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param bagdeName The name to filter on (case-sensitive), ignored if null.
+     * @param itemsPerPage the number of Badge instances that will be fetched per page
+     * @return a pager of the GitLab item, case insensitively filtered on name.
+     * @throws GitLabApiException If any problem is encountered
+     */
+    public Pager<Badge> getBadges(Object projectIdOrPath, String bagdeName, int itemsPerPage)
+            throws GitLabApiException {
+        Form queryParam = new GitLabApiForm().withParam("name", bagdeName);
+        return new Pager<Badge>(
+                this,
+                Badge.class,
+                itemsPerPage,
+                queryParam.asMap(),
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "badges");
     }
 
     /**

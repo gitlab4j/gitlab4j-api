@@ -194,5 +194,6 @@
   "requirements_access_level" : "enabled",
   "security_and_compliance_access_level" : "private",
   "snippets_access_level" : "enabled",
-  "wiki_access_level" : "enabled"
+  "wiki_access_level" : "enabled",
+  "ci_delete_pipelines_in_seconds": 604800
 }
