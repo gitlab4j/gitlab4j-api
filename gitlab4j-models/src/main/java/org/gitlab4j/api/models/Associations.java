@@ -4,12 +4,21 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Associations implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("groups_count")
     private int groupsCount;
+
+    @JsonProperty("projects_count")
     private int projectsCount;
+
+    @JsonProperty("issues_count")
     private int issuesCount;
+
+    @JsonProperty("merge_requests_count")
     private int mergeRequestsCount;
 
     public int getGroupsCount() {

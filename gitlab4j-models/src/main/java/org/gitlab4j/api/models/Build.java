@@ -4,26 +4,63 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author Yaris van Thiel
  */
 public class Build {
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("stage")
     private String stage;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("status")
     private BuildStatus status;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date createdAt;
+
+    @JsonProperty("started_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date startedAt;
+
+    @JsonProperty("finished_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
     private Date finishedAt;
+
+    @JsonProperty("duration")
     private Float duration;
+
+    @JsonProperty("queued_duration")
     private Float queuedDuration;
+
+    @JsonProperty("failure_reason")
     private String failureReason;
+
+    @JsonProperty("when")
     private String when;
+
+    @JsonProperty("manual")
     private Boolean manual;
+
+    @JsonProperty("allow_failure")
     private Boolean allowFailure;
+
+    @JsonProperty("user")
     private User user;
+
+    @JsonProperty("runner")
     private Runner runner;
+
+    @JsonProperty("artifacts_file")
     private ArtifactsFile artifactsFile;
 
     public Long getId() {
