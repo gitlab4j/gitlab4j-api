@@ -90,9 +90,6 @@ public class User extends AbstractUser<User> {
     @JsonProperty("skype")
     private String skype;
 
-    @JsonProperty("state")
-    private String state;
-
     @JsonProperty("theme_id")
     private Integer themeId;
 
@@ -300,14 +297,6 @@ public class User extends AbstractUser<User> {
         this.skype = skype;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public Integer getThemeId() {
         return themeId;
     }
@@ -463,11 +452,6 @@ public class User extends AbstractUser<User> {
 
     public User withSkype(String skype) {
         this.skype = skype;
-        return this;
-    }
-
-    public User withState(String state) {
-        this.state = state;
         return this;
     }
 

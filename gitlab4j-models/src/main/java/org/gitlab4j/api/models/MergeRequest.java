@@ -67,6 +67,9 @@ public class MergeRequest implements Serializable {
     @JsonProperty("downvotes")
     private Integer downvotes;
 
+    @JsonProperty("draft")
+    private Boolean draft;
+
     @JsonProperty("force_remove_source_branch")
     private Boolean forceRemoveSourceBranch;
 
@@ -339,6 +342,14 @@ public class MergeRequest implements Serializable {
 
     public void setDownvotes(Integer downvotes) {
         this.downvotes = downvotes;
+    }
+
+    public Boolean getDraft() {
+        return draft;
+    }
+
+    public void setDraft(Boolean draft) {
+        this.draft = draft;
     }
 
     public Boolean getForceRemoveSourceBranch() {

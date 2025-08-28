@@ -51,6 +51,9 @@ public abstract class AbstractUser<U extends AbstractUser<U>> implements Seriali
     @JsonProperty("state")
     private String state;
 
+    @JsonProperty("locked")
+    private Boolean locked;
+
     /**
      * The username associated with the user.
      */
@@ -101,6 +104,14 @@ public abstract class AbstractUser<U extends AbstractUser<U>> implements Seriali
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
     public String getState() {

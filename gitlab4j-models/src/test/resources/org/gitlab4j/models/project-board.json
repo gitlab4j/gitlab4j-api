@@ -35,12 +35,39 @@
       },
       {
         "id" : 3,
-        "label" : {
-          "name" : "Production",
-          "color" : "#FF5F00",
-          "description" : "Production board"
+        "milestone": {
+            "id": 918,
+            "iid": 1,
+            "project_id": 5,
+            "title": "Some Milestone",
+            "description": "A description",
+            "state": "active",
+            "created_at": "2024-10-17T07:24:04.309Z",
+            "updated_at": "2024-10-17T07:24:04.309Z",
+            "due_date": "2024-12-31",
+            "start_date": "2024-12-01",
+            "expired": false,
+            "web_url": "http://example.com/diaspora/diaspora-project-site/-/milestones/1"
         },
         "position" : 3
+      },
+      {
+        "id" : 4,
+        "iteration": {
+            "id": 304,
+            "iid": 1,
+            "sequence": 1,
+            "group_id": 1648,
+            "title": "a title",
+            "description": "a decription",
+            "state": 1,
+            "created_at": "2024-12-27T12:34:42.162Z",
+            "updated_at": "2024-12-27T12:34:42.162Z",
+            "start_date": "2025-01-01",
+            "due_date": "2025-01-21",
+            "web_url": "http://example.com/diaspora"
+        },
+        "position" : 4
       }
     ]
   }

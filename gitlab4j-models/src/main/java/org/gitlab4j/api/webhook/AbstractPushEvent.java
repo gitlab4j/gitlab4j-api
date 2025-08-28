@@ -19,6 +19,9 @@ public abstract class AbstractPushEvent {
     @JsonProperty("ref")
     private String ref;
 
+    @JsonProperty("ref_protected")
+    private Boolean refProtected;
+
     @JsonProperty("checkout_sha")
     private String checkoutSha;
 
@@ -91,6 +94,14 @@ public abstract class AbstractPushEvent {
 
     public void setRef(String ref) {
         this.ref = ref;
+    }
+
+    public Boolean getRefProtected() {
+        return refProtected;
+    }
+
+    public void setRefProtected(Boolean refProtected) {
+        this.refProtected = refProtected;
     }
 
     public String getCheckoutSha() {

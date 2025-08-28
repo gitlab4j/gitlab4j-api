@@ -8,6 +8,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RepositorySystemHookEvent extends AbstractSystemHookEvent {
+    private static final long serialVersionUID = 1L;
 
     public static final String REPOSITORY_UPDATE_EVENT = "repository_update";
 

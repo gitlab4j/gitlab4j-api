@@ -24,10 +24,10 @@ public class IssueFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Return only the milestone having the given iid.
+     * Return only the issues having the given iid.
      */
     @JsonProperty("iids")
-    private List<String> iids;
+    private List<Long> iids;
 
     /**
      * {@link org.gitlab4j.models.Constants.IssueState} Return all issues or just those that are opened or closed.
@@ -166,11 +166,11 @@ public class IssueFilter implements Serializable {
     }
 
     /*- properties -*/
-    public List<String> getIids() {
+    public List<Long> getIids() {
         return iids;
     }
 
-    public void setIids(List<String> iids) {
+    public void setIids(List<Long> iids) {
         this.iids = iids;
     }
 
@@ -311,7 +311,7 @@ public class IssueFilter implements Serializable {
     }
 
     /*- builder -*/
-    public IssueFilter withIids(List<String> iids) {
+    public IssueFilter withIids(List<Long> iids) {
         this.iids = iids;
         return (this);
     }

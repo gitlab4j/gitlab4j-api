@@ -52,6 +52,7 @@ public class TestGitLabApiEvents {
         // Arrange
         HttpServletRequest request = mock(HttpServletRequest.class);
         given(request.getHeader("X-Gitlab-Event")).willReturn(SystemHookManager.SYSTEM_HOOK_EVENT);
+        given(request.getHeader("X-Gitlab-Token")).willReturn(null);
 
         JsonNode tree = readTreeFromResource("merge-request-system-hook-event.json");
         ((ObjectNode) tree).remove("event_name");

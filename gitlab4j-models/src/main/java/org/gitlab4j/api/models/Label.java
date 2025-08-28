@@ -26,6 +26,9 @@ public class Label implements Serializable {
     @JsonProperty("description_html")
     private String descriptionHtml;
 
+    @JsonProperty("text_color")
+    private String textColor;
+
     @JsonProperty("open_issues_count")
     private Integer openIssuesCount;
 
@@ -97,6 +100,14 @@ public class Label implements Serializable {
 
     public void setDescriptionHtml(String descriptionHtml) {
         this.descriptionHtml = descriptionHtml;
+    }
+
+    public String getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(String textColor) {
+        this.textColor = textColor;
     }
 
     public Integer getOpenIssuesCount() {

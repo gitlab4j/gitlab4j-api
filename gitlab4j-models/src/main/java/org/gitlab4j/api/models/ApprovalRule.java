@@ -27,6 +27,8 @@ public class ApprovalRule implements Serializable {
      */
     @JsonProperty("rule_type")
     private String ruleType;
+    @JsonProperty("report_type")
+    private String reportType;
 
     /**
      * The list of eligible approvers for the rule.
@@ -76,6 +78,16 @@ public class ApprovalRule implements Serializable {
     @JsonProperty("approved")
     private Boolean approved;
 
+    /**
+     * If true, applies the rule to all protected branches
+     * and ignores the protected_branch_ids attribute.
+     */
+    @JsonProperty("applies_to_all_protected_branches")
+    private Boolean appliesToAllProtectedBranches;
+
+    @JsonProperty("protected_branches")
+    private List<ProtectedBranch> protectedBranches;
+
     public Long getId() {
         return id;
     }
@@ -98,6 +110,14 @@ public class ApprovalRule implements Serializable {
 
     public void setRuleType(String ruleType) {
         this.ruleType = ruleType;
+    }
+
+    public String getReportType() {
+        return reportType;
+    }
+
+    public void setReportType(String reportType) {
+        this.reportType = reportType;
     }
 
     public List<User> getEligibleApprovers() {
@@ -156,12 +176,28 @@ public class ApprovalRule implements Serializable {
         this.approvedBy = approvedBy;
     }
 
+    public Boolean getAppliesToAllProtectedBranches() {
+        return appliesToAllProtectedBranches;
+    }
+
+    public void setAppliesToAllProtectedBranches(Boolean appliesToAllProtectedBranches) {
+        this.appliesToAllProtectedBranches = appliesToAllProtectedBranches;
+    }
+
     public Boolean getApproved() {
         return approved;
     }
 
     public void setApproved(Boolean approved) {
         this.approved = approved;
+    }
+
+    public List<ProtectedBranch> getProtectedBranches() {
+        return protectedBranches;
+    }
+
+    public void setProtectedBranches(List<ProtectedBranch> protectedBranches) {
+        this.protectedBranches = protectedBranches;
     }
 
     @Override

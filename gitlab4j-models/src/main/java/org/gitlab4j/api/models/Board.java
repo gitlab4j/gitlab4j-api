@@ -23,6 +23,18 @@ public class Board implements Serializable {
     private String name;
 
     /**
+     * Hide the Open list.
+     */
+    @JsonProperty("hide_backlog_list")
+    private Boolean hideBacklogList;
+
+    /**
+     * Hide the Closed list.
+     */
+    @JsonProperty("hide_closed_list")
+    private Boolean hideClosedList;
+
+    /**
      * The project associated with the board.
      */
     @JsonProperty("project")
@@ -40,6 +52,30 @@ public class Board implements Serializable {
     @JsonProperty("lists")
     private List<BoardList> lists;
 
+    /**
+     * The group associated with the board.
+     */
+    @JsonProperty("group")
+    private Group group;
+
+    /**
+     * The assignee associated with the board.
+     */
+    @JsonProperty("assignee")
+    private Assignee assignee;
+
+    /**
+     * The labels associated with the board.
+     */
+    @JsonProperty("labels")
+    private List<Label> labels;
+
+    /**
+     * The weight range from 0 to 9, to which the board should be scoped to.
+     */
+    @JsonProperty("weight")
+    private Integer weight;
+
     public Long getId() {
         return id;
     }
@@ -54,6 +90,22 @@ public class Board implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getHideBacklogList() {
+        return hideBacklogList;
+    }
+
+    public void setHideBacklogList(Boolean hideBacklogList) {
+        this.hideBacklogList = hideBacklogList;
+    }
+
+    public Boolean getHideClosedList() {
+        return hideClosedList;
+    }
+
+    public void setHideClosedList(Boolean hideClosedList) {
+        this.hideClosedList = hideClosedList;
     }
 
     public Project getProject() {
@@ -78,6 +130,38 @@ public class Board implements Serializable {
 
     public void setLists(List<BoardList> lists) {
         this.lists = lists;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Assignee getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(Assignee assignee) {
+        this.assignee = assignee;
+    }
+
+    public List<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
     @Override

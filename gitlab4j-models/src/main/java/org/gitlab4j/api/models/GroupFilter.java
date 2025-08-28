@@ -21,7 +21,7 @@ public class GroupFilter implements Serializable {
      * List of group IDs to skip in the filter.
      */
     @JsonProperty("skip_groups")
-    private List<Integer> skipGroups;
+    private List<Long> skipGroups;
 
     /**
      * Indicates if all available groups should be included in the filter.
@@ -89,7 +89,7 @@ public class GroupFilter implements Serializable {
      * @param skipGroups List of group IDs to not include in the search
      * @return the reference to this GroupFilter instance
      */
-    public GroupFilter withSkipGroups(List<Integer> skipGroups) {
+    public GroupFilter withSkipGroups(List<Long> skipGroups) {
         this.skipGroups = skipGroups;
         return (this);
     }

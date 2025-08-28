@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LinkedIssue extends AbstractIssue {
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty("issue_link_id")
     private Long issueLinkId;

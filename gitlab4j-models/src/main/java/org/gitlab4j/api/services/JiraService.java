@@ -7,11 +7,11 @@ import org.gitlab4j.models.GitLabForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class JiraService extends NotificationService {
+    private static final long serialVersionUID = 1L;
 
     public static final String URL_PROP = "url";
     public static final String API_URL_PROP = "api_url";
     public static final String PROJECT_KEY_PROP = "project_key";
-    public static final String USERNAME_PROP = "username";
     public static final String JIRA_ISSUE_TRANSITION_ID_PROP = "jira_issue_transition_id";
     public static final String COMMIT_EVENTS_PROP = "commit_events";
 

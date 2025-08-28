@@ -12,7 +12,9 @@ import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.models.Associations;
+import org.gitlab4j.api.models.CreateRunnerParams;
+import org.gitlab4j.api.models.CreateRunnerResponse;
 import org.gitlab4j.api.models.CustomAttribute;
 import org.gitlab4j.api.models.Email;
 import org.gitlab4j.api.models.Exists;
@@ -217,11 +219,7 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("userId cannot be null");
         }
 
-        if (isApiVersion(ApiVersion.V3)) {
-            put(Response.Status.CREATED, null, "users", userId, "block");
-        } else {
-            post(Response.Status.CREATED, (Form) null, "users", userId, "block");
-        }
+        post(Response.Status.CREATED, (Form) null, "users", userId, "block");
     }
 
     /**
@@ -238,11 +236,7 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("userId cannot be null");
         }
 
-        if (isApiVersion(ApiVersion.V3)) {
-            put(Response.Status.CREATED, null, "users", userId, "unblock");
-        } else {
-            post(Response.Status.CREATED, (Form) null, "users", userId, "unblock");
-        }
+        post(Response.Status.CREATED, (Form) null, "users", userId, "unblock");
     }
 
     /**
@@ -545,7 +539,7 @@ public class UserApi extends AbstractApi {
      * @param projectsLimit the maximum number of project
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in version 6.0, replaced by {@link #createUser(User, CharSequence, boolean)}
+     * @deprecated Will be removed in version 6.0, replaced by {@link #createUser(User, CharSequence, Boolean)}
      */
     @Deprecated
     public User createUser(User user, CharSequence password, Integer projectsLimit) throws GitLabApiException {
@@ -586,7 +580,7 @@ public class UserApi extends AbstractApi {
      * @return created User instance
      * @throws GitLabApiException if any exception occurs
      */
-    public User createUser(User user, CharSequence password, boolean resetPassword) throws GitLabApiException {
+    public User createUser(User user, CharSequence password, Boolean resetPassword) throws GitLabApiException {
         Form formData = userToForm(user, null, password, resetPassword, true);
         Response response = post(Response.Status.CREATED, formData, "users");
         return (response.readEntity(User.class));
@@ -691,9 +685,7 @@ public class UserApi extends AbstractApi {
      */
     public void deleteUser(Object userIdOrUsername, Boolean hardDelete) throws GitLabApiException {
         GitLabApiForm formData = new GitLabApiForm().withParam("hard_delete ", hardDelete);
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, formData.asMap(), "users", getUserIdOrUsername(userIdOrUsername));
+        delete(Response.Status.NO_CONTENT, formData.asMap(), "users", getUserIdOrUsername(userIdOrUsername));
     }
 
     /**
@@ -876,9 +868,7 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("keyId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "user", "keys", keyId);
+        delete(Response.Status.NO_CONTENT, null, "user", "keys", keyId);
     }
 
     /**
@@ -896,9 +886,7 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("keyId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "users", getUserIdOrUsername(userIdOrUsername), "keys", keyId);
+        delete(Response.Status.NO_CONTENT, null, "users", getUserIdOrUsername(userIdOrUsername), "keys", keyId);
     }
 
     /**
@@ -994,7 +982,7 @@ public class UserApi extends AbstractApi {
      */
     public ImpersonationToken createImpersonationToken(
             Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
-        return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, expiresAt, scopes, true);
+        return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, null, expiresAt, scopes, true);
     }
 
     /**
@@ -1012,9 +1000,13 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("tokenId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "users", getUserIdOrUsername(userIdOrUsername), "impersonation_tokens", tokenId);
+        delete(
+                Response.Status.NO_CONTENT,
+                null,
+                "users",
+                getUserIdOrUsername(userIdOrUsername),
+                "impersonation_tokens",
+                tokenId);
     }
 
     /**
@@ -1028,10 +1020,49 @@ public class UserApi extends AbstractApi {
      * @param scopes an array of scopes of the personal access token
      * @return the created PersonalAccessToken instance
      * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #createPersonalAccessToken(Object, String, String, Date, Scope[])}n
      */
+    @Deprecated
     public ImpersonationToken createPersonalAccessToken(
             Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
-        return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, expiresAt, scopes, false);
+        return createPersonalAccessTokenOrImpersonationToken(userIdOrUsername, name, null, expiresAt, scopes, false);
+    }
+
+    /**
+     * Create a personal access token.  Available only for admin users.
+     *
+     * <pre><code>GitLab Endpoint: POST /users/:user_id/personal_access_tokens</code></pre>
+     *
+     * @param userIdOrUsername the user in the form of an Integer(ID), String(username), or User instance
+     * @param name the name of the personal access token, required
+     * @param description description of personal access token, optional
+     * @param expiresAt the expiration date of the personal access token, optional
+     * @param scopes an array of scopes of the personal access token
+     * @return the created PersonalAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ImpersonationToken createPersonalAccessToken(
+            Object userIdOrUsername, String name, String description, Date expiresAt, Scope[] scopes)
+            throws GitLabApiException {
+        return createPersonalAccessTokenOrImpersonationToken(
+                userIdOrUsername, name, description, expiresAt, scopes, false);
+    }
+
+    /**
+     * Create a personal access token for your account.
+     *
+     * <pre><code>GitLab Endpoint: POST /user/personal_access_tokens</code></pre>
+     *
+     * @param name the name of the personal access token, required
+     * @param description description of personal access token, optional
+     * @param expiresAt the expiration date of the personal access token, optional
+     * @param scopes an array of scopes of the personal access token. Only accepts k8s_proxy.
+     * @return the created PersonalAccessToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ImpersonationToken createPersonalAccessToken(String name, String description, Date expiresAt, Scope[] scopes)
+            throws GitLabApiException {
+        return createPersonalAccessTokenOrImpersonationToken(null, name, description, expiresAt, scopes, false);
     }
 
     /**
@@ -1046,31 +1077,47 @@ public class UserApi extends AbstractApi {
             throw new RuntimeException("tokenId cannot be null");
         }
 
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "personal_access_tokens", tokenId);
+        delete(Response.Status.NO_CONTENT, null, "personal_access_tokens", tokenId);
     }
 
     // as per https://docs.gitlab.com/ee/api/README.html#impersonation-tokens, impersonation tokens are a type of
     // personal access token
     private ImpersonationToken createPersonalAccessTokenOrImpersonationToken(
-            Object userIdOrUsername, String name, Date expiresAt, Scope[] scopes, boolean impersonation)
+            Object userIdOrUsername,
+            String name,
+            String description,
+            Date expiresAt,
+            Scope[] scopes,
+            boolean impersonation)
             throws GitLabApiException {
 
         if (scopes == null || scopes.length == 0) {
             throw new RuntimeException("scopes cannot be null or empty");
         }
 
-        GitLabApiForm formData =
-                new GitLabApiForm().withParam("name", name, true).withParam("expires_at", expiresAt);
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("description", description)
+                .withParam("expires_at", expiresAt);
 
         for (Scope scope : scopes) {
             formData.withParam("scopes[]", scope.toString());
         }
 
         String tokenTypePathArg = impersonation ? "impersonation_tokens" : "personal_access_tokens";
-        Response response = post(
-                Response.Status.CREATED, formData, "users", getUserIdOrUsername(userIdOrUsername), tokenTypePathArg);
+
+        Response response;
+        if (userIdOrUsername != null) {
+            response = post(
+                    Response.Status.CREATED,
+                    formData,
+                    "users",
+                    getUserIdOrUsername(userIdOrUsername),
+                    tokenTypePathArg);
+        } else {
+            response = post(Response.Status.CREATED, formData, "user", tokenTypePathArg);
+        }
+
         return (response.readEntity(ImpersonationToken.class));
     }
 
@@ -1474,6 +1521,20 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Get a count of a user’s projects, groups, issues, and merge requests
+     *
+     * <pre><code>GitLab Endpoint: GET /user/:id/associations_count</code></pre>
+     *
+     * @param userId the ID of the user to get the associations for
+     * @return the count of each type of association
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Associations getAssociationsCount(Long userId) throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "users", userId, "associations_count");
+        return (response.readEntity(Associations.class));
+    }
+
+    /**
      * Activates the given user (admin only)
      *
      * <pre><code>GitLab Endpoint: POST /users/:id/activate</code></pre>
@@ -1524,5 +1585,19 @@ public class UserApi extends AbstractApi {
         } catch (IOException e) {
             throw new GitLabApiException(e);
         }
+    }
+
+    /**
+     * Create a runner linked to the current user.
+     *
+     * <pre><code>GitLab Endpoint: POST /user/runners</code></pre>
+     *
+     * @param params a CreateRunnerParams instance holding the parameters for the runner creation
+     * @return creation response, be sure to copy or save the token in the response, the value cannot be retrieved again.
+     * @throws GitLabApiException
+     */
+    public CreateRunnerResponse createRunner(CreateRunnerParams params) throws GitLabApiException {
+        Response response = post(Response.Status.OK, new GitLabApiForm(params.getForm()).asMap(), "user", "runners");
+        return response.readEntity(CreateRunnerResponse.class);
     }
 }

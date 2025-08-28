@@ -33,7 +33,6 @@ public class GitLabApi implements AutoCloseable {
 
     /** Specifies the version of the GitLab API to communicate with. */
     public enum ApiVersion {
-        V3,
         V4;
 
         public String getApiNamespace() {
@@ -879,6 +878,24 @@ public class GitLabApi implements AutoCloseable {
      */
     public void setIgnoreCertificateErrors(boolean ignoreCertificateErrors) {
         apiClient.setIgnoreCertificateErrors(ignoreCertificateErrors);
+    }
+
+    /**
+     * Returns the configured custom 'User-Agent' header value
+     *
+     * @return User-Agent header value
+     */
+    public String getUserAgentHeader() {
+        return apiClient.getUserAgentHeader();
+    }
+
+    /**
+     * Configures a custom value for the 'User-Agent' header
+     *
+     * @param userAgentHeader User-Agent header value
+     */
+    public void setUserAgentHeader(String userAgentHeader) {
+        apiClient.setUserAgentHeader(userAgentHeader);
     }
 
     /**

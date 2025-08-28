@@ -1,7 +1,9 @@
 package org.gitlab4j.api;
 
 import java.util.Date;
+import java.util.List;
 
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.PersonalAccessToken;
@@ -70,6 +72,20 @@ public class PersonalAccessTokenApi extends AbstractApi {
      * Get information about the personal access token used in the request header.
      * Only working with GitLab 16.0 and above.
      *
+     * <pre><code>GitLab Endpoint: GET /personal_access_tokens</code></pre>
+     *
+     * @return the specified PersonalAccessToken.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<PersonalAccessToken> getPersonalAccessTokens() throws GitLabApiException {
+        Response response = get(Response.Status.OK, null, "personal_access_tokens");
+        return response.readEntity(new GenericType<List<PersonalAccessToken>>() {});
+    }
+
+    /**
+     * Get information about the personal access token used in the request header.
+     * Only working with GitLab 16.0 and above.
+     *
      * <pre><code>GitLab Endpoint: GET /personal_access_tokens/self</code></pre>
      *
      * @return the specified PersonalAccessToken.
@@ -105,8 +121,6 @@ public class PersonalAccessTokenApi extends AbstractApi {
         if (tokenId == null) {
             throw new RuntimeException("tokenId cannot be null");
         }
-        Response.Status expectedStatus =
-                (isApiVersion(GitLabApi.ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "personal_access_tokens", tokenId);
+        delete(Response.Status.NO_CONTENT, null, "personal_access_tokens", tokenId);
     }
 }

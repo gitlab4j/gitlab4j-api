@@ -82,6 +82,9 @@ public class MergeRequestFilter implements Serializable {
     @JsonProperty("assignee_id")
     private Long assigneeId;
 
+    @JsonProperty("reviewer_id")
+    private Long reviewerId;
+
     @JsonProperty("my_reaction_emoji")
     private String myReactionEmoji;
 
@@ -323,8 +326,21 @@ public class MergeRequestFilter implements Serializable {
         this.assigneeId = assigneeId;
     }
 
+    public Long getReviewerId() {
+        return reviewerId;
+    }
+
+    public void setReviewerId(Long reviewerId) {
+        this.reviewerId = reviewerId;
+    }
+
     public MergeRequestFilter withAssigneeId(Long assigneeId) {
         this.assigneeId = assigneeId;
+        return (this);
+    }
+
+    public MergeRequestFilter withReviewerId(Long reviewerId) {
+        this.reviewerId = reviewerId;
         return (this);
     }
 
@@ -556,6 +572,7 @@ public class MergeRequestFilter implements Serializable {
                 .withParam("updated_before", updatedBefore)
                 .withParam("scope", scope)
                 .withParam("assignee_id", assigneeId)
+                .withParam("reviewer_id", reviewerId)
                 .withParam("my_reaction_emoji", myReactionEmoji)
                 .withParam("source_branch", sourceBranch)
                 .withParam("target_branch", targetBranch)

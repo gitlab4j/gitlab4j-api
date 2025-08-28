@@ -17,6 +17,9 @@ public class EventCommit {
     @JsonProperty("message")
     private String message;
 
+    @JsonProperty("title")
+    private String title;
+
     @JsonProperty("timestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date timestamp;
@@ -50,6 +53,14 @@ public class EventCommit {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getTimestamp() {

@@ -292,6 +292,39 @@ public class JobApi extends AbstractApi implements Constants {
     }
 
     /**
+     * Retrieve the job corresponding to the <code>$CI_JOB_TOKEN</code> environment variable (Using a {@link TokenType#JOB_TOKEN} authentication).
+     *
+     * <pre><code>GitLab Endpoint: GET /job</code></pre>
+     *
+     * @return a single job corresponding to the token used for the authentication
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Job getJob() throws GitLabApiException {
+        TokenType tokenType = getApiClient().getTokenType();
+        if (tokenType != TokenType.JOB_TOKEN) {
+            throw new IllegalStateException(
+                    "This method can only be called with a " + TokenType.JOB_TOKEN + " authentication");
+        }
+        Response response = get(Response.Status.OK, null, "job");
+        return (response.readEntity(Job.class));
+    }
+
+    /**
+     * Retrieve the job corresponding to the <code>$CI_JOB_TOKEN</code> environment variable. This works only when used without any authentication.
+     *
+     * <pre><code>GitLab Endpoint: GET /job?job_token=${ciJobToken}"</code></pre>
+     *
+     * @return a single job corresponding to the token passed as query parameter
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Job getJob(final String ciJobToken) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm().withParam("job_token", ciJobToken, true);
+
+        Response response = get(Response.Status.OK, formData.asMap(), "job");
+        return (response.readEntity(Job.class));
+    }
+
+    /**
      * Get single job in a project.
      *
      * <pre><code>GitLab Endpoint: GET /projects/:id/jobs/:job_id</code></pre>
@@ -600,9 +633,9 @@ public class JobApi extends AbstractApi implements Constants {
     }
 
     /**
-     * Get a trace of a specific job of a project
+     * Get a log (trace) of a specific job of a project.
      *
-     * <pre><code>GitLab Endpoint: GET /projects/:id/jobs/:id/trace</code></pre>
+     * <pre><code>GitLab Endpoint: GET /projects/:id/jobs/:job_id/trace</code></pre>
      *
      * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
      *                        to get the specified job's trace for

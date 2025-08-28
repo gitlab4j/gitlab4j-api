@@ -1,12 +1,13 @@
 package org.gitlab4j.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
@@ -85,8 +86,7 @@ public class GitLabApiException extends Exception {
                         // If the node is an object, then it is validation errors
                         if (jsonMessage.isObject()) {
 
-                            StringBuilder buf = new StringBuilder();
-                            validationErrors = new HashMap<>();
+                            validationErrors = new LinkedHashMap<>();
                             Iterator<Entry<String, JsonNode>> fields = jsonMessage.fields();
                             while (fields.hasNext()) {
 
@@ -97,14 +97,19 @@ public class GitLabApiException extends Exception {
                                 for (JsonNode value : field.getValue()) {
                                     values.add(value.asText());
                                 }
-
-                                if (values.size() > 0) {
-                                    buf.append((buf.length() > 0 ? ", " : "")).append(fieldName);
-                                }
                             }
 
-                            if (buf.length() > 0) {
-                                this.message = "The following fields have validation errors: " + buf.toString();
+                            if (!validationErrors.isEmpty()) {
+                                this.message = "The following fields have validation errors: "
+                                        + String.join(", ", validationErrors.keySet()) + "\n"
+                                        + validationErrors.entrySet().stream()
+                                                .map(e -> {
+                                                    return "* " + e.getKey()
+                                                            + e.getValue().stream()
+                                                                    .collect(Collectors.joining(
+                                                                            "\n     - ", "\n     - ", ""));
+                                                })
+                                                .collect(Collectors.joining("\n"));
                             }
 
                         } else if (jsonMessage.isArray()) {

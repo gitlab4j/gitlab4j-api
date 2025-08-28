@@ -54,6 +54,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testAssociations() throws Exception {
+        Associations associations = unmarshalResource(Associations.class, "associations.json");
+        assertTrue(compareJson(associations, "associations.json"));
+    }
+
+    @Test
     public void testAuditEvent() throws Exception {
         List<AuditEvent> auditEvents = unmarshalResourceList(AuditEvent.class, "audit-events.json");
         assertTrue(compareJson(auditEvents, "audit-events.json"));
@@ -78,9 +84,21 @@ public class TestGitLabApiBeans {
     }
 
     @Test
-    public void testBoard() throws Exception {
+    public void testProjectBoard() throws Exception {
         List<Board> boards = unmarshalResourceList(Board.class, "project-board.json");
         assertTrue(compareJson(boards, "project-board.json"));
+    }
+
+    @Test
+    public void testGroupBoard() throws Exception {
+        List<Board> boards = unmarshalResourceList(Board.class, "group-board.json");
+        assertTrue(compareJson(boards, "group-board.json"));
+    }
+
+    @Test
+    public void testGroupEpicBoard() throws Exception {
+        Board board = unmarshalResource(Board.class, "group-epic-board.json");
+        assertTrue(compareJson(board, "group-epic-board.json"));
     }
 
     @Test
@@ -91,6 +109,12 @@ public class TestGitLabApiBeans {
 
         branch = unmarshalResource(Branch.class, "bad-branch.json");
         assertTrue(!Branch.isValid(branch));
+    }
+
+    @Test
+    public void testCreateRunnerResponse() throws Exception {
+        CreateRunnerResponse r = unmarshalResource(CreateRunnerResponse.class, "created-runner-response.json");
+        assertTrue(compareJson(r, "created-runner-response.json"));
     }
 
     @Test

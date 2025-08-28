@@ -24,6 +24,7 @@ public class ImpersonationToken implements Serializable {
         WRITE_REPOSITORY,
         READ_REGISTRY,
         WRITE_REGISTRY,
+        K8S_PROXY,
         SUDO;
 
         private static JacksonJsonEnumHelper<Scope> enumHelper = new JacksonJsonEnumHelper<>(Scope.class);
@@ -81,6 +82,12 @@ public class ImpersonationToken implements Serializable {
     private String name;
 
     /**
+     * The description of the token.
+     */
+    @JsonProperty("description")
+    private String description;
+
+    /**
      * The unique identifier of the token.
      */
     @JsonProperty("id")
@@ -110,10 +117,10 @@ public class ImpersonationToken implements Serializable {
 
     /**
      * The expiration date of the token.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "yyyy-MM-dd".
      */
     @JsonProperty("expires_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expiresAt;
 
     public Boolean getActive() {
@@ -162,6 +169,14 @@ public class ImpersonationToken implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getId() {

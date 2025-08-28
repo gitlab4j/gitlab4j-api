@@ -2,6 +2,7 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
+import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -28,6 +29,8 @@ public class BuildEvent extends AbstractEvent {
 
     @JsonProperty("sha")
     private String sha;
+    @JsonProperty("retries_count")
+    private Integer retriesCount;
 
     @JsonProperty("build_id")
     private Long buildId;
@@ -40,6 +43,10 @@ public class BuildEvent extends AbstractEvent {
 
     @JsonProperty("build_status")
     private String buildStatus;
+
+    @JsonProperty("build_created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
+    private Date buildCreatedAt;
 
     @JsonProperty("build_started_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
@@ -78,6 +85,12 @@ public class BuildEvent extends AbstractEvent {
 
     @JsonProperty("repository")
     private EventRepository repository;
+
+    @JsonProperty("project")
+    private EventProject project;
+
+    @JsonProperty("runner")
+    private Runner runner;
 
     @Override
     public String getObjectKind() {
@@ -121,6 +134,14 @@ public class BuildEvent extends AbstractEvent {
         this.sha = sha;
     }
 
+    public Integer getRetriesCount() {
+        return retriesCount;
+    }
+
+    public void setRetriesCount(Integer retriesCount) {
+        this.retriesCount = retriesCount;
+    }
+
     public Long getBuildId() {
         return buildId;
     }
@@ -151,6 +172,14 @@ public class BuildEvent extends AbstractEvent {
 
     public void setBuildStatus(String buildStatus) {
         this.buildStatus = buildStatus;
+    }
+
+    public Date getBuildCreatedAt() {
+        return buildCreatedAt;
+    }
+
+    public void setBuildCreatedAt(Date buildCreatedAt) {
+        this.buildCreatedAt = buildCreatedAt;
     }
 
     public Date getBuildStartedAt() {
@@ -247,6 +276,22 @@ public class BuildEvent extends AbstractEvent {
 
     public void setRepository(EventRepository repository) {
         this.repository = repository;
+    }
+
+    public EventProject getProject() {
+        return project;
+    }
+
+    public void setProject(EventProject project) {
+        this.project = project;
+    }
+
+    public Runner getRunner() {
+        return runner;
+    }
+
+    public void setRunner(Runner runner) {
+        this.runner = runner;
     }
 
     @Override

@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -40,7 +41,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.GitLabApi.ApiVersion;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.ApprovalRule;
@@ -1072,6 +1072,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * buildGitStrategy (optional) - set the build git strategy
      * buildCoverageRegex (optional) - set build coverage regex
      * ciConfigPath (optional) - Set path to CI configuration file
+     * autoDevopsEnabled (optional) - Enable Auto DevOps for this project
      * squashOption (optional) - set squash option for merge requests
      *
      * @param project the Project instance with the configuration for the new project
@@ -1126,38 +1127,78 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("ci_config_path", project.getCiConfigPath())
                 .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
                 .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
-                .withParam("squash_option", project.getSquashOption());
+                .withParam("auto_devops_enabled", project.getAutoDevopsEnabled())
+                .withParam("squash_option", project.getSquashOption())
+                .withParam("use_custom_template", project.getUseCustomTemplate())
+                .withParam(
+                        "external_authorization_classification_label",
+                        project.getExternalAuthorizationClassificationLabel())
+                .withParam("group_runners_enabled", project.getGroupRunnersEnabled())
+                .withParam("show_default_award_emojis", project.getShowDefaultAwardEmojis())
+                .withParam(
+                        "warn_about_potentially_unwanted_characters",
+                        project.getWarnAboutPotentiallyUnwantedCharacters())
+                .withParam("mirror_trigger_builds", project.getMirrorTriggerBuilds())
+                .withParam("auto_cancel_pending_pipelines", project.getAutoCancelPendingPipelines())
+                .withParam("repository_object_format", project.getRepositoryObjectFormat())
+                .withParam(
+                        "only_allow_merge_if_all_status_checks_passed",
+                        project.getOnlyAllowMergeIfAllStatusChecksPassed())
+                .withParam("group_with_project_templates_id", project.getGroupWithProjectTemplatesId())
+                .withParam("public_builds", project.getPublicBuilds())
+                .withParam("build_timeout", project.getBuildTimeout())
+                .withParam("template_name", project.getTemplateName())
+                .withParam("emails_enabled", project.getEmailsEnabled())
+                .withParam("mirror", project.getMirror())
+                .withParam("analytics_access_level", project.getAnalyticsAccessLevel())
+                .withParam("builds_access_level", project.getBuildsAccessLevel())
+                .withParam("container_registry_access_level", project.getContainerRegistryAccessLevel())
+                .withParam("environments_access_level", project.getEnvironmentsAccessLevel())
+                .withParam("feature_flags_access_level", project.getFeatureFlagsAccessLevel())
+                .withParam("forking_access_level", project.getForkingAccessLevel())
+                .withParam("infrastructure_access_level", project.getInfrastructureAccessLevel())
+                .withParam("issues_access_level", project.getIssuesAccessLevel())
+                .withParam("merge_requests_access_level", project.getMergeRequestsAccessLevel())
+                .withParam("model_experiments_access_level", project.getModelExperimentsAccessLevel())
+                .withParam("model_registry_access_level", project.getModelRegistryAccessLevel())
+                .withParam("monitor_access_level", project.getMonitorAccessLevel())
+                .withParam("pages_access_level", project.getPagesAccessLevel())
+                .withParam("releases_access_level", project.getReleasesAccessLevel())
+                .withParam("repository_access_level", project.getRepositoryAccessLevel())
+                .withParam("requirements_access_level", project.getRequirementsAccessLevel())
+                .withParam("security_and_compliance_access_level", project.getSecurityAndComplianceAccessLevel())
+                .withParam("snippets_access_level", project.getSnippetsAccessLevel())
+                .withParam("wiki_access_level", project.getWikiAccessLevel());
+
+        if (project.getContainerExpirationPolicy() != null) {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("cadence", project.getContainerExpirationPolicy().getCadence());
+            attributes.put("enabled", project.getContainerExpirationPolicy().getEnabled());
+            attributes.put("keep_n", project.getContainerExpirationPolicy().getKeepN());
+            attributes.put("older_than", project.getContainerExpirationPolicy().getOlderThan());
+            attributes.put("name_regex", project.getContainerExpirationPolicy().getNameRegex());
+            attributes.put(
+                    "name_regex_keep", project.getContainerExpirationPolicy().getNameRegexKeep());
+
+            formData.withParam("container_expiration_policy_attributes", attributes, false);
+        }
 
         Namespace namespace = project.getNamespace();
         if (namespace != null && namespace.getId() != null) {
             formData.withParam("namespace_id", namespace.getId());
         }
 
-        if (isApiVersion(ApiVersion.V3)) {
-            boolean isPublic =
-                    (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
-            formData.withParam("public", isPublic);
+        Visibility visibility = (project.getVisibility() != null
+                ? project.getVisibility()
+                : project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
+        formData.withParam("visibility", visibility);
 
-            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                throw new IllegalArgumentException("GitLab API v3 does not support tag lists when creating projects");
-            }
+        if (project.getTagList() != null && !project.getTagList().isEmpty()) {
+            formData.withParam("tag_list", String.join(",", project.getTagList()));
+        }
 
-            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
-                throw new IllegalArgumentException("GitLab API v3 does not support topics when creating projects");
-            }
-        } else {
-            Visibility visibility = (project.getVisibility() != null
-                    ? project.getVisibility()
-                    : project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
-            formData.withParam("visibility", visibility);
-
-            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                formData.withParam("tag_list", String.join(",", project.getTagList()));
-            }
-
-            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
-                formData.withParam("topics", String.join(",", project.getTopics()));
-            }
+        if (project.getTopics() != null && !project.getTopics().isEmpty()) {
+            formData.withParam("topics", String.join(",", project.getTopics()));
         }
 
         Response response = post(Response.Status.CREATED, formData, "projects");
@@ -1215,21 +1256,6 @@ public class ProjectApi extends AbstractApi implements Constants {
             String importUrl)
             throws GitLabApiException {
 
-        if (isApiVersion(ApiVersion.V3)) {
-            Boolean isPublic = Visibility.PUBLIC == visibility;
-            return (createProject(
-                    name,
-                    namespaceId,
-                    description,
-                    issuesEnabled,
-                    mergeRequestsEnabled,
-                    wikiEnabled,
-                    snippetsEnabled,
-                    isPublic,
-                    visibilityLevel,
-                    importUrl));
-        }
-
         if (name == null || name.trim().length() == 0) {
             return (null);
         }
@@ -1280,21 +1306,6 @@ public class ProjectApi extends AbstractApi implements Constants {
             Boolean printingMergeRequestLinkEnabled,
             String importUrl)
             throws GitLabApiException {
-
-        if (isApiVersion(ApiVersion.V3)) {
-            Boolean isPublic = Visibility.PUBLIC == visibility;
-            return (createProject(
-                    name,
-                    namespaceId,
-                    description,
-                    issuesEnabled,
-                    mergeRequestsEnabled,
-                    wikiEnabled,
-                    snippetsEnabled,
-                    isPublic,
-                    visibilityLevel,
-                    importUrl));
-        }
 
         if (name == null || name.trim().length() == 0) {
             return (null);
@@ -1364,9 +1375,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("visibility_level", visibilityLevel)
                 .withParam("import_url", importUrl);
 
-        if (isApiVersion(ApiVersion.V3)) {
-            formData.withParam("public", isPublic);
-        } else if (isPublic) {
+        if (isPublic) {
             formData.withParam("visibility", Visibility.PUBLIC);
         }
 
@@ -1488,39 +1497,78 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("merge_method", project.getMergeMethod())
                 .withParam("suggestion_commit_message", project.getSuggestionCommitMessage())
                 .withParam("remove_source_branch_after_merge", project.getRemoveSourceBranchAfterMerge())
-                .withParam("squash_option", project.getSquashOption());
+                .withParam("squash_option", project.getSquashOption())
+                .withParam("use_custom_template", project.getUseCustomTemplate())
+                .withParam(
+                        "external_authorization_classification_label",
+                        project.getExternalAuthorizationClassificationLabel())
+                .withParam("group_runners_enabled", project.getGroupRunnersEnabled())
+                .withParam("show_default_award_emojis", project.getShowDefaultAwardEmojis())
+                .withParam(
+                        "warn_about_potentially_unwanted_characters",
+                        project.getWarnAboutPotentiallyUnwantedCharacters())
+                .withParam("mirror_trigger_builds", project.getMirrorTriggerBuilds())
+                .withParam("auto_cancel_pending_pipelines", project.getAutoCancelPendingPipelines())
+                .withParam("autoclose_referenced_issues", project.getAutocloseReferencedIssues())
+                .withParam("repository_object_format", project.getRepositoryObjectFormat())
+                .withParam(
+                        "only_allow_merge_if_all_status_checks_passed",
+                        project.getOnlyAllowMergeIfAllStatusChecksPassed())
+                .withParam("group_with_project_templates_id", project.getGroupWithProjectTemplatesId())
+                .withParam("public_builds", project.getPublicBuilds())
+                .withParam("build_timeout", project.getBuildTimeout())
+                .withParam("template_name", project.getTemplateName())
+                .withParam("emails_enabled", project.getEmailsEnabled())
+                .withParam("mirror", project.getMirror())
+                .withParam("analytics_access_level", project.getAnalyticsAccessLevel())
+                .withParam("builds_access_level", project.getBuildsAccessLevel())
+                .withParam("container_registry_access_level", project.getContainerRegistryAccessLevel())
+                .withParam("environments_access_level", project.getEnvironmentsAccessLevel())
+                .withParam("feature_flags_access_level", project.getFeatureFlagsAccessLevel())
+                .withParam("forking_access_level", project.getForkingAccessLevel())
+                .withParam("infrastructure_access_level", project.getInfrastructureAccessLevel())
+                .withParam("issues_access_level", project.getIssuesAccessLevel())
+                .withParam("merge_requests_access_level", project.getMergeRequestsAccessLevel())
+                .withParam("model_experiments_access_level", project.getModelExperimentsAccessLevel())
+                .withParam("model_registry_access_level", project.getModelRegistryAccessLevel())
+                .withParam("monitor_access_level", project.getMonitorAccessLevel())
+                .withParam("pages_access_level", project.getPagesAccessLevel())
+                .withParam("releases_access_level", project.getReleasesAccessLevel())
+                .withParam("repository_access_level", project.getRepositoryAccessLevel())
+                .withParam("requirements_access_level", project.getRequirementsAccessLevel())
+                .withParam("security_and_compliance_access_level", project.getSecurityAndComplianceAccessLevel())
+                .withParam("snippets_access_level", project.getSnippetsAccessLevel())
+                .withParam("wiki_access_level", project.getWikiAccessLevel());
 
-        if (isApiVersion(ApiVersion.V3)) {
-            formData.withParam("visibility_level", project.getVisibilityLevel());
-            boolean isPublic =
-                    (project.getPublic() != null ? project.getPublic() : project.getVisibility() == Visibility.PUBLIC);
-            formData.withParam("public", isPublic);
+        if (project.getContainerExpirationPolicy() != null) {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("cadence", project.getContainerExpirationPolicy().getCadence());
+            attributes.put("enabled", project.getContainerExpirationPolicy().getEnabled());
+            attributes.put("keep_n", project.getContainerExpirationPolicy().getKeepN());
+            attributes.put("older_than", project.getContainerExpirationPolicy().getOlderThan());
+            attributes.put("name_regex", project.getContainerExpirationPolicy().getNameRegex());
+            attributes.put(
+                    "name_regex_keep", project.getContainerExpirationPolicy().getNameRegexKeep());
 
-            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                throw new IllegalArgumentException("GitLab API v3 does not support tag lists when updating projects");
-            }
+            formData.withParam("container_expiration_policy_attributes", attributes, false);
+        }
 
-            if (project.getTopics() != null && !project.getTopics().isEmpty()) {
-                throw new IllegalArgumentException("GitLab API v3 does not support topics when updating projects");
-            }
-        } else {
-            Visibility visibility = (project.getVisibility() != null
-                    ? project.getVisibility()
-                    : project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
-            formData.withParam("visibility", visibility);
-            formData.withParam("issue_branch_template", project.getIssueBranchTemplate());
-            formData.withParam("merge_commit_template", project.getMergeCommitTemplate());
-            formData.withParam("squash_commit_template", project.getSquashCommitTemplate());
-            formData.withParam("merge_requests_template", project.getMergeRequestsTemplate());
-            formData.withParam("issues_template", project.getIssuesTemplate());
+        Visibility visibility = (project.getVisibility() != null
+                ? project.getVisibility()
+                : project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
+        formData.withParam("visibility", visibility);
+        formData.withParam("issue_branch_template", project.getIssueBranchTemplate());
+        formData.withParam("merge_commit_template", project.getMergeCommitTemplate());
+        formData.withParam("squash_commit_template", project.getSquashCommitTemplate());
+        formData.withParam("merge_requests_template", project.getMergeRequestsTemplate());
+        formData.withParam("issues_template", project.getIssuesTemplate());
 
-            if (project.getTagList() != null && !project.getTagList().isEmpty()) {
-                formData.withParam("tag_list", String.join(",", project.getTagList()));
-            }
+        if (project.getTagList() != null && !project.getTagList().isEmpty()) {
+            formData.withParam("tag_list", String.join(",", project.getTagList()));
+        }
 
-            if (project.getTopics() != null) {
-                formData.withParam("topics", String.join(",", project.getTopics()));
-            }
+        if (project.getTopics() != null) {
+            formData.withParam("topics", String.join(",", project.getTopics()));
         }
 
         Response response = putWithFormData(Response.Status.OK, formData, "projects", projectIdentifier);
@@ -1536,8 +1584,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteProject(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.ACCEPTED);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath));
+        delete(Response.Status.ACCEPTED, null, "projects", getProjectIdOrPath(projectIdOrPath));
     }
 
     /**
@@ -1592,8 +1639,8 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("namespace", namespace, true)
                 .withParam("path", path)
                 .withParam("name", name);
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
-        Response response = post(expectedStatus, formData, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
+        Response response =
+                post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
         return (response.readEntity(Project.class));
     }
 
@@ -1609,9 +1656,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project createForkedFromRelationship(Object projectIdOrPath, Long forkedFromId) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
         Response response = post(
-                expectedStatus,
+                Response.Status.CREATED,
                 (Form) null,
                 "projects",
                 this.getProjectIdOrPath(projectIdOrPath),
@@ -1629,8 +1675,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteForkedFromRelationship(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.ACCEPTED);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "fork");
     }
 
     /**
@@ -2083,9 +2128,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void removeMember(Object projectIdOrPath, Long userId) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "members", userId);
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "members", userId);
     }
 
     /**
@@ -2500,9 +2543,9 @@ public class ProjectApi extends AbstractApi implements Constants {
     public ProjectHook addHook(
             Object projectIdOrPath,
             String url,
-            boolean doPushEvents,
-            boolean doIssuesEvents,
-            boolean doMergeRequestsEvents)
+            Boolean doPushEvents,
+            Boolean doIssuesEvents,
+            Boolean doMergeRequestsEvents)
             throws GitLabApiException {
         return addHook(projectIdOrPath, url, doPushEvents, doIssuesEvents, doMergeRequestsEvents, null);
     }
@@ -2548,9 +2591,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void deleteHook(Object projectIdOrPath, Long hookId) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "hooks", hookId);
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "hooks", hookId);
     }
 
     /**
@@ -2706,10 +2747,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      */
     @Deprecated
     public void deleteIssue(Object projectIdOrPath, Long issueId) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(
-                expectedStatus,
+                Response.Status.NO_CONTENT,
                 getDefaultPerPageParam(),
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
@@ -2999,9 +3038,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public void unshareProject(Object projectIdOrPath, Long groupId) throws GitLabApiException {
-        Response.Status expectedStatus =
-                (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
-        delete(expectedStatus, null, "projects", getProjectIdOrPath(projectIdOrPath), "share", groupId);
+        delete(Response.Status.NO_CONTENT, null, "projects", getProjectIdOrPath(projectIdOrPath), "share", groupId);
     }
 
     /**
@@ -3312,8 +3349,8 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project starProject(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
-        Response response = post(expectedStatus, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "star");
+        Response response =
+                post(Response.Status.CREATED, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "star");
         return (response.readEntity(Project.class));
     }
 
@@ -3327,7 +3364,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @throws GitLabApiException if any exception occurs
      */
     public Project unstarProject(Object projectIdOrPath) throws GitLabApiException {
-        Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.CREATED);
+        Response.Status expectedStatus = Response.Status.CREATED;
         Response response =
                 post(expectedStatus, (Form) null, "projects", getProjectIdOrPath(projectIdOrPath), "unstar");
         return (response.readEntity(Project.class));
@@ -3387,14 +3424,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      * <pre><code>GET /projects/:id/audit_events</code></pre>
      *
      * @param projectIdOrPath the project ID, path of the project, or a project instance holding the project ID or path
-     * @param created_after Project audit events created on or after the given time.
-     * @param created_before Project audit events created on or before the given time.
+     * @param createdAfter Project audit events created on or after the given time.
+     * @param createdBefore Project audit events created on or before the given time.
      * @return a List of project Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public List<AuditEvent> getAuditEvents(Object projectIdOrPath, Date created_after, Date created_before)
+    public List<AuditEvent> getAuditEvents(Object projectIdOrPath, Date createdAfter, Date createdBefore)
             throws GitLabApiException {
-        return (getAuditEvents(projectIdOrPath, created_after, created_before, getDefaultPerPage())
+        return (getAuditEvents(projectIdOrPath, createdAfter, createdBefore, getDefaultPerPage())
                 .all());
     }
 
@@ -3404,18 +3441,17 @@ public class ProjectApi extends AbstractApi implements Constants {
      * <pre><code>GET /projects/:id/audit_events</code></pre>
      *
      * @param projectIdOrPath the project ID, path of the project, or a Project instance holding the project ID or path
-     * @param created_after Project audit events created on or after the given time.
-     * @param created_before Project audit events created on or before the given time.
+     * @param createdAfter Project audit events created on or after the given time.
+     * @param createdBefore Project audit events created on or before the given time.
      * @param itemsPerPage the number of Audit Event instances that will be fetched per page
      * @return a Pager of project Audit events
      * @throws GitLabApiException if any exception occurs
      */
     public Pager<AuditEvent> getAuditEvents(
-            Object projectIdOrPath, Date created_after, Date created_before, int itemsPerPage)
-            throws GitLabApiException {
+            Object projectIdOrPath, Date createdAfter, Date createdBefore, int itemsPerPage) throws GitLabApiException {
         Form form = new GitLabApiForm()
-                .withParam("created_before", ISO8601.toString(created_before, false))
-                .withParam("created_after", ISO8601.toString(created_after, false));
+                .withParam("created_after", ISO8601.toString(createdAfter, false))
+                .withParam("created_before", ISO8601.toString(createdBefore, false));
         return (new Pager<AuditEvent>(
                 this,
                 AuditEvent.class,
@@ -3432,14 +3468,14 @@ public class ProjectApi extends AbstractApi implements Constants {
      * <pre><code>GET /projects/:id/audit_events</code></pre>
      *
      * @param projectIdOrPath the project ID, path of the project, or a Project instance holding the project ID or path
-     * @param created_after Project audit events created on or after the given time.
-     * @param created_before Project audit events created on or before the given time.
+     * @param createdAfter Project audit events created on or after the given time.
+     * @param createdBefore Project audit events created on or before the given time.
      * @return a Stream of project Audit events
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<AuditEvent> getAuditEventsStream(Object projectIdOrPath, Date created_after, Date created_before)
+    public Stream<AuditEvent> getAuditEventsStream(Object projectIdOrPath, Date createdAfter, Date createdBefore)
             throws GitLabApiException {
-        return (getAuditEvents(projectIdOrPath, created_after, created_before, getDefaultPerPage()).stream());
+        return (getAuditEvents(projectIdOrPath, createdAfter, createdBefore, getDefaultPerPage()).stream());
     }
 
     /**
@@ -4317,8 +4353,23 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
      * @param key the key for the custom attribute, required
      * @return an Optional instance with the value for a single custom attribute for the specified project
+     * @deprecated Use {@link #getOptionalCustomAttribute(Object, String)} instead
      */
+    @Deprecated
     public Optional<CustomAttribute> geOptionalCustomAttribute(final Object projectIdOrPath, final String key) {
+        return getOptionalCustomAttribute(projectIdOrPath, key);
+    }
+
+    /**
+     * Get an Optional instance with the value for a single custom attribute for the specified project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/custom_attributes/:key</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param key the key for the custom attribute, required
+     * @return an Optional instance with the value for a single custom attribute for the specified project
+     */
+    public Optional<CustomAttribute> getOptionalCustomAttribute(final Object projectIdOrPath, final String key) {
         try {
             return (Optional.ofNullable(getCustomAttribute(projectIdOrPath, key)));
         } catch (GitLabApiException glae) {

@@ -22,6 +22,7 @@ public class PersonalAccessToken implements Serializable {
 
     @JsonProperty("name")
     private String name;
+    private String description;
 
     @JsonProperty("expires_at")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
@@ -70,6 +71,14 @@ public class PersonalAccessToken implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getExpiresAt() {

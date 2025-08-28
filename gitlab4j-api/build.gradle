@@ -1,11 +1,11 @@
 dependencies {
     api project(':gitlab4j-models')
     api 'jakarta.activation:jakarta.activation-api:2.1.1'
-    api 'org.glassfish.jersey.inject:jersey-hk2:3.1.1'
-    api 'org.glassfish.jersey.core:jersey-client:3.1.1'
-    api 'org.glassfish.jersey.connectors:jersey-apache-connector:3.1.1'
-    api 'org.glassfish.jersey.media:jersey-media-multipart:3.1.1'
-    api 'org.glassfish.jersey.media:jersey-media-json-jackson:3.1.1'
+    api 'org.glassfish.jersey.inject:jersey-hk2:3.1.10'
+    api 'org.glassfish.jersey.core:jersey-client:3.1.10'
+    api 'org.glassfish.jersey.connectors:jersey-apache-connector:3.1.10'
+    api 'org.glassfish.jersey.media:jersey-media-multipart:3.1.10'
+    api 'org.glassfish.jersey.media:jersey-media-json-jackson:3.1.10'
     api 'jakarta.servlet:jakarta.servlet-api:6.0.0'
     testImplementation 'org.mockito:mockito-core:5.2.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
@@ -42,6 +42,7 @@ publishing {
                         email = 'gautier@jabby-techs.fr'
                     }
                     developer {
+                        id = "$githubRepositoryOwner"
                         url = 'https://github.com/orgs/' + "$githubRepositoryOwner" + '/people'
                     }
                 }

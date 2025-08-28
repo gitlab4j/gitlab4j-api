@@ -11,6 +11,8 @@ public class BuildCommit {
 
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("name")
+    private String name;
 
     @JsonProperty("sha")
     private String sha;
@@ -47,6 +49,14 @@ public class BuildCommit {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSha() {

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.gitlab4j.models.utils.JacksonJson;
+
 public class OauthTokenResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -60,5 +62,10 @@ public class OauthTokenResponse implements Serializable {
 
     public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
     }
 }

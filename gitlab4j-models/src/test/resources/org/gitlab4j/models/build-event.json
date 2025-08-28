@@ -4,16 +4,19 @@
 	"tag": false,
 	"before_sha": "8a49a94f1a7cd64985074cb11b1a42a7ab2d9b46",
 	"sha": "a890bee24574603c522c756b9346649fbec4c812",
+	"retries_count": 2,
 	"build_id": 214655258,
 	"build_name": "build1",
 	"build_stage": "build",
 	"build_status": "running",
+	"build_created_at": "2019-05-17T17:09:21Z",
 	"build_started_at": "2019-05-17T18:09:21Z",
+	"build_finished_at": "2019-05-17T19:09:21Z",
 	"build_duration": 0.05880817,
 	"build_queued_duration": 1095.5887,
 	"build_allow_failure": false,
 	"build_failure_reason": "unknown_failure",
-	"pipeline_id": 2366,	
+	"pipeline_id": 2366,
 	"project_id": 3115610,
 	"project_name": "GitLab4J / test-project",
 	"user": {
@@ -38,5 +41,28 @@
 		"git_http_url": "https://gitlab.com/gitlab4j/test-project.git",
 		"git_ssh_url": "git@gitlab.com:gitlab4j/test-project.git",
 		"visibility_level": 20
+	},
+	"project":{
+		"id": 380,
+		"name": "Gitlab Test",
+		"description": "Atque in sunt eos similique dolores voluptatem.",
+		"web_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test",
+		"git_ssh_url": "git@192.168.64.1:gitlab-org/gitlab-test.git",
+		"git_http_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test.git",
+		"namespace": "Gitlab Org",
+		"visibility_level": 20,
+		"path_with_namespace": "gitlab-org/gitlab-test",
+		"default_branch": "master"
+	},
+	"runner": {
+		"active": true,
+		"runner_type": "project_type",
+		"is_shared": false,
+		"id": 380987,
+		"description": "shared-runners-manager-6.gitlab.com",
+		"tags": [
+			"linux",
+			"docker"
+		]
 	}
 }

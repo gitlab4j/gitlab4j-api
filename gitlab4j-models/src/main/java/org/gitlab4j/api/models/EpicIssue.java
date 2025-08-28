@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EpicIssue extends AbstractIssue {
+    private static final long serialVersionUID = 1L;
 
     /**
      * The links associated with the epic issue.

@@ -20,12 +20,6 @@ public class CreatedChildEpic extends AbstractMinimalEpic<CreatedChildEpic> {
     private Boolean hasIssues;
 
     /**
-     * The URL associated with the child epic.
-     */
-    @JsonProperty("url")
-    private String url;
-
-    /**
      * The relation URL associated with the child epic.
      */
     @JsonProperty("relation_url")
@@ -47,14 +41,6 @@ public class CreatedChildEpic extends AbstractMinimalEpic<CreatedChildEpic> {
         this.hasIssues = hasIssues;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getRelationUrl() {
         return relationUrl;
     }
@@ -63,6 +49,7 @@ public class CreatedChildEpic extends AbstractMinimalEpic<CreatedChildEpic> {
         this.relationUrl = relationUrl;
     }
 
+    @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }

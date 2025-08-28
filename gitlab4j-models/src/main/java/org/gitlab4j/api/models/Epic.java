@@ -24,10 +24,10 @@ public class Epic extends AbstractEpic<Epic> {
 
     /**
      * The due date inherited from a source, if applicable.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "yyyy-MM-dd".
      */
     @JsonProperty("due_date_from_inherited_source")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dueDateFromInheritedSource;
 
     /**
@@ -68,6 +68,7 @@ public class Epic extends AbstractEpic<Epic> {
         this.subscribed = subscribed;
     }
 
+    @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
     }

@@ -1,6 +1,7 @@
 package org.gitlab4j.api.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
@@ -18,11 +19,17 @@ public class Runner implements Serializable {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("runner_type")
+    private RunnerType runnerType;
+
     @JsonProperty("active")
     private Boolean active;
 
     @JsonProperty("is_shared")
     private Boolean isShared;
+
+    @JsonProperty("tags")
+    private List<String> tags;
 
     @JsonProperty("name")
     private String name;
@@ -103,6 +110,14 @@ public class Runner implements Serializable {
         this.description = description;
     }
 
+    public RunnerType getRunnerType() {
+        return runnerType;
+    }
+
+    public void setRunnerType(RunnerType runnerType) {
+        this.runnerType = runnerType;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -117,6 +132,14 @@ public class Runner implements Serializable {
 
     public void setIs_shared(Boolean is_shared) {
         this.isShared = is_shared;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public String getName() {

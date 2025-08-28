@@ -65,6 +65,9 @@ public class Job implements Serializable {
     @JsonProperty("tag")
     private Boolean tag;
 
+    @JsonProperty("tag_list")
+    private List<String> tagList;
+
     @JsonProperty("web_url")
     private String webUrl;
 
@@ -198,6 +201,14 @@ public class Job implements Serializable {
 
     public void setTag(Boolean tag) {
         this.tag = tag;
+    }
+
+    public List<String> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<String> tagList) {
+        this.tagList = tagList;
     }
 
     public String getWebUrl() {

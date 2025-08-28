@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.api.models.ImportStatus.Status;
+import org.gitlab4j.models.Constants.AutoCancelPendingPipelines;
 import org.gitlab4j.models.Constants.AutoDevopsDeployStrategy;
 import org.gitlab4j.models.Constants.BuildGitStrategy;
+import org.gitlab4j.models.Constants.ProjectFeatureVisibilityAccessLevel;
 import org.gitlab4j.models.Constants.SquashOption;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
@@ -269,6 +271,67 @@ public class Project implements Serializable {
     @JsonProperty("issues_template")
     private String issuesTemplate;
 
+    private Boolean useCustomTemplate;
+    private String externalAuthorizationClassificationLabel;
+    private Boolean groupRunnersEnabled;
+    private Boolean showDefaultAwardEmojis;
+    private Boolean warnAboutPotentiallyUnwantedCharacters;
+    private Boolean mirrorTriggerBuilds;
+    private AutoCancelPendingPipelines autoCancelPendingPipelines;
+    private String repositoryObjectFormat;
+    private Boolean onlyAllowMergeIfAllStatusChecksPassed;
+    private Integer groupWithProjectTemplatesId;
+    private Boolean publicBuilds;
+    private Integer buildTimeout;
+    private String templateName;
+    private Boolean emailsEnabled;
+    private Boolean mirror;
+    private Date updatedAt;
+    private String descriptionHtml;
+    private String containerRegistryImagePrefix;
+    private ContainerExpirationPolicy containerExpirationPolicy;
+    private Boolean serviceDeskEnabled;
+    private String importUrl;
+    private String importType;
+    private String importError;
+    private Boolean ciForwardDeploymentRollbackAllowed;
+    private Boolean ciAllowForkPipelinesToRunInParentProject;
+    private List<String> ciIdTokenSubClaimComponents;
+    private Boolean ciJobTokenScopeEnabled;
+    private Boolean ciSeparatedCaches;
+    private String ciRestrictPipelineCancellationRole;
+    private String ciPipelineVariablesMinimumOverrideRole;
+    private Boolean ciPushRepositoryForJobTokenAllowed;
+    private Boolean allowPipelineTriggerApproveDeployment;
+    private Boolean restrictUserDefinedVariables;
+    private Boolean enforceAuthChecksOnUploads;
+    private Boolean keepLatestArtifact;
+    private Integer runnerTokenExpirationInterval;
+    private Boolean requirementsEnabled;
+    private Boolean securityAndComplianceEnabled;
+    private Boolean secretPushProtectionEnabled;
+    private List<String> complianceFrameworks;
+
+    private ProjectFeatureVisibilityAccessLevel analyticsAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel buildsAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel containerRegistryAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel environmentsAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel featureFlagsAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel forkingAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel infrastructureAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel issuesAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel mergeRequestsAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel modelExperimentsAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel modelRegistryAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel monitorAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel pagesAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel releasesAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel repositoryAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel requirementsAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel securityAndComplianceAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel snippetsAccessLevel;
+    private ProjectFeatureVisibilityAccessLevel wikiAccessLevel;
+
     @JsonProperty("_links")
     private Map<String, String> links;
 
@@ -286,7 +349,7 @@ public class Project implements Serializable {
 
     public Project withApprovalsBeforeMerge(Integer approvalsBeforeMerge) {
         this.approvalsBeforeMerge = approvalsBeforeMerge;
-        return (this);
+        return this;
     }
 
     public Boolean getArchived() {
@@ -313,9 +376,9 @@ public class Project implements Serializable {
         this.containerRegistryEnabled = containerRegistryEnabled;
     }
 
-    public Project withContainerRegistryEnabled(boolean containerRegistryEnabled) {
+    public Project withContainerRegistryEnabled(Boolean containerRegistryEnabled) {
         this.containerRegistryEnabled = containerRegistryEnabled;
-        return (this);
+        return this;
     }
 
     public Date getCreatedAt() {
@@ -344,7 +407,7 @@ public class Project implements Serializable {
 
     public Project withDefaultBranch(String defaultBranch) {
         this.defaultBranch = defaultBranch;
-        return (this);
+        return this;
     }
 
     public String getDescription() {
@@ -357,7 +420,7 @@ public class Project implements Serializable {
 
     public Project withDescription(String description) {
         this.description = description;
-        return (this);
+        return this;
     }
 
     public Integer getForksCount() {
@@ -394,7 +457,7 @@ public class Project implements Serializable {
 
     public Project withId(Long id) {
         this.id = id;
-        return (this);
+        return this;
     }
 
     public Boolean getIssuesEnabled() {
@@ -405,9 +468,9 @@ public class Project implements Serializable {
         this.issuesEnabled = issuesEnabled;
     }
 
-    public Project withIssuesEnabled(boolean issuesEnabled) {
+    public Project withIssuesEnabled(Boolean issuesEnabled) {
         this.issuesEnabled = issuesEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getJobsEnabled() {
@@ -418,9 +481,9 @@ public class Project implements Serializable {
         this.jobsEnabled = jobsEnabled;
     }
 
-    public Project withJobsEnabled(boolean jobsEnabled) {
+    public Project withJobsEnabled(Boolean jobsEnabled) {
         this.jobsEnabled = jobsEnabled;
-        return (this);
+        return this;
     }
 
     public Date getLastActivityAt() {
@@ -441,7 +504,7 @@ public class Project implements Serializable {
 
     public Project withLfsEnabled(Boolean lfsEnabled) {
         this.lfsEnabled = lfsEnabled;
-        return (this);
+        return this;
     }
 
     public MergeMethod getMergeMethod() {
@@ -454,7 +517,7 @@ public class Project implements Serializable {
 
     public Project withMergeMethod(MergeMethod mergeMethod) {
         this.mergeMethod = mergeMethod;
-        return (this);
+        return this;
     }
 
     public Boolean getMergeRequestsEnabled() {
@@ -465,9 +528,9 @@ public class Project implements Serializable {
         this.mergeRequestsEnabled = mergeRequestsEnabled;
     }
 
-    public Project withMergeRequestsEnabled(boolean mergeRequestsEnabled) {
+    public Project withMergeRequestsEnabled(Boolean mergeRequestsEnabled) {
         this.mergeRequestsEnabled = mergeRequestsEnabled;
-        return (this);
+        return this;
     }
 
     public String getName() {
@@ -480,7 +543,7 @@ public class Project implements Serializable {
 
     public Project withName(String name) {
         this.name = name;
-        return (this);
+        return this;
     }
 
     public Namespace getNamespace() {
@@ -493,13 +556,13 @@ public class Project implements Serializable {
 
     public Project withNamespace(Namespace namespace) {
         this.namespace = namespace;
-        return (this);
+        return this;
     }
 
     public Project withNamespaceId(long namespaceId) {
         this.namespace = new Namespace();
         this.namespace.setId(namespaceId);
-        return (this);
+        return this;
     }
 
     public String getNameWithNamespace() {
@@ -520,7 +583,7 @@ public class Project implements Serializable {
 
     public Project withOnlyAllowMergeIfPipelineSucceeds(Boolean onlyAllowMergeIfPipelineSucceeds) {
         this.onlyAllowMergeIfPipelineSucceeds = onlyAllowMergeIfPipelineSucceeds;
-        return (this);
+        return this;
     }
 
     public Boolean getAllowMergeOnSkippedPipeline() {
@@ -533,7 +596,7 @@ public class Project implements Serializable {
 
     public Project withAllowMergeOnSkippedPipeline(Boolean allowMergeOnSkippedPipeline) {
         this.allowMergeOnSkippedPipeline = allowMergeOnSkippedPipeline;
-        return (this);
+        return this;
     }
 
     public Boolean getOnlyAllowMergeIfAllDiscussionsAreResolved() {
@@ -546,7 +609,7 @@ public class Project implements Serializable {
 
     public Project withOnlyAllowMergeIfAllDiscussionsAreResolved(Boolean onlyAllowMergeIfAllDiscussionsAreResolved) {
         this.onlyAllowMergeIfAllDiscussionsAreResolved = onlyAllowMergeIfAllDiscussionsAreResolved;
-        return (this);
+        return this;
     }
 
     public Integer getOpenIssuesCount() {
@@ -575,7 +638,7 @@ public class Project implements Serializable {
 
     public Project withPath(String path) {
         this.path = path;
-        return (this);
+        return this;
     }
 
     public String getPathWithNamespace() {
@@ -604,7 +667,7 @@ public class Project implements Serializable {
 
     public Project withPublic(Boolean isPublic) {
         this.isPublic = isPublic;
-        return (this);
+        return this;
     }
 
     public Boolean getPublicJobs() {
@@ -615,9 +678,9 @@ public class Project implements Serializable {
         this.publicJobs = publicJobs;
     }
 
-    public Project withPublicJobs(boolean publicJobs) {
+    public Project withPublicJobs(Boolean publicJobs) {
         this.publicJobs = publicJobs;
-        return (this);
+        return this;
     }
 
     public String getRepositoryStorage() {
@@ -630,7 +693,7 @@ public class Project implements Serializable {
 
     public Project withRepositoryStorage(String repositoryStorage) {
         this.repositoryStorage = repositoryStorage;
-        return (this);
+        return this;
     }
 
     public Boolean getRequestAccessEnabled() {
@@ -641,9 +704,9 @@ public class Project implements Serializable {
         this.requestAccessEnabled = request_access_enabled;
     }
 
-    public Project withRequestAccessEnabled(boolean requestAccessEnabled) {
+    public Project withRequestAccessEnabled(Boolean requestAccessEnabled) {
         this.requestAccessEnabled = requestAccessEnabled;
-        return (this);
+        return this;
     }
 
     public String getRunnersToken() {
@@ -670,9 +733,9 @@ public class Project implements Serializable {
         this.sharedWithGroups = sharedWithGroups;
     }
 
-    public Project withSharedRunnersEnabled(boolean sharedRunnersEnabled) {
+    public Project withSharedRunnersEnabled(Boolean sharedRunnersEnabled) {
         this.sharedRunnersEnabled = sharedRunnersEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getSnippetsEnabled() {
@@ -683,9 +746,9 @@ public class Project implements Serializable {
         this.snippetsEnabled = snippetsEnabled;
     }
 
-    public Project withSnippetsEnabled(boolean snippetsEnabled) {
+    public Project withSnippetsEnabled(Boolean snippetsEnabled) {
         this.snippetsEnabled = snippetsEnabled;
-        return (this);
+        return this;
     }
 
     public String getSshUrlToRepo() {
@@ -726,7 +789,7 @@ public class Project implements Serializable {
     @Deprecated
     public Project withTagList(List<String> tagList) {
         this.tagList = tagList;
-        return (this);
+        return this;
     }
 
     public List<String> getTopics() {
@@ -739,7 +802,7 @@ public class Project implements Serializable {
 
     public Project withTopics(List<String> topics) {
         this.topics = topics;
-        return (this);
+        return this;
     }
 
     public Visibility getVisibility() {
@@ -752,7 +815,7 @@ public class Project implements Serializable {
 
     public Project withVisibility(Visibility visibility) {
         this.visibility = visibility;
-        return (this);
+        return this;
     }
 
     public Integer getVisibilityLevel() {
@@ -765,7 +828,7 @@ public class Project implements Serializable {
 
     public Project withVisibilityLevel(Integer visibilityLevel) {
         this.visibilityLevel = visibilityLevel;
-        return (this);
+        return this;
     }
 
     public Boolean getWallEnabled() {
@@ -778,7 +841,7 @@ public class Project implements Serializable {
 
     public Project withWallEnabled(Boolean wallEnabled) {
         this.wallEnabled = wallEnabled;
-        return (this);
+        return this;
     }
 
     public String getWebUrl() {
@@ -791,7 +854,7 @@ public class Project implements Serializable {
 
     public Project withWebUrl(String webUrl) {
         this.webUrl = webUrl;
-        return (this);
+        return this;
     }
 
     public Boolean getWikiEnabled() {
@@ -802,9 +865,9 @@ public class Project implements Serializable {
         this.wikiEnabled = wikiEnabled;
     }
 
-    public Project withWikiEnabled(boolean wikiEnabled) {
+    public Project withWikiEnabled(Boolean wikiEnabled) {
         this.wikiEnabled = wikiEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getPrintingMergeRequestLinkEnabled() {
@@ -817,7 +880,7 @@ public class Project implements Serializable {
 
     public Project withPrintingMergeRequestLinkEnabled(Boolean printingMergeRequestLinkEnabled) {
         this.printingMergeRequestLinkEnabled = printingMergeRequestLinkEnabled;
-        return (this);
+        return this;
     }
 
     public Boolean getResolveOutdatedDiffDiscussions() {
@@ -828,9 +891,9 @@ public class Project implements Serializable {
         this.resolveOutdatedDiffDiscussions = resolveOutdatedDiffDiscussions;
     }
 
-    public Project withResolveOutdatedDiffDiscussions(boolean resolveOutdatedDiffDiscussions) {
+    public Project withResolveOutdatedDiffDiscussions(Boolean resolveOutdatedDiffDiscussions) {
         this.resolveOutdatedDiffDiscussions = resolveOutdatedDiffDiscussions;
-        return (this);
+        return this;
     }
 
     public Boolean getInitializeWithReadme() {
@@ -841,9 +904,9 @@ public class Project implements Serializable {
         this.initializeWithReadme = initializeWithReadme;
     }
 
-    public Project withInitializeWithReadme(boolean initializeWithReadme) {
+    public Project withInitializeWithReadme(Boolean initializeWithReadme) {
         this.initializeWithReadme = initializeWithReadme;
-        return (this);
+        return this;
     }
 
     public Boolean getPackagesEnabled() {
@@ -856,7 +919,7 @@ public class Project implements Serializable {
 
     public Project withPackagesEnabled(Boolean packagesEnabled) {
         this.packagesEnabled = packagesEnabled;
-        return (this);
+        return this;
     }
 
     public ProjectStatistics getStatistics() {
@@ -907,7 +970,7 @@ public class Project implements Serializable {
         this.customAttributes = customAttributes;
     }
 
-    public static final boolean isValid(Project project) {
+    public static boolean isValid(Project project) {
         return (project != null && project.getId() != null);
     }
 
@@ -1001,6 +1064,11 @@ public class Project implements Serializable {
         this.ciConfigPath = ciConfigPath;
     }
 
+    public Project withCiConfigPath(String ciConfigPath) {
+        this.ciConfigPath = ciConfigPath;
+        return this;
+    }
+
     public Boolean getRemoveSourceBranchAfterMerge() {
         return removeSourceBranchAfterMerge;
     }
@@ -1022,6 +1090,11 @@ public class Project implements Serializable {
         this.autoDevopsEnabled = autoDevopsEnabled;
     }
 
+    public Project withAutoDevopsEnabled(Boolean autoDevopsEnabled) {
+        this.autoDevopsEnabled = autoDevopsEnabled;
+        return this;
+    }
+
     public AutoDevopsDeployStrategy getAutoDevopsDeployStrategy() {
         return autoDevopsDeployStrategy;
     }
@@ -1036,6 +1109,11 @@ public class Project implements Serializable {
 
     public void setAutocloseReferencedIssues(Boolean autocloseReferencedIssues) {
         this.autocloseReferencedIssues = autocloseReferencedIssues;
+    }
+
+    public Project withAutocloseReferencedIssues(Boolean autocloseReferencedIssues) {
+        this.autocloseReferencedIssues = autocloseReferencedIssues;
+        return this;
     }
 
     public Boolean getEmailsDisabled() {
@@ -1123,6 +1201,655 @@ public class Project implements Serializable {
 
     public void setLinks(Map<String, String> links) {
         this.links = links;
+    }
+
+    public Integer getBuildTimeout() {
+        return buildTimeout;
+    }
+
+    public void setBuildTimeout(Integer buildTimeout) {
+        this.buildTimeout = buildTimeout;
+    }
+
+    public Project withBuildTimeout(Integer buildTimeout) {
+        this.buildTimeout = buildTimeout;
+        return this;
+    }
+
+    public Boolean getMirrorTriggerBuilds() {
+        return mirrorTriggerBuilds;
+    }
+
+    public void setMirrorTriggerBuilds(Boolean mirrorTriggerBuilds) {
+        this.mirrorTriggerBuilds = mirrorTriggerBuilds;
+    }
+
+    public Project withMirrorTriggerBuilds(Boolean mirrorTriggerBuilds) {
+        this.mirrorTriggerBuilds = mirrorTriggerBuilds;
+        return this;
+    }
+
+    public Integer getGroupWithProjectTemplatesId() {
+        return groupWithProjectTemplatesId;
+    }
+
+    public void setGroupWithProjectTemplatesId(Integer groupWithProjectTemplatesId) {
+        this.groupWithProjectTemplatesId = groupWithProjectTemplatesId;
+    }
+
+    public Project withGroupWithProjectTemplatesId(Integer groupWithProjectTemplatesId) {
+        this.groupWithProjectTemplatesId = groupWithProjectTemplatesId;
+        return this;
+    }
+
+    public Boolean getGroupRunnersEnabled() {
+        return groupRunnersEnabled;
+    }
+
+    public void setGroupRunnersEnabled(Boolean groupRunnersEnabled) {
+        this.groupRunnersEnabled = groupRunnersEnabled;
+    }
+
+    public Project withGroupRunnersEnabled(Boolean groupRunnersEnabled) {
+        this.groupRunnersEnabled = groupRunnersEnabled;
+        return this;
+    }
+
+    public Boolean getOnlyAllowMergeIfAllStatusChecksPassed() {
+        return onlyAllowMergeIfAllStatusChecksPassed;
+    }
+
+    public void setOnlyAllowMergeIfAllStatusChecksPassed(Boolean onlyAllowMergeIfAllStatusChecksPassed) {
+        this.onlyAllowMergeIfAllStatusChecksPassed = onlyAllowMergeIfAllStatusChecksPassed;
+    }
+
+    public Project withOnlyAllowMergeIfAllStatusChecksPassed(Boolean onlyAllowMergeIfAllStatusChecksPassed) {
+        this.onlyAllowMergeIfAllStatusChecksPassed = onlyAllowMergeIfAllStatusChecksPassed;
+        return this;
+    }
+
+    public Boolean getPublicBuilds() {
+        return publicBuilds;
+    }
+
+    public void setPublicBuilds(Boolean publicBuilds) {
+        this.publicBuilds = publicBuilds;
+    }
+
+    public Project withPublicBuilds(Boolean publicBuilds) {
+        this.publicBuilds = publicBuilds;
+        return this;
+    }
+
+    public String getRepositoryObjectFormat() {
+        return repositoryObjectFormat;
+    }
+
+    public void setRepositoryObjectFormat(String repositoryObjectFormat) {
+        this.repositoryObjectFormat = repositoryObjectFormat;
+    }
+
+    public Project withRepositoryObjectFormat(String repositoryObjectFormat) {
+        this.repositoryObjectFormat = repositoryObjectFormat;
+        return this;
+    }
+
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
+
+    public Project withTemplateName(String templateName) {
+        this.templateName = templateName;
+        return this;
+    }
+
+    public String getExternalAuthorizationClassificationLabel() {
+        return externalAuthorizationClassificationLabel;
+    }
+
+    public void setExternalAuthorizationClassificationLabel(String externalAuthorizationClassificationLabel) {
+        this.externalAuthorizationClassificationLabel = externalAuthorizationClassificationLabel;
+    }
+
+    public Project withExternalAuthorizationClassificationLabel(String externalAuthorizationClassificationLabel) {
+        this.externalAuthorizationClassificationLabel = externalAuthorizationClassificationLabel;
+        return this;
+    }
+
+    public AutoCancelPendingPipelines getAutoCancelPendingPipelines() {
+        return autoCancelPendingPipelines;
+    }
+
+    public void setAutoCancelPendingPipelines(AutoCancelPendingPipelines autoCancelPendingPipelines) {
+        this.autoCancelPendingPipelines = autoCancelPendingPipelines;
+    }
+
+    public Project withAutoCancelPendingPipelines(AutoCancelPendingPipelines autoCancelPendingPipelines) {
+        this.autoCancelPendingPipelines = autoCancelPendingPipelines;
+        return this;
+    }
+
+    public Boolean getUseCustomTemplate() {
+        return useCustomTemplate;
+    }
+
+    public void setUseCustomTemplate(Boolean useCustomTemplate) {
+        this.useCustomTemplate = useCustomTemplate;
+    }
+
+    public Project withUseCustomTemplate(Boolean useCustomTemplate) {
+        this.useCustomTemplate = useCustomTemplate;
+        return this;
+    }
+
+    public Boolean getEmailsEnabled() {
+        return emailsEnabled;
+    }
+
+    public void setEmailsEnabled(Boolean emailsEnabled) {
+        this.emailsEnabled = emailsEnabled;
+    }
+
+    public Project withEmailsEnabled(Boolean emailsEnabled) {
+        this.emailsEnabled = emailsEnabled;
+        return this;
+    }
+
+    public Boolean getShowDefaultAwardEmojis() {
+        return showDefaultAwardEmojis;
+    }
+
+    public void setShowDefaultAwardEmojis(Boolean showDefaultAwardEmojis) {
+        this.showDefaultAwardEmojis = showDefaultAwardEmojis;
+    }
+
+    public Project withShowDefaultAwardEmojis(Boolean showDefaultAwardEmojis) {
+        this.showDefaultAwardEmojis = showDefaultAwardEmojis;
+        return this;
+    }
+
+    public Boolean getWarnAboutPotentiallyUnwantedCharacters() {
+        return warnAboutPotentiallyUnwantedCharacters;
+    }
+
+    public void setWarnAboutPotentiallyUnwantedCharacters(Boolean warnAboutPotentiallyUnwantedCharacters) {
+        this.warnAboutPotentiallyUnwantedCharacters = warnAboutPotentiallyUnwantedCharacters;
+    }
+
+    public Project withWarnAboutPotentiallyUnwantedCharacters(Boolean warnAboutPotentiallyUnwantedCharacters) {
+        this.warnAboutPotentiallyUnwantedCharacters = warnAboutPotentiallyUnwantedCharacters;
+        return this;
+    }
+
+    public Boolean getMirror() {
+        return mirror;
+    }
+
+    public void setMirror(Boolean mirror) {
+        this.mirror = mirror;
+    }
+
+    public Project withMirror(Boolean mirror) {
+        this.mirror = mirror;
+        return this;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getDescriptionHtml() {
+        return descriptionHtml;
+    }
+
+    public void setDescriptionHtml(String descriptionHtml) {
+        this.descriptionHtml = descriptionHtml;
+    }
+
+    public String getContainerRegistryImagePrefix() {
+        return containerRegistryImagePrefix;
+    }
+
+    public void setContainerRegistryImagePrefix(String containerRegistryImagePrefix) {
+        this.containerRegistryImagePrefix = containerRegistryImagePrefix;
+    }
+
+    public ContainerExpirationPolicy getContainerExpirationPolicy() {
+        return containerExpirationPolicy;
+    }
+
+    public void setContainerExpirationPolicy(ContainerExpirationPolicy containerExpirationPolicy) {
+        this.containerExpirationPolicy = containerExpirationPolicy;
+    }
+
+    public Project withContainerExpirationPolicy(ContainerExpirationPolicy containerExpirationPolicy) {
+        this.containerExpirationPolicy = containerExpirationPolicy;
+        return this;
+    }
+
+    public Boolean getServiceDeskEnabled() {
+        return serviceDeskEnabled;
+    }
+
+    public void setServiceDeskEnabled(Boolean serviceDeskEnabled) {
+        this.serviceDeskEnabled = serviceDeskEnabled;
+    }
+
+    public String getImportUrl() {
+        return importUrl;
+    }
+
+    public void setImportUrl(String importUrl) {
+        this.importUrl = importUrl;
+    }
+
+    public String getImportType() {
+        return importType;
+    }
+
+    public void setImportType(String importType) {
+        this.importType = importType;
+    }
+
+    public String getImportError() {
+        return importError;
+    }
+
+    public void setImportError(String importError) {
+        this.importError = importError;
+    }
+
+    public Boolean getCiForwardDeploymentRollbackAllowed() {
+        return ciForwardDeploymentRollbackAllowed;
+    }
+
+    public void setCiForwardDeploymentRollbackAllowed(Boolean ciForwardDeploymentRollbackAllowed) {
+        this.ciForwardDeploymentRollbackAllowed = ciForwardDeploymentRollbackAllowed;
+    }
+
+    public Boolean getCiAllowForkPipelinesToRunInParentProject() {
+        return ciAllowForkPipelinesToRunInParentProject;
+    }
+
+    public void setCiAllowForkPipelinesToRunInParentProject(Boolean ciAllowForkPipelinesToRunInParentProject) {
+        this.ciAllowForkPipelinesToRunInParentProject = ciAllowForkPipelinesToRunInParentProject;
+    }
+
+    public List<String> getCiIdTokenSubClaimComponents() {
+        return ciIdTokenSubClaimComponents;
+    }
+
+    public void setCiIdTokenSubClaimComponents(List<String> ciIdTokenSubClaimComponents) {
+        this.ciIdTokenSubClaimComponents = ciIdTokenSubClaimComponents;
+    }
+
+    public Boolean getCiJobTokenScopeEnabled() {
+        return ciJobTokenScopeEnabled;
+    }
+
+    public void setCiJobTokenScopeEnabled(Boolean ciJobTokenScopeEnabled) {
+        this.ciJobTokenScopeEnabled = ciJobTokenScopeEnabled;
+    }
+
+    public Boolean getCiSeparatedCaches() {
+        return ciSeparatedCaches;
+    }
+
+    public void setCiSeparatedCaches(Boolean ciSeparatedCaches) {
+        this.ciSeparatedCaches = ciSeparatedCaches;
+    }
+
+    public String getCiRestrictPipelineCancellationRole() {
+        return ciRestrictPipelineCancellationRole;
+    }
+
+    public void setCiRestrictPipelineCancellationRole(String ciRestrictPipelineCancellationRole) {
+        this.ciRestrictPipelineCancellationRole = ciRestrictPipelineCancellationRole;
+    }
+
+    public String getCiPipelineVariablesMinimumOverrideRole() {
+        return ciPipelineVariablesMinimumOverrideRole;
+    }
+
+    public void setCiPipelineVariablesMinimumOverrideRole(String ciPipelineVariablesMinimumOverrideRole) {
+        this.ciPipelineVariablesMinimumOverrideRole = ciPipelineVariablesMinimumOverrideRole;
+    }
+
+    public Boolean getCiPushRepositoryForJobTokenAllowed() {
+        return ciPushRepositoryForJobTokenAllowed;
+    }
+
+    public void setCiPushRepositoryForJobTokenAllowed(Boolean ciPushRepositoryForJobTokenAllowed) {
+        this.ciPushRepositoryForJobTokenAllowed = ciPushRepositoryForJobTokenAllowed;
+    }
+
+    public Boolean getAllowPipelineTriggerApproveDeployment() {
+        return allowPipelineTriggerApproveDeployment;
+    }
+
+    public void setAllowPipelineTriggerApproveDeployment(Boolean allowPipelineTriggerApproveDeployment) {
+        this.allowPipelineTriggerApproveDeployment = allowPipelineTriggerApproveDeployment;
+    }
+
+    public Boolean getRestrictUserDefinedVariables() {
+        return restrictUserDefinedVariables;
+    }
+
+    public void setRestrictUserDefinedVariables(Boolean restrictUserDefinedVariables) {
+        this.restrictUserDefinedVariables = restrictUserDefinedVariables;
+    }
+
+    public Boolean getEnforceAuthChecksOnUploads() {
+        return enforceAuthChecksOnUploads;
+    }
+
+    public void setEnforceAuthChecksOnUploads(Boolean enforceAuthChecksOnUploads) {
+        this.enforceAuthChecksOnUploads = enforceAuthChecksOnUploads;
+    }
+
+    public Boolean getKeepLatestArtifact() {
+        return keepLatestArtifact;
+    }
+
+    public void setKeepLatestArtifact(Boolean keepLatestArtifact) {
+        this.keepLatestArtifact = keepLatestArtifact;
+    }
+
+    public Integer getRunnerTokenExpirationInterval() {
+        return runnerTokenExpirationInterval;
+    }
+
+    public void setRunnerTokenExpirationInterval(Integer runnerTokenExpirationInterval) {
+        this.runnerTokenExpirationInterval = runnerTokenExpirationInterval;
+    }
+
+    public Boolean getRequirementsEnabled() {
+        return requirementsEnabled;
+    }
+
+    public void setRequirementsEnabled(Boolean requirementsEnabled) {
+        this.requirementsEnabled = requirementsEnabled;
+    }
+
+    public Boolean getSecurityAndComplianceEnabled() {
+        return securityAndComplianceEnabled;
+    }
+
+    public void setSecurityAndComplianceEnabled(Boolean securityAndComplianceEnabled) {
+        this.securityAndComplianceEnabled = securityAndComplianceEnabled;
+    }
+
+    public Boolean getSecretPushProtectionEnabled() {
+        return secretPushProtectionEnabled;
+    }
+
+    public void setSecretPushProtectionEnabled(Boolean secretPushProtectionEnabled) {
+        this.secretPushProtectionEnabled = secretPushProtectionEnabled;
+    }
+
+    public List<String> getComplianceFrameworks() {
+        return complianceFrameworks;
+    }
+
+    public void setComplianceFrameworks(List<String> complianceFrameworks) {
+        this.complianceFrameworks = complianceFrameworks;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getAnalyticsAccessLevel() {
+        return analyticsAccessLevel;
+    }
+
+    public void setAnalyticsAccessLevel(ProjectFeatureVisibilityAccessLevel analyticsAccessLevel) {
+        this.analyticsAccessLevel = analyticsAccessLevel;
+    }
+
+    public Project withAnalyticsAccessLevel(ProjectFeatureVisibilityAccessLevel analyticsAccessLevel) {
+        this.analyticsAccessLevel = analyticsAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getBuildsAccessLevel() {
+        return buildsAccessLevel;
+    }
+
+    public void setBuildsAccessLevel(ProjectFeatureVisibilityAccessLevel buildsAccessLevel) {
+        this.buildsAccessLevel = buildsAccessLevel;
+    }
+
+    public Project withBuildsAccessLevel(ProjectFeatureVisibilityAccessLevel buildsAccessLevel) {
+        this.buildsAccessLevel = buildsAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getContainerRegistryAccessLevel() {
+        return containerRegistryAccessLevel;
+    }
+
+    public void setContainerRegistryAccessLevel(ProjectFeatureVisibilityAccessLevel containerRegistryAccessLevel) {
+        this.containerRegistryAccessLevel = containerRegistryAccessLevel;
+    }
+
+    public Project withContainerRegistryAccessLevel(ProjectFeatureVisibilityAccessLevel containerRegistryAccessLevel) {
+        this.containerRegistryAccessLevel = containerRegistryAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getEnvironmentsAccessLevel() {
+        return environmentsAccessLevel;
+    }
+
+    public void setEnvironmentsAccessLevel(ProjectFeatureVisibilityAccessLevel environmentsAccessLevel) {
+        this.environmentsAccessLevel = environmentsAccessLevel;
+    }
+
+    public Project withEnvironmentsAccessLevel(ProjectFeatureVisibilityAccessLevel environmentsAccessLevel) {
+        this.environmentsAccessLevel = environmentsAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getFeatureFlagsAccessLevel() {
+        return featureFlagsAccessLevel;
+    }
+
+    public void setFeatureFlagsAccessLevel(ProjectFeatureVisibilityAccessLevel featureFlagsAccessLevel) {
+        this.featureFlagsAccessLevel = featureFlagsAccessLevel;
+    }
+
+    public Project withFeatureFlagsAccessLevel(ProjectFeatureVisibilityAccessLevel featureFlagsAccessLevel) {
+        this.featureFlagsAccessLevel = featureFlagsAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getForkingAccessLevel() {
+        return forkingAccessLevel;
+    }
+
+    public void setForkingAccessLevel(ProjectFeatureVisibilityAccessLevel forkingAccessLevel) {
+        this.forkingAccessLevel = forkingAccessLevel;
+    }
+
+    public Project withForkingAccessLevel(ProjectFeatureVisibilityAccessLevel forkingAccessLevel) {
+        this.forkingAccessLevel = forkingAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getInfrastructureAccessLevel() {
+        return infrastructureAccessLevel;
+    }
+
+    public void setInfrastructureAccessLevel(ProjectFeatureVisibilityAccessLevel infrastructureAccessLevel) {
+        this.infrastructureAccessLevel = infrastructureAccessLevel;
+    }
+
+    public Project withInfrastructureAccessLevel(ProjectFeatureVisibilityAccessLevel infrastructureAccessLevel) {
+        this.infrastructureAccessLevel = infrastructureAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getIssuesAccessLevel() {
+        return issuesAccessLevel;
+    }
+
+    public void setIssuesAccessLevel(ProjectFeatureVisibilityAccessLevel issuesAccessLevel) {
+        this.issuesAccessLevel = issuesAccessLevel;
+    }
+
+    public Project withIssuesAccessLevel(ProjectFeatureVisibilityAccessLevel issuesAccessLevel) {
+        this.issuesAccessLevel = issuesAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getMergeRequestsAccessLevel() {
+        return mergeRequestsAccessLevel;
+    }
+
+    public void setMergeRequestsAccessLevel(ProjectFeatureVisibilityAccessLevel mergeRequestsAccessLevel) {
+        this.mergeRequestsAccessLevel = mergeRequestsAccessLevel;
+    }
+
+    public Project withMergeRequestsAccessLevel(ProjectFeatureVisibilityAccessLevel mergeRequestsAccessLevel) {
+        this.mergeRequestsAccessLevel = mergeRequestsAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getModelExperimentsAccessLevel() {
+        return modelExperimentsAccessLevel;
+    }
+
+    public void setModelExperimentsAccessLevel(ProjectFeatureVisibilityAccessLevel modelExperimentsAccessLevel) {
+        this.modelExperimentsAccessLevel = modelExperimentsAccessLevel;
+    }
+
+    public Project withModelExperimentsAccessLevel(ProjectFeatureVisibilityAccessLevel modelExperimentsAccessLevel) {
+        this.modelExperimentsAccessLevel = modelExperimentsAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getModelRegistryAccessLevel() {
+        return modelRegistryAccessLevel;
+    }
+
+    public void setModelRegistryAccessLevel(ProjectFeatureVisibilityAccessLevel modelRegistryAccessLevel) {
+        this.modelRegistryAccessLevel = modelRegistryAccessLevel;
+    }
+
+    public Project withModelRegistryAccessLevel(ProjectFeatureVisibilityAccessLevel modelRegistryAccessLevel) {
+        this.modelRegistryAccessLevel = modelRegistryAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getMonitorAccessLevel() {
+        return monitorAccessLevel;
+    }
+
+    public void setMonitorAccessLevel(ProjectFeatureVisibilityAccessLevel monitorAccessLevel) {
+        this.monitorAccessLevel = monitorAccessLevel;
+    }
+
+    public Project withMonitorAccessLevel(ProjectFeatureVisibilityAccessLevel monitorAccessLevel) {
+        this.monitorAccessLevel = monitorAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getPagesAccessLevel() {
+        return pagesAccessLevel;
+    }
+
+    public void setPagesAccessLevel(ProjectFeatureVisibilityAccessLevel pagesAccessLevel) {
+        this.pagesAccessLevel = pagesAccessLevel;
+    }
+
+    public Project withPagesAccessLevel(ProjectFeatureVisibilityAccessLevel pagesAccessLevel) {
+        this.pagesAccessLevel = pagesAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getReleasesAccessLevel() {
+        return releasesAccessLevel;
+    }
+
+    public void setReleasesAccessLevel(ProjectFeatureVisibilityAccessLevel releasesAccessLevel) {
+        this.releasesAccessLevel = releasesAccessLevel;
+    }
+
+    public Project withReleasesAccessLevel(ProjectFeatureVisibilityAccessLevel releasesAccessLevel) {
+        this.releasesAccessLevel = releasesAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getRepositoryAccessLevel() {
+        return repositoryAccessLevel;
+    }
+
+    public void setRepositoryAccessLevel(ProjectFeatureVisibilityAccessLevel repositoryAccessLevel) {
+        this.repositoryAccessLevel = repositoryAccessLevel;
+    }
+
+    public Project withRepositoryAccessLevel(ProjectFeatureVisibilityAccessLevel repositoryAccessLevel) {
+        this.repositoryAccessLevel = repositoryAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getRequirementsAccessLevel() {
+        return requirementsAccessLevel;
+    }
+
+    public void setRequirementsAccessLevel(ProjectFeatureVisibilityAccessLevel requirementsAccessLevel) {
+        this.requirementsAccessLevel = requirementsAccessLevel;
+    }
+
+    public Project withRequirementsAccessLevel(ProjectFeatureVisibilityAccessLevel requirementsAccessLevel) {
+        this.requirementsAccessLevel = requirementsAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getSecurityAndComplianceAccessLevel() {
+        return securityAndComplianceAccessLevel;
+    }
+
+    public void setSecurityAndComplianceAccessLevel(
+            ProjectFeatureVisibilityAccessLevel securityAndComplianceAccessLevel) {
+        this.securityAndComplianceAccessLevel = securityAndComplianceAccessLevel;
+    }
+
+    public Project withSecurityAndComplianceAccessLevel(
+            ProjectFeatureVisibilityAccessLevel securityAndComplianceAccessLevel) {
+        this.securityAndComplianceAccessLevel = securityAndComplianceAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getSnippetsAccessLevel() {
+        return snippetsAccessLevel;
+    }
+
+    public void setSnippetsAccessLevel(ProjectFeatureVisibilityAccessLevel snippetsAccessLevel) {
+        this.snippetsAccessLevel = snippetsAccessLevel;
+    }
+
+    public Project withSnippetsAccessLevel(ProjectFeatureVisibilityAccessLevel snippetsAccessLevel) {
+        this.snippetsAccessLevel = snippetsAccessLevel;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getWikiAccessLevel() {
+        return wikiAccessLevel;
+    }
+
+    public void setWikiAccessLevel(ProjectFeatureVisibilityAccessLevel wikiAccessLevel) {
+        this.wikiAccessLevel = wikiAccessLevel;
+    }
+
+    public Project withWikiAccessLevel(ProjectFeatureVisibilityAccessLevel wikiAccessLevel) {
+        this.wikiAccessLevel = wikiAccessLevel;
+        return this;
     }
 
     @JsonIgnore

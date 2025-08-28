@@ -2,6 +2,7 @@
   "id": 1,
   "name": "security",
   "rule_type": "regular",
+  "report_type": "code_coverage",
   "eligible_approvers": [
     {
       "id": 2,
@@ -39,10 +40,37 @@
       "description": "",
       "visibility": "public",
       "lfs_enabled": false,
+      "avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
       "web_url": "http://localhost/groups/group1",
       "request_access_enabled": false,
       "full_name": "group1",
       "full_path": "group1"
+    }
+  ],
+  "applies_to_all_protected_branches": false,
+  "protected_branches": [
+    {
+      "id": 1,
+      "name": "main",
+      "push_access_levels": [
+        {
+          "access_level": 30,
+          "access_level_description": "Developers + Maintainers"
+        }
+      ],
+      "merge_access_levels": [
+        {
+          "access_level": 30,
+          "access_level_description": "Developers + Maintainers"
+        }
+      ],
+      "unprotect_access_levels": [
+        {
+          "access_level": 40,
+          "access_level_description": "Maintainers"
+        }
+      ],
+      "code_owner_approval_required": false
     }
   ],
   "contains_hidden_groups": false

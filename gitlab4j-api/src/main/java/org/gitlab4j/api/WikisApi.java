@@ -96,7 +96,7 @@ public class WikisApi extends AbstractApi {
      * @param perPage the number of wiki-pages per page
      * @return a list of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
-     * @deprecated Will be removed in a future release, use {@link #getPages(Object, boolean, int)}
+     * @deprecated Will be removed in a future release, use {@link #getPages(Object, Boolean, int)}
      */
     public List<WikiPage> getPages(Object projectIdOrPath, int page, int perPage) throws GitLabApiException {
         Response response = get(
@@ -118,7 +118,7 @@ public class WikisApi extends AbstractApi {
      * @return a List of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public List<WikiPage> getPages(Object projectIdOrPath, boolean withContent) throws GitLabApiException {
+    public List<WikiPage> getPages(Object projectIdOrPath, Boolean withContent) throws GitLabApiException {
         return (getPages(projectIdOrPath, withContent, getDefaultPerPage()).all());
     }
 
@@ -133,9 +133,12 @@ public class WikisApi extends AbstractApi {
      * @return a Pager of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Pager<WikiPage> getPages(Object projectIdOrPath, boolean withContent, int itemsPerPage)
+    public Pager<WikiPage> getPages(Object projectIdOrPath, Boolean withContent, int itemsPerPage)
             throws GitLabApiException {
-        GitLabApiForm formData = new GitLabApiForm().withParam("with_content", (withContent ? 1 : 0));
+        GitLabApiForm formData = new GitLabApiForm();
+        if (withContent != null) {
+            formData.withParam("with_content", (withContent.booleanValue() ? 1 : 0));
+        }
         return (new Pager<WikiPage>(
                 this,
                 WikiPage.class,
@@ -156,7 +159,7 @@ public class WikisApi extends AbstractApi {
      * @return a Stream of pages in project's wiki for the specified range
      * @throws GitLabApiException if any exception occurs
      */
-    public Stream<WikiPage> getPagesStream(Object projectIdOrPath, boolean withContent) throws GitLabApiException {
+    public Stream<WikiPage> getPagesStream(Object projectIdOrPath, Boolean withContent) throws GitLabApiException {
         return (getPages(projectIdOrPath, withContent, getDefaultPerPage()).stream());
     }
 

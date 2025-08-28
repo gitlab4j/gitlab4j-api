@@ -23,7 +23,7 @@ public class ProjectAccessToken implements Serializable {
     private String name;
 
     @JsonProperty("expires_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expiresAt;
 
     @JsonProperty("id")
