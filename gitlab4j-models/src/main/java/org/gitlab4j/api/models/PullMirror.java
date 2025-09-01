@@ -3,22 +3,46 @@ package org.gitlab4j.api.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.models.utils.JacksonJson;
 
 public class PullMirror implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("last_error")
     private String lastError;
+
+    @JsonProperty("last_successful_update_at")
     private Date lastSuccessfulUpdateAt;
+
+    @JsonProperty("last_update_at")
     private Date lastUpdateAt;
+
+    @JsonProperty("last_update_started_at")
     private Date lastUpdateStartedAt;
+
+    @JsonProperty("update_status")
     private String updateStatus;
+
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("enabled")
     private Boolean enabled;
+
+    @JsonProperty("mirror_trigger_builds")
     private Boolean mirrorTriggerBuilds;
+
+    @JsonProperty("only_mirror_protected_branches")
     private Boolean onlyMirrorProtectedBranches;
+
+    @JsonProperty("mirror_overwrites_diverged_branches")
     private Boolean mirrorOverwritesDivergedBranches;
+
+    @JsonProperty("mirror_branch_regex")
     private String mirrorBranchRegex;
 
     public Long getId() {

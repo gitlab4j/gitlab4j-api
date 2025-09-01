@@ -23,6 +23,7 @@ public class Link implements Serializable {
     @Deprecated
     private Boolean external;
 
+    @JsonProperty("link_type")
     private String linkType;
 
     public Integer getId() {

@@ -271,72 +271,192 @@ public class Project implements Serializable {
     @JsonProperty("issues_template")
     private String issuesTemplate;
 
+    @JsonProperty("use_custom_template")
     private Boolean useCustomTemplate;
+
+    @JsonProperty("external_authorization_classification_label")
     private String externalAuthorizationClassificationLabel;
+
+    @JsonProperty("group_runners_enabled")
     private Boolean groupRunnersEnabled;
+
+    @JsonProperty("show_default_award_emojis")
     private Boolean showDefaultAwardEmojis;
+
+    @JsonProperty("warn_about_potentially_unwanted_characters")
     private Boolean warnAboutPotentiallyUnwantedCharacters;
+
+    @JsonProperty("mirror_trigger_builds")
     private Boolean mirrorTriggerBuilds;
+
+    @JsonProperty("auto_cancel_pending_pipelines")
     private AutoCancelPendingPipelines autoCancelPendingPipelines;
+
+    @JsonProperty("repository_object_format")
     private String repositoryObjectFormat;
+
+    @JsonProperty("only_allow_merge_if_all_status_checks_passed")
     private Boolean onlyAllowMergeIfAllStatusChecksPassed;
+
+    @JsonProperty("group_with_project_templates_id")
     private Integer groupWithProjectTemplatesId;
+
+    @JsonProperty("public_builds")
     private Boolean publicBuilds;
+
+    @JsonProperty("build_timeout")
     private Integer buildTimeout;
+
+    @JsonProperty("template_name")
     private String templateName;
+
+    @JsonProperty("emails_enabled")
     private Boolean emailsEnabled;
+
+    @JsonProperty("mirror")
     private Boolean mirror;
+
+    @JsonProperty("updated_at")
     private Date updatedAt;
+
+    @JsonProperty("description_html")
     private String descriptionHtml;
+
+    @JsonProperty("container_registry_image_prefix")
     private String containerRegistryImagePrefix;
+
+    @JsonProperty("container_expiration_policy")
     private ContainerExpirationPolicy containerExpirationPolicy;
+
+    @JsonProperty("service_desk_enabled")
     private Boolean serviceDeskEnabled;
+
+    @JsonProperty("import_url")
     private String importUrl;
+
+    @JsonProperty("import_type")
     private String importType;
+
+    @JsonProperty("import_error")
     private String importError;
+
+    @JsonProperty("ci_forward_deployment_rollback_allowed")
     private Boolean ciForwardDeploymentRollbackAllowed;
+
+    @JsonProperty("ci_allow_fork_pipelines_to_run_in_parent_project")
     private Boolean ciAllowForkPipelinesToRunInParentProject;
+
+    @JsonProperty("ci_id_token_sub_claim_components")
     private List<String> ciIdTokenSubClaimComponents;
+
+    @JsonProperty("ci_job_token_scope_enabled")
     private Boolean ciJobTokenScopeEnabled;
+
+    @JsonProperty("ci_separated_caches")
     private Boolean ciSeparatedCaches;
+
+    @JsonProperty("ci_restrict_pipeline_cancellation_role")
     private String ciRestrictPipelineCancellationRole;
+
+    @JsonProperty("ci_pipeline_variables_minimum_override_role")
     private String ciPipelineVariablesMinimumOverrideRole;
+
+    @JsonProperty("ci_push_repository_for_job_token_allowed")
     private Boolean ciPushRepositoryForJobTokenAllowed;
+
+    @JsonProperty("ci_delete_pipelines_in_seconds")
     private Integer ciDeletePipelinesInSeconds;
+
+    @JsonProperty("allow_pipeline_trigger_approve_deployment")
     private Boolean allowPipelineTriggerApproveDeployment;
+
+    @JsonProperty("restrict_user_defined_variables")
     private Boolean restrictUserDefinedVariables;
+
+    @JsonProperty("enforce_auth_checks_on_uploads")
     private Boolean enforceAuthChecksOnUploads;
+
+    @JsonProperty("keep_latest_artifact")
     private Boolean keepLatestArtifact;
+
+    @JsonProperty("runner_token_expiration_interval")
     private Integer runnerTokenExpirationInterval;
+
+    @JsonProperty("requirements_enabled")
     private Boolean requirementsEnabled;
+
+    @JsonProperty("security_and_compliance_enabled")
     private Boolean securityAndComplianceEnabled;
+
+    @JsonProperty("secret_push_protection_enabled")
     private Boolean secretPushProtectionEnabled;
+
+    @JsonProperty("compliance_frameworks")
     private List<String> complianceFrameworks;
 
+    @JsonProperty("analytics_access_level")
     private ProjectFeatureVisibilityAccessLevel analyticsAccessLevel;
+
+    @JsonProperty("builds_access_level")
     private ProjectFeatureVisibilityAccessLevel buildsAccessLevel;
+
+    @JsonProperty("container_registry_access_level")
     private ProjectFeatureVisibilityAccessLevel containerRegistryAccessLevel;
+
+    @JsonProperty("environments_access_level")
     private ProjectFeatureVisibilityAccessLevel environmentsAccessLevel;
+
+    @JsonProperty("feature_flags_access_level")
     private ProjectFeatureVisibilityAccessLevel featureFlagsAccessLevel;
+
+    @JsonProperty("forking_access_level")
     private ProjectFeatureVisibilityAccessLevel forkingAccessLevel;
+
+    @JsonProperty("infrastructure_access_level")
     private ProjectFeatureVisibilityAccessLevel infrastructureAccessLevel;
+
+    @JsonProperty("issues_access_level")
     private ProjectFeatureVisibilityAccessLevel issuesAccessLevel;
+
+    @JsonProperty("merge_requests_access_level")
     private ProjectFeatureVisibilityAccessLevel mergeRequestsAccessLevel;
+
+    @JsonProperty("model_experiments_access_level")
     private ProjectFeatureVisibilityAccessLevel modelExperimentsAccessLevel;
+
+    @JsonProperty("model_registry_access_level")
     private ProjectFeatureVisibilityAccessLevel modelRegistryAccessLevel;
+
+    @JsonProperty("monitor_access_level")
     private ProjectFeatureVisibilityAccessLevel monitorAccessLevel;
+
+    @JsonProperty("pages_access_level")
     private ProjectFeatureVisibilityAccessLevel pagesAccessLevel;
+
+    @JsonProperty("releases_access_level")
     private ProjectFeatureVisibilityAccessLevel releasesAccessLevel;
+
+    @JsonProperty("repository_access_level")
     private ProjectFeatureVisibilityAccessLevel repositoryAccessLevel;
+
+    @JsonProperty("requirements_access_level")
     private ProjectFeatureVisibilityAccessLevel requirementsAccessLevel;
+
+    @JsonProperty("security_and_compliance_access_level")
     private ProjectFeatureVisibilityAccessLevel securityAndComplianceAccessLevel;
+
+    @JsonProperty("snippets_access_level")
     private ProjectFeatureVisibilityAccessLevel snippetsAccessLevel;
+
+    @JsonProperty("wiki_access_level")
     private ProjectFeatureVisibilityAccessLevel wikiAccessLevel;
+
 
     @JsonProperty("_links")
     private Map<String, String> links;
 
     @JsonProperty("marked_for_deletion_on")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
 
