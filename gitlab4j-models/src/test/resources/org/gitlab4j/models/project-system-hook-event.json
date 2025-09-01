@@ -1,6 +1,6 @@
 {
-          "created_at": "2012-07-21T07:30:54Z",
-          "updated_at": "2012-07-21T07:38:22Z",
+          "created_at": "2012-07-21T07:30:54.248Z",
+          "updated_at": "2012-07-21T07:38:22.248Z",
           "event_name": "project_create",
                 "name": "StoreCloud",
          "owner_email": "johnsmith@gmail.com",

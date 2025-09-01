@@ -13,7 +13,7 @@
     "title": "Change year to 2018",
     "author_name": "Administrator",
     "author_email": "admin@example.com",
-    "created_at": "2016-07-26T17:44:29Z",
+    "created_at": "2016-07-26T17:44:29.248Z",
     "message": "Change year to 2018"
   }, {
     "id": "aa24655de48b36335556ac8a3cd8bb521f977cbd",
@@ -21,7 +21,7 @@
     "title": "Update LICENSE",
     "author_name": "Administrator",
     "author_email": "admin@example.com",
-    "created_at": "2016-07-25T17:21:53Z",
+    "created_at": "2016-07-25T17:21:53.248Z",
     "message": "Update LICENSE"
   }, {
     "id": "3eed087b29835c48015768f839d76e5ea8f07a24",
@@ -29,7 +29,7 @@
     "title": "Add license",
     "author_name": "Administrator",
     "author_email": "admin@example.com",
-    "created_at": "2016-07-25T17:21:20Z",
+    "created_at": "2016-07-25T17:21:20.248Z",
     "message": "Add license"
   }],
   "diffs": [{

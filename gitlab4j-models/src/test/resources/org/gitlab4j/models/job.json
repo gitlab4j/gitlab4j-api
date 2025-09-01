@@ -2,7 +2,7 @@
     "commit": {
       "author_email": "admin@example.com",
       "author_name": "Administrator",
-      "created_at": "2015-12-24T16:51:14Z",
+      "created_at": "2015-12-24T16:51:14.248Z",
       "id": "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
       "message": "Test the CI integration.",
       "short_id": "0ff3ae19",
@@ -65,7 +65,7 @@
       "name_with_namespace": "Diaspora / Diaspora Project Site",
       "path": "diaspora-project-site",
       "path_with_namespace": "diaspora/diaspora-project-site",
-      "created_at": "2013-09-30T13:46:02Z"
+      "created_at": "2013-09-30T13:46:02.248Z"
       
     }
 }

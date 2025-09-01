@@ -6,10 +6,10 @@
       "parent_ids": [
         "cc6e14f9328fa6d7b5a0d3c30dc2002a3f2a3822"
       ],
-      "authored_date": "2015-12-18T08:12:22Z",
+      "authored_date": "2015-12-18T08:12:22.248Z",
       "author_name": "John Doe",
       "author_email": "john.doe@example.com",
-      "committed_date": "2015-12-18T08:12:22Z",
+      "committed_date": "2015-12-18T08:12:22.248Z",
       "committer_name": "John Doe",
       "committer_email": "john.doe@example.com"
     },

@@ -6,10 +6,10 @@
   "author_email": "dmitriy.zaporozhets@gmail.com",
   "committer_name": "Dmitriy",
   "committer_email": "dmitriy.zaporozhets@gmail.com",
-  "created_at": "2012-09-20T06:06:12Z",
+  "created_at": "2012-09-20T06:06:12.248Z",
   "message": "Sanitize for network graph",
-  "committed_date": "2012-09-20T06:06:12Z",
-  "authored_date": "2012-09-20T06:06:12Z",
+  "committed_date": "2012-09-20T06:06:12.248Z",
+  "authored_date": "2012-09-20T06:06:12.248Z",
   "parent_ids": [
     "ae1d9fb46aa2b07ee9836d49862ec4e2c46fbbba"
   ],

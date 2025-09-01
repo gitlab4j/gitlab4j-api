@@ -45,8 +45,8 @@
       6
     ],
     "title": "MS-Viewport",
-    "created_at": "2013-12-03T17:23:34Z",
-    "updated_at": "2013-12-03T17:23:34Z",
+    "created_at": "2013-12-03T17:23:34.248Z",
+    "updated_at": "2013-12-03T17:23:34.248Z",
     "milestone_id": 1,
     "state": "opened",
     "blocking_discussions_resolved": true,
@@ -91,7 +91,7 @@
     "last_commit": {
       "id": "da1560886d4f094c3e6c9ef40349f7d38b5d27d7",
       "message": "fixed readme",
-      "timestamp": "2012-01-03T23:36:29Z",
+      "timestamp": "2012-01-03T23:36:29.248Z",
       "url": "http://example.com/awesome_space/awesome_project/commits/da1560886d4f094c3e6c9ef40349f7d38b5d27d7",
       "author": {
         "name": "GitLab dev user",
@@ -104,8 +104,8 @@
         "title": "API",
         "color": "#ffffff",
         "project_id": 14,
-        "created_at": "2013-12-03T17:15:43Z",
-        "updated_at": "2013-12-03T17:15:43Z",
+        "created_at": "2013-12-03T17:15:43.248Z",
+        "updated_at": "2013-12-03T17:15:43.248Z",
         "template": false,
         "description": "API related issues",
         "type": "ProjectLabel",
@@ -113,7 +113,7 @@
       }
     ],
     "head_pipeline_id": 848574,
-    "last_edited_at": "2014-04-03T17:23:34Z",
+    "last_edited_at": "2014-04-03T17:23:34.248Z",
     "last_edited_by_id": 59,
     "merge_commit_sha": "e3b7e97417fd6318a5c31b21b29d2acc5c86c3ae",
     "merge_user_id": 59,
@@ -136,8 +136,8 @@
       "title": "API",
       "color": "#ffffff",
       "project_id": 14,
-      "created_at": "2013-12-03T17:15:43Z",
-      "updated_at": "2013-12-03T17:15:43Z",
+      "created_at": "2013-12-03T17:15:43.248Z",
+      "updated_at": "2013-12-03T17:15:43.248Z",
       "template": false,
       "description": "API related issues",
       "type": "ProjectLabel",
@@ -149,8 +149,8 @@
       "current": 2
     },
     "updated_at": {
-      "previous": "2013-09-15T16:50:55Z",
-      "current": "2013-12-03T17:23:34Z"
+      "previous": "2013-09-15T16:50:55.248Z",
+      "current": "2013-12-03T17:23:34.248Z"
     },
     "updated_by_id": {
       "previous": 2,
@@ -178,8 +178,8 @@
           "title": "API",
           "color": "#ffffff",
           "project_id": 14,
-          "created_at": "2013-12-03T17:15:43Z",
-          "updated_at": "2013-12-03T17:15:43Z",
+          "created_at": "2013-12-03T17:15:43.248Z",
+          "updated_at": "2013-12-03T17:15:43.248Z",
           "template": false,
           "description": "API related issues",
           "type": "ProjectLabel",
@@ -192,8 +192,8 @@
           "title": "Platform",
           "color": "#123123",
           "project_id": 14,
-          "created_at": "2013-12-03T17:15:43Z",
-          "updated_at": "2013-12-03T17:15:43Z",
+          "created_at": "2013-12-03T17:15:43.248Z",
+          "updated_at": "2013-12-03T17:15:43.248Z",
           "template": false,
           "description": "Platform related issues",
           "type": "ProjectLabel",

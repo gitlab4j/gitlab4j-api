@@ -9,9 +9,9 @@
     "detailed_merge_status": "can_be_merged",
     "upvotes":0,
     "downvotes":0,
-    "created_at": "2016-12-03T17:23:34Z",
-    "updated_at": "2016-12-03T17:23:34Z",
-    "merged_at": "2016-12-03T17:23:34Z",
+    "created_at": "2016-12-03T17:23:34.248Z",
+    "updated_at": "2016-12-03T17:23:34.248Z",
+    "merged_at": "2016-12-03T17:23:34.248Z",
     "squash_commit_sha": "37a1f246848c3dc2bb82964a183417e2e72fe1a7",
     "merged_by": {
         "id": 7,
@@ -36,7 +36,7 @@
         "email":"admin@local.host",
         "name":"Administrator",
         "state":"active",
-        "created_at":"2012-04-29T08:46:00Z"
+        "created_at":"2012-04-29T08:46:00.248Z"
     },
     "assignee":{
         "id":1,
@@ -44,7 +44,7 @@
         "email":"admin@local.host",
         "name":"Administrator",
         "state":"active",
-        "created_at":"2012-04-29T08:46:00Z"
+        "created_at":"2012-04-29T08:46:00.248Z"
     },
     "draft": false,
     "allow_collaboration": false,

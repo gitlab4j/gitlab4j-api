@@ -33,11 +33,11 @@
     "assignee_id": 51,
     "author_id": 51,
     "project_id": 14,
-    "created_at": "2013-12-03T17:15:43Z",
-    "updated_at": "2013-12-03T17:15:43Z",
+    "created_at": "2013-12-03T17:15:43.248Z",
+    "updated_at": "2013-12-03T17:15:43.248Z",
     "position": 0,
     "updated_by_id": 1,
-    "last_edited_at": "2013-12-03T18:15:43Z",
+    "last_edited_at": "2013-12-03T18:15:43.248Z",
     "last_edited_by_id": 1,
     "relative_position": 0,
     "description": "Create new API for manipulations with repository",
@@ -46,7 +46,7 @@
     "state_id": 1,
     "confidential": false,
     "discussion_locked": true,
-    "due_date": "2014-12-03T18:15:43Z",
+    "due_date": "2014-12-03T18:15:43.248Z",
     "moved_to_id": 1,
     "duplicated_to_id": 1,
     "time_estimate": 1800,
@@ -68,8 +68,8 @@
         "title": "API",
         "color": "#ffffff",
         "project_id": 14,
-        "created_at": "2013-12-03T17:15:43Z",
-        "updated_at": "2013-12-03T17:15:43Z",
+        "created_at": "2013-12-03T17:15:43.248Z",
+        "updated_at": "2013-12-03T17:15:43.248Z",
         "template": false,
         "description": "API related issues",
         "type": "ProjectLabel",
@@ -90,16 +90,16 @@
   "labels":[],
   "changes": {
     "due_date":{
-       "previous": "2020-06-01T08:00:00Z",
-       "current": "2020-02-04T08:00:00Z"
+       "previous": "2020-06-01T08:00:00.248Z",
+       "current": "2020-02-04T08:00:00.248Z"
     },
     "confidential": {
        "previous": false,
        "current": true
     },
     "updated_at": {
-       "previous":"2019-04-12T01:10:28Z",
-       "current":"2019-04-12T01:11:33Z"
+       "previous":"2019-04-12T01:10:28.248Z",
+       "current":"2019-04-12T01:11:33.248Z"
     },
     "updated_by_id": {
        "previous": 2,
@@ -123,8 +123,8 @@
         "title": "API",
         "color": "#ffffff",
         "project_id": 14,
-        "created_at": "2013-12-03T17:15:43Z",
-        "updated_at": "2013-12-03T17:15:43Z",
+        "created_at": "2013-12-03T17:15:43.248Z",
+        "updated_at": "2013-12-03T17:15:43.248Z",
         "template": false,
         "description": "API related issues",
         "type": "ProjectLabel",
@@ -135,8 +135,8 @@
         "title": "Platform",
         "color": "#123123",
         "project_id": 14,
-        "created_at": "2013-12-03T17:15:43Z",
-        "updated_at": "2013-12-03T17:15:43Z",
+        "created_at": "2013-12-03T17:15:43.248Z",
+        "updated_at": "2013-12-03T17:15:43.248Z",
         "template": false,
         "description": "Platform related issues",
         "type": "ProjectLabel",

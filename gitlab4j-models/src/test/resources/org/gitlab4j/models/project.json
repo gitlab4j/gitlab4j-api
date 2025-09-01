@@ -6,8 +6,8 @@
   "name_with_namespace" : "Diaspora / Diaspora Project Site",
   "path" : "diaspora-project-site",
   "path_with_namespace" : "diaspora/diaspora-project-site",
-  "created_at" : "2013-09-30T13:46:02Z",
-  "updated_at" : "2013-09-30T13:46:02Z",
+  "created_at" : "2013-09-30T13:46:02.248Z",
+  "updated_at" : "2013-09-30T13:46:02.248Z",
   "default_branch" : "master",
   "tag_list" : [ "example", "disapora project" ],
   "topics" : [ "example", "disapora project" ],
@@ -18,7 +18,7 @@
   "forks_count" : 0,
   "avatar_url" : "http://example.com/uploads/project/avatar/3/uploads/avatar.png",
   "star_count" : 0,
-  "last_activity_at" : "2013-09-30T13:46:02Z",
+  "last_activity_at" : "2013-09-30T13:46:02.248Z",
   "namespace" : {
     "id" : 3,
     "name" : "Diaspora",
@@ -51,7 +51,7 @@
     "state" : "active",
     "avatar_url" : "https://secure.gravatar.com/avatar/9b7126c28ab977c4c4a351df3a1d1d24?s=80&d=identicon",
     "web_url" : "https://example.com/user1234",
-    "created_at" : "2013-09-30T13:46:02Z"
+    "created_at" : "2013-09-30T13:46:02.248Z"
   },
   "resolve_outdated_diff_discussions" : false,
   "container_expiration_policy" : {

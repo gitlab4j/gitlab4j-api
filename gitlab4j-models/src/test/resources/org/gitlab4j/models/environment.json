@@ -50,7 +50,7 @@
       "commit": {
         "id": "416d8ea11849050d3d1f5104cf8cf51053e790ab",
         "short_id": "416d8ea1",
-        "created_at": "2016-01-02T15:39:18Z",
+        "created_at": "2016-01-02T15:39:18.248Z",
         "parent_ids": [
           "e9a4449c95c64358840902508fc827f1a2eab7df"
         ],
@@ -58,10 +58,10 @@
         "message": "Removed fabric to fix #40\n",
         "author_name": "Administrator",
         "author_email": "admin@example.com",
-        "authored_date": "2016-01-02T15:39:18Z",
+        "authored_date": "2016-01-02T15:39:18.248Z",
         "committer_name": "Administrator",
         "committer_email": "admin@example.com",
-        "committed_date": "2016-01-02T15:39:18Z"
+        "committed_date": "2016-01-02T15:39:18.248Z"
       },
       "pipeline": {
         "id": 34,
