@@ -508,6 +508,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testPullMirror() throws Exception {
+        PullMirror value = unmarshalResource(PullMirror.class, "pull-mirror.json");
+        assertTrue(compareJson(value, "pull-mirror.json"));
+    }
+
+    @Test
     public void testRegistryRepositories() throws Exception {
         List<RegistryRepository> repos = unmarshalResourceList(RegistryRepository.class, "registry-repositories.json");
         assertTrue(compareJson(repos, "registry-repositories.json"));
