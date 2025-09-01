@@ -18,7 +18,7 @@ public class CreateRunnerResponse implements Serializable {
     private String token;
 
     @JsonProperty("token_expires_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date tokenExpiresAt;
 
     public Long getId() {

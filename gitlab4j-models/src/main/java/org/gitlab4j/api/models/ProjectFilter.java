@@ -79,11 +79,11 @@ public class ProjectFilter implements Serializable {
     private Long idBefore;
 
     @JsonProperty("last_activity_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastActivityAfter;
 
     @JsonProperty("last_activity_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastActivityBefore;
 
     @JsonProperty("repository_storage")

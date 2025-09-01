@@ -35,7 +35,7 @@ public class ProjectAccessToken implements Serializable {
     private Boolean active;
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     @JsonProperty("revoked")
@@ -45,7 +45,7 @@ public class ProjectAccessToken implements Serializable {
     private Long accessLevel;
 
     @JsonProperty("last_used_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastUsedAt;
 
     @JsonProperty("token")

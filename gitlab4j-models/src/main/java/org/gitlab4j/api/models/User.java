@@ -27,11 +27,11 @@ public class User extends AbstractUser<User> {
     private Integer colorSchemeId;
 
     @JsonProperty("confirmed_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date confirmedAt;
 
     @JsonProperty("current_sign_in_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date currentSignInAt;
 
     @JsonProperty("custom_attributes")
@@ -53,11 +53,11 @@ public class User extends AbstractUser<User> {
     private Boolean isAdmin;
 
     @JsonProperty("last_activity_on")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastActivityOn;
 
     @JsonProperty("last_sign_in_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastSignInAt;
 
     @JsonProperty("linkedin")

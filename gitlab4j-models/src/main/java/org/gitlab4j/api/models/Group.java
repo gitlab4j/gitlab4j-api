@@ -135,7 +135,7 @@ public class Group extends AbstractGroup<Group> {
 
     /**
      * The creation date of the project.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
     private Date createdAt;

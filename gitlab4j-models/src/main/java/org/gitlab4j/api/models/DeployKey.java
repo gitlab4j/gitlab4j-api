@@ -37,10 +37,10 @@ public class DeployKey implements Serializable {
 
     /**
      * The creation date of the deploy key.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     public Long getId() {

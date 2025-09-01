@@ -57,7 +57,7 @@ public class Project implements Serializable {
     private Boolean containerRegistryEnabled;
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     @JsonProperty("creator_id")
@@ -91,7 +91,7 @@ public class Project implements Serializable {
     private Boolean jobsEnabled;
 
     @JsonProperty("last_activity_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastActivityAt;
 
     @JsonProperty("lfs_enabled")

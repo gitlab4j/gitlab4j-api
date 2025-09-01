@@ -54,12 +54,12 @@ public class PipelineFilter implements Serializable {
 
     /** Return pipelines updated after the specified date. */
     @JsonProperty("updated_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAfter;
 
     /** Return pipelines updated before the specified date. */
     @JsonProperty("updated_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedBefore;
 
     /** {@link org.gitlab4j.models.Constants.PipelineOrderBy} Order pipelines by id, status, ref, updated_at or user_id (default: id). */

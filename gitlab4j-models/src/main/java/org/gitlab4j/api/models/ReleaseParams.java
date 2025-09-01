@@ -31,7 +31,7 @@ public class ReleaseParams implements Serializable {
     private Assets assets;
 
     @JsonProperty("released_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date releasedAt;
 
     public String getName() {

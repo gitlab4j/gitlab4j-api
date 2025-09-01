@@ -29,11 +29,11 @@ public class RelatedEpic extends AbstractEpic<RelatedEpic> {
     private LinkType linkType;
 
     @JsonProperty("link_created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date linkCreatedAt;
 
     @JsonProperty("link_updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date linkUpdatedAt;
 
     public Boolean getStartDateIsFixed() {

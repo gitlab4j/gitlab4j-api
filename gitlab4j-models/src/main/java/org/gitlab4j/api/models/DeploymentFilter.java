@@ -30,17 +30,17 @@ public class DeploymentFilter implements Serializable {
     private SortOrder sortOrder;
 
     /**
-     * Return deployments updated after the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Return deployments updated after the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAfter;
 
     /**
-     * Return deployments updated before the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Return deployments updated before the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedBefore;
 
     /**

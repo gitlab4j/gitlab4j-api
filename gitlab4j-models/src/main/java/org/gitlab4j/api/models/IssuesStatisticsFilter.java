@@ -73,31 +73,31 @@ public class IssuesStatisticsFilter implements Serializable {
     private String in;
 
     /**
-     * Return issues created after the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Return issues created after the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAfter;
 
     /**
-     * Return issues created before the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Return issues created before the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdBefore;
 
     /**
-     * Return issues updated after the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Return issues updated after the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAfter;
 
     /**
-     * Return issues updated before the specified date. Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Return issues updated before the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedBefore;
 
     /**

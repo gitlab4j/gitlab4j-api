@@ -57,26 +57,26 @@ public class Deployable implements Serializable {
 
     /**
      * The creation date of the deployable.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     /**
      * The date the deployable was started.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("started_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date startedAt;
 
     /**
      * The date the deployable was finished.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("finished_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date finishedAt;
 
     /**
@@ -123,10 +123,10 @@ public class Deployable implements Serializable {
 
     /**
      * The expiration date of the artifacts.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("artifacts_expire_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date artifactsExpireAt;
 
     public Long getId() {

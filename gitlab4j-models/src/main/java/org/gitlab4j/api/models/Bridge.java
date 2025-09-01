@@ -25,34 +25,34 @@ public class Bridge implements Serializable {
 
     /**
      * The creation date of the bridge.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     /**
      * The start date of the bridge.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("started_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date startedAt;
 
     /**
      * The finish date of the bridge.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("finished_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date finishedAt;
 
     /**
      * The date the bridge was erased.
-     * Expected in ISO 8601 format (2019-03-15T08:00:00Z).
+     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("erased_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date erasedAt;
 
     /**
