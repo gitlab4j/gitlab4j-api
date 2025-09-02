@@ -451,7 +451,6 @@ public class Project implements Serializable {
     @JsonProperty("wiki_access_level")
     private ProjectFeatureVisibilityAccessLevel wikiAccessLevel;
 
-
     @JsonProperty("_links")
     private Map<String, String> links;
 

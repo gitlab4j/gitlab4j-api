@@ -3,8 +3,9 @@ package org.gitlab4j.api.models;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gitlab4j.models.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PullMirror implements Serializable {
     private static final long serialVersionUID = 1L;
