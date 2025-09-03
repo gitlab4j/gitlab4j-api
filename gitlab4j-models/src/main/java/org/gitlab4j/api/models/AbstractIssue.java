@@ -6,10 +6,11 @@ import java.util.List;
 
 import org.gitlab4j.models.Constants.IssueState;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.LongNode;
@@ -75,21 +76,21 @@ public abstract class AbstractIssue implements Serializable {
      * The date when the issue was created.
      */
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     /**
      * The date when the issue was last updated.
      */
     @JsonProperty("updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAt;
 
     /**
      * The date when the issue was closed.
      */
     @JsonProperty("closed_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date closedAt;
 
     /**

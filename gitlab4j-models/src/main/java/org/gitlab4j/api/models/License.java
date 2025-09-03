@@ -5,9 +5,10 @@ import java.util.Date;
 import java.util.Map;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class License implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -19,15 +20,15 @@ public class License implements Serializable {
     private String plan;
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     @JsonProperty("starts_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date startsAt;
 
     @JsonProperty("expires_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date expiresAt;
 
     @JsonProperty("historical_max")

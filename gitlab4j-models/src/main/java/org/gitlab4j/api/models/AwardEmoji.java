@@ -5,11 +5,12 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class AwardEmoji implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -61,14 +62,14 @@ public class AwardEmoji implements Serializable {
      * The date when the award emoji was created.
      */
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     /**
      * The date when the award emoji was last updated.
      */
     @JsonProperty("updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAt;
 
     /**

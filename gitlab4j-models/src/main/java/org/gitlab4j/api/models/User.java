@@ -4,9 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class User extends AbstractUser<User> {
     private static final long serialVersionUID = 1L;
@@ -27,11 +28,11 @@ public class User extends AbstractUser<User> {
     private Integer colorSchemeId;
 
     @JsonProperty("confirmed_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date confirmedAt;
 
     @JsonProperty("current_sign_in_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date currentSignInAt;
 
     @JsonProperty("custom_attributes")
@@ -53,11 +54,11 @@ public class User extends AbstractUser<User> {
     private Boolean isAdmin;
 
     @JsonProperty("last_activity_on")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date lastActivityOn;
 
     @JsonProperty("last_sign_in_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date lastSignInAt;
 
     @JsonProperty("linkedin")

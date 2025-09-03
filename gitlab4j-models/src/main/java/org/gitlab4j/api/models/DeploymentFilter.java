@@ -9,10 +9,11 @@ import org.gitlab4j.models.Constants.DeploymentStatus;
 import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.ISO8601;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class DeploymentFilter implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -33,14 +34,14 @@ public class DeploymentFilter implements Serializable {
      * Return deployments updated after the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAfter;
 
     /**
      * Return deployments updated before the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedBefore;
 
     /**

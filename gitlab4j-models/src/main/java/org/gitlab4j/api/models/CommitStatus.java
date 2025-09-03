@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class CommitStatus implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -33,7 +34,7 @@ public class CommitStatus implements Serializable {
      * The creation date of the commit status.
      */
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     /**
@@ -46,7 +47,7 @@ public class CommitStatus implements Serializable {
      * The date the commit status was finished.
      */
     @JsonProperty("finished_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date finishedAt;
 
     /**
@@ -83,7 +84,7 @@ public class CommitStatus implements Serializable {
      * The date the commit status was started.
      */
     @JsonProperty("started_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date startedAt;
 
     /**

@@ -5,9 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class PipelineSchedule implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -28,15 +29,15 @@ public class PipelineSchedule implements Serializable {
     private String cronTimezone;
 
     @JsonProperty("next_run_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date nextRunAt;
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     @JsonProperty("updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAt;
 
     @JsonProperty("active")

@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class CreateRunnerResponse implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -18,7 +19,7 @@ public class CreateRunnerResponse implements Serializable {
     private String token;
 
     @JsonProperty("token_expires_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date tokenExpiresAt;
 
     public Long getId() {

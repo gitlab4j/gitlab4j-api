@@ -7,8 +7,10 @@ import java.util.Map;
 
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic<E> implements Serializable {
@@ -104,21 +106,21 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
      * The date when the epic was created.
      */
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     /**
      * The date when the epic was last updated.
      */
     @JsonProperty("updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAt;
 
     /**
      * The date when the epic was closed.
      */
     @JsonProperty("closed_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date closedAt;
 
     /**

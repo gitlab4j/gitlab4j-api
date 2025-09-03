@@ -7,10 +7,11 @@ import java.util.List;
 import org.gitlab4j.models.Constants.IssueScope;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.ISO8601;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  *  This class is used to filter issues when getting issue statistics. of them.
@@ -76,28 +77,28 @@ public class IssuesStatisticsFilter implements Serializable {
      * Return issues created after the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAfter;
 
     /**
      * Return issues created before the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdBefore;
 
     /**
      * Return issues updated after the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAfter;
 
     /**
      * Return issues updated before the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedBefore;
 
     /**

@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.api.models.ImportStatus.Status;
-import org.gitlab4j.models.Constants.AutoCancelPendingPipelines;
-import org.gitlab4j.models.Constants.AutoDevopsDeployStrategy;
-import org.gitlab4j.models.Constants.BuildGitStrategy;
-import org.gitlab4j.models.Constants.ProjectFeatureVisibilityAccessLevel;
-import org.gitlab4j.models.Constants.SquashOption;
+import org.gitlab4j.models.Constants.*;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Project implements Serializable {
@@ -57,7 +58,7 @@ public class Project implements Serializable {
     private Boolean containerRegistryEnabled;
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     @JsonProperty("creator_id")
@@ -91,7 +92,7 @@ public class Project implements Serializable {
     private Boolean jobsEnabled;
 
     @JsonProperty("last_activity_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date lastActivityAt;
 
     @JsonProperty("lfs_enabled")

@@ -4,25 +4,25 @@ import java.util.Date;
 
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class ProjectSystemHookEvent extends AbstractSystemHookEvent {
-    private static final long serialVersionUID = 1L;
-
     public static final String PROJECT_CREATE_EVENT = "project_create";
     public static final String PROJECT_DESTROY_EVENT = "project_destroy";
     public static final String PROJECT_RENAME_EVENT = "project_rename";
     public static final String PROJECT_TRANSFER_EVENT = "project_transfer";
     public static final String PROJECT_UPDATE_EVENT = "project_update";
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     @JsonProperty("updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAt;
 
     @JsonProperty("event_name")

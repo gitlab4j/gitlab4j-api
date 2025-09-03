@@ -11,11 +11,12 @@ import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.ISO8601;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  *  This class is used to filter Groups when getting lists of epics.
@@ -69,21 +70,21 @@ public class EpicFilter implements Serializable {
      * The date after which the epic was created.
      */
     @JsonProperty("created_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAfter;
 
     /**
      * The date after which the epic was updated.
      */
     @JsonProperty("updated_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAfter;
 
     /**
      * The date before which the epic was updated.
      */
     @JsonProperty("updated_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedBefore;
 
     /**

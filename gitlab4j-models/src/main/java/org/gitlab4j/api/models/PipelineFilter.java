@@ -9,10 +9,11 @@ import org.gitlab4j.models.Constants.PipelineSource;
 import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  *  This class is used to filter Pipelines when getting lists of them.
@@ -54,12 +55,12 @@ public class PipelineFilter implements Serializable {
 
     /** Return pipelines updated after the specified date. */
     @JsonProperty("updated_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAfter;
 
     /** Return pipelines updated before the specified date. */
     @JsonProperty("updated_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedBefore;
 
     /** {@link org.gitlab4j.models.Constants.PipelineOrderBy} Order pipelines by id, status, ref, updated_at or user_id (default: id). */

@@ -7,15 +7,15 @@ import org.gitlab4j.api.models.Build;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class PipelineEvent extends AbstractEvent {
-    private static final long serialVersionUID = 1L;
-
     public static final String X_GITLAB_EVENT = "Pipeline Hook";
     public static final String OBJECT_KIND = "pipeline";
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
@@ -103,6 +103,11 @@ public class PipelineEvent extends AbstractEvent {
         this.builds = builds;
     }
 
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
+    }
+
     public static class ObjectAttributes {
 
         @JsonProperty("id")
@@ -139,11 +144,11 @@ public class PipelineEvent extends AbstractEvent {
         private List<String> stages;
 
         @JsonProperty("created_at")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+        @JsonDeserialize(using = MultiDateFormatDeserializer.class)
         private Date createdAt;
 
         @JsonProperty("finished_at")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+        @JsonDeserialize(using = MultiDateFormatDeserializer.class)
         private Date finishedAt;
 
         @JsonProperty("duration")
@@ -293,10 +298,5 @@ public class PipelineEvent extends AbstractEvent {
         public void setUrl(String url) {
             this.url = url;
         }
-    }
-
-    @Override
-    public String toString() {
-        return (JacksonJson.toJsonString(this));
     }
 }

@@ -10,16 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.models.Constants;
-import org.gitlab4j.models.Constants.MergeRequestOrderBy;
-import org.gitlab4j.models.Constants.MergeRequestScope;
-import org.gitlab4j.models.Constants.MergeRequestSearchIn;
-import org.gitlab4j.models.Constants.MergeRequestState;
-import org.gitlab4j.models.Constants.SortOrder;
+import org.gitlab4j.models.Constants.*;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * This class is used to filter merge requests when getting lists of them.
@@ -55,19 +56,19 @@ public class MergeRequestFilter implements Serializable {
     private List<String> labels;
 
     @JsonProperty("created_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAfter;
 
     @JsonProperty("created_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdBefore;
 
     @JsonProperty("updated_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAfter;
 
     @JsonProperty("updated_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedBefore;
 
     @JsonProperty("scope")

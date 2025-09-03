@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

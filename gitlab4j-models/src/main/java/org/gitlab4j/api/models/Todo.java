@@ -8,8 +8,8 @@ import org.gitlab4j.models.Constants.TodoAction;
 import org.gitlab4j.models.Constants.TodoState;
 import org.gitlab4j.models.Constants.TodoType;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
@@ -52,7 +52,7 @@ public class Todo implements Serializable {
     private TodoState state;
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     public Long getId() {

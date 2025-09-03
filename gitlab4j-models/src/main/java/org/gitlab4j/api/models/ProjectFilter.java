@@ -8,9 +8,10 @@ import org.gitlab4j.models.Constants.ProjectOrderBy;
 import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified user.
@@ -79,11 +80,11 @@ public class ProjectFilter implements Serializable {
     private Long idBefore;
 
     @JsonProperty("last_activity_after")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date lastActivityAfter;
 
     @JsonProperty("last_activity_before")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date lastActivityBefore;
 
     @JsonProperty("repository_storage")

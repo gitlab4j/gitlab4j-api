@@ -3,8 +3,10 @@ package org.gitlab4j.api.models;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class GroupHook implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -157,7 +159,7 @@ public class GroupHook implements Serializable {
      * The date until the webhook is disabled. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("disabled_until")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date disabledUntil;
 
     /**
@@ -170,7 +172,7 @@ public class GroupHook implements Serializable {
      * The creation date of the webhook. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     /**

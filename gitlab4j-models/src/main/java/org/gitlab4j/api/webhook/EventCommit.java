@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.gitlab4j.api.models.Author;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class EventCommit {
 
@@ -21,7 +22,7 @@ public class EventCommit {
     private String title;
 
     @JsonProperty("timestamp")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date timestamp;
 
     @JsonProperty("url")

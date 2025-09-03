@@ -5,9 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class Commit implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -22,7 +23,7 @@ public class Commit implements Serializable {
      * The date when the commit was authored.
      */
     @JsonProperty("authored_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date authoredDate;
 
     /**
@@ -41,7 +42,7 @@ public class Commit implements Serializable {
      * The date when the commit was committed.
      */
     @JsonProperty("committed_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date committedDate;
 
     /**
@@ -60,7 +61,7 @@ public class Commit implements Serializable {
      * The creation date of the commit.
      */
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     /**
@@ -103,7 +104,7 @@ public class Commit implements Serializable {
      * The timestamp of the commit.
      */
     @JsonProperty("timestamp")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date timestamp;
 
     /**

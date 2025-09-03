@@ -3,9 +3,10 @@ package org.gitlab4j.api.systemhooks;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class GroupMemberSystemHookEvent extends AbstractSystemHookEvent {
     private static final long serialVersionUID = 1L;
@@ -14,11 +15,11 @@ public class GroupMemberSystemHookEvent extends AbstractSystemHookEvent {
     public static final String GROUP_MEMBER_REMOVED_EVENT = "user_remove_from_group";
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     @JsonProperty("updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAt;
 
     @JsonProperty("event_name")
