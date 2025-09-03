@@ -33,7 +33,6 @@ public class DeployToken implements Serializable {
 
     /**
      * The expiration date of the deploy token.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("expires_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")

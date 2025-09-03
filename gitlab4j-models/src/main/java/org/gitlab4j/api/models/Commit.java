@@ -20,7 +20,6 @@ public class Commit implements Serializable {
 
     /**
      * The date when the commit was authored.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("authored_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -40,7 +39,6 @@ public class Commit implements Serializable {
 
     /**
      * The date when the commit was committed.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("committed_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -60,7 +58,6 @@ public class Commit implements Serializable {
 
     /**
      * The creation date of the commit.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -104,7 +101,6 @@ public class Commit implements Serializable {
 
     /**
      * The timestamp of the commit.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("timestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")

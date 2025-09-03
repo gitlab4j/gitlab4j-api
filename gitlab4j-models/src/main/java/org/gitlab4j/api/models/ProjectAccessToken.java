@@ -24,7 +24,6 @@ public class ProjectAccessToken implements Serializable {
     private String name;
 
     @JsonProperty("expires_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date expiresAt;
 

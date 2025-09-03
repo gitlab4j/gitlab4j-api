@@ -28,7 +28,6 @@ public class PersonalAccessToken implements Serializable {
 
     @JsonProperty("expires_at")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expiresAt;
 
     @JsonProperty("id")

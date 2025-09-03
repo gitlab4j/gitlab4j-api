@@ -86,7 +86,6 @@ public class Event implements Serializable {
 
     /**
      * The creation date of the event.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")

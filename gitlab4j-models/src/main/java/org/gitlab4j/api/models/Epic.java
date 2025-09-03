@@ -25,10 +25,8 @@ public class Epic extends AbstractEpic<Epic> {
 
     /**
      * The due date inherited from a source, if applicable.
-     * Expected in format "yyyy-MM-dd".
      */
     @JsonProperty("due_date_from_inherited_source")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDateFromInheritedSource;
 

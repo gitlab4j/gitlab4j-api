@@ -455,7 +455,6 @@ public class Project implements Serializable {
     private Map<String, String> links;
 
     @JsonProperty("marked_for_deletion_on")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
 

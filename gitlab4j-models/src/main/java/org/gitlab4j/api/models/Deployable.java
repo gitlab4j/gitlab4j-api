@@ -57,7 +57,6 @@ public class Deployable implements Serializable {
 
     /**
      * The creation date of the deployable.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -65,7 +64,6 @@ public class Deployable implements Serializable {
 
     /**
      * The date the deployable was started.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("started_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -73,7 +71,6 @@ public class Deployable implements Serializable {
 
     /**
      * The date the deployable was finished.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("finished_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -123,7 +120,6 @@ public class Deployable implements Serializable {
 
     /**
      * The expiration date of the artifacts.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("artifacts_expire_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")

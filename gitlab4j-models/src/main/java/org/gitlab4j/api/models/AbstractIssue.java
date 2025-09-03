@@ -73,7 +73,6 @@ public abstract class AbstractIssue implements Serializable {
 
     /**
      * The date when the issue was created.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -81,7 +80,6 @@ public abstract class AbstractIssue implements Serializable {
 
     /**
      * The date when the issue was last updated.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -89,7 +87,6 @@ public abstract class AbstractIssue implements Serializable {
 
     /**
      * The date when the issue was closed.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("closed_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -109,10 +106,8 @@ public abstract class AbstractIssue implements Serializable {
 
     /**
      * The due date of the issue.
-     * Expected in format "yyyy-MM-dd".
      */
     @JsonProperty("due_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
 

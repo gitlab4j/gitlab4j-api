@@ -67,7 +67,6 @@ public class EpicFilter implements Serializable {
 
     /**
      * The date after which the epic was created.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_after")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -75,7 +74,6 @@ public class EpicFilter implements Serializable {
 
     /**
      * The date after which the epic was updated.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_after")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -83,7 +81,6 @@ public class EpicFilter implements Serializable {
 
     /**
      * The date before which the epic was updated.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_before")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")

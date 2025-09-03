@@ -25,7 +25,6 @@ public class Bridge implements Serializable {
 
     /**
      * The creation date of the bridge.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -33,7 +32,6 @@ public class Bridge implements Serializable {
 
     /**
      * The start date of the bridge.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("started_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -41,7 +39,6 @@ public class Bridge implements Serializable {
 
     /**
      * The finish date of the bridge.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("finished_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -49,7 +46,6 @@ public class Bridge implements Serializable {
 
     /**
      * The date the bridge was erased.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("erased_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")

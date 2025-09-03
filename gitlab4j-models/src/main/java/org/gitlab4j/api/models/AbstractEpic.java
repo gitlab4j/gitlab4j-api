@@ -81,34 +81,27 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
 
     /**
      * The start date of the epic.
-     * Expected in format "yyyy-MM-dd".
      */
     @JsonProperty("start_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
 
     /**
      * The due date of the epic.
-     * Expected in format "yyyy-MM-dd".
      */
     @JsonProperty("due_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
 
     /**
      * The end date of the epic.
-     * Expected in format "yyyy-MM-dd".
      */
     @JsonProperty("end_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date endDate;
 
     /**
      * The date when the epic was created.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -116,7 +109,6 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
 
     /**
      * The date when the epic was last updated.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -124,7 +116,6 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
 
     /**
      * The date when the epic was closed.
-     * Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("closed_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
