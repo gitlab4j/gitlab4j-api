@@ -8,6 +8,7 @@ import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class User extends AbstractUser<User> {
     private static final long serialVersionUID = 1L;
@@ -54,7 +55,7 @@ public class User extends AbstractUser<User> {
     private Boolean isAdmin;
 
     @JsonProperty("last_activity_on")
-    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date lastActivityOn;
 
     @JsonProperty("last_sign_in_at")

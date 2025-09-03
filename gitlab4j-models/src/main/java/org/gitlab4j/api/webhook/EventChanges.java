@@ -7,10 +7,12 @@ import java.util.Map;
 
 import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public abstract class EventChanges {
 
@@ -18,9 +20,11 @@ public abstract class EventChanges {
     private ChangeContainer<Long> authorId;
 
     @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private ChangeContainer<Date> createdAt;
 
     @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private ChangeContainer<Date> updatedAt;
 
     @JsonProperty("updated_by_id")
