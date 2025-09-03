@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.api.models.Assignee;
+import org.gitlab4j.models.utils.DateChangeContainerDeserializer;
+import org.gitlab4j.models.utils.DateWithTimeChangeContainerSerializer;
 import org.gitlab4j.models.utils.JacksonJson;
-import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public abstract class EventChanges {
 
@@ -20,11 +23,15 @@ public abstract class EventChanges {
     private ChangeContainer<Long> authorId;
 
     @JsonProperty("created_at")
-    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonDeserialize(using = DateChangeContainerDeserializer.class)
+    @JsonSerialize(using = DateWithTimeChangeContainerSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private ChangeContainer<Date> createdAt;
 
     @JsonProperty("updated_at")
-    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonDeserialize(using = DateChangeContainerDeserializer.class)
+    @JsonSerialize(using = DateWithTimeChangeContainerSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private ChangeContainer<Date> updatedAt;
 
     @JsonProperty("updated_by_id")

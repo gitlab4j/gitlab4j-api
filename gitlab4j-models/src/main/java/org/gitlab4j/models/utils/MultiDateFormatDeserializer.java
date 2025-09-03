@@ -26,9 +26,6 @@ public class MultiDateFormatDeserializer extends StdDeserializer<Date> {
     }
 
     @Override
-    /**
-     * Deserializes a custom date in several international date formats
-     */
     public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         final String date = ((JsonNode) jp.getCodec().readTree(jp)).textValue();
         if (date == null || date.isEmpty()) {
@@ -37,7 +34,8 @@ public class MultiDateFormatDeserializer extends StdDeserializer<Date> {
         for (String dateFormat : DATE_FORMATS) {
             try {
                 SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-                return formatter.parse(date);
+                Date parsedDate = formatter.parse(date);
+                return parsedDate;
             } catch (ParseException e) {
             }
         }

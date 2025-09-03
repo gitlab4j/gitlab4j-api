@@ -7,6 +7,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -14,109 +15,67 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Iteration implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    public enum IterationState {
-        UPCOMMING(1),
-        CURRENT(2),
-        CLOSED(3);
-
-        private int value;
-
-        IterationState(int value) {
-            this.value = value;
-        }
-
-        @JsonCreator
-        public static IterationState fromIntValue(int value) {
-            for (IterationState it : values()) {
-                if (it.value == value) {
-                    return it;
-                }
-            }
-            throw new IllegalArgumentException("No enum found for value: " + value);
-        }
-
-        @JsonValue
-        public int toIntValue() {
-            return this.value;
-        }
-
-        @Override
-        public String toString() {
-            return name();
-        }
-    }
-
     /**
      * The unique identifier of the iteration.
      */
     @JsonProperty("id")
     private Long id;
-
     /**
      * The internal identifier of the iteration.
      */
     @JsonProperty("iid")
     private Long iid;
-
     /**
      * The sequence number of the iteration.
      */
     @JsonProperty("sequence")
     private Long sequence;
-
     /**
      * The group ID associated with the iteration.
      */
     @JsonProperty("group_id")
     private Long groupId;
-
     /**
      * The title of the iteration.
      */
     @JsonProperty("title")
     private String title;
-
     /**
      * The description of the iteration.
      */
     @JsonProperty("description")
     private String description;
-
     /**
      * The current state of the iteration.
      */
     @JsonProperty("state")
     private IterationState state;
-
     /**
      * The creation date of the iteration.
      */
     @JsonProperty("created_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
-
     /**
      * The last updated date of the iteration.
      */
     @JsonProperty("updated_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
-
     /**
      * The start date of the iteration.
      */
     @JsonProperty("start_date")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
-
     /**
      * The due date of the iteration.
      */
     @JsonProperty("due_date")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
-
     /**
      * The web URL for the iteration.
      */
@@ -222,5 +181,37 @@ public class Iteration implements Serializable {
     @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
+    }
+
+    public enum IterationState {
+        UPCOMMING(1),
+        CURRENT(2),
+        CLOSED(3);
+
+        private int value;
+
+        IterationState(int value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static IterationState fromIntValue(int value) {
+            for (IterationState it : values()) {
+                if (it.value == value) {
+                    return it;
+                }
+            }
+            throw new IllegalArgumentException("No enum found for value: " + value);
+        }
+
+        @JsonValue
+        public int toIntValue() {
+            return this.value;
+        }
+
+        @Override
+        public String toString() {
+            return name();
+        }
     }
 }

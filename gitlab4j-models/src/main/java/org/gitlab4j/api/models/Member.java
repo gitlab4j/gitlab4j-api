@@ -5,6 +5,7 @@ import java.util.Date;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -16,6 +17,7 @@ public class Member extends AbstractUser<Member> {
 
     @JsonProperty("expires_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date expiresAt;
 
     @JsonProperty("group_saml_identity")

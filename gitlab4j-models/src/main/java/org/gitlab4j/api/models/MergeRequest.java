@@ -7,6 +7,7 @@ import java.util.List;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -46,6 +47,7 @@ public class MergeRequest implements Serializable {
 
     @JsonProperty("closed_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date closedAt;
 
     @JsonProperty("closed_by")
@@ -53,6 +55,7 @@ public class MergeRequest implements Serializable {
 
     @JsonProperty("created_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     @JsonProperty("description")
@@ -87,10 +90,12 @@ public class MergeRequest implements Serializable {
 
     @JsonProperty("latest_build_finished_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date latestBuildFinishedAt;
 
     @JsonProperty("latest_build_started_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date latestBuildStartedAt;
 
     @JsonProperty("merge_commit_sha")
@@ -112,6 +117,7 @@ public class MergeRequest implements Serializable {
 
     @JsonProperty("merged_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date mergedAt;
 
     /**
@@ -184,6 +190,7 @@ public class MergeRequest implements Serializable {
 
     @JsonProperty("updated_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
 
     @JsonProperty("upvotes")
@@ -215,6 +222,10 @@ public class MergeRequest implements Serializable {
     @JsonSerialize(using = JacksonJson.UserListSerializer.class)
     @JsonDeserialize(using = JacksonJson.UserListDeserializer.class)
     private List<User> approvedBy;
+
+    public static final boolean isValid(MergeRequest mergeRequest) {
+        return (mergeRequest != null && mergeRequest.getId() != null);
+    }
 
     public Boolean getAllowCollaboration() {
         return allowCollaboration;
@@ -676,7 +687,7 @@ public class MergeRequest implements Serializable {
 
     /**
      * Get the number of approvals required for the merge request.
-     *
+     * <p>
      * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
      *
      * @return the number of approvals required for the merge request
@@ -687,7 +698,7 @@ public class MergeRequest implements Serializable {
 
     /**
      * Set the number of approvals required for the merge request.
-     *
+     * <p>
      * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
      *
      * @param approvalsRequired the number of approvals required for the merge request
@@ -698,7 +709,7 @@ public class MergeRequest implements Serializable {
 
     /**
      * Get the number of approvals left for the merge request.
-     *
+     * <p>
      * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
      *
      * @return the number of approvals left for the merge request
@@ -709,7 +720,7 @@ public class MergeRequest implements Serializable {
 
     /**
      * Set the number of approvals missing for the merge request.
-     *
+     * <p>
      * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
      *
      * @param approvalsLeft the number of approvals missing for the merge request
@@ -720,7 +731,7 @@ public class MergeRequest implements Serializable {
 
     /**
      * Get the list of users that have approved the merge request.
-     *
+     * <p>
      * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
      *
      * @return the list of users that have approved the merge request
@@ -731,7 +742,7 @@ public class MergeRequest implements Serializable {
 
     /**
      * Set the list of users that have approved the merge request.
-     *
+     * <p>
      * NOTE: This property will only be used when listing, approiving, or unapproving a merge request.
      *
      * @param approvedBy the list of users that have approved the merge request
@@ -754,10 +765,6 @@ public class MergeRequest implements Serializable {
 
     public void setRebaseInProgress(Boolean rebaseInProgress) {
         this.rebaseInProgress = rebaseInProgress;
-    }
-
-    public static final boolean isValid(MergeRequest mergeRequest) {
-        return (mergeRequest != null && mergeRequest.getId() != null);
     }
 
     public List<Reviewer> getReviewers() {

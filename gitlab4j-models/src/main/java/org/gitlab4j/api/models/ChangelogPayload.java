@@ -8,6 +8,7 @@ import org.gitlab4j.models.utils.ISO8601;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -38,6 +39,7 @@ public class ChangelogPayload implements Serializable {
      */
     @JsonProperty("date")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date date;
 
     /**

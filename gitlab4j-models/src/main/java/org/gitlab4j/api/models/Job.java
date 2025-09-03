@@ -7,6 +7,7 @@ import java.util.List;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -24,18 +25,22 @@ public class Job implements Serializable {
 
     @JsonProperty("created_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     @JsonProperty("finished_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date finishedAt;
 
     @JsonProperty("erased_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date erasedAt;
 
     @JsonProperty("artifacts_expire_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date artifactsExpireAt;
 
     @JsonProperty("name")
@@ -55,6 +60,7 @@ public class Job implements Serializable {
 
     @JsonProperty("started_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date startedAt;
 
     @JsonProperty("artifacts_file")
@@ -136,7 +142,7 @@ public class Job implements Serializable {
      * <a href="https://docs.gitlab.com/ee/api/jobs.html#erase-a-job">job erase api</a>, you can
      * detect it using this field. Normally erasing job does mean only that job artifacts and
      * a job logs gets removed. Job metadata (started_at, duration, ....) stays in place.
-     *
+     * <p>
      * You can use this attribute to filter out such jobs, that have erased at non-null if you need
      * to.
      */

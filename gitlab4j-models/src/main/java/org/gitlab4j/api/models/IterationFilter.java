@@ -9,100 +9,44 @@ import org.gitlab4j.models.utils.ISO8601;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
 import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class IterationFilter implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    public enum IterationFilterState {
-        OPENED,
-        UPCOMING,
-        CURRENT,
-        CLOSED,
-        ALL;
-
-        private static JacksonJsonEnumHelper<IterationFilterState> enumHelper =
-                new JacksonJsonEnumHelper<>(IterationFilterState.class, false, true);
-
-        @JsonCreator
-        public static IterationFilterState forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
-
-    public enum IterationFilterIn {
-        TITLE,
-        CADENCE_TITLE;
-
-        private static JacksonJsonEnumHelper<IterationFilterIn> enumHelper =
-                new JacksonJsonEnumHelper<>(IterationFilterIn.class, false, false, true);
-
-        @JsonCreator
-        public static IterationFilterIn forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
-
     /**
      * Return opened, upcoming, current, closed, or all iterations.
      */
     @JsonProperty("state")
     private IterationFilterState state;
-
     /**
      * Return only iterations with a title matching the provided string.
      */
     @JsonProperty("search")
     private String search;
-
     /**
      * Fields in which fuzzy search should be performed with the query given in the argument search.
      */
     @JsonProperty("in")
     private IterationFilterIn in;
-
     /**
      * Include iterations from parent group and its ancestors. Defaults to true.
      */
     @JsonProperty("include_ancestors")
     private Boolean includeAncestors;
-
     /**
      * Return iterations updated after the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_after")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAfter;
-
     /**
      * Return iterations updated before the specified date. Expected in format "2019-03-15T08:00:00.000Z".
      */
     @JsonProperty("updated_before")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedBefore;
 
     public IterationFilterState getState() {
@@ -197,5 +141,54 @@ public class IterationFilter implements Serializable {
                 .withParam("include_ancestors", includeAncestors)
                 .withParam("updated_after", ISO8601.toString(updatedAfter, false))
                 .withParam("updated_before", ISO8601.toString(updatedBefore, false));
+    }
+
+    public enum IterationFilterState {
+        OPENED,
+        UPCOMING,
+        CURRENT,
+        CLOSED,
+        ALL;
+
+        private static JacksonJsonEnumHelper<IterationFilterState> enumHelper =
+                new JacksonJsonEnumHelper<>(IterationFilterState.class, false, true);
+
+        @JsonCreator
+        public static IterationFilterState forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    public enum IterationFilterIn {
+        TITLE,
+        CADENCE_TITLE;
+
+        private static JacksonJsonEnumHelper<IterationFilterIn> enumHelper =
+                new JacksonJsonEnumHelper<>(IterationFilterIn.class, false, false, true);
+
+        @JsonCreator
+        public static IterationFilterIn forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
     }
 }

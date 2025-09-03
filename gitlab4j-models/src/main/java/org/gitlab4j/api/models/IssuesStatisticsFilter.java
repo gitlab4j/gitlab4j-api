@@ -9,12 +9,13 @@ import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.ISO8601;
 import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- *  This class is used to filter issues when getting issue statistics. of them.
+ * This class is used to filter issues when getting issue statistics. of them.
  */
 public class IssuesStatisticsFilter implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -78,6 +79,7 @@ public class IssuesStatisticsFilter implements Serializable {
      */
     @JsonProperty("created_after")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAfter;
 
     /**
@@ -85,6 +87,7 @@ public class IssuesStatisticsFilter implements Serializable {
      */
     @JsonProperty("created_before")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdBefore;
 
     /**
@@ -92,6 +95,7 @@ public class IssuesStatisticsFilter implements Serializable {
      */
     @JsonProperty("updated_after")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAfter;
 
     /**
@@ -99,6 +103,7 @@ public class IssuesStatisticsFilter implements Serializable {
      */
     @JsonProperty("updated_before")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedBefore;
 
     /**

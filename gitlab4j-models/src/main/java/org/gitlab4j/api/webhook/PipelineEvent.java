@@ -9,6 +9,7 @@ import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -145,10 +146,12 @@ public class PipelineEvent extends AbstractEvent {
 
         @JsonProperty("created_at")
         @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         private Date createdAt;
 
         @JsonProperty("finished_at")
         @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         private Date finishedAt;
 
         @JsonProperty("duration")

@@ -107,6 +107,7 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
      */
     @JsonProperty("created_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     /**
@@ -114,6 +115,7 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
      */
     @JsonProperty("updated_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
 
     /**
@@ -121,6 +123,7 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
      */
     @JsonProperty("closed_at")
     @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date closedAt;
 
     /**

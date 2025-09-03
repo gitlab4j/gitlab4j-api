@@ -2,7 +2,6 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DeploymentEvent extends AbstractEvent {
@@ -15,7 +14,6 @@ public class DeploymentEvent extends AbstractEvent {
     private String status;
 
     @JsonProperty("status_changed_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss Z")
     private String statusChangedAt;
 
     @JsonProperty("deployable_id")
