@@ -318,6 +318,7 @@ public class Project implements Serializable {
     private Boolean mirror;
 
     @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date updatedAt;
 
     @JsonProperty("description_html")

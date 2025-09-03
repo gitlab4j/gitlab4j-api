@@ -8,6 +8,7 @@ import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class EventIssue {
 
@@ -65,6 +66,7 @@ public class EventIssue {
     private Long updatedById;
 
     @JsonProperty("last_edited_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date lastEditedAt;
 
     @JsonProperty("last_edited_by_id")
@@ -83,6 +85,7 @@ public class EventIssue {
     private Boolean discussionLocked;
 
     @JsonProperty("due_date")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
 
     @JsonProperty("moved_to_id")

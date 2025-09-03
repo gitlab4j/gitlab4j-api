@@ -7,8 +7,10 @@ import org.gitlab4j.models.Constants.DefaultBranchProtectionLevel;
 import org.gitlab4j.models.Constants.ProjectCreationLevel;
 import org.gitlab4j.models.Constants.SubgroupCreationLevel;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Group extends AbstractGroup<Group> {
@@ -137,6 +139,7 @@ public class Group extends AbstractGroup<Group> {
      * The creation date of the project.
      */
     @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date createdAt;
 
     /**

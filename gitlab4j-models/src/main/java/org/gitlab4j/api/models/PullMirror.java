@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class PullMirror implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -17,12 +19,15 @@ public class PullMirror implements Serializable {
     private String lastError;
 
     @JsonProperty("last_successful_update_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date lastSuccessfulUpdateAt;
 
     @JsonProperty("last_update_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date lastUpdateAt;
 
     @JsonProperty("last_update_started_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
     private Date lastUpdateStartedAt;
 
     @JsonProperty("update_status")

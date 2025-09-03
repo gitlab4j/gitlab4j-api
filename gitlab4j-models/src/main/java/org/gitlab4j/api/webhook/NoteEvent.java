@@ -5,10 +5,12 @@ import java.util.Date;
 import org.gitlab4j.api.models.Diff;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class NoteEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
@@ -170,9 +172,11 @@ public class NoteEvent extends AbstractEvent {
         private Long authorId;
 
         @JsonProperty("created_at")
+        @JsonDeserialize(using = MultiDateFormatDeserializer.class)
         private Date createdAt;
 
         @JsonProperty("updated_at")
+        @JsonDeserialize(using = MultiDateFormatDeserializer.class)
         private Date updatedAt;
 
         @JsonProperty("project_id")
