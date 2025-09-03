@@ -6,25 +6,57 @@ import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class Release implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("tag_name")
     private String tagName;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("description_html")
     private String descriptionHtml;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("released_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date releasedAt;
+
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("commit")
     private Commit commit;
+
+    @JsonProperty("milestones")
     private List<Milestone> milestones;
+
+    @JsonProperty("commit_path")
     private String commitPath;
+
+    @JsonProperty("tag_path")
     private String tagPath;
+
+    @JsonProperty("evidence_sha")
     private String evidenceSha;
+
+    @JsonProperty("assets")
     private Assets assets;
 
     @JsonProperty("_links")

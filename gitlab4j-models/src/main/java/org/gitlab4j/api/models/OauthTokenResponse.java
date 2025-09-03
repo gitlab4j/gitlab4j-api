@@ -4,13 +4,24 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class OauthTokenResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("access_token")
     private String accessToken;
+
+    @JsonProperty("token_type")
     private String tokenType;
+
+    @JsonProperty("refresh_token")
     private String refreshToken;
+
+    @JsonProperty("scope")
     private String scope;
+
+    @JsonProperty("created_at")
     private Long createdAt;
 
     public String getAccessToken() {

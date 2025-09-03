@@ -2,11 +2,25 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
+import org.gitlab4j.models.utils.DateChangeContainerDeserializer;
+import org.gitlab4j.models.utils.OnlyDateChangeContainerSerializer;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public class IssueChanges extends EventChanges {
 
+    @JsonProperty("due_date")
+    @JsonDeserialize(using = DateChangeContainerDeserializer.class)
+    @JsonSerialize(using = OnlyDateChangeContainerSerializer.class)
     private ChangeContainer<Date> dueDate;
+
+    @JsonProperty("confidential")
     private ChangeContainer<Boolean> confidential;
-    private ChangeContainer<String> heathStatus;
+
+    @JsonProperty("health_status")
+    private ChangeContainer<String> healthStatus;
 
     public ChangeContainer<Date> getDueDate() {
         return dueDate;
@@ -25,10 +39,10 @@ public class IssueChanges extends EventChanges {
     }
 
     public ChangeContainer<String> getHeathStatus() {
-        return heathStatus;
+        return healthStatus;
     }
 
-    public void setHeathStatus(ChangeContainer<String> heathStatus) {
-        this.heathStatus = heathStatus;
+    public void setHeathStatus(ChangeContainer<String> healthStatus) {
+        this.healthStatus = healthStatus;
     }
 }

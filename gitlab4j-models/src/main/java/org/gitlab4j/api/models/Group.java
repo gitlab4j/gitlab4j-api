@@ -7,16 +7,40 @@ import org.gitlab4j.models.Constants.DefaultBranchProtectionLevel;
 import org.gitlab4j.models.Constants.ProjectCreationLevel;
 import org.gitlab4j.models.Constants.SubgroupCreationLevel;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Group extends AbstractGroup<Group> {
     private static final long serialVersionUID = 1L;
 
     public class Statistics {
+
+        /**
+         * The total storage size used by the project.
+         */
+        @JsonProperty("storage_size")
         private Long storageSize;
+
+        /**
+         * The repository size for the project.
+         */
+        @JsonProperty("repository_size")
         private Long repositorySize;
+
+        /**
+         * The size used by LFS (Large File Storage) objects.
+         */
+        @JsonProperty("lfs_objects_size")
         private Long lfsObjectsSize;
+
+        /**
+         * The size of job artifacts associated with the project.
+         */
+        @JsonProperty("job_artifacts_size")
         private Long jobArtifactsSize;
 
         public Long getStorageSize() {
@@ -52,26 +76,127 @@ public class Group extends AbstractGroup<Group> {
         }
     }
 
+    /**
+     * The path of the project.
+     */
+    @JsonProperty("path")
     private String path;
+
+    /**
+     * The description of the project.
+     */
+    @JsonProperty("description")
     private String description;
+
+    /**
+     * The visibility of the project.
+     */
+    @JsonProperty("visibility")
     private Visibility visibility;
+
+    /**
+     * Indicates if LFS (Large File Storage) is enabled for the project.
+     */
+    @JsonProperty("lfs_enabled")
     private Boolean lfsEnabled;
+
+    /**
+     * Indicates if request access is enabled for the project.
+     */
+    @JsonProperty("request_access_enabled")
     private Boolean requestAccessEnabled;
+
+    /**
+     * The parent project ID, if any.
+     */
+    @JsonProperty("parent_id")
     private Long parentId;
+
+    /**
+     * The shared runners minutes limit for the project.
+     */
+    @JsonProperty("shared_runners_minutes_limit")
     private Integer sharedRunnersMinutesLimit;
+
+    /**
+     * The statistics related to the project.
+     */
+    @JsonProperty("statistics")
     private Statistics statistics;
+
+    /**
+     * The list of projects associated with the current project.
+     */
+    @JsonProperty("projects")
     private List<Project> projects;
+
+    /**
+     * The list of shared projects.
+     */
+    @JsonProperty("shared_projects")
     private List<Project> sharedProjects;
+
+    /**
+     * The creation date of the project.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    /**
+     * The groups with which the project is shared.
+     */
+    @JsonProperty("shared_with_groups")
     private List<SharedGroup> sharedWithGroups;
+
+    /**
+     * The custom attributes for the project.
+     */
+    @JsonProperty("custom_attributes")
     private List<CustomAttribute> customAttributes;
+
+    /**
+     * The runners token for the project.
+     */
+    @JsonProperty("runners_token")
     private String runnersToken;
+
+    /**
+     * Indicates if sharing groups outside the hierarchy is prevented.
+     */
+    @JsonProperty("prevent_sharing_groups_outside_hierarchy")
     private Boolean preventSharingGroupsOutsideHierarchy;
+
+    /**
+     * Indicates if forking outside the group is prevented.
+     */
+    @JsonProperty("prevent_forking_outside_group")
     private Boolean preventForkingOutsideGroup;
+
+    /**
+     * The project creation level for the project.
+     */
+    @JsonProperty("project_creation_level")
     private ProjectCreationLevel projectCreationLevel;
+
+    /**
+     * The subgroup creation level for the project.
+     */
+    @JsonProperty("subgroup_creation_level")
     private SubgroupCreationLevel subgroupCreationLevel;
+
+    /**
+     * The default branch protection level for the project.
+     */
+    @JsonProperty("default_branch_protection")
     private DefaultBranchProtectionLevel defaultBranchProtection;
 
+    /**
+     * The date when the project is marked for deletion.
+     * Expected in the format (yyyy-MM-dd).
+     */
+    @JsonProperty("marked_for_deletion_on")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
 

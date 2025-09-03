@@ -10,19 +10,19 @@
     },
     "object_attributes": {
         "author_id": 1245,
-        "closed_at": "2024-09-20T16:53:38Z",
+        "closed_at": "2024-09-20T16:53:38.248Z",
         "confidential": false,
-        "created_at": "2024-09-20T16:53:38Z",
+        "created_at": "2024-09-20T16:53:38.248Z",
         "description": "This is a test.\n\nThis is a test.",
         "id": 93843,
         "iid": 1,
-        "last_edited_at": "2024-10-17T06:47:37Z",
+        "last_edited_at": "2024-10-17T06:47:37.248Z",
         "last_edited_by_id": 1245,
         "relative_position": 147,
         "state_id": 1,
         "time_estimate": 0,
         "title": "Test Epic item",
-        "updated_at": "2024-10-17T06:47:37Z",
+        "updated_at": "2024-10-17T06:47:37.248Z",
         "updated_by_id": 1245,
         "weight": 23,
         "health_status": "on_track",
@@ -37,8 +37,8 @@
                 "id": 15466,
                 "title": "status::RequirementsAndSpecification",
                 "color": "#808080",
-                "created_at": "2024-08-14T08:37:44Z",
-                "updated_at": "2024-08-14T08:37:44Z",
+                "created_at": "2024-08-14T08:37:44.248Z",
+                "updated_at": "2024-08-14T08:37:44.248Z",
                 "template": false,
                 "description": "RequirementsAndSpecification",
                 "type": "GroupLabel",
@@ -54,8 +54,8 @@
             "id": 15466,
             "title": "status::RequirementsAndSpecification",
             "color": "#808080",
-            "created_at": "2024-08-14T08:37:44Z",
-            "updated_at": "2024-08-14T08:37:44Z",
+            "created_at": "2024-08-14T08:37:44.248Z",
+            "updated_at": "2024-08-14T08:37:44.248Z",
             "template": false,
             "description": "RequirementsAndSpecification",
             "type": "GroupLabel",
@@ -68,12 +68,12 @@
             "current": "This is a test.\n\nThis is a test."
         },
         "last_edited_at": {
-            "previous": "2024-09-20T16:53:38Z",
-            "current": "2024-10-17T06:47:37Z"
+            "previous": "2024-09-20T16:53:38.248Z",
+            "current": "2024-10-17T06:47:37.248Z"
         },
         "updated_at": {
-            "previous": "2024-09-24T08:54:43Z",
-            "current": "2024-10-17T06:47:37Z"
+            "previous": "2024-09-24T08:54:43.248Z",
+            "current": "2024-10-17T06:47:37.248Z"
         },
         "health_status": {
             "previous":"on_track",

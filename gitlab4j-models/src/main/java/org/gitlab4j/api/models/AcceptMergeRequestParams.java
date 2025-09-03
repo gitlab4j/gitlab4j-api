@@ -4,14 +4,45 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.GitLabForm;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AcceptMergeRequestParams implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The commit message for the merge.
+     */
+    @JsonProperty("merge_commit_message")
     private String mergeCommitMessage;
+
+    /**
+     * Indicates whether the merge should occur when the pipeline succeeds.
+     */
+    @JsonProperty("merge_when_pipeline_succeeds")
     private Boolean mergeWhenPipelineSucceeds;
+
+    /**
+     * The SHA associated with the merge request.
+     */
+    @JsonProperty("sha")
     private String sha;
+
+    /**
+     * Indicates whether the source branch should be removed after merging.
+     */
+    @JsonProperty("should_remove_source_branch")
     private Boolean shouldRemoveSourceBranch;
+
+    /**
+     * Indicates whether the merge should be squashed.
+     */
+    @JsonProperty("squash")
     private Boolean squash;
+
+    /**
+     * The commit message for the squash merge.
+     */
+    @JsonProperty("squash_commit_message")
     private String squashCommitMessage;
 
     /**

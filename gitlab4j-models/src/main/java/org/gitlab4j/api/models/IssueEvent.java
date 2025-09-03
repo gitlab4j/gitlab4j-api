@@ -4,9 +4,13 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class IssueEvent implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,11 +38,42 @@ public class IssueEvent implements Serializable {
         }
     }
 
+    /**
+     * The unique identifier of the resource.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The user associated with the resource.
+     */
+    @JsonProperty("user")
     private User user;
+
+    /**
+     * The creation date of the resource.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private String createdAt;
+
+    /**
+     * The type of the resource.
+     */
+    @JsonProperty("resource_type")
     private ResourceType resourceType;
+
+    /**
+     * The ID of the resource.
+     */
+    @JsonProperty("resource_id")
     private Long resourceId;
+
+    /**
+     * The state of the resource.
+     */
+    @JsonProperty("state")
     private String state;
 
     public Long getId() {

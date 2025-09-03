@@ -4,15 +4,21 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LdapGroupLink implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("cn")
     private String cn;
 
+    @JsonProperty("group_access")
     private AccessLevel groupAccess;
 
+    @JsonProperty("provider")
     private String provider;
 
+    @JsonProperty("filter")
     private String filter;
 
     public String getCn() {

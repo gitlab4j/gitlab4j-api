@@ -4,15 +4,51 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class AuditEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the audit event.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The ID of the author making the event.
+     */
+    @JsonProperty("author_id")
     private Long authorId;
+
+    /**
+     * The ID of the entity involved in the event.
+     */
+    @JsonProperty("entity_id")
     private Long entityId;
+
+    /**
+     * The type of the entity involved in the event.
+     */
+    @JsonProperty("entity_type")
     private String entityType;
+
+    /**
+     * The details associated with the audit event.
+     */
+    @JsonProperty("details")
     private AuditEventDetail details;
+
+    /**
+     * The creation date of the audit event.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     public Long getId() {

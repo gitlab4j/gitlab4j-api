@@ -5,36 +5,104 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class Job implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("commit")
     private Commit commit;
+
+    @JsonProperty("coverage")
     private String coverage;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("finished_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date finishedAt;
+
+    @JsonProperty("erased_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date erasedAt;
+
+    @JsonProperty("artifacts_expire_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date artifactsExpireAt;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("pipeline")
     private Pipeline pipeline;
+
+    @JsonProperty("ref")
     private String ref;
+
+    @JsonProperty("runner")
     private Runner runner;
+
+    @JsonProperty("user")
     private User user;
+
+    @JsonProperty("started_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date startedAt;
+
+    @JsonProperty("artifacts_file")
     private ArtifactsFile artifactsFile;
+
+    @JsonProperty("artifacts")
     private List<Artifact> artifacts;
+
+    @JsonProperty("tag")
     private Boolean tag;
+
+    @JsonProperty("tag_list")
     private List<String> tagList;
+
+    @JsonProperty("web_url")
     private String webUrl;
+
+    @JsonProperty("stage")
     private String stage;
+
+    @JsonProperty("status")
     private JobStatus status;
+
+    @JsonProperty("failure_reason")
     private String failureReason;
+
+    @JsonProperty("when")
     private String when;
+
+    @JsonProperty("manual")
     private Boolean manual;
+
+    @JsonProperty("allow_failure")
     private Boolean allowFailure;
+
+    @JsonProperty("duration")
     private Float duration;
+
+    @JsonProperty("queued_duration")
     private Float queuedDuration;
+
+    @JsonProperty("project")
     private Project project;
 
     public Long getId() {
@@ -74,7 +142,7 @@ public class Job implements Serializable {
      * <a href="https://docs.gitlab.com/ee/api/jobs.html#erase-a-job">job erase api</a>, you can
      * detect it using this field. Normally erasing job does mean only that job artifacts and
      * a job logs gets removed. Job metadata (started_at, duration, ....) stays in place.
-     *
+     * <p>
      * You can use this attribute to filter out such jobs, that have erased at non-null if you need
      * to.
      */

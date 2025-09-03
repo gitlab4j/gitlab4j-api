@@ -6,21 +6,45 @@ import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Label implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("color")
     private String color;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("description_html")
     private String descriptionHtml;
+
+    @JsonProperty("text_color")
     private String textColor;
+
+    @JsonProperty("open_issues_count")
     private Integer openIssuesCount;
+
+    @JsonProperty("closed_issues_count")
     private Integer closedIssuesCount;
+
+    @JsonProperty("open_merge_requests_count")
     private Integer openMergeRequestsCount;
+
+    @JsonProperty("subscribed")
     private Boolean subscribed;
+
+    @JsonProperty("priority")
     private Integer priority;
+
+    @JsonProperty("is_project_label")
     private Boolean isProjectLabel;
 
     public Long getId() {

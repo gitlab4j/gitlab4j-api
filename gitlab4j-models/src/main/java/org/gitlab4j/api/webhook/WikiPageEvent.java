@@ -2,15 +2,24 @@ package org.gitlab4j.api.webhook;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WikiPageEvent extends AbstractEvent {
     private static final long serialVersionUID = 1L;
 
     public static final String X_GITLAB_EVENT = "Wiki Page Hook";
     public static final String OBJECT_KIND = "wiki_page";
 
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("wiki")
     private Wiki wiki;
+
+    @JsonProperty(value = "object_attributes")
     private ObjectAttributes objectAttributes;
 
     public String getObjectKind() {
@@ -56,10 +65,19 @@ public class WikiPageEvent extends AbstractEvent {
 
     public static class Wiki {
 
+        @JsonProperty("web_url")
         private String webUrl;
+
+        @JsonProperty("git_http_url")
         private String git_http_url;
+
+        @JsonProperty("git_ssh_url")
         private String git_ssh_url;
+
+        @JsonProperty("path_with_namespace")
         private String pathWithNamespace;
+
+        @JsonProperty("default_branch")
         private String defaultBranch;
 
         public String getWebUrl() {
@@ -105,14 +123,31 @@ public class WikiPageEvent extends AbstractEvent {
 
     public static class ObjectAttributes {
 
+        @JsonProperty("title")
         private String title;
+
+        @JsonProperty("content")
         private String content;
+
+        @JsonProperty("format")
         private String format;
+
+        @JsonProperty("message")
         private String message;
+
+        @JsonProperty("slug")
         private String slug;
+
+        @JsonProperty("url")
         private String url;
+
+        @JsonProperty("action")
         private String action;
+
+        @JsonProperty("diff_url")
         private String diffUrl;
+
+        @JsonProperty("version_id")
         private String versionId;
 
         public String getTitle() {

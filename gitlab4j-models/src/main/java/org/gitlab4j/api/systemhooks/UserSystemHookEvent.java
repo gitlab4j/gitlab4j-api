@@ -3,6 +3,11 @@ package org.gitlab4j.api.systemhooks;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class UserSystemHookEvent extends AbstractSystemHookEvent {
     private static final long serialVersionUID = 1L;
@@ -12,14 +17,35 @@ public class UserSystemHookEvent extends AbstractSystemHookEvent {
     public static final String USER_RENAME_EVENT = "user_rename";
     public static final String USER_FAILED_LOGIN_EVENT = "user_failed_login";
 
+    @JsonProperty("event_name")
     private String eventName;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    @JsonProperty("email")
     private String email;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("username")
     private String username;
+
+    @JsonProperty("user_id")
     private Long userId;
+
+    @JsonProperty("old_username")
     private String oldUsername;
+
+    @JsonProperty("state")
     private String state;
 
     @Override

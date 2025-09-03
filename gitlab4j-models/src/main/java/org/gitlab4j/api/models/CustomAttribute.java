@@ -2,10 +2,21 @@ package org.gitlab4j.api.models;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CustomAttribute implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The key associated with the custom attribute.
+     */
+    @JsonProperty("key")
     private String key;
+
+    /**
+     * The value associated with the custom attribute.
+     */
+    @JsonProperty("value")
     private String value;
 
     public String getKey() {

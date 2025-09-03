@@ -5,29 +5,141 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class Commit implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The author of the commit.
+     */
+    @JsonProperty("author")
     private Author author;
+
+    /**
+     * The date when the commit was authored.
+     */
+    @JsonProperty("authored_date")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date authoredDate;
+
+    /**
+     * The email of the author.
+     */
+    @JsonProperty("author_email")
     private String authorEmail;
+
+    /**
+     * The name of the author.
+     */
+    @JsonProperty("author_name")
     private String authorName;
+
+    /**
+     * The date when the commit was committed.
+     */
+    @JsonProperty("committed_date")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date committedDate;
+
+    /**
+     * The email of the committer.
+     */
+    @JsonProperty("committer_email")
     private String committerEmail;
+
+    /**
+     * The name of the committer.
+     */
+    @JsonProperty("committer_name")
     private String committerName;
+
+    /**
+     * The creation date of the commit.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    /**
+     * The unique identifier of the commit.
+     */
+    @JsonProperty("id")
     private String id;
+
+    /**
+     * The commit message.
+     */
+    @JsonProperty("message")
     private String message;
+
+    /**
+     * The list of parent commit IDs.
+     */
+    @JsonProperty("parent_ids")
     private List<String> parentIds;
+
+    /**
+     * The shortened commit ID.
+     */
+    @JsonProperty("short_id")
     private String shortId;
+
+    /**
+     * The statistics associated with the commit.
+     */
+    @JsonProperty("stats")
     private CommitStats stats;
+
+    /**
+     * The status of the commit.
+     */
+    @JsonProperty("status")
     private String status;
+
+    /**
+     * The timestamp of the commit.
+     */
+    @JsonProperty("timestamp")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date timestamp;
+
+    /**
+     * The title of the commit.
+     */
+    @JsonProperty("title")
     private String title;
+
+    /**
+     * The URL of the commit.
+     */
+    @JsonProperty("url")
     private String url;
+
+    /**
+     * The web URL of the commit.
+     */
+    @JsonProperty("web_url")
     private String webUrl;
+
+    /**
+     * The project ID associated with the commit.
+     */
+    @JsonProperty("project_id")
     private Long projectId;
+
+    /**
+     * The pipeline associated with the commit.
+     */
+    @JsonProperty("last_pipeline")
     private Pipeline lastPipeline;
 
     public Author getAuthor() {

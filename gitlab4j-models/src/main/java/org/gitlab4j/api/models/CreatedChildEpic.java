@@ -2,11 +2,27 @@ package org.gitlab4j.api.models;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CreatedChildEpic extends AbstractMinimalEpic<CreatedChildEpic> {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Indicates if the child epic has children.
+     */
+    @JsonProperty("has_children")
     private Boolean hasChildren;
+
+    /**
+     * Indicates if the child epic has issues.
+     */
+    @JsonProperty("has_issues")
     private Boolean hasIssues;
+
+    /**
+     * The relation URL associated with the child epic.
+     */
+    @JsonProperty("relation_url")
     private String relationUrl;
 
     public Boolean getHasChildren() {

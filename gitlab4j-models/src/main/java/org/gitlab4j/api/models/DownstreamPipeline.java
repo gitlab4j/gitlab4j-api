@@ -4,16 +4,59 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class DownstreamPipeline implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the downstream pipeline.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The SHA of the downstream pipeline.
+     */
+    @JsonProperty("sha")
     private String sha;
+
+    /**
+     * The reference for the downstream pipeline (e.g., branch name).
+     */
+    @JsonProperty("ref")
     private String ref;
+
+    /**
+     * The status of the downstream pipeline.
+     */
+    @JsonProperty("status")
     private String status;
+
+    /**
+     * The creation date of the downstream pipeline.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    /**
+     * The last updated date of the downstream pipeline.
+     */
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    /**
+     * The web URL of the downstream pipeline.
+     */
+    @JsonProperty("web_url")
     private String webUrl;
 
     public Long getId() {

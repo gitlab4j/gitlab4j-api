@@ -3,18 +3,37 @@ package org.gitlab4j.api.systemhooks;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class KeySystemHookEvent extends AbstractSystemHookEvent {
-    private static final long serialVersionUID = 1L;
-
     public static final String KEY_CREATE_EVENT = "key_create";
     public static final String KEY_DESTROY_EVENT = "key_destroy";
+    private static final long serialVersionUID = 1L;
 
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    @JsonProperty("event_name")
     private String eventName;
+
+    @JsonProperty("username")
     private String username;
+
+    @JsonProperty("key")
     private String key;
+
+    @JsonProperty("id")
     private Long id;
 
     public Date getCreatedAt() {

@@ -5,19 +5,77 @@ import java.util.Date;
 
 import org.gitlab4j.models.Constants.DeploymentStatus;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class Deployment implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the deployment.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The internal identifier of the deployment.
+     */
+    @JsonProperty("iid")
     private Long iid;
+
+    /**
+     * The reference associated with the deployment (e.g., branch or tag).
+     */
+    @JsonProperty("ref")
     private String ref;
+
+    /**
+     * The SHA associated with the deployment.
+     */
+    @JsonProperty("sha")
     private String sha;
+
+    /**
+     * The creation date of the deployment.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    /**
+     * The last updated date of the deployment.
+     */
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    /**
+     * The status of the deployment (e.g., success, failed).
+     */
+    @JsonProperty("status")
     private DeploymentStatus status;
+
+    /**
+     * The user associated with the deployment.
+     */
+    @JsonProperty("user")
     private User user;
+
+    /**
+     * The environment associated with the deployment.
+     */
+    @JsonProperty("environment")
     private Environment environment;
+
+    /**
+     * The deployable associated with the deployment.
+     */
+    @JsonProperty("deployable")
     private Deployable deployable;
 
     public Long getId() {

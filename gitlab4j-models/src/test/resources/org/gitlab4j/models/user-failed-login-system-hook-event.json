@@ -1,7 +1,7 @@
 {
   "event_name": "user_failed_login",
-  "created_at": "2017-10-03T06:08:48Z",
-  "updated_at": "2018-01-15T04:52:06Z",
+  "created_at": "2017-10-03T06:08:48.248Z",
+  "updated_at": "2018-01-15T04:52:06.248Z",
         "name": "John Smith",
        "email": "user4@example.com",
      "user_id": 26,

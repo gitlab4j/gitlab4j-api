@@ -4,20 +4,66 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * This class is part of the Pipeline message.
  */
 public class DetailedStatus implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The icon associated with the detailed status.
+     */
+    @JsonProperty("icon")
     private String icon;
+
+    /**
+     * The text description of the detailed status.
+     */
+    @JsonProperty("text")
     private String text;
+
+    /**
+     * The label associated with the detailed status.
+     */
+    @JsonProperty("label")
     private String label;
+
+    /**
+     * The group associated with the detailed status.
+     */
+    @JsonProperty("group")
     private String group;
+
+    /**
+     * The tooltip description of the detailed status.
+     */
+    @JsonProperty("tooltip")
     private String tooltip;
+
+    /**
+     * Indicates if the detailed status has additional details.
+     */
+    @JsonProperty("has_details")
     private Boolean hasDetails;
+
+    /**
+     * The path to the additional details.
+     */
+    @JsonProperty("details_path")
     private String detailsPath;
+
+    /**
+     * The illustration associated with the detailed status.
+     */
+    @JsonProperty("illustration")
     private String illustration;
+
+    /**
+     * The favicon associated with the detailed status.
+     */
+    @JsonProperty("favicon")
     private String favicon;
 
     public String getIcon() {

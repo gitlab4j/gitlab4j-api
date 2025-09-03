@@ -4,14 +4,44 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Application implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the application.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The application ID.
+     */
+    @JsonProperty("application_id")
     private String applicationId;
+
+    /**
+     * The name of the application.
+     */
+    @JsonProperty("application_name")
     private String applicationName;
+
+    /**
+     * The callback URL associated with the application.
+     */
+    @JsonProperty("callback_url")
     private String callbackUrl;
+
+    /**
+     * The application is used where the client secret can be kept confidential.
+     * Native mobile apps and Single Page Apps are considered non-confidential.
+     * Defaults to true if not supplied.
+     */
+    @JsonProperty("confidential")
     private Boolean confidential;
+
+    @JsonProperty("secret")
     private String secret;
 
     public Long getId() {

@@ -4,18 +4,48 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BoardList implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the board list.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The label associated with the board list.
+     */
+    @JsonProperty("label")
     private Label label;
+
+    /**
+     * The position of the board list.
+     */
+    @JsonProperty("position")
     private Integer position;
+
+    @JsonProperty("assignee")
     private Assignee assignee;
+
+    @JsonProperty("milestone")
     private Milestone milestone;
+
+    @JsonProperty("iteration")
     private Iteration iteration;
+
+    @JsonProperty("max_issue_count")
     private Integer maxIssueCount;
+
+    @JsonProperty("max_issue_weight")
     private Integer maxIssueWeight;
+
+    @JsonProperty("limit_metric")
     private Integer limitMetric;
+
+    @JsonProperty("list_type")
     private String listType;
 
     public Long getId() {

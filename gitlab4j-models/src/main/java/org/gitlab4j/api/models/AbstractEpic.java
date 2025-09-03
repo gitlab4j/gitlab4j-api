@@ -7,11 +7,10 @@ import java.util.Map;
 
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic<E> implements Serializable {
@@ -40,30 +39,114 @@ public class AbstractEpic<E extends AbstractEpic<E>> extends AbstractMinimalEpic
         }
     }
 
+    /**
+     * The internal identifier of the parent epic.
+     */
+    @JsonProperty("parent_iid")
     private Long parentIid;
+
+    /**
+     * The description of the epic.
+     */
+    @JsonProperty("description")
     private String description;
+
+    /**
+     * The state of the epic (e.g., open, closed).
+     */
+    @JsonProperty("state")
     private EpicState state;
+
+    /**
+     * The web URL of the epic.
+     */
+    @JsonProperty("web_url")
     private String webUrl;
+
+    /**
+     * The references associated with the epic.
+     */
+    @JsonProperty("references")
     private References references;
+
+    /**
+     * The author of the epic.
+     */
+    @JsonProperty("author")
     private Author author;
+
+    /**
+     * The list of labels associated with the epic.
+     */
+    @JsonProperty("labels")
     private List<String> labels;
 
+    /**
+     * The start date of the epic.
+     */
+    @JsonProperty("start_date")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date startDate;
 
+    /**
+     * The due date of the epic.
+     */
+    @JsonProperty("due_date")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
 
+    /**
+     * The end date of the epic.
+     */
+    @JsonProperty("end_date")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date endDate;
 
+    /**
+     * The date when the epic was created.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    /**
+     * The date when the epic was last updated.
+     */
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    /**
+     * The date when the epic was closed.
+     */
+    @JsonProperty("closed_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date closedAt;
+
+    /**
+     * The number of downvotes for the epic.
+     */
+    @JsonProperty("downvotes")
     private Integer downvotes;
+
+    /**
+     * The number of upvotes for the epic.
+     */
+    @JsonProperty("upvotes")
     private Integer upvotes;
+
+    /**
+     * The color associated with the epic.
+     */
+    @JsonProperty("color")
     private String color;
 
+    /**
+     * The links associated with the epic.
+     */
     @JsonProperty("_links")
     private Map<String, String> links;
 

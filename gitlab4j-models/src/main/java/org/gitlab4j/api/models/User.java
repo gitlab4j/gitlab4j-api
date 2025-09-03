@@ -4,39 +4,111 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class User extends AbstractUser<User> {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("bio")
     private String bio;
+
+    @JsonProperty("bot")
     private Boolean bot;
+
+    @JsonProperty("can_create_group")
     private Boolean canCreateGroup;
+
+    @JsonProperty("can_create_project")
     private Boolean canCreateProject;
+
+    @JsonProperty("color_scheme_id")
     private Integer colorSchemeId;
+
+    @JsonProperty("confirmed_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date confirmedAt;
+
+    @JsonProperty("current_sign_in_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date currentSignInAt;
+
+    @JsonProperty("custom_attributes")
     private List<CustomAttribute> customAttributes;
+
+    @JsonProperty("external")
     private Boolean external;
+
+    @JsonProperty("extern_uid")
     private String externUid;
+
+    @JsonProperty("extra_shared_runners_minutes_limit")
     private Integer extraSharedRunnersMinutesLimit;
+
+    @JsonProperty("identities")
     private List<Identity> identities;
+
+    @JsonProperty("is_admin")
     private Boolean isAdmin;
+
+    @JsonProperty("last_activity_on")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date lastActivityOn;
+
+    @JsonProperty("last_sign_in_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastSignInAt;
+
+    @JsonProperty("linkedin")
     private String linkedin;
+
+    @JsonProperty("location")
     private String location;
+
+    @JsonProperty("namespace_id")
     private Long namespaceId;
+
+    @JsonProperty("organization")
     private String organization;
+
+    @JsonProperty("private_profile")
     private Boolean privateProfile;
+
+    @JsonProperty("projects_limit")
     private Integer projectsLimit;
+
+    @JsonProperty("provider")
     private String provider;
+
+    @JsonProperty("public_email")
     private String publicEmail;
+
+    @JsonProperty("shared_runners_minutes_limit")
     private Integer sharedRunnersMinutesLimit;
+
+    @JsonProperty("skype")
     private String skype;
+
+    @JsonProperty("theme_id")
     private Integer themeId;
+
+    @JsonProperty("twitter")
     private String twitter;
+
+    @JsonProperty("two_factor_enabled")
     private Boolean twoFactorEnabled;
+
+    @JsonProperty("website_url")
     private String websiteUrl;
+
+    @JsonProperty("skip_confirmation")
     private Boolean skipConfirmation;
 
     public String getBio() {

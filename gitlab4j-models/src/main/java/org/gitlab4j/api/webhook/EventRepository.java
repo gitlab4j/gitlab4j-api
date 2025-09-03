@@ -3,14 +3,29 @@ package org.gitlab4j.api.webhook;
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventRepository {
 
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("homepage")
     private String homepage;
+
+    @JsonProperty("git_http_url")
     private String git_http_url;
+
+    @JsonProperty("git_ssh_url")
     private String git_ssh_url;
+
+    @JsonProperty("visibility_level")
     private AccessLevel visibility_level;
 
     public String getName() {

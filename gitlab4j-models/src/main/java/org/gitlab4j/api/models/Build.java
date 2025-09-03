@@ -3,27 +3,69 @@ package org.gitlab4j.api.models;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author Yaris van Thiel
  */
 public class Build {
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("stage")
     private String stage;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("status")
     private BuildStatus status;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("started_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date startedAt;
+
+    @JsonProperty("finished_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date finishedAt;
+
+    @JsonProperty("duration")
     private Float duration;
+
+    @JsonProperty("queued_duration")
     private Float queuedDuration;
+
+    @JsonProperty("failure_reason")
     private String failureReason;
+
+    @JsonProperty("when")
     private String when;
+
+    @JsonProperty("manual")
     private Boolean manual;
+
+    @JsonProperty("allow_failure")
     private Boolean allowFailure;
+
+    @JsonProperty("user")
     private User user;
+
+    @JsonProperty("runner")
     private Runner runner;
+
+    @JsonProperty("artifacts_file")
     private ArtifactsFile artifactsFile;
 
     public Long getId() {

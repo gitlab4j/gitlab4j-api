@@ -8,8 +8,11 @@ import org.gitlab4j.models.Constants.TodoAction;
 import org.gitlab4j.models.Constants.TodoState;
 import org.gitlab4j.models.Constants.TodoType;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -21,18 +24,37 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class Todo implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("project")
     private Project project;
+
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("action_name")
     private TodoAction actionName;
+
+    @JsonProperty("target_type")
     private TodoType targetType;
 
+    @JsonProperty("target")
     @JsonDeserialize(using = TargetDeserializer.class)
     private Object target;
 
+    @JsonProperty("target_url")
     private String targetUrl;
+
+    @JsonProperty("body")
     private String body;
+
+    @JsonProperty("state")
     private TodoState state;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
 
     public Long getId() {

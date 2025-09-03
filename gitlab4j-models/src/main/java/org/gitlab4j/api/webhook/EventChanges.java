@@ -6,24 +6,58 @@ import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.api.models.Assignee;
+import org.gitlab4j.models.utils.DateChangeContainerDeserializer;
+import org.gitlab4j.models.utils.DateWithTimeChangeContainerSerializer;
 import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public abstract class EventChanges {
 
+    @JsonProperty("author_id")
     private ChangeContainer<Long> authorId;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = DateChangeContainerDeserializer.class)
+    @JsonSerialize(using = DateWithTimeChangeContainerSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private ChangeContainer<Date> createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = DateChangeContainerDeserializer.class)
+    @JsonSerialize(using = DateWithTimeChangeContainerSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private ChangeContainer<Date> updatedAt;
+
+    @JsonProperty("updated_by_id")
     private ChangeContainer<Long> updatedById;
+
+    @JsonProperty("title")
     private ChangeContainer<String> title;
+
+    @JsonProperty("description")
     private ChangeContainer<String> description;
+
+    @JsonProperty("state")
     private ChangeContainer<String> state;
+
+    @JsonProperty("milestone_id")
     private ChangeContainer<Long> milestoneId;
+
+    @JsonProperty("labels")
     private ChangeContainer<List<EventLabel>> labels;
+
+    @JsonProperty("assignees")
     private ChangeContainer<List<Assignee>> assignees;
+
+    @JsonProperty("total_time_spent")
     private ChangeContainer<Integer> totalTimeSpent;
+
     private Map<String, ChangeContainer<Object>> otherProperties = new LinkedHashMap<>();
 
     public ChangeContainer<Long> getAuthorId() {

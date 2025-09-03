@@ -5,45 +5,49 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class EventLabel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public enum LabelType {
-        PROJECT_LABEL,
-        GROUP_LABEL;
-
-        private static JacksonJsonEnumHelper<LabelType> enumHelper =
-                new JacksonJsonEnumHelper<>(LabelType.class, true, true);
-
-        @JsonCreator
-        public static LabelType forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
-
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("color")
     private String color;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    @JsonProperty("template")
     private Boolean template;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("type")
     private LabelType type;
+
+    @JsonProperty("group_id")
     private Long groupId;
 
     public Long getId() {
@@ -129,5 +133,28 @@ public class EventLabel implements Serializable {
     @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
+    }
+
+    public enum LabelType {
+        PROJECT_LABEL,
+        GROUP_LABEL;
+
+        private static JacksonJsonEnumHelper<LabelType> enumHelper =
+                new JacksonJsonEnumHelper<>(LabelType.class, true, true);
+
+        @JsonCreator
+        public static LabelType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
     }
 }

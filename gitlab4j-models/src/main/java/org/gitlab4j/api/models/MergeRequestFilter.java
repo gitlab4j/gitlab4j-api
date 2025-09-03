@@ -10,18 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.models.Constants;
-import org.gitlab4j.models.Constants.MergeRequestOrderBy;
-import org.gitlab4j.models.Constants.MergeRequestScope;
-import org.gitlab4j.models.Constants.MergeRequestSearchIn;
-import org.gitlab4j.models.Constants.MergeRequestState;
-import org.gitlab4j.models.Constants.SortOrder;
+import org.gitlab4j.models.Constants.*;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * This class is used to filter merge requests when getting lists of them.
@@ -29,65 +25,88 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class MergeRequestFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("group_id")
     private Long groupId;
+
+    @JsonProperty("iids")
     private List<Long> iids;
+
+    @JsonProperty("state")
     private MergeRequestState state;
+
+    @JsonProperty("order_by")
     private MergeRequestOrderBy orderBy;
+
+    @JsonProperty("sort")
     private SortOrder sort;
+
+    @JsonProperty("milestone")
     private String milestone;
+
+    @JsonProperty("simple_view")
     private Boolean simpleView;
+
+    @JsonProperty("labels")
     private List<String> labels;
+
+    @JsonProperty("created_after")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAfter;
+
+    @JsonProperty("created_before")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdBefore;
+
+    @JsonProperty("updated_after")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAfter;
+
+    @JsonProperty("updated_before")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedBefore;
+
+    @JsonProperty("scope")
     private MergeRequestScope scope;
 
     /**
      * Filter MR by created by the given user id. Combine with scope=all or scope=assigned_to_me
      */
+    @JsonProperty("author_id")
     private Long authorId;
 
+    @JsonProperty("assignee_id")
     private Long assigneeId;
+
+    @JsonProperty("reviewer_id")
     private Long reviewerId;
+
+    @JsonProperty("my_reaction_emoji")
     private String myReactionEmoji;
+
+    @JsonProperty("source_branch")
     private String sourceBranch;
+
+    @JsonProperty("target_branch")
     private String targetBranch;
+
+    @JsonProperty("search")
     private String search;
+
+    @JsonProperty("in")
     private MergeRequestSearchIn in;
+
+    @JsonProperty("wip")
     private Boolean wip;
+
+    @JsonProperty("not")
     private Map<MergeRequestField, Object> not;
-
-    public enum MergeRequestField {
-        LABELS,
-        MILESTONE,
-        AUTHOR_ID,
-        AUTHOR_USERNAME,
-        ASSIGNEE_ID,
-        ASSIGNEE_USERNAME,
-        REVIEWER_ID,
-        REVIEWER_USERNAME,
-        MY_REACTION_EMOJI;
-
-        private static JacksonJsonEnumHelper<MergeRequestField> enumHelper =
-                new JacksonJsonEnumHelper<>(MergeRequestField.class);
-
-        @JsonCreator
-        public static MergeRequestField forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
 
     public Long getProjectId() {
         return projectId;
@@ -554,5 +573,35 @@ public class MergeRequestFilter implements Serializable {
     @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
+    }
+
+    public enum MergeRequestField {
+        LABELS,
+        MILESTONE,
+        AUTHOR_ID,
+        AUTHOR_USERNAME,
+        ASSIGNEE_ID,
+        ASSIGNEE_USERNAME,
+        REVIEWER_ID,
+        REVIEWER_USERNAME,
+        MY_REACTION_EMOJI;
+
+        private static JacksonJsonEnumHelper<MergeRequestField> enumHelper =
+                new JacksonJsonEnumHelper<>(MergeRequestField.class);
+
+        @JsonCreator
+        public static MergeRequestField forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
     }
 }

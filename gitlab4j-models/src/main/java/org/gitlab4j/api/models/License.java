@@ -5,21 +5,55 @@ import java.util.Date;
 import java.util.Map;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class License implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("plan")
     private String plan;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("starts_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date startsAt;
+
+    @JsonProperty("expires_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date expiresAt;
+
+    @JsonProperty("historical_max")
     private Integer historicalMax;
+
+    @JsonProperty("expired")
     private Boolean expired;
+
+    @JsonProperty("overage")
     private Integer overage;
+
+    @JsonProperty("user_limit")
     private Integer userLimit;
+
+    @JsonProperty("active_users")
     private Integer activeUsers;
+
+    @JsonProperty("licensee")
     private Map<String, String> licensee;
+
+    @JsonProperty("add_ons")
     private Map<String, Integer> addOns;
 
     public Long getId() {

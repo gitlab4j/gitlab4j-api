@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class ProjectFetches implements Serializable {
@@ -15,8 +16,10 @@ public class ProjectFetches implements Serializable {
 
         private static final long serialVersionUID = 1L;
 
+        @JsonProperty("count")
         private Integer count;
 
+        @JsonProperty("date")
         @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
         private Date date;
 
@@ -40,7 +43,10 @@ public class ProjectFetches implements Serializable {
     public static class Fetches implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        @JsonProperty("total")
         private Integer total;
+
+        @JsonProperty("days")
         private List<DateCount> days;
 
         public Integer getTotal() {
@@ -60,6 +66,7 @@ public class ProjectFetches implements Serializable {
         }
     }
 
+    @JsonProperty("fetches")
     private Fetches fetches;
 
     public Fetches getFetches() {

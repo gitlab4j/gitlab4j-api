@@ -7,19 +7,42 @@ import org.gitlab4j.api.models.Runner.RunnerType;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CreateRunnerParams implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("runner_type")
     private RunnerType runnerType;
+
+    @JsonProperty("group_id")
     private Long groupId;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("paused")
     private Boolean paused;
+
+    @JsonProperty("locked")
     private Boolean locked;
+
+    @JsonProperty("run_untagged")
     private Boolean runUntagged;
+
+    @JsonProperty("tag_list")
     private List<String> tagList;
+
+    @JsonProperty("access_level")
     private String accessLevel;
+
+    @JsonProperty("maximum_timeout")
     private Integer maximumTimeout;
+
+    @JsonProperty("maintenance_note")
     private String maintenanceNote;
 
     public GitLabForm getForm() {

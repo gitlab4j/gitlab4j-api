@@ -6,6 +6,7 @@ import org.gitlab4j.models.Constants;
 import org.gitlab4j.models.GitLabForm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * This class is used to filter commit status when getting lists of them.
@@ -13,9 +14,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class CommitStatusFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The reference associated with the commit status filter.
+     */
+    @JsonProperty("ref")
     private String ref;
+
+    /**
+     * The stage associated with the commit status filter.
+     */
+    @JsonProperty("stage")
     private String stage;
+
+    /**
+     * The name associated with the commit status filter.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * Indicates whether all commit statuses are included in the filter.
+     */
+    @JsonProperty("all")
     private Boolean all;
 
     public CommitStatusFilter withRef(String ref) {

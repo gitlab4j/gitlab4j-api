@@ -4,14 +4,45 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class GpgSignature implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The ID of the GPG key.
+     */
+    @JsonProperty("gpg_key_id")
     private Long gpgKeyId;
+
+    /**
+     * The primary key ID of the GPG key.
+     */
+    @JsonProperty("gpg_key_primary_keyid")
     private String gpgKeyPrimaryKeyid;
+
+    /**
+     * The username associated with the GPG key.
+     */
+    @JsonProperty("gpg_key_user_name")
     private String gpgKeyUserName;
+
+    /**
+     * The email address associated with the GPG key.
+     */
+    @JsonProperty("gpg_key_user_email")
     private String gpgKeyUserEmail;
+
+    /**
+     * The verification status of the GPG key.
+     */
+    @JsonProperty("verification_status")
     private String verificationStatus;
+
+    /**
+     * The subkey ID of the GPG key.
+     */
+    @JsonProperty("gpg_key_subkey_id")
     private String gpgKeySubkeyId;
 
     public Long getGpgKeyId() {

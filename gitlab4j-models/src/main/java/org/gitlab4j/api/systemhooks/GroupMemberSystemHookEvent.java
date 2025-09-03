@@ -3,6 +3,11 @@ package org.gitlab4j.api.systemhooks;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class GroupMemberSystemHookEvent extends AbstractSystemHookEvent {
     private static final long serialVersionUID = 1L;
@@ -10,16 +15,41 @@ public class GroupMemberSystemHookEvent extends AbstractSystemHookEvent {
     public static final String NEW_GROUP_MEMBER_EVENT = "user_add_to_group";
     public static final String GROUP_MEMBER_REMOVED_EVENT = "user_remove_from_group";
 
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    @JsonProperty("event_name")
     private String eventName;
+
+    @JsonProperty("group_access")
     private String groupAccess;
+
+    @JsonProperty("group_name")
     private String groupName;
+
+    @JsonProperty("group_path")
     private String groupPath;
+
+    @JsonProperty("group_id")
     private Long groupId;
+
+    @JsonProperty("user_email")
     private String userEmail;
+
+    @JsonProperty("user_name")
     private String userName;
+
+    @JsonProperty("user_username")
     private String userUsername;
+
+    @JsonProperty("user_id")
     private Long userId;
 
     public Date getCreatedAt() {

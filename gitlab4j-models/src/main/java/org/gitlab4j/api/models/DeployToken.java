@@ -6,15 +6,51 @@ import java.util.List;
 
 import org.gitlab4j.models.Constants;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class DeployToken implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the deploy token.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The name of the deploy token.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The username associated with the deploy token.
+     */
+    @JsonProperty("username")
     private String username;
+
+    /**
+     * The expiration date of the deploy token.
+     */
+    @JsonProperty("expires_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date expiresAt;
+
+    /**
+     * The list of scopes associated with the deploy token.
+     */
+    @JsonProperty("scopes")
     private List<Constants.DeployTokenScope> scopes;
+
+    /**
+     * The token string.
+     */
+    @JsonProperty("token")
     private String token;
 
     public Long getId() {

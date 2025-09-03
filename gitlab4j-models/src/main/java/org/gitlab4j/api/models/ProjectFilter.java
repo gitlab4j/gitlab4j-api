@@ -8,6 +8,11 @@ import org.gitlab4j.models.Constants.ProjectOrderBy;
 import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  *  This class is used to filter Projects when getting lists of projects for a specified user.
@@ -15,31 +20,86 @@ import org.gitlab4j.models.utils.JacksonJson;
 public class ProjectFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("archived")
     private Boolean archived;
+
+    @JsonProperty("visibility")
     private Visibility visibility;
+
+    @JsonProperty("order_by")
     private ProjectOrderBy orderBy;
+
+    @JsonProperty("sort")
     private SortOrder sort;
+
+    @JsonProperty("search")
     private String search;
+
+    @JsonProperty("search_namespaces")
     private Boolean searchNamespaces;
+
+    @JsonProperty("simple")
     private Boolean simple;
+
+    @JsonProperty("owned")
     private Boolean owned;
+
+    @JsonProperty("membership")
     private Boolean membership;
+
+    @JsonProperty("starred")
     private Boolean starred;
+
+    @JsonProperty("statistics")
     private Boolean statistics;
+
+    @JsonProperty("with_custom_attributes")
     private Boolean withCustomAttributes;
+
+    @JsonProperty("with_issues_enabled")
     private Boolean withIssuesEnabled;
+
+    @JsonProperty("with_merge_requests_enabled")
     private Boolean withMergeRequestsEnabled;
+
+    @JsonProperty("with_programming_language")
     private String withProgrammingLanguage;
+
+    @JsonProperty("wiki_checksum_failed")
     private Boolean wikiChecksumFailed;
+
+    @JsonProperty("repository_checksum_failed")
     private Boolean repositoryChecksumFailed;
+
+    @JsonProperty("min_access_level")
     private AccessLevel minAccessLevel;
+
+    @JsonProperty("id_after")
     private Long idAfter;
+
+    @JsonProperty("id_before")
     private Long idBefore;
+
+    @JsonProperty("last_activity_after")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastActivityAfter;
+
+    @JsonProperty("last_activity_before")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastActivityBefore;
+
+    @JsonProperty("repository_storage")
     private String repositoryStorage;
+
+    @JsonProperty("imported")
     private Boolean imported;
+
+    @JsonProperty("topic")
     private String topic;
+
+    @JsonProperty("topic_id")
     private Integer topic_id;
 
     /**

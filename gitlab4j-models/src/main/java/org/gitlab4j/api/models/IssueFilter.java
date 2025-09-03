@@ -14,10 +14,10 @@ import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.ISO8601;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  *  This class is used to filter issues when getting lists of them.
@@ -28,91 +28,117 @@ public class IssueFilter implements Serializable {
     /**
      * Return only the issues having the given iid.
      */
+    @JsonProperty("iids")
     private List<Long> iids;
 
     /**
      * {@link org.gitlab4j.models.Constants.IssueState} Return all issues or just those that are opened or closed.
      */
+    @JsonProperty("state")
     private IssueState state;
 
     /**
      * Modify the scope of the search attribute. title, description, or a string joining them with comma. Default is title,description
      */
+    @JsonProperty("in")
     private List<String> in;
 
     /**
      * Comma-separated list of label names, issues must have all labels to be returned. No+Label lists all issues with no labels.
      */
+    @JsonProperty("labels")
     private List<String> labels;
 
     /**
      * The milestone title. No+Milestone lists all issues with no milestone.
      */
+    @JsonProperty("milestone")
     private String milestone;
 
     /**
      * {@link org.gitlab4j.models.Constants.IssueScope} Return issues for the given scope: created_by_me, assigned_to_me or all. For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
      */
+    @JsonProperty("scope")
     private IssueScope scope;
 
     /**
      * Return issues created by the given user id.
      */
+    @JsonProperty("author_id")
     private Long authorId;
 
     /**
      * Return issues assigned to the given user id.
      */
+    @JsonProperty("assignee_id")
     private Long assigneeId;
 
     /**
      * Return issues reacted by the authenticated user by the given emoji.
      */
+    @JsonProperty("my_reaction_emoji")
     private String myReactionEmoji;
 
     /**
      * {@link org.gitlab4j.models.Constants.IssueOrderBy} Return issues ordered by created_at or updated_at fields. Default is created_at.
      */
+    @JsonProperty("order_by")
     private IssueOrderBy orderBy;
 
     /**
      * {@link org.gitlab4j.models.Constants.SortOrder} Return issues sorted in asc or desc order. Default is desc.
      */
+    @JsonProperty("sort")
     private SortOrder sort;
 
     /**
      * Search project issues against their title and description.
      */
+    @JsonProperty("search")
     private String search;
 
     /**
      * Return issues created on or after the given time.
      */
+    @JsonProperty("created_after")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAfter;
 
     /**
      * Return issues created on or before the given time.
      */
+    @JsonProperty("created_before")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdBefore;
 
     /**
      * Return issues updated on or after the given time.
      */
+    @JsonProperty("updated_after")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAfter;
 
     /**
      * Return issues updated on or before the given time.
      */
+    @JsonProperty("updated_before")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedBefore;
 
     /**
      * Return issues in current iteration.
      */
+    @JsonProperty("iteration_title")
     private String iterationTitle;
 
     /*
      * Return issues without these parameters
      */
+    @JsonProperty("not")
     private Map<IssueField, Object> not;
 
     public enum IssueField {

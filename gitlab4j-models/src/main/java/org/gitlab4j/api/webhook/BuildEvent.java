@@ -4,6 +4,11 @@ import java.util.Date;
 
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * The documentation at: <a href="https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#job-events">
@@ -15,31 +20,82 @@ public class BuildEvent extends AbstractEvent {
     public static final String JOB_HOOK_X_GITLAB_EVENT = "Job Hook";
     public static final String OBJECT_KIND = "build";
 
+    @JsonProperty("ref")
     private String ref;
+
+    @JsonProperty("tag")
     private Boolean tag;
+
+    @JsonProperty("before_sha")
     private String beforeSha;
+
+    @JsonProperty("sha")
     private String sha;
+
+    @JsonProperty("retries_count")
     private Integer retriesCount;
+
+    @JsonProperty("build_id")
     private Long buildId;
+
+    @JsonProperty("build_name")
     private String buildName;
+
+    @JsonProperty("build_stage")
     private String buildStage;
+
+    @JsonProperty("build_status")
     private String buildStatus;
+
+    @JsonProperty("build_created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date buildCreatedAt;
+
+    @JsonProperty("build_started_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date buildStartedAt;
+
+    @JsonProperty("build_finished_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date buildFinishedAt;
+
+    @JsonProperty("build_duration")
     private Float buildDuration;
 
+    @JsonProperty("build_queued_duration")
     private Float buildQueuedDuration;
+
+    @JsonProperty("build_allow_failure")
     private Boolean buildAllowFailure;
+
+    @JsonProperty("build_failure_reason")
     private String buildFailureReason;
+
+    @JsonProperty("project_id")
     private Long projectId;
 
+    @JsonProperty("pipeline_id")
     private Long pipelineId;
+
+    @JsonProperty("project_name")
     private String projectName;
+
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("commit")
     private BuildCommit commit;
+
+    @JsonProperty("repository")
     private EventRepository repository;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("runner")
     private Runner runner;
 
     @Override

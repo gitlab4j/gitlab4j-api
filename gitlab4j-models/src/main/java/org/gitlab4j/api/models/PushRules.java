@@ -4,24 +4,60 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class PushRules implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("project_id")
     private Long projectId;
+
+    @JsonProperty("commit_message_regex")
     private String commitMessageRegex;
+
+    @JsonProperty("commit_message_negative_regex")
     private String commitMessageNegativeRegex;
+
+    @JsonProperty("branch_name_regex")
     private String branchNameRegex;
+
+    @JsonProperty("deny_delete_tag")
     private Boolean denyDeleteTag;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("member_check")
     private Boolean memberCheck;
+
+    @JsonProperty("prevent_secrets")
     private Boolean preventSecrets;
+
+    @JsonProperty("author_email_regex")
     private String authorEmailRegex;
+
+    @JsonProperty("file_name_regex")
     private String fileNameRegex;
+
+    @JsonProperty("max_file_size")
     private Integer maxFileSize;
+
+    @JsonProperty("commit_committer_check")
     private Boolean commitCommitterCheck;
+
+    @JsonProperty("commit_committer_name_check")
     private Boolean commitCommitterNameCheck;
+
+    @JsonProperty("reject_unsigned_commits")
     private Boolean rejectUnsignedCommits;
 
     public Long getId() {

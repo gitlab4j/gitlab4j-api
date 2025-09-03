@@ -5,17 +5,41 @@ import java.util.List;
 
 import org.gitlab4j.api.models.Author;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class EventCommit {
 
+    @JsonProperty("id")
     private String id;
+
+    @JsonProperty("message")
     private String message;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("timestamp")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date timestamp;
+
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("added")
     private List<String> added;
+
+    @JsonProperty("modified")
     private List<String> modified;
+
+    @JsonProperty("removed")
     private List<String> removed;
 
     public String getId() {

@@ -4,15 +4,30 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class SearchBlob implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("basename")
     private String basename;
+
+    @JsonProperty("data")
     private String data;
+
+    @JsonProperty("filename")
     private String filename;
+
+    @JsonProperty("id")
     private String id;
+
+    @JsonProperty("ref")
     private String ref;
+
+    @JsonProperty("startline")
     private Integer startline;
+
+    @JsonProperty("project_id")
     private Long projectId;
 
     public String getBasename() {

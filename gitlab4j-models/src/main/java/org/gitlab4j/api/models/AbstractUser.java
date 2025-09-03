@@ -4,21 +4,68 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractUser<U extends AbstractUser<U>> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The avatar URL associated with the user.
+     */
+    @JsonProperty("avatar_url")
     private String avatarUrl;
+
+    /**
+     * The date when the user was created.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    /**
+     * The email address associated with the user.
+     */
+    @JsonProperty("email")
     private String email;
+
+    /**
+     * The unique identifier of the user.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The name of the user.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The state of the user (e.g., active, inactive).
+     */
+    @JsonProperty("state")
     private String state;
+
+    @JsonProperty("locked")
     private Boolean locked;
+
+    /**
+     * The username associated with the user.
+     */
+    @JsonProperty("username")
     private String username;
+
+    /**
+     * The web URL of the user's profile.
+     */
+    @JsonProperty("web_url")
     private String webUrl;
 
     public String getAvatarUrl() {

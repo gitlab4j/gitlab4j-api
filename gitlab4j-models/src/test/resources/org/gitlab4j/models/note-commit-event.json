@@ -34,8 +34,8 @@
     "type": "DiscussionNote",
     "noteable_type": "Commit",
     "author_id": 1,
-    "created_at": "2015-05-17T18:08:09Z",
-    "updated_at": "2015-05-17T18:08:09Z",
+    "created_at": "2015-05-17T18:08:09.248Z",
+    "updated_at": "2015-05-17T18:08:09.248Z",
     "project_id": 5,
     "line_code": "bec9703f7a456cd2b4ab5fb3220ae016e3e394e3_0_1",
     "commit_id": "cfe32cf61b73a0d5e9f13e774abde7ff789b1660",
@@ -55,7 +55,7 @@
   "commit": {
     "id": "cfe32cf61b73a0d5e9f13e774abde7ff789b1660",
     "message": "Add submodule\n\nSigned-off-by: Dmitriy Zaporozhets \u003cdmitriy.zaporozhets@gmail.com\u003e\n",
-    "timestamp": "2014-02-27T10:06:20Z",
+    "timestamp": "2014-02-27T10:06:20.248Z",
     "url": "http://example.com/gitlab-org/gitlab-test/commit/cfe32cf61b73a0d5e9f13e774abde7ff789b1660",
     "author": {
       "name": "Dmitriy Zaporozhets",

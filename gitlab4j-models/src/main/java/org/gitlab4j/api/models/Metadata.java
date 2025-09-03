@@ -9,9 +9,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Metadata implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("version")
     private String version;
+
+    @JsonProperty("revision")
     private String revision;
+
+    @JsonProperty("kas")
     private Kas kas;
+
+    @JsonProperty("enterprise")
     private Boolean enterprise;
 
     public String getVersion() {
@@ -53,11 +60,13 @@ public class Metadata implements Serializable {
 
     public static class Kas {
 
+        @JsonProperty("enabled")
         private Boolean enabled;
 
         @JsonProperty("externalUrl")
         private String externalUrl;
 
+        @JsonProperty("version")
         private String version;
 
         public Boolean getEnabled() {

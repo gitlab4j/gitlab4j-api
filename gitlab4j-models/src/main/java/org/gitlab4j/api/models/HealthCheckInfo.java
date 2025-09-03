@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -16,24 +17,52 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class HealthCheckInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The health check for the database.
+     */
+    @JsonProperty("db_check")
     @JsonDeserialize(using = HealthCheckItemDeserializer.class)
     private HealthCheckItem dbCheck;
 
+    /**
+     * The health check for Redis.
+     */
+    @JsonProperty("redis_check")
     @JsonDeserialize(using = HealthCheckItemDeserializer.class)
     private HealthCheckItem redisCheck;
 
+    /**
+     * The health check for the cache.
+     */
+    @JsonProperty("cache_check")
     @JsonDeserialize(using = HealthCheckItemDeserializer.class)
     private HealthCheckItem cacheCheck;
 
+    /**
+     * The health check for queues.
+     */
+    @JsonProperty("queues_check")
     @JsonDeserialize(using = HealthCheckItemDeserializer.class)
     private HealthCheckItem queuesCheck;
 
+    /**
+     * The health check for shared state.
+     */
+    @JsonProperty("shared_state_check")
     @JsonDeserialize(using = HealthCheckItemDeserializer.class)
     private HealthCheckItem sharedStateCheck;
 
+    /**
+     * The health check for file system shards.
+     */
+    @JsonProperty("fs_shards_check")
     @JsonDeserialize(using = HealthCheckItemDeserializer.class)
     private HealthCheckItem fsShardsCheck;
 
+    /**
+     * The health check for Gitaly.
+     */
+    @JsonProperty("gitaly_check")
     @JsonDeserialize(using = HealthCheckItemDeserializer.class)
     private HealthCheckItem gitalyCheck;
 

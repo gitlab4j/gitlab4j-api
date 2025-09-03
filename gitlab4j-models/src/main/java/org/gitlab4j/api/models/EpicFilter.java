@@ -11,9 +11,13 @@ import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.ISO8601;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  *  This class is used to filter Groups when getting lists of epics.
@@ -21,19 +25,94 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class EpicFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The author ID for filtering epic issues.
+     */
+    @JsonProperty("author_id")
     private Long authorId;
+
+    /**
+     * The username of the author for filtering epic issues.
+     */
+    @JsonProperty("author_username")
     private String authorUsername;
+
+    /**
+     * The labels associated with epic issues.
+     */
+    @JsonProperty("labels")
     private String labels;
+
+    /**
+     * The ordering criteria for the epics.
+     */
+    @JsonProperty("order_by")
     private EpicOrderBy orderBy;
+
+    /**
+     * The sorting order for the epics.
+     */
+    @JsonProperty("sort")
     private SortOrder sort;
+
+    /**
+     * The search string to filter epics.
+     */
+    @JsonProperty("search")
     private String search;
+
+    /**
+     * The state of the epic.
+     */
+    @JsonProperty("state")
     private EpicState state;
+
+    /**
+     * The date after which the epic was created.
+     */
+    @JsonProperty("created_after")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAfter;
+
+    /**
+     * The date after which the epic was updated.
+     */
+    @JsonProperty("updated_after")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAfter;
+
+    /**
+     * The date before which the epic was updated.
+     */
+    @JsonProperty("updated_before")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedBefore;
+
+    /**
+     * Indicates if ancestor groups should be included in the filter.
+     */
+    @JsonProperty("include_ancestor_groups")
     private Boolean includeAncestorGroups;
+
+    /**
+     * Indicates if descendant groups should be included in the filter.
+     */
+    @JsonProperty("include_descendant_groups")
     private Boolean includeDescendantGroups;
+
+    /**
+     * The emoji reaction by the authenticated user to filter epics.
+     */
+    @JsonProperty("my_reaction_emoji")
     private String myReactionEmoji;
+
+    /**
+     * A map of epic fields and values to exclude from the filter.
+     */
+    @JsonProperty("not")
     private Map<EpicField, Object> not;
 
     public enum EpicField {

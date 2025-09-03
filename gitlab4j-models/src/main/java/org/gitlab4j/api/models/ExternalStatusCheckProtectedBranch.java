@@ -4,15 +4,53 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class ExternalStatusCheckProtectedBranch implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier for the external status check protected branch.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The project ID associated with the external status check.
+     */
+    @JsonProperty("project_id")
     private Long projectId;
+
+    /**
+     * The name of the external status check protected branch.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The creation date of the external status check protected branch.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    /**
+     * The last updated date of the external status check protected branch.
+     */
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    /**
+     * Indicates if code owner approval is required for the external status check protected branch.
+     */
+    @JsonProperty("code_owner_approval_required")
     private Boolean codeOwnerApprovalRequired;
 
     public Long getId() {

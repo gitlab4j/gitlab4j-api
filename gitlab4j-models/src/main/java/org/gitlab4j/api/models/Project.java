@@ -6,18 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.gitlab4j.api.models.ImportStatus.Status;
-import org.gitlab4j.models.Constants.AutoCancelPendingPipelines;
-import org.gitlab4j.models.Constants.AutoDevopsDeployStrategy;
-import org.gitlab4j.models.Constants.BuildGitStrategy;
-import org.gitlab4j.models.Constants.ProjectFeatureVisibilityAccessLevel;
-import org.gitlab4j.models.Constants.SquashOption;
+import org.gitlab4j.models.Constants.*;
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Project implements Serializable {
@@ -47,148 +42,421 @@ public class Project implements Serializable {
         }
     }
 
+    @JsonProperty("approvals_before_merge")
     private Integer approvalsBeforeMerge;
+
+    @JsonProperty("archived")
     private Boolean archived;
+
+    @JsonProperty("avatar_url")
     private String avatarUrl;
+
+    @JsonProperty("container_registry_enabled")
     private Boolean containerRegistryEnabled;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("creator_id")
     private Long creatorId;
+
+    @JsonProperty("default_branch")
     private String defaultBranch;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("forks_count")
     private Integer forksCount;
+
+    @JsonProperty("forked_from_project")
     private Project forkedFromProject;
+
+    @JsonProperty("http_url_to_repo")
     private String httpUrlToRepo;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("public")
     private Boolean isPublic;
+
+    @JsonProperty("issues_enabled")
     private Boolean issuesEnabled;
+
+    @JsonProperty("jobs_enabled")
     private Boolean jobsEnabled;
+
+    @JsonProperty("last_activity_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastActivityAt;
+
+    @JsonProperty("lfs_enabled")
     private Boolean lfsEnabled;
+
+    @JsonProperty("merge_method")
     private MergeMethod mergeMethod;
+
+    @JsonProperty("merge_requests_enabled")
     private Boolean mergeRequestsEnabled;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("namespace")
     private Namespace namespace;
+
+    @JsonProperty("name_with_namespace")
     private String nameWithNamespace;
+
+    @JsonProperty("only_allow_merge_if_pipeline_succeeds")
     private Boolean onlyAllowMergeIfPipelineSucceeds;
+
+    @JsonProperty("allow_merge_on_skipped_pipeline")
     private Boolean allowMergeOnSkippedPipeline;
+
+    @JsonProperty("only_allow_merge_if_all_discussions_are_resolved")
     private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
+
+    @JsonProperty("open_issues_count")
     private Integer openIssuesCount;
+
+    @JsonProperty("owner")
     private Owner owner;
+
+    @JsonProperty("path")
     private String path;
+
+    @JsonProperty("path_with_namespace")
     private String pathWithNamespace;
+
+    @JsonProperty("permissions")
     private Permissions permissions;
+
+    @JsonProperty("public_jobs")
     private Boolean publicJobs;
+
+    @JsonProperty("repository_storage")
     private String repositoryStorage;
+
+    @JsonProperty("request_access_enabled")
     private Boolean requestAccessEnabled;
+
+    @JsonProperty("runners_token")
     private String runnersToken;
+
+    @JsonProperty("shared_runners_enabled")
     private Boolean sharedRunnersEnabled;
+
+    @JsonProperty("shared_with_groups")
     private List<SharedGroup> sharedWithGroups;
+
+    @JsonProperty("snippets_enabled")
     private Boolean snippetsEnabled;
+
+    @JsonProperty("ssh_url_to_repo")
     private String sshUrlToRepo;
+
+    @JsonProperty("star_count")
     private Integer starCount;
 
+    @JsonProperty("tag_list")
     private List<String> tagList;
+
+    @JsonProperty("topics")
     private List<String> topics;
+
+    @JsonProperty("visibility_level")
     private Integer visibilityLevel;
+
+    @JsonProperty("visibility")
     private Visibility visibility;
+
+    @JsonProperty("wall_enabled")
     private Boolean wallEnabled;
+
+    @JsonProperty("web_url")
     private String webUrl;
+
+    @JsonProperty("wiki_enabled")
     private Boolean wikiEnabled;
+
+    @JsonProperty("printing_merge_request_link_enabled")
     private Boolean printingMergeRequestLinkEnabled;
+
+    @JsonProperty("resolve_outdated_diff_discussions")
     private Boolean resolveOutdatedDiffDiscussions;
+
+    @JsonProperty("statistics")
     private ProjectStatistics statistics;
+
+    @JsonProperty("initialize_with_readme")
     private Boolean initializeWithReadme;
+
+    @JsonProperty("packages_enabled")
     private Boolean packagesEnabled;
+
+    @JsonProperty("empty_repo")
     private Boolean emptyRepo;
+
+    @JsonProperty("license_url")
     private String licenseUrl;
+
+    @JsonProperty("license")
     private ProjectLicense license;
+
+    @JsonProperty("custom_attributes")
     private List<CustomAttribute> customAttributes;
+
+    @JsonProperty("build_coverage_regex")
     private String buildCoverageRegex;
+
+    @JsonProperty("build_git_strategy")
     private BuildGitStrategy buildGitStrategy;
+
+    @JsonProperty("readme_url")
     private String readmeUrl;
+
+    @JsonProperty("can_create_merge_request_in")
     private Boolean canCreateMergeRequestIn;
+
+    @JsonProperty("import_status")
     private Status importStatus;
+
+    @JsonProperty("ci_default_git_depth")
     private Integer ciDefaultGitDepth;
+
+    @JsonProperty("ci_forward_deployment_enabled")
     private Boolean ciForwardDeploymentEnabled;
+
+    @JsonProperty("ci_config_path")
     private String ciConfigPath;
+
+    @JsonProperty("remove_source_branch_after_merge")
     private Boolean removeSourceBranchAfterMerge;
+
+    @JsonProperty("auto_devops_enabled")
     private Boolean autoDevopsEnabled;
+
+    @JsonProperty("auto_devops_deploy_strategy")
     private AutoDevopsDeployStrategy autoDevopsDeployStrategy;
+
+    @JsonProperty("autoclose_referenced_issues")
     private Boolean autocloseReferencedIssues;
+
+    @JsonProperty("emails_disabled")
     private Boolean emailsDisabled;
+
+    @JsonProperty("suggestion_commit_message")
     private String suggestionCommitMessage;
+
+    @JsonProperty("squash_option")
     private SquashOption squashOption;
+
+    @JsonProperty("merge_commit_template")
     private String mergeCommitTemplate;
+
+    @JsonProperty("squash_commit_template")
     private String squashCommitTemplate;
+
+    @JsonProperty("issue_branch_template")
     private String issueBranchTemplate;
+
+    @JsonProperty("merge_requests_template")
     private String mergeRequestsTemplate;
+
+    @JsonProperty("issues_template")
     private String issuesTemplate;
 
+    @JsonProperty("use_custom_template")
     private Boolean useCustomTemplate;
+
+    @JsonProperty("external_authorization_classification_label")
     private String externalAuthorizationClassificationLabel;
+
+    @JsonProperty("group_runners_enabled")
     private Boolean groupRunnersEnabled;
+
+    @JsonProperty("show_default_award_emojis")
     private Boolean showDefaultAwardEmojis;
+
+    @JsonProperty("warn_about_potentially_unwanted_characters")
     private Boolean warnAboutPotentiallyUnwantedCharacters;
+
+    @JsonProperty("mirror_trigger_builds")
     private Boolean mirrorTriggerBuilds;
+
+    @JsonProperty("auto_cancel_pending_pipelines")
     private AutoCancelPendingPipelines autoCancelPendingPipelines;
+
+    @JsonProperty("repository_object_format")
     private String repositoryObjectFormat;
+
+    @JsonProperty("only_allow_merge_if_all_status_checks_passed")
     private Boolean onlyAllowMergeIfAllStatusChecksPassed;
+
+    @JsonProperty("group_with_project_templates_id")
     private Integer groupWithProjectTemplatesId;
+
+    @JsonProperty("public_builds")
     private Boolean publicBuilds;
+
+    @JsonProperty("build_timeout")
     private Integer buildTimeout;
+
+    @JsonProperty("template_name")
     private String templateName;
+
+    @JsonProperty("emails_enabled")
     private Boolean emailsEnabled;
+
+    @JsonProperty("mirror")
     private Boolean mirror;
+
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    @JsonProperty("description_html")
     private String descriptionHtml;
+
+    @JsonProperty("container_registry_image_prefix")
     private String containerRegistryImagePrefix;
+
+    @JsonProperty("container_expiration_policy")
     private ContainerExpirationPolicy containerExpirationPolicy;
+
+    @JsonProperty("service_desk_enabled")
     private Boolean serviceDeskEnabled;
+
+    @JsonProperty("import_url")
     private String importUrl;
+
+    @JsonProperty("import_type")
     private String importType;
+
+    @JsonProperty("import_error")
     private String importError;
+
+    @JsonProperty("ci_forward_deployment_rollback_allowed")
     private Boolean ciForwardDeploymentRollbackAllowed;
+
+    @JsonProperty("ci_allow_fork_pipelines_to_run_in_parent_project")
     private Boolean ciAllowForkPipelinesToRunInParentProject;
+
+    @JsonProperty("ci_id_token_sub_claim_components")
     private List<String> ciIdTokenSubClaimComponents;
+
+    @JsonProperty("ci_job_token_scope_enabled")
     private Boolean ciJobTokenScopeEnabled;
+
+    @JsonProperty("ci_separated_caches")
     private Boolean ciSeparatedCaches;
+
+    @JsonProperty("ci_restrict_pipeline_cancellation_role")
     private String ciRestrictPipelineCancellationRole;
+
+    @JsonProperty("ci_pipeline_variables_minimum_override_role")
     private String ciPipelineVariablesMinimumOverrideRole;
+
+    @JsonProperty("ci_push_repository_for_job_token_allowed")
     private Boolean ciPushRepositoryForJobTokenAllowed;
+
+    @JsonProperty("ci_delete_pipelines_in_seconds")
     private Integer ciDeletePipelinesInSeconds;
+
+    @JsonProperty("allow_pipeline_trigger_approve_deployment")
     private Boolean allowPipelineTriggerApproveDeployment;
+
+    @JsonProperty("restrict_user_defined_variables")
     private Boolean restrictUserDefinedVariables;
+
+    @JsonProperty("enforce_auth_checks_on_uploads")
     private Boolean enforceAuthChecksOnUploads;
+
+    @JsonProperty("keep_latest_artifact")
     private Boolean keepLatestArtifact;
+
+    @JsonProperty("runner_token_expiration_interval")
     private Integer runnerTokenExpirationInterval;
+
+    @JsonProperty("requirements_enabled")
     private Boolean requirementsEnabled;
+
+    @JsonProperty("security_and_compliance_enabled")
     private Boolean securityAndComplianceEnabled;
+
+    @JsonProperty("secret_push_protection_enabled")
     private Boolean secretPushProtectionEnabled;
+
+    @JsonProperty("compliance_frameworks")
     private List<String> complianceFrameworks;
 
+    @JsonProperty("analytics_access_level")
     private ProjectFeatureVisibilityAccessLevel analyticsAccessLevel;
+
+    @JsonProperty("builds_access_level")
     private ProjectFeatureVisibilityAccessLevel buildsAccessLevel;
+
+    @JsonProperty("container_registry_access_level")
     private ProjectFeatureVisibilityAccessLevel containerRegistryAccessLevel;
+
+    @JsonProperty("environments_access_level")
     private ProjectFeatureVisibilityAccessLevel environmentsAccessLevel;
+
+    @JsonProperty("feature_flags_access_level")
     private ProjectFeatureVisibilityAccessLevel featureFlagsAccessLevel;
+
+    @JsonProperty("forking_access_level")
     private ProjectFeatureVisibilityAccessLevel forkingAccessLevel;
+
+    @JsonProperty("infrastructure_access_level")
     private ProjectFeatureVisibilityAccessLevel infrastructureAccessLevel;
+
+    @JsonProperty("issues_access_level")
     private ProjectFeatureVisibilityAccessLevel issuesAccessLevel;
+
+    @JsonProperty("merge_requests_access_level")
     private ProjectFeatureVisibilityAccessLevel mergeRequestsAccessLevel;
+
+    @JsonProperty("model_experiments_access_level")
     private ProjectFeatureVisibilityAccessLevel modelExperimentsAccessLevel;
+
+    @JsonProperty("model_registry_access_level")
     private ProjectFeatureVisibilityAccessLevel modelRegistryAccessLevel;
+
+    @JsonProperty("monitor_access_level")
     private ProjectFeatureVisibilityAccessLevel monitorAccessLevel;
+
+    @JsonProperty("pages_access_level")
     private ProjectFeatureVisibilityAccessLevel pagesAccessLevel;
+
+    @JsonProperty("releases_access_level")
     private ProjectFeatureVisibilityAccessLevel releasesAccessLevel;
+
+    @JsonProperty("repository_access_level")
     private ProjectFeatureVisibilityAccessLevel repositoryAccessLevel;
+
+    @JsonProperty("requirements_access_level")
     private ProjectFeatureVisibilityAccessLevel requirementsAccessLevel;
+
+    @JsonProperty("security_and_compliance_access_level")
     private ProjectFeatureVisibilityAccessLevel securityAndComplianceAccessLevel;
+
+    @JsonProperty("snippets_access_level")
     private ProjectFeatureVisibilityAccessLevel snippetsAccessLevel;
+
+    @JsonProperty("wiki_access_level")
     private ProjectFeatureVisibilityAccessLevel wikiAccessLevel;
 
     @JsonProperty("_links")
     private Map<String, String> links;
 
+    @JsonProperty("marked_for_deletion_on")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date markedForDeletionOn;
 

@@ -5,19 +5,75 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Board implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The unique identifier of the board.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The name of the board.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * Hide the Open list.
+     */
+    @JsonProperty("hide_backlog_list")
     private Boolean hideBacklogList;
+
+    /**
+     * Hide the Closed list.
+     */
+    @JsonProperty("hide_closed_list")
     private Boolean hideClosedList;
+
+    /**
+     * The project associated with the board.
+     */
+    @JsonProperty("project")
     private Project project;
-    private List<BoardList> lists;
-    private Group group;
+
+    /**
+     * The milestone associated with the board.
+     */
+    @JsonProperty("milestone")
     private Milestone milestone;
+
+    /**
+     * The list of board lists associated with the board.
+     */
+    @JsonProperty("lists")
+    private List<BoardList> lists;
+
+    /**
+     * The group associated with the board.
+     */
+    @JsonProperty("group")
+    private Group group;
+
+    /**
+     * The assignee associated with the board.
+     */
+    @JsonProperty("assignee")
     private Assignee assignee;
+
+    /**
+     * The labels associated with the board.
+     */
+    @JsonProperty("labels")
     private List<Label> labels;
+
+    /**
+     * The weight range from 0 to 9, to which the board should be scoped to.
+     */
+    @JsonProperty("weight")
     private Integer weight;
 
     public Long getId() {

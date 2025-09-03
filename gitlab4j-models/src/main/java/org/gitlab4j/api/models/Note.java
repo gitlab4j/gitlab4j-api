@@ -5,109 +5,89 @@ import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class Note implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** Enum to use for ordering the results. */
-    public static enum OrderBy {
-        CREATED_AT,
-        UPDATED_AT;
-        private static JacksonJsonEnumHelper<OrderBy> enumHelper = new JacksonJsonEnumHelper<>(OrderBy.class);
-
-        @JsonCreator
-        public static OrderBy forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
-
-    // This is not used because the GitLab example JSON is using a funny string for the MERGE_REQUEST notable_type
-    // ("Merge request").
-    // Once they fix the bug, the notableType field can be changed from String to NotableType.
-    public static enum NoteableType {
-        COMMIT,
-        EPIC,
-        ISSUE,
-        MERGE_REQUEST,
-        SNIPPET;
-        private static JacksonJsonEnumHelper<NoteableType> enumHelper =
-                new JacksonJsonEnumHelper<>(NoteableType.class, true, true);
-
-        @JsonCreator
-        public static NoteableType forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
-
-    public static enum Type {
-        DISCUSSION_NOTE,
-        DIFF_NOTE;
-        private static JacksonJsonEnumHelper<Type> enumHelper = new JacksonJsonEnumHelper<>(Type.class, true, true);
-
-        @JsonCreator
-        public static Type forValue(String value) {
-            return enumHelper.forValue(value);
-        }
-
-        @JsonValue
-        public String toValue() {
-            return (enumHelper.toString(this));
-        }
-
-        @Override
-        public String toString() {
-            return (enumHelper.toString(this));
-        }
-    }
-
+    @JsonProperty("attachment")
     private String attachment;
+
+    @JsonProperty("author")
     private Author author;
+
+    @JsonProperty("body")
     private String body;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("downvote")
     private Boolean downvote;
+
+    @JsonProperty("expires_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date expiresAt;
+
+    @JsonProperty("file_name")
     private String fileName;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("noteable_id")
     private Long noteableId;
 
-    // Use String for noteableType until the constant is fixed in the GitLab API
-    private String noteableType;
+    @JsonProperty("noteable_type")
+    private String noteableType; // Use String until the constant is fixed in the GitLab API
 
+    @JsonProperty("noteable_iid")
     private Long noteableIid;
+
+    @JsonProperty("system")
     private Boolean system;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
+
+    @JsonProperty("upvote")
     private Boolean upvote;
+
+    @JsonProperty("resolved")
     private Boolean resolved;
+
+    @JsonProperty("resolvable")
     private Boolean resolvable;
+
+    @JsonProperty("resolved_by")
     private Participant resolvedBy;
+
+    @JsonProperty("resolved_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date resolvedAt;
+
+    @JsonProperty("internal")
     private Boolean internal;
+
+    @JsonProperty("type")
     private Type type;
 
+    @JsonProperty("position")
     private Position position;
 
     public String getAttachment() {
@@ -289,5 +269,78 @@ public class Note implements Serializable {
     @Override
     public String toString() {
         return (JacksonJson.toJsonString(this));
+    }
+
+    /**
+     * Enum to use for ordering the results.
+     */
+    public static enum OrderBy {
+        CREATED_AT,
+        UPDATED_AT;
+        private static JacksonJsonEnumHelper<OrderBy> enumHelper = new JacksonJsonEnumHelper<>(OrderBy.class);
+
+        @JsonCreator
+        public static OrderBy forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    // This is not used because the GitLab example JSON is using a funny string for the MERGE_REQUEST notable_type
+    // ("Merge request").
+    // Once they fix the bug, the notableType field can be changed from String to NotableType.
+    public static enum NoteableType {
+        COMMIT,
+        EPIC,
+        ISSUE,
+        MERGE_REQUEST,
+        SNIPPET;
+        private static JacksonJsonEnumHelper<NoteableType> enumHelper =
+                new JacksonJsonEnumHelper<>(NoteableType.class, true, true);
+
+        @JsonCreator
+        public static NoteableType forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    public static enum Type {
+        DISCUSSION_NOTE,
+        DIFF_NOTE;
+        private static JacksonJsonEnumHelper<Type> enumHelper = new JacksonJsonEnumHelper<>(Type.class, true, true);
+
+        @JsonCreator
+        public static Type forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
     }
 }

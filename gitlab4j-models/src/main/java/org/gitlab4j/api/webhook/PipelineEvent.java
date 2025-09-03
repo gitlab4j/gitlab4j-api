@@ -7,19 +7,36 @@ import org.gitlab4j.api.models.Build;
 import org.gitlab4j.api.models.Job;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class PipelineEvent extends AbstractEvent {
-    private static final long serialVersionUID = 1L;
-
     public static final String X_GITLAB_EVENT = "Pipeline Hook";
     public static final String OBJECT_KIND = "pipeline";
+    private static final long serialVersionUID = 1L;
 
+    @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
+
+    @JsonProperty("merge_request")
     private EventMergeRequest mergeRequest;
+
+    @JsonProperty("user")
     private EventUser user;
+
+    @JsonProperty("project")
     private EventProject project;
+
+    @JsonProperty("commit")
     private EventCommit commit;
+
+    @JsonProperty("jobs")
     private List<Job> jobs;
+
+    @JsonProperty("builds")
     private List<Build> builds;
 
     public String getObjectKind() {
@@ -87,24 +104,66 @@ public class PipelineEvent extends AbstractEvent {
         this.builds = builds;
     }
 
+    @Override
+    public String toString() {
+        return (JacksonJson.toJsonString(this));
+    }
+
     public static class ObjectAttributes {
 
+        @JsonProperty("id")
         private Long id;
+
+        @JsonProperty("iid")
         private Long iid;
+
+        @JsonProperty("name")
         private String name;
+
+        @JsonProperty("ref")
         private String ref;
+
+        @JsonProperty("tag")
         private Boolean tag;
+
+        @JsonProperty("sha")
         private String sha;
+
+        @JsonProperty("before_sha")
         private String beforeSha;
+
+        @JsonProperty("source")
         private String source;
+
+        @JsonProperty("status")
         private String status;
+
+        @JsonProperty("detailed_status")
         private String detailedStatus;
+
+        @JsonProperty("stages")
         private List<String> stages;
+
+        @JsonProperty("created_at")
+        @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         private Date createdAt;
+
+        @JsonProperty("finished_at")
+        @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         private Date finishedAt;
+
+        @JsonProperty("duration")
         private Integer duration;
+
+        @JsonProperty("queued_duration")
         private Float queuedDuration;
+
+        @JsonProperty("variables")
         private List<Variable> variables;
+
+        @JsonProperty("url")
         private String url;
 
         public Long getId() {
@@ -242,10 +301,5 @@ public class PipelineEvent extends AbstractEvent {
         public void setUrl(String url) {
             this.url = url;
         }
-    }
-
-    @Override
-    public String toString() {
-        return (JacksonJson.toJsonString(this));
     }
 }

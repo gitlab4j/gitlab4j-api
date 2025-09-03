@@ -5,10 +5,12 @@ import java.io.Serializable;
 import org.gitlab4j.models.utils.JacksonJson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class IssuesStatistics implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("statistics")
     private Statistics statistics;
 
     public Statistics getStatistics() {
@@ -27,6 +29,7 @@ public class IssuesStatistics implements Serializable {
     public static class Statistics implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        @JsonProperty("counts")
         private Counts counts;
 
         public Counts getCounts() {
@@ -42,8 +45,22 @@ public class IssuesStatistics implements Serializable {
 
         private static final long serialVersionUID = 1L;
 
+        /**
+         * The total number of issues.
+         */
+        @JsonProperty("all")
         private Integer all;
+
+        /**
+         * The number of closed issues.
+         */
+        @JsonProperty("closed")
         private Integer closed;
+
+        /**
+         * The number of opened issues.
+         */
+        @JsonProperty("opened")
         private Integer opened;
 
         public Integer getAll() {

@@ -4,17 +4,39 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class RegistryRepositoryTag implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("path")
     private String path;
+
+    @JsonProperty("location")
     private String location;
+
+    @JsonProperty("revision")
     private String revision;
+
+    @JsonProperty("short_revision")
     private String shortRevision;
+
+    @JsonProperty("digest")
     private String digest;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("total_size")
     private Long totalSize;
 
     public String getName() {

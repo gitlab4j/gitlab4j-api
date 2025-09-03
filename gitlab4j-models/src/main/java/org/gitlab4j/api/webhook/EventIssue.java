@@ -4,50 +4,131 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class EventIssue {
 
+    @JsonProperty("assignee_id")
     private Long assigneeId;
+
+    @JsonProperty("author_id")
     private Long authorId;
+
+    @JsonProperty("branch_name")
     private String branchName;
+
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("iid")
     private Long iid;
 
+    @JsonProperty("milestone_id")
     private String milestoneId;
+
+    @JsonProperty("position")
     private Integer position;
+
+    @JsonProperty("project_id")
     private Long projectId;
 
+    @JsonProperty("state")
     private String state;
 
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("updated_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date updatedAt;
 
+    @JsonProperty("url")
     private String url;
+
+    @JsonProperty("action")
     private String action;
 
+    @JsonProperty("assignee_ids")
     private List<Long> assigneeIds;
+
+    @JsonProperty("updated_by_id")
     private Long updatedById;
+
+    @JsonProperty("last_edited_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastEditedAt;
+
+    @JsonProperty("last_edited_by_id")
     private Long lastEditedById;
+
+    @JsonProperty("relative_position")
     private Long relativePosition;
+
+    @JsonProperty("state_id")
     private Long stateId;
+
+    @JsonProperty("confidential")
     private Boolean confidential;
+
+    @JsonProperty("discussion_locked")
     private Boolean discussionLocked;
+
+    @JsonProperty("due_date")
+    @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date dueDate;
+
+    @JsonProperty("moved_to_id")
     private Long movedToId;
+
+    @JsonProperty("duplicated_to_id")
     private Long duplicatedToId;
+
+    @JsonProperty("time_estimate")
     private Long timeEstimate;
+
+    @JsonProperty("total_time_spent")
     private Long totalTimeSpent;
+
+    @JsonProperty("time_change")
     private Long timeChange;
+
+    @JsonProperty("human_time_estimate")
     private String humanTimeEstimate;
+
+    @JsonProperty("human_total_time_spent")
     private String humanTotalTimeSpent;
+
+    @JsonProperty("human_time_change")
     private String humanTimeChange;
+
+    @JsonProperty("weight")
     private Long weight;
+
+    @JsonProperty("health_status")
     private String healthStatus;
+
+    @JsonProperty("type")
     private String type;
+
+    @JsonProperty("severity")
     private String severity;
+
+    @JsonProperty("labels")
     private List<EventLabel> labels;
 
     public Long getAssigneeId() {

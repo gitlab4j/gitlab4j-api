@@ -5,16 +5,36 @@ import java.util.Date;
 import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class ReleaseParams implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("tag_name")
     private String tagName;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("ref")
     private String ref;
+
+    @JsonProperty("milestones")
     private List<String> milestones;
+
+    @JsonProperty("assets")
     private Assets assets;
+
+    @JsonProperty("released_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date releasedAt;
 
     public String getName() {

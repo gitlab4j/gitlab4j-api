@@ -6,9 +6,13 @@ import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class ImpersonationToken implements Serializable {
@@ -44,18 +48,80 @@ public class ImpersonationToken implements Serializable {
         }
     }
 
+    /**
+     * Indicates if the token is active.
+     */
+    @JsonProperty("active")
     private Boolean active;
+
+    /**
+     * The token string.
+     */
+    @JsonProperty("token")
     private String token;
+
+    /**
+     * List of scopes associated with the token.
+     */
+    @JsonProperty("scopes")
     private List<Scope> scopes;
+
+    /**
+     * The user ID associated with the token.
+     */
+    @JsonProperty("user_id")
     private Long userId;
+
+    /**
+     * Indicates if the token has been revoked.
+     */
+    @JsonProperty("revoked")
     private Boolean revoked;
+
+    /**
+     * The name of the token.
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * The description of the token.
+     */
+    @JsonProperty("description")
     private String description;
+
+    /**
+     * The unique identifier of the token.
+     */
+    @JsonProperty("id")
     private Long id;
+
+    /**
+     * The creation date of the token.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    /**
+     * The last used date of the token.
+     */
+    @JsonProperty("last_used_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date lastUsedAt;
+
+    /**
+     * Indicates if the token is used for impersonation.
+     */
+    @JsonProperty("impersonation")
     private Boolean impersonation;
 
+    /**
+     * The expiration date of the token.
+     */
+    @JsonProperty("expires_at")
     @JsonSerialize(using = JacksonJson.DateOnlySerializer.class)
     private Date expiresAt;
 

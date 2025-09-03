@@ -5,15 +5,51 @@ import java.util.Date;
 
 import org.gitlab4j.models.Constants.LineType;
 import org.gitlab4j.models.utils.JacksonJson;
+import org.gitlab4j.models.utils.MultiDateFormatDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The author of the comment.
+     */
+    @JsonProperty("author")
     private Author author;
+
+    /**
+     * The creation date of the comment.
+     */
+    @JsonProperty("created_at")
+    @JsonDeserialize(using = MultiDateFormatDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdAt;
+
+    /**
+     * The type of the line (e.g., new or old).
+     */
+    @JsonProperty("line_type")
     private LineType lineType;
+
+    /**
+     * The path to the file being commented on.
+     */
+    @JsonProperty("path")
     private String path;
+
+    /**
+     * The line number of the comment.
+     */
+    @JsonProperty("line")
     private Integer line;
+
+    /**
+     * The content of the comment.
+     */
+    @JsonProperty("note")
     private String note;
 
     public Author getAuthor() {
