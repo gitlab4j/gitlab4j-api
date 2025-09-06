@@ -272,6 +272,12 @@ public class TestGitLabApiEvents {
     }
 
     @Test
+    public void testGroupMemberUpdateSystemHookEvent() throws Exception {
+        SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "group-member-update-system-hook-event.json");
+        assertTrue(compareJson(event, "group-member-update-system-hook-event.json"));
+    }
+
+    @Test
     public void testTagPushSystemHookEvent() throws Exception {
         SystemHookEvent event = unmarshalResource(SystemHookEvent.class, "tag-push-system-hook-event.json");
         assertTrue(compareJson(event, "tag-push-system-hook-event.json"));
