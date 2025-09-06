@@ -23,6 +23,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(
             value = RemoveTeamMemberSystemHookEvent.class,
             name = TeamMemberSystemHookEvent.TEAM_MEMBER_REMOVED_EVENT),
+    @JsonSubTypes.Type(
+            value = UpdateTeamMemberSystemHookEvent.class,
+            name = TeamMemberSystemHookEvent.TEAM_MEMBER_UPDATED_EVENT),
     @JsonSubTypes.Type(value = CreateUserSystemHookEvent.class, name = UserSystemHookEvent.USER_CREATE_EVENT),
     @JsonSubTypes.Type(value = DestroyUserSystemHookEvent.class, name = UserSystemHookEvent.USER_DESTROY_EVENT),
     @JsonSubTypes.Type(
@@ -99,6 +102,10 @@ class NewTeamMemberSystemHookEvent extends TeamMemberSystemHookEvent {
 }
 
 class RemoveTeamMemberSystemHookEvent extends TeamMemberSystemHookEvent {
+    private static final long serialVersionUID = 1L;
+}
+
+class UpdateTeamMemberSystemHookEvent extends TeamMemberSystemHookEvent {
     private static final long serialVersionUID = 1L;
 }
 
