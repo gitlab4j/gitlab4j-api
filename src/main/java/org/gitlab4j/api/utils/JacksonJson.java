@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -59,7 +59,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
         objectMapper = new ObjectMapper();
 
         objectMapper.setSerializationInclusion(Include.NON_NULL);
-        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         objectMapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
@@ -81,7 +81,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 
     /**
      * Gets the ObjectMapper contained by this instance.
-     * 
+     *
      * @return the ObjectMapper contained by this instance
      */
     public ObjectMapper getObjectMapper() {
@@ -230,7 +230,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
 
     /**
      * Marshals the supplied object out as a formatted JSON string.
-     * 
+     *
      * @param <T> the generics type for the provided object
      * @param object the object to output as a JSON string
      * @return a String containing the JSON for the specified object
@@ -349,7 +349,7 @@ public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResol
     private static class JacksonJsonSingletonHelper {
         private static final JacksonJson JACKSON_JSON = new JacksonJson();
         static {
-            JACKSON_JSON.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
+            JACKSON_JSON.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
             JACKSON_JSON.objectMapper.setSerializationInclusion(Include.ALWAYS);
         }
     }
