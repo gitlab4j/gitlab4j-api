@@ -22,6 +22,7 @@ import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.RepositoryFile;
 import org.gitlab4j.api.models.RepositoryFileResponse;
+import org.gitlab4j.api.models.TestReportSummary;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.models.Constants;
@@ -400,5 +401,13 @@ public class TestPipelineApi extends AbstractIntegrationTest {
                 .getBridgesStream(testProject, 4L, Constants.JobScope.SUCCESS)
                 .collect(Collectors.toSet());
         assertNotNull(bridges);
+    }
+
+    @Test
+    @Disabled("disable till 'Move the test infrastructure to Testcontainers #925'")
+    public void testGetTestReportSummary() throws GitLabApiException {
+        TestReportSummary testReportSummary =
+                gitLabApi.getPipelineApi().getTestReportSummaryForPipeline(testProject, 4L);
+        assertNotNull(testReportSummary);
     }
 }

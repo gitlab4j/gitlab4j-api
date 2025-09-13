@@ -14,6 +14,7 @@ import org.gitlab4j.api.models.Pipeline;
 import org.gitlab4j.api.models.PipelineFilter;
 import org.gitlab4j.api.models.PipelineSchedule;
 import org.gitlab4j.api.models.PipelineStatus;
+import org.gitlab4j.api.models.TestReportSummary;
 import org.gitlab4j.api.models.Trigger;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.models.Constants;
@@ -792,6 +793,28 @@ public class PipelineApi extends AbstractApi implements Constants {
                 pipelineScheduleId,
                 "variables",
                 key);
+    }
+
+    /**
+     * Get the test report summary for a pipeline.
+     *
+     * <pre><code>GET /projects/:id/pipelines/:pipeline_id/test_report_summary</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param pipelineId the pipeline ID
+     * @return the test report summary for the pipeline
+     */
+    public TestReportSummary getTestReportSummaryForPipeline(Object projectIdOrPath, long pipelineId)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "pipelines",
+                pipelineId,
+                "test_report_summary");
+        return response.readEntity(TestReportSummary.class);
     }
 
     /**
