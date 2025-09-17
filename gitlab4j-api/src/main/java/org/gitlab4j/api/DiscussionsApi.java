@@ -362,6 +362,50 @@ public class DiscussionsApi extends AbstractApi {
     }
 
     /**
+     * Get a single discussion for the specified merge request.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/discussions/:discussion_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param discussionId the ID of the discussion
+     * @return the Discussion instance specified by discussionId for the specified  merge request
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Discussion getMergeRequestDiscussion(Object projectIdOrPath, Long mergeRequestIid, String discussionId)
+        throws GitLabApiException {
+        Response response = get(
+            Response.Status.OK,
+            null,
+            "projects",
+            getProjectIdOrPath(projectIdOrPath),
+            "merge_requests",
+            mergeRequestIid,
+            "discussions",
+            discussionId);
+        return (response.readEntity(Discussion.class));
+    }
+
+    /**
+     * Get an Optional instance of a single discussion for the specified merge request.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/merge_requests/:merge_request_iid/discussions/:discussion_id</code></pre>
+     *
+     * @param projectIdOrPath projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid the internal ID of the merge request
+     * @param discussionId the ID of the discussion
+     * @return an Optional instance with the specified Discussion instance as a value
+     */
+    public Optional<Discussion> getOptionalMergeRequestDiscussion(Object projectIdOrPath, Long mergeRequestIid, String discussionId)
+        throws GitLabApiException {
+        try {
+            return (Optional.ofNullable(getMergeRequestDiscussion(projectIdOrPath, mergeRequestIid, discussionId)));
+        } catch (GitLabApiException glae) {
+            return (GitLabApi.createOptionalFromException(glae));
+        }
+    }
+
+    /**
      * Creates a new discussion to a single project merge request. This is similar to creating
      * a note but other comments (replies) can be added to it later.
      *
