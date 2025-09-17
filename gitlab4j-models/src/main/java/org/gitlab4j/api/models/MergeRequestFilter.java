@@ -49,6 +49,7 @@ public class MergeRequestFilter implements Serializable {
      */
     private Long authorId;
 
+    private String authorUsername;
     private Long assigneeId;
     private Long reviewerId;
     private String myReactionEmoji;
@@ -268,6 +269,19 @@ public class MergeRequestFilter implements Serializable {
 
     public MergeRequestFilter withAuthorId(Long authorId) {
         this.authorId = authorId;
+        return (this);
+    }
+
+    public String getAuthorUsername() {
+        return authorUsername;
+    }
+
+    public void setAuthorUsername(String authorUsername) {
+        this.authorUsername = authorUsername;
+    }
+
+    public MergeRequestFilter withAuthorUsername(String authorUsername) {
+        this.authorUsername = authorUsername;
         return (this);
     }
 
@@ -524,6 +538,7 @@ public class MergeRequestFilter implements Serializable {
                 .withParam("updated_after", updatedAfter)
                 .withParam("updated_before", updatedBefore)
                 .withParam("scope", scope)
+                .withParam("author_username", authorUsername)
                 .withParam("assignee_id", assigneeId)
                 .withParam("reviewer_id", reviewerId)
                 .withParam("my_reaction_emoji", myReactionEmoji)
