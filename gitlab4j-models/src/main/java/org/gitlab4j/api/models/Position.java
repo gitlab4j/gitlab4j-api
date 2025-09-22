@@ -48,6 +48,7 @@ public class Position implements Serializable {
     private Integer height;
     private Double x;
     private Double y;
+    private LineRange lineRange;
 
     public String getBaseSha() {
         return baseSha;
@@ -202,6 +203,19 @@ public class Position implements Serializable {
 
     public Position withY(Double y) {
         this.y = y;
+        return (this);
+    }
+
+    public LineRange getLineRange() {
+        return lineRange;
+    }
+
+    public void setLineRange(LineRange lineRange) {
+        this.lineRange = lineRange;
+    }
+
+    public Position withLineRange(LineRange lineRange) {
+        this.lineRange = lineRange;
         return (this);
     }
 
