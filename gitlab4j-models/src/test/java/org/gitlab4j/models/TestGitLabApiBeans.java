@@ -411,6 +411,13 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testPipelineTestReportSummary() throws Exception {
+        TestReportSummary testReportSummary =
+                unmarshalResource(TestReportSummary.class, "pipeline-test-report-summary.json");
+        assertTrue(compareJson(testReportSummary, "pipeline-test-report-summary.json"));
+    }
+
+    @Test
     public void testPipelineVariables() throws Exception {
         List<Variable> variables = unmarshalResourceList(Variable.class, "pipeline-variables.json");
         assertTrue(compareJson(variables, "pipeline-variables.json"));
