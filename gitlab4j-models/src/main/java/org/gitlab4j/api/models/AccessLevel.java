@@ -11,6 +11,7 @@ public enum AccessLevel {
     NONE(0),
     MINIMAL_ACCESS(5),
     GUEST(10),
+    PLANNER(15),
     REPORTER(20),
     DEVELOPER(30),
     @Deprecated
