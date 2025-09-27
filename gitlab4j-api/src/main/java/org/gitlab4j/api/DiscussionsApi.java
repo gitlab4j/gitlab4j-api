@@ -373,16 +373,16 @@ public class DiscussionsApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs during execution
      */
     public Discussion getMergeRequestDiscussion(Object projectIdOrPath, Long mergeRequestIid, String discussionId)
-        throws GitLabApiException {
+            throws GitLabApiException {
         Response response = get(
-            Response.Status.OK,
-            null,
-            "projects",
-            getProjectIdOrPath(projectIdOrPath),
-            "merge_requests",
-            mergeRequestIid,
-            "discussions",
-            discussionId);
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "merge_requests",
+                mergeRequestIid,
+                "discussions",
+                discussionId);
         return (response.readEntity(Discussion.class));
     }
 
@@ -396,8 +396,8 @@ public class DiscussionsApi extends AbstractApi {
      * @param discussionId the ID of the discussion
      * @return an Optional instance with the specified Discussion instance as a value
      */
-    public Optional<Discussion> getOptionalMergeRequestDiscussion(Object projectIdOrPath, Long mergeRequestIid, String discussionId)
-        throws GitLabApiException {
+    public Optional<Discussion> getOptionalMergeRequestDiscussion(
+            Object projectIdOrPath, Long mergeRequestIid, String discussionId) throws GitLabApiException {
         try {
             return (Optional.ofNullable(getMergeRequestDiscussion(projectIdOrPath, mergeRequestIid, discussionId)));
         } catch (GitLabApiException glae) {

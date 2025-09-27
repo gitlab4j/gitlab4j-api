@@ -1,6 +1,19 @@
 package org.gitlab4j.api;
 
+import static org.gitlab4j.api.JsonUtils.compareJson;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import jakarta.ws.rs.core.MultivaluedMap;
+
 import org.gitlab4j.api.models.Discussion;
 import org.gitlab4j.models.Constants;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,18 +22,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.gitlab4j.api.JsonUtils.compareJson;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
 
 public class TestMergeRequestDiscussionsApi implements Constants {
 
@@ -38,7 +39,8 @@ public class TestMergeRequestDiscussionsApi implements Constants {
     @BeforeEach
     public void setUp() throws Exception {
         openMocks(this);
-        response = new MockResponse(Discussion.class, "merge-request-discussion.json", "merge-request-discussions.json");
+        response =
+                new MockResponse(Discussion.class, "merge-request-discussion.json", "merge-request-discussions.json");
         when(gitLabApi.getApiClient()).thenReturn(gitLabApiClient);
         when(gitLabApiClient.validateSecretToken(any())).thenReturn(true);
         when(gitLabApiClient.get(attributeCaptor.capture(), Mockito.any(Object[].class)))
