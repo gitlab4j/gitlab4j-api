@@ -1,9 +1,3 @@
-/*
- * LineRange.java
- * Copyright 2025 Qunhe Tech, all rights reserved.
- * Qunhe PROPRIETARY/CONFIDENTIAL, any form of usage is subject to approval.
- */
-
 package org.gitlab4j.api.models;
 
 import java.io.Serializable;

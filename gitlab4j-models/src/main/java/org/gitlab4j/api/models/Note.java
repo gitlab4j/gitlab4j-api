@@ -2,6 +2,7 @@ package org.gitlab4j.api.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.gitlab4j.models.utils.JacksonJson;
 import org.gitlab4j.models.utils.JacksonJsonEnumHelper;
@@ -96,7 +97,9 @@ public class Note implements Serializable {
     // Use String for noteableType until the constant is fixed in the GitLab API
     private String noteableType;
 
+    private Long projectId;
     private Long noteableIid;
+    private String commitId;
     private Boolean system;
     private String title;
     private Date updatedAt;
@@ -109,6 +112,7 @@ public class Note implements Serializable {
     private Type type;
 
     private Position position;
+    private List<Suggestion> suggestions;
 
     public String getAttachment() {
         return attachment;
@@ -190,12 +194,28 @@ public class Note implements Serializable {
         this.noteableType = noteableType;
     }
 
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
     public Long getNoteableIid() {
         return noteableIid;
     }
 
     public void setNoteableIid(Long noteableIid) {
         this.noteableIid = noteableIid;
+    }
+
+    public String getCommitId() {
+        return commitId;
+    }
+
+    public void setCommitId(String commitId) {
+        this.commitId = commitId;
     }
 
     public Boolean getSystem() {
@@ -284,6 +304,14 @@ public class Note implements Serializable {
 
     public void setInternal(Boolean internal) {
         this.internal = internal;
+    }
+
+    public List<Suggestion> getSuggestions() {
+        return suggestions;
+    }
+
+    public void setSuggestions(List<Suggestion> suggestions) {
+        this.suggestions = suggestions;
     }
 
     @Override
