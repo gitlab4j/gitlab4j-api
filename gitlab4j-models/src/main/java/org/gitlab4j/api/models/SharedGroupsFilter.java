@@ -1,8 +1,9 @@
 package org.gitlab4j.api.models;
 
 import java.io.Serializable;
+import java.util.List;
 
-import org.gitlab4j.models.Constants.ProjectOrderBy;
+import org.gitlab4j.models.Constants.GroupOrderBy;
 import org.gitlab4j.models.Constants.SortOrder;
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.utils.JacksonJson;
@@ -27,7 +28,7 @@ public class SharedGroupsFilter implements Serializable {
      * @param skipGroups List of group IDs to not include in the search
      * @return the reference to this SharedGroupsFilter instance
      */
-    public GroupFilter withSkipGroups(List<Long> skipGroups) {
+    public SharedGroupsFilter withSkipGroups(List<Long> skipGroups) {
         this.skipGroups = skipGroups;
         return (this);
     }
@@ -82,7 +83,7 @@ public class SharedGroupsFilter implements Serializable {
      * @param minAccessLevel the minimum access level to match
      * @return the reference to this SharedGroupsFilter instance
      */
-    public SharedGroupsFilter withMinAccessLevel(Boolean minAccessLevel) {
+    public SharedGroupsFilter withMinAccessLevel(AccessLevel minAccessLevel) {
         this.minAccessLevel = minAccessLevel;
         return (this);
     }
