@@ -14,7 +14,7 @@ import org.gitlab4j.models.utils.JacksonJson;
 public class SharedGroupsFilter implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	private List<Long> skipGroups;
+    private List<Long> skipGroups;
     private String search;
     private GroupOrderBy orderBy;
     private SortOrder sort;

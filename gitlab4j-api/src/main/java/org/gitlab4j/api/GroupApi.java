@@ -9,6 +9,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+
 import org.gitlab4j.api.models.AccessLevel;
 import org.gitlab4j.api.models.AccessRequest;
 import org.gitlab4j.api.models.AuditEvent;
@@ -33,12 +39,6 @@ import org.gitlab4j.api.models.UploadedFile;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
 import org.gitlab4j.models.utils.ISO8601;
-
-import jakarta.ws.rs.core.Form;
-import jakarta.ws.rs.core.GenericType;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.MultivaluedMap;
-import jakarta.ws.rs.core.Response;
 
 /**
  * This class implements the client side API for the GitLab groups calls.
@@ -609,35 +609,35 @@ public class GroupApi extends AbstractApi {
     public List<Group> getSharedGroups(Object groupIdOrPath, SharedGroupsFilter filter) throws GitLabApiException {
         return (getSharedGroups(groupIdOrPath, filter, getDefaultPerPage()).all());
     }
-    
+
     /**
      * Get a Pager of projects belonging to the specified group ID and filter.
-    *
-    * <pre><code>GitLab Endpoint: GET /groups/:id/projects</code></pre>
-    *
-    * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
-    * @param filter the GroupProjectsFilter instance holding the filter values for the query
-    * @param itemsPerPage the number of Project instances that will be fetched per page
-    * @return a Pager containing Project instances that belong to the group and match the provided filter
-    * @throws GitLabApiException if any exception occurs
-    */
-   public Pager<Group> getSharedGroups(Object groupIdOrPath, SharedGroupsFilter filter, int itemsPerPage)
-           throws GitLabApiException {
-       GitLabApiForm formData = new GitLabApiForm(filter.getQueryParams());
-       return (new Pager<Group>(
-               this,
-               Group.class,
-               itemsPerPage,
-               formData.asMap(),
-               "groups",
-               getGroupIdOrPath(groupIdOrPath),
-               "groups",
-               "shared"));
-   }
+     *
+     * <pre><code>GitLab Endpoint: GET /groups/:id/projects</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path
+     * @param filter the GroupProjectsFilter instance holding the filter values for the query
+     * @param itemsPerPage the number of Project instances that will be fetched per page
+     * @return a Pager containing Project instances that belong to the group and match the provided filter
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Group> getSharedGroups(Object groupIdOrPath, SharedGroupsFilter filter, int itemsPerPage)
+            throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm(filter.getQueryParams());
+        return (new Pager<Group>(
+                this,
+                Group.class,
+                itemsPerPage,
+                formData.asMap(),
+                "groups",
+                getGroupIdOrPath(groupIdOrPath),
+                "groups",
+                "shared"));
+    }
 
-	/**
-	 * Get a list of groups where the given group has been invited.
-	 * When accessed without authentication, only public shared groups are returned.
+    /**
+     * Get a list of groups where the given group has been invited.
+     * When accessed without authentication, only public shared groups are returned.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/groups/shared</code></pre>
      *
@@ -652,8 +652,8 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
-	 * Get a list of groups where the given group has been invited.
-	 * When accessed without authentication, only public shared groups are returned.
+     * Get a list of groups where the given group has been invited.
+     * When accessed without authentication, only public shared groups are returned.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/groups/shared</code></pre>
      *
@@ -666,8 +666,8 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
-	 * Get a list of groups in the specified page range where the given group has been invited.
-	 * When accessed without authentication, only public shared groups are returned.
+     * Get a list of groups in the specified page range where the given group has been invited.
+     * When accessed without authentication, only public shared groups are returned.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/groups/shared</code></pre>
      *
@@ -684,13 +684,13 @@ public class GroupApi extends AbstractApi {
                 "groups",
                 getGroupIdOrPath(groupIdOrPath),
                 "groups",
-				"shared");
+                "shared");
         return (response.readEntity(new GenericType<List<Group>>() {}));
     }
 
     /**
-	 * Get a list of groups where the given group has been invited.
-	 * When accessed without authentication, only public shared groups are returned.
+     * Get a list of groups where the given group has been invited.
+     * When accessed without authentication, only public shared groups are returned.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/groups/shared</code></pre>
      *
@@ -705,8 +705,8 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
-	 * Get a Stream of groups where the given group has been invited.
-	 * When accessed without authentication, only public shared groups are returned.
+     * Get a Stream of groups where the given group has been invited.
+     * When accessed without authentication, only public shared groups are returned.
      *
      * <pre><code>GitLab Endpoint: GET /groups/:id/groups/shared</code></pre>
      *
