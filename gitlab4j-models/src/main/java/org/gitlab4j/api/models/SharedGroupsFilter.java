@@ -50,7 +50,7 @@ public class SharedGroupsFilter implements Serializable {
      * @param orderBy specifies what field to order by
      * @return the reference to this SharedGroupsFilter instance
      */
-    public SharedGroupsFilter withOrderBy(ProjectOrderBy orderBy) {
+    public SharedGroupsFilter withOrderBy(GroupOrderBy orderBy) {
         this.orderBy = orderBy;
         return (this);
     }
