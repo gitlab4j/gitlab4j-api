@@ -1,0 +1,23 @@
+{
+  "key": "mit",
+  "name": "MIT License",
+  "nickname": "nickname",
+  "popular": true,
+  "html_url": "http://choosealicense.com/licenses/mit/",
+  "source_url": "https://opensource.org/licenses/MIT",
+  "description": "A short and simple permissive license with conditions only requiring preservation of copyright and license notices. Licensed works, modifications, and larger works may be distributed under different terms and without source code.",
+  "conditions": [
+    "include-copyright"
+  ],
+  "permissions": [
+    "commercial-use",
+    "modifications",
+    "distribution",
+    "private-use"
+  ],
+  "limitations": [
+    "liability",
+    "warranty"
+  ],
+  "content": "MIT License content"
+}

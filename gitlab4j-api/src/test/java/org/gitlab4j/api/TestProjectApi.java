@@ -53,6 +53,8 @@ import org.gitlab4j.api.models.Member;
 import org.gitlab4j.api.models.Project;
 import org.gitlab4j.api.models.ProjectFetches;
 import org.gitlab4j.api.models.ProjectFilter;
+import org.gitlab4j.api.models.ProjectTemplate;
+import org.gitlab4j.api.models.ProjectTemplateType;
 import org.gitlab4j.api.models.User;
 import org.gitlab4j.api.models.Variable;
 import org.gitlab4j.api.models.Visibility;
@@ -1083,5 +1085,31 @@ public class TestProjectApi extends AbstractIntegrationTest {
         //        gitLabApi.getProjectApi().revokeProjectAccessToken(testProject.getId(), token.getId());
         //        assertTrue(gitLabApi.getProjectApi().getProjectAccessToken(testProject.getId(),
         // token.getId()).isRevoked());
+    }
+
+    @Test
+    public void testProjectTemplates() throws GitLabApiException {
+
+        assumeTrue(testProject != null);
+
+        // Act
+        List<ProjectTemplate> templates =
+                gitLabApi.getProjectApi().getProjectTemplates(testProject, ProjectTemplateType.LICENSES);
+
+        // Assert
+        assertNotNull(templates);
+    }
+
+    @Test
+    public void testProjectTemplate() throws GitLabApiException {
+
+        assumeTrue(testProject != null);
+
+        // Act
+        ProjectTemplate template =
+                gitLabApi.getProjectApi().getProjectTemplate(testProject, ProjectTemplateType.LICENSES, "mit");
+
+        // Assert
+        assertNotNull(template);
     }
 }

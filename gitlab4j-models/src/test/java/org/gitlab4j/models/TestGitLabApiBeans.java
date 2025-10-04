@@ -497,6 +497,18 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testProjectTemplates() throws Exception {
+        List<ProjectTemplate> projectTemplates = unmarshalResourceList(ProjectTemplate.class, "project-templates.json");
+        assertTrue(compareJson(projectTemplates, "project-templates.json"));
+    }
+
+    @Test
+    public void testProjectTemplate() throws Exception {
+        ProjectTemplateDetail projectTemplate = unmarshalResource(ProjectTemplateDetail.class, "project-template.json");
+        assertTrue(compareJson(projectTemplate, "project-template.json"));
+    }
+
+    @Test
     public void testProtectedBranch() throws Exception {
         ProtectedBranch protectedBranch = unmarshalResource(ProtectedBranch.class, "protected-branch.json");
         assertTrue(compareJson(protectedBranch, "protected-branch.json"));
