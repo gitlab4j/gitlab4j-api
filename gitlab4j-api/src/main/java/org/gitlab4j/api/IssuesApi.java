@@ -1326,4 +1326,24 @@ public class IssuesApi extends AbstractApi implements Constants {
                 "move");
         return (response.readEntity(Issue.class));
     }
+
+    /**
+     * Get list of merge requests related to an issue.
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param issueIid the IID of the issue to get the related merge requests for
+     * @return a List containing all related merge requests for the specified issue
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<MergeRequest> getIssueRelatedMergeRequests(Object projectIdOrPath, Long issueIid)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "issues",
+                issueIid,
+                "related_merge_requests");
+        return (response.readEntity(new GenericType<List<MergeRequest>>() {}));
+    }
 }
