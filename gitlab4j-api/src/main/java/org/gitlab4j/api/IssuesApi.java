@@ -1329,6 +1329,9 @@ public class IssuesApi extends AbstractApi implements Constants {
 
     /**
      * Get list of merge requests related to an issue.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/issues/:issue_iid/related_merge_requests</code></pre>
+     *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
      * @param issueIid the IID of the issue to get the related merge requests for
      * @return a List containing all related merge requests for the specified issue
