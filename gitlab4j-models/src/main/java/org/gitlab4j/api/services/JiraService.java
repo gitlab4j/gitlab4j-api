@@ -14,6 +14,7 @@ public class JiraService extends NotificationService {
     public static final String PROJECT_KEY_PROP = "project_key";
     public static final String JIRA_ISSUE_TRANSITION_ID_PROP = "jira_issue_transition_id";
     public static final String COMMIT_EVENTS_PROP = "commit_events";
+    public static final String COMMENT_ON_EVENT_ENABLED = "comment_on_event_enabled";
 
     private CharSequence password;
 
@@ -32,7 +33,8 @@ public class JiraService extends NotificationService {
                 .withParam(PROJECT_KEY_PROP, getProjectKey())
                 .withParam(USERNAME_PROP, getUsername(), true)
                 .withParam("password", getPassword(), true)
-                .withParam(JIRA_ISSUE_TRANSITION_ID_PROP, getJiraIssueTransitionId());
+                .withParam(JIRA_ISSUE_TRANSITION_ID_PROP, getJiraIssueTransitionId())
+                .withParam(COMMENT_ON_EVENT_ENABLED, getCommentOnEventEnabled());
         return formData;
     }
 
@@ -135,6 +137,20 @@ public class JiraService extends NotificationService {
 
     public JiraService withJiraIssueTransitionId(Integer jiraIssueTransitionId) {
         setJiraIssueTransitionId(jiraIssueTransitionId);
+        return (this);
+    }
+
+    @JsonIgnore
+    public Boolean getCommentOnEventEnabled() {
+        return (getProperty(COMMENT_ON_EVENT_ENABLED, (Boolean) null));
+    }
+
+    public void setCommentOnEventEnabled(Boolean commentOnEventEnabled) {
+        setProperty(COMMENT_ON_EVENT_ENABLED, commentOnEventEnabled);
+    }
+
+    public JiraService withCommentOnEventEnabled(Boolean commentOnEventEnabled) {
+        setCommentOnEventEnabled(commentOnEventEnabled);
         return (this);
     }
 
