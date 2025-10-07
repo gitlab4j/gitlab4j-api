@@ -103,6 +103,7 @@ public class GitLabApi implements AutoCloseable {
     private WikisApi wikisApi;
     private KeysApi keysApi;
     private MetadataApi metadataApi;
+    private ErrorTrackingApi errorTrackingApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -1895,6 +1896,23 @@ public class GitLabApi implements AutoCloseable {
             }
         }
         return metadataApi;
+    }
+
+    /**
+     * Gets the ErrorTrackingApi instance owned by this GitLabApi instance.
+     *
+     * @return the ErrorTrackingApi instance owned by this GitLabApi instance
+     */
+    public ErrorTrackingApi getErrorTrackingApi() {
+        if (errorTrackingApi == null) {
+            synchronized (this) {
+                if (errorTrackingApi == null) {
+                    errorTrackingApi = new ErrorTrackingApi(this);
+                }
+            }
+        }
+
+        return errorTrackingApi;
     }
 
     /**
