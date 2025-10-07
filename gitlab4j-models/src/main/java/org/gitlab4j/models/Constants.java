@@ -442,6 +442,9 @@ public interface Constants {
         FAILED,
         SUCCESS,
         CANCELED,
+        CANCELING,
+        PREPARING,
+        SCHEDULED,
         SKIPPED,
         MANUAL,
         WAITING_FOR_RESOURCE;
