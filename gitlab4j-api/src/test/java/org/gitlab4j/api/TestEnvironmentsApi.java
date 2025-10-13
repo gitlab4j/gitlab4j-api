@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import org.gitlab4j.api.models.Environment;
+import org.gitlab4j.api.models.EnvironmentFilter;
 import org.gitlab4j.api.models.Project;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -132,6 +133,24 @@ public class TestEnvironmentsApi extends AbstractIntegrationTest {
                 gitLabApi.getEnvironmentsApi().getOptionalEnvironment(testProject, env.getId());
         assertTrue(optionalEnv.isPresent());
         assertEquals(env.getName(), optionalEnv.get().getName());
+
+        gitLabApi.getEnvironmentsApi().stopEnvironment(testProject, env.getId());
+        gitLabApi.getEnvironmentsApi().deleteEnvironment(testProject, env.getId());
+    }
+
+    @Test
+    public void testFilterEnvironmentsByName() throws GitLabApiException {
+
+        final String uniqueName = getUniqueName();
+        final Environment env =
+                gitLabApi.getEnvironmentsApi().createEnvironment(testProject, uniqueName, EXTERNAL_URL, TIER);
+        final String uniqueName2 = getUniqueName();
+        final Environment env2 =
+                gitLabApi.getEnvironmentsApi().createEnvironment(testProject, uniqueName2, EXTERNAL_URL, TIER);
+
+        EnvironmentFilter filter = new EnvironmentFilter().withName(uniqueName);
+        Pager<Environment> envs = gitLabApi.getEnvironmentsApi().getEnvironments(testProject, 1, filter);
+        assertEquals(envs.first().get(0).getName(), uniqueName2);
 
         gitLabApi.getEnvironmentsApi().stopEnvironment(testProject, env.getId());
         gitLabApi.getEnvironmentsApi().deleteEnvironment(testProject, env.getId());
