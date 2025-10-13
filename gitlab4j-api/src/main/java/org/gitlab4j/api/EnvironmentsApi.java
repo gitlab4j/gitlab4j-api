@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Environment;
+import org.gitlab4j.api.models.EnvironmentFilter;
 
 /**
  * This class provides an entry point to all the GitLab API Environments API calls.
@@ -60,6 +61,30 @@ public class EnvironmentsApi extends AbstractApi {
                 Environment.class,
                 itemsPerPage,
                 null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "environments"));
+    }
+
+    /**
+     * Get a Pager of all environments for a given project.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/environments</code></pre>
+     *
+     * @param projectIdOrPath id, path of the project, or a Project instance holding the project ID or path
+     * @param itemsPerPage the number of Environment instances that will be fetched per page
+     * @param filter Environment filters
+     * @return a Pager of Environment instances
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Environment> getEnvironments(Object projectIdOrPath, int itemsPerPage, EnvironmentFilter filter)
+            throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm(filter.getQueryParams());
+        return (new Pager<Environment>(
+                this,
+                Environment.class,
+                itemsPerPage,
+                formData.asMap(),
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
                 "environments"));
