@@ -2,6 +2,7 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 
+import org.gitlab4j.api.models.Environment;
 import org.gitlab4j.api.models.Runner;
 import org.gitlab4j.models.utils.JacksonJson;
 
@@ -41,6 +42,8 @@ public class BuildEvent extends AbstractEvent {
     private EventRepository repository;
     private EventProject project;
     private Runner runner;
+
+    private Environment environment;
 
     @Override
     public String getObjectKind() {
@@ -242,6 +245,14 @@ public class BuildEvent extends AbstractEvent {
 
     public void setRunner(Runner runner) {
         this.runner = runner;
+    }
+
+    public Environment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 
     @Override

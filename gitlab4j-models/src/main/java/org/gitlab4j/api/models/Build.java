@@ -2,6 +2,7 @@ package org.gitlab4j.api.models;
 
 import java.util.Date;
 
+import org.gitlab4j.api.webhook.EventEnvironment;
 import org.gitlab4j.models.utils.JacksonJson;
 
 /**
@@ -25,6 +26,7 @@ public class Build {
     private User user;
     private Runner runner;
     private ArtifactsFile artifactsFile;
+    private EventEnvironment environment;
 
     public Long getId() {
         return id;
@@ -152,6 +154,14 @@ public class Build {
 
     public void setArtifactsFile(ArtifactsFile artifactsFile) {
         this.artifactsFile = artifactsFile;
+    }
+
+    public EventEnvironment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(EventEnvironment environment) {
+        this.environment = environment;
     }
 
     @Override
