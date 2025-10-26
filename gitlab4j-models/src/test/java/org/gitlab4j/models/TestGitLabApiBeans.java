@@ -820,4 +820,11 @@ public class TestGitLabApiBeans {
         GroupHook groupHook = unmarshalResource(GroupHook.class, "group-hook.json");
         assertTrue(compareJson(groupHook, "group-hook.json"));
     }
+
+    @Test
+    public void testErrorTrackingClientKey() throws Exception {
+        ErrorTrackingClientKey errorTrackingClientKey =
+                unmarshalResource(ErrorTrackingClientKey.class, "error-tracking-client-key.json");
+        assertTrue(compareJson(errorTrackingClientKey, "error-tracking-client-key.json"));
+    }
 }
