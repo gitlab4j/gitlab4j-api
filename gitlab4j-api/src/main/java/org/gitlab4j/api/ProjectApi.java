@@ -41,36 +41,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
-import org.gitlab4j.api.models.AccessLevel;
-import org.gitlab4j.api.models.AccessRequest;
-import org.gitlab4j.api.models.ApprovalRule;
-import org.gitlab4j.api.models.ApprovalRuleParams;
-import org.gitlab4j.api.models.AuditEvent;
-import org.gitlab4j.api.models.Badge;
-import org.gitlab4j.api.models.CustomAttribute;
-import org.gitlab4j.api.models.Event;
-import org.gitlab4j.api.models.FileUpload;
-import org.gitlab4j.api.models.Issue;
-import org.gitlab4j.api.models.Iteration;
-import org.gitlab4j.api.models.IterationFilter;
-import org.gitlab4j.api.models.Member;
-import org.gitlab4j.api.models.Namespace;
-import org.gitlab4j.api.models.Project;
-import org.gitlab4j.api.models.ProjectAccessToken;
-import org.gitlab4j.api.models.ProjectApprovalsConfig;
-import org.gitlab4j.api.models.ProjectFetches;
-import org.gitlab4j.api.models.ProjectFilter;
-import org.gitlab4j.api.models.ProjectGroup;
-import org.gitlab4j.api.models.ProjectGroupsFilter;
-import org.gitlab4j.api.models.ProjectHook;
-import org.gitlab4j.api.models.ProjectUser;
-import org.gitlab4j.api.models.PullMirror;
-import org.gitlab4j.api.models.PushRules;
-import org.gitlab4j.api.models.RemoteMirror;
-import org.gitlab4j.api.models.Snippet;
-import org.gitlab4j.api.models.UploadedFile;
-import org.gitlab4j.api.models.Variable;
-import org.gitlab4j.api.models.Visibility;
+import org.gitlab4j.api.models.*;
 import org.gitlab4j.models.Constants;
 import org.gitlab4j.models.utils.ISO8601;
 
@@ -4773,5 +4744,51 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response response =
                 get(Response.Status.OK, queryParams, "projects", getProjectIdOrPath(projectIdOrPath), "iterations");
         return (response.readEntity(new GenericType<List<Iteration>>() {}));
+    }
+
+    /**
+     * Get project templates of the specified type.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/templates/:type</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param type type of the template. Accepted values are: dockerfiles, gitignores, gitlab_ci_ymls, licenses, issues, or merge_requests.
+     * @return the list of project templates
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ProjectTemplate> getProjectTemplates(Object projectIdOrPath, ProjectTemplateType type)
+            throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "templates",
+                type.toString());
+        return (response.readEntity(new GenericType<List<ProjectTemplate>>() {}));
+    }
+
+    /**
+     * Get a specific project template of the specified type.
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/templates/:type/:name</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @param type type of the template. Accepted values are: dockerfiles, gitignores, gitlab_ci_ymls, licenses, issues, or merge_requests.
+     * @param templateName Key of the template
+     * @return the project template detail
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectTemplateDetail getProjectTemplate(
+            Object projectIdOrPath, ProjectTemplateType type, String templateName) throws GitLabApiException {
+        Response response = get(
+                Response.Status.OK,
+                null,
+                "projects",
+                getProjectIdOrPath(projectIdOrPath),
+                "templates",
+                type.toString(),
+                templateName);
+        return (response.readEntity(ProjectTemplateDetail.class));
     }
 }
