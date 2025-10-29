@@ -189,6 +189,11 @@
         "username": "root",
         "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon",
         "email": "admin@example.com"
+      },
+      "environment": {
+        "name": "production",
+        "action": "start",
+        "deployment_tier": "production"
       }
     },
     {
@@ -304,6 +309,11 @@
         "username": "root",
         "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon",
         "email": "admin@example.com"
+      },
+      "environment": {
+        "name": "staging",
+        "action": "start",
+        "deployment_tier": "staging"
       }
     }
   ]

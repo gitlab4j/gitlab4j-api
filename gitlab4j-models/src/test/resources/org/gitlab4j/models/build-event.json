@@ -54,6 +54,11 @@
 		"path_with_namespace": "gitlab-org/gitlab-test",
 		"default_branch": "master"
 	},
+    "environment": {
+        "name": "Test Env",
+        "action": "start",
+        "deployment_tier": "testing"
+    },
 	"runner": {
 		"active": true,
 		"runner_type": "project_type",

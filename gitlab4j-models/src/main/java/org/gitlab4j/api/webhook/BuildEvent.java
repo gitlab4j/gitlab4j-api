@@ -42,6 +42,8 @@ public class BuildEvent extends AbstractEvent {
     private EventProject project;
     private Runner runner;
 
+    private EventEnvironment environment;
+
     @Override
     public String getObjectKind() {
         return (OBJECT_KIND);
@@ -242,6 +244,14 @@ public class BuildEvent extends AbstractEvent {
 
     public void setRunner(Runner runner) {
         this.runner = runner;
+    }
+
+    public EventEnvironment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(EventEnvironment environment) {
+        this.environment = environment;
     }
 
     @Override
