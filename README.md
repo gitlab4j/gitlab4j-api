@@ -13,6 +13,7 @@ GitLab4J-API supports both GitLab Community Edition [(gitlab-ce)](https://gitlab
 
 **NOTICE**:  
 As of GitLab 11.0 support for the GitLab API v3 has been removed from the GitLab server (see https://about.gitlab.com/2018/06/01/api-v3-removal-impending/). Support for GitLab API v3 has been removed from this library in April 2025.
+
 ---
 ## Using GitLab4J-API
 
