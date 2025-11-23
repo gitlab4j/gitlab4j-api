@@ -9,6 +9,7 @@ public class DownstreamPipeline implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    private Long projectId;
     private String sha;
     private String ref;
     private String status;
@@ -22,6 +23,14 @@ public class DownstreamPipeline implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     public String getSha() {

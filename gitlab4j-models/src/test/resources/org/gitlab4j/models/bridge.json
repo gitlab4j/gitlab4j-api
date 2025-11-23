@@ -50,6 +50,7 @@
   },
   "downstream_pipeline": {
     "id": 5,
+    "project_id": 8,
     "sha": "f62a4b2fb89754372a346f24659212eb8da13601",
     "ref": "main",
     "status": "pending",
