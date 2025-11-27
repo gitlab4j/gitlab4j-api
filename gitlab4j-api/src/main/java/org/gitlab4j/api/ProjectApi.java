@@ -1455,6 +1455,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("shared_runners_enabled", project.getSharedRunnersEnabled())
                 .withParam("public_jobs", project.getPublicJobs())
                 .withParam("only_allow_merge_if_pipeline_succeeds", project.getOnlyAllowMergeIfPipelineSucceeds())
+                .withParam("ci_pipeline_variables_minimum_override_role", project.getCiPipelineVariablesMinimumOverrideRole())
                 .withParam(
                         "only_allow_merge_if_all_discussions_are_resolved",
                         project.getOnlyAllowMergeIfAllDiscussionsAreResolved())
