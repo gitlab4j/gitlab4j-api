@@ -525,6 +525,22 @@ public class NotesApi extends AbstractApi {
     }
 
     /**
+     * Create a merge request's note.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/merge_requests/:merge_request_iid/notes/:note_id</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance
+     * @param mergeRequestIid  the merge request IID to create the notes for
+     * @param body the content of note
+     * @return the created Note instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Note createMergeRequestNote(Object projectIdOrPath, Long mergeRequestIid, String body)
+            throws GitLabApiException {
+        return createMergeRequestNote(projectIdOrPath, mergeRequestIid, body, null, false);
+    }
+
+    /**
      * Update the specified merge request's note.
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/merge_requests/:merge_request_iid/notes/:note_id</code></pre>
