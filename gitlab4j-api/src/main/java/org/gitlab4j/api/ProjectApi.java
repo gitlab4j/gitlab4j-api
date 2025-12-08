@@ -4596,6 +4596,8 @@ public class ProjectApi extends AbstractApi implements Constants {
     /**
      * Lists the projects access tokens for the project.
      *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/access_tokens</code></pre>
+     *
      * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
      * @return the list of ProjectAccessTokens. The token and lastUsedAt attribute of each object is unset.
      * @throws GitLabApiException if any exception occurs
