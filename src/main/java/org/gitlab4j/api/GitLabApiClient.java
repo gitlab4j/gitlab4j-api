@@ -1,21 +1,5 @@
 package org.gitlab4j.api;
 
-import org.gitlab4j.api.Constants.TokenType;
-import org.gitlab4j.api.GitLabApi.ApiVersion;
-import org.gitlab4j.api.utils.JacksonJson;
-import org.gitlab4j.api.utils.MaskingLoggingFilter;
-import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.jackson.JacksonFeature;
-import org.glassfish.jersey.media.multipart.*;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
-import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
-
-import javax.net.ssl.*;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +14,23 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.net.ssl.*;
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.*;
+
+import org.gitlab4j.api.Constants.TokenType;
+import org.gitlab4j.api.GitLabApi.ApiVersion;
+import org.gitlab4j.api.utils.JacksonJson;
+import org.gitlab4j.api.utils.MaskingLoggingFilter;
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.media.multipart.*;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 
 /**
  * This class utilizes the Jersey client package to communicate with a GitLab API endpoint.
