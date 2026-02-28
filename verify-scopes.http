@@ -1,0 +1,137 @@
+### Verify that the added scopes exist in GitLab
+###
+### Prerequisites:
+###   Copy http-client.private.env.json.example to http-client.private.env.json
+###   and fill in your gitlab.com token, project_id, and group_id.
+###   Then select the "dev" environment in IntelliJ before running.
+###
+### How the proof works:
+###   GitLab validates scopes AFTER authentication. If a scope is valid,
+###   the request succeeds (or fails for permission reasons: 403/404).
+###   If a scope is INVALID, GitLab returns 400 with
+###   "scopes does not have a valid value".
+###
+###   Each section includes a negative test with a deliberately invalid
+###   scope to demonstrate that GitLab does reject unknown scopes.
+
+
+### --- ApplicationScope: self_rotate ---
+###
+### The self-service PAT endpoint (POST /api/v4/user/personal_access_tokens)
+### only accepts k8s_proxy and self_rotate scopes (by design, GitLab 16.5+).
+### The other ApplicationScope scopes (read_registry, write_registry, etc.)
+### are valid PAT scopes but can only be set via the admin endpoint or the UI.
+###
+### Reference: https://docs.gitlab.com/user/profile/personal_access_tokens/#personal-access-token-scopes
+
+### Positive: self_rotate scope (should return 201)
+POST https://gitlab.com/api/v4/user/personal_access_tokens
+PRIVATE-TOKEN: {{token}}
+Content-Type: application/json
+
+{
+  "name": "verify-self-rotate",
+  "scopes": ["self_rotate"],
+  "expires_at": "2026-12-31"
+}
+
+### Negative: invalid scope (should return 400)
+POST https://gitlab.com/api/v4/user/personal_access_tokens
+PRIVATE-TOKEN: {{token}}
+Content-Type: application/json
+
+{
+  "name": "verify-invalid-scope",
+  "scopes": ["THIS_SCOPE_DOES_NOT_EXIST"],
+  "expires_at": "2026-12-31"
+}
+
+### --- ProjectAccessTokenScope scopes ---
+###
+### Requires Maintainer access on the project.
+### Reference: https://docs.gitlab.com/user/project/settings/project_access_tokens/#scopes-for-a-project-access-token
+
+### Positive: newly added scopes (should return 201, NOT 400)
+POST https://gitlab.com/api/v4/projects/{{project_id}}/access_tokens
+PRIVATE-TOKEN: {{token}}
+Content-Type: application/json
+
+{
+  "name": "verify-project-scopes-valid",
+  "scopes": ["manage_runner", "ai_features", "k8s_proxy", "self_rotate"],
+  "expires_at": "2026-12-31",
+  "access_level": 30
+}
+
+### Negative: invalid scope (should return 400)
+POST https://gitlab.com/api/v4/projects/{{project_id}}/access_tokens
+PRIVATE-TOKEN: {{token}}
+Content-Type: application/json
+
+{
+  "name": "verify-project-scopes-invalid",
+  "scopes": ["manage_runner", "THIS_SCOPE_DOES_NOT_EXIST"],
+  "expires_at": "2026-12-31",
+  "access_level": 30
+}
+
+### --- ImpersonationToken.Scope (Group Access Token) scopes ---
+###
+### Requires Owner access on the group.
+### Reference: https://docs.gitlab.com/user/group/settings/group_access_tokens/#scopes-for-a-group-access-token
+
+### Positive: newly added scopes (should return 400 Bad request - User does not have permission to create group access token)
+POST https://gitlab.com/api/v4/groups/{{group_id}}/access_tokens
+PRIVATE-TOKEN: {{token}}
+Content-Type: application/json
+
+{
+  "name": "verify-group-scopes-valid",
+  "scopes": ["create_runner", "manage_runner", "ai_features", "self_rotate", "read_virtual_registry", "write_virtual_registry"],
+  "expires_at": "2026-12-31",
+  "access_level": 30
+}
+
+### Negative: invalid scope (should return 400 scopes does not have a valid value)
+POST https://gitlab.com/api/v4/groups/{{group_id}}/access_tokens
+PRIVATE-TOKEN: {{token}}
+Content-Type: application/json
+
+{
+  "name": "verify-group-scopes-invalid",
+  "scopes": ["create_runner", "THIS_SCOPE_DOES_NOT_EXIST"],
+  "expires_at": "2026-12-31",
+  "access_level": 30
+}
+
+### --- DeployTokenScope scopes ---
+###
+### Requires Maintainer access on the project.
+### Reference: https://docs.gitlab.com/user/project/deploy_tokens/#scope
+
+### Positive: newly added scopes (should return 201, NOT 400)
+POST https://gitlab.com/api/v4/projects/{{project_id}}/deploy_tokens
+PRIVATE-TOKEN: {{token}}
+Content-Type: application/json
+
+{
+  "name": "verify-deploy-scopes-valid",
+  "scopes": ["write_registry", "read_virtual_registry", "write_virtual_registry", "read_package_registry", "write_package_registry"],
+  "expires_at": "2026-12-31"
+}
+
+### Negative: invalid scope (should return 400 scopes does not have a valid value)
+POST https://gitlab.com/api/v4/projects/{{project_id}}/deploy_tokens
+PRIVATE-TOKEN: {{token}}
+Content-Type: application/json
+
+{
+  "name": "verify-deploy-scopes-invalid",
+  "scopes": ["read_repository", "THIS_SCOPE_DOES_NOT_EXIST"],
+  "expires_at": "2026-12-31"
+}
+
+### --- Cleanup ---
+### If any tokens were created above, revoke them:
+### GET https://gitlab.com/api/v4/personal_access_tokens
+### then DELETE https://gitlab.com/api/v4/personal_access_tokens/:id

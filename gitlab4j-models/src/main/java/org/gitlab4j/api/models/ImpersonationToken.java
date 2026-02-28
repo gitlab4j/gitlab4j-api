@@ -16,14 +16,49 @@ public class ImpersonationToken implements Serializable {
 
     /** Enum to specify the scope of an ImpersonationToken. */
     public enum Scope {
+        /** Grants complete read/write access to the API. */
         API,
+
+        /** Grants read access to the API. */
         READ_API,
+
+        /** Grants read-only access to the user's profile. */
         READ_USER,
+
+        /** Grants read-only access to repositories on private projects using Git-over-HTTP. */
         READ_REPOSITORY,
+
+        /** Grants read-write access to repositories on private projects using Git-over-HTTP. */
         WRITE_REPOSITORY,
+
+        /** Grants read (pull) access to a Container Registry. */
         READ_REGISTRY,
+
+        /** Grants write (push) access to a Container Registry. */
         WRITE_REGISTRY,
+
+        /** Grants pull access through the dependency proxy. */
+        READ_VIRTUAL_REGISTRY,
+
+        /** Grants push, pull and delete access through the dependency proxy. */
+        WRITE_VIRTUAL_REGISTRY,
+
+        /** Grants create access to the runners. */
+        CREATE_RUNNER,
+
+        /** Grants access to manage the runners. */
+        MANAGE_RUNNER,
+
+        /** Grants access to GitLab Duo related API endpoints. */
+        AI_FEATURES,
+
+        /** Grants permission to perform Kubernetes API calls using the agent for Kubernetes. */
         K8S_PROXY,
+
+        /** Grants permission to rotate this token using the personal access token API. */
+        SELF_ROTATE,
+
+        /** Grants permission to perform API actions as any user in the system, when authenticated as an admin user. */
         SUDO;
 
         private static JacksonJsonEnumHelper<Scope> enumHelper = new JacksonJsonEnumHelper<>(Scope.class);

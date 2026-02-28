@@ -56,3 +56,6 @@ gitlab4j-mock-config-*.properties
 
 # git-changelog plugin #
 .okhttpcache
+
+# IntelliJ HTTP Client private environment (contains tokens)
+http-client.private.env.json
