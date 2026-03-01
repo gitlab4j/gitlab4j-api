@@ -454,6 +454,8 @@ public class RepositoryFileApi extends AbstractApi {
         form.param("content", content);
 
         addFormParam(form, "commit_message", commitMessage, true);
+        addFormParam(form, "author_email", file.getAuthorEmail(), false);
+        addFormParam(form, "author_name", file.getAuthorName(), false);
         return (form);
     }
 
