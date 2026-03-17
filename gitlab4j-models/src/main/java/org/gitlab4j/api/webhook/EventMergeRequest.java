@@ -2,11 +2,13 @@ package org.gitlab4j.api.webhook;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.gitlab4j.api.models.Assignee;
 import org.gitlab4j.api.models.Duration;
 import org.gitlab4j.models.utils.JacksonJson;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class EventMergeRequest {
 
@@ -48,7 +50,8 @@ public class EventMergeRequest {
 
     private Long updatedById;
     private String mergeError;
-    private Map<String, String> mergeParams;
+    private MergeParams mergeParams;
+
     private Boolean mergeWhenPipelineSucceeds;
     private Long mergeUserId;
     private Date deletedAt;
@@ -358,11 +361,11 @@ public class EventMergeRequest {
         this.mergeError = mergeError;
     }
 
-    public Map<String, String> getMergeParams() {
+    public MergeParams getMergeParams() {
         return mergeParams;
     }
 
-    public void setMergeParams(Map<String, String> mergeParams) {
+    public void setMergeParams(MergeParams mergeParams) {
         this.mergeParams = mergeParams;
     }
 
@@ -516,6 +519,105 @@ public class EventMergeRequest {
 
     public void setOldrev(String oldrev) {
         this.oldrev = oldrev;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class MergeParams {
+        private String autoMergeStrategy;
+        private String forceRemoveSourceBranch;
+        private Boolean shouldRemoveSourceBranch;
+        private String commitMessage;
+        private String squashCommitMessage;
+        private String sha;
+        private TrainRef trainRef;
+
+        public String getAutoMergeStrategy() {
+            return autoMergeStrategy;
+        }
+
+        public void setAutoMergeStrategy(String autoMergeStrategy) {
+            this.autoMergeStrategy = autoMergeStrategy;
+        }
+
+        public String getForceRemoveSourceBranch() {
+            return forceRemoveSourceBranch;
+        }
+
+        public void setForceRemoveSourceBranch(String forceRemoveSourceBranch) {
+            this.forceRemoveSourceBranch = forceRemoveSourceBranch;
+        }
+
+        public Boolean getShouldRemoveSourceBranch() {
+            return shouldRemoveSourceBranch;
+        }
+
+        public void setShouldRemoveSourceBranch(Boolean shouldRemoveSourceBranch) {
+            this.shouldRemoveSourceBranch = shouldRemoveSourceBranch;
+        }
+
+        public String getCommitMessage() {
+            return commitMessage;
+        }
+
+        public void setCommitMessage(String commitMessage) {
+            this.commitMessage = commitMessage;
+        }
+
+        public String getSquashCommitMessage() {
+            return squashCommitMessage;
+        }
+
+        public void setSquashCommitMessage(String squashCommitMessage) {
+            this.squashCommitMessage = squashCommitMessage;
+        }
+
+        public String getSha() {
+            return sha;
+        }
+
+        public void setSha(String sha) {
+            this.sha = sha;
+        }
+
+        public TrainRef getTrainRef() {
+            return trainRef;
+        }
+
+        public void setTrainRef(TrainRef trainRef) {
+            this.trainRef = trainRef;
+        }
+
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        public static class TrainRef {
+            private String commitSha;
+            private String mergeCommitSha;
+            private String squashCommitSha;
+
+            public String getCommitSha() {
+                return commitSha;
+            }
+
+            public void setCommitSha(String commitSha) {
+                this.commitSha = commitSha;
+            }
+
+            public String getMergeCommitSha() {
+                return mergeCommitSha;
+            }
+
+            public void setMergeCommitSha(String mergeCommitSha) {
+                this.mergeCommitSha = mergeCommitSha;
+            }
+
+            public String getSquashCommitSha() {
+                return squashCommitSha;
+            }
+
+            public void setSquashCommitSha(String squashCommitSha) {
+                this.squashCommitSha = squashCommitSha;
+            }
+        }
     }
 
     @Override
