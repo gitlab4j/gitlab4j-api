@@ -2265,12 +2265,7 @@ public class GroupApi extends AbstractApi {
     public InputStream getAvatar(Object groupIdOrPath) throws GitLabApiException {
 
         Response response = getWithAccepts(
-                Response.Status.OK,
-                null,
-                MediaType.MEDIA_TYPE_WILDCARD,
-                "groups",
-                getGroupIdOrPath(groupIdOrPath),
-                "avatar");
+                Response.Status.OK, null, MediaType.WILDCARD, "groups", getGroupIdOrPath(groupIdOrPath), "avatar");
         return (response.readEntity(InputStream.class));
     }
 

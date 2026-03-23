@@ -422,7 +422,7 @@ public class RepositoryFileApi extends AbstractApi {
         Response response = getWithAccepts(
                 Response.Status.OK,
                 formData.asMap(),
-                MediaType.MEDIA_TYPE_WILDCARD,
+                MediaType.WILDCARD,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
                 "repository",

@@ -488,7 +488,7 @@ public class RepositoryApi extends AbstractApi {
         Response response = getWithAccepts(
                 Response.Status.OK,
                 null,
-                MediaType.MEDIA_TYPE_WILDCARD,
+                MediaType.WILDCARD,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
                 "repository",

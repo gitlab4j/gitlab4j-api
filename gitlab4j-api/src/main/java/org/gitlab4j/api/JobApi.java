@@ -378,7 +378,7 @@ public class JobApi extends AbstractApi implements Constants {
         Response response = getWithAccepts(
                 Response.Status.OK,
                 formData.asMap(),
-                MediaType.MEDIA_TYPE_WILDCARD,
+                MediaType.WILDCARD,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
                 "jobs",
@@ -421,7 +421,7 @@ public class JobApi extends AbstractApi implements Constants {
         Response response = getWithAccepts(
                 Response.Status.OK,
                 formData.asMap(),
-                MediaType.MEDIA_TYPE_WILDCARD,
+                MediaType.WILDCARD,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
                 "jobs",
@@ -449,7 +449,7 @@ public class JobApi extends AbstractApi implements Constants {
         Response response = getWithAccepts(
                 Response.Status.OK,
                 null,
-                MediaType.MEDIA_TYPE_WILDCARD,
+                MediaType.WILDCARD,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
                 "jobs",
@@ -485,7 +485,7 @@ public class JobApi extends AbstractApi implements Constants {
         Response response = getWithAccepts(
                 Response.Status.OK,
                 null,
-                MediaType.MEDIA_TYPE_WILDCARD,
+                MediaType.WILDCARD,
                 "projects",
                 getProjectIdOrPath(projectIdOrPath),
                 "jobs",
