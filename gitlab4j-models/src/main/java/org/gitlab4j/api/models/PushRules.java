@@ -182,6 +182,11 @@ public class PushRules implements Serializable {
         this.commitCommitterNameCheck = commitCommitterNameCheck;
     }
 
+    public PushRules withCommitCommitterNameCheck(Boolean commitCommitterNameCheck) {
+        this.commitCommitterNameCheck = commitCommitterNameCheck;
+        return (this);
+    }
+
     public void setCommitCommitterCheck(Boolean commitCommitterCheck) {
         this.commitCommitterCheck = commitCommitterCheck;
     }
