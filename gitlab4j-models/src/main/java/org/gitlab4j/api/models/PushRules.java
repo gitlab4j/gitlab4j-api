@@ -23,6 +23,7 @@ public class PushRules implements Serializable {
     private Boolean commitCommitterCheck;
     private Boolean commitCommitterNameCheck;
     private Boolean rejectUnsignedCommits;
+    private Boolean rejectNonDcoCommits;
 
     public Long getId() {
         return id;
@@ -206,6 +207,19 @@ public class PushRules implements Serializable {
 
     public PushRules withRejectUnsignedCommits(Boolean rejectUnsignedCommits) {
         this.rejectUnsignedCommits = rejectUnsignedCommits;
+        return (this);
+    }
+
+    public Boolean getRejectNonDcoCommits() {
+        return rejectNonDcoCommits;
+    }
+
+    public void setRejectNonDcoCommits(Boolean rejectUnsignedCommits) {
+        this.rejectNonDcoCommits = rejectNonDcoCommits;
+    }
+
+    public PushRules withRejectNonDcoCommits(Boolean rejectNonDcoCommits) {
+        this.rejectNonDcoCommits = rejectNonDcoCommits;
         return (this);
     }
 

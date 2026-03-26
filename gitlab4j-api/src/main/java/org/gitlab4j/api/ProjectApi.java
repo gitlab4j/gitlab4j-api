@@ -3171,7 +3171,9 @@ public class ProjectApi extends AbstractApi implements Constants {
      * fileNameRegex (optional) - All committed filenames must not match this, e.g. `(jar
      * maxFileSize (optional) - Maximum file size (MB)
      * commitCommitterCheck (optional) - Users can only push commits to this repository that were committed with one of their own verified emails.
+     * commitCommitterNameCheck (optional) - Users can only push commits to this repository if the commit author name is consistent with their GitLab account name.
      * rejectUnsignedCommits (optional) - Reject commit when it is not signed through GPG
+     * rejectNonDcoCommits (optional) - Reject commit when it is not DCO certified
      *</code>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
@@ -3191,7 +3193,9 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("file_name_regex", pushRule.getFileNameRegex())
                 .withParam("max_file_size", pushRule.getMaxFileSize())
                 .withParam("commit_committer_check", pushRule.getCommitCommitterCheck())
-                .withParam("reject_unsigned_commits", pushRule.getRejectUnsignedCommits());
+                .withParam("commit_committer_name_check", pushRule.getCommitCommitterNameChack())
+                .withParam("reject_unsigned_commits", pushRule.getRejectUnsignedCommits())
+                .withParam("reject_non_dco_commits", pushRule.getRejectNonDcoCommits());
 
         Response response =
                 post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "push_rule");
@@ -3216,7 +3220,9 @@ public class ProjectApi extends AbstractApi implements Constants {
      * fileNameRegex (optional) - All committed filenames must not match this, e.g. `(jar
      * maxFileSize (optional) - Maximum file size (MB)
      * commitCommitterCheck (optional) - Users can only push commits to this repository that were committed with one of their own verified emails.
+     * commitCommitterNameCheck (optional) - Users can only push commits to this repository if the commit author name is consistent with their GitLab account name.
      * rejectUnsignedCommits (optional) - Reject commit when it is not signed through GPG
+     * rejectNonDcoCommits (optional) - Reject commit when it is not DCO certified
      *</code>
      *
      * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
@@ -3236,7 +3242,9 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("file_name_regex", pushRule.getFileNameRegex())
                 .withParam("max_file_size", pushRule.getMaxFileSize())
                 .withParam("commit_committer_check", pushRule.getCommitCommitterCheck())
-                .withParam("reject_unsigned_commits", pushRule.getRejectUnsignedCommits());
+                .withParam("commit_committer_name_check", pushRule.getCommitCommitterNameChack())
+                .withParam("reject_unsigned_commits", pushRule.getRejectUnsignedCommits())
+                .withParam("reject_non_dco_commits", pushRule.getRejectNonDcoCommits());
 
         final Response response = putWithFormData(
                 Response.Status.OK, formData, "projects", getProjectIdOrPath(projectIdOrPath), "push_rule");
