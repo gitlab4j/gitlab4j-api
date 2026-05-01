@@ -241,9 +241,11 @@ public class MergeRequestParams implements Serializable {
      */
     public GitLabForm getForm(boolean isCreate) {
 
-        String titleToUse = title;
+        String titleToUse;
         if (Boolean.TRUE.equals(draft)) {
             titleToUse = "Draft: " + (title != null ? title : "");
+        } else {
+            titleToUse = title;
         }
 
         GitLabForm form = new GitLabForm()
