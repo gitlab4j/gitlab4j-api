@@ -13,5 +13,6 @@
   "max_file_size": 5,
   "commit_committer_check": false,
   "commit_committer_name_check": false,
-  "reject_unsigned_commits": false
+  "reject_unsigned_commits": false,
+  "reject_non_dco_commits": false
 }
