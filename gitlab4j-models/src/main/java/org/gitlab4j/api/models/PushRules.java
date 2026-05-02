@@ -214,7 +214,7 @@ public class PushRules implements Serializable {
         return rejectNonDcoCommits;
     }
 
-    public void setRejectNonDcoCommits(Boolean rejectUnsignedCommits) {
+    public void setRejectNonDcoCommits(Boolean rejectNonDcoCommits) {
         this.rejectNonDcoCommits = rejectNonDcoCommits;
     }
 

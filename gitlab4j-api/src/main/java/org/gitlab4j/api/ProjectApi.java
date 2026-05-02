@@ -3193,7 +3193,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("file_name_regex", pushRule.getFileNameRegex())
                 .withParam("max_file_size", pushRule.getMaxFileSize())
                 .withParam("commit_committer_check", pushRule.getCommitCommitterCheck())
-                .withParam("commit_committer_name_check", pushRule.getCommitCommitterNameChack())
+                .withParam("commit_committer_name_check", pushRule.getCommitCommitterNameCheck())
                 .withParam("reject_unsigned_commits", pushRule.getRejectUnsignedCommits())
                 .withParam("reject_non_dco_commits", pushRule.getRejectNonDcoCommits());
 
@@ -3242,7 +3242,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("file_name_regex", pushRule.getFileNameRegex())
                 .withParam("max_file_size", pushRule.getMaxFileSize())
                 .withParam("commit_committer_check", pushRule.getCommitCommitterCheck())
-                .withParam("commit_committer_name_check", pushRule.getCommitCommitterNameChack())
+                .withParam("commit_committer_name_check", pushRule.getCommitCommitterNameCheck())
                 .withParam("reject_unsigned_commits", pushRule.getRejectUnsignedCommits())
                 .withParam("reject_non_dco_commits", pushRule.getRejectNonDcoCommits());
 
