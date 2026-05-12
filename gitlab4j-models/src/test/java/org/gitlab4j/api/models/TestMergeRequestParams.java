@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.Arrays;
+
 import org.gitlab4j.models.GitLabForm;
 import org.gitlab4j.models.GitLabFormValue;
 import org.junit.jupiter.api.Test;
@@ -57,5 +59,33 @@ public class TestMergeRequestParams {
         GitLabFormValue titleFormValue = form.getFormValues().get("title");
         assertNotNull(titleFormValue);
         assertNull(titleFormValue.getValue());
+    }
+
+    @Test
+    public void testAddLabels() {
+        MergeRequestParams params = new MergeRequestParams().withAddLabels(Arrays.asList("bug", "urgent"));
+
+        GitLabForm form = params.getForm(false);
+        assertEquals("bug,urgent", form.getFormValues().get("add_labels").getValue());
+    }
+
+    @Test
+    public void testRemoveLabels() {
+        MergeRequestParams params = new MergeRequestParams().withRemoveLabels(new String[] {"wontfix"});
+
+        GitLabForm form = params.getForm(false);
+        assertEquals("wontfix", form.getFormValues().get("remove_labels").getValue());
+    }
+
+    @Test
+    public void testNoAddRemoveLabelsOnCreate() {
+        MergeRequestParams params = new MergeRequestParams()
+                .withTitle("T")
+                .withAddLabels(Arrays.asList("bug"))
+                .withRemoveLabels(Arrays.asList("wontfix"));
+
+        GitLabForm form = params.getForm(true);
+        assertNull(form.getFormValues().get("add_labels"));
+        assertNull(form.getFormValues().get("remove_labels"));
     }
 }
