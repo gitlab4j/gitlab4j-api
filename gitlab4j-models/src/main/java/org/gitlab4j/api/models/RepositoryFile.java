@@ -21,8 +21,6 @@ public class RepositoryFile implements Serializable {
     private String blobId;
     private String commitId;
     private String lastCommitId;
-    private String authorName;
-    private String authorEmail;
 
     public String getFileName() {
         return fileName;
@@ -102,22 +100,6 @@ public class RepositoryFile implements Serializable {
 
     public void setLastCommitId(String lastCommitId) {
         this.lastCommitId = lastCommitId;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    public String getAuthorEmail() {
-        return authorEmail;
-    }
-
-    public void setAuthorEmail(String authorEmail) {
-        this.authorEmail = authorEmail;
     }
 
     /**

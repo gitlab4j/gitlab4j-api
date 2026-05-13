@@ -569,6 +569,12 @@ public class TestGitLabApiBeans {
     }
 
     @Test
+    public void testRepositoryFileRequest() throws Exception {
+        RepositoryFileRequest file = unmarshalResource(RepositoryFileRequest.class, "repository-file-request.json");
+        assertTrue(compareJson(file, "repository-file-request.json"));
+    }
+
+    @Test
     public void testRepositoryFileResponse() throws Exception {
         RepositoryFileResponse file = unmarshalResource(RepositoryFileResponse.class, "repository-file-response.json");
         assertTrue(compareJson(file, "repository-file-response.json"));

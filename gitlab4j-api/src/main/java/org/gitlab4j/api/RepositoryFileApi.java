@@ -15,6 +15,7 @@ import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.RepositoryFileRequest;
 import org.gitlab4j.api.models.RepositoryFileResponse;
 import org.gitlab4j.models.Constants;
 
@@ -454,8 +455,13 @@ public class RepositoryFileApi extends AbstractApi {
         form.param("content", content);
 
         addFormParam(form, "commit_message", commitMessage, true);
-        addFormParam(form, "author_email", file.getAuthorEmail(), false);
-        addFormParam(form, "author_name", file.getAuthorName(), false);
+
+        if (file instanceof RepositoryFileRequest) {
+            RepositoryFileRequest fileRequest = (RepositoryFileRequest) file;
+            addFormParam(form, "author_email", fileRequest.getAuthorEmail(), false);
+            addFormParam(form, "author_name", fileRequest.getAuthorName(), false);
+        }
+
         return (form);
     }
 
