@@ -21,6 +21,8 @@ public class MergeRequestParams implements Serializable {
     private List<Long> reviewerIds;
     private Long milestoneId;
     private List<String> labels;
+    private List<String> addLabels;
+    private List<String> removeLabels;
     private String description;
     private Long targetProjectId;
     private StateEvent stateEvent;
@@ -129,6 +131,56 @@ public class MergeRequestParams implements Serializable {
      */
     public MergeRequestParams withLabels(String[] labels) {
         this.labels = (labels != null ? Arrays.asList(labels) : null);
+        return (this);
+    }
+
+    /**
+     * Add labels to the merge request (without affecting existing labels).
+     * If a label does not already exist, this creates a new project label and assigns it to the merge request.
+     * This is for merge request updates only.
+     *
+     * @param addLabels the List of labels to add
+     * @return the reference to this MergeRequestParams instance
+     */
+    public MergeRequestParams withAddLabels(List<String> addLabels) {
+        this.addLabels = addLabels;
+        return (this);
+    }
+
+    /**
+     * Add labels to the merge request (without affecting existing labels).
+     * If a label does not already exist, this creates a new project label and assigns it to the merge request.
+     * This is for merge request updates only.
+     *
+     * @param addLabels the array of labels to add
+     * @return the reference to this MergeRequestParams instance
+     */
+    public MergeRequestParams withAddLabels(String[] addLabels) {
+        this.addLabels = (addLabels != null ? Arrays.asList(addLabels) : null);
+        return (this);
+    }
+
+    /**
+     * Remove labels from the merge request (without affecting other labels).
+     * This is for merge request updates only.
+     *
+     * @param removeLabels the List of labels to remove
+     * @return the reference to this MergeRequestParams instance
+     */
+    public MergeRequestParams withRemoveLabels(List<String> removeLabels) {
+        this.removeLabels = removeLabels;
+        return (this);
+    }
+
+    /**
+     * Remove labels from the merge request (without affecting other labels).
+     * This is for merge request updates only.
+     *
+     * @param removeLabels the array of labels to remove
+     * @return the reference to this MergeRequestParams instance
+     */
+    public MergeRequestParams withRemoveLabels(String[] removeLabels) {
+        this.removeLabels = (removeLabels != null ? Arrays.asList(removeLabels) : null);
         return (this);
     }
 
@@ -266,7 +318,10 @@ public class MergeRequestParams implements Serializable {
                     .withParam("target_project_id", targetProjectId)
                     .withParam("approvals_before_merge", approvalsBeforeMerge);
         } else {
-            form.withParam("state_event", stateEvent).withParam("discussion_locked", discussionLocked);
+            form.withParam("state_event", stateEvent)
+                    .withParam("discussion_locked", discussionLocked)
+                    .withParam("add_labels", (addLabels != null ? String.join(",", addLabels) : null))
+                    .withParam("remove_labels", (removeLabels != null ? String.join(",", removeLabels) : null));
         }
 
         return (form);
