@@ -15,7 +15,9 @@ import jakarta.ws.rs.core.Response;
 
 import org.gitlab4j.api.models.Blame;
 import org.gitlab4j.api.models.RepositoryFile;
+import org.gitlab4j.api.models.RepositoryFileCreate;
 import org.gitlab4j.api.models.RepositoryFileResponse;
+import org.gitlab4j.api.models.RepositoryFileUpdate;
 import org.gitlab4j.models.Constants;
 
 /**
@@ -183,7 +185,7 @@ public class RepositoryFileApi extends AbstractApi {
     }
 
     /**
-     * Create new file in repository
+     * Create new file in repository.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/files</code></pre>
      *
@@ -194,14 +196,43 @@ public class RepositoryFileApi extends AbstractApi {
      * commit_message (required) - Commit message
      *
      * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
-     * @param file a ReposityoryFile instance with info for the file to create
+     * @param file a RepositoryFile instance with info for the file to create
      * @param branchName the name of branch
      * @param commitMessage the commit message
-     * @return a RepositoryFile instance with the created file info
+     * @return a RepositoryFileResponse instance with the created file info
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated Use {@link #createFile(Object, RepositoryFileCreate, String, String)} instead.
+     *     {@link RepositoryFile} mixes read-only response fields with write input fields;
+     *     {@link RepositoryFileCreate} exposes only the parameters accepted by the endpoint and adds support
+     *     for {@code start_branch}, {@code execute_filemode}, {@code author_email} and {@code author_name}.
+     */
+    @Deprecated
+    public RepositoryFileResponse createFile(
+            Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage)
+            throws GitLabApiException {
+        return createFile(projectIdOrPath, toCreate(file), branchName, commitMessage);
+    }
+
+    /**
+     * Create new file in repository.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/repository/files/:file_path</code></pre>
+     *
+     * file_path (required) - Full path to new file. Ex. lib/class.rb
+     * branch_name (required) - The name of branch
+     * encoding (optional) - 'text' or 'base64'. Text is default.
+     * content (required) - File content
+     * commit_message (required) - Commit message
+     *
+     * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
+     * @param file a RepositoryFileCreate instance with the input parameters for the file to create
+     * @param branchName the name of branch
+     * @param commitMessage the commit message
+     * @return a RepositoryFileResponse instance with the created file info (path and branch)
      * @throws GitLabApiException if any exception occurs
      */
     public RepositoryFileResponse createFile(
-            Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage)
+            Object projectIdOrPath, RepositoryFileCreate file, String branchName, String commitMessage)
             throws GitLabApiException {
 
         Form formData = createForm(file, branchName, commitMessage);
@@ -217,7 +248,7 @@ public class RepositoryFileApi extends AbstractApi {
     }
 
     /**
-     * Create new file in repository
+     * Create new file in repository.
      *
      * <pre><code>GitLab Endpoint: POST /projects/:id/repository/files</code></pre>
      *
@@ -227,13 +258,13 @@ public class RepositoryFileApi extends AbstractApi {
      * content (required) - File content
      * commit_message (required) - Commit message
      *
-     * @param file a ReposityoryFile instance with info for the file to create
+     * @param file a RepositoryFile instance with info for the file to create
      * @param projectId the project ID
      * @param branchName the name of branch
      * @param commitMessage the commit message
-     * @return a RepositoryFile instance with the created file info
+     * @return a RepositoryFileResponse instance with the created file info
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 6.0, replaced by {@link #createFile(Object, RepositoryFile, String, String)}
+     * @deprecated Use {@link #createFile(Object, RepositoryFileCreate, String, String)} instead.
      */
     @Deprecated
     public RepositoryFileResponse createFile(
@@ -242,7 +273,7 @@ public class RepositoryFileApi extends AbstractApi {
     }
 
     /**
-     * Update existing file in repository
+     * Update existing file in repository.
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/files</code></pre>
      *
@@ -253,14 +284,44 @@ public class RepositoryFileApi extends AbstractApi {
      * commit_message (required) - Commit message
      *
      * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
-     * @param file a ReposityoryFile instance with info for the file to update
+     * @param file a RepositoryFile instance with info for the file to update
      * @param branchName the name of branch
      * @param commitMessage the commit message
-     * @return a RepositoryFile instance with the updated file info
+     * @return a RepositoryFileResponse instance with the updated file info
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated Use {@link #updateFile(Object, RepositoryFileUpdate, String, String)} instead.
+     *     {@link RepositoryFile} mixes read-only response fields with write input fields;
+     *     {@link RepositoryFileUpdate} exposes only the parameters accepted by the endpoint and adds support
+     *     for {@code start_branch}, {@code execute_filemode}, {@code last_commit_id}, {@code author_email}
+     *     and {@code author_name}.
+     */
+    @Deprecated
+    public RepositoryFileResponse updateFile(
+            Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage)
+            throws GitLabApiException {
+        return updateFile(projectIdOrPath, toUpdate(file), branchName, commitMessage);
+    }
+
+    /**
+     * Update existing file in repository.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/files/:file_path</code></pre>
+     *
+     * file_path (required) - Full path to new file. Ex. lib/class.rb
+     * branch_name (required) - The name of branch
+     * encoding (optional) - 'text' or 'base64'. Text is default.
+     * content (required) - File content
+     * commit_message (required) - Commit message
+     *
+     * @param projectIdOrPath the id, path of the project, or a Project instance holding the project ID or path
+     * @param file a RepositoryFileUpdate instance with the input parameters for the file to update
+     * @param branchName the name of branch
+     * @param commitMessage the commit message
+     * @return a RepositoryFileResponse instance with the updated file info (path and branch)
      * @throws GitLabApiException if any exception occurs
      */
     public RepositoryFileResponse updateFile(
-            Object projectIdOrPath, RepositoryFile file, String branchName, String commitMessage)
+            Object projectIdOrPath, RepositoryFileUpdate file, String branchName, String commitMessage)
             throws GitLabApiException {
 
         Form formData = createForm(file, branchName, commitMessage);
@@ -276,23 +337,17 @@ public class RepositoryFileApi extends AbstractApi {
     }
 
     /**
-     * Update existing file in repository
+     * Update existing file in repository.
      *
      * <pre><code>GitLab Endpoint: PUT /projects/:id/repository/files</code></pre>
      *
-     * file_path (required) - Full path to new file. Ex. lib/class.rb
-     * branch_name (required) - The name of branch
-     * encoding (optional) - 'text' or 'base64'. Text is default.
-     * content (required) - File content
-     * commit_message (required) - Commit message
-     *
-     * @param file a ReposityoryFile instance with info for the file to update
+     * @param file a RepositoryFile instance with info for the file to update
      * @param projectId the project ID
      * @param branchName the name of branch
      * @param commitMessage the commit message
-     * @return a RepositoryFile instance with the updated file info
+     * @return a RepositoryFileResponse instance with the updated file info
      * @throws GitLabApiException if any exception occurs
-     * @deprecated  Will be removed in version 6.0, replaced by {@link #updateFile(Object, RepositoryFile, String, String)}
+     * @deprecated Use {@link #updateFile(Object, RepositoryFileUpdate, String, String)} instead.
      */
     @Deprecated
     public RepositoryFileResponse updateFile(
@@ -433,18 +488,21 @@ public class RepositoryFileApi extends AbstractApi {
     }
 
     /**
-     * Gets the query params based on the API version.
+     * Builds the form payload sent on create/update requests.
      *
-     * @param file the RepositoryFile instance with the info for the query params
+     * @param file the RepositoryFileCreate (or RepositoryFileUpdate) instance with the input parameters
      * @param branchName the branch name
      * @param commitMessage the commit message
      * @return a Form instance with the correct query params.
      */
-    protected Form createForm(RepositoryFile file, String branchName, String commitMessage) {
+    private Form createForm(RepositoryFileCreate file, String branchName, String commitMessage) {
 
         Form form = new Form();
         addFormParam(form, "branch", branchName, true);
+        addFormParam(form, "start_branch", file.getStartBranch(), false);
         addFormParam(form, "encoding", file.getEncoding(), false);
+        addFormParam(form, "author_email", file.getAuthorEmail(), false);
+        addFormParam(form, "author_name", file.getAuthorName(), false);
 
         // Cannot use addFormParam() as it does not accept an empty or whitespace only string
         String content = file.getContent();
@@ -454,7 +512,39 @@ public class RepositoryFileApi extends AbstractApi {
         form.param("content", content);
 
         addFormParam(form, "commit_message", commitMessage, true);
+        addFormParam(form, "execute_filemode", file.getExecuteFilemode(), false);
+
+        if (file instanceof RepositoryFileUpdate) {
+            addFormParam(form, "last_commit_id", ((RepositoryFileUpdate) file).getLastCommitId(), false);
+        }
+
         return (form);
+    }
+
+    /**
+     * Copies the input fields of a {@link RepositoryFile} into a new {@link RepositoryFileCreate}.
+     * Used by the deprecated {@code createFile(Object, RepositoryFile, ...)} overload.
+     */
+    private RepositoryFileCreate toCreate(RepositoryFile file) {
+        RepositoryFileCreate create = new RepositoryFileCreate();
+        create.setFilePath(file.getFilePath());
+        create.setContent(file.getContent());
+        create.setEncoding(file.getEncoding());
+        return create;
+    }
+
+    /**
+     * Copies the input fields of a {@link RepositoryFile} into a new {@link RepositoryFileUpdate},
+     * preserving {@code lastCommitId} as the optimistic-locking hint.
+     * Used by the deprecated {@code updateFile(Object, RepositoryFile, ...)} overload.
+     */
+    private RepositoryFileUpdate toUpdate(RepositoryFile file) {
+        RepositoryFileUpdate update = new RepositoryFileUpdate();
+        update.setFilePath(file.getFilePath());
+        update.setContent(file.getContent());
+        update.setEncoding(file.getEncoding());
+        update.setLastCommitId(file.getLastCommitId());
+        return update;
     }
 
     /**
