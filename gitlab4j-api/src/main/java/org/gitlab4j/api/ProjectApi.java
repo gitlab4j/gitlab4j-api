@@ -1532,6 +1532,46 @@ public class ProjectApi extends AbstractApi implements Constants {
             formData.withParam("container_expiration_policy_attributes", attributes, false);
         }
 
+        // Additional PUT /projects/:id attributes (see gitlab4j/gitlab4j-api#1324)
+        formData.withParam("allow_merge_on_skipped_pipeline", project.getAllowMergeOnSkippedPipeline())
+                .withParam(
+                        "allow_pipeline_trigger_approve_deployment", project.getAllowPipelineTriggerApproveDeployment())
+                .withParam("auto_devops_deploy_strategy", project.getAutoDevopsDeployStrategy())
+                .withParam("auto_devops_enabled", project.getAutoDevopsEnabled())
+                .withParam("auto_duo_code_review_enabled", project.getAutoDuoCodeReviewEnabled())
+                .withParam("ci_default_git_depth", project.getCiDefaultGitDepth())
+                .withParam("ci_display_pipeline_variables", project.getCiDisplayPipelineVariables())
+                .withParam("ci_forward_deployment_rollback_allowed", project.getCiForwardDeploymentRollbackAllowed())
+                .withParam(
+                        "ci_allow_fork_pipelines_to_run_in_parent_project",
+                        project.getCiAllowForkPipelinesToRunInParentProject())
+                .withParam("ci_id_token_sub_claim_components", project.getCiIdTokenSubClaimComponents())
+                .withParam("ci_separated_caches", project.getCiSeparatedCaches())
+                .withParam("ci_restrict_pipeline_cancellation_role", project.getCiRestrictPipelineCancellationRole())
+                .withParam("ci_push_repository_for_job_token_allowed", project.getCiPushRepositoryForJobTokenAllowed())
+                .withParam("duo_remote_flows_enabled", project.getDuoRemoteFlowsEnabled())
+                .withParam("duo_sast_fp_detection_enabled", project.getDuoSastFpDetectionEnabled())
+                .withParam("duo_sast_vr_workflow_enabled", project.getDuoSastVrWorkflowEnabled())
+                .withParam("enforce_auth_checks_on_uploads", project.getEnforceAuthChecksOnUploads())
+                .withParam("import_url", project.getImportUrl())
+                .withParam("keep_latest_artifact", project.getKeepLatestArtifact())
+                .withParam("max_artifacts_size", project.getMaxArtifactsSize())
+                .withParam("merge_pipelines_enabled", project.getMergePipelinesEnabled())
+                .withParam("mr_default_title_template", project.getMrDefaultTitleTemplate())
+                .withParam("merge_trains_enabled", project.getMergeTrainsEnabled())
+                .withParam("merge_trains_skip_train_allowed", project.getMergeTrainsSkipTrainAllowed())
+                .withParam("max_pipelines_per_merge_train", project.getMaxPipelinesPerMergeTrain())
+                .withParam("mirror_overwrites_diverged_branches", project.getMirrorOverwritesDivergedBranches())
+                .withParam("mirror_user_id", project.getMirrorUserId())
+                .withParam("mr_default_target_self", project.getMrDefaultTargetSelf())
+                .withParam("only_mirror_protected_branches", project.getOnlyMirrorProtectedBranches())
+                .withParam("package_registry_access_level", project.getPackageRegistryAccessLevel())
+                .withParam("prevent_merge_without_jira_issue", project.getPreventMergeWithoutJiraIssue())
+                .withParam("protect_merge_request_pipelines", project.getProtectMergeRequestPipelines())
+                .withParam("service_desk_enabled", project.getServiceDeskEnabled())
+                .withParam("spp_repository_pipeline_access", project.getSppRepositoryPipelineAccess())
+                .withParam("web_based_commit_signing_enabled", project.getWebBasedCommitSigningEnabled());
+
         Visibility visibility = (project.getVisibility() != null
                 ? project.getVisibility()
                 : project.getPublic() == Boolean.TRUE ? Visibility.PUBLIC : null);
