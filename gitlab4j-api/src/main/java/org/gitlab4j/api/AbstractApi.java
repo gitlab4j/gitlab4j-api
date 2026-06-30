@@ -696,7 +696,7 @@ public abstract class AbstractApi implements Constants {
             Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, Object... pathArgs)
             throws GitLabApiException {
         try {
-            return validate(getApiClient().delete(queryParams, pathArgs), expectedStatus);
+            return releaseConnection(validate(getApiClient().delete(queryParams, pathArgs), expectedStatus));
         } catch (Exception e) {
             throw handle(e);
         }
@@ -715,10 +715,36 @@ public abstract class AbstractApi implements Constants {
     protected Response delete(Response.Status expectedStatus, MultivaluedMap<String, String> queryParams, URL url)
             throws GitLabApiException {
         try {
-            return validate(getApiClient().delete(queryParams, url), expectedStatus);
+            return releaseConnection(validate(getApiClient().delete(queryParams, url), expectedStatus));
         } catch (Exception e) {
             throw handle(e);
         }
+    }
+
+    /**
+     * Releases the underlying HTTP connection of a DELETE response back to the connection pool.
+     *
+     * <p>Most {@code delete(...)} callers (e.g. {@code GroupApi#deleteGroup},
+     * {@code ProjectApi#deleteProject}) are {@code void} and discard the returned {@link Response}
+     * without closing it. When GitLabApi is configured with a pooling/Apache connector (for example
+     * via a proxy), a {@code Response} whose entity is never read or closed keeps its connection
+     * leased and never returns it to the pool. GitLab's delete endpoints typically answer 202/200
+     * <em>with a body</em>, so these connections leak and the pool (default 2 per route) is
+     * exhausted, after which further requests block in {@code getPoolEntryBlocking}.
+     *
+     * <p>{@link Response#bufferEntity()} reads the body into memory and releases the
+     * connection immediately, while keeping the {@code Response} fully readable for the few callers
+     * that do consume the body (e.g. {@code LicenseApi#deleteLicense}, {@code IssuesApi#deleteIssueLink},
+     * {@code EpicsApi#removeIssue}).
+     *
+     * @param response the validated DELETE response
+     * @return the same response, with its entity buffered and connection released
+     */
+    private Response releaseConnection(Response response) {
+        if (response.hasEntity()) {
+            response.bufferEntity();
+        }
+        return response;
     }
 
     /**
