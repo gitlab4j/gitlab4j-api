@@ -3,12 +3,10 @@ package org.gitlab4j.api.utils;
 import java.io.IOException;
 import java.io.Reader;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
@@ -44,14 +42,6 @@ import com.fasterxml.jackson.databind.type.CollectionType;
  */
 @Produces(MediaType.APPLICATION_JSON)
 public class JacksonJson extends JacksonJaxbJsonProvider implements ContextResolver<ObjectMapper> {
-
-    private static final SimpleDateFormat iso8601UtcFormat;
-
-    static {
-        iso8601UtcFormat = new SimpleDateFormat(ISO8601.UTC_PATTERN);
-        iso8601UtcFormat.setLenient(true);
-        iso8601UtcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    }
 
     private final ObjectMapper objectMapper;
 
