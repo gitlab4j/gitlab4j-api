@@ -40,6 +40,8 @@ public class SystemHookManager implements HookManager {
 
     private String secretToken;
 
+    private WebhookSignatureVerifier signatureVerifier;
+
     /**
      * Create a HookManager to handle GitLab system hook events.
      */
@@ -53,6 +55,18 @@ public class SystemHookManager implements HookManager {
      */
     public SystemHookManager(String secretToken) {
         this.secretToken = secretToken;
+    }
+
+    /**
+     * Create a HookManager to handle GitLab system hook events which will be verified
+     * against the specified secretToken.
+     *
+     * @param secretToken the secret token to verify against
+     * @param signingToken the signing token to verify against
+     */
+    public SystemHookManager(String secretToken, String signingToken) {
+        this(secretToken);
+        this.signatureVerifier = signingToken == null ? null : new HMACWebhookSignatureVerifier(signingToken);
     }
 
     /**
@@ -115,6 +129,35 @@ public class SystemHookManager implements HookManager {
             throw new GitLabApiException(message);
         }
 
+        String postData = null;
+        if (signatureVerifier != null) {
+            String webhookId = request.getHeader("webhook-id");
+            String webhookSignature = request.getHeader("webhook-signature");
+            String webhookTimestamp = request.getHeader("webhook-timestamp");
+
+            if (webhookId == null
+                    || webhookId.isEmpty()
+                    || webhookSignature == null
+                    || webhookSignature.isEmpty()
+                    || webhookTimestamp == null
+                    || webhookTimestamp.isEmpty()) {
+                throw new GitLabApiException("Missing required signature headers");
+            }
+
+            try {
+                postData = HttpRequestUtils.getPostDataAsString(request);
+            } catch (Exception e) {
+                LOGGER.warning(String.format(
+                        "Error reading body, exception=%s, error=%s",
+                        e.getClass().getSimpleName(), e.getMessage()));
+                throw new GitLabApiException(e);
+            }
+
+            if (!signatureVerifier.isSignatureValid(webhookId, webhookTimestamp, webhookTimestamp, postData)) {
+                throw new GitLabApiException("Invalid webhook signature");
+            }
+        }
+
         // Get the JSON as a JsonNode tree.  We do not directly unmarshal the input as special handling must
         // be done for "merge_request" events.
         JsonNode tree;
@@ -122,12 +165,18 @@ public class SystemHookManager implements HookManager {
 
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine(HttpRequestUtils.getShortRequestDump("System Hook", true, request));
-                String postData = HttpRequestUtils.getPostDataAsString(request);
+                if (postData == null) {
+                    postData = HttpRequestUtils.getPostDataAsString(request);
+                }
                 LOGGER.fine("Raw POST data:\n" + postData);
-                tree = jacksonJson.readTree(postData);
+            }
+
+            if (postData == null) {
+                try (InputStreamReader reader = new InputStreamReader(request.getInputStream())) {
+                    tree = jacksonJson.readTree(reader);
+                }
             } else {
-                InputStreamReader reader = new InputStreamReader(request.getInputStream());
-                tree = jacksonJson.readTree(reader);
+                tree = jacksonJson.readTree(postData);
             }
 
         } catch (Exception e) {

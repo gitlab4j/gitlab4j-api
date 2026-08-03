@@ -23,6 +23,14 @@ public class ProjectHook implements Serializable {
     private String url;
     private Boolean wikiPageEvents;
     private String token;
+    /**
+     * @since GitLab 19
+     */
+    private Boolean tokenPresent;
+    /**
+     * @since GitLab 19
+     */
+    private Boolean signingTokenPresent;
 
     private Boolean repositoryUpdateEvents;
     private Boolean confidentialIssuesEvents;
@@ -136,6 +144,22 @@ public class ProjectHook implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Boolean getTokenPresent() {
+        return tokenPresent;
+    }
+
+    public void setTokenPresent(Boolean tokenPresent) {
+        this.tokenPresent = tokenPresent;
+    }
+
+    public Boolean getSigningTokenPresent() {
+        return signingTokenPresent;
+    }
+
+    public void setSigningTokenPresent(Boolean signingTokenPresent) {
+        this.signingTokenPresent = signingTokenPresent;
     }
 
     public String getUrl() {

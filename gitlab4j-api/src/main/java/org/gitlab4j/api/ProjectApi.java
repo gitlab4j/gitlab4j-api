@@ -2469,6 +2469,7 @@ public class ProjectApi extends AbstractApi implements Constants {
      * @param enabledHooks a ProjectHook instance specifying which hooks to enable
      * @param enableSslVerification enable SSL verification
      * @param secretToken the secret token to pass back to the hook
+     * @param signingToken the signing token to pass back to the hook
      * @return the added ProjectHook instance
      * @throws GitLabApiException if any exception occurs
      */
@@ -2477,7 +2478,8 @@ public class ProjectApi extends AbstractApi implements Constants {
             String url,
             ProjectHook enabledHooks,
             Boolean enableSslVerification,
-            String secretToken)
+            String secretToken,
+            String signingToken)
             throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
@@ -2499,10 +2501,34 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("releases_events", enabledHooks.getReleasesEvents(), false)
                 .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
                 .withParam("description", enabledHooks.getDescription(), false)
-                .withParam("token", secretToken, false);
+                .withParam("token", secretToken, false)
+                .withParam("signing_token", signingToken, false);
         Response response =
                 post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "hooks");
         return (response.readEntity(ProjectHook.class));
+    }
+
+    /**
+     * Adds a hook to project.
+     *
+     * <pre><code>GitLab Endpoint: POST /projects/:id/hooks</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of an Long(ID), String(path), or Project instance, required
+     * @param url the callback URL for the hook
+     * @param enabledHooks a ProjectHook instance specifying which hooks to enable
+     * @param enableSslVerification enable SSL verification
+     * @param secretToken the secret token to pass back to the hook
+     * @return the added ProjectHook instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ProjectHook addHook(
+            Object projectIdOrPath,
+            String url,
+            ProjectHook enabledHooks,
+            Boolean enableSslVerification,
+            String secretToken)
+            throws GitLabApiException {
+        return addHook(projectIdOrPath, url, enabledHooks, enableSslVerification, secretToken, null);
     }
 
     /**
@@ -2591,10 +2617,12 @@ public class ProjectApi extends AbstractApi implements Constants {
      * <pre><code>GitLab Endpoint: PUT /projects/:id/hooks/:hook_id</code></pre>
      *
      * @param hook the ProjectHook instance that contains the project hook info to modify
+     * @param secretToken the secret token to pass back to the hook
+     * @param signingToken the signing token to pass back to the hook
      * @return the modified project hook
      * @throws GitLabApiException if any exception occurs
      */
-    public ProjectHook modifyHook(ProjectHook hook) throws GitLabApiException {
+    public ProjectHook modifyHook(ProjectHook hook, String secretToken, String signingToken) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", hook.getUrl(), true)
@@ -2614,11 +2642,26 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("releases_events", hook.getReleasesEvents(), false)
                 .withParam("deployment_events", hook.getDeploymentEvents(), false)
                 .withParam("description", hook.getDescription(), false)
-                .withParam("token", hook.getToken(), false);
+                .withParam("token", secretToken, false)
+                .withParam("signing_token", signingToken, false);
 
         Response response =
                 put(Response.Status.OK, formData.asMap(), "projects", hook.getProjectId(), "hooks", hook.getId());
         return (response.readEntity(ProjectHook.class));
+    }
+
+    /**
+     * Modifies a hook for project.
+     *
+     * <pre><code>GitLab Endpoint: PUT /projects/:id/hooks/:hook_id</code></pre>
+     *
+     * @param hook the ProjectHook instance that contains the project hook info to modify
+     * @return the modified project hook
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #modifyHook(ProjectHook, String, String)}
+     */
+    public ProjectHook modifyHook(ProjectHook hook) throws GitLabApiException {
+        return modifyHook(hook, hook.getToken(), null);
     }
 
     /**

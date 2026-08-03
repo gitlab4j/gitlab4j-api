@@ -20,6 +20,14 @@ public class SystemHook implements Serializable {
     private Boolean repositoryUpdateEvents;
     private Boolean mergeRequestsEvents;
     private List<SystemHook.UrlVariable> urlVariables;
+    /**
+     * @since GitLab 19
+     */
+    private Boolean tokenPresent;
+    /**
+     * @since GitLab 19
+     */
+    private Boolean signingTokenPresent;
 
     public Long getId() {
         return id;
@@ -107,6 +115,22 @@ public class SystemHook implements Serializable {
 
     public void setUrlVariables(List<SystemHook.UrlVariable> urlVariables) {
         this.urlVariables = urlVariables;
+    }
+
+    public void setTokenPresent(Boolean tokenPresent) {
+        this.tokenPresent = tokenPresent;
+    }
+
+    public Boolean getTokenPresent() {
+        return tokenPresent;
+    }
+
+    public void setSigningTokenPresent(Boolean signingTokenPresent) {
+        this.signingTokenPresent = signingTokenPresent;
+    }
+
+    public Boolean getSigningTokenPresent() {
+        return signingTokenPresent;
     }
 
     public SystemHook withId(Long id) {

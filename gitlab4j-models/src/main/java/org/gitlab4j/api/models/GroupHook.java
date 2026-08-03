@@ -35,6 +35,14 @@ public class GroupHook implements Serializable {
     private Date createdAt;
     private Boolean resourceAccessTokenEvents;
     private String customWebhookTemplate;
+    /**
+     * @since GitLab 19
+     */
+    private Boolean tokenPresent;
+    /**
+     * @since GitLab 19
+     */
+    private Boolean signingTokenPresent;
 
     public String getDescription() {
         return description;
@@ -266,5 +274,21 @@ public class GroupHook implements Serializable {
 
     public void setCustomWebhookTemplate(String customWebhookTemplate) {
         this.customWebhookTemplate = customWebhookTemplate;
+    }
+
+    public Boolean getTokenPresent() {
+        return tokenPresent;
+    }
+
+    public void setTokenPresent(Boolean tokenPresent) {
+        this.tokenPresent = tokenPresent;
+    }
+
+    public Boolean getSigningTokenPresent() {
+        return signingTokenPresent;
+    }
+
+    public void setSigningTokenPresent(Boolean signingTokenPresent) {
+        this.signingTokenPresent = signingTokenPresent;
     }
 }

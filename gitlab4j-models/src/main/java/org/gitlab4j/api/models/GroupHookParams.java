@@ -29,6 +29,11 @@ public class GroupHookParams implements Serializable {
     private Boolean memberEvents;
     private Boolean enableSslVerification;
     private String token;
+    /**
+     * @since GitLab 19
+     */
+    private String signingToken;
+
     private Boolean resourceAccessTokenEvents;
     private String customWebhookTemplate;
 
@@ -57,6 +62,7 @@ public class GroupHookParams implements Serializable {
                 .withParam("member_events", memberEvents)
                 .withParam("enable_ssl_verification", enableSslVerification)
                 .withParam("token", token)
+                .withParam("signing_token", signingToken)
                 .withParam("resource_access_token_events", resourceAccessTokenEvents)
                 .withParam("custom_webhook_template", customWebhookTemplate);
     }
@@ -168,6 +174,11 @@ public class GroupHookParams implements Serializable {
 
     public GroupHookParams setToken(String token) {
         this.token = token;
+        return this;
+    }
+
+    public GroupHookParams setSigningToken(String signingToken) {
+        this.signingToken = signingToken;
         return this;
     }
 
