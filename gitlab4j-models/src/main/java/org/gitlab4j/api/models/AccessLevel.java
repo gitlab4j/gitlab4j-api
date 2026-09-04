@@ -13,6 +13,7 @@ public enum AccessLevel {
     GUEST(10),
     PLANNER(15),
     REPORTER(20),
+    SECURITY_MANAGER(25),
     DEVELOPER(30),
     @Deprecated
     MASTER(40),
