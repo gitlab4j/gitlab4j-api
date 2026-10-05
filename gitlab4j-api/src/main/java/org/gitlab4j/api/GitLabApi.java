@@ -9,6 +9,8 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.net.ssl.SSLContext;
+
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -112,6 +114,78 @@ public class GitLabApi implements AutoCloseable {
      */
     public static final Logger getLogger() {
         return (LOGGER);
+    }
+
+    /**
+     * Builder class that allows for a different way to initialize a GitLabApi object
+     */
+    public static class Builder {
+        private ApiVersion apiVersion = ApiVersion.V4;
+        private String hostUrl = null;
+        private TokenType tokenType = TokenType.PRIVATE;
+        private String authToken = null;
+        private String secretToken = null;
+        private Map<String, Object> clientConfigProperties = null;
+        private SSLContext sslContext = null;
+
+        public Builder withApiVersion(ApiVersion apiVersion) {
+            this.apiVersion = apiVersion;
+            return this;
+        }
+
+        public Builder withHostUrl(String hostUrl) {
+            this.hostUrl = hostUrl;
+            return this;
+        }
+
+        public Builder withTokenType(TokenType tokenType) {
+            this.tokenType = tokenType;
+            return this;
+        }
+
+        public Builder withAuthToken(String authToken) {
+            this.authToken = authToken;
+            return this;
+        }
+
+        public Builder withSecretToken(String secretToken) {
+            this.secretToken = secretToken;
+            return this;
+        }
+
+        public Builder withClientConfigProperties(Map<String, Object> clientConfigProperties) {
+            this.clientConfigProperties = clientConfigProperties;
+            return this;
+        }
+
+        public Builder withSslContext(SSLContext sslContext) {
+            this.sslContext = sslContext;
+            return this;
+        }
+
+        public GitLabApi build() {
+            if (hostUrl == null || hostUrl.trim().isEmpty()) {
+                throw new IllegalStateException("hostUrl must be provided.");
+            }
+            return new GitLabApi(this);
+        }
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private GitLabApi(Builder builder) {
+        this.apiClient = new GitLabApiClient(
+                builder.apiVersion,
+                builder.hostUrl,
+                builder.tokenType,
+                builder.authToken,
+                builder.secretToken,
+                builder.clientConfigProperties);
+        if (builder.sslContext != null) {
+            this.apiClient.setSslContext(builder.sslContext);
+        }
     }
 
     /**

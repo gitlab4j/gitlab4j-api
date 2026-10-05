@@ -61,6 +61,7 @@ public class GitLabApiClient implements AutoCloseable {
     private String secretToken;
     private boolean ignoreCertificateErrors;
     private SSLContext openSslContext;
+    private SSLContext customSslContext;
     private HostnameVerifier openHostnameVerifier;
     private Long sudoAsId;
     private String userAgentHeader;
@@ -286,6 +287,19 @@ public class GitLabApiClient implements AutoCloseable {
         if (apiClient != null) {
             createApiClient();
         }
+    }
+
+    /**
+     * Sets the SSLContext for the underlying Jersey client.
+     * Does nothing if setIgnoreCertificateErrors has been set to true
+     *
+     * @param sslContext the SSLContext instance to use.
+     */
+    void setSslContext(SSLContext sslContext) {
+        if (getIgnoreCertificateErrors()) {
+            return;
+        }
+        this.customSslContext = sslContext;
     }
 
     /**
@@ -839,6 +853,8 @@ public class GitLabApiClient implements AutoCloseable {
 
         if (ignoreCertificateErrors) {
             clientBuilder.sslContext(openSslContext).hostnameVerifier(openHostnameVerifier);
+        } else if (customSslContext != null) {
+            clientBuilder.sslContext(customSslContext);
         }
 
         apiClient = clientBuilder.build();
