@@ -116,11 +116,13 @@ public class SystemHooksApi extends AbstractApi {
      *
      * @param url the hook URL, required
      * @param token secret token to validate received payloads, optional
+     * @param signingToken signing token to validate received payloads, optional (since GitLab 19)
      * @param systemHook the systemHook to create
      * @return an SystemHook instance with info on the added system hook
      * @throws GitLabApiException if any exception occurs
      */
-    public SystemHook addSystemHook(String url, String token, SystemHook systemHook) throws GitLabApiException {
+    public SystemHook addSystemHook(String url, String token, String signingToken, SystemHook systemHook)
+            throws GitLabApiException {
 
         if (url == null) {
             throw new RuntimeException("url cannot be null");
@@ -129,6 +131,7 @@ public class SystemHooksApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", url, true)
                 .withParam("token", token)
+                .withParam("signing_token", signingToken)
                 .withParam("name", systemHook.getName())
                 .withParam("description", systemHook.getDescription())
                 .withParam("push_events", systemHook.getPushEvents())
@@ -143,14 +146,31 @@ public class SystemHooksApi extends AbstractApi {
     /**
      * Add a new system hook. This method requires admin access.
      *
+     *  <pre><code>GitLab Endpoint: POST /hooks</code></pre>
+     *
+     * @param url the hook URL, required
+     * @param token secret token to validate received payloads, optional
+     * @param systemHook the systemHook to create
+     * @return an SystemHook instance with info on the added system hook
+     * @throws GitLabApiException if any exception occurs
+     */
+    public SystemHook addSystemHook(String url, String token, SystemHook systemHook) throws GitLabApiException {
+        return addSystemHook(url, token, null, systemHook);
+    }
+
+    /**
+     * Add a new system hook. This method requires admin access.
+     *
      *  <pre><code>GitLab Endpoint: PUT /hooks/:hook_id</code></pre>
      *
      * @param systemHook the systemHook to update
      * @param token secret token to validate received payloads, optional
+     * @param signingToken signing token to validate received payloads, optional (since GitLab 19)
      * @return an SystemHook instance with info on the added system hook
      * @throws GitLabApiException if any exception occurs
      */
-    public SystemHook updateSystemHook(SystemHook systemHook, String token) throws GitLabApiException {
+    public SystemHook updateSystemHook(SystemHook systemHook, String token, String signingToken)
+            throws GitLabApiException {
 
         if (systemHook.getId() == null) {
             throw new RuntimeException("systemHook id cannot be null");
@@ -159,6 +179,7 @@ public class SystemHooksApi extends AbstractApi {
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("url", systemHook.getUrl())
                 .withParam("token", token)
+                .withParam("signing_token", signingToken)
                 .withParam("name", systemHook.getName())
                 .withParam("description", systemHook.getDescription())
                 .withParam("push_events", systemHook.getPushEvents())
@@ -168,6 +189,21 @@ public class SystemHooksApi extends AbstractApi {
                 .withParam("enable_ssl_verification", systemHook.getEnableSslVerification());
         Response response = putWithFormData(Response.Status.OK, formData, "hooks", systemHook.getId());
         return (response.readEntity(SystemHook.class));
+    }
+
+    /**
+     * Add a new system hook. This method requires admin access.
+     *
+     *  <pre><code>GitLab Endpoint: PUT /hooks/:hook_id</code></pre>
+     *
+     * @param systemHook the systemHook to update
+     * @param token secret token to validate received payloads, optional
+     * @return an SystemHook instance with info on the added system hook
+     * @throws GitLabApiException if any exception occurs
+     * @deprecated use {@link #updateSystemHook(SystemHook, String, String)}
+     */
+    public SystemHook updateSystemHook(SystemHook systemHook, String token) throws GitLabApiException {
+        return updateSystemHook(systemHook, token, null);
     }
 
     /**

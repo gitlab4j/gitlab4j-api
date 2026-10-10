@@ -36,6 +36,8 @@ public class WebHookManager implements HookManager {
     // Collection of objects listening for WebHook events.
     private final List<WebHookListener> webhookListeners = new CopyOnWriteArrayList<WebHookListener>();
 
+    private WebhookSignatureVerifier signatureVerifier;
+
     private String secretToken;
 
     /**
@@ -51,6 +53,18 @@ public class WebHookManager implements HookManager {
      */
     public WebHookManager(String secretToken) {
         this.secretToken = secretToken;
+    }
+
+    /**
+     * Create a HookManager to handle GitLab webhook events which will be verified
+     * against the specified secretToken.
+     *
+     * @param secretToken  the secret token to verify against
+     * @param signingToken the signing token to verify against
+     */
+    public WebHookManager(String secretToken, String signingToken) {
+        this(secretToken);
+        this.signatureVerifier = signingToken == null ? null : new HMACWebhookSignatureVerifier(signingToken);
     }
 
     /**
@@ -125,18 +139,56 @@ public class WebHookManager implements HookManager {
                 throw new GitLabApiException(message);
         }
 
+        String postData = null;
+        if (signatureVerifier != null) {
+            String webhookId = request.getHeader("webhook-id");
+            String webhookSignature = request.getHeader("webhook-signature");
+            String webhookTimestamp = request.getHeader("webhook-timestamp");
+
+            if (webhookId == null
+                    || webhookId.isEmpty()
+                    || webhookSignature == null
+                    || webhookSignature.isEmpty()
+                    || webhookTimestamp == null
+                    || webhookTimestamp.isEmpty()) {
+                throw new GitLabApiException("Missing required signature headers");
+            }
+
+            try {
+                postData = HttpRequestUtils.getPostDataAsString(request);
+            } catch (Exception e) {
+                LOGGER.warning(String.format(
+                        "Error reading body, exception=%s, error=%s",
+                        e.getClass().getSimpleName(), e.getMessage()));
+                throw new GitLabApiException(e);
+            }
+
+            if (!signatureVerifier.isSignatureValid(webhookId, webhookTimestamp, webhookTimestamp, postData)) {
+                throw new GitLabApiException("Invalid webhook signature");
+            }
+        }
+
         Event event;
         try {
 
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine(HttpRequestUtils.getShortRequestDump(eventName + " webhook", true, request));
-                String postData = HttpRequestUtils.getPostDataAsString(request);
+                if (postData == null) {
+                    postData = HttpRequestUtils.getPostDataAsString(request);
+                }
                 LOGGER.fine("Raw POST data:\n" + postData);
-                event = jacksonJson.unmarshal(Event.class, postData);
-                LOGGER.fine(event.getObjectKind() + " event:\n" + jacksonJson.marshal(event) + "\n");
+            }
+
+            if (postData == null) {
+                try (InputStreamReader reader = new InputStreamReader(request.getInputStream())) {
+                    event = jacksonJson.unmarshal(Event.class, reader);
+                }
             } else {
-                InputStreamReader reader = new InputStreamReader(request.getInputStream());
-                event = jacksonJson.unmarshal(Event.class, reader);
+                event = jacksonJson.unmarshal(Event.class, postData);
+            }
+
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine(event.getObjectKind() + " event:\n" + jacksonJson.marshal(event) + "\n");
             }
 
         } catch (Exception e) {
