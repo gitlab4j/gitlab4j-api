@@ -2497,7 +2497,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("repository_update_events", enabledHooks.getRepositoryUpdateEvents(), false)
                 .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
                 .withParam("releases_events", enabledHooks.getReleasesEvents(), false)
-                .withParam("deployment_events", enabledHooks.getDeploymentEvents(), false)
+                .withParam("name", enabledHooks.getName(), false)
                 .withParam("description", enabledHooks.getDescription(), false)
                 .withParam("token", secretToken, false);
         Response response =
@@ -2613,6 +2613,7 @@ public class ProjectApi extends AbstractApi implements Constants {
                 .withParam("repository_update_events", hook.getRepositoryUpdateEvents(), false)
                 .withParam("releases_events", hook.getReleasesEvents(), false)
                 .withParam("deployment_events", hook.getDeploymentEvents(), false)
+                .withParam("name", hook.getName(), false)
                 .withParam("description", hook.getDescription(), false)
                 .withParam("token", hook.getToken(), false);
 

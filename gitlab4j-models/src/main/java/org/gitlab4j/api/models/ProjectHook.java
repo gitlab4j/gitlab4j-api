@@ -32,6 +32,7 @@ public class ProjectHook implements Serializable {
     private Boolean deploymentEvents;
     private Boolean releasesEvents;
 
+    private String name;
     private String description;
 
     public Boolean getBuildEvents() {
@@ -178,6 +179,14 @@ public class ProjectHook implements Serializable {
         this.releasesEvents = releasesEvents;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -277,6 +286,16 @@ public class ProjectHook implements Serializable {
 
     public ProjectHook withReleasesEvents(Boolean releasesEvents) {
         this.releasesEvents = releasesEvents;
+        return (this);
+    }
+
+    public ProjectHook withName(String name) {
+        this.name = name;
+        return (this);
+    }
+
+    public ProjectHook withDescription(String description) {
+        this.description = description;
         return (this);
     }
 
