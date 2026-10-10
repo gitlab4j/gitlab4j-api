@@ -1781,7 +1781,7 @@ public class GroupApi extends AbstractApi {
     public Variable createVariable(Object groupIdOrPath, String key, String value, Boolean isProtected)
             throws GitLabApiException {
 
-        return createVariable(groupIdOrPath, key, value, isProtected, false);
+        return createVariable(groupIdOrPath, key, value, isProtected, false, null);
     }
 
     /**
@@ -1796,15 +1796,121 @@ public class GroupApi extends AbstractApi {
      * @param masked whether the variable is masked, optional
      * @return a Variable instance with the newly created variable
      * @throws GitLabApiException if any exception occurs during execution
+     * @deprecated use {@link #createVariable(Object, String, String, Boolean, Boolean, String)} instead
      */
+    @Deprecated
     public Variable createVariable(Object groupIdOrPath, String key, String value, Boolean isProtected, Boolean masked)
+            throws GitLabApiException {
+
+        return createVariable(groupIdOrPath, key, value, isProtected, masked, null);
+    }
+
+    /**
+     * Create a new group variable.
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/variables</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param masked whether the variable is masked, optional
+     * @param description the description of the variable; must have no more than 255 characters, optional
+     * @return a Variable instance with the newly created variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable createVariable(
+            Object groupIdOrPath, String key, String value, Boolean isProtected, Boolean masked, String description)
+            throws GitLabApiException {
+
+        return createVariable(groupIdOrPath, key, value, null, isProtected, masked, null, description);
+    }
+
+    /**
+     * Create a new group variable.
+     *
+     * <p>NOTE: Setting the environmentScope is only available on GitLab EE.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/variables</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
+     * @param value the value for the variable, required
+     * @param variableType the type of variable. Available types are: env_var (default) and file
+     * @param isProtected whether the variable is protected, optional
+     * @param masked whether the variable is masked, optional
+     * @param environmentScope the environment_scope of the variable, optional
+     * @param description the description of the variable; must have no more than 255 characters, optional
+     * @return a Variable instance with the newly created variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable createVariable(
+            Object groupIdOrPath,
+            String key,
+            String value,
+            Variable.Type variableType,
+            Boolean isProtected,
+            Boolean masked,
+            String environmentScope,
+            String description)
+            throws GitLabApiException {
+
+        return createVariable(
+                groupIdOrPath,
+                key,
+                value,
+                variableType,
+                isProtected,
+                masked,
+                null,
+                null,
+                environmentScope,
+                description);
+    }
+
+    /**
+     * Create a new group variable.
+     *
+     * <p>NOTE: Setting the environmentScope is only available on GitLab EE.</p>
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/variables</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed, required
+     * @param value the value for the variable, required
+     * @param variableType the type of variable. Available types are: env_var (default) and file
+     * @param isProtected whether the variable is protected, optional
+     * @param masked whether the variable is masked, optional
+     * @param maskedAndHidden whether the variable is masked and hidden; can only be set at creation time, optional
+     * @param raw whether the variable is treated as a raw string; when false, variables in the value are expanded, optional
+     * @param environmentScope the environment_scope of the variable, optional
+     * @param description the description of the variable; must have no more than 255 characters, optional
+     * @return a Variable instance with the newly created variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable createVariable(
+            Object groupIdOrPath,
+            String key,
+            String value,
+            Variable.Type variableType,
+            Boolean isProtected,
+            Boolean masked,
+            Boolean maskedAndHidden,
+            Boolean raw,
+            String environmentScope,
+            String description)
             throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("key", key, true)
                 .withParam("value", value, true)
+                .withParam("variable_type", variableType)
+                .withParam("protected", isProtected)
                 .withParam("masked", masked)
-                .withParam("protected", isProtected);
+                .withParam("masked_and_hidden", maskedAndHidden)
+                .withParam("raw", raw)
+                .withParam("environment_scope", environmentScope)
+                .withParam("description", description);
         Response response =
                 post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "variables");
         return (response.readEntity(Variable.class));
@@ -1825,7 +1931,7 @@ public class GroupApi extends AbstractApi {
     public Variable updateVariable(Object groupIdOrPath, String key, String value, Boolean isProtected)
             throws GitLabApiException {
 
-        return updateVariable(groupIdOrPath, key, value, isProtected, false);
+        return updateVariable(groupIdOrPath, key, value, isProtected, false, null);
     }
 
     /**
@@ -1840,16 +1946,110 @@ public class GroupApi extends AbstractApi {
      * @param masked whether the variable is masked, optional
      * @return a Variable instance with the updated variable
      * @throws GitLabApiException if any exception occurs during execution
+     * @deprecated use {@link #updateVariable(Object, String, String, Boolean, Boolean, String)} instead
      */
+    @Deprecated
     public Variable updateVariable(Object groupIdOrPath, String key, String value, Boolean isProtected, Boolean masked)
+            throws GitLabApiException {
+
+        return updateVariable(groupIdOrPath, key, value, isProtected, masked, null);
+    }
+
+    /**
+     * Update a group variable.
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/variables/:key</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of an existing variable, required
+     * @param value the value for the variable, required
+     * @param isProtected whether the variable is protected, optional
+     * @param masked whether the variable is masked, optional
+     * @param description the description of the variable; must have no more than 255 characters, optional
+     * @return a Variable instance with the updated variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable updateVariable(
+            Object groupIdOrPath, String key, String value, Boolean isProtected, Boolean masked, String description)
+            throws GitLabApiException {
+
+        return updateVariable(groupIdOrPath, key, value, null, isProtected, masked, null, description);
+    }
+
+    /**
+     * Update a group variable.
+     *
+     * <p>NOTE: Updating the environmentScope is only available on GitLab EE.</p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/variables/:key</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of an existing variable, required
+     * @param value the value for the variable, required
+     * @param variableType the type of variable. Available types are: env_var (default) and file
+     * @param isProtected whether the variable is protected, optional
+     * @param masked whether the variable is masked, optional
+     * @param environmentScope the environment_scope of the variable, optional
+     * @param description the description of the variable; must have no more than 255 characters, optional
+     * @return a Variable instance with the updated variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable updateVariable(
+            Object groupIdOrPath,
+            String key,
+            String value,
+            Variable.Type variableType,
+            Boolean isProtected,
+            Boolean masked,
+            String environmentScope,
+            String description)
+            throws GitLabApiException {
+
+        return updateVariable(
+                groupIdOrPath, key, value, variableType, isProtected, masked, null, environmentScope, description);
+    }
+
+    /**
+     * Update a group variable.
+     *
+     * <p>NOTE: Updating the environmentScope is only available on GitLab EE.</p>
+     *
+     * <pre><code>GitLab Endpoint: PUT /groups/:id/variables/:key</code></pre>
+     *
+     * @param groupIdOrPath the group ID, path of the group, or a Group instance holding the group ID or path, required
+     * @param key the key of an existing variable, required
+     * @param value the value for the variable, required
+     * @param variableType the type of variable. Available types are: env_var (default) and file
+     * @param isProtected whether the variable is protected, optional
+     * @param masked whether the variable is masked, optional
+     * @param raw whether the variable is treated as a raw string; when false, variables in the value are expanded, optional
+     * @param environmentScope the environment_scope of the variable, optional
+     * @param description the description of the variable; must have no more than 255 characters, optional
+     * @return a Variable instance with the updated variable
+     * @throws GitLabApiException if any exception occurs during execution
+     */
+    public Variable updateVariable(
+            Object groupIdOrPath,
+            String key,
+            String value,
+            Variable.Type variableType,
+            Boolean isProtected,
+            Boolean masked,
+            Boolean raw,
+            String environmentScope,
+            String description)
             throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("value", value, true)
+                .withParam("variable_type", variableType)
+                .withParam("protected", isProtected)
                 .withParam("masked", masked)
-                .withParam("protected", isProtected);
+                .withParam("raw", raw)
+                .withParam("environment_scope", environmentScope)
+                .withParam("description", description);
         Response response = putWithFormData(
-                Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "variables", key);
+                Response.Status.OK, formData, "groups", getGroupIdOrPath(groupIdOrPath), "variables", key);
         return (response.readEntity(Variable.class));
     }
 

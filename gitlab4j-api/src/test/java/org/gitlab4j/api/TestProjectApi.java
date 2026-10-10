@@ -846,7 +846,10 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertEquals("NO_VALUE", variable.getValue());
         assertTrue(variable.getProtected());
 
-        gitLabApi.getProjectApi().updateVariable(testProject, key, value, Variable.Type.ENV_VAR, false, true, "DEV");
+        String description = "Test variable description";
+        gitLabApi
+                .getProjectApi()
+                .updateVariable(testProject, key, value, Variable.Type.ENV_VAR, false, true, "DEV", description);
         variable = gitLabApi.getProjectApi().getVariable(testProject, key);
 
         assertNotNull(variable);
@@ -854,6 +857,7 @@ public class TestProjectApi extends AbstractIntegrationTest {
         assertEquals(value, variable.getValue());
         assertEquals(Variable.Type.ENV_VAR, variable.getVariableType());
         assertFalse(variable.getProtected());
+        assertEquals(description, variable.getDescription());
 
         gitLabApi.getProjectApi().deleteVariable(testProject, key);
         variables = gitLabApi.getProjectApi().getVariablesStream(testProject);

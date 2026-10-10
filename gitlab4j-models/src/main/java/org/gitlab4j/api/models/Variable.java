@@ -50,7 +50,15 @@ public class Variable implements Serializable {
     @JsonProperty("masked")
     private Boolean isMasked;
 
+    @JsonProperty("hidden")
+    private Boolean isHidden;
+
+    @JsonProperty("raw")
+    private Boolean isRaw;
+
     private String environmentScope;
+
+    private String description;
 
     public Variable() {}
 
@@ -99,12 +107,36 @@ public class Variable implements Serializable {
         this.isMasked = masked;
     }
 
+    public Boolean getHidden() {
+        return isHidden;
+    }
+
+    public void setHidden(Boolean hidden) {
+        this.isHidden = hidden;
+    }
+
+    public Boolean getRaw() {
+        return isRaw;
+    }
+
+    public void setRaw(Boolean raw) {
+        this.isRaw = raw;
+    }
+
     public String getEnvironmentScope() {
         return environmentScope;
     }
 
     public void setEnvironmentScope(String environmentScope) {
         this.environmentScope = environmentScope;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

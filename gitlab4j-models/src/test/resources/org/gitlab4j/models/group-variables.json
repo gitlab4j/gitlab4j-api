@@ -1,0 +1,26 @@
+[
+  {
+    "key": "TEST_VARIABLE_1",
+    "variable_type": "env_var",
+    "value": "TEST_1",
+    "protected": false,
+    "masked": false,
+    "hidden": false,
+    "raw": false,
+    "environment_scope": "*",
+    "description": "The first test variable"
+  },
+  {
+    "key": "TEST_VARIABLE_2",
+    "variable_type": "file",
+    "value": "TEST_2",
+    "masked": true,
+    "hidden": true,
+    "raw": true,
+    "description": "The second test variable"
+  },
+  {
+    "key": "TEST_VARIABLE_3",
+    "value": "TEST_3"
+  }
+]
