@@ -186,6 +186,28 @@ public class Project implements Serializable {
     private ProjectFeatureVisibilityAccessLevel snippetsAccessLevel;
     private ProjectFeatureVisibilityAccessLevel wikiAccessLevel;
 
+    // Additional PUT /projects/:id attributes (see gitlab4j/gitlab4j-api#1324)
+    private Boolean autoDuoCodeReviewEnabled;
+    private Boolean ciDisplayPipelineVariables;
+    private Boolean duoRemoteFlowsEnabled;
+    private Boolean duoSastFpDetectionEnabled;
+    private Boolean duoSastVrWorkflowEnabled;
+    private Integer maxArtifactsSize;
+    private Boolean mergePipelinesEnabled;
+    private String mrDefaultTitleTemplate;
+    private Boolean mergeTrainsEnabled;
+    private Boolean mergeTrainsSkipTrainAllowed;
+    private Integer maxPipelinesPerMergeTrain;
+    private Boolean mirrorOverwritesDivergedBranches;
+    private Long mirrorUserId;
+    private Boolean mrDefaultTargetSelf;
+    private Boolean onlyMirrorProtectedBranches;
+    private ProjectFeatureVisibilityAccessLevel packageRegistryAccessLevel;
+    private Boolean preventMergeWithoutJiraIssue;
+    private Boolean protectMergeRequestPipelines;
+    private Boolean sppRepositoryPipelineAccess;
+    private Boolean webBasedCommitSigningEnabled;
+
     @JsonProperty("_links")
     private Map<String, String> links;
 
@@ -1715,6 +1737,266 @@ public class Project implements Serializable {
 
     public Project withWikiAccessLevel(ProjectFeatureVisibilityAccessLevel wikiAccessLevel) {
         this.wikiAccessLevel = wikiAccessLevel;
+        return this;
+    }
+
+    public Boolean getAutoDuoCodeReviewEnabled() {
+        return autoDuoCodeReviewEnabled;
+    }
+
+    public void setAutoDuoCodeReviewEnabled(Boolean autoDuoCodeReviewEnabled) {
+        this.autoDuoCodeReviewEnabled = autoDuoCodeReviewEnabled;
+    }
+
+    public Project withAutoDuoCodeReviewEnabled(Boolean autoDuoCodeReviewEnabled) {
+        this.autoDuoCodeReviewEnabled = autoDuoCodeReviewEnabled;
+        return this;
+    }
+
+    public Boolean getCiDisplayPipelineVariables() {
+        return ciDisplayPipelineVariables;
+    }
+
+    public void setCiDisplayPipelineVariables(Boolean ciDisplayPipelineVariables) {
+        this.ciDisplayPipelineVariables = ciDisplayPipelineVariables;
+    }
+
+    public Project withCiDisplayPipelineVariables(Boolean ciDisplayPipelineVariables) {
+        this.ciDisplayPipelineVariables = ciDisplayPipelineVariables;
+        return this;
+    }
+
+    public Boolean getDuoRemoteFlowsEnabled() {
+        return duoRemoteFlowsEnabled;
+    }
+
+    public void setDuoRemoteFlowsEnabled(Boolean duoRemoteFlowsEnabled) {
+        this.duoRemoteFlowsEnabled = duoRemoteFlowsEnabled;
+    }
+
+    public Project withDuoRemoteFlowsEnabled(Boolean duoRemoteFlowsEnabled) {
+        this.duoRemoteFlowsEnabled = duoRemoteFlowsEnabled;
+        return this;
+    }
+
+    public Boolean getDuoSastFpDetectionEnabled() {
+        return duoSastFpDetectionEnabled;
+    }
+
+    public void setDuoSastFpDetectionEnabled(Boolean duoSastFpDetectionEnabled) {
+        this.duoSastFpDetectionEnabled = duoSastFpDetectionEnabled;
+    }
+
+    public Project withDuoSastFpDetectionEnabled(Boolean duoSastFpDetectionEnabled) {
+        this.duoSastFpDetectionEnabled = duoSastFpDetectionEnabled;
+        return this;
+    }
+
+    public Boolean getDuoSastVrWorkflowEnabled() {
+        return duoSastVrWorkflowEnabled;
+    }
+
+    public void setDuoSastVrWorkflowEnabled(Boolean duoSastVrWorkflowEnabled) {
+        this.duoSastVrWorkflowEnabled = duoSastVrWorkflowEnabled;
+    }
+
+    public Project withDuoSastVrWorkflowEnabled(Boolean duoSastVrWorkflowEnabled) {
+        this.duoSastVrWorkflowEnabled = duoSastVrWorkflowEnabled;
+        return this;
+    }
+
+    public Integer getMaxArtifactsSize() {
+        return maxArtifactsSize;
+    }
+
+    public void setMaxArtifactsSize(Integer maxArtifactsSize) {
+        this.maxArtifactsSize = maxArtifactsSize;
+    }
+
+    public Project withMaxArtifactsSize(Integer maxArtifactsSize) {
+        this.maxArtifactsSize = maxArtifactsSize;
+        return this;
+    }
+
+    public Boolean getMergePipelinesEnabled() {
+        return mergePipelinesEnabled;
+    }
+
+    public void setMergePipelinesEnabled(Boolean mergePipelinesEnabled) {
+        this.mergePipelinesEnabled = mergePipelinesEnabled;
+    }
+
+    public Project withMergePipelinesEnabled(Boolean mergePipelinesEnabled) {
+        this.mergePipelinesEnabled = mergePipelinesEnabled;
+        return this;
+    }
+
+    public String getMrDefaultTitleTemplate() {
+        return mrDefaultTitleTemplate;
+    }
+
+    public void setMrDefaultTitleTemplate(String mrDefaultTitleTemplate) {
+        this.mrDefaultTitleTemplate = mrDefaultTitleTemplate;
+    }
+
+    public Project withMrDefaultTitleTemplate(String mrDefaultTitleTemplate) {
+        this.mrDefaultTitleTemplate = mrDefaultTitleTemplate;
+        return this;
+    }
+
+    public Boolean getMergeTrainsEnabled() {
+        return mergeTrainsEnabled;
+    }
+
+    public void setMergeTrainsEnabled(Boolean mergeTrainsEnabled) {
+        this.mergeTrainsEnabled = mergeTrainsEnabled;
+    }
+
+    public Project withMergeTrainsEnabled(Boolean mergeTrainsEnabled) {
+        this.mergeTrainsEnabled = mergeTrainsEnabled;
+        return this;
+    }
+
+    public Boolean getMergeTrainsSkipTrainAllowed() {
+        return mergeTrainsSkipTrainAllowed;
+    }
+
+    public void setMergeTrainsSkipTrainAllowed(Boolean mergeTrainsSkipTrainAllowed) {
+        this.mergeTrainsSkipTrainAllowed = mergeTrainsSkipTrainAllowed;
+    }
+
+    public Project withMergeTrainsSkipTrainAllowed(Boolean mergeTrainsSkipTrainAllowed) {
+        this.mergeTrainsSkipTrainAllowed = mergeTrainsSkipTrainAllowed;
+        return this;
+    }
+
+    public Integer getMaxPipelinesPerMergeTrain() {
+        return maxPipelinesPerMergeTrain;
+    }
+
+    public void setMaxPipelinesPerMergeTrain(Integer maxPipelinesPerMergeTrain) {
+        this.maxPipelinesPerMergeTrain = maxPipelinesPerMergeTrain;
+    }
+
+    public Project withMaxPipelinesPerMergeTrain(Integer maxPipelinesPerMergeTrain) {
+        this.maxPipelinesPerMergeTrain = maxPipelinesPerMergeTrain;
+        return this;
+    }
+
+    public Boolean getMirrorOverwritesDivergedBranches() {
+        return mirrorOverwritesDivergedBranches;
+    }
+
+    public void setMirrorOverwritesDivergedBranches(Boolean mirrorOverwritesDivergedBranches) {
+        this.mirrorOverwritesDivergedBranches = mirrorOverwritesDivergedBranches;
+    }
+
+    public Project withMirrorOverwritesDivergedBranches(Boolean mirrorOverwritesDivergedBranches) {
+        this.mirrorOverwritesDivergedBranches = mirrorOverwritesDivergedBranches;
+        return this;
+    }
+
+    public Long getMirrorUserId() {
+        return mirrorUserId;
+    }
+
+    public void setMirrorUserId(Long mirrorUserId) {
+        this.mirrorUserId = mirrorUserId;
+    }
+
+    public Project withMirrorUserId(Long mirrorUserId) {
+        this.mirrorUserId = mirrorUserId;
+        return this;
+    }
+
+    public Boolean getMrDefaultTargetSelf() {
+        return mrDefaultTargetSelf;
+    }
+
+    public void setMrDefaultTargetSelf(Boolean mrDefaultTargetSelf) {
+        this.mrDefaultTargetSelf = mrDefaultTargetSelf;
+    }
+
+    public Project withMrDefaultTargetSelf(Boolean mrDefaultTargetSelf) {
+        this.mrDefaultTargetSelf = mrDefaultTargetSelf;
+        return this;
+    }
+
+    public Boolean getOnlyMirrorProtectedBranches() {
+        return onlyMirrorProtectedBranches;
+    }
+
+    public void setOnlyMirrorProtectedBranches(Boolean onlyMirrorProtectedBranches) {
+        this.onlyMirrorProtectedBranches = onlyMirrorProtectedBranches;
+    }
+
+    public Project withOnlyMirrorProtectedBranches(Boolean onlyMirrorProtectedBranches) {
+        this.onlyMirrorProtectedBranches = onlyMirrorProtectedBranches;
+        return this;
+    }
+
+    public ProjectFeatureVisibilityAccessLevel getPackageRegistryAccessLevel() {
+        return packageRegistryAccessLevel;
+    }
+
+    public void setPackageRegistryAccessLevel(ProjectFeatureVisibilityAccessLevel packageRegistryAccessLevel) {
+        this.packageRegistryAccessLevel = packageRegistryAccessLevel;
+    }
+
+    public Project withPackageRegistryAccessLevel(ProjectFeatureVisibilityAccessLevel packageRegistryAccessLevel) {
+        this.packageRegistryAccessLevel = packageRegistryAccessLevel;
+        return this;
+    }
+
+    public Boolean getPreventMergeWithoutJiraIssue() {
+        return preventMergeWithoutJiraIssue;
+    }
+
+    public void setPreventMergeWithoutJiraIssue(Boolean preventMergeWithoutJiraIssue) {
+        this.preventMergeWithoutJiraIssue = preventMergeWithoutJiraIssue;
+    }
+
+    public Project withPreventMergeWithoutJiraIssue(Boolean preventMergeWithoutJiraIssue) {
+        this.preventMergeWithoutJiraIssue = preventMergeWithoutJiraIssue;
+        return this;
+    }
+
+    public Boolean getProtectMergeRequestPipelines() {
+        return protectMergeRequestPipelines;
+    }
+
+    public void setProtectMergeRequestPipelines(Boolean protectMergeRequestPipelines) {
+        this.protectMergeRequestPipelines = protectMergeRequestPipelines;
+    }
+
+    public Project withProtectMergeRequestPipelines(Boolean protectMergeRequestPipelines) {
+        this.protectMergeRequestPipelines = protectMergeRequestPipelines;
+        return this;
+    }
+
+    public Boolean getSppRepositoryPipelineAccess() {
+        return sppRepositoryPipelineAccess;
+    }
+
+    public void setSppRepositoryPipelineAccess(Boolean sppRepositoryPipelineAccess) {
+        this.sppRepositoryPipelineAccess = sppRepositoryPipelineAccess;
+    }
+
+    public Project withSppRepositoryPipelineAccess(Boolean sppRepositoryPipelineAccess) {
+        this.sppRepositoryPipelineAccess = sppRepositoryPipelineAccess;
+        return this;
+    }
+
+    public Boolean getWebBasedCommitSigningEnabled() {
+        return webBasedCommitSigningEnabled;
+    }
+
+    public void setWebBasedCommitSigningEnabled(Boolean webBasedCommitSigningEnabled) {
+        this.webBasedCommitSigningEnabled = webBasedCommitSigningEnabled;
+    }
+
+    public Project withWebBasedCommitSigningEnabled(Boolean webBasedCommitSigningEnabled) {
+        this.webBasedCommitSigningEnabled = webBasedCommitSigningEnabled;
         return this;
     }
 
