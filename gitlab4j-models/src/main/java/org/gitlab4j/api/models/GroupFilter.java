@@ -20,6 +20,8 @@ public class GroupFilter implements Serializable {
     private String search;
     private GroupOrderBy orderBy;
     private SortOrder sort;
+    private Boolean archived;
+    private Boolean active;
     private Boolean statistics;
     private Boolean withCustomAttributes;
     private Boolean owned;
@@ -80,6 +82,28 @@ public class GroupFilter implements Serializable {
      */
     public GroupFilter withSortOder(SortOrder sort) {
         this.sort = sort;
+        return (this);
+    }
+
+    /**
+     * Include group archived status.
+     *
+     * @param archived If true, returns only archived groups
+     * @return the reference to this GroupFilter instance
+     */
+    public GroupFilter withArchived(Boolean archived) {
+        this.archived = archived;
+        return (this);
+    }
+
+    /**
+     * Include group active status.
+     *
+     * @param active If true, returns only groups that are not archived and not marked for deletion.
+     * @return the reference to this GroupFilter instance
+     */
+    public GroupFilter withActive(Boolean active) {
+        this.active = active;
         return (this);
     }
 
@@ -162,6 +186,8 @@ public class GroupFilter implements Serializable {
                 .withParam("search", search)
                 .withParam("order_by", orderBy)
                 .withParam("sort", sort)
+                .withParam("archived", archived)
+                .withParam("active", active)
                 .withParam("statistics", statistics)
                 .withParam("with_custom_attributes", withCustomAttributes)
                 .withParam("owned", owned)

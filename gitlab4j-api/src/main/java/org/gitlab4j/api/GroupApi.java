@@ -119,6 +119,63 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
+     * Get a list of active groups
+     *
+     * <pre><code>GitLab Endpoint: GET /groups?active=true</code></pre>
+     *
+     * @return a list of active Groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Group> getActiveGroups() throws GitLabApiException {
+        return (getActiveGroups(getDefaultPerPage()).all());
+    }
+
+    /**
+     * Get a list of active groups using the specified page and per page settings.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups?active=true</code></pre>
+     *
+     * @param page the page to get
+     * @param perPage the number of groups per page
+     * @return the list of active Groups in the specified range
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<Group> getActiveGroups(int page, int perPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("active", true)
+                .withParam(PAGE_PARAM, page)
+                .withParam(PER_PAGE_PARAM, perPage);
+        Response response = get(Response.Status.OK, formData.asMap(), "groups");
+        return (response.readEntity(new GenericType<List<Group>>() {}));
+    }
+
+    /**
+     * Get a Pager of active groups.
+     *
+     * <pre><code>GitLab Endpoint: GET /groups?active=true</code></pre>
+     *
+     * @param itemsPerPage the number of active Group instances that will be fetched per page
+     * @return a Pager of active Groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Pager<Group> getActiveGroups(int itemsPerPage) throws GitLabApiException {
+        Form formData = new GitLabApiForm().withParam("active", true);
+        return (new Pager<Group>(this, Group.class, itemsPerPage, formData.asMap(), "groups"));
+    }
+
+    /**
+     * Get a Stream of active groups
+     *
+     * <pre><code>GitLab Endpoint: GET /groups?active=true</code></pre>
+     *
+     * @return a Stream of active Groups
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Stream<Group> getActiveGroupsStream() throws GitLabApiException {
+        return (getActiveGroups(getDefaultPerPage()).stream());
+    }
+
+    /**
      * Get all groups that match your string in their name or path.
      *
      * @param search the group name or path search criteria

@@ -54,6 +54,7 @@ public class Group extends AbstractGroup<Group> {
 
     private String path;
     private String description;
+    private String archived;
     private Visibility visibility;
     private Boolean lfsEnabled;
     private Boolean requestAccessEnabled;
@@ -89,6 +90,14 @@ public class Group extends AbstractGroup<Group> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getArchived() {
+        return archived;
+    }
+
+    public void setArchived(String archived) {
+        this.archived = archived;
     }
 
     public Visibility getVisibility() {
